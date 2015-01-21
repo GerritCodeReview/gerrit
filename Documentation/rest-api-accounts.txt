@@ -221,7 +221,7 @@ Retrieves the username of an account.
   "john.doe"
 ----
 
-If the account does not have a username the response is `404 Not Found`.
+If the account does not have a username the response is "`404 Not Found`".
 
 [[get-active]]
 === Get Active
@@ -245,7 +245,7 @@ If the account is active the string `ok` is returned.
   ok
 ----
 
-If the account is inactive the response is `204 No Content`.
+If the account is inactive the response is "`204 No Content`".
 
 [[set-active]]
 === Set Active
@@ -265,7 +265,7 @@ Sets the account state to active.
   HTTP/1.1 201 Created
 ----
 
-If the account was already active the response is `200 OK`.
+If the account was already active the response is "`200 OK`".
 
 [[delete-active]]
 === Delete Active
@@ -285,7 +285,7 @@ Sets the account state to inactive.
   HTTP/1.1 204 No Content
 ----
 
-If the account was already inactive the response is `404 Not Found`.
+If the account was already inactive the response is "`404 Not Found`".
 
 [[get-http-password]]
 === Get HTTP Password
@@ -310,7 +310,7 @@ Retrieves the HTTP password of an account.
   "Qmxlc21ydCB1YmVyIGFsbGVzIGluIGRlciBXZWx0IQ"
 ----
 
-If the account does not have an HTTP password the response is `404 Not Found`.
+If the account does not have an HTTP password the response is "`404 Not Found`".
 
 [[set-http-password]]
 === Set/Generate HTTP Password
@@ -759,7 +759,7 @@ If the user has the global capability the string `ok` is returned.
 ----
 
 If the user doesn't have the global capability the response is
-`404 Not Found`.
+"`404 Not Found`".
 
 .Check if you can create groups
 ****

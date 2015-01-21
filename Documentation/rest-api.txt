@@ -101,58 +101,58 @@ Here are examples that show how HTTP status codes are used in the
 context of the Gerrit REST API.
 
 ==== 400 Bad Request
-`400 Bad Request` is returned if the request is not understood by the
+"`400 Bad Request`" is returned if the request is not understood by the
 server due to malformed syntax.
 
-E.g. `400 Bad Request` is returned if JSON input is expected but the
+E.g. "`400 Bad Request`" is returned if JSON input is expected but the
 'Content-Type' of the request is not 'application/json' or the request
 body doesn't contain valid JSON.
 
-`400 Bad Request` is also returned if required input fields are not set or
+"`400 Bad Request`" is also returned if required input fields are not set or
 if options are set which cannot be used together.
 
 ==== 403 Forbidden
-`403 Forbidden` is returned if the operation is not allowed because the
+"`403 Forbidden`" is returned if the operation is not allowed because the
 calling user does not have sufficient permissions.
 
 E.g. some REST endpoints require that the calling user has certain
 link:access-control.html#global_capabilities[global capabilities]
 assigned.
 
-`403 Forbidden` is also returned if `self` is used as account ID and the
+"`403 Forbidden`" is also returned if `self` is used as account ID and the
 REST call was done without authentication.
 
 ==== 404 Not Found
-`404 Not Found` is returned if the resource that is specified by the
+"`404 Not Found`" is returned if the resource that is specified by the
 URL is not found or is not visible to the calling user. A resource
 cannot be found if the URL contains a non-existing ID or view.
 
 ==== 405 Method Not Allowed
-`405 Method Not Allowed` is returned if the resource exists but doesn't
+"`405 Method Not Allowed`" is returned if the resource exists but doesn't
 support the operation.
 
 E.g. some of the `/groups/` endpoints are only supported for Gerrit
 internal groups; if they are invoked for an external group the response
-is `405 Method Not Allowed`.
+is "`405 Method Not Allowed`".
 
 ==== 409 Conflict
-`409 Conflict` is returned if the request cannot be completed because the
+"`409 Conflict`" is returned if the request cannot be completed because the
 current state of the resource doesn't allow the operation.
 
 E.g. if you try to submit a change that is abandoned, this fails with
-`409 Conflict` because the state of the change doesn't allow the submit
+"`409 Conflict`" because the state of the change doesn't allow the submit
 operation.
 
-`409 Conflict` is also returned if you try to create a resource but the
+"`409 Conflict`" is also returned if you try to create a resource but the
 name is already occupied by an existing resource.
 
 ==== 412 Precondition Failed
-`412 Precondition Failed` is returned if a precondition from the request
+"`412 Precondition Failed`" is returned if a precondition from the request
 header fields is not fulfilled, as described in the link:#preconditions[
 Preconditions] section.
 
 ==== 422 Unprocessable Entity
-`422 Unprocessable Entity` is returned if the ID of a resource that is
+"`422 Unprocessable Entity`" is returned if the ID of a resource that is
 specified in the request body cannot be resolved.
 
 GERRIT

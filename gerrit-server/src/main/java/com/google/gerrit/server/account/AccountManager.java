@@ -36,6 +36,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -106,7 +107,7 @@ public class AccountManager {
       final ReviewDb db = schema.open();
       try {
         final AccountExternalId.Key key = id(who);
-        final AccountExternalId id = db.accountExternalIds().get(key);
+        final AccountExternalId id = getAccountExternalId(db, key);
         if (id == null) {
           // New account, automatically create and return.
           //
@@ -130,6 +131,31 @@ public class AccountManager {
     } catch (OrmException e) {
       throw new AccountException("Authentication error", e);
     }
+  }
+
+  private AccountExternalId getAccountExternalId(ReviewDb db,
+      AccountExternalId.Key key) throws OrmException, AccountException {
+    String keyValue = key.get();
+    String keyScheme = keyValue.substring(0, keyValue.indexOf(':') + 1);
+
+    // We don't have at the moment an account_by_external_id cache
+    // but by using the accounts cache we get the list of external_ids
+    // without having to query the DB every time
+    if (keyScheme.equals(AccountExternalId.SCHEME_GERRIT)
+        || keyScheme.equals(AccountExternalId.SCHEME_USERNAME)) {
+      String username = keyValue.substring(keyScheme.length());
+      Collection<AccountExternalId> externalIds =
+          byIdCache.getByUsername(username).getExternalIds();
+      for (AccountExternalId accountExternalId : externalIds) {
+        if (accountExternalId.isScheme(keyScheme)) {
+          return accountExternalId;
+        }
+      }
+      throw new AccountException(
+          "Internal error: cannot find account external id for user "
+              + username);
+    }
+    return db.accountExternalIds().get(key);
   }
 
   private void update(final ReviewDb db, final AuthRequest who,
@@ -326,7 +352,7 @@ public class AccountManager {
       who = realm.link(db, to, who);
 
       final AccountExternalId.Key key = id(who);
-      AccountExternalId extId = db.accountExternalIds().get(key);
+      AccountExternalId extId = getAccountExternalId(db, key);
       if (extId != null) {
         if (!extId.getAccountId().equals(to)) {
           throw new AccountException("Identity in use by another account");
@@ -375,7 +401,7 @@ public class AccountManager {
       who = realm.unlink(db, from, who);
 
       final AccountExternalId.Key key = id(who);
-      AccountExternalId extId = db.accountExternalIds().get(key);
+      AccountExternalId extId = getAccountExternalId(db, key);
       if (extId != null) {
         if (!extId.getAccountId().equals(from)) {
           throw new AccountException("Identity in use by another account");

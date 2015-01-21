@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b97db55_2cf653ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-01-21T22:44:10Z",
+      "side": 1,
+      "message": "s/it it\u0027s/its/",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "a2e15f66bd03b818eadf747785d7baa36cc1de17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

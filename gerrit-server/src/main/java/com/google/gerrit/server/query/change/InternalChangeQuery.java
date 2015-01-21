@@ -52,6 +52,10 @@ public class InternalChangeQuery {
     return new ChangeStatusPredicate(status);
   }
 
+  private static Predicate<ChangeData> topic(String topic) {
+    return new TopicPredicate(topic);
+  }
+
   private final QueryProcessor qp;
 
   @Inject
@@ -112,6 +116,11 @@ public class InternalChangeQuery {
   public List<ChangeData> byProjectOpen(Project.NameKey project)
       throws OrmException {
     return query(and(project(project), open()));
+  }
+
+  public List<ChangeData> byTopic(String topic)
+      throws OrmException {
+    return query(topic(topic));
   }
 
   private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {

@@ -22,6 +22,30 @@
       "revId": "299c7de752fc5838dd37aa1eb8ab86b8d24898ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2be99bcf_5c241dd7",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-21T07:57:02Z",
+      "side": 1,
+      "message": "*sigh*\n\nWell, I don\u0027t really want to upload a new patch set and have to wait for the Library-Compliance label again.\n\nI\u0027d prefer to merge this as-is; a new update can be done later.",
+      "parentUuid": "0be697ff_dbe59338",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "299c7de752fc5838dd37aa1eb8ab86b8d24898ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

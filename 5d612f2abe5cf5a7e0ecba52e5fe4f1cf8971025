@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "2b97db55_4cd2bf66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T19:19:49Z",
+      "side": 1,
+      "message": "+1 sounds good! Only I really don\u0027t like to name it \"Address\", what about naming it \"Fix\" instead?",
+      "parentUuid": "0be697ff_db62f3f6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "5d612f2abe5cf5a7e0ecba52e5fe4f1cf8971025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb5ea32a_aafecfbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
         "patchSetId": 6

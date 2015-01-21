@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bdc0f30_7d7b97ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-21T18:38:08Z",
+      "side": 1,
+      "message": "I\u0027d like to point out that the old placement in CS2 was done very much on purpose to have these two properties, because we had feedback like this before from users that guided the placement of the button when CS2 was written.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "d891dcaedea3e62f5db26e059834c6f00d5f5182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -366,6 +366,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb4e3df_3acda1c7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T08:01:24Z",
+      "side": 1,
+      "message": "I forgot one important info: label/category. Commit message contains the categories.\n\n* gate-horizon-pep8\n* gate-horizon-docs\n* ...\n\nThe idea was to use dedicated table column for this category. I guess your suggestion is to somehow encript all these data in CLOB column in ChangeMessages. UI code must understand the encoding of the message then, to dissect the needed parts, like label/category, outcome and log. So junk in junk out doesn\u0027t work here.\n\nNot to mention further requirements, like indexing the bot notifications and providing user specific quieries based on this valuable data, like statistics, or which job has the highest failure rates for specific project? Or find all changes where PEP8 is failed within 3 days in latest patch set, etc.",
+      "parentUuid": "8bb9a7ac_47764e79",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

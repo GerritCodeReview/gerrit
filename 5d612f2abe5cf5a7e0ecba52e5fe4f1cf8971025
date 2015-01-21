@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "2b97db55_6cd77b55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T19:31:33Z",
+      "side": 1,
+      "message": "Good idea. Will upload a fix in a minute.",
+      "parentUuid": "2b97db55_4cd2bf66",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "5d612f2abe5cf5a7e0ecba52e5fe4f1cf8971025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb5ea32a_aafecfbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
         "patchSetId": 6

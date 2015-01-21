@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "cbb9dfd9_19c8ebb6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-21T14:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2be99bcf_9c04e542",
+      "range": {
+        "startLine": 1036,
+        "startChar": 53,
+        "endLine": 1036,
+        "endChar": 67
+      },
+      "revId": "4eb01e2af97f6863c0c3a96668259361aaadc13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb9dfd9_39cdafc7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-21T14:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2be99bcf_7cf0f9ef",
+      "range": {
+        "startLine": 1036,
+        "startChar": 17,
+        "endLine": 1036,
+        "endChar": 20
+      },
+      "revId": "4eb01e2af97f6863c0c3a96668259361aaadc13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bdc0f30_7df0f7ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
         "patchSetId": 7
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "abae6b91_18c8e5b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-21T14:17:23Z",
+      "side": 1,
+      "message": "I thought that since we are trying to delete it, it is not really an error if the branch is doesn\u0027t exist(or is already deleted) but your question made me think about it again and for consistency with the endpoint to delete a single branch, which will return an error if the branch doesn\u0027t exist, we should also include this in the result.\n\nDone.",
+      "parentUuid": "4bdc0f30_7df0f7ef",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 9
+      },
+      "revId": "4eb01e2af97f6863c0c3a96668259361aaadc13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2be99bcf_bc01a131",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-21T02:13:40Z",
       "side": 1,
       "message": "Why only warn for this case?  If we make this also error, the call to log can done once, outside the switch block.",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "4eb01e2af97f6863c0c3a96668259361aaadc13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb9dfd9_59d26366",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-21T14:17:23Z",
+      "side": 1,
+      "message": "Done and I also changed the logging level to error of that message in the DeleteBranch class for consistency",
+      "parentUuid": "2be99bcf_bc01a131",
       "range": {
         "startLine": 149,
         "startChar": 12,

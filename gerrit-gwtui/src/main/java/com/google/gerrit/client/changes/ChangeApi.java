@@ -39,11 +39,18 @@ public class ChangeApi {
   /** Create a new change. */
   public static void createChange(String project, String branch,
       String subject, String base, AsyncCallback<ChangeInfo> cb) {
+    createChange(project, branch, subject, base, false, cb);
+  }
+
+  /** Create a new change. */
+  public static void createChange(String project, String branch,
+      String subject, String base, boolean draft, AsyncCallback<ChangeInfo> cb) {
     CreateChangeInput input = CreateChangeInput.create();
     input.project(emptyToNull(project));
     input.branch(emptyToNull(branch));
     input.subject(emptyToNull(subject));
     input.base_change(emptyToNull(base));
+    input.draft(draft);
 
     new RestApi("/changes/").post(input, cb);
   }
@@ -224,6 +231,7 @@ public class ChangeApi {
     public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
     public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
     public final native void base_change(String b) /*-{ if(b)this.base_change=b; }-*/;
+    public final native void draft(boolean d) /*-{ if(d){this.status="DRAFT";}else{this.status="NEW";} }-*/;
 
     protected CreateChangeInput() {
     }

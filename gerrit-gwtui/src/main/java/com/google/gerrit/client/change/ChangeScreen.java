@@ -133,7 +133,6 @@ public class ChangeScreen extends Screen {
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
   private EditInfo edit;
-  private boolean canSubmit;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -181,7 +180,6 @@ public class ChangeScreen extends Screen {
   @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
-  @UiField Button submit;
   @UiField Button publishEdit;
   @UiField Button rebaseEdit;
   @UiField Button deleteEdit;
@@ -430,22 +428,12 @@ public class ChangeScreen extends Screen {
         style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);
-    NativeMap<ActionInfo> actions = revInfo.has_actions()
-        ? revInfo.actions()
-        : NativeMap.<ActionInfo> create();
-    actions.copyKeysIntoChildren("id");
-
-    if (actions.containsKey("submit")) {
-      ActionInfo action = actions.get("submit");
-      submit.setTitle(action.title());
-      submit.setHTML(new SafeHtmlBuilder()
-          .openDiv()
-          .append(action.label())
-          .closeDiv());
-      canSubmit = true;
-    }
-
     if (revInfo.draft()) {
+      NativeMap<ActionInfo> actions = revInfo.has_actions()
+          ? revInfo.actions()
+          : NativeMap.<ActionInfo> create();
+      actions.copyKeysIntoChildren("id");
+
       if (actions.containsKey("publish")) {
         publish.setVisible(true);
         publish.setTitle(actions.get("publish").title());
@@ -531,11 +519,6 @@ public class ChangeScreen extends Screen {
     }
     return rev._number() == RevisionInfo.findEditParent(
         info.revisions().values());
-  }
-
-  @UiHandler("submit")
-  void onSubmit(@SuppressWarnings("unused") ClickEvent e) {
-    SubmitAction.call(changeInfo, changeInfo.revision(revision));
   }
 
   @UiHandler("publishEdit")
@@ -931,10 +914,9 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  private void loadSubmitType(final Change.Status status,
-      final boolean isSubmittable) {
-    if (isSubmittable) {
-      submit.setVisible(canSubmit);
+  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
+    if (canSubmit) {
+      actions.setSubmitEnabled();
       if (status == Change.Status.NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }
@@ -944,7 +926,7 @@ public class ChangeScreen extends Screen {
       .get(new AsyncCallback<NativeString>() {
         @Override
         public void onSuccess(NativeString result) {
-          if (isSubmittable) {
+          if (canSubmit) {
             if (status == Change.Status.NEW) {
               statusText.setInnerText(changeInfo.mergeable()
                   ? Util.C.readyToSubmit()

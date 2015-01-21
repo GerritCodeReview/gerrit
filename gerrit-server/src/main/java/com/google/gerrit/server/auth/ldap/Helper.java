@@ -193,21 +193,15 @@ import javax.security.auth.login.LoginException;
     final HashMap<String, String> params = new HashMap<>();
     params.put(LdapRealm.USERNAME, username);
 
-    final List<LdapQuery.Result> res = new ArrayList<>();
     for (LdapQuery accountQuery : schema.accountQueryList) {
-      res.addAll(accountQuery.query(ctx, params));
-    }
-
-    switch (res.size()) {
-      case 0:
-        throw new NoSuchUserException(username);
-
-      case 1:
+      List<LdapQuery.Result> res = accountQuery.query(ctx, params);
+      if (res.size() == 1) {
         return res.get(0);
-
-      default:
+      } else if (res.size() > 1) {
         throw new AccountException("Duplicate users: " + username);
+      }
     }
+    throw new NoSuchUserException(username);
   }
 
   Set<AccountGroup.UUID> queryForGroups(final DirContext ctx,

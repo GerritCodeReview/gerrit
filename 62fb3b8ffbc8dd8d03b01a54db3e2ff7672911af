@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebb4e3df_9a36ad02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T18:40:47Z",
+      "side": 1,
+      "message": "Add\n  Bug: issue 3094",
+      "revId": "62fb3b8ffbc8dd8d03b01a54db3e2ff7672911af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

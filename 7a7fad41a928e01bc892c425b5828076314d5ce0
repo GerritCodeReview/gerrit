@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2be99bcf_5cd25d66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-21T01:06:27Z",
+      "side": 1,
+      "message": "Why limit only to files in the change edit?  It would be more useful to be able to also rename any file that exists in the repository.",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7a7fad41a928e01bc892c425b5828076314d5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

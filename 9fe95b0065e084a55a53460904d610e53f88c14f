@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b8d5344_2e1f2787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionSortCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-01-21T23:55:11Z",
+      "side": 1,
+      "message": "I\u0027m concerned that we\u0027re converting this from an immutable object to a mutable object. This presents an opportunity to modify the fields, whereupon the cached hash code will be wrong.\n\nI propose avoiding the use of AutoValue for immutable objects, pending further consideration.",
+      "range": {
+        "startLine": 140,
+        "startChar": 3,
+        "endLine": 141,
+        "endChar": 30
+      },
+      "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b8d5344_4e2473d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-01-21T23:55:11Z",
+      "side": 1,
+      "message": "This change also converts this class from immutable to mutable, which deserves thoughtful consideration. We don\u0027t have to worry about the stale hashcode, but mutability introduces other risks.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba8c791_4f246dd7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-01-21T23:55:11Z",
+      "side": 1,
+      "message": "Interesting, I didn\u0027t know about this.",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 17
+      },
+      "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

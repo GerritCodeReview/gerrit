@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2be99bcf_9c36a502",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-21T13:17:30Z",
+      "side": 1,
+      "message": "Not sure what you mean here.",
+      "parentUuid": "0be697ff_bb0a8741",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be697ff_db175368",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-21T10:11:34Z",
       "side": 1,
       "message": "unused and can be private?",
+      "range": {
+        "startLine": 40,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 33
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2be99bcf_7c42b96f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-21T13:17:30Z",
+      "side": 1,
+      "message": "Left like this for backwards compatibility, as mentioned in the commit message.",
+      "parentUuid": "0be697ff_db175368",
       "range": {
         "startLine": 40,
         "startChar": 21,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "4bdc0f30_1d6c53f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-21T13:17:30Z",
+      "side": 1,
+      "message": "I don\u0027t think it needs to be set, which means it doesn\u0027t need to be in the input.",
+      "parentUuid": "0be697ff_1b437b76",
+      "range": {
+        "startLine": 206,
+        "startChar": 8,
+        "endLine": 207,
+        "endChar": 79
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebb4e3df_fafb29cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 4
@@ -128,6 +200,30 @@
       "writtenOn": "2015-01-21T10:11:34Z",
       "side": 1,
       "message": "Is this really needed? If yes, then it is a bug. This method is test covered (i think), so a unit test must be extended (or a new one should be added) to test that draft change can be created. And verify be reading it back.",
+      "range": {
+        "startLine": 208,
+        "startChar": 8,
+        "endLine": 208,
+        "endChar": 64
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bdc0f30_3d710fce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-21T13:17:30Z",
+      "side": 1,
+      "message": "It is needed.  Simply setting the status (the line above) does not work.",
+      "parentUuid": "ebb4e3df_fafb29cd",
       "range": {
         "startLine": 208,
         "startChar": 8,

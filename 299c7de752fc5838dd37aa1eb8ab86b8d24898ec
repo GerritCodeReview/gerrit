@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be697ff_dbe59338",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T07:48:18Z",
+      "side": 1,
+      "message": "This is not up to date anymore:\n\n  5a6d5d00d7f3be1329bf501c710ffa409ecea3d8",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "299c7de752fc5838dd37aa1eb8ab86b8d24898ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

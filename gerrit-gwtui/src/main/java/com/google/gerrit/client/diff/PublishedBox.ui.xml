@@ -56,11 +56,6 @@ limitations under the License.
       <div ui:field='message' class='{res.style.message}'
            aria-hidden='true' style='display: NONE'/>
       <div ui:field='buttons' aria-hidden='true' style='display: NONE'>
-        <g:Button ui:field='edit' styleName=''
-            title='Address this comment in the inline editor'>
-          <ui:attribute name='title'/>
-          <div><ui:msg>Edit</ui:msg></div>
-        </g:Button>
         <g:Button ui:field='reply' styleName=''
             title='Reply to this comment'>
           <ui:attribute name='title'/>
@@ -70,6 +65,11 @@ limitations under the License.
             title='Reply "Done" to this comment'>
           <ui:attribute name='title'/>
           <div><ui:msg>Done</ui:msg></div>
+        </g:Button>
+        <g:Button ui:field='fix' styleName=''
+            title='Fix this comment in the inline editor'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Fix</ui:msg></div>
         </g:Button>
       </div>
     </div>

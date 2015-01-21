@@ -16,6 +16,24 @@
       "revId": "0b151aea966fe5e9cb104bffaa35266518cce582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b8d5344_6ef04ff0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-21T22:59:00Z",
+      "side": 1,
+      "message": "I haven\u0027t been able to reproduce this since upgrading AutoValue to 1.0.",
+      "parentUuid": "1ac17fc3_e32832b1",
+      "revId": "0b151aea966fe5e9cb104bffaa35266518cce582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

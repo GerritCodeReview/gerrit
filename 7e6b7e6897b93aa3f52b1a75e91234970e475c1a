@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0be697ff_3bf677ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T08:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2be99bcf_fce2492d",
+      "range": {
+        "startLine": 21,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "7e6b7e6897b93aa3f52b1a75e91234970e475c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2be99bcf_1cf1b5f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-21T01:20:57Z",
       "side": 1,
       "message": "No `catch` or `finally` block?\n\nIf any exception is thrown, the refLogMessage will end up with only the \"commit: \" string that it\u0027s initialised with at line 348.",
+      "range": {
+        "startLine": 349,
+        "startChar": 8,
+        "endLine": 353,
+        "endChar": 9
+      },
+      "revId": "7e6b7e6897b93aa3f52b1a75e91234970e475c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb4e3df_7ad71955",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T08:18:56Z",
+      "side": 1,
+      "message": "\u003e No `catch` or `finally` block?\n\nYes, the try-block if for auto-closing the reader.\n\n\n \u003e If any exception is thrown, the refLogMessage will end \n \u003e up with only the \"commit: \" string that it\u0027s initialised \n \u003e with at line 348.\n\nNo, since the exception is not caught, it is propagated further up and comitting to ref/smeta/config fails. I think this is what we want to happen in case of an excaption.",
+      "parentUuid": "2be99bcf_1cf1b5f6",
       "range": {
         "startLine": 349,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ebb4e3df_9adb0d7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T08:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2be99bcf_3cf671ef",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 48
+      },
+      "revId": "7e6b7e6897b93aa3f52b1a75e91234970e475c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bdc0f30_9ddb037e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-21T01:20:57Z",
       "side": 1,
       "message": "No catch or finally.  What if something fails here?",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 91,
+        "endChar": 13
+      },
+      "revId": "7e6b7e6897b93aa3f52b1a75e91234970e475c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be697ff_5beb4306",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T08:18:56Z",
+      "side": 1,
+      "message": "The try-block is for autoclosing the writer. If something fails the exception is propagated further up.",
+      "parentUuid": "4bdc0f30_9ddb037e",
       "range": {
         "startLine": 81,
         "startChar": 12,

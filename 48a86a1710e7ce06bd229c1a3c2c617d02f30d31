@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be697ff_db303307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T14:05:11Z",
+      "side": 1,
+      "message": "So the unit test that is testing the creation of draft change is broken [1]? Why it is not red then?\n\n @Test\n  public void createDraftChange() throws Exception {\n    assertChange(newChangeInfo(ChangeStatus.DRAFT));\n  }\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+      "revId": "48a86a1710e7ce06bd229c1a3c2c617d02f30d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

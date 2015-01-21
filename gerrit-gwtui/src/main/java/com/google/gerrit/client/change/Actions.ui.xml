@@ -45,6 +45,13 @@ limitations under the License.
       line-height: BUTTON_HEIGHT;
     }
 
+    #change_actions button.submit {
+      float: right;
+      background-color: #4d90fe;
+      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
+    }
+    #change_actions button.submit div {color: #fff;}
+
     #change_actions button:disabled {
       font-weight: normal;
       background-color: #999;
@@ -71,5 +78,7 @@ limitations under the License.
     <g:Button ui:field='followUp' styleName='' visible='false'>
       <div><ui:msg>Follow-Up</ui:msg></div>
     </g:Button>
+
+    <g:Button ui:field='submit' styleName='{style.submit}' visible='false'/>
   </g:FlowPanel>
 </ui:UiBinder>

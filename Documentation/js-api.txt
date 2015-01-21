@@ -887,6 +887,10 @@ Redisplays the current web UI view, refreshing all information.
 === Gerrit.refreshMenuBar()
 Refreshes Gerrit's menu bar.
 
+[[Gerrit_isSignedIn]]
+=== Gerrit.isSignedIn()
+Checks if user is signed in.
+
 [[Gerrit_url]]
 === Gerrit.url()
 Returns the URL of the Gerrit Code Review server. If invoked with

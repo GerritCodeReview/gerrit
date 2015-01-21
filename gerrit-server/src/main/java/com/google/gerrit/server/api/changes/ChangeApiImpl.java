@@ -126,7 +126,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
     try {
       return revisionApi.create(
           revisions.parse(change, IdString.fromDecoded(id)));
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot parse revision", e);
     }
   }

@@ -69,7 +69,8 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, AuthException, OrmException,
+      IOException {
     if (id.equals("current")) {
       PatchSet.Id p = change.getChange().currentPatchSetId();
       PatchSet ps = p != null ? dbProvider.get().patchSets().get(p) : null;
@@ -103,7 +104,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> find(ChangeResource change, String id)
-      throws OrmException {
+      throws OrmException, IOException, AuthException {
     if (id.equals("0")) {
       return loadEdit(change, null);
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
@@ -157,22 +158,18 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> loadEdit(ChangeResource change, RevId revid)
-      throws OrmException {
-    try {
-      Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
-      if (edit.isPresent()) {
-        PatchSet ps = new PatchSet(new PatchSet.Id(
-            change.getChange().getId(), 0));
-        ps.setRevision(edit.get().getRevision());
-        if (revid == null || edit.get().getRevision().equals(revid)) {
-          return Collections.singletonList(
-              new RevisionResource(change, ps, edit));
-        }
+      throws AuthException, IOException {
+    Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
+    if (edit.isPresent()) {
+      PatchSet ps = new PatchSet(new PatchSet.Id(
+          change.getChange().getId(), 0));
+      ps.setRevision(edit.get().getRevision());
+      if (revid == null || edit.get().getRevision().equals(revid)) {
+        return Collections.singletonList(
+            new RevisionResource(change, ps, edit));
       }
-      return Collections.emptyList();
-    } catch (AuthException | IOException e) {
-      throw new OrmException(e);
     }
+    return Collections.emptyList();
   }
 
   private static List<RevisionResource> toResources(final ChangeResource change,

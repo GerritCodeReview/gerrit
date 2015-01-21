@@ -22,6 +22,30 @@
       "revId": "2d2ba72c3edb0b796dd7efab2088f14c3a092e1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be697ff_3bcd97c7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T05:57:38Z",
+      "side": 1,
+      "message": "Done. I also added an JSON example for renaming.",
+      "parentUuid": "2be99bcf_1cc8d5b6",
+      "range": {
+        "startLine": 1325,
+        "startChar": 52,
+        "endLine": 1325,
+        "endChar": 58
+      },
+      "revId": "2d2ba72c3edb0b796dd7efab2088f14c3a092e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

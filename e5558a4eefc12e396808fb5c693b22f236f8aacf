@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb822318_0a009bf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-22T11:54:26Z",
+      "side": 1,
+      "message": "I would say this remark only applies if this change in the end moves to the master.",
+      "parentUuid": "2b97db55_6ccdbb94",
+      "range": {
+        "startLine": 76,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 61
+      },
+      "revId": "e5558a4eefc12e396808fb5c693b22f236f8aacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b97db55_8cb10705",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
         "patchSetId": 9
@@ -53,6 +77,30 @@
       "writtenOn": "2015-01-22T10:01:22Z",
       "side": 1,
       "message": "It looks like this allows a user who cannot see all branches to probe which branches exist. By looking at the error message \"it doesn\u0027t exist\" vs. \"user does not have rights to delete it.\" a user can detect if a branch that is not visible to him exists.",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 136,
+        "endChar": 5
+      },
+      "revId": "e5558a4eefc12e396808fb5c693b22f236f8aacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b97db55_cc94ef4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-22T11:54:26Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "eb822318_2aac7fa6",
       "range": {
         "startLine": 124,
         "startChar": 1,

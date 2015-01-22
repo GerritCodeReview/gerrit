@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aba10bbc_c03cdee5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T01:42:30Z",
+      "side": 1,
+      "message": "This is now only thrown if the account is duplicate in the results from one of the account bases.  But before, it was thrown if the account is duplicate in the results from all account bases.\n\nIs this change in behavior intended / OK?",
+      "range": {
+        "startLine": 199,
+        "startChar": 8,
+        "endLine": 199,
+        "endChar": 67
+      },
+      "revId": "126c225b6584c414447317521ff0e0231055ac65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

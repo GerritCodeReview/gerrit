@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "aba10bbc_607d129c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-22T02:04:15Z",
+      "side": 1,
+      "message": "Actually for consistency with the other private methods, it is better to leave that final clause :-)",
+      "parentUuid": "8ba607d2_df703bcc",
+      "range": {
+        "startLine": 137,
+        "startChar": 49,
+        "endLine": 137,
+        "endChar": 54
+      },
+      "revId": "5c290d42dc16670499de09f25863061641c78f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aba10bbc_e047e27e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 1
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "aba10bbc_e047e27e",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 11
+      },
+      "revId": "5c290d42dc16670499de09f25863061641c78f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba10bbc_408a0e44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-22T02:04:15Z",
+      "side": 1,
+      "message": "Same as above :-)",
+      "parentUuid": "aba10bbc_202eeaa9",
       "range": {
         "startLine": 138,
         "startChar": 6,

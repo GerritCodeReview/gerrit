@@ -148,7 +148,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, copySelfOnEmails);
     row++;
 
-    formGrid.setText(row, labelIdx, "");
+    formGrid.setText(row, labelIdx, Util.C.reviewCategoryLabel());
+    formGrid.setWidget(row, fieldIdx, reviewCategoryStrategy);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());

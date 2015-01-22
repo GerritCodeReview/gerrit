@@ -22,6 +22,30 @@
       "revId": "3fa27bf8d3eb8898e9c9650f9884710732012a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb822318_6a42f76f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-22T08:03:52Z",
+      "side": 1,
+      "message": "I think it\u0027s needed as this is the version of the archetype that should be used. If the version is not given, Maven cannot know which archetype version to download from Maven Central.",
+      "parentUuid": "8ba607d2_3fbcc7d6",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 38
+      },
+      "revId": "3fa27bf8d3eb8898e9c9650f9884710732012a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

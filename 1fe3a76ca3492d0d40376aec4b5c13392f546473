@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ba607d2_dfccbbcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-22T00:15:56Z",
+      "side": 1,
+      "message": "Nit: blank line goes between logger and other class constants, not before.",
+      "revId": "1fe3a76ca3492d0d40376aec4b5c13392f546473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba607d2_9fd63357",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-22T00:15:56Z",
+      "side": 1,
+      "message": "The other good news about these results being ChangeDatas is you can do this:\n\n ChangeControl changeControl \u003d c.changeControl().forUser(identifiedUser);\n\nThen I think you don\u0027t even have to inject ChangeControl.GenericFactory anymore.",
+      "revId": "1fe3a76ca3492d0d40376aec4b5c13392f546473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba607d2_bfd1f762",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-22T00:15:56Z",
+      "side": 1,
+      "message": "Nit: spaces around |",
+      "range": {
+        "startLine": 246,
+        "startChar": 36,
+        "endLine": 246,
+        "endChar": 37
+      },
+      "revId": "1fe3a76ca3492d0d40376aec4b5c13392f546473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba10bbc_40e68e44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-22T00:15:56Z",
+      "side": 1,
+      "message": "Optional: since topic() is only used once, you could inline it.",
+      "revId": "1fe3a76ca3492d0d40376aec4b5c13392f546473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

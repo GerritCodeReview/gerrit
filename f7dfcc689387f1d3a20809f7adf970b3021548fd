@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb822318_eab8a7e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-22T09:49:20Z",
+      "side": 1,
+      "message": "If message is null we still want to set a (hardcoded) reflog message.",
+      "revId": "f7dfcc689387f1d3a20809f7adf970b3021548fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -701,7 +701,7 @@ Upgrades
 
 * Update Jetty to 9.2
 
-* Update JGit to 3.5.3.201412180710-r
+* Update JGit to 3.6.2.201501210735-r
 
 * Update log4j to 1.2.17
 

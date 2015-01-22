@@ -22,6 +22,30 @@
       "revId": "126c225b6584c414447317521ff0e0231055ac65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb822318_ca6203f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-22T09:20:16Z",
+      "side": 1,
+      "message": "Yes, it is intended and I hope it is OK :-)\n\nWe were firing too many LDAP requests (one for each accountBase) when searching for an account and we are doing it always. The consistency of an LDAP service should be guaranteed by LDAP admins and not by Gerrit, I believe... In other words, when the LDAP is consistent we are firing way too many requests. When it is broken then Gerrit probably cannot detect all inconsistencies in the LDAP anyway.\n\nIf you, or anyone else, consider this change a (security) risk I can also make this behavior configurable.",
+      "parentUuid": "aba10bbc_c03cdee5",
+      "range": {
+        "startLine": 199,
+        "startChar": 8,
+        "endLine": 199,
+        "endChar": 67
+      },
+      "revId": "126c225b6584c414447317521ff0e0231055ac65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -26,7 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.change.Publish.Input;
+import com.google.gerrit.server.change.PublishDraftPatchSet.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
@@ -42,7 +42,7 @@ import org.eclipse.jgit.lib.Config;
 import java.io.IOException;
 
 @Singleton
-public class Publish implements RestModifyView<RevisionResource, Input>,
+public class PublishDraftPatchSet implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
   public static class Input {
   }
@@ -55,7 +55,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   private final boolean allowDrafts;
 
   @Inject
-  public Publish(Provider<ReviewDb> dbProvider,
+  public PublishDraftPatchSet(Provider<ReviewDb> dbProvider,
       ChangeUpdate.Factory updateFactory,
       PatchSetNotificationSender sender,
       ChangeHooks hooks,
@@ -149,11 +149,11 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   public static class CurrentRevision implements
       RestModifyView<ChangeResource, Input> {
     private final Provider<ReviewDb> dbProvider;
-    private final Publish publish;
+    private final PublishDraftPatchSet publish;
 
     @Inject
     CurrentRevision(Provider<ReviewDb> dbProvider,
-        Publish publish) {
+        PublishDraftPatchSet publish) {
       this.dbProvider = dbProvider;
       this.publish = publish;
     }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ba607d2_9f2873aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T01:22:57Z",
+      "side": 1,
+      "message": "\"for\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "f7553ece35cd66d88c09a66ad187d5e02426c5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba10bbc_4018ce97",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T01:22:57Z",
+      "side": 1,
+      "message": "nit: start a new sentence instead.",
+      "range": {
+        "startLine": 80,
+        "startChar": 66,
+        "endLine": 80,
+        "endChar": 68
+      },
+      "revId": "f7553ece35cd66d88c09a66ad187d5e02426c5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba607d2_bf2337cf",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T01:22:57Z",
+      "side": 1,
+      "message": "Put Code-Review and Verify in backticks?",
+      "range": {
+        "startLine": 81,
+        "startChar": 64,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "f7553ece35cd66d88c09a66ad187d5e02426c5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba10bbc_600bd248",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T01:22:57Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 213,
+        "startChar": 82,
+        "endLine": 213,
+        "endChar": 83
+      },
+      "revId": "f7553ece35cd66d88c09a66ad187d5e02426c5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

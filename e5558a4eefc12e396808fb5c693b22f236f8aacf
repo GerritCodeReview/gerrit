@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6b8d5344_8e365b02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-22T14:21:59Z",
+      "side": 1,
+      "message": "Done, this way we will not have to remember to do it when merging to master",
+      "parentUuid": "eb822318_0a009bf7",
+      "range": {
+        "startLine": 76,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 61
+      },
+      "revId": "e5558a4eefc12e396808fb5c693b22f236f8aacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b97db55_8cb10705",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
         "patchSetId": 9
@@ -60,6 +84,24 @@
       "writtenOn": "2015-01-22T10:01:22Z",
       "side": 1,
       "message": "ni: unneeded blank line",
+      "revId": "e5558a4eefc12e396808fb5c693b22f236f8aacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b8d5344_ae331711",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-22T14:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b97db55_8cb10705",
       "revId": "e5558a4eefc12e396808fb5c693b22f236f8aacf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -101,6 +143,30 @@
       "side": 1,
       "message": "Good catch!",
       "parentUuid": "eb822318_2aac7fa6",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 136,
+        "endChar": 5
+      },
+      "revId": "e5558a4eefc12e396808fb5c693b22f236f8aacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba8c791_ef2d21ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-22T14:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b97db55_cc94ef4f",
       "range": {
         "startLine": 124,
         "startChar": 1,

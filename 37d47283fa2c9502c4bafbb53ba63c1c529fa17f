@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb822318_8a680bd9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-22T08:55:30Z",
+      "side": 1,
+      "message": "Just to clarify my previous suggestion again:\n\n* rename this method to createDraftChange()\n* drop this new additional parameter boolean draft, and pass hard coded Change.Status.DRAFT.toString() to input.status() method\n\nWhen we have 12 invocations of this method spreader around the code base and all are passing draft \u003d true, it\u0027s strong indication we probably don\u0027t need it.",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 33
+      },
+      "revId": "37d47283fa2c9502c4bafbb53ba63c1c529fa17f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2be35b20_acd1c362",
+        "filename": "lib/auto/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-22T20:42:19Z",
+      "side": 1,
+      "message": "Optional: add suffix \"#L147,L149\" to mark the region. It would be really cool to see gitiles supporting this.",
+      "range": {
+        "startLine": 8,
+        "startChar": 68,
+        "endLine": 8,
+        "endChar": 73
+      },
+      "revId": "c87d29ec1672bc60722bfa81b53172056dc3f537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

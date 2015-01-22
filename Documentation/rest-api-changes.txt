@@ -1317,14 +1317,15 @@ content isn't provided, it is wiped out for that file. As response
 ----
 
 [[post-edit]]
-=== Restore file content in Change Edit
+=== Restore file content or rename files in Change Edit
 --
 'POST /changes/link:#change-id[\{change-id\}]/edit
 --
 
-Creates empty change edit or restores file content in change edit. The
-request body needs to include a link:#change-edit-input[ChangeEditInput]
-entity when a file within change edit should be restored.
+Creates empty change edit, restores file content or renames files in change
+edit. The request body needs to include a
+link:#change-edit-input[ChangeEditInput] entity when a file within change
+edit should be restored or old and new file names to rename a file.
 
 .Request
 ----
@@ -1336,9 +1337,23 @@ entity when a file within change edit should be restored.
   }
 ----
 
+or for rename:
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "old_path": "foo",
+    "new_path": "bar"
+  }
+----
+
 When change edit doesn't exist for this change yet it is created. When path
-and restore flag are provided in request body, this file is restored. As
-response "`204 No Content`" is returned.
+and restore flag are provided in request body, this file is restored. When
+old and new file names are provided, the file is renamed. As response
+"`204 No Content`" is returned.
 
 .Response
 ----
@@ -4013,6 +4028,8 @@ path within change edit.
 |===========================
 |Field Name    ||Description
 |`restore_path`|optional|Path to file to restore.
+|`old_path`    |optional|Old path to file to rename.
+|`new_path`    |optional|New path to file to rename.
 |===========================
 
 [[change-edit-message-input]]

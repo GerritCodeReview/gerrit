@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b97db55_ccbb0fdf",
+        "filename": "lib/auto/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-22T10:10:22Z",
+      "side": 0,
+      "message": "Instead of messing around with multiple libraries on the classpath, and given that upstream doesn\u0027t release binary artifact without shaded and/or relocated commons and velocity, use our GWT-dev-jetty-hack where we are stripping outdated Jetty 8: strip commons and velocity from the binary artifact and preserve \u0027//lib:velocity\u0027 as dependency (that is transitively depends on apache commons).",
+      "revId": "33bef16523516e539360c1c723eab62eda35ef1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

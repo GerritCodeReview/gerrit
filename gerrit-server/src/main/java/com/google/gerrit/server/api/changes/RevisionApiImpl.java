@@ -43,7 +43,7 @@ import com.google.gerrit.server.change.ListComments;
 import com.google.gerrit.server.change.ListDraftComments;
 import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
-import com.google.gerrit.server.change.Publish;
+import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
@@ -70,7 +70,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   private final Rebase rebase;
   private final RebaseChange rebaseChange;
   private final Submit submit;
-  private final Publish publish;
+  private final PublishDraftPatchSet publish;
   private final Reviewed.PutReviewed putReviewed;
   private final Reviewed.DeleteReviewed deleteReviewed;
   private final RevisionResource revision;
@@ -94,7 +94,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       Rebase rebase,
       RebaseChange rebaseChange,
       Submit submit,
-      Publish publish,
+      PublishDraftPatchSet publish,
       Reviewed.PutReviewed putReviewed,
       Reviewed.DeleteReviewed deleteReviewed,
       Provider<Files> files,
@@ -162,7 +162,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   @Override
   public void publish() throws RestApiException {
     try {
-      publish.apply(revision, new Publish.Input());
+      publish.apply(revision, new PublishDraftPatchSet.Input());
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot publish draft patch set", e);
     }

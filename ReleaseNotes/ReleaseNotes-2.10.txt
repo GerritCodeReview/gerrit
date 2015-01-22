@@ -663,6 +663,9 @@ General
 ^^^^^^^
 
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2895[Issue 2895]:
+Fix reload of plugins that use DynamicItem.
+
 * Invoke `StartPluginListener` and `ReloadPluginListener` only after start/reload
 is fully done.
 
@@ -701,7 +704,7 @@ Upgrades
 
 * Update Jetty to 9.2
 
-* Update JGit to 3.5.3.201412180710-r
+* Update JGit to 3.6.2.201501210735-r
 
 * Update log4j to 1.2.17
 

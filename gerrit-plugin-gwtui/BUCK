@@ -12,6 +12,7 @@ java_binary(
   name = 'gwtui-api',
   deps = [
     ':gwtui-api-lib',
+    '//gerrit-extension-api:client-lib',
     '//gerrit-gwtui-common:client-lib',
   ],
   visibility = ['PUBLIC'],
@@ -28,6 +29,7 @@ java_library(
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
   exported_deps = [
+    '//gerrit-extension-api:client-lib',
     '//gerrit-gwtexpui:Clippy',
     '//gerrit-gwtexpui:GlobalKey',
     '//gerrit-gwtexpui:SafeHtml',

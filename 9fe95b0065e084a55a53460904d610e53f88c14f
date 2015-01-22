@@ -116,6 +116,29 @@
       "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba607d2_ff19bfa2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T01:14:15Z",
+      "side": 1,
+      "message": "Eclipse doesn\u0027t like this:\n\n AutoAnnotation_Commands_named cannot be resolved to a type",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

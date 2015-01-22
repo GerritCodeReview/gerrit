@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
@@ -68,6 +69,7 @@ public class Reindex extends SiteProgram {
 
   private Injector dbInjector;
   private Injector sysInjector;
+  private Config globalConfig;
   private ChangeIndex index;
 
   @Override
@@ -77,6 +79,7 @@ public class Reindex extends SiteProgram {
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
     checkNotSlaveMode();
     disableLuceneAutomaticCommit();
+    disableChangeCache();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
     }
@@ -89,6 +92,9 @@ public class Reindex extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
 
+
+    globalConfig =
+        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
     int result = 0;
     try {
@@ -105,9 +111,7 @@ public class Reindex extends SiteProgram {
   }
 
   private void checkNotSlaveMode() throws Die {
-    Config cfg = dbInjector.getInstance(
-        Key.get(Config.class, GerritServerConfig.class));
-    if (cfg.getBoolean("container", "slave", false)) {
+    if (globalConfig.getBoolean("container", "slave", false)) {
       throw die("Cannot run reindex in slave mode");
     }
   }
@@ -126,18 +130,23 @@ public class Reindex extends SiteProgram {
         throw new IllegalStateException("unsupported index.type");
     }
     modules.add(changeIndexModule);
+    // Scan changes from git instead of relying on the secondary index, as we
+    // will have just deleted the old (possibly corrupt) index.
+    modules.add(ScanningChangeCacheImpl.module());
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
 
     return dbInjector.createChildInjector(modules);
   }
 
   private void disableLuceneAutomaticCommit() {
-    Config cfg =
-        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     if (IndexModule.getIndexType(dbInjector) == IndexType.LUCENE) {
-      cfg.setLong("index", "changes_open", "commitWithin", -1);
-      cfg.setLong("index", "changes_closed", "commitWithin", -1);
+      globalConfig.setLong("index", "changes_open", "commitWithin", -1);
+      globalConfig.setLong("index", "changes_closed", "commitWithin", -1);
     }
+  }
+
+  private void disableChangeCache() {
+    globalConfig.setLong("cache", "changes", "memoryLimit", 0);
   }
 
   private int indexAll() throws Exception {

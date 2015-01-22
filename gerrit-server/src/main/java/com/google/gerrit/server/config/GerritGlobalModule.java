@@ -73,7 +73,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.ChangeCache;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitModule;
@@ -163,7 +163,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(authModule);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
-    install(ChangeCache.module());
+    install(SearchingChangeCacheImpl.module());
     install(ChangeKindCacheImpl.module());
     install(ConflictsCacheImpl.module());
     install(GroupCacheImpl.module());
@@ -267,7 +267,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), UsageDataPublishedListener.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(SearchingChangeCacheImpl.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterUpdate.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);

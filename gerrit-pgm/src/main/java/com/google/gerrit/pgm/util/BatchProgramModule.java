@@ -42,7 +42,6 @@ import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.group.GroupModule;
@@ -128,7 +127,6 @@ public class BatchProgramModule extends FactoryModule {
     install(ProjectCacheImpl.module());
     install(SectionSortCache.module());
     install(ChangeKindCacheImpl.module());
-    install(ChangeCache.module());
     install(MergeabilityCacheImpl.module());
     install(TagCache.module());
     factory(CapabilityControl.Factory.class);

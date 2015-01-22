@@ -79,6 +79,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -314,10 +315,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .orNull();
   }
 
-  private Change submitToDatabase(ReviewDb db, Change change,
+  private Change submitToDatabase(ReviewDb db, Change.Id changeId,
       final Timestamp timestamp) throws OrmException {
-    return db.changes().atomicUpdate(
-      change.getId(),
+    return db.changes().atomicUpdate(changeId,
       new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
@@ -331,7 +331,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       });
   }
 
-  public Change submit(RevisionResource rsrc, IdentifiedUser caller,
+  private Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
     List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
@@ -346,7 +346,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
-      change = submitToDatabase(db, change, timestamp);
+      change = submitToDatabase(db, change.getId(), timestamp);
       if (change == null) {
         return null;
       }
@@ -356,6 +356,52 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
     indexer.index(db, change);
     return change;
+  }
+
+  private Change submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
+      boolean force) throws ResourceConflictException, OrmException,
+      IOException {
+    List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
+    final Timestamp timestamp = TimeUtil.nowTs();
+    Change change = rsrc.getChange();
+    ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
+    update.submit(submitRecords);
+
+    ReviewDb db = dbProvider.get();
+    db.changes().beginTransaction(change.getId());
+
+    String topic = change.getTopic();
+    List<ChangeData> changesByTopic = queryProvider.get().byTopic(topic);
+    try {
+      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
+      // Write update commit after all normalized label commits.
+      batch.write(update, new CommitBuilder());
+
+      for (ChangeData c : changesByTopic) {
+        if (submitToDatabase(db, c.getId(), timestamp) == null) {
+          return null;
+        }
+      }
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+    List<Change.Id> ids = new ArrayList<>(changesByTopic.size());
+    for (ChangeData c : changesByTopic) {
+      ids.add(c.getId());
+    }
+    indexer.indexAsync(ids).checkedGet();
+    return change;
+  }
+
+  public Change submit(RevisionResource rsrc, IdentifiedUser caller,
+      boolean force) throws ResourceConflictException, OrmException,
+      IOException {
+    if (submitWholeTopic) {
+      return submitWholeTopic(rsrc, caller, force);
+    } else {
+      return submitThisChange(rsrc, caller, force);
+    }
   }
 
   private BatchMetaDataUpdate approve(RevisionResource rsrc,

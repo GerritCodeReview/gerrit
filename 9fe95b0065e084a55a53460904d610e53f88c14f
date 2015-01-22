@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aba10bbc_a0d67a56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionSortCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-22T00:08:15Z",
+      "side": 1,
+      "message": "This object is not mutable. patterns is only ever initialized with an ImmutableList.\n\nWould you rather I changed the interface to return an ImmutableList?",
+      "parentUuid": "6b8d5344_2e1f2787",
+      "range": {
+        "startLine": 140,
+        "startChar": 3,
+        "endLine": 141,
+        "endChar": 30
+      },
+      "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b8d5344_4e2473d7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-21T23:55:11Z",
       "side": 1,
       "message": "This change also converts this class from immutable to mutable, which deserves thoughtful consideration. We don\u0027t have to worry about the stale hashcode, but mutability introduces other risks.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba10bbc_80dc9676",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-22T00:08:15Z",
+      "side": 1,
+      "message": "This class is not mutable.\n\nThe entire contents of the generated AutoValue_LabelVote class is below, perhaps that will help clarify. That is the *only* implementation of this abstract class. Implementing an @AutoValue abstract class with a mutable implementation, while technically possible, would be crazypants, to the point that neither I nor the authors of AutoValue are concerned about that happening.\n\n package com.google.gerrit.server.util;\n \n import javax.annotation.Generated;\n \n @Generated(\"com.google.auto.value.processor.AutoValueProcessor\")\n final class AutoValue_LabelVote extends LabelVote {\n \n   private final String label;\n   private final short value;\n \n   AutoValue_LabelVote(\n       String label,\n       short value) {\n     if (label \u003d\u003d null) {\n       throw new NullPointerException(\"Null label\");\n     }\n     this.label \u003d label;\n     this.value \u003d value;\n   }\n \n   @Override\n   public String label() {\n     return label;\n   }\n \n   @Override\n   public short value() {\n     return value;\n   }\n \n   @Override\n   public boolean equals(Object o) {\n     if (o \u003d\u003d this) {\n       return true;\n     }\n     if (o instanceof LabelVote) {\n       LabelVote that \u003d (LabelVote) o;\n       return (this.label.equals(that.label()))\n            \u0026\u0026 (this.value \u003d\u003d that.value());\n     }\n     return false;\n   }\n \n   @Override\n   public int hashCode() {\n     int h \u003d 1;\n     h *\u003d 1000003;\n     h ^\u003d label.hashCode();\n     h *\u003d 1000003;\n     h ^\u003d value;\n     return h;\n   }\n \n }",
+      "parentUuid": "6b8d5344_4e2473d7",
       "range": {
         "startLine": 25,
         "startChar": 0,

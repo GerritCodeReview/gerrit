@@ -345,8 +345,12 @@ public abstract class VersionedMetaData {
         ru.setExpectedOldObjectId(oldId);
         ru.setNewObjectId(src);
         ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
+        String message = update.getCommitBuilder().getMessage();
+        if (message == null) {
+          message = "meta data update";
+        }
         try (BufferedReader reader = new BufferedReader(
-            new StringReader(update.getCommitBuilder().getMessage()))) {
+            new StringReader(message))) {
           // read the subject line and use it as reflog message
           ru.setRefLogMessage("commit: " + reader.readLine(), true);
         }

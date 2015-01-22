@@ -46,10 +46,17 @@ Below you will find an example of the +project.config+ file format:
        description = Rights inherited by all other projects
 [access "refs/*"]
        read = group Administrators
+[access "refs/heads/*"]
+        label-Your-Label-Here = -1..+1 group Administrators
 [capability]
        administrateServer = group Administrators
 [receive]
        requireContributorAgreement = false
+[label "Your-Label-Here"]
+        function = MaxWithBlock
+        value = -1 Your -1 Description
+        value =  0 Your No score Description
+        value = +1 Your +1 Description
 ----
 
 As you can see, there are several sections.
@@ -70,6 +77,9 @@ in the +All-Projects+ repository.  It controls core features that are configured
 on a global level.  You can find examples of these
 <<capability_category,below>>.
 
+The link:#label-section[+label+] section can appear multiple times. You can
+also redefine the text and behavior of the built in label types `Code-Review`
+and `Verified`.
 
 [[project-section]]
 === Project section
@@ -197,6 +207,10 @@ Please refer to the
 link:access-control.html#global_capabilities[Global Capabilities]
 documentation for a full list of available capabilities.
 
+[[label-section]]
+=== Label section
+
+Please refer to link:config-labels.html#label_custom[Custom Labels] documentation.
 
 [[branchOrder-section]]
 === branchOrder section

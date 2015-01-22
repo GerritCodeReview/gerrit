@@ -12,6 +12,7 @@ java_binary(
   name = 'gwtui-api',
   deps = [
     ':gwtui-api-lib',
+    '//gerrit-extension-api:client-lib',
     '//gerrit-gwtui-common:client-lib',
   ],
   visibility = ['PUBLIC'],

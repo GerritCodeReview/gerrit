@@ -30,17 +30,17 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class Drafts implements ChildCollection<RevisionResource, DraftResource> {
-  private final DynamicMap<RestView<DraftResource>> views;
+public class DraftComments implements ChildCollection<RevisionResource, DraftCommentResource> {
+  private final DynamicMap<RestView<DraftCommentResource>> views;
   private final Provider<CurrentUser> user;
-  private final ListDrafts list;
+  private final ListDraftComments list;
   private final Provider<ReviewDb> dbProvider;
   private final PatchLineCommentsUtil plcUtil;
 
   @Inject
-  Drafts(DynamicMap<RestView<DraftResource>> views,
+  DraftComments(DynamicMap<RestView<DraftCommentResource>> views,
       Provider<CurrentUser> user,
-      ListDrafts list,
+      ListDraftComments list,
       Provider<ReviewDb> dbProvider,
       PatchLineCommentsUtil plcUtil) {
     this.views = views;
@@ -51,7 +51,7 @@ public class Drafts implements ChildCollection<RevisionResource, DraftResource> 
   }
 
   @Override
-  public DynamicMap<RestView<DraftResource>> views() {
+  public DynamicMap<RestView<DraftCommentResource>> views() {
     return views;
   }
 
@@ -62,14 +62,14 @@ public class Drafts implements ChildCollection<RevisionResource, DraftResource> 
   }
 
   @Override
-  public DraftResource parse(RevisionResource rev, IdString id)
+  public DraftCommentResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
     for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(dbProvider.get(),
         rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes())) {
       if (uuid.equals(c.getKey().get())) {
-        return new DraftResource(rev, c);
+        return new DraftCommentResource(rev, c);
       }
     }
     throw new ResourceNotFoundException(id);

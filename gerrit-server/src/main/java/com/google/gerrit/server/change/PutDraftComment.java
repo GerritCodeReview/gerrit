@@ -39,18 +39,18 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-public class PutDraft implements RestModifyView<DraftResource, DraftInput> {
+public class PutDraftComment implements RestModifyView<DraftCommentResource, DraftInput> {
 
   private final Provider<ReviewDb> db;
-  private final DeleteDraft delete;
+  private final DeleteDraftComment delete;
   private final PatchLineCommentsUtil plcUtil;
   private final ChangeUpdate.Factory updateFactory;
   private final CommentJson commentJson;
   private final PatchListCache patchListCache;
 
   @Inject
-  PutDraft(Provider<ReviewDb> db,
-      DeleteDraft delete,
+  PutDraftComment(Provider<ReviewDb> db,
+      DeleteDraftComment delete,
       PatchLineCommentsUtil plcUtil,
       ChangeUpdate.Factory updateFactory,
       CommentJson commentJson,
@@ -64,7 +64,7 @@ public class PutDraft implements RestModifyView<DraftResource, DraftInput> {
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftResource rsrc, DraftInput in) throws
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in) throws
       BadRequestException, OrmException, IOException {
     PatchLineComment c = rsrc.getComment();
     ChangeUpdate update = updateFactory.create(rsrc.getControl());

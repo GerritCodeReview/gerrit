@@ -127,7 +127,7 @@ public class CommentsTest  {
 
   @Inject private AllUsersNameProvider allUsers;
   @Inject private Comments comments;
-  @Inject private Drafts drafts;
+  @Inject private DraftComments drafts;
   @Inject private GetComment getComment;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private InMemoryRepositoryManager repoManager;
@@ -142,10 +142,10 @@ public class CommentsTest  {
     final TypeLiteral<DynamicMap<RestView<CommentResource>>> commentViewsType =
         new TypeLiteral<DynamicMap<RestView<CommentResource>>>() {};
     @SuppressWarnings("unchecked")
-    final DynamicMap<RestView<DraftResource>> draftViews =
+    final DynamicMap<RestView<DraftCommentResource>> draftViews =
         createMock(DynamicMap.class);
-    final TypeLiteral<DynamicMap<RestView<DraftResource>>> draftViewsType =
-        new TypeLiteral<DynamicMap<RestView<DraftResource>>>() {};
+    final TypeLiteral<DynamicMap<RestView<DraftCommentResource>>> draftViewsType =
+        new TypeLiteral<DynamicMap<RestView<DraftCommentResource>>>() {};
 
     final AccountLoader.Factory alf =
         createMock(AccountLoader.Factory.class);

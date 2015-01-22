@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.change.DeleteDraft.Input;
+import com.google.gerrit.server.change.DeleteDraftComment.Input;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-public class DeleteDraft implements RestModifyView<DraftResource, Input> {
+public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
   static class Input {
   }
 
@@ -44,7 +44,7 @@ public class DeleteDraft implements RestModifyView<DraftResource, Input> {
   private final PatchListCache patchListCache;
 
   @Inject
-  DeleteDraft(Provider<ReviewDb> db,
+  DeleteDraftComment(Provider<ReviewDb> db,
       PatchLineCommentsUtil plcUtil,
       ChangeUpdate.Factory updateFactory,
       PatchListCache patchListCache) {
@@ -55,7 +55,7 @@ public class DeleteDraft implements RestModifyView<DraftResource, Input> {
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftResource rsrc, Input input)
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws OrmException, IOException {
     ChangeUpdate update = updateFactory.create(rsrc.getControl());
 

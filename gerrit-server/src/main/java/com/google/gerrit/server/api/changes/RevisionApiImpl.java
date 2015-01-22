@@ -34,13 +34,13 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.Comments;
-import com.google.gerrit.server.change.CreateDraft;
+import com.google.gerrit.server.change.CreateDraftComment;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
-import com.google.gerrit.server.change.Drafts;
+import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
 import com.google.gerrit.server.change.ListComments;
-import com.google.gerrit.server.change.ListDrafts;
+import com.google.gerrit.server.change.ListDraftComments;
 import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Publish;
@@ -80,9 +80,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   private final Provider<Mergeable> mergeable;
   private final FileApiImpl.Factory fileApi;
   private final ListComments listComments;
-  private final ListDrafts listDrafts;
-  private final CreateDraft createDraft;
-  private final Drafts drafts;
+  private final ListDraftComments listDrafts;
+  private final CreateDraftComment createDraft;
+  private final DraftComments drafts;
   private final DraftApiImpl.Factory draftFactory;
   private final Comments comments;
   private final CommentApiImpl.Factory commentFactory;
@@ -103,9 +103,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       Provider<Mergeable> mergeable,
       FileApiImpl.Factory fileApi,
       ListComments listComments,
-      ListDrafts listDrafts,
-      CreateDraft createDraft,
-      Drafts drafts,
+      ListDraftComments listDrafts,
+      CreateDraftComment createDraft,
+      DraftComments drafts,
       DraftApiImpl.Factory draftFactory,
       Comments comments,
       CommentApiImpl.Factory commentFactory,

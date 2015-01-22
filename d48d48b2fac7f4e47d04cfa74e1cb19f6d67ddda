@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb822318_4a0a9317",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-22T13:15:06Z",
+      "side": 1,
+      "message": "Can someone try to help out to describe what this scenario is supposed to do? I did not get it to work.",
+      "range": {
+        "startLine": 856,
+        "startChar": 0,
+        "endLine": 859,
+        "endChar": 28
+      },
+      "revId": "d48d48b2fac7f4e47d04cfa74e1cb19f6d67ddda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

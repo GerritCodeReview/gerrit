@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.auto.value.AutoAnnotation;
 import com.google.inject.Key;
 
 import org.apache.sshd.server.Command;
@@ -47,35 +48,9 @@ public class Commands {
   }
 
   /** Create a CommandName annotation for the supplied name. */
-  public static CommandName named(final String name) {
-    return new CommandName() {
-      @Override
-      public String value() {
-        return name;
-      }
-
-      @Override
-      public Class<? extends Annotation> annotationType() {
-        return CommandName.class;
-      }
-
-      @Override
-      public int hashCode() {
-        // This is specified in java.lang.Annotation.
-        return (127 * "value".hashCode()) ^ value().hashCode();
-      }
-
-      @Override
-      public boolean equals(final Object obj) {
-        return obj instanceof CommandName
-            && value().equals(((CommandName) obj).value());
-      }
-
-      @Override
-      public String toString() {
-        return "@" + CommandName.class.getName() + "(value=" + value() + ")";
-      }
-    };
+  @AutoAnnotation
+  public static CommandName named(final String value) {
+    return new AutoAnnotation_Commands_named(value);
   }
 
   /** Create a CommandName annotation for the supplied name. */

@@ -21,17 +21,17 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GetDraft implements RestReadView<DraftResource> {
+public class GetDraftComment implements RestReadView<DraftCommentResource> {
 
   private final CommentJson commentJson;
 
   @Inject
-  GetDraft(CommentJson commentJson) {
+  GetDraftComment(CommentJson commentJson) {
     this.commentJson = commentJson;
   }
 
   @Override
-  public CommentInfo apply(DraftResource rsrc) throws OrmException {
+  public CommentInfo apply(DraftCommentResource rsrc) throws OrmException {
     return commentJson.format(rsrc.getComment());
   }
 }

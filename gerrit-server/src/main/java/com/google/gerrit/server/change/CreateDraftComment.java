@@ -42,7 +42,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
-public class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
+public class CreateDraftComment implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
   private final ChangeUpdate.Factory updateFactory;
   private final CommentJson commentJson;
@@ -50,7 +50,7 @@ public class CreateDraft implements RestModifyView<RevisionResource, DraftInput>
   private final PatchListCache patchListCache;
 
   @Inject
-  CreateDraft(Provider<ReviewDb> db,
+  CreateDraftComment(Provider<ReviewDb> db,
       ChangeUpdate.Factory updateFactory,
       CommentJson commentJson,
       PatchLineCommentsUtil plcUtil,

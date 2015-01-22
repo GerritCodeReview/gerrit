@@ -28,13 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class ListDrafts implements RestReadView<RevisionResource> {
+public class ListDraftComments implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   protected CommentJson commentJson;
   protected final PatchLineCommentsUtil plcUtil;
 
   @Inject
-  ListDrafts(Provider<ReviewDb> db,
+  ListDraftComments(Provider<ReviewDb> db,
       CommentJson commentJson,
       PatchLineCommentsUtil plcUtil) {
     this.db = db;

@@ -18,10 +18,10 @@ import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.change.DeleteDraft;
-import com.google.gerrit.server.change.DraftResource;
-import com.google.gerrit.server.change.GetDraft;
-import com.google.gerrit.server.change.PutDraft;
+import com.google.gerrit.server.change.DeleteDraftComment;
+import com.google.gerrit.server.change.DraftCommentResource;
+import com.google.gerrit.server.change.GetDraftComment;
+import com.google.gerrit.server.change.PutDraftComment;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -30,19 +30,19 @@ import java.io.IOException;
 
 class DraftApiImpl implements DraftApi {
   interface Factory {
-    DraftApiImpl create(DraftResource d);
+    DraftApiImpl create(DraftCommentResource d);
   }
 
-  private final DeleteDraft deleteDraft;
-  private final GetDraft getDraft;
-  private final PutDraft putDraft;
-  private final DraftResource draft;
+  private final DeleteDraftComment deleteDraft;
+  private final GetDraftComment getDraft;
+  private final PutDraftComment putDraft;
+  private final DraftCommentResource draft;
 
   @Inject
-  DraftApiImpl(DeleteDraft deleteDraft,
-      GetDraft getDraft,
-      PutDraft putDraft,
-      @Assisted DraftResource draft) {
+  DraftApiImpl(DeleteDraftComment deleteDraft,
+      GetDraftComment getDraft,
+      PutDraftComment putDraft,
+      @Assisted DraftCommentResource draft) {
     this.deleteDraft = deleteDraft;
     this.getDraft = getDraft;
     this.putDraft = putDraft;

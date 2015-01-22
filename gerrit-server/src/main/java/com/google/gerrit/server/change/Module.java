@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
-import static com.google.gerrit.server.change.DraftResource.DRAFT_KIND;
+import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
@@ -35,13 +35,13 @@ public class Module extends RestApiModule {
     bind(ChangesCollection.class);
     bind(Revisions.class);
     bind(Reviewers.class);
-    bind(Drafts.class);
+    bind(DraftComments.class);
     bind(Comments.class);
     bind(Files.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
-    DynamicMap.mapOf(binder(), DRAFT_KIND);
+    DynamicMap.mapOf(binder(), DRAFT_COMMENT_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
@@ -90,11 +90,11 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
     get(REVISION_KIND, "archive").to(GetArchive.class);
 
-    child(REVISION_KIND, "drafts").to(Drafts.class);
-    put(REVISION_KIND, "drafts").to(CreateDraft.class);
-    get(DRAFT_KIND).to(GetDraft.class);
-    put(DRAFT_KIND).to(PutDraft.class);
-    delete(DRAFT_KIND).to(DeleteDraft.class);
+    child(REVISION_KIND, "drafts").to(DraftComments.class);
+    put(REVISION_KIND, "drafts").to(CreateDraftComment.class);
+    get(DRAFT_COMMENT_KIND).to(GetDraftComment.class);
+    put(DRAFT_COMMENT_KIND).to(PutDraftComment.class);
+    delete(DRAFT_COMMENT_KIND).to(DeleteDraftComment.class);
 
     child(REVISION_KIND, "comments").to(Comments.class);
     get(COMMENT_KIND).to(GetComment.class);

@@ -19,6 +19,12 @@ import os.path
 import re
 import sys
 
+version_text = """# Maven style API version (e.g. '2.x-SNAPSHOT').
+# Used by :api_install and :api_deploy targets
+# when talking to the destination repository.
+#
+GERRIT_VERSION = '%s'
+"""
 parser = OptionParser()
 opts, args = parser.parse_args()
 
@@ -49,3 +55,9 @@ for project in ['gerrit-extension-api', 'gerrit-plugin-api',
       outfile.write(outxml)
   except IOError as err:
     print('error updating %s: %s' % (pom, err), file=sys.stderr)
+
+try:
+  with open('VERSION', "w") as version_file:
+    version_file.write(version_text % new_version)
+except IOError as err:
+  print('error updating VERSION: %s' % err, file=sys.stderr)

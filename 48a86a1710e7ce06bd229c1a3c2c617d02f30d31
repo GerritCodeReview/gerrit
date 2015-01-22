@@ -34,6 +34,24 @@
       "revId": "48a86a1710e7ce06bd229c1a3c2c617d02f30d31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba607d2_7f05af3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T00:50:31Z",
+      "side": 1,
+      "message": "thanks for fixing the test.",
+      "parentUuid": "eb822318_6ad75755",
+      "revId": "48a86a1710e7ce06bd229c1a3c2c617d02f30d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

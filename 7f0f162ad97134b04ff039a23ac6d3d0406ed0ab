@@ -16,6 +16,24 @@
       "revId": "7f0f162ad97134b04ff039a23ac6d3d0406ed0ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ba8c791_cf177d68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-22T00:34:36Z",
+      "side": 1,
+      "message": "My bad as well. I should have checked the the API on my own and have found it. Having all these methods available is a slight contrast to git-core where you don\u0027t have helpers in all colors for for all the use cases.\n\nDone",
+      "parentUuid": "aba10bbc_00f1a6f6",
+      "revId": "7f0f162ad97134b04ff039a23ac6d3d0406ed0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

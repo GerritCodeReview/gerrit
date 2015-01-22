@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b97db55_4cc8ff85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-22T09:54:26Z",
+      "side": 1,
+      "message": "It\u0027s pointed out in the comment to maven-shade-plugin invocation: [1].\n\n\n\"We don\u0027t relocate Apache classes because they often load classes from strings,\nand the relocator doesn\u0027t know to rewrite those strings. This applies to both\nVelocity and Commons. We also don\u0027t minimize Velocity for similar reasons.\"\n\n\nThat means that we can potentially have commons and velocity twice on the classpath. Standalone and from auto-value. And those versions can diverge, obviously.\n\n* [1] https://github.com/google/auto/blob/master/value/pom.xml",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "7a10a20c64abbd7dd635cb761d47a441493535bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

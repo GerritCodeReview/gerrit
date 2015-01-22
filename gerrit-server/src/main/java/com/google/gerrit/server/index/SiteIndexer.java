@@ -21,7 +21,6 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -32,16 +31,15 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -68,11 +66,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -116,6 +112,7 @@ public class SiteIndexer {
   }
 
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final ChangeCache changeCache;
   private final ChangeData.Factory changeDataFactory;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
@@ -129,12 +126,14 @@ public class SiteIndexer {
 
   @Inject
   SiteIndexer(SchemaFactory<ReviewDb> schemaFactory,
+      ChangeCache changeCache,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
       @GerritServerConfig Config config) {
     this.schemaFactory = schemaFactory;
+    this.changeCache = changeCache;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
     this.executor = executor;
@@ -242,7 +241,7 @@ public class SiteIndexer {
           repo = repoManager.openRepository(project);
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
           db = schemaFactory.open();
-          for (Change c : scanChanges(db, repo)) {
+          for (Change c : changeCache.get(project)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));
@@ -271,26 +270,6 @@ public class SiteIndexer {
         return null;
       }
     };
-  }
-
-  private static List<Change> scanChanges(ReviewDb db, Repository repo)
-      throws OrmException, IOException {
-    Map<String, Ref> refs =
-        repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
-    Set<Change.Id> ids = new LinkedHashSet<>();
-    for (Ref r : refs.values()) {
-      Change.Id id = Change.Id.fromRef(r.getName());
-      if (id != null) {
-        ids.add(id);
-      }
-    }
-    List<Change> changes = new ArrayList<>(ids.size());
-     // A batch size of N may overload get(Iterable), so use something smaller,
-     // but still >1.
-    for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
-      Iterables.addAll(changes, db.changes().get(batch));
-    }
-    return changes;
   }
 
   private static class ProjectIndexer implements Callable<Void> {

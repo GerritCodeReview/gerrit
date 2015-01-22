@@ -184,7 +184,13 @@ public class DynamicItem<T> {
     NamedProvider<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null && !"gerrit".equals(old.pluginName)) {
+      if (old != null
+          && !"gerrit".equals(old.pluginName)
+          && !pluginName.equals(old.pluginName)) {
+        // We allow to replace:
+        // 1. Gerrit core items, e.g. websession cache
+        //    can be replaced by plugin implementation
+        // 2. Reload of current plugin
         throw new ProvisionException(String.format(
             "%s already provided by %s, ignoring plugin %s",
             this.key.getTypeLiteral(), old.pluginName, pluginName));

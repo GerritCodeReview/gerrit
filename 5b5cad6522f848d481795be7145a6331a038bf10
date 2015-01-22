@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aba10bbc_c0097e23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-22T09:47:18Z",
+      "side": 1,
+      "message": "This can return null, which causes NPE in the StringReader.",
+      "range": {
+        "startLine": 349,
+        "startChar": 55,
+        "endLine": 349,
+        "endChar": 65
+      },
+      "revId": "5b5cad6522f848d481795be7145a6331a038bf10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

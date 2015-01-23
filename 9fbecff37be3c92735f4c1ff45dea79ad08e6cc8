@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b440fe9_9d7503bb",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T13:16:04Z",
+      "side": 1,
+      "message": "[Optional]\n\nThis is the first time I\u0027ve seen `xref` in the documentation.  In other cases we just use `link:`.\n\nDoes this work as expected?  And if it\u0027s changed to `link`?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 4
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4287da_ff70bfcb",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T13:16:04Z",
+      "side": 1,
+      "message": "I think there\u0027s some markup you can add here to make it do syntax highlighting for the code, although I\u0027m not sure if it works for prolog.\n\nHave a look in the plugin documentation for some examples.",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 4
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b440fe9_bd7a3fa6",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T13:16:04Z",
+      "side": 1,
+      "message": "this was better as \"then\" because it\u0027s continuing the sentence from line 631.",
+      "range": {
+        "startLine": 639,
+        "startChar": 0,
+        "endLine": 639,
+        "endChar": 2
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4287da_9f75f3ba",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T13:16:04Z",
+      "side": 1,
+      "message": "Why is this changed?  Does it also need to be changed at line 972?",
+      "range": {
+        "startLine": 953,
+        "startChar": 41,
+        "endLine": 953,
+        "endChar": 63
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

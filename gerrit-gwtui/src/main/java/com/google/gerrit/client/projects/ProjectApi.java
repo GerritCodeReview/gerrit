@@ -58,6 +58,14 @@ public class ProjectApi {
     project(name).view("branches").get(cb);
   }
 
+  public static void getBranches(Project.NameKey name, int limit, int start,
+       AsyncCallback<JsArray<BranchInfo>> cb) {
+    RestApi call = project(name).view("branches");
+    call.addParameter("n", limit);
+    call.addParameter("s", start);
+    call.get(cb);
+  }
+
   /**
    * Delete branches. One call is fired to the server to delete all the
    * branches.

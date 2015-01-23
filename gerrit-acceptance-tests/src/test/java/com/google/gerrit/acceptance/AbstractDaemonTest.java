@@ -163,7 +163,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected static Config wholeTopicEnabledConfig() {
+  protected static Config submitWholeTopicEnabledConfig() {
     Config cfg = new Config();
     cfg.setBoolean("change", null, "submitWholeTopic", true);
     return cfg;
@@ -177,6 +177,10 @@ public abstract class AbstractDaemonTest {
 
   protected boolean isAllowDrafts() {
     return cfg.getBoolean("change", "allowDrafts", true);
+  }
+
+  protected boolean isSubmitWholeTopicEnabled() {
+    return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
   private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b4287da_df54db1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/QueryChangesByLabelIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-23T20:26:56Z",
+      "side": 1,
+      "message": "I understand what you mean about not duplicating the tests.  I\u0027ll attempt to add my group query tests to \u0027AbstractQueryChangesTest\u0027.  I was wondering if there would be any benefit to keeping this test since it\u0027s testing at the REST level and the byLabel tests seem to be testing at a lower level?\n\n\nAlso just to explain why the existing tests are failing with this change..\n\n\nThe two byLabel tests that queries the label by administrator group should fail after this fix.  It was passing before because the group operator was getting ignored.  Those test were actually just doing the query \u0027label: Code-Review+1\u0027 which will return all changes with Code-Review+1 and that\u0027s why it passed.  \n\n\nWith this change the group parameter is no longer getting ignore but it also doesn\u0027t work correctly so the query is always returning 0 results.  If this change worked correctly the query should return 1 result if the \u0027user\u0027 is a part of the \u0027Administrator\u0027 group.",
+      "parentUuid": "4b440fe9_5d0e9b59",
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b4287da_1fffa3bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2015-01-23T06:53:39Z",
       "side": 1,
       "message": "This method never gets called, even in the byLabel test which has some tests with groups.",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 63
+      },
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4287da_ff599f51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-23T20:26:56Z",
+      "side": 1,
+      "message": "I guess, from your statement, that you expect this to be called?   I noticed that the same overriden match() method in ProjectPredicate or OwnerPredicate classes do not get called either however the same method in AndPredicate class does get called.  It does look like all should be called since it\u0027s overriding the method from the base class but I don\u0027t know why the inconsistency.  Would you be able to confirm whether you are seeing the same thing?",
+      "parentUuid": "8b4287da_1fffa3bd",
       "range": {
         "startLine": 60,
         "startChar": 2,

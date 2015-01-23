@@ -263,7 +263,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setTitle("")
         .setVisible(false);
     }
-    if (submitWholeTopic && !topic.isEmpty()) {
+    if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
       List<ChangeData> changesByTopic = null;
       try {
         changesByTopic = queryProvider.get().byTopic(topic);

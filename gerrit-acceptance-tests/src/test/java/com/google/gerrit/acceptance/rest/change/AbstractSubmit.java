@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
@@ -82,7 +83,7 @@ import java.util.Map;
 public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
-    return wholeTopicEnabledConfig();
+    return submitWholeTopicEnabledConfig();
   }
 
   private Map<String, String> mergeResults;
@@ -134,6 +135,21 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(getRemoteHead().getId()).isEqualTo(change.getCommitId());
   }
 
+  @Test
+  public void submitWholeTopic() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    Git git = createProject();
+    PushOneCommit.Result change1 =
+        createChange(git, "Change 1", "a.txt", "content", "test-topic");
+    PushOneCommit.Result change2 =
+        createChange(git, "Change 2", "b.txt", "content", "test-topic");
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    submit(change2.getChangeId());
+    change1.assertChange(Change.Status.MERGED, "test-topic", admin);
+    change2.assertChange(Change.Status.MERGED, "test-topic", admin);
+  }
+
   protected Git createProject() throws JSchException, IOException,
       GitAPIException {
     return createProject(true);
@@ -181,6 +197,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), subject, fileName, content);
     return push.to(git, "refs/for/master");
+  }
+
+  protected PushOneCommit.Result createChange(Git git, String subject,
+      String fileName, String content, String topic)
+          throws GitAPIException, IOException {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), subject, fileName, content);
+    return push.to(git, "refs/for/master/" + topic);
   }
 
   protected void submit(String changeId) throws IOException {

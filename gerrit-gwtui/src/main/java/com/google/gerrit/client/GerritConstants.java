@@ -36,6 +36,9 @@ public interface GerritConstants extends Constants {
   String confirmationDialogOk();
   String confirmationDialogCancel();
 
+  String branchCreationDialogTitle();
+  String branchCreationConfirmationMessage();
+
   String branchDeletionDialogTitle();
   String branchDeletionConfirmationMessage();
 

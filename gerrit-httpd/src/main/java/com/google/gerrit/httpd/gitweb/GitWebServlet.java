@@ -31,6 +31,7 @@ package com.google.gerrit.httpd.gitweb;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.GitWebConfig;
@@ -82,6 +83,8 @@ class GitWebServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(GitWebServlet.class);
 
+  private static final String PROJECT_LIST_ACTION = "project_list";
+
   private final Set<String> deniedActions;
   private final int bufferSize = 8192;
   private final Path gitwebCgi;
@@ -122,7 +125,6 @@ class GitWebServlet extends HttpServlet {
 
     deniedActions.add("forks");
     deniedActions.add("opml");
-    deniedActions.add("project_list");
     deniedActions.add("project_index");
 
     _env = new EnvList();
@@ -363,6 +365,12 @@ class GitWebServlet extends HttpServlet {
     final Map<String, String> params = getParameters(req);
     if (deniedActions.contains(params.get("a"))) {
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+      return;
+    }
+
+    if (params.get("a").equals(PROJECT_LIST_ACTION)) {
+      rsp.sendRedirect(req.getContextPath() + "/#" + PageLinks.ADMIN_PROJECTS +
+          "?filter=" + params.get("pf") + "/");
       return;
     }
 

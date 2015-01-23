@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0be05712_0b155d5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-23T18:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be05712_6b05013c",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "2f320a0f0101ce5ed627356d8a6c5f3636737d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be05712_4b024536",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-23T14:31:16Z",
       "side": 1,
       "message": "nit: extra space",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "2f320a0f0101ce5ed627356d8a6c5f3636737d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be05712_eb421171",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-23T18:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be05712_4b024536",
       "range": {
         "startLine": 11,
         "startChar": 14,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8b0d27be_0715565f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-23T18:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be05712_2bfff9bd",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "2f320a0f0101ce5ed627356d8a6c5f3636737d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b0d27be_6705323c",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-23T14:31:16Z",
       "side": 1,
       "message": "This need to be updated for the new extension point name.",
+      "range": {
+        "startLine": 382,
+        "startChar": 0,
+        "endLine": 386,
+        "endChar": 61
+      },
+      "revId": "2f320a0f0101ce5ed627356d8a6c5f3636737d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be05712_cb47557f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-23T18:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b0d27be_6705323c",
       "range": {
         "startLine": 382,
         "startChar": 0,

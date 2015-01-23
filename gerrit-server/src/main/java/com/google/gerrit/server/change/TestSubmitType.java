@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;

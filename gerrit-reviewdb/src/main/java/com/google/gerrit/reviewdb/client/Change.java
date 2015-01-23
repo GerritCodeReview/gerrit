@@ -16,7 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
-import com.google.gerrit.extensions.common.ChangeStatus;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.RowVersion;

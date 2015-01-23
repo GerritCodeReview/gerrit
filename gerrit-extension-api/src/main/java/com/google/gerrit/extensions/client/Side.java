@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.client;
 
-public enum InheritableBoolean {
-  TRUE,
-  FALSE,
-  INHERIT
+public enum Side {
+  PARENT, REVISION
 }

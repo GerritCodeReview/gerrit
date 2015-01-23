@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,24 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.client;
 
-import java.sql.Timestamp;
+public enum GerritTopMenu {
+  ALL, MY, DIFFERENCES, PROJECTS, PEOPLE, PLUGINS, DOCUMENTATION;
 
-public abstract class Comment {
-  public String id;
-  public String path;
-  public Side side;
-  public Integer line;
-  public Range range;
-  public String inReplyTo;
-  public Timestamp updated;
-  public String message;
+  public final String menuName;
 
-  public static class Range {
-    public int startLine;
-    public int startCharacter;
-    public int endLine;
-    public int endCharacter;
+  private GerritTopMenu() {
+    menuName = name().substring(0, 1) + name().substring(1).toLowerCase();
   }
 }

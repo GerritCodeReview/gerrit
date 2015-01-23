@@ -19,8 +19,8 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
-import com.google.gerrit.extensions.common.InheritableBoolean;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -70,7 +70,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public InheritableBoolean requireChangeId;
     public String maxObjectSizeLimit;
     public SubmitType submitType;
-    public com.google.gerrit.extensions.api.projects.ProjectState state;
+    public com.google.gerrit.extensions.client.ProjectState state;
     public Map<String, Map<String, ConfigValue>> pluginConfigValues;
   }
 

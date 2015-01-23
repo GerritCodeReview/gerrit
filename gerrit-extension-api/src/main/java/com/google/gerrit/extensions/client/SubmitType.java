@@ -12,8 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.client;
 
-public enum Side {
-  PARENT, REVISION
+public enum SubmitType {
+  FAST_FORWARD_ONLY,
+  MERGE_IF_NECESSARY,
+  REBASE_IF_NECESSARY,
+  MERGE_ALWAYS,
+  CHERRY_PICK
 }

@@ -17,9 +17,9 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.common.Comment.Range;
+import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchLineComment;

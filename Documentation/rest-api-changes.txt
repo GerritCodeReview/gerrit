@@ -3208,16 +3208,29 @@ permitted to vote on that label.
 The time and date describing when the approval was made.
 |===========================
 
-[[group-base-info]]
-=== GroupBaseInfo
-The `GroupBaseInfo` entity contains base information about the group.
+[[change-edit-input]]
+=== ChangeEditInput
+The `ChangeEditInput` entity contains information for restoring a
+path within change edit.
 
-[options="header",cols="1,6"]
-|==========================
-|Field Name    |Description
-|`id`          |The id of the group.
-|`name`        |The name of the group.
-|==========================
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`restore_path`|optional|Path to file to restore.
+|`old_path`    |optional|Old path to file to rename.
+|`new_path`    |optional|New path to file to rename.
+|===========================
+
+[[change-edit-message-input]]
+=== ChangeEditMessageInput
+The `ChangeEditMessageInput` entity contains information for changing
+the commit message within a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`message`     ||New commit message.
+|===========================
 
 [[change-info]]
 === ChangeInfo
@@ -3304,38 +3317,6 @@ problems with this change. Only set if link:#check[CHECK] is set.
 A link:#change-id[\{change-id\}] that identifies the base change for a create
 change operation. Only used for the link:#create-change[CreateChange] endpoint.
 |==================================
-
-[[related-changes-info]]
-=== RelatedChangesInfo
-The `RelatedChangesInfo` entity contains information about related
-changes.
-
-[options="header",cols="1,6"]
-|===========================
-|Field Name                |Description
-|`changes`                 |A list of
-link:#related-change-and-commit-info[RelatedChangeAndCommitInfo] entities
-describing the related changes. Sorted by git commit order, newest to
-oldest. Empty if there are no related changes.
-|===========================
-
-[[related-change-and-commit-info]]
-=== RelatedChangeAndCommitInfo
-
-The `RelatedChangeAndCommitInfo` entity contains information about
-a related change and commit.
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name                ||Description
-|`change_id`               |optional|The Change-Id of the change.
-|`status`                  |optional|The status of the change.
-|`commit`                  ||The commit as a
-link:#commit-info[CommitInfo] entity.
-|`_change_number`          |optional|The change number.
-|`_revision_number`        |optional|The revision number.
-|`_current_revision_number`|optional|The current revision number.
-|===========================
 
 [[change-message-info]]
 === ChangeMessageInfo
@@ -3577,6 +3558,25 @@ Whether the web link should be shown on the side-by-side diff screen.
 Whether the web link should be shown on the unified diff screen.
 |=======================
 
+[[edit-info]]
+=== EditInfo
+The `EditInfo` entity contains information about a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`commit`      ||The commit of change edit as
+link:#commit-info[CommitInfo] entity.
+|`baseRevision`||The revision of the patch set change edit is based on.
+|`fetch`       ||
+Information about how to fetch this patch set. The fetch information is
+provided as a map that maps the protocol name ("`git`", "`http`",
+"`ssh`") to link:#fetch-info[FetchInfo] entities.
+|`files`       |optional|
+The files of the change edit as a map that maps the file names to
+link:#file-info[FileInfo] entities.
+|===========================
+
 [[fetch-info]]
 === FetchInfo
 The `FetchInfo` entity contains information about how to fetch a patch
@@ -3630,6 +3630,31 @@ author/committer of a commit.
 this identity was constructed.
 |`tz`          |The timezone offset from UTC of when this identity was
 constructed.
+|==========================
+
+[[group-base-info]]
+=== GroupBaseInfo
+The `GroupBaseInfo` entity contains base information about the group.
+
+[options="header",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`id`          |The id of the group.
+|`name`        |The name of the group.
+|==========================
+
+[[included-in-info]]
+=== IncludedInInfo
+The `IncludedInInfo` entity contains information about the branches a
+change was merged into and tags it was tagged with.
+
+[options="header",cols="1,6"]
+|==========================
+|Field Name |Description
+|`branches` | The list of branches this change was merged into.
+Each branch is listed without the 'refs/head/' prefix.
+|`tags`     | The list of tags this change was tagged with.
+Each tag is listed without the 'refs/tags/' prefix.
 |==========================
 
 [[label-info]]
@@ -3707,6 +3732,57 @@ Submit type used for this change, can be `MERGE_IF_NECESSARY`,
 |`mergeable_into`|optional|
 A list of other branch names where this change could merge cleanly
 |============================
+
+[[problem-info]]
+=== ProblemInfo
+The `ProblemInfo` entity contains a description of a potential consistency problem
+with a change. These are not related to the code review process, but rather
+indicate some inconsistency in Gerrit's database or repository metadata related
+to the enclosing change.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name||Description
+|`message` ||Plaintext message describing the problem with the change.
+|`status`  |optional|
+The status of fixing the problem (`FIXED`, `FIX_FAILED`). Only set if a
+fix was attempted.
+|`outcome` |optional|
+If `status` is set, an additional plaintext message describing the
+outcome of the fix.
+|===========================
+
+[[related-change-and-commit-info]]
+=== RelatedChangeAndCommitInfo
+
+The `RelatedChangeAndCommitInfo` entity contains information about
+a related change and commit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name                ||Description
+|`change_id`               |optional|The Change-Id of the change.
+|`status`                  |optional|The status of the change.
+|`commit`                  ||The commit as a
+link:#commit-info[CommitInfo] entity.
+|`_change_number`          |optional|The change number.
+|`_revision_number`        |optional|The revision number.
+|`_current_revision_number`|optional|The current revision number.
+|===========================
+
+[[related-changes-info]]
+=== RelatedChangesInfo
+The `RelatedChangesInfo` entity contains information about related
+changes.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name                |Description
+|`changes`                 |A list of
+link:#related-change-and-commit-info[RelatedChangeAndCommitInfo] entities
+describing the related changes. Sorted by git commit order, newest to
+oldest. Empty if there are no related changes.
+|===========================
 
 [[restore-input]]
 === RestoreInput
@@ -3879,16 +3955,6 @@ If `SKIP` the parent filters are not called, allowing the test
 to return results from the input rule.
 |===========================
 
-[[suggested-reviewer-info]]
-=== SuggestedReviewerInfo
-The `SuggestedReviewerInfo` entity contains information about a reviewer
-that can be added to a change (an account or a group).
-
-`SuggestedReviewerInfo` has either the `account` field that contains
-the link:rest-api-accounts.html#account-info[AccountInfo] entity, or
-the `group` field that contains the
-link:rest-api-changes.html#group-base-info[GroupBaseInfo] entity.
-
 [[submit-info]]
 === SubmitInfo
 The `SubmitInfo` entity contains information about the change status
@@ -3963,6 +4029,16 @@ When status is RULE_ERROR this message provides some text describing
 the failure of the rule predicate.
 |===========================
 
+[[suggested-reviewer-info]]
+=== SuggestedReviewerInfo
+The `SuggestedReviewerInfo` entity contains information about a reviewer
+that can be added to a change (an account or a group).
+
+`SuggestedReviewerInfo` has either the `account` field that contains
+the link:rest-api-accounts.html#account-info[AccountInfo] entity, or
+the `group` field that contains the
+link:rest-api-changes.html#group-base-info[GroupBaseInfo] entity.
+
 [[topic-input]]
 === TopicInput
 The `TopicInput` entity contains information for setting a topic.
@@ -3973,20 +4049,6 @@ The `TopicInput` entity contains information for setting a topic.
 |`topic`       |optional|The topic. +
 The topic will be deleted if not set.
 |===========================
-
-[[included-in-info]]
-=== IncludedInInfo
-The `IncludedInInfo` entity contains information about the branches a
-change was merged into and tags it was tagged with.
-
-[options="header",cols="1,6"]
-|==========================
-|Field Name |Description
-|`branches` | The list of branches this change was merged into.
-Each branch is listed without the 'refs/head/' prefix.
-|`tags`     | The list of tags this change was tagged with.
-Each tag is listed without the 'refs/tags/' prefix.
-|==========================
 
 [[web-link-info]]
 === WebLinkInfo
@@ -3999,68 +4061,6 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`url`     |The link URL.
 |`image_url`|URL to the icon of the link.
 |======================
-
-[[edit-info]]
-=== EditInfo
-The `EditInfo` entity contains information about a change edit.
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`commit`      ||The commit of change edit as
-link:#commit-info[CommitInfo] entity.
-|`baseRevision`||The revision of the patch set change edit is based on.
-|`fetch`       ||
-Information about how to fetch this patch set. The fetch information is
-provided as a map that maps the protocol name ("`git`", "`http`",
-"`ssh`") to link:#fetch-info[FetchInfo] entities.
-|`files`       |optional|
-The files of the change edit as a map that maps the file names to
-link:#file-info[FileInfo] entities.
-|===========================
-
-[[change-edit-input]]
-=== ChangeEditInput
-The `ChangeEditInput` entity contains information for restoring a
-path within change edit.
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`restore_path`|optional|Path to file to restore.
-|`old_path`    |optional|Old path to file to rename.
-|`new_path`    |optional|New path to file to rename.
-|===========================
-
-[[change-edit-message-input]]
-=== ChangeEditMessageInput
-The `ChangeEditMessageInput` entity contains information for changing
-the commit message within a change edit.
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`message`     ||New commit message.
-|===========================
-
-[[problem-info]]
-=== ProblemInfo
-The `ProblemInfo` entity contains a description of a potential consistency problem
-with a change. These are not related to the code review process, but rather
-indicate some inconsistency in Gerrit's database or repository metadata related
-to the enclosing change.
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name||Description
-|`message` ||Plaintext message describing the problem with the change.
-|`status`  |optional|
-The status of fixing the problem (`FIXED`, `FIX_FAILED`). Only set if a
-fix was attempted.
-|`outcome` |optional|
-If `status` is set, an additional plaintext message describing the
-outcome of the fix.
-|===========================
 
 GERRIT
 ------

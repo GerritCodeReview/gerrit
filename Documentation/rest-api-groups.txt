@@ -1166,21 +1166,6 @@ name. +
 If not set, the new group will be self-owned.
 |===========================
 
-[[groups-input]]
-=== GroupsInput
-The `GroupsInput` entity contains information about groups that should
-be included into a group or that should be deleted from a group.
-
-[options="header",cols="1,^1,5"]
-|==========================
-|Field Name   ||Description
-|`_one_group` |optional|
-The link:#group-id[id] of one group that should be included or deleted.
-|`groups`     |optional|
-A list of link:#group-id[group ids] that identify the groups that
-should be included or deleted.
-|==========================
-
 [[group-options-info]]
 === GroupOptionsInfo
 Options of the group.
@@ -1202,6 +1187,21 @@ New options for a group.
 |`visible_to_all`|not set if `false`|
 Whether the group is visible to all registered users.
 |=============================
+
+[[groups-input]]
+=== GroupsInput
+The `GroupsInput` entity contains information about groups that should
+be included into a group or that should be deleted from a group.
+
+[options="header",cols="1,^1,5"]
+|==========================
+|Field Name   ||Description
+|`_one_group` |optional|
+The link:#group-id[id] of one group that should be included or deleted.
+|`groups`     |optional|
+A list of link:#group-id[group ids] that identify the groups that
+should be included or deleted.
+|==========================
 
 [[members-input]]
 MembersInput

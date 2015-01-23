@@ -70,6 +70,30 @@
       "revId": "0040a16c2ea6f05aff4f23aee6ca634a52008821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b440fe9_9d4e6389",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-23T14:53:41Z",
+      "side": 1,
+      "message": "Mostly consistency with the other methods. Which came from the old ChangeAccess methods which are very old.\n\n\"By open topic\" may be more natural for topics specifically, but \"by open project\" or \"by open branch\" would be misleading. What it really means is \"by topic and open\" or \"open changes by topic\". But neither of those sounds particularly good as a method name.\n\nWe can bikeshed more if you like, but my heart\u0027s not in it.",
+      "parentUuid": "8b0d27be_e7f002f5",
+      "range": {
+        "startLine": 121,
+        "startChar": 26,
+        "endLine": 121,
+        "endChar": 33
+      },
+      "revId": "0040a16c2ea6f05aff4f23aee6ca634a52008821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

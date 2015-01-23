@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
@@ -46,6 +47,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -98,6 +100,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   ChangeHooks hooks;
 
+  @Inject
+  @GerritServerConfig Config cfg;
+
   @Before
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
@@ -123,6 +128,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected abstract SubmitType getSubmitType();
 
+  protected boolean isSubmitWholeTopicEnabled() {
+    return cfg.getBoolean("change", null, "submitWholeTopic", false);
+  }
+
   @Test
   public void submitToEmptyRepo() throws JSchException, IOException,
       GitAPIException {
@@ -130,6 +139,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
     assertThat(getRemoteHead().getId()).isEqualTo(change.getCommitId());
+  }
+
+  @Test
+  public void submitWholeTopic() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
   }
 
   protected Git createProject() throws JSchException, IOException,
@@ -172,6 +186,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master");
+  }
+
+  protected PushOneCommit.Result createChange(Git git, String topic)
+      throws GitAPIException, IOException {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    return push.to(git, "refs/for/master/" + topic);
   }
 
   protected PushOneCommit.Result createChange(Git git, String subject,

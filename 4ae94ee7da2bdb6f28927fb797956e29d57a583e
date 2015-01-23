@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b02b38e_e6191ea3",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-23T08:05:27Z",
+      "side": 1,
+      "message": "This approach doesn\u0027t work with in-tree Buck build:\n\n* Loading inherited module \u0027com.googlesource.gerrit.plugins.xdocs.XDocs\u0027\n* Loading inherited module \u0027com.google.gerrit.extensions.Extensions\u0027\n* [ERROR] Unable to find \u0027com/google/gerrit/extensions/Extensions.gwt.xml\u0027 on your classpath;\n\nTo make it work, //gerrit-extension-api:client-lib must be included:\n\n java_library(\n  name \u003d \u0027gwtui-api-lib2\u0027,\n  srcs \u003d SRCS,\n  resources \u003d glob([\u0027src/main/**/*\u0027]),\n  exported_deps \u003d [\n    \u0027//gerrit-extension-api:client-lib\u0027,\n\nHowever, with this in place we have another problem:\n\n*  buck-out/gen/gerrit-extension-api/__gwt_module_api#gwt_module__/api#gwt_module.jar\n\nis on the classpath of gwt_binary(), that includes the whole extension sources [1], and thus trying to compile all to JS, as Extensions.gwt.xml includes these packages:\n\n\n  \u003cmodule\u003e\n    \u003csource path\u003d\u0027api\u0027 /\u003e\n    \u003csource path\u003d\u0027common\u0027 /\u003e\n    \u003csource path\u003d\u0027webui\u0027 /\u003e\n  \u003c/module\u003e\n\n\nI guess I don\u0027t quite understand why __gwt_module_api#gwt_module__/api#gwt_module.jar is included in the list of GWT modules in gwt_binary. It was already included before this change, but because Extensions.gwt.xml wasn\u0027t provided, it hasn\u0027t had any effect.\n\n\n* [1] http://paste.openstack.org/show/160672/",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 56
+      },
+      "revId": "4ae94ee7da2bdb6f28927fb797956e29d57a583e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

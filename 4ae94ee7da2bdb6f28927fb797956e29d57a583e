@@ -22,6 +22,30 @@
       "revId": "4ae94ee7da2bdb6f28927fb797956e29d57a583e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_65b2c609",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-23T20:07:00Z",
+      "side": 1,
+      "message": "What happened: gwt_binary() implementation walks module dependency graph and constructs gwt_modules and put them on the classpath automagically [1].\n\nArguably it was a bug to include plugin-api-lib in dependency set of gwt_binary(), which resolves to virtually everything: [2] and now Buck is adding *everything* as gwt modules like gerrit-server, gerrit-ssh, ..., and gerrit-extension.\n\nBut i think that gwt_binary() should at least stop walking the graph, for provided deps. This was offending place:\n \n  java_library(\n    name \u003d name + \u0027__plugin\u0027,\n    srcs \u003d srcs,\n    resources \u003d resources,\n    deps \u003d deps,\n    provided_deps \u003d [\u0027//gerrit-%s-api:lib\u0027 % type] + provided_deps + gwt_deps,\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )\n  [...]\n  # And here it is used:\n  gwt_binary(\n    name \u003d name + \u0027__gwt_application\u0027,\n    modules \u003d [gwt_module],\n    deps \u003d gwt_deps,\n    module_deps \u003d [\u0027:%s__plugin\u0027 % name],\n    local_workers \u003d cpu_count(),\n    strict \u003d True,\n    experimental_args \u003d GWT_COMPILER_ARGS,\n    vm_args \u003d GWT_JVM_ARGS,\n  ) \n\n* [1] https://github.com/facebook/buck/blob/master/src/com/facebook/buck/gwt/GwtBinaryDescription.java#L115,L138",
+      "parentUuid": "6b02b38e_e6191ea3",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 56
+      },
+      "revId": "4ae94ee7da2bdb6f28927fb797956e29d57a583e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

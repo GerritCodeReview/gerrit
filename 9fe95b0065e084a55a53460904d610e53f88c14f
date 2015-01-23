@@ -163,6 +163,30 @@
       "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4287da_bfd6b756",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T01:19:35Z",
+      "side": 1,
+      "message": "I have tried:\n\n- Removing the local ./buck-out folder\n- Removing the entire buck cache\n- git clean -fdx\n\nand none of those helped.\n\nIf I do `find -name AutoVal*` I can see that the AutoValue*.java files are in ./buck-out/eclipse\n\nHowever for `find -name AutoAnn*` they are not.",
+      "parentUuid": "6b8d5344_0e6c2bf7",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "9fe95b0065e084a55a53460904d610e53f88c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

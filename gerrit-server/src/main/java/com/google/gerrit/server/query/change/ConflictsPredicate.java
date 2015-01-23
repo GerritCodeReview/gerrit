@@ -119,7 +119,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
                 SubmitStrategy strategy =
                     args.submitStrategyFactory.create(submitType,
                         db.get(), repo, rw, null, canMergeFlag,
-                        getAlreadyAccepted(repo, rw, commit),
+                        null, getAlreadyAccepted(repo, rw, commit),
                         otherChange.getDest());
                 CodeReviewCommit otherCommit =
                     (CodeReviewCommit) rw.parseCommit(other);

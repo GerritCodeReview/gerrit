@@ -64,6 +64,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -253,6 +254,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeInfo c = getChange(changeId, CURRENT_REVISION);
     assertThat(c.currentRevision).isEqualTo(expectedId.name());
     assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
+    Repository repo =
+        repoManager.openRepository(new Project.NameKey(c.project));
+    try {
+      Ref ref = repo.getRef(
+          new PatchSet.Id(new Change.Id(c._number), expectedNum).toRefName());
+      assertThat(ref).isNotNull();
+      assertThat(ref.getObjectId()).isEqualTo(expectedId);
+    } finally {
+      repo.close();
+    }
   }
 
   protected void assertApproved(String changeId) throws IOException {

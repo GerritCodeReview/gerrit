@@ -847,17 +847,6 @@ Information about the hit ratio as a link:#hit-ration-info[
 HitRatioInfo] entity.
 |==================================
 
-[[capability-info]]
-=== CapabilityInfo
-The `CapabilityInfo` entity contains information about a capability.
-
-[options="header",cols="1,6"]
-|=================================
-|Field Name           |Description
-|`id`                 |capability ID
-|`name`               |capability name
-|=================================
-
 [[cache-operation-input]]
 === CacheOperationInput
 The `CacheOperationInput` entity contains information about an
@@ -877,6 +866,17 @@ A list of cache names. This list defines the caches on which the
 specified operation should be executed. Whether this list must be
 specified depends on the operation being executed.
 |==================================
+
+[[capability-info]]
+=== CapabilityInfo
+The `CapabilityInfo` entity contains information about a capability.
+
+[options="header",cols="1,6"]
+|=================================
+|Field Name           |Description
+|`id`                 |capability ID
+|`name`               |capability name
+|=================================
 
 [[entries-info]]
 === EntriesInfo

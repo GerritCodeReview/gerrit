@@ -159,6 +159,12 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected static Config wholeTopicEnabledConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "submitWholeTopic", true);
+    return cfg;
+  }
+
   private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
     server = startServer(cfg, memory, enableHttpd);
     server.getTestInjector().injectMembers(this);

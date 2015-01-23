@@ -18,6 +18,7 @@ import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
@@ -359,8 +360,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   private Change submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
-      boolean force) throws ResourceConflictException, OrmException,
+      boolean force, String topic) throws ResourceConflictException, OrmException,
       IOException {
+    Preconditions.checkNotNull(topic);
     List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
     final Timestamp timestamp = TimeUtil.nowTs();
     Change change = rsrc.getChange();
@@ -370,7 +372,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
 
-    String topic = change.getTopic();
     List<ChangeData> changesByTopic = queryProvider.get().byTopic(topic);
     try {
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
@@ -397,8 +398,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   public Change submit(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
-    if (submitWholeTopic) {
-      return submitWholeTopic(rsrc, caller, force);
+    String topic = rsrc.getChange().getTopic();
+    if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
+      return submitWholeTopic(rsrc, caller, force, topic);
     } else {
       return submitThisChange(rsrc, caller, force);
     }

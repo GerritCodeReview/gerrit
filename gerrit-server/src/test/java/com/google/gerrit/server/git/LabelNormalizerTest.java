@@ -137,7 +137,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(new Result(
+    assertEquals(Result.create(
           list(v),
           list(copy(cr, 1)),
           list()),
@@ -153,7 +153,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 5);
     PatchSetApproval v = psa(userId, "Verified", 5);
-    assertEquals(new Result(
+    assertEquals(Result.create(
           list(),
           list(copy(cr, 2), copy(v, 1)),
           list()),
@@ -164,7 +164,7 @@ public class LabelNormalizerTest {
   public void emptyPermissionRangeOmitsResult() throws Exception {
     PatchSetApproval cr = psa(userId, "Code-Review", 1);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(new Result(
+    assertEquals(Result.create(
           list(),
           list(),
           list(cr, v)),
@@ -179,7 +179,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);
     PatchSetApproval v = psa(userId, "Verified", 0);
-    assertEquals(new Result(
+    assertEquals(Result.create(
           list(cr),
           list(),
           list(v)),

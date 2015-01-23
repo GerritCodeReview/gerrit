@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.util.MostSpecificComparator;
@@ -26,7 +28,7 @@ import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -62,7 +64,7 @@ public class SectionSortCache {
       return;
     }
 
-    EntryKey key = new EntryKey(ref, sections);
+    EntryKey key = EntryKey.create(ref, sections);
     EntryVal val = cache.getIfPresent(key);
     if (val != null) {
       int[] srcIdx = val.order;
@@ -116,35 +118,27 @@ public class SectionSortCache {
     return true;
   }
 
-  static final class EntryKey {
-    private final String ref;
-    private final String[] patterns;
-    private final int hashCode;
+  @AutoValue
+  static abstract class EntryKey {
+    public abstract String ref();
+    public abstract List<String> patterns();
+    public abstract int cachedHashCode();
 
-    EntryKey(String refName, List<AccessSection> sections) {
+    static EntryKey create(String refName, List<AccessSection> sections) {
       int hc = refName.hashCode();
-      ref = refName;
-      patterns = new String[sections.size()];
-      for (int i = 0; i < patterns.length; i++) {
-        String n = sections.get(i).getName();
-        patterns[i] = n;
+      List<String> patterns = new ArrayList<>(sections.size());
+      for (AccessSection s : sections) {
+        String n = s.getName();
+        patterns.add(n);
         hc = hc * 31 + n.hashCode();
       }
-      hashCode = hc;
+      return new AutoValue_SectionSortCache_EntryKey(
+          refName, ImmutableList.copyOf(patterns), hc);
     }
 
     @Override
     public int hashCode() {
-      return hashCode;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (other instanceof EntryKey) {
-        EntryKey b = (EntryKey) other;
-        return ref.equals(b.ref) && Arrays.equals(patterns, b.patterns);
-      }
-      return false;
+      return cachedHashCode();
     }
   }
 

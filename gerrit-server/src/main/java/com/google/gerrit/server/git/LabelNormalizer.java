@@ -16,8 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -37,7 +37,6 @@ import com.google.inject.Singleton;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Normalizes votes on labels according to project config and permissions.
@@ -50,60 +49,25 @@ import java.util.Objects;
  */
 @Singleton
 public class LabelNormalizer {
-  public static class Result {
-    private final ImmutableList<PatchSetApproval> unchanged;
-    private final ImmutableList<PatchSetApproval> updated;
-    private final ImmutableList<PatchSetApproval> deleted;
-
+  @AutoValue
+  public abstract static class Result {
     @VisibleForTesting
-    Result(
+    static Result create(
         List<PatchSetApproval> unchanged,
         List<PatchSetApproval> updated,
         List<PatchSetApproval> deleted) {
-      this.unchanged = ImmutableList.copyOf(unchanged);
-      this.updated = ImmutableList.copyOf(updated);
-      this.deleted = ImmutableList.copyOf(deleted);
+      return new AutoValue_LabelNormalizer_Result(
+          ImmutableList.copyOf(unchanged),
+          ImmutableList.copyOf(updated),
+          ImmutableList.copyOf(deleted));
     }
 
-    public ImmutableList<PatchSetApproval> getUnchanged() {
-      return unchanged;
-    }
-
-    public ImmutableList<PatchSetApproval> getUpdated() {
-      return updated;
-    }
-
-    public ImmutableList<PatchSetApproval> getDeleted() {
-      return deleted;
-    }
+    public abstract ImmutableList<PatchSetApproval> unchanged();
+    public abstract ImmutableList<PatchSetApproval> updated();
+    public abstract ImmutableList<PatchSetApproval> deleted();
 
     public Iterable<PatchSetApproval> getNormalized() {
-      return Iterables.concat(unchanged, updated);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (o instanceof Result) {
-        Result r = (Result) o;
-        return Objects.equals(unchanged, r.unchanged)
-            && Objects.equals(updated, r.updated)
-            && Objects.equals(deleted, r.deleted);
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(unchanged, updated, deleted);
-    }
-
-    @Override
-    public String toString() {
-      return MoreObjects.toStringHelper(this)
-          .add("unchanged", unchanged)
-          .add("updated", updated)
-          .add("deleted", deleted)
-          .toString();
+      return Iterables.concat(unchanged(), updated());
     }
   }
 
@@ -174,7 +138,7 @@ public class LabelNormalizer {
         unchanged.add(psa);
       }
     }
-    return new Result(unchanged, updated, deleted);
+    return Result.create(unchanged, updated, deleted);
   }
 
   /**

@@ -310,13 +310,13 @@ class ChangeNotesParser implements AutoCloseable {
         pe.initCause(e);
         throw pe;
       }
-      if (!curr.contains(accountId, l.getLabel())) {
-        curr.put(accountId, l.getLabel(), Optional.of(new PatchSetApproval(
+      if (!curr.contains(accountId, l.label())) {
+        curr.put(accountId, l.label(), Optional.of(new PatchSetApproval(
             new PatchSetApproval.Key(
                 psId,
                 accountId,
-                new LabelId(l.getLabel())),
-            l.getValue(),
+                new LabelId(l.label())),
+            l.value(),
             new Timestamp(commit.getCommitterIdent().getWhen().getTime()))));
       }
     }

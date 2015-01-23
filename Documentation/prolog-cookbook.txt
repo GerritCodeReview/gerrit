@@ -139,12 +139,12 @@ predicate which is expected to be a `submit` term of the following format:
 where `label-name` is usually `'Code-Review'` or `'Verified'` but could also
 be any other string (see examples below). The `status` is one of:
 
-* `ok(user(ID))` or just `ok(_)` if user info is not important. This status is
-  used to tell that this label/category has been met.
+* `ok(user(ID))`. This status is used to tell that this label/category has been
+  met.
 * `need(_)` is used to tell that this label/category is needed for change to
   become submittable
-* `reject(user(ID))` or just `reject(_)`. This status is used to tell that
-  label/category is blocking change submission
+* `reject(user(ID))`. This status is used to tell that label/category is
+  blocking change submission
 * `impossible(_)` is used when the logic knows that the change cannot be
   submitted as-is. Administrative intervention is probably required. This is
   meant for cases where the logic requires members of "FooEng" to score
@@ -168,9 +168,9 @@ needed for the change to become submittable.
 Here some examples of possible return values from the `submit_rule` predicate:
 
 ====
-  submit(label('Code-Review', ok(_)))                               <1>
-  submit(label('Code-Review', ok(_)), label('Verified', reject(_))) <2>
-  submit(label('Author-is-John-Doe', need(_))                       <3>
+  submit(label('Code-Review', ok(user(ID))))                                      <1>
+  submit(label('Code-Review', ok(user(ID))), label('Verified', reject(user(ID)))) <2>
+  submit(label('Author-is-John-Doe', need(user(ID)))                              <3>
 ====
 
 <1> label `'Code-Review'` is met. As there are no other labels in the
@@ -179,7 +179,7 @@ Here some examples of possible return values from the `submit_rule` predicate:
 <3> label `'Author-is-John-Doe'` is needed for the change to become submittable.
     Note that this tells nothing about how this criteria will be met. It is up
     to the implementer of the `submit_rule` to return
-    `label('Author-is-John-Doe', ok(_))` when this criteria is met.  Most
+    `label('Author-is-John-Doe', ok(user(ID)))` when this criteria is met. Most
     likely, it will have to match against `gerrit:commit_author` in order to
     check if this criteria is met. This will become clear through the examples
     below.
@@ -340,7 +340,8 @@ submittable regardless of the votes it has:
 [source,prolog]
 ----
 submit_rule(submit(W)) :-
-    W = label('Any-Label-Name', ok(_)).
+    gerrit:current_user(User),
+    W = label('Any-Label-Name', ok(User)).
 ----
 
 In this case we make no use of facts about the change. We don't need it as we
@@ -348,6 +349,9 @@ are simply making every change submittable. Note that, in this case, the Gerrit
 UI will not show the UI for voting for the standard `'Code-Review'` and
 `'Verified'` categories as labels with these names are not part of the return
 result. The `'Any-Label-Name'` could really be any string.
+
+Since `ok` and `reject` need a valid user, we are using the "current user", the
+reviewer of the change to set this label to `ok`.
 
 === Example 2: Every change submittable and voting in the standard categories possible
 This is continuation of the previous example where, in addition, to making
@@ -358,8 +362,9 @@ every change submittable we want to enable voting in the standard
 [source,prolog]
 ----
 submit_rule(submit(CR, V)) :-
-    CR = label('Code-Review', ok(_)),
-    V = label('Verified', ok(_)).
+    gerrit:current_user(User),
+    CR = label('Code-Review', ok(User)),
+    V = label('Verified', ok(User)).
 ----
 
 Since for every change all label statuses are `'ok'` every change will be
@@ -373,13 +378,13 @@ votes they have.
 `rules.pl`
 [source,prolog]
 ----
-submit_rule(submit(R)) :-
-    R = label('Any-Label-Name', reject(_)).
+submit_rule(submit(Reject)) :-
+    gerrit:current_user(User),
+    Reject = label('Any-Label-Name', reject(User)).
 ----
 
 Since for any change we return only one label with status `reject`, no change
-will be submittable. The UI will, however, not indicate what is needed for a
-change to become submittable as we return no labels with status `need`.
+will be submittable. The UI only shows the 'Any-Label-Name' in red colored text.
 
 === Example 4: Nothing is submittable but UI shows several 'Need ...' criteria
 In this example no change is submittable but here we show how to present 'Need
@@ -428,7 +433,8 @@ submit_rule(submit(N)) :-
     N = label('Some-Condition', need(_)).
 
 submit_rule(submit(OK)) :-
-    OK = label('Another-Condition', ok(_)).
+    gerrit:current_user(User),
+    OK = label('Another-Condition', ok(User)).
 ----
 
 The `'Need Some-Condition'` will not be shown in the UI because of the result of
@@ -440,7 +446,8 @@ The same is valid if the two rules are swapped:
 [source,prolog]
 ----
 submit_rule(submit(OK)) :-
-    OK = label('Another-Condition', ok(_)).
+    gerrit:current_user(User),
+    OK = label('Another-Condition', ok(User)).
 
 submit_rule(submit(N)) :-
     N = label('Some-Condition', need(_)).
@@ -476,8 +483,9 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(_, 'John Doe', _),
-    Author = label('Author-is-John-Doe', ok(_)).
+    gerrit:current_user(User),
+    gerrit:commit_author(JohnDoe, 'John Doe','john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(JohnDoe)).
 ----
 
 In the second rule we return `ok` status for the `'Author-is-John-Doe'` label
@@ -497,8 +505,9 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(_, _, 'john.doe@example.com'),
-    Author = label('Author-is-John-Doe', ok(_)).
+    gerrit:current_user(User),
+    gerrit:commit_author(JohnDoe, 'John Doe', 'john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(JohnDoe)).
 ----
 
 or by user id (assuming it is `1000000`):
@@ -510,8 +519,9 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(user(1000000), _, _),
-    Author = label('Author-is-John-Doe', ok(_)).
+    gerrit:current_user(User),
+    gerrit:commit_author(JohnDoe, 'John Doe', 'john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(JohnDoe)).
 ----
 
 or by a combination of these 3 attributes:
@@ -523,8 +533,9 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(_, 'John Doe', 'john.doe@example.com'),
-    Author = label('Author-is-John-Doe', ok(_)).
+    gerrit:current_user(User),
+    gerrit:commit_author(JohnDoe, 'John Doe', 'john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(JohnDoe)).
 ----
 
 === Example 7: Make change submittable if commit message starts with "Fix "
@@ -549,8 +560,9 @@ submit_rule(submit(Fix)) :-
     Fix = label('Commit-Message-starts-with-Fix', need(_)).
 
 submit_rule(submit(Fix)) :-
+    gerrit:commit_author(Author),
     gerrit:commit_message(M), name(M, L), starts_with(L, "Fix "),
-    Fix = label('Commit-Message-starts-with-Fix', ok(_)).
+    Fix = label('Commit-Message-starts-with-Fix', ok(Author)).
 
 starts_with(L, []).
 starts_with([H|T1], [H|T2]) :- starts_with(T1, T2).
@@ -573,20 +585,22 @@ submit_rule(submit(Fix)) :-
     Fix = label('Commit-Message-starts-with-Fix', need(_)).
 
 submit_rule(submit(Fix)) :-
+    gerrit:commit_author(Author),
     gerrit:commit_message_matches('^Fix '),
-    Fix = label('Commit-Message-starts-with-Fix', ok(_)).
+    Fix = label('Commit-Message-starts-with-Fix', ok(Author)).
 ----
 
 The previous example could also be written so that it first checks if the commit
-message starts with 'Fix '. If true then it sets OK for that category and stops
-further backtracking by using the cut `!` operator:
+message starts with 'Fix '. If true then it sets `ok(User)` for that category
+and stops further backtracking by using the cut `!` operator:
 
 `rules.pl`
 [source,prolog]
 ----
 submit_rule(submit(Fix)) :-
+    gerrit:commit_author(Author),
     gerrit:commit_message_matches('^Fix '),
-    Fix = label('Commit-Message-starts-with-Fix', ok(_)),
+    Fix = label('Commit-Message-starts-with-Fix', ok(Author)),
     !.
 
 % Message does not start with 'Fix ' so Fix is needed to submit
@@ -667,6 +681,8 @@ exists or with status `need` if it doesn't exist.
 `rules.pl`
 [source,prolog]
 ----
+
+----
 submit_rule(S) :-
     gerrit:default_submit(X),
     X =.. [submit | Ls],
@@ -735,7 +751,7 @@ invokes the `gerrit:default_submit` and then modifies its result.
 Which of these two behaviors is desired will always depend on how a particular
 Gerrit server is managed.
 
-==== Example 9: Remove the `Verified` category
+=== Example 9: Remove the `Verified` category
 A project has no build and test. It consists of only text files and needs only
 code review.  We want to remove the `Verified` category from this project so
 that `Code-Review+2` is the only criteria for a change to become submittable.
@@ -751,7 +767,8 @@ submit_rule(submit(CR)) :-
     gerrit:max_with_block(-2, 2, 'Code-Review', CR).
 ----
 
-Implementing the same rule by reusing `gerrit:default_submit` is a bit more complex:
+Implementing the same rule by reusing `gerrit:default_submit` is a bit more
+complex:
 
 `rules.pl`
 [source,prolog]
@@ -804,6 +821,7 @@ submit_rule(submit(CR, N)) :-
 
 base(CR) :-
     gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+----
 ----
 
 === Example 11: Remove the `Verified` category from all projects
@@ -898,7 +916,8 @@ submit_rule(submit(CR, V)) :-
 
 % Sum the votes in a category. Uses a helper function score/2
 % to select out only the score values the given category.
-sum(VotesNeeded, Category, label(Category, ok(_))) :-
+sum(VotesNeeded, Category, label(Category, ok(CurrentUser))) :-
+    gerrit:current_user(CurrentUser),
     findall(Score, score(Category, Score), All),
     sum_list(All, Sum),
     Sum >= VotesNeeded,
@@ -928,6 +947,7 @@ review by the associated `master`.
 % master_apprentice(Master, Apprentice).
 % Extend this with appropriate user-id for your master/apprentice setup.
 master_apprentice(user(1000064), user(1000000)).
+
 
 submit_rule(S) :-
     gerrit:default_submit(In),

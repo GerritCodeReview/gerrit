@@ -87,6 +87,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
             IdentifiedUser uploader =
                 args.identifiedUserFactory.create(args.mergeUtil
                     .getSubmitter(n).getAccountId());
+            // TODO: use batch; need to pass into patchsetinserter
             PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.getPatchsetId(), n.change(), uploader,

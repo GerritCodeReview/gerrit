@@ -76,17 +76,19 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,6 +172,7 @@ public class MergeOp {
   private Repository repo;
   private RevWalk rw;
   private RevFlag canMergeFlag;
+  private ObjectId oldBranchTip;
   private CodeReviewCommit branchTip;
   private MergeTip mergeTip;
   private ObjectInserter inserter;
@@ -257,7 +260,7 @@ public class MergeOp {
       openSchema();
       openRepository();
 
-      RefUpdate branchUpdate = openBranch();
+      BatchRefUpdate branchUpdate = openBranch();
       boolean reopen = false;
 
       ListMultimap<SubmitType, Change> toSubmit =
@@ -276,9 +279,9 @@ public class MergeOp {
             logDebug("Reopening branch");
             branchUpdate = openBranch();
           }
-          SubmitStrategy strategy = createStrategy(submitType);
+          SubmitStrategy strategy = createStrategy(submitType, branchUpdate);
           MergeTip mergeTip = preMerge(strategy, toMerge.get(submitType));
-          RefUpdate update = updateBranch(strategy, branchUpdate);
+          BatchRefUpdate update = updateBranch(strategy, branchUpdate);
           reopen = true;
 
           updateChangeStatus(toSubmit.get(submitType), mergeTip);
@@ -414,10 +417,11 @@ public class MergeOp {
     return mergeTip;
   }
 
-  private SubmitStrategy createStrategy(SubmitType submitType)
+  private SubmitStrategy createStrategy(SubmitType submitType,
+      BatchRefUpdate branchUpdate)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
+        canMergeFlag, branchUpdate, getAlreadyAccepted(branchTip), destBranch);
   }
 
   private void openRepository() throws MergeException, NoSuchProjectException {
@@ -437,16 +441,16 @@ public class MergeOp {
     canMergeFlag = rw.newFlag("CAN_MERGE");
   }
 
-  private RefUpdate openBranch()
+  private BatchRefUpdate openBranch()
       throws MergeException, OrmException, NoSuchChangeException {
     try {
-      RefUpdate branchUpdate = repo.updateRef(destBranch.get());
-      if (branchUpdate.getOldObjectId() != null) {
-        branchTip =
-            (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
+      BatchRefUpdate branchUpdate = repo.getRefDatabase().newBatchUpdate();
+      Ref oldRef = repo.getRef(destBranch.get());
+      oldBranchTip = oldRef != null ? oldRef.getObjectId() : ObjectId.zeroId();
+      if (!ObjectId.zeroId().equals(oldBranchTip)) {
+        branchTip = (CodeReviewCommit) rw.parseCommit(oldBranchTip);
       } else if (repo.getFullBranch().equals(destBranch.get())) {
         branchTip = null;
-        branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
       } else {
         for (ChangeData cd : queryProvider.get().submitted(destBranch)) {
           try {
@@ -647,8 +651,8 @@ public class MergeOp {
     }
   }
 
-  private RefUpdate updateBranch(SubmitStrategy strategy,
-      RefUpdate branchUpdate) throws MergeException {
+  private BatchRefUpdate updateBranch(SubmitStrategy strategy,
+      BatchRefUpdate branchUpdate) throws MergeException {
     CodeReviewCommit currentTip =
         mergeTip != null ? mergeTip.getCurrentTip() : null;
     if (branchTip == currentTip) {
@@ -660,7 +664,7 @@ public class MergeOp {
       return null;
     }
 
-    if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
+    if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
       logDebug("Loading new configuration from {}", RefNames.REFS_CONFIG);
       try {
         ProjectConfig cfg =
@@ -679,25 +683,28 @@ public class MergeOp {
     }
 
     branchUpdate.setRefLogIdent(refLogIdent);
-    branchUpdate.setForceUpdate(false);
-    branchUpdate.setNewObjectId(currentTip);
+    branchUpdate.setAllowNonFastForwards(false);
+    // TODO(dborowitz): This message is also used by all new patch set ref
+    // updates; find a better wording that works for that case too.
     branchUpdate.setRefLogMessage("merged", true);
+    ReceiveCommand cmd =
+        new ReceiveCommand(oldBranchTip, currentTip, destBranch.get());
+    branchUpdate.addCommand(cmd);
+
     try {
-      RefUpdate.Result result = branchUpdate.update(rw);
-      logDebug("Update of {}: {}..{} returned status {}",
-          branchUpdate.getName(), branchUpdate.getOldObjectId(),
-          branchUpdate.getNewObjectId(), result);
-      switch (result) {
-        case NEW:
-        case FAST_FORWARD:
-          if (branchUpdate.getResult() == RefUpdate.Result.FAST_FORWARD) {
+      branchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+      // TODO(dborowitz): Add toString to BatchRefUpdate.
+      logDebug("Executed batch update: {}", branchUpdate);
+      switch (cmd.getResult()) {
+        case OK:
+          if (cmd.getType() == ReceiveCommand.Type.UPDATE) {
             tagCache.updateFastForward(destBranch.getParentKey(),
-                branchUpdate.getName(),
-                branchUpdate.getOldObjectId(),
+                destBranch.get(),
+                oldBranchTip,
                 currentTip);
           }
 
-          if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
+          if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
             Project p = destProject.getProject();
             projectCache.evict(p);
             destProject = projectCache.get(p.getNameKey());
@@ -716,20 +723,26 @@ public class MergeOp {
           } else {
             msg = "will not retry";
           }
-          throw new IOException(branchUpdate.getResult().name() + ", " + msg);
+          throw new IOException(cmd.getResult().name() + ", " + msg);
         default:
-          throw new IOException(branchUpdate.getResult().name());
+          throw new IOException(cmd.getResult().name());
       }
     } catch (IOException e) {
-      throw new MergeException("Cannot update " + branchUpdate.getName(), e);
+      throw new MergeException("Cannot update " + destBranch.get(), e);
     }
   }
 
-  private void fireRefUpdated(RefUpdate branchUpdate) {
-    logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
+  private void fireRefUpdated(BatchRefUpdate branchUpdate) {
+    logDebug("Firing ref updated hooks for {}", destBranch.get());
     gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
-    hooks.doRefUpdatedHook(destBranch, branchUpdate,
-        getAccount(mergeTip.getCurrentTip()));
+    Account account = getAccount(mergeTip.getCurrentTip());
+    for (ReceiveCommand cmd : branchUpdate.getCommands()) {
+      if (cmd.getRefName().equals(destBranch.get())) {
+        hooks.doRefUpdatedHook(
+            destBranch, cmd.getOldId(), cmd.getNewId(), account);
+        break;
+      }
+    }
   }
 
   private Account getAccount(CodeReviewCommit codeReviewCommit) {

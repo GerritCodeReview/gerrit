@@ -76,4 +76,8 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
     GlobalKey.dialog(this);
     cancelButton.setFocus(true);
   }
+
+  public void setCancelVisible(boolean visible) {
+    cancelButton.setVisible(visible);
+  }
 }

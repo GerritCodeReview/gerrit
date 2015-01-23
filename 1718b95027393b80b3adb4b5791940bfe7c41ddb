@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8b4287da_ffcc3fcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-23T00:59:11Z",
+      "side": 1,
+      "message": "Yeah, thanks for pointing that out.  I don\u0027t know why i didn\u0027t notice that before. I\u0027ve fixed it so that args.group is passed into formatLabel method.",
+      "parentUuid": "4bdc0f30_fde2472d",
+      "range": {
+        "startLine": 46,
+        "startChar": 24,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "1718b95027393b80b3adb4b5791940bfe7c41ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bdc0f30_dde58b38",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
         "patchSetId": 3

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -22,6 +24,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.project.ChangeControl;
@@ -76,19 +80,22 @@ public class CatServlet extends HttpServlet {
   private final FileTypeRegistry registry;
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControl;
+  private final ChangeEditUtil changeEditUtil;
 
   @Inject
   CatServlet(GitRepositoryManager grm,
       Provider<ReviewDb> sf,
       FileTypeRegistry ftr,
       ChangeControl.GenericFactory ccf,
-      Provider<CurrentUser> usrprv) {
+      Provider<CurrentUser> usrprv,
+      ChangeEditUtil ceu) {
     requestDb = sf;
     repoManager = grm;
     rng = new SecureRandom();
     registry = ftr;
     changeControl = ccf;
     userProvider = usrprv;
+    changeEditUtil = ceu;
   }
 
   @Override
@@ -143,17 +150,35 @@ public class CatServlet extends HttpServlet {
 
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final Project project;
-    final PatchSet patchSet;
+    final String revision;
     try {
       final ReviewDb db = requestDb.get();
       final ChangeControl control = changeControl.validateFor(changeId,
           userProvider.get());
 
       project = control.getProject();
-      patchSet = db.patchSets().get(patchKey.getParentKey());
-      if (patchSet == null) {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-        return;
+
+      if (patchKey.getParentKey().get() == 0) {
+        // change edit
+        try {
+          Optional<ChangeEdit> edit = changeEditUtil.byChange(control.getChange());
+          if (edit.isPresent()) {
+            revision = edit.get().getRevision().get();
+          } else {
+            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+          }
+        } catch (AuthException e) {
+          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          return;
+        }
+      } else {
+        PatchSet patchSet = db.patchSets().get(patchKey.getParentKey());
+        if (patchSet == null) {
+          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          return;
+        }
+        revision = patchSet.getRevision().get();
       }
     } catch (NoSuchChangeException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -184,7 +209,7 @@ public class CatServlet extends HttpServlet {
         final RevCommit c;
         final TreeWalk tw;
 
-        c = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+        c = rw.parseCommit(ObjectId.fromString(revision));
         if (side == 0) {
           fromCommit = c;
           suffix = "new";

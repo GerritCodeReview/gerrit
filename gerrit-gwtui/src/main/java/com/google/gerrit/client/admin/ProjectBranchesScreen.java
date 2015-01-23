@@ -31,10 +31,12 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -48,12 +50,14 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -67,15 +71,63 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectBranchesScreen extends ProjectScreen {
+  private Hyperlink prev;
+  private Hyperlink next;
   private BranchesTable branchTable;
   private Button delBranch;
   private Button addBranch;
   private HintTextBox nameTxtBox;
   private HintTextBox irevTxtBox;
   private FlowPanel addPanel;
+  private int pageSize;
+  private int start;
+  private Query query;
+  private String branchName;
 
   public ProjectBranchesScreen(final Project.NameKey toShow) {
     super(toShow);
+    configurePageSize();
+  }
+
+  private void configurePageSize() {
+    if (Gerrit.isSignedIn()) {
+      AccountGeneralPreferences p =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      short m = p.getMaximumPageSize();
+      pageSize = 0 < m ? m : AccountGeneralPreferences.DEFAULT_PAGESIZE;
+    } else {
+    pageSize = AccountGeneralPreferences.DEFAULT_PAGESIZE;
+    }
+  }
+
+  private void parseToken() {
+    String token = getToken();
+
+    for (String kvPair : token.split("[,;&/?]")) {
+      String[] kv = kvPair.split("=", 2);
+      if (kv.length != 2 || kv[0].isEmpty()) {
+        continue;
+      }
+
+      if ("skip".equals(kv[0])
+          && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
+        start = Integer.parseInt(URL.decodeQueryString(kv[1]));
+      }
+    }
+  }
+
+  private void setupNavigationLink(Hyperlink link, int skip) {
+    link.setTargetHistoryToken(getTokenForScreen(skip));
+    link.setVisible(true);
+  }
+
+  private String getTokenForScreen(int skip) {
+    String token = PageLinks.toProjectBranches(getProjectKey());
+
+    if (skip > 0) {
+      token += "?skip=" + skip;
+    }
+    return token;
   }
 
   @Override
@@ -89,26 +141,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
             addPanel.setVisible(result.canAddRefs());
           }
         });
-    refreshBranches();
+    query = new Query().start(start).run();
     savedPanel = BRANCH;
-  }
-
-  private void refreshBranches() {
-    ProjectApi.getBranches(getProjectKey(),
-        new ScreenLoadCallback<JsArray<BranchInfo>>(this) {
-          @Override
-          public void preDisplay(final JsArray<BranchInfo> result) {
-            Set<String> checkedRefs = branchTable.getCheckedRefs();
-            display(Natives.asList(result));
-            branchTable.setChecked(checkedRefs);
-            updateForm();
-          }
-        });
-  }
-
-  private void display(final List<BranchInfo> branches) {
-    branchTable.display(branches);
-    delBranch.setVisible(branchTable.hasBranchCanDelete());
   }
 
   private void updateForm() {
@@ -121,12 +155,19 @@ public class ProjectBranchesScreen extends ProjectScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
+    parseToken();
+
+    prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
+    prev.setVisible(false);
+
+    next = new Hyperlink(Util.C.pagedListNext(), true, "");
+    next.setVisible(false);
 
     addPanel = new FlowPanel();
 
-    final Grid addGrid = new Grid(2, 2);
+    Grid addGrid = new Grid(2, 2);
     addGrid.setStyleName(Gerrit.RESOURCES.css().addBranch());
-    final int texBoxLength = 50;
+    int texBoxLength = 50;
 
     nameTxtBox = new HintTextBox();
     nameTxtBox.setVisibleLength(texBoxLength);
@@ -159,7 +200,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     addBranch = new Button(Util.C.buttonAddBranch());
     addBranch.addClickHandler(new ClickHandler() {
       @Override
-      public void onClick(final ClickEvent event) {
+      public void onClick(ClickEvent event) {
         doAddNewBranch();
       }
     });
@@ -171,24 +212,28 @@ public class ProjectBranchesScreen extends ProjectScreen {
     delBranch = new Button(Util.C.buttonDeleteBranch());
     delBranch.addClickHandler(new ClickHandler() {
       @Override
-      public void onClick(final ClickEvent event) {
+      public void onClick(ClickEvent event) {
         branchTable.deleteChecked();
       }
     });
-
+    HorizontalPanel buttons = new HorizontalPanel();
+    buttons.setSpacing(10);
+    buttons.add(delBranch);
+    buttons.add(prev);
+    buttons.add(next);
     add(branchTable);
-    add(delBranch);
+    add(buttons);
     add(addPanel);
   }
 
   private void doAddNewBranch() {
-    final String branchName = nameTxtBox.getText().trim();
+    branchName = nameTxtBox.getText().trim();
     if ("".equals(branchName)) {
       nameTxtBox.setFocus(true);
       return;
     }
 
-    final String rev = irevTxtBox.getText().trim();
+    String rev = irevTxtBox.getText().trim();
     if ("".equals(rev)) {
       irevTxtBox.setText("HEAD");
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -206,6 +251,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
         new GerritCallback<BranchInfo>() {
           @Override
           public void onSuccess(BranchInfo branch) {
+            showAddedBranch(branch);
             addBranch.setEnabled(true);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
@@ -213,21 +259,44 @@ public class ProjectBranchesScreen extends ProjectScreen {
             delBranch.setVisible(branchTable.hasBranchCanDelete());
           }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        addBranch.setEnabled(true);
-        selectAllAndFocus(nameTxtBox);
-        new ErrorDialog(caught.getMessage()).center();
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            addBranch.setEnabled(true);
+            selectAllAndFocus(nameTxtBox);
+            new ErrorDialog(caught.getMessage()).center();
+          }
+        });
   }
 
-  private static void selectAllAndFocus(final TextBox textBox) {
+  void showAddedBranch(BranchInfo branch) {
+
+    SafeHtmlBuilder b = new SafeHtmlBuilder();
+    b.openElement("b");
+    b.append(Gerrit.C.branchCreationConfirmationMessage());
+    b.closeElement("b");
+
+    b.openElement("p");
+    b.append(branch.ref());
+    b.closeElement("p");
+
+    ConfirmationDialog confirmationDialog =
+        new ConfirmationDialog(Gerrit.C.branchCreationDialogTitle(),
+            b.toSafeHtml(), new ConfirmationCallback() {
+      @Override
+      public void onOk() {
+        //do nothing
+      }
+    });
+    confirmationDialog.setCancelVisible(false);
+    confirmationDialog.center();
+  }
+
+  private static void selectAllAndFocus(TextBox textBox) {
     textBox.selectAll();
     textBox.setFocus(true);
   }
 
-  private class BranchesTable extends FancyFlexTable<BranchInfo> {
+  private class BranchesTable extends NavigationTable<BranchInfo> {
     private ValueChangeHandler<Boolean> updateDeleteHandler;
     boolean canDelete;
 
@@ -236,7 +305,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       table.setText(0, 2, Util.C.columnBranchName());
       table.setText(0, 3, Util.C.columnBranchRevision());
 
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
@@ -250,10 +319,31 @@ public class ProjectBranchesScreen extends ProjectScreen {
       };
     }
 
+    void insert(BranchInfo info) {
+      if (table.getRowCount() < pageSize){
+        Comparator<BranchInfo> c = new Comparator<BranchInfo>() {
+          @Override
+          public int compare(BranchInfo a, BranchInfo b) {
+            return a.ref().compareTo(b.ref());
+          }
+        };
+        int insertPos = getInsertRow(c, info);
+        if (insertPos >= 0) {
+          table.insertRow(insertPos);
+          applyDataRowStyle(insertPos);
+          populate(insertPos, info);
+        }
+      } else {
+        next.setVisible(true);
+        setupNavigationLink(next, ProjectBranchesScreen.this.start + pageSize);
+        return;
+      }
+    }
+
     Set<String> getCheckedRefs() {
       Set<String> refs = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final BranchInfo k = getRowItem(row);
+        BranchInfo k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           refs.add(k.ref());
@@ -264,7 +354,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
     void setChecked(Set<String> refs) {
       for (int row = 1; row < table.getRowCount(); row++) {
-        final BranchInfo k = getRowItem(row);
+        BranchInfo k = getRowItem(row);
         if (k != null && refs.contains(k.ref()) &&
             table.getWidget(row, 1) instanceof CheckBox) {
           ((CheckBox) table.getWidget(row, 1)).setValue(true);
@@ -332,43 +422,32 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
             @Override
             public void onFailure(Throwable caught) {
-              refreshBranches();
+              query = new Query().start(start).run();
               super.onFailure(caught);
             }
           });
     }
 
     void display(List<BranchInfo> branches) {
+      displaySubset(branches, 0, branches.size());
+    }
+
+    void displaySubset(List<BranchInfo> branches, int fromIndex, int toIndex) {
       canDelete = false;
 
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final BranchInfo k : branches) {
-        final int row = table.getRowCount();
+      for (BranchInfo k : branches.subList(fromIndex, toIndex)) {
+        int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
         populate(row, k);
       }
     }
 
-    void insert(BranchInfo info) {
-      Comparator<BranchInfo> c = new Comparator<BranchInfo>() {
-        @Override
-        public int compare(BranchInfo a, BranchInfo b) {
-          return a.ref().compareTo(b.ref());
-        }
-      };
-      int insertPos = getInsertRow(c, info);
-      if (insertPos >= 0) {
-        table.insertRow(insertPos);
-        applyDataRowStyle(insertPos);
-        populate(insertPos, info);
-      }
-    }
-
     void populate(int row, BranchInfo k) {
-      final GitwebLink c = Gerrit.getGitwebLink();
+      GitwebLink c = Gerrit.getGitwebLink();
 
       if (k.canDelete()) {
         CheckBox sel = new CheckBox();
@@ -397,8 +476,22 @@ public class ProjectBranchesScreen extends ProjectScreen {
             c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));
       }
       if (k.web_links() != null) {
-        for (WebLinkInfo webLink : Natives.asList(k.web_links())) {
-          actionsPanel.add(webLink.toAnchor());
+        for (WebLinkInfo weblink : Natives.asList(k.web_links())) {
+          Anchor a = new Anchor();
+          a.setHref(weblink.url());
+          if (weblink.target() != null && !weblink.target().isEmpty()) {
+            a.setTarget(weblink.target());
+          }
+          if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
+            Image img = new Image();
+            img.setAltText(weblink.name());
+            img.setUrl(weblink.imageUrl());
+            img.setTitle(weblink.name());
+            a.getElement().appendChild(img.getElement());
+          } else {
+            a.setText("(" + weblink.name() + ")");
+          }
+          actionsPanel.add(a);
         }
       }
       if (k.actions() != null) {
@@ -409,7 +502,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
       table.setWidget(row, 4, actionsPanel);
 
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      FlexCellFormatter fmt = table.getFlexCellFormatter();
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
       if (RefNames.REFS_CONFIG.equals(k.getShortName())
@@ -462,7 +555,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       OnEditEnabler e = new OnEditEnabler(save);
       e.listenTo(input);
 
-      edit.addClickHandler(new  ClickHandler() {
+      edit.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
           l.setVisible(false);
@@ -472,7 +565,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
           cancel.setVisible(true);
         }
       });
-      save.addClickHandler(new  ClickHandler() {
+      save.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
           save.setEnabled(false);
@@ -491,7 +584,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
           });
         }
       });
-      cancel.addClickHandler(new  ClickHandler() {
+      cancel.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
           l.setVisible(true);
@@ -529,6 +622,80 @@ public class ProjectBranchesScreen extends ProjectScreen {
         }
       }
       delBranch.setEnabled(on);
+    }
+
+    @Override
+    protected void onOpenRow(int row) {
+      if (row > 0) {
+        movePointerTo(row);
+      }
+    }
+
+    @Override
+    protected Object getRowItemKey(BranchInfo item) {
+      return item.ref();
+    }
+  }
+
+  private class Query {
+    private int qStart;
+    private boolean open;
+
+    Query start(int start) {
+      this.qStart = start;
+      return this;
+    }
+
+    Query run() {
+      // Retrieve one more branch than page size to determine if there are more
+      // branches to display
+      ProjectApi.getBranches(getProjectKey(), pageSize + 1, qStart,
+              new ScreenLoadCallback<JsArray<BranchInfo>>(ProjectBranchesScreen.this) {
+                @Override
+                public void preDisplay(JsArray<BranchInfo> result) {
+                  if (!isAttached()) {
+                    // View has been disposed.
+                  } else if (query == Query.this) {
+                    query = null;
+                    showList(result);
+                  } else {
+                    query.run();
+                  }
+                }
+          });
+      return this;
+    }
+
+    void showList(JsArray<BranchInfo> result) {
+      if (open && (result.length() != 0)) {
+        Gerrit.display(PageLinks.toProjectBranches(getProjectKey()));
+        return;
+      }
+      setToken(getTokenForScreen(qStart));
+      ProjectBranchesScreen.this.start = qStart;
+
+      if (result.length() <= pageSize) {
+        branchTable.display(Natives.asList(result));
+        next.setVisible(false);
+      } else {
+        branchTable.displaySubset(Natives.asList(result), 0,
+            result.length() - 1);
+        setupNavigationLink(next, qStart + pageSize);
+      }
+      if (qStart > 0) {
+        setupNavigationLink(prev, qStart - pageSize);
+      } else {
+        prev.setVisible(false);
+      }
+
+      delBranch.setVisible(branchTable.hasBranchCanDelete());
+      Set<String> checkedRefs = branchTable.getCheckedRefs();
+      branchTable.setChecked(checkedRefs);
+      updateForm();
+
+      if (!isCurrentView()) {
+        display();
+      }
     }
   }
 }

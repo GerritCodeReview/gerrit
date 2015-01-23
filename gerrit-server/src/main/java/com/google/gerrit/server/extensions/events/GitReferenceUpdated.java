@@ -19,8 +19,10 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +61,14 @@ public class GitReferenceUpdated {
         l.onGitReferenceUpdated(event);
       } catch (RuntimeException e) {
         log.warn("Failure in GitReferenceUpdatedListener", e);
+      }
+    }
+  }
+
+  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate) {
+    for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
+      if (cmd.getResult() == ReceiveCommand.Result.OK) {
+        fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId());
       }
     }
   }

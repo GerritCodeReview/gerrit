@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be05712_8b282daa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-23T16:38:54Z",
+      "side": 1,
+      "message": "Navigation link placement:\n\nhttp://i.imgur.com/GwgNsK8.png",
+      "revId": "9d6415d70846d2f2ce7d76375e5bf5cf8365abdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

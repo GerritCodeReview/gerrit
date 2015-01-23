@@ -267,7 +267,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
       List<ChangeData> changesByTopic = null;
       try {
-        changesByTopic = queryProvider.get().byTopic(topic);
+        changesByTopic = queryProvider.get().byTopicOpen(topic);
       } catch (OrmException e) {
         throw new OrmRuntimeException(e);
       }
@@ -378,7 +378,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
 
-    List<ChangeData> changesByTopic = queryProvider.get().byTopic(topic);
+    List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
     try {
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.

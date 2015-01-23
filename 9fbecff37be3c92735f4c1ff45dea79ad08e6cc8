@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4bffafb8_c5597a52",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-23T16:01:47Z",
+      "side": 1,
+      "message": "Tested. Yes, it works, so, basically it is a cross-reference on the same page.",
+      "parentUuid": "4b440fe9_9d7503bb",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 4
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b4287da_ff70bfcb",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-23T13:16:04Z",
       "side": 1,
       "message": "I think there\u0027s some markup you can add here to make it do syntax highlighting for the code, although I\u0027m not sure if it works for prolog.\n\nHave a look in the plugin documentation for some examples.",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 4
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b02b38e_268a9643",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-23T16:01:47Z",
+      "side": 1,
+      "message": "Done.\nThanks, works fine, actually, quite professional now ;) I also backticked the .rules.pl.\nDo you know if there is markup for specifying the filename, I tried \"file\" and \"title\" without success :(",
+      "parentUuid": "8b4287da_ff70bfcb",
       "range": {
         "startLine": 341,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6b02b38e_06879a3b",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-23T16:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b440fe9_bd7a3fa6",
+      "range": {
+        "startLine": 639,
+        "startChar": 0,
+        "endLine": 639,
+        "endChar": 2
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b4287da_9f75f3ba",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-23T13:16:04Z",
       "side": 1,
       "message": "Why is this changed?  Does it also need to be changed at line 972?",
+      "range": {
+        "startLine": 953,
+        "startChar": 41,
+        "endLine": 953,
+        "endChar": 63
+      },
+      "revId": "9fbecff37be3c92735f4c1ff45dea79ad08e6cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_a54e7e88",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-23T16:01:47Z",
+      "side": 1,
+      "message": "Done.\nAh, yes, I thought it was more intuitive name, when you see it in the UI.\n\nI think the change on 972 is in the next patch-set, missed that when I split it up :(",
+      "parentUuid": "8b4287da_9f75f3ba",
       "range": {
         "startLine": 953,
         "startChar": 41,

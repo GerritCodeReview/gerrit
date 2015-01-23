@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -392,6 +393,18 @@ public class ChangeField {
   public static String formatLabel(String label, int value, Account.Id accountId) {
     return label.toLowerCase() + (value >= 0 ? "+" : "") + value
         + (accountId != null ? "," + accountId.get() : "");
+  }
+
+  public static String formatLabel(String label, int value, Account.Id accountId,
+      AccountGroup.UUID groupId) {
+    String base = label.toLowerCase() + (value >= 0 ? "+" : "") + value;
+    if (accountId != null) {
+      return base + "," + accountId.get();
+    } else if (groupId != null) {
+      return base + "," + groupId.get();
+    } else {
+      return base;
+    }
   }
 
   /** Commit message of the current patch set. */

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b4287da_df429b71",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T09:01:16Z",
+      "side": 1,
+      "message": "Note that these two names both look the same here, but the accented `u` character is actually different.\n\nOn the left: ü\n\nOn the right: ü",
+      "revId": "587c7a235d3066ab242fc5a1eaa800741a55760c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4287da_3f15c75f",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T09:01:16Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure that these are the same person.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 75
+      },
+      "revId": "587c7a235d3066ab242fc5a1eaa800741a55760c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

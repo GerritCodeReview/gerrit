@@ -120,7 +120,7 @@ public class InternalChangeQuery {
 
   public List<ChangeData> byTopic(String topic)
       throws OrmException {
-    return query(topic(topic));
+    return query(and(topic(topic), open()));
   }
 
   private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {

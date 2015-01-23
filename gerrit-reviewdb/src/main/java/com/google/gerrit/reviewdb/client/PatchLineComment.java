@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gerrit.extensions.common.Comment.Range;
+import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 

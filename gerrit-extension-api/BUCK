@@ -1,31 +1,19 @@
 SRC = 'src/main/java/com/google/gerrit/extensions/'
 SRCS = glob([SRC + '**/*.java'])
 
-# TODO(davido): align this rule with package boundaries.
-# This would probably affect quite some plugins, though.
-CLIENT_SRCS = [SRC + n for n in [
-  'api/projects/ProjectState.java',
-  'common/ChangeStatus.java',
-  'common/Comment.java',
-  'common/InheritableBoolean.java',
-  'common/ListChangesOption.java',
-  'common/Side.java',
-  'common/SubmitType.java',
-  'common/Theme.java',
-  'webui/GerritTopMenu.java',
-]]
+EXT_API_SRCS = glob([SRC + 'client/*.java'])
 
 gwt_module(
   name = 'client',
-  srcs = glob(CLIENT_SRCS),
+  srcs = EXT_API_SRCS,
   gwt_xml = SRC + 'Extensions.gwt.xml',
   visibility = ['PUBLIC'],
 )
 
 java_library(
   name = 'client-lib',
-  srcs = glob(CLIENT_SRCS),
-  resources = glob(CLIENT_SRCS + [SRC + 'Extensions.gwt.xml']),
+  srcs = EXT_API_SRCS,
+  resources = EXT_API_SRCS + glob([SRC + 'Extensions.gwt.xml']),
   visibility = ['PUBLIC'],
 )
 

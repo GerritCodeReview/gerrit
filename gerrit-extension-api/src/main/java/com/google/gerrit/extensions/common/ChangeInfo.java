@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.client.ChangeStatus;
+
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;

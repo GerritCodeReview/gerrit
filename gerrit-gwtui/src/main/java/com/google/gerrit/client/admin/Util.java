@@ -15,8 +15,8 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.extensions.api.projects.ProjectState;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 

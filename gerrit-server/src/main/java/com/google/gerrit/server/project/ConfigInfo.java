@@ -17,9 +17,9 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
-import com.google.gerrit.extensions.common.InheritableBoolean;
-import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -47,7 +47,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo requireChangeId;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
-  public com.google.gerrit.extensions.api.projects.ProjectState state;
+  public com.google.gerrit.extensions.client.ProjectState state;
   public Map<String, Map<String, ConfigParameterInfo>> pluginConfig;
   public Map<String, ActionInfo> actions;
 
@@ -116,7 +116,7 @@ public class ConfigInfo {
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
     this.submitType = p.getSubmitType();
-    this.state = p.getState() != com.google.gerrit.extensions.api.projects.ProjectState.ACTIVE ? p.getState() : null;
+    this.state = p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE ? p.getState() : null;
 
     this.commentlinks = Maps.newLinkedHashMap();
     for (CommentLinkInfo cl : projectState.getCommentLinks()) {

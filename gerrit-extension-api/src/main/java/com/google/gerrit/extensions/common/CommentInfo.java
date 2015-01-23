@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.client.Comment;
+
 public class CommentInfo extends Comment {
   public AccountInfo author;
 }

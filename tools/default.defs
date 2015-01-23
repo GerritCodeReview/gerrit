@@ -127,20 +127,29 @@ def gerrit_plugin(
     srcs = mf_src,
     out = 'MANIFEST.MF',
   )
-  gwt_deps = []
   static_jars = []
   if gwt_module:
-    gwt_deps = GWT_PLUGIN_DEPS
     static_jars = [':%s-static-jar' % name]
   java_library(
     name = name + '__plugin',
     srcs = srcs,
     resources = resources,
     deps = deps,
-    provided_deps = ['//gerrit-%s-api:lib' % type] + provided_deps + gwt_deps,
+    provided_deps = ['//gerrit-%s-api:lib' % type] +
+      provided_deps +
+      GWT_PLUGIN_DEPS,
     visibility = ['PUBLIC'],
   )
   if gwt_module:
+    java_library(
+      name = name + '__gwt_module',
+      srcs = [],
+      resources = list(set(srcs + resources)),
+      deps = deps,
+      provided_deps = ['//lib/gwt:dev'] +
+        GWT_PLUGIN_DEPS,
+      visibility = ['PUBLIC'],
+    )
     prebuilt_jar(
       name = '%s-static-jar' % name,
       binary_jar = ':%s-static' % name,
@@ -157,8 +166,8 @@ def gerrit_plugin(
     gwt_binary(
       name = name + '__gwt_application',
       modules = [gwt_module],
-      deps = gwt_deps,
-      module_deps = [':%s__plugin' % name],
+      deps = GWT_PLUGIN_DEPS,
+      module_deps = [':%s__gwt_module' % name],
       local_workers = cpu_count(),
       strict = True,
       experimental_args = GWT_COMPILER_ARGS,

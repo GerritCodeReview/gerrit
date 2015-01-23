@@ -118,9 +118,9 @@ public class InternalChangeQuery {
     return query(and(project(project), open()));
   }
 
-  public List<ChangeData> byTopic(String topic)
+  public List<ChangeData> byTopicOpen(String topic)
       throws OrmException {
-    return query(topic(topic));
+    return query(and(topic(topic), open()));
   }
 
   private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {

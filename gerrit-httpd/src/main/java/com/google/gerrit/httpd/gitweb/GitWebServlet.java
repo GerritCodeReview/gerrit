@@ -29,6 +29,7 @@
 
 package com.google.gerrit.httpd.gitweb;
 
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.GitWebConfig;
@@ -80,6 +81,7 @@ class GitWebServlet extends HttpServlet {
       LoggerFactory.getLogger(GitWebServlet.class);
 
   private final Set<String> deniedActions;
+  private final Set<String> skipedActions;
   private final int bufferSize = 8192;
   private final File gitwebCgi;
   private final URI gitwebUrl;
@@ -103,6 +105,7 @@ class GitWebServlet extends HttpServlet {
     this.userProvider = userProvider;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
     this.deniedActions = new HashSet<>();
+    this.skipedActions = new HashSet<>();
 
     final String url = gitWebConfig.getUrl();
     if ((url != null) && (!url.equals("gitweb"))) {
@@ -119,8 +122,9 @@ class GitWebServlet extends HttpServlet {
 
     deniedActions.add("forks");
     deniedActions.add("opml");
-    deniedActions.add("project_list");
     deniedActions.add("project_index");
+
+    skipedActions.add("project_list");
 
     _env = new EnvList();
     makeSiteConfig(site, gerritConfig);
@@ -358,6 +362,13 @@ class GitWebServlet extends HttpServlet {
     }
 
     final Map<String, String> params = getParameters(req);
+
+    if (skipedActions.contains(params.get("a"))) {
+      rsp.sendRedirect(req.getContextPath() + "/#" + PageLinks.ADMIN_PROJECTS +
+          "?filter=" + params.get("pf"));
+      return;
+    }
+
     if (deniedActions.contains(params.get("a"))) {
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return;

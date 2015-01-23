@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 
 public class InheritedBoolean {
 

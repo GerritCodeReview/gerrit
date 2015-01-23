@@ -14,9 +14,9 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gerrit.extensions.api.projects.ProjectState;
-import com.google.gerrit.extensions.common.InheritableBoolean;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 

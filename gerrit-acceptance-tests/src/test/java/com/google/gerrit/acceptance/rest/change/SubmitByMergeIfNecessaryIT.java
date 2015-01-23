@@ -4,7 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.SubmitType;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;

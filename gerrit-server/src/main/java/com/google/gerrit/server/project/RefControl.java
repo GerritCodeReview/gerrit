@@ -22,7 +22,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
-import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;

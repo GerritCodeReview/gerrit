@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.SubmitType;
 
 import org.eclipse.jgit.lib.ObjectId;
 

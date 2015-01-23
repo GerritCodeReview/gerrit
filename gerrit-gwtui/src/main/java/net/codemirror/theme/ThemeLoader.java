@@ -14,7 +14,7 @@
 
 package net.codemirror.theme;
 
-import com.google.gerrit.extensions.common.Theme;
+import com.google.gerrit.extensions.client.Theme;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.resources.client.ExternalTextResource;
 import com.google.gwt.resources.client.ResourceCallback;

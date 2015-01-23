@@ -20,7 +20,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.http.client.URL;

@@ -18,8 +18,8 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;

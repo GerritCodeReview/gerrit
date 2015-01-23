@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.common.InheritableBoolean;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 

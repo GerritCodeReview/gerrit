@@ -45,7 +45,7 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
-import com.google.gerrit.extensions.webui.GerritTopMenu;
+import com.google.gerrit.extensions.client.GerritTopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;

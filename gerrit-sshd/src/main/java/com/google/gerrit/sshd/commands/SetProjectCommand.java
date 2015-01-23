@@ -16,9 +16,9 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.api.projects.ProjectState;
-import com.google.gerrit.extensions.common.InheritableBoolean;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;

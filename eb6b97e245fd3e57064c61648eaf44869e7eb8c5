@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b440fe9_5d0e9b59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/QueryChangesByLabelIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T06:53:39Z",
+      "side": 1,
+      "message": "Actually, some of the tests here are duplicate of tests in `AbstractQueryChangesTest.byLabel()`\n\nI suggest adding the new ones in there instead of creating this new file.\n\nAlso note that the byLabel test is broken by this change.",
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4287da_1fffa3bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-23T06:53:39Z",
+      "side": 1,
+      "message": "This method never gets called, even in the byLabel test which has some tests with groups.",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 63
+      },
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

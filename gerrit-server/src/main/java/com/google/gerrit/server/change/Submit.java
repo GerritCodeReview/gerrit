@@ -397,7 +397,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   public Change submit(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
-    if (submitWholeTopic) {
+    String topic = rsrc.getChange().getTopic();
+    if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
       return submitWholeTopic(rsrc, caller, force);
     } else {
       return submitThisChange(rsrc, caller, force);

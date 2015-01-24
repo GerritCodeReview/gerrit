@@ -17,6 +17,7 @@ package com.google.gerrit.client.editor;
 import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
 import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
 
+import com.google.gerrit.client.DiffWebLinkInfo;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
@@ -32,6 +33,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.HttpResponse;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -85,6 +87,7 @@ public class EditScreen extends Screen {
   private DiffPreferences prefs;
   private CodeMirror cm;
   private HttpResponse<NativeString> content;
+  private ChangeEditInfo info;
 
   @UiField Element header;
   @UiField Element project;
@@ -123,7 +126,7 @@ public class EditScreen extends Screen {
     super.onLoad();
 
     CallbackGroup group1 = new CallbackGroup();
-    CallbackGroup group2 = new CallbackGroup();
+    final CallbackGroup group2 = new CallbackGroup();
     final CallbackGroup group3 = new CallbackGroup();
 
     CodeMirror.initLibrary(group1.add(new AsyncCallback<Void>() {
@@ -158,8 +161,35 @@ public class EditScreen extends Screen {
           final AsyncCallback<Void> modeCallback = group3.addEmpty();
 
           @Override
-          public void onSuccess(HttpResponse<NativeString> fc) {
+          public void onSuccess(final HttpResponse<NativeString> fc) {
             content = fc;
+            if (revision.get() == 0) {
+              ChangeEditApi.getMeta(revision, path,
+                  new AsyncCallback<ChangeEditInfo>() {
+                    @Override
+                    public void onSuccess(ChangeEditInfo editInfo) {
+                      processSuccess(fc, editInfo);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e) {
+                      processFailure(e);
+                    }
+                  });
+            } else {
+              processSuccess(fc, null);
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable e) {
+            processFailure(e);
+          }
+
+          private void processSuccess(
+              final HttpResponse<NativeString> fc,
+              ChangeEditInfo editInfo) {
+            info = editInfo;
             if (prefs.syntaxHighlighting()) {
               injectMode(fc.getContentType(), modeCallback);
             } else {
@@ -167,8 +197,7 @@ public class EditScreen extends Screen {
             }
           }
 
-          @Override
-          public void onFailure(Throwable e) {
+          public void processFailure(Throwable e) {
             // "Not Found" means it's a new file.
             if (RestApi.isNotFound(e)) {
               content = null;
@@ -182,7 +211,7 @@ public class EditScreen extends Screen {
     group3.addListener(new ScreenLoadCallback<Void>(this) {
       @Override
       protected void preDisplay(Void result) {
-        initEditor(content);
+        initEditor(content, info);
         content = null;
       }
     });
@@ -301,7 +330,8 @@ public class EditScreen extends Screen {
     Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
-  private void initEditor(HttpResponse<NativeString> file) {
+  private void initEditor(HttpResponse<NativeString> file,
+      ChangeEditInfo info) {
     ModeInfo mode = null;
     String content = "";
     if (file != null) {
@@ -310,7 +340,7 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(file.getContentType(), path);
       }
     }
-    renderLinks();
+    renderLinks(info);
     cm = CodeMirror.create(editor, Configuration.create()
         .set("value", content)
         .set("readOnly", false)
@@ -330,9 +360,17 @@ public class EditScreen extends Screen {
         .on("Ctrl-S", save()));
   }
 
-  private void renderLinks() {
+  private void renderLinks(ChangeEditInfo info) {
     for (InlineHyperlink link : getLinks()) {
       linkPanel.add(link);
+    }
+    if (info != null) {
+      List<DiffWebLinkInfo> diffWebLinks = Natives.asList(info.web_links());
+      if (diffWebLinks != null) {
+        for (DiffWebLinkInfo webLink : diffWebLinks) {
+          linkPanel.add(webLink.toAnchor());
+        }
+      }
     }
   }
 

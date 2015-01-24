@@ -355,7 +355,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   public void display(final CommentDetail cd, boolean expandComments) {
-    if (cd.isEmpty()) {
+    if (cd == null || cd.isEmpty()) {
       return;
     }
     setAccountInfoCache(cd.getAccounts());

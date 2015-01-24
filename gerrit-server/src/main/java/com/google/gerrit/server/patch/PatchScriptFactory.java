@@ -86,6 +86,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchSet.Id psb;
   private final AccountDiffPreference diffPrefs;
   private final ChangeEditUtil editReader;
+  private Optional<ChangeEdit> edit;
 
   private final Change.Id changeId;
   private boolean loadHistory = true;
@@ -231,7 +232,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private ObjectId getEditRev() throws AuthException,
       NoSuchChangeException, IOException {
-    Optional<ChangeEdit> edit = editReader.byChange(change);
+    edit = editReader.byChange(change);
     if (edit.isPresent()) {
       return edit.get().getRef().getObjectId();
     }
@@ -284,9 +285,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         history.add(p);
         byKey.put(p.getKey(), p);
       }
+      if (edit != null && edit.isPresent()) {
+        final Patch p = new Patch(new Patch.Key(
+            new PatchSet.Id(psb.getParentKey(), 0), fileName));
+        history.add(p);
+        byKey.put(p.getKey(), p);
+      }
     }
 
-    if (loadComments) {
+    if (loadComments && edit == null) {
       final AccountInfoCacheFactory aic = aicFactory.create();
       comments = new CommentDetail(psa, psb);
       switch (changeType) {

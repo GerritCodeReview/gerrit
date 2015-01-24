@@ -16,7 +16,9 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
@@ -39,6 +41,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
@@ -56,6 +59,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.List;
 
 @Singleton
 public class ChangeEdits implements
@@ -447,6 +451,39 @@ public class ChangeEdits implements
       } catch (ResourceNotFoundException rnfe) {
         return Response.none();
       }
+    }
+  }
+
+  @Singleton
+  static class GetMeta implements RestReadView<ChangeEditResource> {
+    private final WebLinks webLinks;
+
+    @Inject
+    GetMeta(WebLinks webLinks) {
+      this.webLinks = webLinks;
+    }
+
+    @Override
+    public ChangeEditMetaInfo apply(ChangeEditResource rsrc) {
+      ChangeEditMetaInfo r = new ChangeEditMetaInfo();
+      ChangeEdit edit = rsrc.getChangeEdit();
+      Change change = edit.getChange();
+      FluentIterable<DiffWebLinkInfo> links =
+          webLinks.getDiffLinks(change.getProject().get(),
+              change.getChangeId(),
+              edit.getBasePatchSet().getPatchSetId(),
+              edit.getBasePatchSet().getRefName(),
+              rsrc.getPath(),
+              0,
+              edit.getRefName(),
+              rsrc.getPath());
+      r.webLinks = links.isEmpty() ? null : links.toList();
+      return r;
+    }
+
+    public static class ChangeEditMetaInfo {
+      // Links to the file diff (e.g. x-docs plugin)
+      public List<DiffWebLinkInfo> webLinks;
     }
   }
 

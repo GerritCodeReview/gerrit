@@ -113,6 +113,7 @@ public class Module extends RestApiModule {
     put(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Put.class);
     delete(CHANGE_EDIT_KIND).to(ChangeEdits.DeleteContent.class);
     get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
+    get(CHANGE_EDIT_KIND, "meta").to(ChangeEdits.GetMeta.class);
 
     install(new FactoryModule() {
       @Override

@@ -647,7 +647,7 @@ public class Dispatcher {
       @Override
       public void onSuccess() {
         Gerrit.display(token, edit
-            ? new EditScreen(id, line)
+            ? new EditScreen(baseId, id, line)
             : new SideBySide(baseId, id.getParentKey(), id.get(), side, line));
       }
     });

@@ -17,6 +17,7 @@ package com.google.gerrit.client.editor;
 import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
 import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
 
+import com.google.gerrit.client.DiffWebLinkInfo;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
@@ -24,6 +25,8 @@ import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.diff.DiffApi;
+import com.google.gerrit.client.diff.DiffInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
 import com.google.gerrit.client.patches.PatchUtil;
@@ -32,6 +35,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.HttpResponse;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -85,6 +89,8 @@ public class EditScreen extends Screen {
   private DiffPreferences prefs;
   private CodeMirror cm;
   private HttpResponse<NativeString> content;
+  private EditFileInfo editFileInfo;
+  private DiffInfo patchSetDiffInfo;
 
   @UiField Element header;
   @UiField Element project;
@@ -153,6 +159,33 @@ public class EditScreen extends Screen {
           }
         }));
 
+
+    if (revision.get() == 0) {
+      ChangeEditApi.getMeta(revision, path,
+          group1.add(new AsyncCallback<EditFileInfo>() {
+            @Override
+            public void onSuccess(EditFileInfo editInfo) {
+              editFileInfo = editInfo;
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+            }
+          }));
+    } else {
+      // TODO(davido): We probably want to create dedicated GET EditScreenMeta
+      // REST endpoint. Abuse GET diff for now, as it retrieves links we need.
+      DiffApi.diff(revision, path)
+        .base(base)
+        .webLinksOnly()
+        .get(new GerritCallback<DiffInfo>() {
+          @Override
+          public void onSuccess(DiffInfo diffInfo) {
+            patchSetDiffInfo = diffInfo;
+          }
+      });
+    }
+
     ChangeEditApi.get(revision, path,
         group2.add(new HttpCallback<NativeString>() {
           final AsyncCallback<Void> modeCallback = group3.addEmpty();
@@ -182,8 +215,10 @@ public class EditScreen extends Screen {
     group3.addListener(new ScreenLoadCallback<Void>(this) {
       @Override
       protected void preDisplay(Void result) {
-        initEditor(content);
+        initEditor(content, editFileInfo, patchSetDiffInfo);
         content = null;
+        editFileInfo = null;
+        patchSetDiffInfo = null;
       }
     });
     group1.done();
@@ -301,7 +336,8 @@ public class EditScreen extends Screen {
     Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
-  private void initEditor(HttpResponse<NativeString> file) {
+  private void initEditor(HttpResponse<NativeString> file,
+      EditFileInfo info, DiffInfo diffInfo) {
     ModeInfo mode = null;
     String content = "";
     if (file != null) {
@@ -310,7 +346,7 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(file.getContentType(), path);
       }
     }
-    renderLinks();
+    renderLinks(info, diffInfo);
     cm = CodeMirror.create(editor, Configuration.create()
         .set("value", content)
         .set("readOnly", false)
@@ -330,9 +366,22 @@ public class EditScreen extends Screen {
         .on("Ctrl-S", save()));
   }
 
-  private void renderLinks() {
+  private void renderLinks(EditFileInfo info, DiffInfo diffInfo) {
     for (InlineHyperlink link : getLinks()) {
       linkPanel.add(link);
+    }
+    if (info != null) {
+      renderPluginLinks(Natives.asList(info.web_links()));
+    } else if (diffInfo != null) {
+      renderPluginLinks(Natives.asList(diffInfo.web_links()));
+    }
+  }
+
+  private void renderPluginLinks(List<DiffWebLinkInfo> links) {
+    if (links != null) {
+      for (DiffWebLinkInfo webLink : links) {
+        linkPanel.add(webLink.toAnchor());
+      }
     }
   }
 

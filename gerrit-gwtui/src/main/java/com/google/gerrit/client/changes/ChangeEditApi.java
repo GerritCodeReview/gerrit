@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.editor.EditFileInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.NativeString;
@@ -38,6 +39,20 @@ public class ChangeEditApi {
       api = editMessage(id.getParentKey().get());
     } else {
       api = editFile(id.getParentKey().get(), path);
+    }
+    api.get(cb);
+  }
+
+  /** Get meta info for change edit. */
+  public static void getMeta(PatchSet.Id id, String path,
+      AsyncCallback<EditFileInfo> cb) {
+    RestApi api;
+    if (id.get() != 0) {
+      throw new IllegalStateException("only supported for edits");
+    } else if (Patch.COMMIT_MSG.equals(path)) {
+      api = metaFile(id.getParentKey().get(), Patch.COMMIT_MSG);
+    } else {
+      api = metaFile(id.getParentKey().get(), path);
     }
     api.get(cb);
   }
@@ -75,6 +90,10 @@ public class ChangeEditApi {
 
   private static RestApi editFile(int id, String path) {
     return ChangeApi.edit(id).id(path);
+  }
+
+  private static RestApi metaFile(int id, String path) {
+    return ChangeApi.edit(id).id(path).view("meta");
   }
 
   private static class Input extends JavaScriptObject {

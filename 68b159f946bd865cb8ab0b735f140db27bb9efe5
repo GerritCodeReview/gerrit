@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b9697c9_bbccc7cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-24T00:41:33Z",
+      "side": 1,
+      "message": "I don\u0027t actually know if this is ok.\n\nUnfortunately, I can\u0027t think of a minimally invasive way to switch to BatchRefUpdate that doesn\u0027t have this property. (Maybe there is one, it\u0027s just Friday afternoon.)\n\nA more substantial rewrite would be able to handle this. Just as ObjectInserter (now) keeps track of the git objects that are to be inserted, and BatchRefUpdate will keep track of the refs to be updated, we could batch together database operations and execute all of them only after the ref update.\n\nThat said, we will have to do a similar thing for the notedb transition anyway, since all those modifications will be rolled into the same BatchRefUpdate. So maybe we do this sooner rather than later.\n\nIf this turns into a bigger rewrite we will have to revert 5dea1c0fc though, as it\u0027s already causing problem with our googlesource.com replication strategy.",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "68b159f946bd865cb8ab0b735f140db27bb9efe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

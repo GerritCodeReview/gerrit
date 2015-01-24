@@ -94,31 +94,33 @@ class ReviewedPanels {
   }
 
   void setReviewedByCurrentUser(boolean reviewed) {
-    if (fileList != null) {
-      fileList.updateReviewedStatus(patchKey, reviewed);
-    }
-
     PatchSet.Id ps = patchKey.getParentKey();
-    RestApi api = new RestApi("/changes/").id(ps.getParentKey().get())
-        .view("revisions").id(ps.get())
-        .view("files").id(patchKey.getFileName())
-        .view("reviewed");
-
-    AsyncCallback<VoidResult> cb = new AsyncCallback<VoidResult>() {
-      @Override
-      public void onFailure(Throwable arg0) {
-        // nop
+    if (ps.get() != 0) {
+      if (fileList != null) {
+        fileList.updateReviewedStatus(patchKey, reviewed);
       }
 
-      @Override
-      public void onSuccess(VoidResult result) {
-        // nop
+      RestApi api = new RestApi("/changes/").id(ps.getParentKey().get())
+          .view("revisions").id(ps.get())
+          .view("files").id(patchKey.getFileName())
+          .view("reviewed");
+
+      AsyncCallback<VoidResult> cb = new AsyncCallback<VoidResult>() {
+        @Override
+        public void onFailure(Throwable arg0) {
+          // nop
+        }
+
+        @Override
+        public void onSuccess(VoidResult result) {
+          // nop
+        }
+      };
+      if (reviewed) {
+        api.put(cb);
+      } else {
+        api.delete(cb);
       }
-    };
-    if (reviewed) {
-      api.put(cb);
-    } else {
-      api.delete(cb);
     }
   }
 

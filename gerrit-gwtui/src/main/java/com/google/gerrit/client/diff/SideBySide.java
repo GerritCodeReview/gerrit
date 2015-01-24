@@ -617,16 +617,11 @@ public class SideBySide extends Screen {
   }
 
   private List<InlineHyperlink> getLinks() {
-    // skip change edits
-    if (revision.get() > 0) {
-      InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
-      toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
-      toUnifiedDiffLink.setTargetHistoryToken(getUnifiedDiffUrl());
-      toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
-      return Collections.singletonList(toUnifiedDiffLink);
-    } else {
-      return Collections.emptyList();
-    }
+    InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
+    toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
+    toUnifiedDiffLink.setTargetHistoryToken(getUnifiedDiffUrl());
+    toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
+    return Collections.singletonList(toUnifiedDiffLink);
   }
 
   private String getUnifiedDiffUrl() {

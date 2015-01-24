@@ -15,18 +15,21 @@
 package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -38,6 +41,8 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchList;
@@ -58,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +89,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final ChangesCollection changes;
   private final Revisions revisions;
   private final PatchLineCommentsUtil plcUtil;
+  private final ChangeEditUtil editUtil;
 
   private Project.NameKey projectKey;
   private final PatchSet.Id psIdBase;
@@ -103,6 +110,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       final ChangesCollection changes,
       final Revisions revisions,
       final PatchLineCommentsUtil plcUtil,
+      ChangeEditUtil editUtil,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
@@ -114,6 +122,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.changes = changes;
     this.revisions = revisions;
     this.plcUtil = plcUtil;
+    this.editUtil = editUtil;
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
@@ -122,11 +131,21 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   @Override
   public PatchSetDetail call() throws OrmException, NoSuchEntityException,
-      PatchSetInfoNotAvailableException, NoSuchChangeException {
+      PatchSetInfoNotAvailableException, NoSuchChangeException, AuthException,
+      IOException {
+    Optional<ChangeEdit> edit = null;
     if (control == null || patchSet == null) {
       control = changeControlFactory.validateFor(psIdNew.getParentKey(),
           userProvider.get());
-      patchSet = db.patchSets().get(psIdNew);
+      if (psIdNew.get() == 0) {
+        Change change = db.changes().get(psIdNew.getParentKey());
+        edit = editUtil.byChange(change);
+        if (edit.isPresent()) {
+          patchSet = edit.get().getBasePatchSet();
+        }
+      } else {
+        patchSet = db.patchSets().get(psIdNew);
+      }
       if (patchSet == null) {
         throw new NoSuchEntityException();
       }
@@ -137,7 +156,11 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     try {
       if (psIdBase != null) {
         oldId = toObjectId(psIdBase);
-        newId = toObjectId(psIdNew);
+        if (edit != null && edit.isPresent()) {
+          newId = edit.get().getEditCommit().toObjectId();
+        } else {
+          newId = toObjectId(psIdNew);
+        }
 
         list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
       } else { // OK, means use base to compare
@@ -154,10 +177,12 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
 
     ChangeNotes notes = control.getNotes();
-    for (PatchLineComment c : plcUtil.publishedByPatchSet(db, notes, psIdNew)) {
-      final Patch p = byKey.get(c.getKey().getParentKey());
-      if (p != null) {
-        p.setCommentCount(p.getCommentCount() + 1);
+    if (edit == null) {
+      for (PatchLineComment c : plcUtil.publishedByPatchSet(db, notes, psIdNew)) {
+        final Patch p = byKey.get(c.getKey().getParentKey());
+        if (p != null) {
+          p.setCommentCount(p.getCommentCount() + 1);
+        }
       }
     }
 
@@ -165,11 +190,11 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setPatchSet(patchSet);
     detail.setProject(projectKey);
 
-    detail.setInfo(infoFactory.get(db, psIdNew));
+    detail.setInfo(infoFactory.get(db, patchSet.getId()));
     detail.setPatches(patches);
 
     final CurrentUser user = control.getCurrentUser();
-    if (user.isIdentifiedUser()) {
+    if (user.isIdentifiedUser() && edit == null) {
       // If we are signed in, compute the number of draft comments by the
       // current user on each of these patch files. This way they can more
       // quickly locate where they have pending drafts, and review them.

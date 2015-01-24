@@ -81,6 +81,30 @@
       "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9697c9_1bdcdb74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-24T12:52:51Z",
+      "side": 1,
+      "message": "I was expecting it to be called because it\u0027s calling the private match() method that checks for group membership at line 135.\n\nI haven\u0027t debugged it any further, and so far was putting it down to my not fully understanding how the indexing/querying works.",
+      "parentUuid": "8b4287da_ff599f51",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 63
+      },
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

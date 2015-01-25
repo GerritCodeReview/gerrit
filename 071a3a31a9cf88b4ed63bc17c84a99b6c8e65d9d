@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b999bf9_9cc705a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-25T15:45:53Z",
+      "side": 1,
+      "message": "slightly too long.  please wrap.",
+      "revId": "071a3a31a9cf88b4ed63bc17c84a99b6c8e65d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9697c9_9bc70ba9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-25T15:45:53Z",
+      "side": 1,
+      "message": "nit: please wrap.",
+      "revId": "071a3a31a9cf88b4ed63bc17c84a99b6c8e65d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

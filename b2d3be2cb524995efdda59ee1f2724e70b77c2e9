@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb7b035e_229b2e80",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:55:09Z",
+      "side": 1,
+      "message": "actually it should be \u0027an\u0027",
+      "range": {
+        "startLine": 1463,
+        "startChar": 23,
+        "endLine": 1463,
+        "endChar": 24
+      },
+      "revId": "b2d3be2cb524995efdda59ee1f2724e70b77c2e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bc137c3_03662e0c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:55:09Z",
+      "side": 1,
+      "message": "still the indention is not fully correct",
+      "range": {
+        "startLine": 1472,
+        "startChar": 1,
+        "endLine": 1489,
+        "endChar": 3
+      },
+      "revId": "b2d3be2cb524995efdda59ee1f2724e70b77c2e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,8 +14,11 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+
+import java.util.List;
 
 public interface Accounts {
   /**
@@ -42,6 +45,69 @@ public interface Accounts {
   AccountApi self() throws RestApiException;
 
   /**
+   * Suggest users for a given query.
+   * <p>
+   * Example code:
+   * {@code suggestAccounts().withQuery("Reviewer").withLimit(5).get()}
+   *
+   * @return API for setting parameters and getting result.
+   */
+  SuggestAccountsRequest suggestAccounts() throws RestApiException;
+
+  /**
+   * Suggest users for a given query.
+   * <p>
+   * Shortcut API for {@code suggestAccounts().withQuery(String)}.
+   *
+   * @see #suggestAccounts()
+   */
+  SuggestAccountsRequest suggestAccounts(String query)
+    throws RestApiException;
+
+  /**
+   * API for setting parameters and getting result.
+   * Used for {@code suggestAccounts()}.
+   *
+   * @see #suggestAccounts()
+   */
+  public abstract class SuggestAccountsRequest {
+    private String query;
+    private int limit;
+
+    /**
+     * Executes query and returns a list of accounts.
+     */
+    public abstract List<AccountInfo> get() throws RestApiException;
+
+    /**
+     * Set query.
+     *
+     * @param query needs to be in human-readable form.
+     */
+    public SuggestAccountsRequest withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    /**
+     * Set limit for returned list of accounts.
+     * Optional; server-default is used when not provided.
+     */
+    public SuggestAccountsRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+  }
+
+  /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
@@ -53,6 +119,17 @@ public interface Accounts {
 
     @Override
     public AccountApi self() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestAccountsRequest suggestAccounts() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestAccountsRequest suggestAccounts(String query)
+      throws RestApiException {
       throw new NotImplementedException();
     }
   }

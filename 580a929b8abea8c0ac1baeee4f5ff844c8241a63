@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "cb4e3f56_d1ea4402",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "This flow isn\u0027t consistent with the pagination implementation. Instead of refreshing, we\u0027ll just add the branch to current table if it belongs.",
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4e3f56_91c7dca8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 1
@@ -13,6 +30,30 @@
       "writtenOn": "2015-01-26T16:01:42Z",
       "side": 1,
       "message": "I think this line is more than 80 characters long",
+      "range": {
+        "startLine": 494,
+        "startChar": 79,
+        "endLine": 494,
+        "endChar": 84
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_31d9d085",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb4e3f56_91c7dca8",
       "range": {
         "startLine": 494,
         "startChar": 79,
@@ -48,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "cb4e3f56_71e35833",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb4e3f56_b1cce0cb",
+      "range": {
+        "startLine": 511,
+        "startChar": 80,
+        "endLine": 511,
+        "endChar": 95
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b8c0fba_3dd98f85",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 1
@@ -59,6 +124,30 @@
       "writtenOn": "2015-01-26T16:01:42Z",
       "side": 1,
       "message": "extra space",
+      "range": {
+        "startLine": 739,
+        "startChar": 42,
+        "endLine": 739,
+        "endChar": 43
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_51e65444",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b8c0fba_3dd98f85",
       "range": {
         "startLine": 739,
         "startChar": 42,
@@ -117,6 +206,54 @@
     },
     {
       "key": {
+        "uuid": "4b8c0fba_bdf59fe3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b8c0fba_5de65b44",
+      "range": {
+        "startLine": 742,
+        "startChar": 41,
+        "endLine": 742,
+        "endChar": 42
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_ddea6b02",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b8c0fba_7de31733",
+      "range": {
+        "startLine": 742,
+        "startChar": 32,
+        "endLine": 742,
+        "endChar": 33
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4e3f56_f1d66857",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 1
@@ -128,6 +265,30 @@
       "writtenOn": "2015-01-26T16:01:42Z",
       "side": 1,
       "message": "Set the value of ref instead of creating a separate variable?",
+      "range": {
+        "startLine": 254,
+        "startChar": 3,
+        "endLine": 254,
+        "endChar": 23
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_b1f5c0e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done\nref is used elsewhere so it cannot be set to short name here.",
+      "parentUuid": "cb4e3f56_f1d66857",
       "range": {
         "startLine": 254,
         "startChar": 3,
@@ -163,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "cb4e3f56_91f0bcf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb4e3f56_d1d16462",
+      "range": {
+        "startLine": 264,
+        "startChar": 25,
+        "endLine": 264,
+        "endChar": 37
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b8c0fba_9df0e3f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 1
@@ -174,6 +359,30 @@
       "writtenOn": "2015-01-26T16:01:42Z",
       "side": 1,
       "message": "use the constant in jgit",
+      "range": {
+        "startLine": 267,
+        "startChar": 35,
+        "endLine": 267,
+        "endChar": 48
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_1d05b33c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-01-26T16:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b8c0fba_9df0e3f4",
       "range": {
         "startLine": 267,
         "startChar": 35,

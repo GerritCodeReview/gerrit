@@ -849,10 +849,31 @@ Defaults to "Submit whole topic"
 +
 If `change.submitWholeTopic` is configuerd to true and a change has a
 topic, this configuration determines the tooltip for the submit button
-instead of `change.submitTooltip`. The variable `${topicSize}` is available
-for the number of changes to be submitted.
+instead of `change.submitTooltip` for the case where all changes in the
+topic can be submitted as a whole. If the topic cannot be submitted as a
+whole see `change.submitTopicTooltipBlocked` as well as
+`change.submitTopicTooltipHiddenBlocked`. The variable `${topicSize}` is
+available for the number of changes to be submitted.
 +
 Defaults to "Submit all ${topicSize} changes within the topic".
+
+[[change.submitTopicTooltipBlocked]]change.submitTopicTooltipBlocked::
++
+If `change.submitWholeTopic` is configuerd to true and a change has a
+topic, this configuration determines the tooltip for the submit button
+instead of `change.submitTooltip` for the case there are changes which
+cannot be submitted yet.
++
+Defaults to "Other changes in this topic are not ready".
+
+[[change.submitTopicTooltipHiddenBlocked]]change.submitTopicTooltipHiddenBlocked::
++
+Same as `change.submitTopicTooltipBlocked`, except used one or more
+changes are not visible to the user. This is so the user is not
+confused by the default message when they can see no open changes
+in the topic.
++
+Defaults to "Other hidden changes in this topic are not ready".
 
 [[change.replyLabel]]change.replyLabel::
 +

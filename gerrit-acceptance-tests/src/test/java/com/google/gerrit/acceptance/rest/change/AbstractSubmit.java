@@ -51,6 +51,7 @@ import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.PutConfig;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -61,6 +62,7 @@ import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -77,6 +79,10 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config submitWholeTopicEnabled() {
+    return wholeTopicEnabledConfig();
+  }
 
   private Map<String, String> mergeResults;
 

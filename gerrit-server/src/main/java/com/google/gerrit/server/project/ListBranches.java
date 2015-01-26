@@ -197,7 +197,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
           new Predicate<BranchInfo>() {
             @Override
             public boolean apply(BranchInfo in) {
-              return in.ref.toLowerCase(Locale.US).contains(
+              return in.sName.toLowerCase(Locale.US).contains(
                   matchSubstring.toLowerCase(Locale.US));
             }
           }));
@@ -218,7 +218,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
             branches, new Predicate<BranchInfo>() {
               @Override
               public boolean apply(BranchInfo in) {
-                return a.run(in.ref);
+                return a.run(in.sName);
               }
             }));
       } catch (IllegalArgumentException e) {
@@ -251,6 +251,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   public static class BranchInfo {
     public String ref;
+    public String sName;
     public String revision;
     public Boolean canDelete;
     public Map<String, ActionInfo> actions;
@@ -260,6 +261,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
       this.ref = ref;
       this.revision = revision;
       this.canDelete = canDelete;
+      if (!ref.contains("refs/heads/")){
+        this.sName = ref;
+      } else {
+        this.sName = ref.substring("refs/heads/".length());
+      }
     }
 
     void setCanDelete(boolean canDelete) {

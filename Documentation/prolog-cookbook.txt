@@ -936,7 +936,7 @@ sum(VotesNeeded, Category, label(Category, ok(CurrentUser))) :-
 sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
 
 score(Category, Score) :-
-    gerrit:commit_label(label(Category, Score), User).
+    gerrit:commit_label(label(Category, Score), Reviewer).
 
 % Simple Prolog routine to sum a list of integers.
 sum_list(List, Sum)   :- sum_list(List, 0, Sum).
@@ -944,7 +944,73 @@ sum_list([X|T], Y, S) :- Z is X + Y, sum_list(T, Z, S).
 sum_list([], S, S).
 ----
 
-=== Example 14: Master and apprentice
+=== Example 14: 1+1=2 but don't include author's score
+This example uses the same logic from Example 13, but it doesn't take the
+author's score into account.
+
+`rules.pl`
+[source,prolog]
+----
+sum_list([], 0).
+sum_list([H | Rest], Sum) :- sum_list(Rest,Tmp), Sum is H + Tmp.
+
+add_category_min_score_non_author(In, Category, Min, P) :-
+    gerrit:current_user(User),
+    gerrit:commit_author(Author),
+    findall(Score, score(Category, Score), All),
+    sum_list(All, Sum),
+    Sum >= Min, !,
+    P = [label(Category, ok(User)) | In].
+
+add_category_min_score_non_author(In, Category, Min, P) :-
+    P = [label(Category, need(Min)) | In].
+
+% Score for all commit_labels of Category where Reviewer \= Author.
+score(Category, Score) :-
+    gerrit:commit_author(Author),
+    gerrit:commit_label(label(Category, Score), Reviewer),
+    Reviewer \= Author, !.
+
+submit_rule(S) :-
+    gerrit:default_submit(X),
+    X =.. [submit | Ls],
+    gerrit:remove_label(Ls, label('Code-Review', _), NoCR),
+    add_category_min_score_non_author(NoCR, 'Code-Review', 2, Labels),
+    S =.. [submit | Labels].
+----
+
+Implementing the same example without using `gerrit:default_submit`:
+
+`rules.pl`
+[source,prolog]
+----
+submit_rule(submit(CR, V)) :-
+    sum(2, 'Code-Review', CR),
+    gerrit:max_with_block(-1, 1, 'Verified', V).
+
+% Sum the votes in a category. Uses a helper function score/2
+% to select out only the score values the given category.
+sum(VotesNeeded, Category, label(Category, ok(CurrentUser))) :-
+    gerrit:current_user(CurrentUser),
+    findall(Score, score(Category, Score), All),
+    sum_list(All, Sum),
+    Sum >= VotesNeeded,
+    !.
+sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
+
+% Score for all commit_labels of Category where Reviewer \= Author.
+score(Category, Score) :-
+    gerrit:commit_author(Author),
+    gerrit:commit_label(label(Category, Score), Reviewer),
+    Reviewer \= Author, !.
+
+% Simple Prolog routine to sum a list of integers.
+sum_list(List, Sum)   :- sum_list(List, 0, Sum).
+sum_list([X|T], Y, S) :- Z is X + Y, sum_list(T, Z, S).
+sum_list([], S, S).
+----
+
+=== Example 15: Master and apprentice
 The master and apprentice example allow you to specify a user (the `master`)
 that must approve all changes done by another user (the `apprentice`).
 
@@ -980,7 +1046,7 @@ add_apprentice_master(S1, S2) :-
 add_apprentice_master(S, S).
 ----
 
-=== Example 15: Only allow Author to submit change
+=== Example 16: Only allow Author to submit change
 This example adds a new needed category `Only-Author-Can-Submit` for any user
 that is not the author of the patch. This effectively blocks all users except
 the author from submitting the change. This could result in an impossible

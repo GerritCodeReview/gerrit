@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb7b035e_82879a39",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-26T12:22:58Z",
+      "side": 1,
+      "message": "This apostrophe affects the syntax highlighting, rephrase",
+      "range": {
+        "startLine": 929,
+        "startChar": 38,
+        "endLine": 929,
+        "endChar": 39
+      },
+      "revId": "67bd25b6960212cac7ef1306e732555d29a6dd32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

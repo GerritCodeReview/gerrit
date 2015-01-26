@@ -1445,6 +1445,50 @@ avoid downloading the encoded file contents.
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
 ----
 
+[[get-edit-meta-data]]
+=== Retrieve meta data of a file from Change Edit
+--
+'GET /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile/meta
+--
+
+Retrieves meta data of a file from a change edit. Currently only
+web links are returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo/meta HTTP/1.0
+----
+
+This REST endpoint retrieves additional information for a file in a
+change edit. As result an link:#edit-file-info[EditFileInfo] entity is
+returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+  "web_links":[
+    {
+      "show_on_side_by_side_diff_view": true,
+      "name": "side-by-side preview diff",
+      "image_url": "plugins/xdocs/static/sideBySideDiffPreview.png",
+      "url": "#/x/xdocs/c/42/1..0/README.md",
+      "target": "_self"
+    },
+    {
+      "show_on_unified_diff_view": true,
+      "name": "unified preview diff",
+      "image_url": "plugins/xdocs/static/unifiedDiffPreview.png",
+      "url": "#/x/xdocs/c/42/1..0/README.md,unified",
+      "target": "_self"
+    }
+  ]}
+----
+
 [[get-edit-message]]
 === Retrieve commit message from Change Edit or current patch set of the change
 --
@@ -3557,6 +3601,19 @@ Whether the web link should be shown on the side-by-side diff screen.
 |show_on_unified_diff_view|
 Whether the web link should be shown on the unified diff screen.
 |=======================
+
+[[edit-file-info]]
+=== EditFileInfo
+The `EditFileInfo` entity contains additional information
+of a file within a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`web_links`   |optional|
+Links to the diff info in external sites as a list of
+link:#web-link-info[WebLinkInfo] entities.
+|===========================
 
 [[edit-info]]
 === EditInfo

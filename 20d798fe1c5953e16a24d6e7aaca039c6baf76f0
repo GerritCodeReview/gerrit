@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bc137c3_2337ea00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "doesn\u0027t exist",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_4266720d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "I would remove this sentence from the documentation.",
+      "range": {
+        "startLine": 1455,
+        "startChar": 24,
+        "endLine": 1456,
+        "endChar": 7
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bc137c3_6331e208",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "information",
+      "range": {
+        "startLine": 1463,
+        "startChar": 40,
+        "endLine": 1463,
+        "endChar": 50
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_626376fc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "in a",
+      "range": {
+        "startLine": 1463,
+        "startChar": 62,
+        "endLine": 1463,
+        "endChar": 64
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_82607aef",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1464,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "As result a ...",
+      "range": {
+        "startLine": 1464,
+        "startChar": 13,
+        "endLine": 1464,
+        "endChar": 47
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bc137c3_432e66aa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "nit: missing space after \u0027:\u0027",
+      "range": {
+        "startLine": 1475,
+        "startChar": 1,
+        "endLine": 1489,
+        "endChar": 3
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_a2bd7edb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1490,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "nit: wrong indention",
+      "range": {
+        "startLine": 1473,
+        "startChar": 0,
+        "endLine": 1490,
+        "endChar": 3
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bc137c3_a36bdadf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3626,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "Move this section up before the \u0027EditInfo\u0027 section to keep the JSON entity sections sorted alphabetically.",
+      "range": {
+        "startLine": 3625,
+        "startChar": 0,
+        "endLine": 3626,
+        "endChar": 16
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bc137c3_83705ecb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3628,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "within a",
+      "range": {
+        "startLine": 3628,
+        "startChar": 10,
+        "endLine": 3628,
+        "endChar": 16
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_c2c28268",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T13:14:45Z",
+      "side": 1,
+      "message": "editFileInfo",
+      "range": {
+        "startLine": 92,
+        "startChar": 23,
+        "endLine": 92,
+        "endChar": 35
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

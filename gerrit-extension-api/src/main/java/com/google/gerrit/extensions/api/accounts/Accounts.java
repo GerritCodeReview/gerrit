@@ -14,8 +14,11 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+
+import java.util.List;
 
 public interface Accounts {
   /**
@@ -41,6 +44,35 @@ public interface Accounts {
    */
   AccountApi self() throws RestApiException;
 
+  SuggestAccountsRequest suggestAccounts() throws RestApiException;
+  SuggestAccountsRequest suggestAccounts(String query)
+    throws RestApiException;
+
+  public abstract class SuggestAccountsRequest {
+    private String query;
+    private int limit;
+
+    public abstract List<AccountInfo> get() throws RestApiException;
+
+    public SuggestAccountsRequest withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    public SuggestAccountsRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+  }
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -53,6 +85,17 @@ public interface Accounts {
 
     @Override
     public AccountApi self() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestAccountsRequest suggestAccounts() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestAccountsRequest suggestAccounts(String query)
+      throws RestApiException {
       throw new NotImplementedException();
     }
   }

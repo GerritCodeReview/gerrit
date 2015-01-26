@@ -50,6 +50,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
@@ -78,6 +79,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
+  }
+
+  @ConfigSuite.Config
+  public static Config noteDbEnabled() {
+    return NotesMigration.allEnabledConfig();
   }
 
   private Map<String, String> mergeResults;

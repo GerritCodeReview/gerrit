@@ -27,6 +27,7 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
 
 
   private Button cancelButton;
+  private Button okButton;
 
   public ConfirmationDialog(final String dialogTitle, final SafeHtml message,
       final ConfirmationCallback callback) {
@@ -36,7 +37,7 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
 
     final FlowPanel buttons = new FlowPanel();
 
-    final Button okButton = new Button();
+    okButton = new Button();
     okButton.setText(Gerrit.C.confirmationDialogOk());
     okButton.addClickHandler(new ClickHandler() {
       @Override
@@ -79,5 +80,8 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
 
   public void setCancelVisible(boolean visible) {
     cancelButton.setVisible(visible);
+    if (!visible) {
+      okButton.setFocus(true);
+    }
   }
 }

@@ -39,7 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-class SuggestAccounts implements RestReadView<TopLevelResource> {
+public class SuggestAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_RESULTS = 100;
   private static final String MAX_SUFFIX = "\u9fa5";
 
@@ -50,9 +50,10 @@ class SuggestAccounts implements RestReadView<TopLevelResource> {
   private final int suggestFrom;
 
   private int limit = 10;
+  private String query;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of users to return")
-  void setLimit(int n) {
+  public void setLimit(int n) {
     if (n < 0) {
       limit = 10;
     } else if (n == 0) {
@@ -63,7 +64,9 @@ class SuggestAccounts implements RestReadView<TopLevelResource> {
   }
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match users")
-  private String query;
+  public void setQuery(String query) {
+    this.query = query;
+  }
 
   @Inject
   SuggestAccounts(AccountControl.Factory accountControlFactory,

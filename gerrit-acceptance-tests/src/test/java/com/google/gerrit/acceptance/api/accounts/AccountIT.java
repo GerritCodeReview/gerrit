@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.common.AccountInfo;
 
 import org.junit.Test;
 
+import java.util.List;
+
 public class AccountIT extends AbstractDaemonTest {
 
   @Test
@@ -58,5 +60,17 @@ public class AccountIT extends AbstractDaemonTest {
         .self()
         .unstarChange(triplet);
     assertThat(getChange(triplet).starred).isNull();
+  }
+
+  @Test
+  public void suggestAccounts() throws Exception {
+    List<AccountInfo> result = gApi.accounts()
+        .suggestAccounts("admin").get();
+    assertThat(result.size()).is(1);
+    assertThat(result.get(0).username.equals("admin"));
+
+    List<AccountInfo> emptyResult = gApi.accounts()
+      .suggestAccounts("unknown").get();
+    assertThat(emptyResult).isEmpty();
   }
 }

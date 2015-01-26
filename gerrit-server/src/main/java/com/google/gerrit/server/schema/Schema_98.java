@@ -35,8 +35,8 @@ public class Schema_98 extends SchemaVersion {
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
     try {
       stmt.executeUpdate("UPDATE accounts SET "
-          + "REVIEW_CATEGORY_STRATEGY='NAME' "
-          + "WHERE (SHOW_USER_IN_REVIEW='Y')");
+          + "review_category_strategy='NAME' "
+          + "WHERE (show_username_in_review_category='Y')");
     } finally {
       stmt.close();
     }

@@ -49,6 +49,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -82,6 +83,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return wholeTopicEnabledConfig();
+  }
+
+  @ConfigSuite.Config
+  public static Config noteDbEnabled() {
+    return NotesMigration.allEnabledConfig();
   }
 
   private Map<String, String> mergeResults;
@@ -235,8 +241,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       BranchInfo branch =
           newGson().fromJson(b.getReader(),
               new TypeToken<BranchInfo>() {}.getType());
-      assertThat(branch.revision).isEqualTo(
-          mergeResults.get(Integer.toString(change._number)));
+      assertThat(mergeResults).isNotEmpty();
+      String newRev = mergeResults.get(Integer.toString(change._number));
+      assertThat(newRev).isNotNull();
+      assertThat(branch.revision).isEqualTo(newRev);
     }
     b.consume();
   }

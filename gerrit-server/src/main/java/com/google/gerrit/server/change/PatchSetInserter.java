@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
@@ -34,12 +35,13 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeOp;
 import com.google.gerrit.server.git.GroupCollector;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerState;
@@ -52,11 +54,10 @@ import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -67,6 +68,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PatchSetInserter {
   private static final Logger log =
@@ -74,6 +77,8 @@ public class PatchSetInserter {
 
   public static interface Factory {
     PatchSetInserter create(Repository git, RevWalk revWalk, ChangeControl ctl,
+        RevCommit commit);
+    PatchSetInfo create(BatchUpdate batchUpdate, ChangeControl ctl,
         RevCommit commit);
   }
 
@@ -89,11 +94,9 @@ public class PatchSetInserter {
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
-  private final ChangeUpdate.Factory updateFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeControl.GenericFactory ctlFactory;
-  private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
-  private final ChangeIndexer indexer;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
@@ -104,6 +107,7 @@ public class PatchSetInserter {
   private final RevCommit commit;
   private final ChangeControl ctl;
   private final IdentifiedUser user;
+  private final BatchUpdate batchUpdate;
 
   private PatchSet patchSet;
   private ChangeMessage changeMessage;
@@ -111,51 +115,82 @@ public class PatchSetInserter {
   private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
   private boolean draft;
   private Iterable<String> groups;
-  private boolean runHooks;
-  private boolean sendMail;
+  private boolean runHooks = true;
+  private boolean sendMail = true;
   private Account.Id uploader;
   private boolean allowClosed;
 
-  @Inject
+  @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
       ReviewDb db,
-      ChangeUpdate.Factory updateFactory,
       ChangeControl.GenericFactory ctlFactory,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
       PatchSetInfoFactory patchSetInfoFactory,
-      GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
-      ChangeIndexer indexer,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
-      @Assisted Repository git,
-      @Assisted RevWalk revWalk,
+      @Assisted BatchUpdate batchUpdate,
       @Assisted ChangeControl ctl,
       @Assisted RevCommit commit) {
-    checkArgument(ctl.getCurrentUser().isIdentifiedUser(),
-        "only IdentifiedUser may create patch set on change %s",
-        ctl.getChange().getId());
     this.hooks = hooks;
     this.db = db;
-    this.updateFactory = updateFactory;
+    this.batchUpdateFactory = null;
     this.ctlFactory = ctlFactory;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.indexer = indexer;
     this.replacePatchSetFactory = replacePatchSetFactory;
 
+    this.batchUpdate = batchUpdate;
+    this.git = batchUpdate.getRepository();
+    this.revWalk = batchUpdate.getRevWalk();
+    this.commit = commit;
+    this.ctl = ctl;
+    this.user = checkUser(ctl);
+  }
+
+  @AssistedInject
+  public PatchSetInserter(ChangeHooks hooks,
+      ReviewDb db,
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeControl.GenericFactory ctlFactory,
+      ApprovalsUtil approvalsUtil,
+      ApprovalCopier approvalCopier,
+      ChangeMessagesUtil cmUtil,
+      PatchSetInfoFactory patchSetInfoFactory,
+      CommitValidators.Factory commitValidatorsFactory,
+      ReplacePatchSetSender.Factory replacePatchSetFactory,
+      @Assisted Repository git,
+      @Assisted RevWalk revWalk,
+      @Assisted ChangeControl ctl,
+      @Assisted RevCommit commit) {
+    this.hooks = hooks;
+    this.db = db;
+    this.batchUpdateFactory = batchUpdateFactory;
+    this.ctlFactory = ctlFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.approvalCopier = approvalCopier;
+    this.cmUtil = cmUtil;
+    this.patchSetInfoFactory = patchSetInfoFactory;
+    this.commitValidatorsFactory = commitValidatorsFactory;
+    this.replacePatchSetFactory = replacePatchSetFactory;
+
+    this.batchUpdate = null;
     this.git = git;
     this.revWalk = revWalk;
     this.commit = commit;
     this.ctl = ctl;
-    this.user = (IdentifiedUser) ctl.getCurrentUser();
-    this.runHooks = true;
-    this.sendMail = true;
+    this.user = checkUser(ctl);
+  }
+
+  private static IdentifiedUser checkUser(ChangeControl ctl) {
+    checkArgument(ctl.getCurrentUser().isIdentifiedUser(),
+        "only IdentifiedUser may create patch set on change %s",
+        ctl.getChange().getId());
+    return (IdentifiedUser) ctl.getCurrentUser();
   }
 
   public PatchSetInserter setPatchSet(PatchSet patchSet) {
@@ -241,121 +276,149 @@ public class PatchSetInserter {
       IOException, NoSuchChangeException {
     init();
     validate();
+    final AtomicReference<Change> updatedChange = new AtomicReference<>();
+    final AtomicReference<SetMultimap<ReviewerState, Account.Id>> oldReviewers
+        = new AtomicReference<>();
 
-    Change c = ctl.getChange();
-    Change updatedChange;
-    RefUpdate ru = git.updateRef(patchSet.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(commit);
-    ru.disableRefLog();
-    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format(
-          "Failed to create ref %s in %s: %s", patchSet.getRefName(),
-          c.getDest().getParentKey().get(), ru.getResult()));
+    // TODO(dborowitz): Kill once callers are migrated.
+    // Eventually, callers should always be responsible for executing.
+    boolean executeBatch = false;
+    BatchUpdate bu = batchUpdate;
+    if (batchUpdate == null) {
+      bu = batchUpdateFactory.create(
+          db, ctl.getChange().getProject(), patchSet.getCreatedOn());
+      executeBatch = true;
     }
-    gitRefUpdated.fire(c.getProject(), ru);
 
-    final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
-
-    ChangeUpdate update = updateFactory.create(ctl, patchSet.getCreatedOn());
-
-    db.changes().beginTransaction(c.getId());
     try {
-      updatedChange = db.changes().get(c.getId());
-      if (!updatedChange.getStatus().isOpen() && !allowClosed) {
-        throw new InvalidChangeOperationException(String.format(
-            "Change %s is closed", c.getId()));
-      }
+      bu.getBatchRefUpdate().addCommand(new ReceiveCommand(ObjectId.zeroId(),
+          commit, patchSet.getRefName(), ReceiveCommand.Type.CREATE));
+      bu.addChangeOp(new ChangeOp(ctl) {
+        @Override
+        public void call(ReviewDb db, ChangeUpdate update)
+            throws Exception {
+          Change c = db.changes().get(update.getChange().getId());
+          final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
+          if (!c.getStatus().isOpen() && !allowClosed) {
+            throw new InvalidChangeOperationException(String.format(
+                "Change %s is closed", c.getId()));
+          }
 
-      ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
-      if (groups != null) {
-        patchSet.setGroups(groups);
-      } else {
-        patchSet.setGroups(GroupCollector.getCurrentGroups(db, c));
-      }
-      db.patchSets().insert(Collections.singleton(patchSet));
+          ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+          if (groups != null) {
+            patchSet.setGroups(groups);
+          } else {
+            patchSet.setGroups(GroupCollector.getCurrentGroups(db, c));
+          }
+          db.patchSets().insert(Collections.singleton(patchSet));
 
-      SetMultimap<ReviewerState, Account.Id> oldReviewers = sendMail
-          ? approvalsUtil.getReviewers(db, ctl.getNotes())
-          : null;
+          if (sendMail) {
+            oldReviewers.set(approvalsUtil.getReviewers(db, ctl.getNotes()));
+          }
 
-      updatedChange =
-          db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
-            @Override
-            public Change update(Change change) {
-              if (change.getStatus().isClosed() && !allowClosed) {
-                return null;
-              }
-              if (!change.currentPatchSetId().equals(currentPatchSetId)) {
-                return null;
-              }
-              if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
-                change.setStatus(Change.Status.NEW);
-              }
-              change.setCurrentPatchSet(patchSetInfoFactory.get(commit,
-                  patchSet.getId()));
-              ChangeUtil.updated(change);
-              return change;
-            }
-          });
-      if (updatedChange == null) {
-        throw new ChangeModifiedException(String.format(
-            "Change %s was modified", c.getId()));
-      }
+          updatedChange.set(
+              db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  if (change.getStatus().isClosed() && !allowClosed) {
+                    return null;
+                  }
+                  if (!change.currentPatchSetId().equals(currentPatchSetId)) {
+                    return null;
+                  }
+                  if (change.getStatus() != Change.Status.DRAFT
+                      && !allowClosed) {
+                    change.setStatus(Change.Status.NEW);
+                  }
+                  change.setCurrentPatchSet(patchSetInfoFactory.get(commit,
+                      patchSet.getId()));
+                  ChangeUtil.updated(change);
+                  return change;
+                }
+              }));
+          if (updatedChange.get() == null) {
+            throw new ChangeModifiedException(String.format(
+                "Change %s was modified", c.getId()));
+          }
 
-      if (messageIsForChange()) {
-        cmUtil.addChangeMessage(db, update, changeMessage);
-      }
-
-      approvalCopier.copy(db, ctl, patchSet);
-      db.commit();
-      if (messageIsForChange()) {
-        update.commit();
-      }
+          approvalCopier.copy(db, ctl, patchSet);
+          if (messageIsForChange()) {
+            cmUtil.addChangeMessage(db, update, changeMessage);
+          }
+        }
+      });
 
       if (!messageIsForChange()) {
-        commitMessageNotForChange(updatedChange);
+        commitMessageNotForChange(bu);
       }
 
       if (sendMail) {
-        try {
-          PatchSetInfo info = patchSetInfoFactory.get(commit, patchSet.getId());
-          ReplacePatchSetSender cm =
-              replacePatchSetFactory.create(c.getId());
-          cm.setFrom(user.getAccountId());
-          cm.setPatchSet(patchSet, info);
-          cm.setChangeMessage(changeMessage);
-          cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
-          cm.addExtraCC(oldReviewers.get(ReviewerState.CC));
-          cm.send();
-        } catch (Exception err) {
-          log.error("Cannot send email for new patch set on change "
-              + updatedChange.getId(), err);
-        }
+        bu.addPostOp(new Callable<Void>() {
+          @Override
+          public Void call() {
+            Change c = updatedChange.get();
+            try {
+              PatchSetInfo info =
+                  patchSetInfoFactory.get(commit, patchSet.getId());
+              ReplacePatchSetSender cm =
+                  replacePatchSetFactory.create(c.getId());
+              cm.setFrom(user.getAccountId());
+              cm.setPatchSet(patchSet, info);
+              cm.setChangeMessage(changeMessage);
+              cm.addReviewers(oldReviewers.get().get(ReviewerState.REVIEWER));
+              cm.addExtraCC(oldReviewers.get().get(ReviewerState.CC));
+              cm.send();
+            } catch (Exception err) {
+              log.error("Cannot send email for new patch set on change "
+                  + c.getId(), err);
+            }
+            return null;
+          }
+        });
       }
 
+      if (runHooks) {
+        bu.addPostOp(new Callable<Void>() {
+          @Override
+          public Void call() throws OrmException {
+            hooks.doPatchsetCreatedHook(updatedChange.get(), patchSet, db);
+            return null;
+          }
+        });
+      }
+
+      if (executeBatch) {
+        bu.execute();
+      }
+    } catch (UpdateException e) {
+      Throwables.propagateIfInstanceOf(e.getCause(),
+          NoSuchChangeException.class);
+      Throwables.propagateIfInstanceOf(e.getCause(),
+          InvalidChangeOperationException.class);
+      Throwables.propagateIfInstanceOf(e.getCause(), OrmException.class);
+      Throwables.propagateIfInstanceOf(e.getCause(), IOException.class);
+      Throwables.propagateIfPossible(e.getCause());
+      throw new OrmException(e);
     } finally {
-      db.rollback();
+      if (executeBatch) {
+        bu.close();
+      }
     }
-    indexer.index(db, updatedChange);
-    if (runHooks) {
-      hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
-    }
-    return updatedChange;
+    return updatedChange.get();
   }
 
-  private void commitMessageNotForChange(Change updatedChange)
-      throws OrmException, NoSuchChangeException, IOException {
-    if (changeMessage != null) {
-      Change otherChange =
-          db.changes().get(changeMessage.getPatchSetId().getParentKey());
-      ChangeControl otherControl =
-          ctlFactory.controlFor(otherChange, user);
-      ChangeUpdate updateForOtherChange =
-          updateFactory.create(otherControl, updatedChange.getLastUpdatedOn());
-      cmUtil.addChangeMessage(db, updateForOtherChange, changeMessage);
-      updateForOtherChange.commit();
+  private void commitMessageNotForChange(BatchUpdate bu)
+      throws NoSuchChangeException, OrmException {
+    if (changeMessage == null) {
+      return;
     }
+    bu.addChangeOp(new ChangeOp(ctlFactory.controlFor(
+        changeMessage.getPatchSetId().getParentKey(), user)) {
+      @Override
+      public void call(ReviewDb db, ChangeUpdate update) throws OrmException {
+        cmUtil.addChangeMessage(db, update, changeMessage);
+      }
+    });
   }
 
   private void init() throws IOException {

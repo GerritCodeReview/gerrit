@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.client.ui.Util.highlight;
+
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
@@ -48,6 +50,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
@@ -59,13 +63,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -81,6 +86,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
   private FlowPanel addPanel;
   private int pageSize;
   private int start;
+  private NpTextBox filterTxt;
+  private String match;
   private Query query;
 
   public ProjectBranchesScreen(final Project.NameKey toShow) {
@@ -108,6 +115,10 @@ public class ProjectBranchesScreen extends ProjectScreen {
         continue;
       }
 
+      if ("filter".equals(kv[0])) {
+        match = URL.decodeQueryString(kv[1]);
+      }
+
       if ("skip".equals(kv[0])
           && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
         start = Integer.parseInt(URL.decodeQueryString(kv[1]));
@@ -115,16 +126,23 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
   }
 
-  private void setupNavigationLink(Hyperlink link, int skip) {
-    link.setTargetHistoryToken(getTokenForScreen(skip));
+  private void setupNavigationLink(Hyperlink link, String filter, int skip) {
+    link.setTargetHistoryToken(getTokenForScreen(filter, skip));
     link.setVisible(true);
   }
 
-  private String getTokenForScreen(int skip) {
+  private String getTokenForScreen(String filter, int skip) {
     String token = PageLinks.toProjectBranches(getProjectKey());
-
+    if (filter != null && !filter.isEmpty()) {
+      token += "?filter=" + URL.encodeQueryString(filter);
+    }
     if (skip > 0) {
-      token += "?skip=" + skip;
+      if (token.contains("?filter=")) {
+        token += ",";
+      } else {
+        token += "?";
+      }
+      token += "skip=" + skip;
     }
     return token;
   }
@@ -140,7 +158,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
             addPanel.setVisible(result.canAddRefs());
           }
         });
-    query = new Query().start(start).run();
+    query = new Query(match).start(start).run();
     savedPanel = BRANCH;
   }
 
@@ -154,7 +172,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    parseToken();
+    initPageHeader();
 
     prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
     prev.setVisible(false);
@@ -225,6 +243,31 @@ public class ProjectBranchesScreen extends ProjectScreen {
     add(addPanel);
   }
 
+  private void initPageHeader() {
+    parseToken();
+    HorizontalPanel hp = new HorizontalPanel();
+    hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
+    Label filterLabel = new Label(Util.C.projectFilter());
+    filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
+    hp.add(filterLabel);
+    filterTxt = new NpTextBox();
+    filterTxt.setValue(match);
+    filterTxt.addKeyUpHandler(new KeyUpHandler() {
+      @Override
+      public void onKeyUp(KeyUpEvent event) {
+        Query q = new Query(filterTxt.getValue());
+        if (match.equals(q.qMatch)) {
+          q.start(start);
+        } else if (query == null) {
+          q.run();
+          query = q;
+        }
+      }
+    });
+    hp.add(filterTxt);
+    add(hp);
+  }
+
   private void doAddNewBranch() {
     final String branchName = nameTxtBox.getText().trim();
     if ("".equals(branchName)) {
@@ -251,11 +294,9 @@ public class ProjectBranchesScreen extends ProjectScreen {
           @Override
           public void onSuccess(BranchInfo branch) {
             showAddedBranch(branch);
-            addBranch.setEnabled(true);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
-            branchTable.insert(branch);
-            delBranch.setVisible(branchTable.hasBranchCanDelete());
+            query = new Query(match).start(start).run();
           }
 
           @Override
@@ -385,21 +426,12 @@ public class ProjectBranchesScreen extends ProjectScreen {
           new GerritCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              for (int row = 1; row < table.getRowCount();) {
-                BranchInfo k = getRowItem(row);
-                if (k != null && branches.contains(k.ref())) {
-                  table.removeRow(row);
-                } else {
-                  row++;
-                }
-              }
-              updateDeleteButton();
-              delBranch.setVisible(branchTable.hasBranchCanDelete());
+              query = new Query(match).start(start).run();
             }
 
             @Override
             public void onFailure(Throwable caught) {
-              query = new Query().start(start).run();
+              query = new Query(match).start(start).run();
               super.onFailure(caught);
             }
           });
@@ -423,25 +455,6 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
     }
 
-    void insert(BranchInfo info) {
-      if (table.getRowCount() <= pageSize || pageSize == 0) {
-        Comparator<BranchInfo> c = new Comparator<BranchInfo>() {
-          @Override
-          public int compare(BranchInfo a, BranchInfo b) {
-            return a.ref().compareTo(b.ref());
-          }
-        };
-        int insertPos = getInsertRow(c, info);
-        if (insertPos >= 0) {
-          table.insertRow(insertPos);
-          applyDataRowStyle(insertPos);
-          populate(insertPos, info);
-        }
-      } else {
-        setupNavigationLink(next, ProjectBranchesScreen.this.start + pageSize);
-      }
-    }
-
     void populate(int row, BranchInfo k) {
       final GitwebLink c = Gerrit.getGitwebLink();
 
@@ -454,7 +467,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
         table.setText(row, 1, "");
       }
 
-      table.setText(row, 2, k.getShortName());
+      table.setWidget(row, 2, new InlineHTML(highlight(k.getShortName(), match)));
 
       if (k.revision() != null) {
         if ("HEAD".equals(k.getShortName())) {
@@ -619,8 +632,22 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
   }
 
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    if (match != null) {
+      filterTxt.setCursorPos(match.length());
+    }
+    filterTxt.setFocus(true);
+  }
+
   private class Query {
+    private String qMatch;
     private int qStart;
+
+    Query(String match) {
+      this.qMatch = match;
+    }
 
     Query start(int start) {
       this.qStart = start;
@@ -630,7 +657,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     Query run() {
       // Retrieve one more branch than page size to determine if there are more
       // branches to display
-      ProjectApi.getBranches(getProjectKey(), pageSize + 1, qStart,
+      ProjectApi.getBranches(getProjectKey(), pageSize + 1, qStart, qMatch,
               new ScreenLoadCallback<JsArray<BranchInfo>>(ProjectBranchesScreen.this) {
                 @Override
                 public void preDisplay(JsArray<BranchInfo> result) {
@@ -648,7 +675,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
 
     void showList(JsArray<BranchInfo> result) {
-      setToken(getTokenForScreen(qStart));
+      setToken(getTokenForScreen(qMatch, qStart));
+      ProjectBranchesScreen.this.match = qMatch;
       ProjectBranchesScreen.this.start = qStart;
 
       if (result.length() <= pageSize) {
@@ -657,10 +685,10 @@ public class ProjectBranchesScreen extends ProjectScreen {
       } else {
         branchTable.displaySubset(Natives.asList(result), 0,
             result.length() - 1);
-        setupNavigationLink(next, qStart + pageSize);
+        setupNavigationLink(next, qMatch, qStart + pageSize);
       }
       if (qStart > 0) {
-        setupNavigationLink(prev, qStart - pageSize);
+        setupNavigationLink(prev, qMatch, qStart - pageSize);
       } else {
         prev.setVisible(false);
       }

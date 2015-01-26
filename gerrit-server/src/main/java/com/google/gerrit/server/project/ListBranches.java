@@ -197,8 +197,14 @@ public class ListBranches implements RestReadView<ProjectResource> {
           new Predicate<BranchInfo>() {
             @Override
             public boolean apply(BranchInfo in) {
-              return in.ref.toLowerCase(Locale.US).contains(
-                  matchSubstring.toLowerCase(Locale.US));
+              if (!in.ref.startsWith(Constants.R_HEADS)){
+                return in.ref.toLowerCase(Locale.US).contains(
+                    matchSubstring.toLowerCase(Locale.US));
+              } else {
+                return in.ref.substring(Constants.R_HEADS.length())
+                    .toLowerCase(Locale.US)
+                    .contains(matchSubstring.toLowerCase(Locale.US));
+              }
             }
           }));
     } else if (matchRegex != null) {
@@ -218,7 +224,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
             branches, new Predicate<BranchInfo>() {
               @Override
               public boolean apply(BranchInfo in) {
-                return a.run(in.ref);
+                if (!in.ref.startsWith(Constants.R_HEADS)){
+                  return a.run(in.ref);
+                } else {
+                  return a.run(in.ref.substring(Constants.R_HEADS.length()));
+                }
               }
             }));
       } catch (IllegalArgumentException e) {

@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb4e3f56_91c7dca8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "I think this line is more than 80 characters long",
+      "range": {
+        "startLine": 494,
+        "startChar": 79,
+        "endLine": 494,
+        "endChar": 84
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_b1cce0cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "why you didn\u0027t import the Util class?",
+      "range": {
+        "startLine": 511,
+        "startChar": 80,
+        "endLine": 511,
+        "endChar": 95
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_3dd98f85",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 739,
+        "startChar": 42,
+        "endLine": 739,
+        "endChar": 43
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_7de31733",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "missing space after the comma",
+      "range": {
+        "startLine": 742,
+        "startChar": 32,
+        "endLine": 742,
+        "endChar": 33
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_5de65b44",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 742,
+        "startChar": 41,
+        "endLine": 742,
+        "endChar": 42
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_f1d66857",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "Set the value of ref instead of creating a separate variable?",
+      "range": {
+        "startLine": 254,
+        "startChar": 3,
+        "endLine": 254,
+        "endChar": 23
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_d1d16462",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "use the constant in jgit instead, \n\nimport static org.eclipse.jgit.lib.Constants.R_HEADS;\n....\nif (!ref.contains(R_HEADS)){",
+      "range": {
+        "startLine": 264,
+        "startChar": 25,
+        "endLine": 264,
+        "endChar": 37
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_9df0e3f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-26T16:01:42Z",
+      "side": 1,
+      "message": "use the constant in jgit",
+      "range": {
+        "startLine": 267,
+        "startChar": 35,
+        "endLine": 267,
+        "endChar": 48
+      },
+      "revId": "580a929b8abea8c0ac1baeee4f5ff844c8241a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

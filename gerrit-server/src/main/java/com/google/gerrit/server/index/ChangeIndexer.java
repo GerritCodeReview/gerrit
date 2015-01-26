@@ -63,6 +63,15 @@ public class ChangeIndexer {
         IndexCollection indexes);
   }
 
+  public static CheckedFuture<?, IOException> allAsList(
+      List<? extends ListenableFuture<?>> futures) {
+    // allAsList propagates the first seen exception, wrapped in
+    // ExecutionException, so we can reuse the same mapper as for a single
+    // future. Assume the actual contents of the exception are not useful to
+    // callers. All exceptions are already logged by IndexTask.
+    return Futures.makeChecked(Futures.allAsList(futures), MAPPER);
+  }
+
   private static final Function<Exception, IOException> MAPPER =
       new Function<Exception, IOException>() {
     @Override
@@ -136,11 +145,7 @@ public class ChangeIndexer {
     for (Change.Id id : ids) {
       futures.add(indexAsync(id));
     }
-    // allAsList propagates the first seen exception, wrapped in
-    // ExecutionException, so we can reuse the same mapper as for a single
-    // future. Assume the actual contents of the exception are not useful to
-    // callers. All exceptions are already logged by IndexTask.
-    return Futures.makeChecked(Futures.allAsList(futures), MAPPER);
+    return allAsList(futures);
   }
 
   /**

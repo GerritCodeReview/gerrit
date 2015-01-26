@@ -54,7 +54,6 @@ public class Schema_82 extends SchemaVersion {
     final JdbcSchema s = (JdbcSchema) db;
     final JdbcExecutor e = new JdbcExecutor(s);
     renameTables(db, s, e);
-    renameColumn(db, s, e);
     renameIndexes(db);
   }
 
@@ -69,34 +68,6 @@ public class Schema_82 extends SchemaVersion {
         if (!existingTables.contains(entry.getValue())) {
           s.renameTable(e, entry.getKey(), entry.getValue());
         }
-      }
-    }
-  }
-
-  private void renameColumn(final ReviewDb db, final JdbcSchema s,
-      final JdbcExecutor e) throws SQLException, OrmException {
-    SqlDialect dialect = ((JdbcSchema) db).getDialect();
-    final Set<String> existingColumns =
-        dialect.listColumns(s.getConnection(), "accounts");
-    // Does source column exist?
-    if (!existingColumns.contains("show_username_in_review_category")) {
-      return;
-    }
-    // Does target column exist?
-    if (existingColumns.contains("show_user_in_review")) {
-      return;
-    }
-    s.renameColumn(e, "accounts", "show_username_in_review_category",
-        "show_user_in_review");
-    // MySQL loose check constraint during the column renaming.
-    // Well it doesn't implemented anyway,
-    // check constraints are get parsed but do nothing
-    if (dialect instanceof DialectMySQL) {
-      Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-      try {
-        addCheckConstraint(stmt);
-      } finally {
-        stmt.close();
       }
     }
   }
@@ -131,13 +102,6 @@ public class Schema_82 extends SchemaVersion {
     } finally {
       stmt.close();
     }
-  }
-
-  private void addCheckConstraint(Statement stmt) throws SQLException {
-    // add check constraint for the destination column
-    stmt.executeUpdate("ALTER TABLE accounts ADD CONSTRAINT "
-        + "show_user_in_review_check CHECK "
-        + "(show_user_in_review IN('Y', 'N'))");
   }
 
   static class Index {

@@ -16,11 +16,13 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Set;
 
 public class Schema_98 extends SchemaVersion {
   @Inject
@@ -32,11 +34,23 @@ public class Schema_98 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
     ui.message("Migrate user preference showUserInReview to "
         + "reviewCategoryStrategy");
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
+    JdbcSchema s = (JdbcSchema) db;
+    Statement stmt = s.getConnection().createStatement();
+    SqlDialect dialect = s.getDialect();
     try {
+      String showUserReviewColumn;
+      Set<String> columns = dialect.listColumns(s.getConnection(), "accounts");
+      if (columns.contains("show_user_in_review")) {
+        showUserReviewColumn = "show_user_in_review";
+      } else if (columns.contains("show_username_in_review_category")) {
+        showUserReviewColumn = "show_username_in_review_category";
+      } else {
+        throw new SQLException("cannot pre-populate reviewCategoryStrategy");
+      }
+
       stmt.executeUpdate("UPDATE accounts SET "
-          + "REVIEW_CATEGORY_STRATEGY='NAME' "
-          + "WHERE (SHOW_USER_IN_REVIEW='Y')");
+          + "review_category_strategy='NAME' "
+          + "WHERE (" + showUserReviewColumn + "='Y')");
     } finally {
       stmt.close();
     }

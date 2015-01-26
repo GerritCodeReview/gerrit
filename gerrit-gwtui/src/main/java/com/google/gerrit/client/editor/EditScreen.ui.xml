@@ -17,6 +17,12 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style>
+    .header {
+      position: relative;
+      height: 16px;
+      line-height: 16px;
+    }
+
     .headerLine {
       background-color: #f7f7f7;
       border-bottom: 1px solid #ddd;
@@ -90,8 +96,21 @@ limitations under the License.
       border-left: 1px solid #ddd;
       font-weight: bold;
     }
+
+    .navigation {
+      position: absolute;
+      top: 0;
+      right: 10px;
+    }
+    .linkPanel {
+      float: left;
+    }
+    .linkPanel img {
+      padding-top: 2px;
+      padding-right: 3px;
+    }
   </ui:style>
-  <g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.header}'>
     <div class='{style.headerLine}' ui:field='header'>
        <div class='{style.headerButtons}'>
          <g:Button ui:field='close'
@@ -108,6 +127,9 @@ limitations under the License.
          </g:Button>
        </div>
        <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
+       <div class='{style.navigation}'>
+         <g:FlowPanel ui:field='linkPanel' styleName='{style.linkPanel}'/>
+       </div>
     </div>
     <div ui:field='editor' />
     <div class='{style.statusLine}'>

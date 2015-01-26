@@ -26,6 +26,7 @@ import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
@@ -33,6 +34,7 @@ import com.google.gerrit.client.rpc.HttpResponse;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -54,7 +56,9 @@ import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
@@ -67,10 +71,14 @@ import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
   private final int startLine;
@@ -81,6 +89,7 @@ public class EditScreen extends Screen {
   @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
+  @UiField FlowPanel linkPanel;
   @UiField Element cursLine;
   @UiField Element cursCol;
   @UiField Element dirty;
@@ -92,7 +101,8 @@ public class EditScreen extends Screen {
   private HandlerRegistration closeHandler;
   private int generation;
 
-  public EditScreen(Patch.Key patch, int startLine) {
+  public EditScreen(PatchSet.Id base, Patch.Key patch, int startLine) {
+    this.base = base;
     this.revision = patch.getParentKey();
     this.path = patch.get();
     this.startLine = startLine - 1;
@@ -300,6 +310,7 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(file.getContentType(), path);
       }
     }
+    renderLinks();
     cm = CodeMirror.create(editor, Configuration.create()
         .set("value", content)
         .set("readOnly", false)
@@ -317,6 +328,52 @@ public class EditScreen extends Screen {
     cm.addKeyMap(KeyMap.create()
         .on("Cmd-S", save())
         .on("Ctrl-S", save()));
+  }
+
+  private void renderLinks() {
+    for (InlineHyperlink link : getLinks()) {
+      linkPanel.add(link);
+    }
+  }
+
+  private List<InlineHyperlink> getLinks() {
+    List<InlineHyperlink> links = new ArrayList<>(2);
+
+    String diffUrl = getDiffUrl();
+    InlineHyperlink toSideBySideDiffLink = new InlineHyperlink();
+    toSideBySideDiffLink.setHTML(new ImageResourceRenderer()
+        .render(Gerrit.RESOURCES.sideBySideDiff()));
+    toSideBySideDiffLink.setTargetHistoryToken(diffUrl);
+    toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
+    links.add(toSideBySideDiffLink);
+
+    InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
+    toUnifiedDiffLink.setHTML(new ImageResourceRenderer()
+        .render(Gerrit.RESOURCES.unifiedDiff()));
+    toUnifiedDiffLink.setTargetHistoryToken(diffUrl + ",unified");
+    toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
+    links.add(toUnifiedDiffLink);
+
+    return links;
+  }
+
+  private String getDiffUrl() {
+    StringBuilder url = new StringBuilder();
+    url.append("/c/");
+    url.append(revision.getParentKey().get());
+    url.append("/");
+    if (base != null) {
+      url.append(base.get());
+      url.append("..");
+    }
+    if (revision.get() == 0) {
+      url.append("edit");
+    } else {
+      url.append(revision.get());
+    }
+    url.append("/");
+    url.append(path);
+    return url.toString();
   }
 
   private Runnable updateCursorPosition() {

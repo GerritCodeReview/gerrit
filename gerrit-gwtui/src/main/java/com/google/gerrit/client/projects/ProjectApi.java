@@ -59,10 +59,17 @@ public class ProjectApi {
   }
 
   public static void getBranches(Project.NameKey name, int limit, int start,
-       AsyncCallback<JsArray<BranchInfo>> cb) {
+       String match, AsyncCallback<JsArray<BranchInfo>> cb) {
     RestApi call = project(name).view("branches");
     call.addParameter("n", limit);
     call.addParameter("s", start);
+    if (match != null) {
+      if (match.startsWith("^")) {
+        call.addParameter("r", match);
+      } else {
+        call.addParameter("m", match);
+      }
+    }
     call.get(cb);
   }
 

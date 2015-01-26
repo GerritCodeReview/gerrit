@@ -18,11 +18,15 @@ package com.google.gerrit.server.git;
 public class MergeException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public MergeException(final String msg) {
-    super(msg, null);
+  public MergeException(String msg) {
+    super(msg);
   }
 
-  public MergeException(final String msg, final Throwable why) {
+  public MergeException(Throwable why) {
+    super(why);
+  }
+
+  public MergeException(String msg, Throwable why) {
     super(msg, why);
   }
 }

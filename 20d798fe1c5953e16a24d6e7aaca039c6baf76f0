@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0bc137c3_a3547a1b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1456,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb7b035e_4266720d",
+      "range": {
+        "startLine": 1455,
+        "startChar": 24,
+        "endLine": 1456,
+        "endChar": 7
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bc137c3_6331e208",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7
@@ -94,6 +118,54 @@
     },
     {
       "key": {
+        "uuid": "0bc137c3_83597e53",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb7b035e_626376fc",
+      "range": {
+        "startLine": 1463,
+        "startChar": 62,
+        "endLine": 1463,
+        "endChar": 64
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_42af529f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc137c3_6331e208",
+      "range": {
+        "startLine": 1463,
+        "startChar": 40,
+        "endLine": 1463,
+        "endChar": 50
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb7b035e_82607aef",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7
@@ -105,6 +177,30 @@
       "writtenOn": "2015-01-26T13:14:45Z",
       "side": 1,
       "message": "As result a ...",
+      "range": {
+        "startLine": 1464,
+        "startChar": 13,
+        "endLine": 1464,
+        "endChar": 47
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_62bc56d8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1464,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb7b035e_82607aef",
       "range": {
         "startLine": 1464,
         "startChar": 13,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "eb7b035e_82b95ae9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc137c3_432e66aa",
+      "range": {
+        "startLine": 1475,
+        "startChar": 1,
+        "endLine": 1489,
+        "endChar": 3
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb7b035e_a2bd7edb",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7
@@ -151,6 +271,30 @@
       "writtenOn": "2015-01-26T13:14:45Z",
       "side": 1,
       "message": "nit: wrong indention",
+      "range": {
+        "startLine": 1473,
+        "startChar": 0,
+        "endLine": 1490,
+        "endChar": 3
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_a2a65ec7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1490,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb7b035e_a2bd7edb",
       "range": {
         "startLine": 1473,
         "startChar": 0,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "0bc137c3_e34e7289",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3626,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc137c3_a36bdadf",
+      "range": {
+        "startLine": 3625,
+        "startChar": 0,
+        "endLine": 3626,
+        "endChar": 16
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bc137c3_83705ecb",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "0bc137c3_c353762f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3628,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc137c3_83705ecb",
+      "range": {
+        "startLine": 3628,
+        "startChar": 10,
+        "endLine": 3628,
+        "endChar": 16
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb7b035e_c2c28268",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 7
@@ -220,6 +412,30 @@
       "writtenOn": "2015-01-26T13:14:45Z",
       "side": 1,
       "message": "editFileInfo",
+      "range": {
+        "startLine": 92,
+        "startChar": 23,
+        "endLine": 92,
+        "endChar": 35
+      },
+      "revId": "20d798fe1c5953e16a24d6e7aaca039c6baf76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb7b035e_22b24e08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-26T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb7b035e_c2c28268",
       "range": {
         "startLine": 92,
         "startChar": 23,

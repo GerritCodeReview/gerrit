@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bc137c3_0302ae34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-26T09:13:13Z",
+      "side": 1,
+      "message": "[optional] Add a sentence saying that plugins need to be adapted to import the classes from the new client package.",
+      "revId": "c228376dbf4e0d36d4ff3e56405d629a72ae2161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

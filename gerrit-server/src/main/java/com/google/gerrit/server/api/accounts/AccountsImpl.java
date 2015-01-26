@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -24,24 +25,30 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.account.SuggestAccounts;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import java.util.List;
 
 @Singleton
 public class AccountsImpl extends Accounts.NotImplemented implements Accounts {
   private final AccountsCollection accounts;
   private final AccountApiImpl.Factory api;
   private final Provider<CurrentUser> self;
+  private final Provider<SuggestAccounts> suggestAccountsProvider;
 
   @Inject
   AccountsImpl(AccountsCollection accounts,
       AccountApiImpl.Factory api,
-      Provider<CurrentUser> self) {
+      Provider<CurrentUser> self,
+      Provider<SuggestAccounts> suggestAccountsProvider) {
     this.accounts = accounts;
     this.api = api;
     this.self = self;
+    this.suggestAccountsProvider = suggestAccountsProvider;
   }
 
   @Override
@@ -60,5 +67,33 @@ public class AccountsImpl extends Accounts.NotImplemented implements Accounts {
       throw new AuthException("Authentication required");
     }
     return api.create(new AccountResource((IdentifiedUser)self.get()));
+  }
+
+  @Override
+  public SuggestAccountsRequest suggestAccounts() throws RestApiException {
+    return new SuggestAccountsRequest() {
+      @Override
+      public List<AccountInfo> get() throws RestApiException {
+        return AccountsImpl.this.suggestAccounts(this);
+      }
+    };
+  }
+
+  @Override
+  public SuggestAccountsRequest suggestAccounts(String query)
+    throws RestApiException {
+    return suggestAccounts().withQuery(query);
+  }
+
+  private List<AccountInfo> suggestAccounts(SuggestAccountsRequest r)
+    throws RestApiException {
+    try {
+      SuggestAccounts mySuggestAccounts = suggestAccountsProvider.get();
+      mySuggestAccounts.setQuery(r.getQuery());
+      mySuggestAccounts.setLimit(r.getLimit());
+      return mySuggestAccounts.apply(TopLevelResource.INSTANCE);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve suggested accounts", e);
+    }
   }
 }

@@ -402,6 +402,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_dd750bba",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-26T20:38:01Z",
+      "side": 1,
+      "message": "\u003e UI code must understand the encoding of the message then, to dissect the needed parts, like label/category, outcome and log. So junk in junk out doesn\u0027t work here.\n\u003e\n\u003e Not to mention further requirements, like indexing the bot notifications and providing user specific quieries based on this valuable data, like statistics, or which job has the highest failure rates for specific project? Or find all changes where PEP8 is failed within 3 days in latest patch set, etc.\n\nThis is _exactly_ all the metadata that I strongly believe we should _not_ be building into Gerrit. If you want a fancy table view or searchable database of CI results, build it in your CI system.\n\nIf we put this metadata in Gerrit, it is _invariably_ going to work for some CI systems and not for others. (Or some bots that want to annotate code reviews but aren\u0027t CI systems at all.) We are not going to build into Gerrit a superset of all CI metadata across every CI system in the world.",
+      "parentUuid": "ebb4e3df_3acda1c7",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

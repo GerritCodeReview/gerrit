@@ -22,6 +22,30 @@
       "revId": "cb41013e7ff3ebc18905213a598dd708f34874f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bc137c3_23c6ca59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-27T19:35:27Z",
+      "side": 1,
+      "message": "Details about this can be found at [1,2].\n\n[1] https://code.google.com/p/gerrit/issues/detail?id\u003d3123\n\n[2] https://gerrit-review.googlesource.com/#/c/63674/4//COMMIT_MSG@9",
+      "parentUuid": "cb4e3f56_11b20c08",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "cb41013e7ff3ebc18905213a598dd708f34874f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

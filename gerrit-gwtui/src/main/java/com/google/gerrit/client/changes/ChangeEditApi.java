@@ -46,15 +46,10 @@ public class ChangeEditApi {
   /** Get meta info for change edit. */
   public static void getMeta(PatchSet.Id id, String path,
       AsyncCallback<EditFileInfo> cb) {
-    RestApi api;
     if (id.get() != 0) {
       throw new IllegalStateException("only supported for edits");
-    } else if (Patch.COMMIT_MSG.equals(path)) {
-      api = metaFile(id.getParentKey().get(), Patch.COMMIT_MSG);
-    } else {
-      api = metaFile(id.getParentKey().get(), path);
     }
-    api.get(cb);
+    editFile(id.getParentKey().get(), path).view("meta").get(cb);
   }
 
   /** Put message into a change edit. */
@@ -90,10 +85,6 @@ public class ChangeEditApi {
 
   private static RestApi editFile(int id, String path) {
     return ChangeApi.edit(id).id(path);
-  }
-
-  private static RestApi metaFile(int id, String path) {
-    return ChangeApi.edit(id).id(path).view("meta");
   }
 
   private static class Input extends JavaScriptObject {

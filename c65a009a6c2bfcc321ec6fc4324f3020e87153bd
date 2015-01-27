@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b727b91_d44ebc89",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-27T05:45:46Z",
+      "side": 1,
+      "message": "Looks like the inline edit messed this up.",
+      "range": {
+        "startLine": 1187,
+        "startChar": 23,
+        "endLine": 1187,
+        "endChar": 25
+      },
+      "revId": "c65a009a6c2bfcc321ec6fc4324f3020e87153bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b727b91_f453b82e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-27T05:45:46Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 1190,
+        "startChar": 15,
+        "endLine": 1190,
+        "endChar": 17
+      },
+      "revId": "c65a009a6c2bfcc321ec6fc4324f3020e87153bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

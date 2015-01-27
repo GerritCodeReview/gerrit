@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b9697c9_db099323",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-27T13:33:10Z",
+      "side": 1,
+      "message": "It would be better to just say \"to 2.8 and then to 2.10.x\"",
+      "range": {
+        "startLine": 34,
+        "startChar": 72,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "929b460ba4c6cfee1df94d42ab6c18be3b680b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

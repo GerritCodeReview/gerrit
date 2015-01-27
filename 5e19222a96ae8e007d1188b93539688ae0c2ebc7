@@ -106,6 +106,42 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9697c9_5b1e6355",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-27T23:05:36Z",
+      "side": 1,
+      "message": "Thank you for this description, it helps explain what your change does better.  Can you put something like this in the commit message?  I did not envision this sort of approach from the current commit message.  The current commit message doesn\u0027t give me a picture of how this change potentially modifies the creation process.\n\nAs I see your example above, it seems that their is no namespace conflict (one of my main concerns) as I was originally envisioning?  However, it does still suffer from the confusing existing tools (tools that expect things to be in one place) problem.  It doesn\u0027t seem like there is a good way to get that information to those tools either if someone wanted to right an intelligent tool that could traverse all the repos.",
+      "parentUuid": "4b8c0fba_fd0e4728",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9697c9_7b1b1f64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-27T23:05:36Z",
+      "side": 1,
+      "message": "| If I create a softlink in my gerrit site, which is on NFS, will it go through the NFS volume to resolve the somewhere else volume?\n\nI would ask the same question of your solution though, how does a script follow the config file that potentially lives on another server?\nI think that with a link, a clever admin at least has the potential to make it work?\n\n| Gerrit admin configure that any projects of organizationA goes on another volume and when anyone that have the right to create a project creates one, it end up in the right volume.\n\nYes, but a Gerrit admin can also do what Dave suggested to get the same result, right?",
+      "parentUuid": "cb4e3f56_b12dc084",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

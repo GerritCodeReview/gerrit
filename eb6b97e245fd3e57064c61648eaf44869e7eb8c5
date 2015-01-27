@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "cb4e3f56_916b5ce0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/QueryChangesByLabelIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-27T00:01:00Z",
+      "side": 1,
+      "message": "\u003e  I was wondering if there would be any benefit to keeping this test since it\u0027s testing at the REST level and the byLabel tests seem to be testing at a lower level?\n\nNot really, no. There is already test coverage for the REST handler stuff specifically.",
+      "parentUuid": "8b4287da_df54db1c",
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_9d54631c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-27T00:01:00Z",
+      "side": 1,
+      "message": "Is it valid to pass a non-null accountId and a non-null groupId? If not, throw an IllegalArgumentException, don\u0027t just silently ignore one of them.",
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b4287da_1fffa3bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
         "patchSetId": 7
@@ -102,6 +137,47 @@
         "endLine": 60,
         "endChar": 63
       },
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_b17060cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-27T00:01:00Z",
+      "side": 1,
+      "message": "If the query system is working correctly, the match method should not get called on any IndexPredicates in an up-to-date schema. AndSource chooses the lowest-cost source, which should always be the IndexedChangeQuery.\n\nWhere match methods may get called is when a new predicate for a new field is added, but the index hasn\u0027t yet been upgraded. Then the query:\n\n oldfield1:foo oldfield2:bar newfield:baz\n\ngets rewritten as\n\n index(oldfield1:foo oldfield2:bar) newfield:baz\n\nAndSource chooses the index(...) source and filters it by using match() on newfield\u0027s predicate tree.\n\nAfter the next index schema upgrade (online or offline), the rewriter sees that newfield is an index field, and rewrites the whole thing to \n\n index(oldfield1:foo oldfield2:bar newfield:baz)\n\nSo, a lot of these match methods are dead code, because a lot of the underlying index fields are in every schema version that we still support. They should have been cleaned out when I deleted the old schema versions, but I didn\u0027t think of it.",
+      "parentUuid": "0b9697c9_1bdcdb74",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 63
+      },
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_d175e4b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-27T00:01:00Z",
+      "side": 1,
+      "message": "or() on a one-predicate list is logically equivalent to just that predicate. So unless I\u0027m missing something, this is equivalent to the else case below, which calls new EqualsLabelPredicate with the same arguments.\n\nHow does this fix the problem of ignoring the group? args.group is still not referenced outside of EqualsLabelPredicate#match.\n\nI think we need to expand the group here. If you look at the implementation of ChangeField.LABEL it only adds labels for each user, not for groups. And we don\u0027t want to change that behavior, since we don\u0027t want to trigger reindexing every time group membership changes.",
       "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

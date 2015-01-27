@@ -120,6 +120,7 @@ class Actions extends Composite {
       if (canSubmit) {
         ActionInfo action = actions.get("submit");
         submit.setTitle(action.title());
+        submit.setEnabled(action.enabled());
         submit.setHTML(new SafeHtmlBuilder()
             .openDiv()
             .append(action.label())
@@ -201,7 +202,9 @@ class Actions extends Composite {
   private static void a2b(NativeMap<ActionInfo> actions, String a, Button b) {
     if (actions.containsKey(a)) {
       b.setVisible(true);
-      b.setTitle(actions.get(a).title());
+      ActionInfo actionInfo = actions.get(a);
+      b.setTitle(actionInfo.title());
+      b.setEnabled(actionInfo.enabled());
     }
   }
 }

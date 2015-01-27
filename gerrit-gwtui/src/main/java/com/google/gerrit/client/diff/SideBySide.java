@@ -618,26 +618,12 @@ public class SideBySide extends Screen {
 
   private List<InlineHyperlink> getLinks() {
     InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
-    toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
-    toUnifiedDiffLink.setTargetHistoryToken(getUnifiedDiffUrl());
+    toUnifiedDiffLink.setHTML(
+        new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
+    toUnifiedDiffLink.setTargetHistoryToken(
+        Dispatcher.toUnified(base, revision, path));
     toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
     return Collections.singletonList(toUnifiedDiffLink);
-  }
-
-  private String getUnifiedDiffUrl() {
-    StringBuilder url = new StringBuilder();
-    url.append("/c/");
-    url.append(changeId.get());
-    url.append("/");
-    if (base != null) {
-      url.append(base.get());
-      url.append("..");
-    }
-    url.append(revision.get());
-    url.append("/");
-    url.append(path);
-    url.append(",unified");
-    return url.toString();
   }
 
   private CodeMirror newCM(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b727b91_14803424",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-01-27T05:30:02Z",
+      "side": 1,
+      "message": "s/EventDesrializer/EventDeserializer/",
+      "range": {
+        "startLine": 423,
+        "startChar": 33,
+        "endLine": 423,
+        "endChar": 49
+      },
+      "revId": "c1d940812d49dde17658a922e49219f190d2fce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

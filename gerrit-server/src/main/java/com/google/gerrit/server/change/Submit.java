@@ -94,6 +94,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "Submit patch set ${patchSet} into ${branch}";
   private static final String DEFAULT_TOPIC_TOOLTIP =
       "Submit all ${topicSize} changes of the same topic";
+  private static final String DEFAULT_BLOCKED_TOPIC_TOOLTIP =
+      "There are blocking changes";
+  private static final String DEFAULT_BLOCKED_HIDDEN_TOPIC_TOOLTIP =
+      "There are hidden blocking changes";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -125,6 +129,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final String label;
   private final ParameterizedString titlePattern;
   private final String submitTopicLabel;
+  private final String submitTopicTooltipBlocked;
+  private final String submitTopicTooltipHiddenBlocked;
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -171,6 +177,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.submitTopicTooltip = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTopicTooltip"),
         DEFAULT_TOPIC_TOOLTIP));
+    this.submitTopicTooltipBlocked = MoreObjects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitTopicTooltipBlocked")),
+        DEFAULT_BLOCKED_TOPIC_TOOLTIP);
+    this.submitTopicTooltipHiddenBlocked = MoreObjects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitTopicTooltipHiddenBlocked")),
+        DEFAULT_BLOCKED_HIDDEN_TOPIC_TOOLTIP);
     this.queryProvider = queryProvider;
   }
 
@@ -232,32 +244,36 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  private boolean areChangesSubmittable(List<ChangeData> changes,
+  /**
+   *
+   * @param changes list of changes to be submitted at once
+   * @param identifiedUser the user who is checking to submit
+   * @return a reason why any of the changes is not submittable or null
+   */
+  private String areChangesSubmittable(List<ChangeData> changes,
       IdentifiedUser identifiedUser) {
     for (ChangeData c : changes) {
       try {
         ChangeControl changeControl = c.changeControl().forUser(
             identifiedUser);
         if (!changeControl.canSubmit()) {
-          return false;
+          return submitTopicTooltipHiddenBlocked;
         }
       } catch (OrmException e) {
         log.error("Failed to get a ChangeControl for Change.Id " +
             String.valueOf(c.getId()), e);
-        return false;
+        return submitTopicTooltipHiddenBlocked;
       }
     }
+
     for (ChangeData c : changes) {
       try {
         checkSubmitRule(c, c.currentPatchSet(), false);
       } catch (OrmException | ResourceConflictException e) {
-        // TODO(sbeller):
-        // Here would be a good place to generate an explanation
-        // for the user why the submit button is disabled.
-        return false;
+        return submitTopicTooltipBlocked;
       }
     }
-    return true;
+    return null;
   }
 
   @Override
@@ -283,17 +299,23 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       }
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(changesByTopic.size()));
-      // TODO(sbeller):
-      // If the button is visible but disabled the problem of submitting
-      // is at another change in the same topic. Tell the user via
-      // tooltip. Caution: Check access control for those changes.
-      return new UiAction.Description()
-        .setLabel(submitTopicLabel)
-        .setTitle(Strings.emptyToNull(
-            submitTopicTooltip.replace(params)))
-        .setVisible(true)
-        .setEnabled(areChangesSubmittable(
-            changesByTopic, resource.getUser()));
+      String topicProblems = areChangesSubmittable(changesByTopic,
+          resource.getUser());
+      if (!topicProblems.isEmpty()) {
+        return new UiAction.Description()
+          .setLabel(topicProblems)
+          .setTitle(Strings.emptyToNull(
+              submitTopicTooltip.replace(params)))
+          .setVisible(true)
+          .setEnabled(false);
+      } else {
+        return new UiAction.Description()
+          .setLabel(submitTopicLabel)
+          .setTitle(Strings.emptyToNull(
+              submitTopicTooltip.replace(params)))
+          .setVisible(true)
+          .setEnabled(true);
+      }
     } else {
       RevId revId = resource.getPatchSet().getRevision();
       Map<String, String> params = ImmutableMap.of(

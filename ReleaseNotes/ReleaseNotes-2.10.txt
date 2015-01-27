@@ -21,7 +21,6 @@ Important Notes
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
-  java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
 *WARNING:* When upgrading from an existing site that was initialized with Gerrit
@@ -32,8 +31,8 @@ rather than only copying the .war file over the existing one.
 It is recommended to run the `init` program in interactive mode. Warnings will
 be suppressed in batch mode.
 
-*WARNING:* Upgrading to 2.10.x requires the server be first upgraded to 2.1.7 (or
-a later 2.1.x version), and then to 2.10.x.  If you are upgrading from 2.2.x.x or
+*WARNING:* Upgrading to 2.10.x requires the server be first upgraded to 2.8
+(or 2.9) and then to 2.10.x. If you are upgrading from 2.8.x or
 later, you may ignore this warning and upgrade directly to 2.10.x.
 
 *WARNING:* The `auth.allowGoogleAccountUpgrade` setting is no longer supported.

@@ -37,7 +37,6 @@ plugin project.
 mvn archetype:generate -DarchetypeGroupId=com.google.gerrit \
     -DarchetypeArtifactId=gerrit-plugin-archetype \
     -DarchetypeVersion=2.10 \
-    -DarchetypeRepository=https://oss.sonatype.org/content/repositories/releases/ \
     -DgroupId=com.googlesource.gerrit.plugins.testplugin \
     -DartifactId=testplugin
 ----

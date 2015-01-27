@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b9697c9_9bbd4bdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-27T00:41:54Z",
+      "side": 1,
+      "message": "If I understand correctly, this is a check of whether the user is able to submit the change, not whether the user can actually see it.",
+      "range": {
+        "startLine": 244,
+        "startChar": 8,
+        "endLine": 246,
+        "endChar": 9
+      },
+      "revId": "6a12fefb80c8143573ceb38ca6f2f45c36da1d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b727b91_d43cfce5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-27T00:41:54Z",
+      "side": 1,
+      "message": "nit: all if-blocks should have { and }, even one-liners.",
+      "range": {
+        "startLine": 262,
+        "startChar": 8,
+        "endLine": 263,
+        "endChar": 27
+      },
+      "revId": "6a12fefb80c8143573ceb38ca6f2f45c36da1d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

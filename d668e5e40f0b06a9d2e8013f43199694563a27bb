@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb7b035e_a2281e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-27T10:26:19Z",
+      "side": 1,
+      "message": "It is not that straightforward to tell which commit broke a migration path. Actually, each migration does a proper task of migration from the immediate previous schema version. From time to time we reach a state where a Schema_X doesn\u0027t build any more (because the API it uses has been changed in the newer code) or where Schema_X fails because it expects an (intermediate) state which doesn\u0027t exist due to the way the gwtorm schema upgrade works.\n\nTrying to fix \"broken\" schema migrations leads to more complexity in that code. It is ugly and hard to follow (for me at least) when a Schema_X class looks different in different releases.\n\nWhen, years ago, I for the first time faced this kind of issue and discussed it with Shawn the simple answer was: \"just delete the Schema_X\".\n\nI would go for the deletion of Schema_82 and all its predecessors. After that, an upgrade from an old enough release requires to first upgrade to a releases which contains the Schema_82 code and then again upgrade to the target release (this may take several steps).",
+      "revId": "d668e5e40f0b06a9d2e8013f43199694563a27bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

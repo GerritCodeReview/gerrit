@@ -52,6 +52,24 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_3d118f46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-27T21:51:13Z",
+      "side": 1,
+      "message": "I would agree if I want to do this only for one repo but this change allows the admin to configure this once for all the repo name that starts with organizationA/* for example and every time a repo is created that match that pattern it automatically end up in the right volume.\n\nAnother reason why I did that change is that we want to be able to grant the create project access right to people that do not have access to the file system.",
+      "parentUuid": "cb4e3f56_511e5455",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

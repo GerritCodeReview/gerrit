@@ -16,6 +16,24 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_fd0e4728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-27T21:44:44Z",
+      "side": 1,
+      "message": "\u003e It seems to eliminate the need for the soft link, but it does not eliminate the more serious problem, that Gerrit did not create the project in the right place in the first place, which means that it is now race prone to move it (and to make the soft link)?\n\nExactly, this change allows Gerrit to create and use repo in different basePath (which are in located on different volumes) without using softlink.\n\nIt also eliminates any manual manipulation(create softlink and move repo) that would be required to host repositories on different volumes without this change.\n\nExample:\n\n[gerrit]\n  basePath \u003d /nfs_volume/repos\n[repository \"organizationA/*\"]\n  basePath \u003d /ssd_volume/repos\n\nIn this example, all the repositories go in /nfs_volume/repos except the one that the name start with \"organizationA\" go in the /ssd_volume/repos.\n\nThis change does eliminate the problem that you mentioned about creating the repo in the right place (and/or moving it to the right place) because when Gerrit will create the repo for the project organizationA/project1 for example, it will put it in /ssd_volume/repos/organizationA/project1.git and it will also use it from there.",
+      "parentUuid": "0b9697c9_3b119746",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

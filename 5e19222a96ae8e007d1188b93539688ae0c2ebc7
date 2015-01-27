@@ -34,6 +34,24 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_511e5455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-27T21:45:45Z",
+      "side": 1,
+      "message": "\u003e It also eliminates any manual manipulation\n\nI think Martin\u0027s point is that the \"manual manipulation\" of setting up your links is exactly as much work as configuring it in gerrit.config.",
+      "parentUuid": "4b8c0fba_fd0e4728",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

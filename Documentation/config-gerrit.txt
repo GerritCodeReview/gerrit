@@ -849,10 +849,33 @@ Defaults to "Submit whole topic"
 +
 If `change.submitWholeTopic` is configuerd to true and a change has a
 topic, this configuration determines the tooltip for the submit button
-instead of `change.submitTooltip`. The variable `${topicSize}` is available
-for the number of changes to be submitted.
+instead of `change.submitTooltip` for the case all changes in the topic
+can be submitted as a whole. If the topic cannot be submitted as a whole
+see `change.submitTopicTooltipBlocked` as well as
+`change.submitTopicTooltipHiddenBlocked`. The variable `${topicSize}` is
+available for the number of changes to be submitted.
 +
 Defaults to "Submit all ${topicSize} changes within the topic".
+
+[[change.submitTopicTooltipBlocked]]change.submitTopicTooltipBlocked::
++
+If `change.submitWholeTopic` is configuerd to true and a change has a
+topic, this configuration determines the tooltip for the submit button
+instead of `change.submitTooltip` for the case there are changes which
+cannot be submitted yet.
++
+Defaults to "There are blocking changes".
+
+[[change.submitTopicTooltipHiddenBlocked]]change.submitTopicTooltipHiddenBlocked::
++
+If `change.submitWholeTopic` is configuerd to true and a change has a
+topic, this configuration determines the tooltip for the submit button
+instead of `change.submitTooltip` for the case there are changes which
+cannot be submitted yet and are not visible to the current user. This
+deserves an extra option as the user may think it is a bug in gerrit,
+if we just present the tooltip as configured in `change.submitTopicTooltipBlocked`.
++
+Defaults to "There are hidden blocking changes".
 
 [[change.replyLabel]]change.replyLabel::
 +

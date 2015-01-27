@@ -178,12 +178,16 @@ public class EditScreen extends Screen {
       DiffApi.diff(revision, path)
         .base(base)
         .webLinksOnly()
-        .get(new GerritCallback<DiffInfo>() {
+        .get(group1.add(new AsyncCallback<DiffInfo>() {
           @Override
           public void onSuccess(DiffInfo diffInfo) {
             patchSetDiffInfo = diffInfo;
           }
-      });
+
+          @Override
+          public void onFailure(Throwable e) {
+          }
+      }));
     }
 
     ChangeEditApi.get(revision, path,

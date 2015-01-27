@@ -70,6 +70,24 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b8c0fba_5d1e5b55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-27T21:57:52Z",
+      "side": 1,
+      "message": "\u003e all the repo name that starts with organizationA/*\n\n ln -s /somewhere/else/organizationA /my/gerrit/site/git/organizationA\n\n\u003e people that do not have access to the file system\n\nIf they don\u0027t have access to the filesystem, how are they going to modify gerrit.config to add this configuration option?",
+      "parentUuid": "4b8c0fba_3d118f46",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

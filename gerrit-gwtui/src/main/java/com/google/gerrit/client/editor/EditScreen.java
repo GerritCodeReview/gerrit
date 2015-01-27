@@ -18,6 +18,7 @@ import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
 import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
 
 import com.google.gerrit.client.DiffWebLinkInfo;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
@@ -390,39 +391,21 @@ public class EditScreen extends Screen {
   }
 
   private void renderLinksToDiff() {
-    String diffUrl = getDiffUrl();
     InlineHyperlink sbs = new InlineHyperlink();
     sbs.setHTML(new ImageResourceRenderer()
         .render(Gerrit.RESOURCES.sideBySideDiff()));
-    sbs.setTargetHistoryToken(diffUrl);
+    sbs.setTargetHistoryToken(
+        Dispatcher.toPatch("sidebyside", base, new Patch.Key(revision, path)));
     sbs.setTitle(PatchUtil.C.sideBySideDiff());
     linkPanel.add(sbs);
 
     InlineHyperlink unified = new InlineHyperlink();
     unified.setHTML(new ImageResourceRenderer()
         .render(Gerrit.RESOURCES.unifiedDiff()));
-    unified.setTargetHistoryToken(diffUrl + ",unified");
+    sbs.setTargetHistoryToken(
+        Dispatcher.toPatch("unified", base, new Patch.Key(revision, path)));
     unified.setTitle(PatchUtil.C.unifiedDiff());
     linkPanel.add(unified);
-  }
-
-  private String getDiffUrl() {
-    StringBuilder url = new StringBuilder();
-    url.append("/c/");
-    url.append(revision.getParentKey().get());
-    url.append("/");
-    if (base != null) {
-      url.append(base.get());
-      url.append("..");
-    }
-    if (revision.get() == 0) {
-      url.append("edit");
-    } else {
-      url.append(revision.get());
-    }
-    url.append("/");
-    url.append(path);
-    return url.toString();
   }
 
   private Runnable updateCursorPosition() {

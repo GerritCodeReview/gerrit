@@ -88,6 +88,24 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_b12dc084",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-27T22:11:21Z",
+      "side": 1,
+      "message": "\u003e ln -s /somewhere/else/organizationA /my/gerrit/site/git/organizationA\n\nIf I create a softlink in my gerrit site, which is on NFS, will it go through the NFS volume to resolve the somewhere else volume?\n\n\u003e If they don\u0027t have access to the filesystem, how are they going to modify gerrit.config to add this configuration option?\n\nGerrit admin configure that any projects of organizationA goes on another volume and when anyone that have the right to create a project creates one, it end up in the right volume.",
+      "parentUuid": "4b8c0fba_5d1e5b55",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

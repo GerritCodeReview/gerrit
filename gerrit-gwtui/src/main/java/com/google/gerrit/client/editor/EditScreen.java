@@ -44,6 +44,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -75,7 +76,6 @@ import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditScreen extends Screen {
@@ -90,7 +90,7 @@ public class EditScreen extends Screen {
   private CodeMirror cm;
   private HttpResponse<NativeString> content;
   private EditFileInfo editFileInfo;
-  private DiffInfo patchSetDiffInfo;
+  private JsArray<DiffWebLinkInfo> diffLinks;
 
   @UiField Element header;
   @UiField Element project;
@@ -181,7 +181,7 @@ public class EditScreen extends Screen {
         .get(group1.add(new AsyncCallback<DiffInfo>() {
           @Override
           public void onSuccess(DiffInfo diffInfo) {
-            patchSetDiffInfo = diffInfo;
+            diffLinks = diffInfo.web_links();
           }
 
           @Override
@@ -219,10 +219,12 @@ public class EditScreen extends Screen {
     group3.addListener(new ScreenLoadCallback<Void>(this) {
       @Override
       protected void preDisplay(Void result) {
-        initEditor(content, editFileInfo, patchSetDiffInfo);
+        initEditor(content);
         content = null;
+
+        renderLinks(editFileInfo, diffLinks);
         editFileInfo = null;
-        patchSetDiffInfo = null;
+        diffLinks = null;
       }
     });
     group1.done();
@@ -340,8 +342,7 @@ public class EditScreen extends Screen {
     Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
-  private void initEditor(HttpResponse<NativeString> file,
-      EditFileInfo info, DiffInfo diffInfo) {
+  private void initEditor(HttpResponse<NativeString> file) {
     ModeInfo mode = null;
     String content = "";
     if (file != null) {
@@ -350,7 +351,6 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(file.getContentType(), path);
       }
     }
-    renderLinks(info, diffInfo);
     cm = CodeMirror.create(editor, Configuration.create()
         .set("value", content)
         .set("readOnly", false)
@@ -370,18 +370,18 @@ public class EditScreen extends Screen {
         .on("Ctrl-S", save()));
   }
 
-  private void renderLinks(EditFileInfo info, DiffInfo diffInfo) {
-    for (InlineHyperlink link : getLinks()) {
-      linkPanel.add(link);
-    }
-    if (info != null) {
-      renderPluginLinks(Natives.asList(info.web_links()));
-    } else if (diffInfo != null) {
-      renderPluginLinks(Natives.asList(diffInfo.web_links()));
+  private void renderLinks(EditFileInfo editInfo,
+      JsArray<DiffWebLinkInfo> diffLinks) {
+    renderLinksToDiff();
+
+    if (editInfo != null) {
+      renderLinks(Natives.asList(editInfo.web_links()));
+    } else if (diffLinks != null) {
+      renderLinks(Natives.asList(diffLinks));
     }
   }
 
-  private void renderPluginLinks(List<DiffWebLinkInfo> links) {
+  private void renderLinks(List<DiffWebLinkInfo> links) {
     if (links != null) {
       for (DiffWebLinkInfo webLink : links) {
         linkPanel.add(webLink.toAnchor());
@@ -389,25 +389,21 @@ public class EditScreen extends Screen {
     }
   }
 
-  private List<InlineHyperlink> getLinks() {
-    List<InlineHyperlink> links = new ArrayList<>(2);
-
+  private void renderLinksToDiff() {
     String diffUrl = getDiffUrl();
-    InlineHyperlink toSideBySideDiffLink = new InlineHyperlink();
-    toSideBySideDiffLink.setHTML(new ImageResourceRenderer()
+    InlineHyperlink sbs = new InlineHyperlink();
+    sbs.setHTML(new ImageResourceRenderer()
         .render(Gerrit.RESOURCES.sideBySideDiff()));
-    toSideBySideDiffLink.setTargetHistoryToken(diffUrl);
-    toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
-    links.add(toSideBySideDiffLink);
+    sbs.setTargetHistoryToken(diffUrl);
+    sbs.setTitle(PatchUtil.C.sideBySideDiff());
+    linkPanel.add(sbs);
 
-    InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
-    toUnifiedDiffLink.setHTML(new ImageResourceRenderer()
+    InlineHyperlink unified = new InlineHyperlink();
+    unified.setHTML(new ImageResourceRenderer()
         .render(Gerrit.RESOURCES.unifiedDiff()));
-    toUnifiedDiffLink.setTargetHistoryToken(diffUrl + ",unified");
-    toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
-    links.add(toUnifiedDiffLink);
-
-    return links;
+    unified.setTargetHistoryToken(diffUrl + ",unified");
+    unified.setTitle(PatchUtil.C.unifiedDiff());
+    linkPanel.add(unified);
   }
 
   private String getDiffUrl() {

@@ -93,7 +93,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private static final String DEFAULT_TOOLTIP =
       "Submit patch set ${patchSet} into ${branch}";
   private static final String DEFAULT_TOPIC_TOOLTIP =
-      "Submit all ${topicSize} changes of the same topic";
+      "Submit all ${topicSize} changes of the same topic. "
+      + "Currently blocking submission: ${exposedBlockingChangeIds} "
+      + "and ${unexposedBlockingChangeIds} hidden changes";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -232,32 +234,37 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  private boolean areChangesSubmittable(List<ChangeData> changes,
+  private int unknownBlockingChanges(List<ChangeData> changes,
       IdentifiedUser identifiedUser) {
+    int ret = 0;
     for (ChangeData c : changes) {
       try {
         ChangeControl changeControl = c.changeControl().forUser(
             identifiedUser);
         if (!changeControl.canSubmit()) {
-          return false;
+          ret ++;
         }
       } catch (OrmException e) {
         log.error("Failed to get a ChangeControl for Change.Id " +
             String.valueOf(c.getId()), e);
-        return false;
+        ret ++;
       }
     }
+    return ret;
+  }
+
+  private String exposedBlockingChangesToString(List<ChangeData> changes) {
+    StringBuilder ret = new StringBuilder();
     for (ChangeData c : changes) {
       try {
         checkSubmitRule(c, c.currentPatchSet(), false);
       } catch (OrmException | ResourceConflictException e) {
-        // TODO(sbeller):
-        // Here would be a good place to generate an explanation
-        // for the user why the submit button is disabled.
-        return false;
+        if (ret.length() > 0)
+          ret.append(", ");
+        ret.append(String.valueOf(c.getId()));
       }
     }
-    return true;
+    return ret.toString();
   }
 
   @Override
@@ -281,19 +288,19 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       } catch (OrmException e) {
         throw new OrmRuntimeException(e);
       }
+      int blockedChanges = unknownBlockingChanges(changesByTopic,
+          resource.getUser());
+      String exposed = exposedBlockingChangesToString(changesByTopic);
       Map<String, String> params = ImmutableMap.of(
-          "topicSize", String.valueOf(changesByTopic.size()));
-      // TODO(sbeller):
-      // If the button is visible but disabled the problem of submitting
-      // is at another change in the same topic. Tell the user via
-      // tooltip. Caution: Check access control for those changes.
+          "topicSize", String.valueOf(changesByTopic.size()),
+          "exposedBlockingChangeIds", exposed,
+          "unexposedBlockingChangeIds", String.valueOf(blockedChanges));
       return new UiAction.Description()
         .setLabel(submitTopicLabel)
         .setTitle(Strings.emptyToNull(
             submitTopicTooltip.replace(params)))
         .setVisible(true)
-        .setEnabled(areChangesSubmittable(
-            changesByTopic, resource.getUser()));
+        .setEnabled((blockedChanges == 0) && exposed.isEmpty());
     } else {
       RevId revId = resource.getPatchSet().getRevision();
       Map<String, String> params = ImmutableMap.of(

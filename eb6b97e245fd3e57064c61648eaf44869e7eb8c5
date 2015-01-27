@@ -181,6 +181,24 @@
       "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e3f56_518ad443",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-27T00:07:40Z",
+      "side": 1,
+      "message": "Actually, expanding a group can be...expensive. We can\u0027t OR together the thousands of users that might be in LDAP groups, just ain\u0027t gonna happen.\n\nI will let Edwin comment on the actual intention, but I think this must have been intended to trigger match calls and have that do the group filtering.\n\nI think what we might need to do is AND in another non-index predicate that is responsible for the matching. Unfortunately I\u0027m not sure how the index rewriter will react to that. Probably not well.",
+      "parentUuid": "cb4e3f56_d175e4b9",
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

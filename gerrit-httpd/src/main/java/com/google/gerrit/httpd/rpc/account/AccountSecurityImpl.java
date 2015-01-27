@@ -65,30 +65,34 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
   private final GroupIncludeCache groupIncludeCache;
+  private final GroupCache groupCache;
   private final AccountManager accountManager;
-  private final boolean useContactInfo;
-
   private final ChangeUserName.CurrentUser changeUserNameFactory;
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
-
   private final ChangeHooks hooks;
-  private final GroupCache groupCache;
   private final AuditService auditService;
 
+  private final boolean useContactInfo;
+
   @Inject
-  AccountSecurityImpl(final Provider<ReviewDb> schema,
-      final Provider<CurrentUser> currentUser, final ContactStore cs,
-      final Realm r, final Provider<IdentifiedUser> u,
-      final EmailTokenVerifier etv, final ProjectCache pc,
-      final AccountByEmailCache abec, final AccountCache uac,
-      final GroupIncludeCache groupIncludeCache,
-      final AccountManager am,
-      final ChangeUserName.CurrentUser changeUserNameFactory,
-      final DeleteExternalIds.Factory deleteExternalIdsFactory,
-      final ExternalIdDetailFactory.Factory externalIdDetailFactory,
-      final ChangeHooks hooks, final GroupCache groupCache,
-      final AuditService auditService) {
+  AccountSecurityImpl(Provider<ReviewDb> schema,
+      Provider<CurrentUser> currentUser,
+      ContactStore cs,
+      Realm r,
+      Provider<IdentifiedUser> u,
+      EmailTokenVerifier etv,
+      ProjectCache pc,
+      AccountByEmailCache abec,
+      AccountCache uac,
+      GroupIncludeCache gic,
+      GroupCache gc,
+      AccountManager am,
+      ChangeUserName.CurrentUser changeUserNameFactory,
+      DeleteExternalIds.Factory deleteExternalIdsFactory,
+      ExternalIdDetailFactory.Factory externalIdDetailFactory,
+      ChangeHooks hooks,
+      AuditService auditService) {
     super(schema, currentUser);
     contactStore = cs;
     realm = r;
@@ -97,22 +101,21 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     projectCache = pc;
     byEmailCache = abec;
     accountCache = uac;
-    this.groupIncludeCache = groupIncludeCache;
+    groupCache = gc;
+    groupIncludeCache = gic;
     accountManager = am;
-    this.auditService = auditService;
-
-    useContactInfo = contactStore != null && contactStore.isEnabled();
 
     this.changeUserNameFactory = changeUserNameFactory;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.hooks = hooks;
-    this.groupCache = groupCache;
+    this.auditService = auditService;
+
+    useContactInfo = contactStore != null && contactStore.isEnabled();
   }
 
   @Override
-  public void changeUserName(final String newName,
-      final AsyncCallback<VoidResult> callback) {
+  public void changeUserName(String newName, AsyncCallback<VoidResult> callback) {
     if (realm.allowsEdit(Account.FieldName.USER_NAME)) {
       if (newName == null || !newName.matches(Account.USER_NAME_PATTERN)) {
         callback.onFailure(new InvalidUserNameException());
@@ -130,8 +133,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void deleteExternalIds(final Set<AccountExternalId.Key> keys,
-      final AsyncCallback<Set<AccountExternalId.Key>> callback) {
+  public void deleteExternalIds(Set<AccountExternalId.Key> keys,
+      AsyncCallback<Set<AccountExternalId.Key>> callback) {
     deleteExternalIdsFactory.create(keys).to(callback);
   }
 
@@ -142,8 +145,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       @Override
       public Account run(ReviewDb db) throws OrmException, Failure {
         IdentifiedUser self = user.get();
-        final Account me = db.accounts().get(self.getAccountId());
-        final String oldEmail = me.getPreferredEmail();
+        Account me = db.accounts().get(self.getAccountId());
+        String oldEmail = me.getPreferredEmail();
         if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
           me.setFullName(Strings.emptyToNull(name));
         }
@@ -176,7 +179,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     });
   }
 
-  private static boolean eq(final String a, final String b) {
+  private static boolean eq(String a, String b) {
     if (a == null && b == null) {
       return true;
     }
@@ -210,7 +213,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         Account account = user.get().getAccount();
         hooks.doClaSignupHook(account, ca);
 
-        final AccountGroupMember.Key key =
+        AccountGroupMember.Key key =
             new AccountGroupMember.Key(account.getId(), group.getId());
         AccountGroupMember m = db.accountGroupMembers().get(key);
         if (m == null) {
@@ -228,8 +231,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void validateEmail(final String tokenString,
-      final AsyncCallback<VoidResult> callback) {
+  public void validateEmail(String tokenString, AsyncCallback<VoidResult> callback) {
     try {
       EmailTokenVerifier.ParsedToken token = emailTokenVerifier.decode(tokenString);
       Account.Id currentUser = user.get().getAccountId();

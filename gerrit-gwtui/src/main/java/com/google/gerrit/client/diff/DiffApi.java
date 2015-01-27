@@ -64,7 +64,7 @@ public class DiffApi {
   }
 
   public DiffApi webLinksOnly() {
-    call.addParameter("weblinks-only", true);
+    call.addParameterTrue("weblinks-only");
     return this;
   }
 

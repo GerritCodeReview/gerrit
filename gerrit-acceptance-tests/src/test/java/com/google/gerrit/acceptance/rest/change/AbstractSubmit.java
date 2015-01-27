@@ -29,7 +29,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -46,8 +46,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.PutConfig;
@@ -102,13 +102,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
     CurrentUser listenerUser = factory.create(user.id);
-    hooks.addChangeListener(new ChangeListener() {
+    hooks.addEventListener(new EventListener() {
 
       @Override
-      public void onChangeEvent(ChangeEvent event) {
+      public void onEvent(Event event) {
         if (event instanceof ChangeMergedEvent) {
-          ChangeMergedEvent cMEvent = (ChangeMergedEvent) event;
-          mergeResults.put(cMEvent.change.number, cMEvent.newRev);
+          ChangeMergedEvent changeMergedEvent = (ChangeMergedEvent) event;
+          mergeResults.put(changeMergedEvent.change.number,
+              changeMergedEvent.newRev);
         }
       }
 

@@ -379,9 +379,9 @@ Certain operations in Gerrit trigger events. Plugins may receive
 notifications of these events by implementing the corresponding
 listeners.
 
-* `com.google.gerrit.common.ChangeListener`:
+* `com.google.gerrit.common.EventListener`:
 +
-Allows to listen to change events. These are the same
+Allows to listen to events. These are the same
 link:cmd-stream-events.html#events[events] that are also streamed by
 the link:cmd-stream-events.html[gerrit stream-events] command.
 
@@ -413,7 +413,8 @@ Gerrit's `stream-events` ssh command will receive them.
 
 To send an event, the plugin must invoke one of the `postEvent`
 methods in the `ChangeHookRunner` class, passing an instance of
-its own custom event class derived from `ChangeEvent`.
+its own custom event class derived from
+`com.google.gerrit.server.events.Event`.
 
 [[validation]]
 == Validation Listeners

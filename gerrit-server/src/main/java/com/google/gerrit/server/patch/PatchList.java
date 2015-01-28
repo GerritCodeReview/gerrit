@@ -150,12 +150,13 @@ public class PatchList implements Serializable {
     while (low < high) {
       final int mid = (low + high) >>> 1;
       final int cmp = patches[mid].getNewName().compareTo(fileName);
-      if (cmp < 0)
+      if (cmp < 0) {
         low = mid + 1;
-      else if (cmp == 0)
+      } else if (cmp == 0) {
         return mid;
-      else
+      } else {
         high = mid;
+      }
     }
     return -(low + 1);
   }

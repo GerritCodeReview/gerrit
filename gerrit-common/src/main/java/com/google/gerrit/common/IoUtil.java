@@ -46,6 +46,7 @@ public final class IoUtil {
           try {
             src.close();
           } catch (IOException e2) {
+            // Ignore
           }
         }
       }

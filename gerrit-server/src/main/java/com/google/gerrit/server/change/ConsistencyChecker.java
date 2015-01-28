@@ -72,7 +72,7 @@ public class ConsistencyChecker {
       LoggerFactory.getLogger(ConsistencyChecker.class);
 
   @AutoValue
-  public static abstract class Result {
+  public abstract static class Result {
     private static Result create(Change.Id id, List<ProblemInfo> problems) {
       return new AutoValue_ConsistencyChecker_Result(id, null, problems);
     }

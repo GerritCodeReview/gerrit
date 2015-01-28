@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 public class TimestampHandler extends OptionHandler<Timestamp> {
-  public final static String TIMESTAMP_FORMAT = "yyyyMMdd_HHmm";
+  public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmm";
 
   @Inject
   public TimestampHandler(@Assisted CmdLineParser parser,

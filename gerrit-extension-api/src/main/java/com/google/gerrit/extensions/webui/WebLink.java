@@ -28,18 +28,18 @@ public interface WebLink {
     /**
      * Opens the link in a new window or tab
      */
-    public final static String BLANK = "_blank";
+    public static final String BLANK = "_blank";
     /**
      * Opens the link in the frame it was clicked.
      */
-    public final static String SELF = "_self";
+    public static final String SELF = "_self";
     /**
      * Opens link in parent frame.
      */
-    public final static String PARENT = "_parent";
+    public static final String PARENT = "_parent";
     /**
      * Opens link in the full body of the window.
      */
-    public final static String TOP = "_top";
+    public static final String TOP = "_top";
   }
 }

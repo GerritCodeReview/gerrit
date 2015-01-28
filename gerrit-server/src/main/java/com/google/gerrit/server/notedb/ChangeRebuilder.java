@@ -220,7 +220,7 @@ public class ChangeRebuilder {
         && event.psId.equals(update.getPatchSetId());
   }
 
-  private static abstract class Event implements Comparable<Event> {
+  private abstract static class Event implements Comparable<Event> {
     final PatchSet.Id psId;
     final Account.Id who;
     final Timestamp when;

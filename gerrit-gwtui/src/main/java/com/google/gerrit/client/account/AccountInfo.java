@@ -56,7 +56,7 @@ public class AccountInfo extends JavaScriptObject {
   }
 
   public static class AvatarInfo extends JavaScriptObject {
-    public final static int DEFAULT_SIZE = 26;
+    public static final int DEFAULT_SIZE = 26;
     public final native String url() /*-{ return this.url }-*/;
     public final native int height() /*-{ return this.height || 0 }-*/;
     public final native int width() /*-{ return this.width || 0 }-*/;

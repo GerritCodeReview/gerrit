@@ -47,7 +47,7 @@ public class CommentLinkInfo {
   public final String html;
   public final Boolean enabled; // null means true
 
-  public transient final String name;
+  public final transient String name;
 
   public CommentLinkInfo(String name, String match, String link, String html,
       Boolean enabled) {

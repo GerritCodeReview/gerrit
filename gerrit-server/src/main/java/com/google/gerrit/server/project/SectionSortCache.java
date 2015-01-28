@@ -119,7 +119,7 @@ public class SectionSortCache {
   }
 
   @AutoValue
-  static abstract class EntryKey {
+  abstract static class EntryKey {
     public abstract String ref();
     public abstract List<String> patterns();
     public abstract int cachedHashCode();

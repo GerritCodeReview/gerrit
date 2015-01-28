@@ -294,8 +294,8 @@ public final class GerritLauncher {
     return name;
   }
 
-  private volatile static File myArchive;
-  private volatile static File myHome;
+  private static volatile File myArchive;
+  private static volatile File myHome;
 
   /**
    * Locate the JAR/WAR file we were launched from.

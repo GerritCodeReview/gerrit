@@ -42,7 +42,7 @@ class ConfigAnnotationParser {
     return cfg;
   }
 
-  static private void parseAnnotation(Config cfg, GerritConfig c) {
+  private static void parseAnnotation(Config cfg, GerritConfig c) {
     ArrayList<String> l = Lists.newArrayList(splitter.split(c.name()));
     if (l.size() == 2) {
       cfg.setString(l.get(0), null, l.get(1), c.value());

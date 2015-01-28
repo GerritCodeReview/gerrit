@@ -402,7 +402,7 @@ public class SafeHtmlBuilder extends SafeHtml {
     return isElementName(name);
   }
 
-  private static abstract class Impl {
+  private abstract static class Impl {
     abstract void escapeStr(SafeHtmlBuilder b, String in);
   }
 

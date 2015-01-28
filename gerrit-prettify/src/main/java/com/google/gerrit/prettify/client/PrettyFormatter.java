@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class PrettyFormatter implements SparseHtmlFile {
-  public static abstract class EditFilter {
+  public abstract static class EditFilter {
     abstract String getStyleName();
 
     abstract int getBegin(Edit edit);

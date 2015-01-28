@@ -23,7 +23,7 @@ import com.google.inject.name.Named;
 
 @Singleton
 public class ConflictsCacheImpl implements ConflictsCache {
-  public final static String NAME = "conflicts";
+  public static final String NAME = "conflicts";
 
   public static Module module() {
     return new CacheModule() {

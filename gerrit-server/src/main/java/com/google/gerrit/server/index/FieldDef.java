@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.Config;
  */
 public abstract class FieldDef<I, T> {
   /** Definition of a single (non-repeatable) field. */
-  public static abstract class Single<I, T> extends FieldDef<I, T> {
+  public abstract static class Single<I, T> extends FieldDef<I, T> {
     Single(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);
     }
@@ -44,7 +44,7 @@ public abstract class FieldDef<I, T> {
   }
 
   /** Definition of a repeatable field. */
-  public static abstract class Repeatable<I, T>
+  public abstract static class Repeatable<I, T>
       extends FieldDef<I, Iterable<T>> {
     Repeatable(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);

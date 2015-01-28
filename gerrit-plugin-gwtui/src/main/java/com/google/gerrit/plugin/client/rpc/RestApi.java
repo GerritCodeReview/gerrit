@@ -109,7 +109,7 @@ public class RestApi {
     get(NativeString.unwrap(cb));
   }
 
-  private native static void get(String p, JavaScriptObject r)
+  private static native void get(String p, JavaScriptObject r)
   /*-{ $wnd.Gerrit.get(p, r) }-*/;
 
   public <T extends JavaScriptObject>
@@ -117,7 +117,7 @@ public class RestApi {
     put(path(), wrap(cb));
   }
 
-  private native static void put(String p, JavaScriptObject r)
+  private static native void put(String p, JavaScriptObject r)
   /*-{ $wnd.Gerrit.put(p, r) }-*/;
 
   public <T extends JavaScriptObject>
@@ -125,7 +125,7 @@ public class RestApi {
     put(path(), content, wrap(cb));
   }
 
-  private native static
+  private static native
   void put(String p, String c, JavaScriptObject r)
   /*-{ $wnd.Gerrit.put(p, c, r) }-*/;
 
@@ -134,7 +134,7 @@ public class RestApi {
     put(path(), content, wrap(cb));
   }
 
-  private native static
+  private static native
   void put(String p, JavaScriptObject c, JavaScriptObject r)
   /*-{ $wnd.Gerrit.put(p, c, r) }-*/;
 
@@ -143,7 +143,7 @@ public class RestApi {
     post(path(), content, wrap(cb));
   }
 
-  private native static
+  private static native
   void post(String p, String c, JavaScriptObject r)
   /*-{ $wnd.Gerrit.post(p, c, r) }-*/;
 
@@ -152,7 +152,7 @@ public class RestApi {
     post(path(), content, wrap(cb));
   }
 
-  private native static
+  private static native
   void post(String p, JavaScriptObject c, JavaScriptObject r)
   /*-{ $wnd.Gerrit.post(p, c, r) }-*/;
 
@@ -160,10 +160,10 @@ public class RestApi {
     delete(path(), wrap(cb));
   }
 
-  private native static void delete(String p, JavaScriptObject r)
+  private static native void delete(String p, JavaScriptObject r)
   /*-{ $wnd.Gerrit.del(p, r) }-*/;
 
-  private native static <T extends JavaScriptObject>
+  private static native <T extends JavaScriptObject>
   JavaScriptObject wrap(AsyncCallback<T> b) /*-{
     return function(r) {
       b.@com.google.gwt.user.client.rpc.AsyncCallback::onSuccess(Ljava/lang/Object;)(r)

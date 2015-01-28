@@ -100,12 +100,13 @@ public final class SitePaths {
 
     if (site_path.exists()) {
       final String[] contents = site_path.list();
-      if (contents != null)
+      if (contents != null) {
         isNew = contents.length == 0;
-      else if (site_path.isDirectory())
+      } else if (site_path.isDirectory()) {
         throw new FileNotFoundException("Cannot access " + site_path);
-      else
+      } else {
         throw new FileNotFoundException("Not a directory: " + site_path);
+      }
     } else {
       isNew = true;
     }

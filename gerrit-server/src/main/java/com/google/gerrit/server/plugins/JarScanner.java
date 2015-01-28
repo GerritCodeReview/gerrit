@@ -264,7 +264,7 @@ public class JarScanner implements PluginContentScanner {
     }
   }
 
-  private static abstract class AbstractAnnotationVisitor extends
+  private abstract static class AbstractAnnotationVisitor extends
       AnnotationVisitor {
     AbstractAnnotationVisitor() {
       super(Opcodes.ASM4);

@@ -77,13 +77,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class ChangeEditIT extends AbstractDaemonTest {
 
-  private final static String FILE_NAME = "foo";
-  private final static String FILE_NAME2 = "foo2";
-  private final static String FILE_NAME3 = "foo3";
-  private final static byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
-  private final static byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
-  private final static String CONTENT_NEW2_STR = "quxÄÜÖßµ";
-  private final static byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
+  private static final String FILE_NAME = "foo";
+  private static final String FILE_NAME2 = "foo2";
+  private static final String FILE_NAME3 = "foo3";
+  private static final byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
+  private static final byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
+  private static final String CONTENT_NEW2_STR = "quxÄÜÖßµ";
+  private static final byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;

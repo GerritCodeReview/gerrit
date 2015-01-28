@@ -924,8 +924,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           while ((line = br.readLine()) != null) {
             log.info("hook[" + getName() + "] output: " + line);
           }
-        }
-        catch(IOException  iox) {
+        } catch (IOException iox) {
           log.error("Error writing hook output", iox);
         }
       }

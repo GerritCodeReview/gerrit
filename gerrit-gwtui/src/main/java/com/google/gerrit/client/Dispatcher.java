@@ -895,7 +895,7 @@ public class Dispatcher {
     return token.substring(prefixlen);
   }
 
-  private static abstract class AsyncSplit implements RunAsyncCallback {
+  private abstract static class AsyncSplit implements RunAsyncCallback {
     private final boolean isReloadUi;
     protected final String token;
 

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "174cff89_64636a03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T18:05:58Z",
+      "side": 1,
+      "message": "That\u0027s a good point. I don\u0027t know that we want to include all other changes in the same ETag.\n\nWhat about just moving the submit button UiAction out of the actions map and into a separate REST API call? Submit is already treated specially in the UI in a lot of places.",
+      "parentUuid": "d76c27f3_ba54110a",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_a4e4c234",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

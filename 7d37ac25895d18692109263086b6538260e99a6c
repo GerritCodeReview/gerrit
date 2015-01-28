@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b77173c9_3949ef73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-28T17:30:39Z",
+      "side": 1,
+      "message": "Have you noticed my comment on another change concerning caching of GET /changes/\u003cid\u003e/detail request (and that action info map with submit button and friends are part of) in browser and that no re-evaluation actually happens until SHA-1 of the change was changed? So if you open first change from specific topic first time in browser, it doesn\u0027t really matter what happened to other changes from the same topic, there is no re-evaluation of submitability of the first change.",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_a4e4c234",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

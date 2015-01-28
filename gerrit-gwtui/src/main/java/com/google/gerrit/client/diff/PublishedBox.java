@@ -70,7 +70,8 @@ class PublishedBox extends CommentBox {
       CommentGroup group,
       CommentLinkProcessor clp,
       PatchSet.Id psId,
-      CommentInfo info) {
+      CommentInfo info,
+      boolean open) {
     super(group, info.range());
 
     this.psId = psId;
@@ -99,6 +100,8 @@ class PublishedBox extends CommentBox {
       message.setInnerSafeHtml(clp.apply(
           new SafeHtmlBuilder().append(msg).wikify()));
     }
+
+    fix.setVisible(open);
   }
 
   @Override

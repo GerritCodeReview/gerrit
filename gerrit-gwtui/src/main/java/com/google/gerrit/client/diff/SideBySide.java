@@ -116,6 +116,7 @@ public class SideBySide extends Screen {
   private DisplaySide startSide;
   private int startLine;
   private DiffPreferences prefs;
+  private Change.Status changeStatus;
 
   private CodeMirror cmA;
   private CodeMirror cmB;
@@ -234,6 +235,7 @@ public class SideBySide extends Screen {
     call.get(group2.add(new AsyncCallback<ChangeInfo>() {
       @Override
       public void onSuccess(ChangeInfo info) {
+        changeStatus = info.status();
         info.revisions().copyKeysIntoChildren("name");
         if (edit != null) {
           edit.set_name(edit.commit().commit());
@@ -244,7 +246,7 @@ public class SideBySide extends Screen {
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
         diffTable.set(prefs, list, diff, edit != null, currentPatchSet,
-            info.status().isOpen());
+            changeStatus.isOpen());
         header.setChangeInfo(info);
       }
 
@@ -260,7 +262,8 @@ public class SideBySide extends Screen {
             commentManager = new CommentManager(
                 SideBySide.this,
                 base, revision, path,
-                result.getCommentLinkProcessor());
+                result.getCommentLinkProcessor(),
+                changeStatus.isOpen());
             setTheme(result.getTheme());
             display(comments);
           }

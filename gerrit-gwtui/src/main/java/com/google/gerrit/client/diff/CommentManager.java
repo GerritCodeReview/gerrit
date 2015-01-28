@@ -52,16 +52,19 @@ class CommentManager {
   private final Set<DraftBox> unsavedDrafts;
   private boolean attached;
   private boolean expandAll;
+  private boolean open;
 
   CommentManager(SideBySide host,
       PatchSet.Id base, PatchSet.Id revision,
       String path,
-      CommentLinkProcessor clp) {
+      CommentLinkProcessor clp,
+      boolean open) {
     this.host = host;
     this.base = base;
     this.revision = revision;
     this.path = path;
     this.commentLinkProcessor = clp;
+    this.open = open;
 
     published = new HashMap<>();
     sideA = new TreeMap<>();
@@ -157,7 +160,8 @@ class CommentManager {
             group,
             commentLinkProcessor,
             getPatchSetIdFromSide(side),
-            info);
+            info,
+            open);
         group.add(box);
         box.setAnnotation(host.diffTable.scrollbar.comment(
             host.getCmFromSide(side),

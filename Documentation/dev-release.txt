@@ -222,10 +222,6 @@ https://oss.sonatype.org/content/repositories/snapshots/com/google/gerrit/
 link:https://oss.sonatype.org/[Sonatype Nexus Server].
 
 * Verify the staging repository
-+
-How to do this is described in the
-link:https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8.a.1.ClosingaStagingRepository[
-Sonatype OSS Maven Repository Usage Guide].
 
 ** Go to the link:https://oss.sonatype.org/[Sonatype Nexus Server] and
 sign in with your Sonatype credentials.

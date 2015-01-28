@@ -8,7 +8,8 @@ gwt_module(
   deps = [
     '//gerrit-extension-api:client',
     '//lib:gwtorm',
-    '//lib:gwtorm_src'
+    '//lib:gwtorm_src',
+    '//lib/auto:auto-value'
   ],
   visibility = ['PUBLIC'],
 )
@@ -20,6 +21,7 @@ java_library(
   deps = [
     '//gerrit-extension-api:api',
     '//lib:gwtorm',
+    '//lib/auto:auto-value'
   ],
   visibility = ['PUBLIC'],
 )

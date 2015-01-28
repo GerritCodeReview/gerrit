@@ -14,9 +14,11 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.auto.value.AutoValue;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+@AutoValue
 public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
   private static final long serialVersionUID = 1L;
 
@@ -40,18 +42,5 @@ public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
   @Override
   protected void set(String newValue) {
     id = newValue;
-  }
-
-  @Override
-  public int hashCode() {
-    return get().hashCode();
-  }
-
-  @Override
-  public boolean equals(Object b) {
-    if (this == b) {
-      return get().equals(((LabelId) b).get());
-    }
-    return false;
   }
 }

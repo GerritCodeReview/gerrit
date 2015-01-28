@@ -22,6 +22,30 @@
       "revId": "2716042da907a3d7f979a432dd0cb567487c0727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b77173c9_b97dff9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-28T14:40:52Z",
+      "side": 1,
+      "message": "Strange. For me, this never produced just \"2.10\" but always this additional suffix \"(from ...).\n\nI think Edwin had the same issue too.\n\nI can remove this paragraph.\n\nCould you try:\n$ git checkout v2.10\n$ make -C ReleaseNotes\n\nthen check the ReleaseNotes/ReleaseNotes-2.10.html.\nWhich version string do you see in the generated file?",
+      "parentUuid": "b76333f1_a9801d24",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "2716042da907a3d7f979a432dd0cb567487c0727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

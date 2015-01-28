@@ -86,6 +86,7 @@ class RelatedChangesTab implements IsWidget {
   private final RelatedChanges.Tab subject;
 
   private boolean showBranches;
+  private boolean showProjects;
   private boolean showIndirectAncestors;
   private boolean registerKeys;
   private int maxHeight;
@@ -105,6 +106,10 @@ class RelatedChangesTab implements IsWidget {
 
   void setShowBranches(boolean showBranches) {
     this.showBranches = showBranches;
+  }
+
+  void setShowProjects(boolean showProjects) {
+    this.showProjects = showProjects;
   }
 
   void setShowIndirectAncestors(boolean showIndirectAncestors) {
@@ -276,6 +281,9 @@ class RelatedChangesTab implements IsWidget {
         sb.openAnchor().setAttribute("href", url);
         if (url.startsWith("#")) {
           sb.setAttribute("onclick", OPEN);
+        }
+        if (showProjects) {
+          sb.append(info.project()).append(": ");
         }
         if (showBranches) {
           sb.append(info.branch()).append(": ");

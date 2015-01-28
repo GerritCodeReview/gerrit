@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b77173c9_196d0bed",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-01-28T11:50:34Z",
+      "side": 1,
+      "message": "Fixed, warning was caused by moved javadoc",
+      "parentUuid": "b77173c9_7968c7dd",
+      "range": {
+        "startLine": 154,
+        "startChar": 40,
+        "endLine": 154,
+        "endChar": 44
+      },
+      "revId": "d47de0354fb31bbf2b330435aa297e414fd5d272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b76333f1_c92c71c0",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 22

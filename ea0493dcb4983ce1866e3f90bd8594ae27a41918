@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "174cff89_6415aa6b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:17:34Z",
+      "side": 1,
+      "message": "If the submit button is called merge, you may want to call this error message \"Cannot merge because there are other unmergable changes!\" ? Also you may want to differentiate between this and the blocking by hidden changes.",
+      "parentUuid": "372663b6_ed018532",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_24e8d203",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

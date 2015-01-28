@@ -196,6 +196,24 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_8d2681da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-28T18:57:10Z",
+      "side": 1,
+      "message": "\u003e But there is already one perfectly workable way to accomplish the goal of the change. Why do we need two ways?\n\nThe only problem we found that prevented us from using the soft links solution (which we considered before doing this change) is the following:\n\nOur gerrit site, including the basePath for repositories are on NFS: /nfs_volume/my/gerrit/site/git. if I use a soft link on the NFS to link to my high performance storage, we will not get the improvement we expect because any repos stored on the high performance will used through the NFS storage.",
+      "parentUuid": "372663b6_ad293dae",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

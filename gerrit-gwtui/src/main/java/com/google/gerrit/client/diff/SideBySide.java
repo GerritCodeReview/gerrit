@@ -360,11 +360,9 @@ public class SideBySide extends Screen {
   }
 
   private void registerCmEvents(final CodeMirror cm) {
-    cm.on("beforeSelectionChange", onSelectionChange(cm));
     cm.on("cursorActivity", updateActiveLine(cm));
-    cm.on("gutterClick", onGutterClick(cm));
     cm.on("focus", updateActiveLine(cm));
-    cm.addKeyMap(KeyMap.create()
+    KeyMap keyMap = KeyMap.create()
         .on("A", upToChange(true))
         .on("U", upToChange(false))
         .on("[", header.navigate(Direction.PREV))
@@ -372,7 +370,6 @@ public class SideBySide extends Screen {
         .on("R", header.toggleReviewed())
         .on("O", commentManager.toggleOpenBox(cm))
         .on("Enter", commentManager.toggleOpenBox(cm))
-        .on("C", commentManager.insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
         .on("M", modifyInEditScreen(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
@@ -431,7 +428,13 @@ public class SideBySide extends Screen {
           public void run() {
             cm.execCommand("selectAll");
           }
-        }));
+        });
+    if (revision.get() != 0) {
+      cm.on("beforeSelectionChange", onSelectionChange(cm));
+      cm.on("gutterClick", onGutterClick(cm));
+      keyMap.on("C", commentManager.insertNewDraft(cm));
+    }
+    cm.addKeyMap(keyMap);
     if (prefs.renderEntireFile()) {
       cm.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
     }

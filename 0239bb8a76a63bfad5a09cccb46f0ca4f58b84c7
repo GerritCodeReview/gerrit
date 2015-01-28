@@ -70,6 +70,24 @@
       "revId": "0239bb8a76a63bfad5a09cccb46f0ca4f58b84c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_a457220e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T20:09:45Z",
+      "side": 1,
+      "message": "\u003e Is it possible that the user reported that changes are missing because the online reindexer running in background did not reindex those changes yet but eventually will?\n\nShould not be. The online reindexer builds a brand new index in a new directory, and swaps out an AtomicReference to the new index version when it\u0027s completed.\n\nIf no live index version is available, the server should fail to start. It should not attempt an online reindex if there is no old version available to read from in the meantime.\n\n\u003e I tested the 2.9.x upgrade to 2.10-rc0 back then and I did not need to reindex.\n\nDo you mean that the online indexer did not even start running? If so, that would be a bug. 2.9.x is on v8 and 2.10.x is on v11.\n\nIf you mean that you didn\u0027t have to manually reindex, then that sounds like working as intended.",
+      "parentUuid": "372663b6_cd7369ce",
+      "revId": "0239bb8a76a63bfad5a09cccb46f0ca4f58b84c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "bc8c976a1f89bc0eae37386c07b4b8780aed54d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_7a4f597b",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-01-28T12:48:30Z",
+      "side": 1,
+      "message": "Forget about my comment. I misread what you suggested. Looks ok for me.",
+      "parentUuid": "d76c27f3_ba7df19b",
+      "revId": "bc8c976a1f89bc0eae37386c07b4b8780aed54d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

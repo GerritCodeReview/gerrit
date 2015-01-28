@@ -129,6 +129,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final String label;
   private final ParameterizedString titlePattern;
   private final String submitTopicLabel;
+  private final String submitTopicTooltipBlocked;
+  private final String submitTopicTooltipHiddenBlocked;
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -175,6 +177,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.submitTopicTooltip = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTopicTooltip"),
         DEFAULT_TOPIC_TOOLTIP));
+    this.submitTopicTooltipBlocked = MoreObjects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitTopicTooltipBlocked")),
+        DEFAULT_BLOCKED_TOPIC_TOOLTIP);
+    this.submitTopicTooltipHiddenBlocked = MoreObjects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitTopicTooltipHiddenBlocked")),
+        DEFAULT_BLOCKED_HIDDEN_TOPIC_TOOLTIP);
     this.queryProvider = queryProvider;
   }
 
@@ -248,17 +256,17 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         ChangeControl changeControl = c.changeControl().forUser(
             identifiedUser);
         if (!changeControl.isVisible(dbProvider.get())) {
-          return DEFAULT_BLOCKED_HIDDEN_TOPIC_TOOLTIP;
+          return submitTopicTooltipHiddenBlocked;
         }
         if (!changeControl.canSubmit()) {
-          return DEFAULT_BLOCKED_TOPIC_TOOLTIP;
+          return submitTopicTooltipBlocked;
         }
         checkSubmitRule(c, c.currentPatchSet(), false);
       } catch (OrmException e) {
         log.error(String.valueOf(e));
         throw new OrmRuntimeException(e);
       } catch (ResourceConflictException e) {
-        return DEFAULT_BLOCKED_TOPIC_TOOLTIP;
+        return submitTopicTooltipBlocked;
       }
     }
     return null;

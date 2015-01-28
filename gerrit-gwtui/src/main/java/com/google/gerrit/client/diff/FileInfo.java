@@ -43,6 +43,20 @@ public class FileInfo extends JavaScriptObject {
         } else if (Patch.COMMIT_MSG.equals(b.path())) {
           return 1;
         }
+        // Look at file suffixes to check if it makes sense to use a different order
+        int s1 = a.path().lastIndexOf('.');
+        int s2 = b.path().lastIndexOf('.');
+        if (s1 > 0 && s2 > 0 &&
+            a.path().substring(0, s1).equals(b.path().substring(0, s2))) {
+            String suffixA = a.path().substring(s1);
+            String suffixB = b.path().substring(s2);
+            // C++ and C: give priority to header files (.h/.hpp/...)
+            if (suffixA.indexOf(".h") == 0) {
+                return -1;
+            } else if (suffixB.indexOf(".h") == 0) {
+                return 1;
+            }
+        }
         return a.path().compareTo(b.path());
       }
     });

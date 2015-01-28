@@ -46,6 +46,30 @@
       "revId": "2716042da907a3d7f979a432dd0cb567487c0727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_1abbbdf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-01-28T20:39:51Z",
+      "side": 1,
+      "message": "in v2.9 it worked as the tagged commit also updated the ReleaseNotes.\nIn v2.10, I also get the (from ...) suffix.",
+      "parentUuid": "b77173c9_b97dff9b",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "2716042da907a3d7f979a432dd0cb567487c0727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

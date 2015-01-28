@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "174cff89_24369213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:43:47Z",
+      "side": 1,
+      "message": "I did notice it and was confused by it. So you are saying I need to examine the caching code as it totally did not have this use case in mind?",
+      "parentUuid": "b77173c9_3949ef73",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_a4e4c234",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

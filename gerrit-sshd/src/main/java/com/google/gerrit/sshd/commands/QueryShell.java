@@ -709,7 +709,7 @@ public class QueryShell {
     print(help.toString());
   }
 
-  private static abstract class Function {
+  private abstract static class Function {
     final String name;
 
     Function(final String name) {

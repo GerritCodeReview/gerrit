@@ -182,12 +182,12 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   }
 
   /** Writes commit to a BatchMetaDataUpdate without committing the batch. */
-  abstract public void writeCommit(BatchMetaDataUpdate batch)
+  public abstract void writeCommit(BatchMetaDataUpdate batch)
       throws OrmException, IOException;
 
   /**
    * @return the NameKey for the project where the update will be stored,
    *    which is not necessarily the same as the change's project.
    */
-  abstract protected Project.NameKey getProjectName();
+  protected abstract Project.NameKey getProjectName();
 }

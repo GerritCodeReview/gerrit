@@ -70,7 +70,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GetDiff implements RestReadView<FileResource> {
-  private final static ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
+  private static final ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
       Maps.immutableEnumMap(
           new ImmutableMap.Builder<Patch.ChangeType, ChangeType>()
               .put(Patch.ChangeType.ADDED, ChangeType.ADDED)
@@ -339,11 +339,13 @@ public class GetDiff implements RestReadView<FileResource> {
         int lastB = 0;
         for (Edit edit : internalEdit) {
           if (edit.getBeginA() != edit.getEndA()) {
-            e.editA.add(ImmutableList.of(edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
+            e.editA.add(ImmutableList.of(
+                edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
             lastA = edit.getEndA();
           }
           if (edit.getBeginB() != edit.getEndB()) {
-            e.editB.add(ImmutableList.of(edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
+            e.editB.add(ImmutableList.of(
+                edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
             lastB = edit.getEndB();
           }
         }

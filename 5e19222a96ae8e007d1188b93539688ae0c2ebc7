@@ -178,6 +178,24 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_ad293dae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T18:46:56Z",
+      "side": 1,
+      "message": "\u003e I see this change as a extra feature in Gerrit that you can optionally enable if you want.\n\nBut there is already one perfectly workable way to accomplish the goal of the change. Why do we need two ways?\n\nAdding this as a feature to Gerrit just sounds like feature bloat.",
+      "parentUuid": "174cff89_c4733ece",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

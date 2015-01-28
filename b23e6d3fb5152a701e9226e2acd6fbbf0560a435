@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77929b13_df08db50",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T10:09:35Z",
+      "side": 1,
+      "message": "I\u0027m not sure that buck clean actually does anything useful here, if we\u0027re using --no-cache in the next step anyway.\n\nStill, it\u0027s probably better to include it.\n\nI\u0027m still going to use `git clean` though.  Maybe better to just add that step here?",
+      "revId": "b23e6d3fb5152a701e9226e2acd6fbbf0560a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

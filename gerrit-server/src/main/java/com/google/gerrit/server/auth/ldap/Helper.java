@@ -281,7 +281,8 @@ import javax.security.auth.login.LoginException;
         try {
           final Name compositeGroupName = new CompositeName().add(groupDN);
           final Attribute in =
-              ctx.getAttributes(compositeGroupName).get(schema.accountMemberField);
+              ctx.getAttributes(compositeGroupName, schema.accountMemberFieldArray)
+                .get(schema.accountMemberField);
           if (in != null) {
             final NamingEnumeration<?> groups = in.getAll();
             try {
@@ -310,6 +311,7 @@ import javax.security.auth.login.LoginException;
     final ParameterizedString accountEmailAddress;
     final ParameterizedString accountSshUserName;
     final String accountMemberField;
+    final String[] accountMemberFieldArray;
     final List<LdapQuery> accountQueryList;
 
     final List<String> groupBases;
@@ -374,7 +376,10 @@ import javax.security.auth.login.LoginException;
       accountMemberField =
           LdapRealm.optdef(config, "accountMemberField", type.accountMemberField());
       if (accountMemberField != null) {
+        accountMemberFieldArray = new String[] {accountMemberField};
         accountAtts.add(accountMemberField);
+      } else {
+        accountMemberFieldArray = null;
       }
 
       final SearchScope accountScope = LdapRealm.scope(config, "accountScope");

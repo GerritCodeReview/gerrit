@@ -815,6 +815,12 @@ deleted or published.
 +
 Default is true.
 
+[[change.draftLabel]]change.draftLabel::
++
+Label to mark a change as draft.
++
+Default is "Draft".
+
 [[change.submitLabel]]change.submitLabel::
 +
 Label name for the submit button.

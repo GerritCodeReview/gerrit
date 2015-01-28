@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 
@@ -31,6 +32,10 @@ public class Util {
     }
     switch (status) {
       case DRAFT:
+        if (Gerrit.getConfig().getDraftLabel() != null
+            && !Gerrit.getConfig().getDraftLabel().isEmpty()) {
+          return Gerrit.getConfig().getDraftLabel();
+        }
         return C.statusLongDraft();
       case NEW:
         return C.statusLongNew();

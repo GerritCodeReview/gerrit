@@ -56,6 +56,7 @@ public class GerritConfig implements Cloneable {
   protected int largeChangeSize;
   protected String replyLabel;
   protected String replyTitle;
+  protected String draftLabel;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -306,5 +307,13 @@ public class GerritConfig implements Cloneable {
 
   public void setReplyLabel(String r) {
     replyLabel = r;
+  }
+
+  public String getDraftLabel() {
+    return draftLabel;
+  }
+
+  public void setDraftLabel(String r) {
+    draftLabel = r;
   }
 }

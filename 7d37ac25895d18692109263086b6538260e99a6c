@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d76c27f3_ba54110a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-28T17:59:36Z",
+      "side": 1,
+      "message": "Yes. The caching code relies on SHA-1 of one change. Current ETag computation completely ignores the chain of changes that belong to same topic: [1].\n\nWhen topic T has two changes A and B. Say A is approved, but B is not. When Bob loads change A in change screen, it is not submittable. Now when Alice approved change B and Bob again reloaded change A: SHA-1 of change A wasn\u0027t changed and thus Submit.apply() isn\u0027t called. For Bob, change A is still (erroneously) not submittable. To solve: Bob has has to clear browser cache and reload change A again, now it is submittable.\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java#61",
+      "parentUuid": "174cff89_24369213",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_a4e4c234",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

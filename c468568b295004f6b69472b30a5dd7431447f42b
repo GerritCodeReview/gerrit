@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77929b13_1f1f238d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T10:00:52Z",
+      "side": 1,
+      "message": "I usually do a `git clean -fdx` before making a release build, but that\u0027s probably overkill.",
+      "revId": "c468568b295004f6b69472b30a5dd7431447f42b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "174cff89_c4057e36",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "174cff89_64eeca15",
+      "range": {
+        "startLine": 852,
+        "startChar": 42,
+        "endLine": 852,
+        "endChar": 46
+      },
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "372663b6_ed018532",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -78,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "372663b6_ed086550",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:39:58Z",
+      "side": 1,
+      "message": "\u003e We\u0027d never have time to get any work done\n\nThe work is done now. Should I delete it? What is the downside of having lots of config options here?",
+      "parentUuid": "372663b6_8df8c1d2",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_24e8d203",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -89,6 +131,30 @@
       "writtenOn": "2015-01-28T17:11:30Z",
       "side": 1,
       "message": "It\u0027s not obvious what a \"blocking\" change is. Perhaps \"Other changes in this topic are not ready\"?",
+      "range": {
+        "startLine": 867,
+        "startChar": 13,
+        "endLine": 867,
+        "endChar": 39
+      },
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_0d24d1dd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "174cff89_24e8d203",
       "range": {
         "startLine": 867,
         "startChar": 13,
@@ -118,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "174cff89_a412827c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "372663b6_0dedf113",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_04edd613",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -135,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "372663b6_2d1f8d8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "174cff89_04edd613",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_e4019a32",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -146,6 +248,24 @@
       "writtenOn": "2015-01-28T17:11:30Z",
       "side": 1,
       "message": "You haven\u0027t checked that the change is actually hidden. canSubmit() may be false if the user lacks submit permission but has read permission. You need to check changeControl.isVisible() as well.",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_e4087a50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "174cff89_e4019a32",
       "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

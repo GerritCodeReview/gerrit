@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77929b13_5f3ccbf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "[optional] commit messages can be wider...",
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_7f418f5b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "Is this correct in plural?  Can there be more than one?",
+      "range": {
+        "startLine": 282,
+        "startChar": 7,
+        "endLine": 282,
+        "endChar": 17
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_296d4ded",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "Can you add an example of what kind of value is expected?",
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_1f364313",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "nit: injected constructor arguments should be listed one per line.\n\nAlso, should we remove the `final` modifiers here?",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 69
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_3f3b07fc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "nit: wrap this long line.",
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_df2f7bb2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "Associating",
+      "range": {
+        "startLine": 128,
+        "startChar": 15,
+        "endLine": 128,
+        "endChar": 25
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_097289cd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "associate",
+      "range": {
+        "startLine": 133,
+        "startChar": 29,
+        "endLine": 133,
+        "endChar": 39
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_e97615c0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "nit: formatting of this message is inconsistent with the message at line 128 where the values are enclosed in \"{}\".",
+      "range": {
+        "startLine": 133,
+        "startChar": 18,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_ff2cbfbf",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_9f29f3ae",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "scheme !\u003d null\n\nor better, invert the logic so the first test is `scheme \u003d\u003d null`",
+      "range": {
+        "startLine": 138,
+        "startChar": 11,
+        "endLine": 138,
+        "endChar": 25
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_bf2637da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "unnecessary @return annotation",
+      "range": {
+        "startLine": 375,
+        "startChar": 6,
+        "endLine": 375,
+        "endChar": 12
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_c97351ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "no final in new code.",
+      "range": {
+        "startLine": 383,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 9
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_5f636b02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T11:36:20Z",
+      "side": 1,
+      "message": "no final",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 11
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

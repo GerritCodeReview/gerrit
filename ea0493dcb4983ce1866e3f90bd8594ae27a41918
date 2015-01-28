@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "174cff89_64eeca15",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:11:30Z",
+      "side": 1,
+      "message": "case where",
+      "range": {
+        "startLine": 852,
+        "startChar": 42,
+        "endLine": 852,
+        "endChar": 46
+      },
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_ed018532",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:11:30Z",
+      "side": 1,
+      "message": "I am not totally convinced these need to be configurable.\n\nThe reason the normal submit button/tooltip are configurable is because some people believe strongly that \"submit\" should in fact say \"merge.\" But these labels here don\u0027t say \"submit\" or \"merge\", so that argument doesn\u0027t apply. Perhaps you should wait for a second opinion, but I don\u0027t see why someone would want to change this.",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_24e8d203",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:11:30Z",
+      "side": 1,
+      "message": "It\u0027s not obvious what a \"blocking\" change is. Perhaps \"Other changes in this topic are not ready\"?",
+      "range": {
+        "startLine": 867,
+        "startChar": 13,
+        "endLine": 867,
+        "endChar": 39
+      },
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_0dedf113",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:11:30Z",
+      "side": 1,
+      "message": "This is verbose and almost identical to the previous. I would say something more like:\n\n\"Same as `change.submitTopicTooltipBlocked`, except used one or more changes are not visible to the user. This is so the user is not confused by the default message when they can see no open changes in the topic.\"",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_04edd613",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:11:30Z",
+      "side": 1,
+      "message": "Unnecessary blank line",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_e4019a32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:11:30Z",
+      "side": 1,
+      "message": "You haven\u0027t checked that the change is actually hidden. canSubmit() may be false if the user lacks submit permission but has read permission. You need to check changeControl.isVisible() as well.",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

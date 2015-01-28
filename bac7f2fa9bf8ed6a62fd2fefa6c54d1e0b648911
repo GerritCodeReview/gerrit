@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "174cff89_84ab069c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T22:55:39Z",
+      "side": 1,
+      "message": "Why do you move this out of the constructor? \nInitially I assumed this is because of newer java versions, then I realized it\u0027s used just 2 lines prior.",
+      "range": {
+        "startLine": 115,
+        "startChar": 26,
+        "endLine": 115,
+        "endChar": 33
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_0d97315b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T22:55:39Z",
+      "side": 1,
+      "message": "What is the actual preferred coding style here?\nIirc there has also been classes having one argument per line.",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 20
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

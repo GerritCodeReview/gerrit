@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "372663b6_8d0fa154",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:53:46Z",
+      "side": 1,
+      "message": "There is such a thing as too many config options.\n\nJust look at this page:\n\nhttps://gerrit-review.googlesource.com/Documentation/config-gerrit.html\n\nNow filter through the options and memorize enough of them that you think you\u0027ll make an effective Gerrit administrator.\n\nI\u0027ll wait. :)",
+      "parentUuid": "372663b6_ed086550",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_24e8d203",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

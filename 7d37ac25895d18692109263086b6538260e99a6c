@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "372663b6_ed2f45b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T18:35:30Z",
+      "side": 1,
+      "message": "Hm, though that might not be better than looking up all changes in the /detail endpoint in terms of time to finish rendering the entire page. The main benefit would be being able to render everything but the submit button faster.",
+      "parentUuid": "174cff89_047276cd",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_a4e4c234",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

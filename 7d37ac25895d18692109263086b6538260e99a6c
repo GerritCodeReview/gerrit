@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "d76c27f3_5ab13512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-28T18:22:03Z",
+      "side": 1,
+      "message": "Yes we could do that. Comment drafts and edits were extracted from detail REST endpoint because they are changing very often and because we don\u0027t want to bump change version number or timestamp when only drafts and edits are changed.\n\nThe problem that i have with extracting submit to its own REST endpoint, is the fact that this would cause thousands more requests for sites that haven\u0027t enabled atomic submit feature.\n\nAnother option we be to bump timestamp for all changes in topic when submittability of one change is changed and when this feature was enabled. This would be a bad idea when database was replaced notedb.\n\nHow about to transport this information to the client, if atomic topic submit is enabled or not, and isolate submit action info in its own REST endpoint only when atomic submit feature was enabled?",
+      "parentUuid": "174cff89_64636a03",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_a4e4c234",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

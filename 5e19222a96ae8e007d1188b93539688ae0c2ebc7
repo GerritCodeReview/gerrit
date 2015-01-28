@@ -142,6 +142,42 @@
       "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_2d366d13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-28T18:44:00Z",
+      "side": 1,
+      "message": "|Can you put something like this in the commit message?\nDone, let me know if the commit message is more clear now. Thanks for your feedback, as you probably figured out by now, English is not my first language so sometimes, I think my commit message is clear but it\u0027s not. In my future changes, I will expand more on the goal of the change.",
+      "parentUuid": "0b9697c9_5b1e6355",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_c4733ece",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-28T18:44:00Z",
+      "side": 1,
+      "message": "|how does a script follow the config file that potentially lives on another server?\n\nCurrently, there is no way since only gerrit knows where the repos are. We would need to create an API so the script can get the location of a repository.\n\n|Yes, but a Gerrit admin can also do what Dave suggested to get the same result, right?\n\nYes, the way I did this change, if you do not configure alternate basePath, Gerrit will work the same way it is without this change(all repos in the same basePath) so Admins can still decide to go with soft links if they prefer.\n\nI see this change as a extra feature in Gerrit that you can optionally enable if you want.",
+      "parentUuid": "0b9697c9_7b1b1f64",
+      "revId": "5e19222a96ae8e007d1188b93539688ae0c2ebc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

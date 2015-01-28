@@ -41,17 +41,4 @@ public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
   protected void set(String newValue) {
     id = newValue;
   }
-
-  @Override
-  public int hashCode() {
-    return get().hashCode();
-  }
-
-  @Override
-  public boolean equals(Object b) {
-    if (this == b) {
-      return get().equals(((LabelId) b).get());
-    }
-    return false;
-  }
 }

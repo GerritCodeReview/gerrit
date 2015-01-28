@@ -17,9 +17,9 @@ Important Notes
   java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
-*WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.1.7 (or
-a later 2.1.x version), and then to 2.11.x.  If you are upgrading from 2.2.x.x or
-later, you may ignore this warning and upgrade directly to 2.11.x.
+*WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.8 (or
+2.9) and then to 2.11.x. If you are upgrading from 2.8.x or later, you may ignore
+this warning and upgrade directly to 2.11.x.
 
 *WARNING:* The 'Generate HTTP Password' capability has been
 link:#remove-generate-http-password-capability[removed].
@@ -34,6 +34,9 @@ not add an alternative identity before this date will need to create a new
 account and ask the site administrator to
 link:https://code.google.com/p/gerrit/wiki/SqlMergeUserAccounts[merge it].
 
+*WARNING:* The
+link:https://gerrit-review.googlesource.com/Documentation/2.10/rest-api-changes.html#message[
+Edit Commit Message] REST API endpoint is removed
 
 Release Highlights
 ------------------
@@ -46,37 +49,6 @@ link:#inline-editing[Inline editing] section for more details.
 * The old change screen is removed.
 
 * The deprecated '/query' URL is removed and will now return `Not Found`.
-
-
-Experimental Features
----------------------
-
-The following new features are experimental. They are not fully documented yet,
-and it is not recommended to enable them in live production systems.
-
-* Migration of review information from database to git notes.
-+
-Groundwork has been done to implement migration of review information from the
-database to a git notes based backend.
-+
-Existing review information can be migrated from the review database to
-git notes with the `RebuildNotedb` program.
-+
-This feature can be enabled with the following settings in `gerrit.config`:
-----
-[gerrit]
-  notedbpath = notedb
-[notedb "changes"]
-  write = true
-  read = true
-----
-
-* Hashtags.
-+
-Hashtags can be added to changes. The hashtags are stored in git notes and
-are indexed in the secondary index.
-+
-This feature requires the notedb to be enabled.
 
 
 New Features
@@ -100,25 +72,22 @@ button on the project info screen.
 * New follow-up changes can be created via a 'Follow-Up' button on the change
 screen.
 
-* File content can be edited in a full screen CodeMirror window with support for
-themes, syntax highlighting, different key maps (Emacs, Vim, Default).
+* File content can be edited in a full screen CodeMirror editor with support for
+themes and syntax highlighting.
 
 * The CodeMirror screen can be configured in the same way as the side-by-side
 diff screen.
 
-* The file table in the change screen supports edit mode with seamless navigation
-to CodeMirror for editing.
+* The file table in the change screen supports seamless navigation to the
+CodeMirror editor.
 
 * Edit mode can be started from the side-by-side diff screen with seamless
-navigation to CodeMirror.
+navigation to the CodeMirror editor.
 
-* The commit message can be changed in context of change edit. The 'Edit Message'
-button is still supported, but now it creates a change edit that must be published.
+* The commit message must now be changed in the context of a change edit. The
+'Edit Message' button is removed from the change screen.
 
 * Files can be added, deleted, restored and modified directly in browser.
-
-* User-specific configuration dedicated to edit mode in CodeMirror are stored in
-the `All-Users` repository rather than in the database.
 
 Change Screen
 ^^^^^^^^^^^^^
@@ -171,8 +140,8 @@ REST
 Changes
 ^^^^^^^
 
-* The https://gerrit-review.googlesource.com/Documentation/2.11/rest-api-changes.html#message[
-Edit Commit Message] endpoint is deprecated in favor of the new
+* The link:https://gerrit-review.googlesource.com/Documentation/2.10/rest-api-changes.html#message[
+Edit Commit Message] endpoint is removed in favor of the new
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#put-change-edit-message[
 Change commit message in Change Edit] and
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#publish-edit[
@@ -500,12 +469,6 @@ Several improvements have been made:
 If a change/revision is a draft the natural next step is to publish (or delete)
 it, hence these buttons should be displayed in a more prominent place.
 
-** Move 'Submit' button into header.
-+
-If a change is ready to submit the natural next step is to submit it, hence the
-'Submit' button should be displayed in a more prominent place. This is consistent
-with displaying other buttons in the header.
-
 ** Highlight the 'Publish' button in blue.
 +
 If a change is a draft the natural next step is to publish it, hence
@@ -640,11 +603,13 @@ Upgrades
 
 * Update GWT to 2.7.
 
+* Update gwtjsonrpc to 1.7-2-g272ca32.
+
 * Update gwtorm to 1.14-14-gf54f1f1.
 
 * Update Jetty to 9.2.6.
 
-* Update JGit to 3.6.0.201412230720-r.
+* Update JGit to 3.6.2.201501210735-r.40-g23ad3a3.
 
 * Update Lucene to 4.10.2.
 

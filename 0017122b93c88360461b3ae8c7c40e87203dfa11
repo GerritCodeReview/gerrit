@@ -22,6 +22,53 @@
       "revId": "0017122b93c88360461b3ae8c7c40e87203dfa11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_5ac7f59a",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-28T06:22:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b76333f1_c9d7d146",
+      "range": {
+        "startLine": 949,
+        "startChar": 0,
+        "endLine": 949,
+        "endChar": 7
+      },
+      "revId": "0017122b93c88360461b3ae8c7c40e87203dfa11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_7acc39be",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-28T06:22:14Z",
+      "side": 1,
+      "message": "I will rename this to score as it is name din the next implementation",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 968,
+        "endChar": 23
+      },
+      "revId": "0017122b93c88360461b3ae8c7c40e87203dfa11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

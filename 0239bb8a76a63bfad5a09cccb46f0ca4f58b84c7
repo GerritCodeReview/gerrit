@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b77173c9_79cc47be",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-28T07:17:07Z",
+      "side": 1,
+      "message": "Do we understand when rebuilding the index is necessary? I thought that coming from 2.9 with having an index, one would not need to reindex on upgrade to 2.10, am I wrong?",
+      "revId": "0239bb8a76a63bfad5a09cccb46f0ca4f58b84c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

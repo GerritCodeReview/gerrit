@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "174cff89_047276cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T18:34:07Z",
+      "side": 1,
+      "message": "\u003e How about to transport this information to the client, if atomic topic submit is enabled or not, and isolate submit action info in its own REST endpoint only when atomic submit feature was enabled?\n\nThat would work.\n\nAlternatively, we could put an ETag on the submit action info endpoint that does look up the status of all changes in the same topic. That way even sites with atomic topic submit enabled (which we would like to be almost all sites, eventually) would be able to serve 204s relatively quickly in the common case of no topic.",
+      "parentUuid": "d76c27f3_5ab13512",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_a4e4c234",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

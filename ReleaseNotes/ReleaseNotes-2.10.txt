@@ -37,6 +37,11 @@ later, you may ignore this warning and upgrade directly to 2.10.x.
 
 *WARNING:* The `auth.allowGoogleAccountUpgrade` setting is no longer supported.
 
+*WARNING:* It may be necessary to rebuild the secondary index after upgrading:
+----
+  java -jar gerrit.war reindex -d site_path
+----
+
 
 Release Highlights
 ------------------

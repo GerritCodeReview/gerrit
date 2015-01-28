@@ -694,6 +694,7 @@ public class MergeOp {
     try {
       branchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
       logDebug("Executed batch update: {}", branchUpdate);
+      String msg;
       switch (cmd.getResult()) {
         case OK:
           if (cmd.getType() == ReceiveCommand.Type.UPDATE) {
@@ -714,7 +715,6 @@ public class MergeOp {
           return branchUpdate;
 
         case LOCK_FAILURE:
-          String msg;
           if (strategy.retryOnLockFailure()) {
             mergeQueue.recheckAfter(destBranch, LOCK_FAILURE_RETRY_DELAY,
                 MILLISECONDS);
@@ -724,7 +724,8 @@ public class MergeOp {
           }
           throw new IOException(cmd.getResult().name() + ", " + msg);
         default:
-          throw new IOException(cmd.getResult().name());
+          msg = cmd.getMessage() != null ? ": " + cmd.getMessage() : null;
+          throw new IOException(cmd.getResult().name() + msg);
       }
     } catch (IOException e) {
       throw new MergeException("Cannot update " + destBranch.get(), e);

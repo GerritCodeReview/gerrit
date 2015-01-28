@@ -88,6 +88,24 @@
       "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_441aae9d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:16:59Z",
+      "side": 1,
+      "message": "\u003e I am really curious how using (or not) this specific Eclipse feature you\u0027ve mentioned can be related to this broken code\n\nIf you use that Eclipse refactoring, then the contents of the new class will be identical to the contents of the old class; there is no chance for copy-paste errors, because there is no human performing the copying. For this bug to happen, someone had to manually change the body of the method from what it was in the source. If instead we trusted the Eclipse refactoring, there would be no manual editing...\n\n\u003e The refactoring was initially done right, but somehow was screwed up later\n\n...except, well, if you go in there manually after the fact for some reason. So maybe it wouldn\u0027t have helped in this case.",
+      "parentUuid": "b77173c9_594aa36c",
+      "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

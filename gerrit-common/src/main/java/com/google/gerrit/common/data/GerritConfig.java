@@ -57,6 +57,7 @@ public class GerritConfig implements Cloneable {
   protected String replyLabel;
   protected String replyTitle;
   protected boolean allowDraftChanges;
+  protected String draftLabel;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -315,5 +316,13 @@ public class GerritConfig implements Cloneable {
 
   public void setAllowDraftChanges(boolean b) {
     allowDraftChanges = b;
+  }
+
+  public String getDraftLabel() {
+    return draftLabel;
+  }
+
+  public void setDraftLabel(String r) {
+    draftLabel = r;
   }
 }

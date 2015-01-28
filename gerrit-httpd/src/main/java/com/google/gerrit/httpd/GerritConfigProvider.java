@@ -145,6 +145,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
+    config.setDraftLabel(cfg.getString("change", null, "draftLabel"));
 
     final Set<Account.FieldName> fields = new HashSet<>();
     for (final Account.FieldName n : Account.FieldName.values()) {
@@ -175,6 +176,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         Optional.fromNullable(cfg.getString("change", null, "replyLabel"))
         .or("Reply")
         + "\u2026";
+
+
     config.setReplyTitle(replyTitle);
     config.setReplyLabel(replyLabel);
 

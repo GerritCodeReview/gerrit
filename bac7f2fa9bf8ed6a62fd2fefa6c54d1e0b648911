@@ -25,6 +25,76 @@
     },
     {
       "key": {
+        "uuid": "174cff89_449d0e7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 1,
+      "message": "Because it would be identical between the two constructors, so it saves a few lines of code. If not assigned, booleans default to false.",
+      "parentUuid": "174cff89_84ab069c",
+      "range": {
+        "startLine": 115,
+        "startChar": 26,
+        "endLine": 115,
+        "endChar": 33
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_cd880938",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 1,
+      "message": "This will disappear.\n\nSpecifically, it will eventually move into callers. They will also be more streamlined. Something like:\n\n // MyHandler.java\n @Override\n public Object apply(ChangeResource rsrc) {\n   try (BatchUpdate upd \u003d batchUpdateFactory.create(rsrc.getControl(), TimeUtil.nowTs())) {\n     doSomething(upd);\n     PatchSetInserter ins \u003d patchSetInserterFactory.create(..., upd);\n     ...\n     ins.insert();\n     upd.execute();\n   }\n }\n\nWhen _all_ callers know how to provide BatchUpdates, then we don\u0027t have to worry about optionally executing the batch and the ref updates, which is taking up about 20 loc in this method. That\u0027s what my TODOs are trying to say.",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 9
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_ad85bd1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 1,
+      "message": "This will disappear. Kind of. I\u0027m not 100% sure yet. What I have here is what\u0027s needed to keep the existing behavior of PatchSetInserter, but obviously we don\u0027t want every BatchUpdate caller to have to do all those checks.\n\nI see a few options, which we can mix and match:\n\n* Let UpdateException bubble up where we\u0027re not actually getting any benefit from unwrapping (e.g. IOException/OrmException).\n* For exception types that are understood by RestApiServlet.java:346, unwrap and rethrow them inside the preceding catch block. That allows *Op writers to trigger specific HTTP error codes, without requiring unwrapping at the execute site.\n* For exception types that are immediately wrapped and rethrown as REST API exceptions, change the *Ops _either_ to throw those exception types directly, or have the callers that are already doing the rewrapping also unwrap UpdateException first. For example, see CherryPick.java:91, which is one of the callers of PatchSetInserter. If we changed *Op to throw BadRequestException, we could drop the InvalidChangeOperationException. Alternatively, we could change CherryPick\u0027s catch block to:\n\n } catch (UpdateException e) {\n   if (e.getCause() instanceof InvalidChangeOperationException ) {\n     throw new BadRequestException(e.getCause().getMessage());\n   } else ...\n\n* Use some sort of structured return value other than exceptions, and have a higher-level handler like RestApiServlet interpret those. (This is the option I\u0027ve thought through the least.)",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 385,
+        "endChar": 5
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "372663b6_0d97315b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1
@@ -36,6 +106,30 @@
       "writtenOn": "2015-01-28T22:55:39Z",
       "side": 1,
       "message": "What is the actual preferred coding style here?\nIirc there has also been classes having one argument per line.",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 20
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_0497165b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 1,
+      "message": "My personal style tends to be one per line in @Inject constructors and squeeze them together otherwise. I don\u0027t have a very strong reason for that though.",
+      "parentUuid": "372663b6_0d97315b",
       "range": {
         "startLine": 131,
         "startChar": 21,

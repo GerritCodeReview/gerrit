@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "372663b6_0d1e115f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 0,
+      "message": "Gone",
+      "range": {
+        "startLine": 246,
+        "startChar": 6,
+        "endLine": 246,
+        "endChar": 45
+      },
+      "revId": "2f79f56ea2852e92e46cee151ba7c39e84b9992c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_2492126b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 0,
+      "message": "Gone",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 45
+      },
+      "revId": "2f79f56ea2852e92e46cee151ba7c39e84b9992c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_2d19cd76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 0,
+      "message": "Gone",
+      "range": {
+        "startLine": 296,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 18
+      },
+      "revId": "2f79f56ea2852e92e46cee151ba7c39e84b9992c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_6d0fd52c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 0,
+      "message": "Gone",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 324,
+        "endChar": 5
+      },
+      "revId": "2f79f56ea2852e92e46cee151ba7c39e84b9992c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_4d14193f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T23:19:53Z",
+      "side": 0,
+      "message": "Gone.\n\nBetween all of the items I\u0027ve highlighted here, I think there is actually a pretty significant benefit. They don\u0027t seem significant, but the benefit is actually _because_ they are so little code. It\u0027s very easy to forget to open or commit a database transaction, fire a ref updated event, or reindex a change. If you use BatchUpdate, you don\u0027t have to remember.",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 37
+      },
+      "revId": "2f79f56ea2852e92e46cee151ba7c39e84b9992c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

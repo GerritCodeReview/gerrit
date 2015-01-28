@@ -22,6 +22,30 @@
       "revId": "60c5ca295bf4862372bd57e5448d8c92a8ff806f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_64c7ea9b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T01:18:32Z",
+      "side": 1,
+      "message": "So you\u0027d rather put it in each test or rely on the default behavior for testing the submit as of now?",
+      "parentUuid": "0b9697c9_9bf0ebf4",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "60c5ca295bf4862372bd57e5448d8c92a8ff806f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

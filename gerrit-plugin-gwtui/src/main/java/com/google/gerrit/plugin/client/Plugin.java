@@ -96,7 +96,7 @@ public final class Plugin extends JavaScriptObject {
 
   native void _initialized() /*-{ this._success = true }-*/;
   native void _loaded() /*-{ this._loadedGwt() }-*/;
-  private static native final Plugin install(String u)
+  private static final native Plugin install(String u)
   /*-{ return $wnd.Gerrit.installGwt(u) }-*/;
 
   private static final native JavaScriptObject wrap(Screen.EntryPoint b) /*-{

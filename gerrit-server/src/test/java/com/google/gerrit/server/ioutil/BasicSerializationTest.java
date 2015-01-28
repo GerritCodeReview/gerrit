@@ -137,8 +137,9 @@ public class BasicSerializationTest {
   private static void assertOutput(final byte[] expect,
       final ByteArrayOutputStream out) {
     final byte[] buf = out.toByteArray();
-    for (int i = 0; i < expect.length; i++)
+    for (int i = 0; i < expect.length; i++) {
       assertEquals(expect[i], buf[i]);
+    }
   }
 
   private static InputStream r(final byte[] buf) {

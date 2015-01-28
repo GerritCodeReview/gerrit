@@ -182,10 +182,14 @@ public class PermissionRule implements Comparable<PermissionRule> {
     }
 
     if (canUseRange && (getMin() != 0 || getMax() != 0)) {
-      if (0 <= getMin()) r.append('+');
+      if (0 <= getMin()) {
+        r.append('+');
+      }
       r.append(getMin());
       r.append("..");
-      if (0 <= getMax()) r.append('+');
+      if (0 <= getMax()) {
+        r.append('+');
+      }
       r.append(getMax());
       r.append(' ');
     }

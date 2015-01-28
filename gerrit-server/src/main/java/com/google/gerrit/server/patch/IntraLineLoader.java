@@ -178,10 +178,11 @@ class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
               int nb = lf + 1;
               int p = 0;
               while (p < ae - ab) {
-                if (cmp.equals(a, ab + p, a, ab + p))
+                if (cmp.equals(a, ab + p, a, ab + p)) {
                   p++;
-                else
+                } else {
                   break;
+                }
               }
               if (p == ae - ab) {
                 ab = nb;
@@ -214,10 +215,11 @@ class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
               int nb = lf + 1;
               int p = 0;
               while (p < be - bb) {
-                if (cmp.equals(b, bb + p, b, bb + p))
+                if (cmp.equals(b, bb + p, b, bb + p)) {
                   p++;
-                else
+                } else {
                   break;
+                }
               }
               if (p == be - bb) {
                 bb = nb;

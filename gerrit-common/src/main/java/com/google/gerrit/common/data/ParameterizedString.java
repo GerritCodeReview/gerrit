@@ -145,7 +145,7 @@ public class ParameterizedString {
     }
   }
 
-  private static abstract class Format {
+  private abstract static class Format {
     abstract void format(StringBuilder b, Map<String, String> p);
   }
 
@@ -200,7 +200,7 @@ public class ParameterizedString {
     }
   }
 
-  private static abstract class Function {
+  private abstract static class Function {
     abstract String apply(String a);
   }
 

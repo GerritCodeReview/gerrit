@@ -2119,32 +2119,42 @@ public class ReceiveCommits {
         cmd.execute(rp);
       }
       CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
-      workQueue.getDefaultQueue()
-          .submit(requestScopePropagator.wrap(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            ReplacePatchSetSender cm =
-                replacePatchSetFactory.create(change);
-            cm.setFrom(me);
-            cm.setPatchSet(newPatchSet, info);
-            cm.setChangeMessage(msg);
-            cm.addReviewers(recipients.getReviewers());
-            cm.addExtraCC(recipients.getCcOnly());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
-          }
-          if (mergedIntoRef != null) {
-            sendMergedEmail(ReplaceRequest.this);
-          }
-        }
 
-        @Override
-        public String toString() {
-          return "send-email newpatchset";
-        }
-      }));
+      // Reduce noise by not sending out emails concerning trivial rebase
+      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+      ChangeKind changeKind =
+          changeKindCache.getChangeKind(projectControl.getProjectState(), repo,
+              priorCommit, newCommit);
+
+      if (changeKind != ChangeKind.TRIVIAL_REBASE) {
+        workQueue.getDefaultQueue().submit(
+            requestScopePropagator.wrap(new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  ReplacePatchSetSender cm =
+                      replacePatchSetFactory.create(change);
+                  cm.setFrom(me);
+                  cm.setPatchSet(newPatchSet, info);
+                  cm.setChangeMessage(msg);
+                  cm.addReviewers(recipients.getReviewers());
+                  cm.addExtraCC(recipients.getCcOnly());
+                  cm.send();
+                } catch (Exception e) {
+                  log.error("Cannot send email for new patch set "
+                      + newPatchSet.getId(), e);
+                }
+                if (mergedIntoRef != null) {
+                  sendMergedEmail(ReplaceRequest.this);
+                }
+              }
+
+              @Override
+              public String toString() {
+                return "send-email newpatchset";
+              }
+            }));
+      }
       f.checkedGet();
 
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),

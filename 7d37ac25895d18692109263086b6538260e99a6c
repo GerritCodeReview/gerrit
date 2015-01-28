@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "174cff89_a4e4c234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:02:27Z",
+      "side": 1,
+      "message": "Merge this with the loop above. You can still return false on a ResourceConflictException. Any OrmException should still be logged, though you should change log message to be a little more generic.",
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_84e1c624",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:02:27Z",
+      "side": 1,
+      "message": "Just pass in the ChangeControl, then you avoid having to call changeDataFactory.create at all the call sites.",
+      "range": {
+        "startLine": 516,
+        "startChar": 45,
+        "endLine": 516,
+        "endChar": 58
+      },
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

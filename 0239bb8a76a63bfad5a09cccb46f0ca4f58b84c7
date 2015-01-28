@@ -52,6 +52,24 @@
       "revId": "0239bb8a76a63bfad5a09cccb46f0ca4f58b84c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_cd7369ce",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-28T20:04:56Z",
+      "side": 1,
+      "message": "Is it possible that the user reported that changes are missing because the online reindexer running in background did not reindex those changes yet but eventually will?\n\nI tested the 2.9.x upgrade to 2.10-rc0 back then and I did not need to reindex.",
+      "parentUuid": "d76c27f3_3a3b21fc",
+      "revId": "0239bb8a76a63bfad5a09cccb46f0ca4f58b84c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b76333f1_c9d7d146",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T02:27:03Z",
+      "side": 1,
+      "message": "author\u0027s",
+      "range": {
+        "startLine": 949,
+        "startChar": 0,
+        "endLine": 949,
+        "endChar": 7
+      },
+      "revId": "0017122b93c88360461b3ae8c7c40e87203dfa11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

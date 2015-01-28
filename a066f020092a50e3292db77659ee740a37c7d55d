@@ -34,6 +34,24 @@
       "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372663b6_cdd7e946",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T02:58:22Z",
+      "side": 1,
+      "message": "I will take my share of the blame here. We don\u0027t need equals or hashCode at all, they come for free from StringKey, and I added them for no reason way back in I5df6f0c5.\n\nAnd nothing personal, Sven, you know how it is when you\u0027ve spent all afternoon debugging such a mysterious bug in production.",
+      "parentUuid": "b76333f1_e9da9570",
+      "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

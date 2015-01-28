@@ -16,7 +16,6 @@ ASCIIDOC       ?= asciidoc
 ASCIIDOC_EXTRA ?=
 
 DOC_HTML      := $(patsubst %.txt,%.html,$(wildcard ReleaseNotes*.txt))
-COMMIT        := $(shell git describe HEAD | sed s/^v//)
 
 all: html
 
@@ -38,8 +37,7 @@ $(DOC_HTML): %.html : %.txt
 	@echo FORMAT $@
 	@rm -f $@+ $@
 	@v=$$(echo $< | sed 's/^ReleaseNotes-//;s/.txt$$//;') && \
-	 c=$$(git rev-list -1 HEAD -- $<) && \
-	 n=$$(git describe $$c) && \
+	 n=$$(git describe HEAD) && \
 	 if [ "X$$n" != "Xv$$v" ]; then v="$$v (from $$n)"; fi && \
 	 $(ASCIIDOC) --unsafe \
 		-a toc \

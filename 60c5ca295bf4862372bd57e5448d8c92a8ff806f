@@ -46,6 +46,30 @@
       "revId": "60c5ca295bf4862372bd57e5448d8c92a8ff806f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_49cc01be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T01:36:24Z",
+      "side": 1,
+      "message": "There are separate test classes for each of the submit types (see: SubmitBy*.java).\n\nCurrently those typically test by:\n\n- Upload change 1\n- Submit change 1\n- Upload change 2\n- Submit change 2\n\nand then assert that the submitter info and resulting commits are as expected.\n\nI\u0027m not sure if it\u0027s feasible to have a single test here that tests the expected results for the submit whole topic, unless we make it a very simple test that uploads several changes and then asserts that one submit operation results in all changes being set to status merged.\n\nAs it is now, I only did it here to make sure that the isSubmitWholeTopicEnabled method was working as expected, i.e. the test is skipped on the default and notedb configs.",
+      "parentUuid": "174cff89_64c7ea9b",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "60c5ca295bf4862372bd57e5448d8c92a8ff806f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -88,6 +88,24 @@
       "revId": "0239bb8a76a63bfad5a09cccb46f0ca4f58b84c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_64b12a13",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-28T20:15:16Z",
+      "side": 1,
+      "message": "In my test, the online reindexer worked at expected and I did not have to run the reindex manually.",
+      "parentUuid": "174cff89_a457220e",
+      "revId": "0239bb8a76a63bfad5a09cccb46f0ca4f58b84c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

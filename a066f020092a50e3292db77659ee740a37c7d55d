@@ -16,6 +16,24 @@
       "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_e9da9570",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T02:21:29Z",
+      "side": 1,
+      "message": "Gah, I didn\u0027t notice that this was changed from the original implementation in PatchSetApproval.LabelId",
+      "parentUuid": "77929b13_7fcc2fbe",
+      "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

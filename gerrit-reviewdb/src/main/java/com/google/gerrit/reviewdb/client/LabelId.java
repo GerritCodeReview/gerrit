@@ -49,7 +49,7 @@ public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
 
   @Override
   public boolean equals(Object b) {
-    if (this == b) {
+    if (b instanceof LabelId) {
       return get().equals(((LabelId) b).get());
     }
     return false;

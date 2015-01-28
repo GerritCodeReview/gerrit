@@ -76,8 +76,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 class ReplyBox extends Composite {
-  private static final String CODE_REVIEW = "Code-Review";
-
   interface Binder extends UiBinder<HTMLPanel, ReplyBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -92,7 +90,6 @@ class ReplyBox extends Composite {
   private final String revision;
   private ReviewInput in = ReviewInput.create();
   private int labelHelpColumn;
-  private Runnable lgtm;
 
   @UiField Styles style;
   @UiField TextArea message;
@@ -171,20 +168,6 @@ class ReplyBox extends Composite {
         }
         return false;
       }}, 0);
-  }
-
-  @UiHandler("message")
-  void onMessageKey(KeyPressEvent event) {
-    if (lgtm != null
-        && event.getCharCode() == 'M'
-        && message.getValue().equals("LGT")) {
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        @Override
-        public void execute() {
-          lgtm.run();
-        }
-      });
-    }
   }
 
   @UiHandler("post")
@@ -358,15 +341,6 @@ class ReplyBox extends Composite {
         labelsTable.setWidget(row, 1 + i, b);
       }
     }
-
-    if (CODE_REVIEW.equalsIgnoreCase(id) && !group.buttons.isEmpty()) {
-      lgtm = new Runnable() {
-        @Override
-        public void run() {
-          group.selectMax();
-        }
-      };
-    }
   }
 
   private void renderCheckBox(int row, LabelAndValues lv) {
@@ -390,15 +364,6 @@ class ReplyBox extends Composite {
     });
     b.setStyleName(style.label_name());
     labelsTable.setWidget(row, 0, b);
-
-    if (CODE_REVIEW.equalsIgnoreCase(id)) {
-      lgtm = new Runnable() {
-        @Override
-        public void run() {
-          b.setValue(true, true);
-        }
-      };
-    }
   }
 
   private static boolean isCheckBox(Set<Short> values) {
@@ -466,16 +431,6 @@ class ReplyBox extends Composite {
     void select(LabelRadioButton b) {
       selected = b;
       labelsTable.setText(row, labelHelpColumn, b.text);
-    }
-
-    void selectMax() {
-      for (int i = 0; i < buttons.size() - 1; i++) {
-        buttons.get(i).setValue(false, false);
-      }
-
-      LabelRadioButton max = buttons.get(buttons.size() - 1);
-      max.setValue(true, true);
-      max.select();
     }
   }
 

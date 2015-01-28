@@ -599,10 +599,6 @@ If the current patch set is viewed, radio buttons are displayed for
 each label on which the user is allowed to vote. Voting on non-current
 patch sets is not possible.
 
-Typing "LGTM" (acronym for 'Looks Good To Me') in the summary comment
-text box automatically selects the highest possible score for the
-'Code-Review' label.
-
 The inline draft comments that will be published are displayed in a
 separate section so that they can be reviewed before publishing. There
 are links to navigate to the inline comments which can be used if a

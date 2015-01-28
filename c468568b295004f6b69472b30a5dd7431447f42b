@@ -16,6 +16,24 @@
       "revId": "c468568b295004f6b69472b30a5dd7431447f42b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_9a290daf",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-28T10:07:50Z",
+      "side": 1,
+      "message": "Maybe it is not! It is better to have a bit longer build time and a more predictable result than make a mistake. At least for the release build.\n\nThe \"git clean -xdf\" may be overkill but we could add at least the \"buck clean\". Will do that.",
+      "parentUuid": "77929b13_1f1f238d",
+      "revId": "c468568b295004f6b69472b30a5dd7431447f42b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

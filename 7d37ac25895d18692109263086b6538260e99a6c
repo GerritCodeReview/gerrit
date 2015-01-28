@@ -128,6 +128,30 @@
       "revId": "7d37ac25895d18692109263086b6538260e99a6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cff89_44686edd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-28T18:20:48Z",
+      "side": 1,
+      "message": "Then we would need to construct the ChangeData here from the ChangeControl for `new SubmitRuleEvaluator`.",
+      "parentUuid": "174cff89_84e1c624",
+      "range": {
+        "startLine": 516,
+        "startChar": 45,
+        "endLine": 516,
+        "endChar": 58
+      },
+      "revId": "7d37ac25895d18692109263086b6538260e99a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

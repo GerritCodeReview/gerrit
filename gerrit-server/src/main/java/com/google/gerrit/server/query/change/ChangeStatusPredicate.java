@@ -64,10 +64,14 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     return status.name().toLowerCase();
   }
 
-  public static Predicate<ChangeData> parse(String value) {
+  public static Predicate<ChangeData> parse(String value, boolean allowDrafts) {
     String lower = value.toLowerCase();
     NavigableMap<String, Predicate<ChangeData>> head =
         PREDICATES.tailMap(lower, true);
+    if (head.isEmpty() && !allowDrafts && lower.equals("wip")) {
+      lower = "draft";
+      head = PREDICATES.tailMap(lower, true);
+    }
     if (!head.isEmpty()) {
       // Assume no statuses share a common prefix so we can only walk one entry.
       Map.Entry<String, Predicate<ChangeData>> e =

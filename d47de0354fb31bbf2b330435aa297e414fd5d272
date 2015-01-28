@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b76333f1_892679da",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-28T10:54:06Z",
+      "side": 1,
+      "message": "There\u0027s also a warning that this is unused, which seems to appear after applying this change, although this method is not touched.",
+      "range": {
+        "startLine": 154,
+        "startChar": 40,
+        "endLine": 154,
+        "endChar": 44
+      },
+      "revId": "d47de0354fb31bbf2b330435aa297e414fd5d272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b76333f1_c92c71c0",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 22

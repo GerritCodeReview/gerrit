@@ -258,9 +258,9 @@ public class PushOneCommit {
           .named("unexpected reviewer " + accountId)
           .isTrue();
       }
-      assertThat(expectedReviewerIds.isEmpty())
+      assertThat((Iterable<?>)expectedReviewerIds)
         .named("missing reviewers: " + expectedReviewerIds)
-        .isTrue();
+        .isEmpty();
     }
 
     public void assertOkStatus() {

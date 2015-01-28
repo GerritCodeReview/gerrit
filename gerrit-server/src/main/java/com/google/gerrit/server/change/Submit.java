@@ -419,7 +419,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
 
     PatchSetApproval submit = ApprovalsUtil.getSubmitter(psId, byKey.values());
-    if (submit == null || submit.getAccountId() != caller.getAccountId()) {
+    if (submit == null
+        || !submit.getAccountId().equals(caller.getAccountId())) {
       submit = new PatchSetApproval(
           new PatchSetApproval.Key(
               rsrc.getPatchSet().getId(),

@@ -348,7 +348,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if ("reviewed".equalsIgnoreCase(statusName)) {
       return new IsReviewedPredicate();
     } else {
-      return ChangeStatusPredicate.parse(statusName);
+      return ChangeStatusPredicate.parse(statusName, args.allowsDrafts);
     }
   }
 

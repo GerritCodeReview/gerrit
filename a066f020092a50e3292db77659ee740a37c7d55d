@@ -70,6 +70,24 @@
       "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b77173c9_594aa36c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-28T16:57:42Z",
+      "side": 1,
+      "message": "\u003e WHYYYYY\n\u003e Next time, please use the Eclipse refactoring \"Move type to new class.\"\n\nI am really curious how using (or not) this specific Eclipse feature you\u0027ve mentioned can be related to this broken code, but thanks for telling us how to do the refactoring, otherwise we would never know ...\n\nThe refactoring was initially done right, but somehow was screwed up later: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/58283/4..5/gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+      "parentUuid": "77929b13_7fcc2fbe",
+      "revId": "a066f020092a50e3292db77659ee740a37c7d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

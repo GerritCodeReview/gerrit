@@ -265,7 +265,9 @@ if test -z "$JAVA" ; then
   exit 1
 fi
 
-JSTACK=${JAVA:0:${#JAVA}-5}/jstack
+if test -z "$JSTACK"; then
+  JSTACK="$JAVA_HOME/bin/jstack"
+fi
 
 #####################################################
 # Add Gerrit properties to Java VM options.

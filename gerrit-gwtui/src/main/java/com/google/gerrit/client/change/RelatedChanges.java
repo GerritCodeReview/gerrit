@@ -171,6 +171,8 @@ public class RelatedChanges extends TabPanel {
     }
     getTab(Tab.RELATED_CHANGES).setShowIndirectAncestors(true);
     getTab(Tab.CHERRY_PICKS).setShowBranches(true);
+    getTab(Tab.SAME_TOPIC).setShowBranches(true);
+    getTab(Tab.SAME_TOPIC).setShowProjects(true);
   }
 
   void set(final ChangeInfo info, final String revision) {
@@ -198,8 +200,6 @@ public class RelatedChanges extends TabPanel {
     if (info.topic() != null && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
       topicQuery.append("status:open");
-      topicQuery.append(" ").append(op("project", info.project()));
-      topicQuery.append(" ").append(op("branch", info.branch()));
       topicQuery.append(" ").append(op("topic", info.topic()));
       topicQuery.append(" ").append(op("-change", info.legacy_id().get()));
       ChangeList.query(topicQuery.toString(),
@@ -329,6 +329,7 @@ public class RelatedChanges extends TabPanel {
           c.set_change_number(i.legacy_id().get());
           c.set_revision_number(currentRevision._number());
           c.set_branch(i.branch());
+          c.set_project(i.project());
           arr.push(c);
         }
       }
@@ -357,6 +358,7 @@ public class RelatedChanges extends TabPanel {
 
     public final native CommitInfo commit() /*-{ return this.commit }-*/;
     final native String branch() /*-{ return this.branch }-*/;
+    final native String project() /*-{ return this.project }-*/;
 
     final native void set_id(String i)
     /*-{ if(i)this.change_id=i; }-*/;
@@ -366,6 +368,9 @@ public class RelatedChanges extends TabPanel {
 
     final native void set_branch(String b)
     /*-{ if(b)this.branch=b; }-*/;
+
+    final native void set_project(String b)
+    /*-{ if(b)this.project=b; }-*/;
 
     public final Change.Id legacy_id() {
       return has_change_number() ? new Change.Id(_change_number()) : null;

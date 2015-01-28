@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "372663b6_8df8c1d2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-28T17:27:10Z",
+      "side": 1,
+      "message": "\u003e If the submit button is called merge, you may want to call this error message\n\nMy point is people have a _strong reason_ to believe the button should say submit vs. merge, but I simply do not see the _strong reason_ for your proposal over my proposal below.\n\nPeople can _want_ a whole lot of things, but that doesn\u0027t mean every time someone thinks a label is slightly sub-optimal that we should make it configurable with a config option. We\u0027d never have time to get any work done. If we really wanted to go down that route, we should make better use of Java\u0027s translation features and just let people swap in whatever strings they like.\n\n\u003e Also you may want to differentiate between this and the blocking by hidden changes.\n\nSure, I agree we should differentiate, but we can differentiate using two hard-coded strings, that has nothing to with making the option configurable.",
+      "parentUuid": "174cff89_6415aa6b",
+      "revId": "ea0493dcb4983ce1866e3f90bd8594ae27a41918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "174cff89_24e8d203",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

@@ -146,7 +146,8 @@ Commit the change and create the release tag on the new commit:
 * Build the Gerrit WAR and API JARs
 +
 ----
-  buck build release
+  buck clean
+  buck build --no-cache release
   buck build api_install
 ----
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77929b13_1fe723ee",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T11:09:58Z",
+      "side": 1,
+      "message": "Wrapping like this has not made the line much shorter. It would be better to split the string.\n\n log.error(\"Old and new SecureStore implementation names \"\n   + \"are the same. Migration will not work\");",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 96
+      },
+      "revId": "c8f1dd04ab634fb00691f2a5ccc62b7d3175d558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

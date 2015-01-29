@@ -17,8 +17,12 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -183,5 +187,58 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(log.get(2).getParent(0)).isEqualTo(log.get(3));
 
     assertThat(log.get(3).getId()).isEqualTo(initialHead.getId());
+  }
+
+  @Test
+  public void submitDependentNonConflictingChangesOutOfOrder() throws Exception {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b");
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+    assertThat(change3.getCommit().getParent(0)).isEqualTo(change2.getCommit());
+
+    // Submit succeeds; change3 is successfully cherry-picked onto head.
+    submit(change3.getChangeId());
+    // Submit succeeds; change2 is successfully cherry-picked onto head
+    // (which was change3's cherry-pick).
+    submit(change2.getChangeId());
+
+    // change2 is the new tip.
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log.get(0).getShortMessage()).isEqualTo(
+        change2.getCommit().getShortMessage());
+    assertThat(log.get(0).getParent(0)).isEqualTo(log.get(1));
+
+    assertThat(log.get(1).getShortMessage()).isEqualTo(
+        change3.getCommit().getShortMessage());
+    assertThat(log.get(1).getParent(0)).isEqualTo(log.get(2));
+
+    assertThat(log.get(2).getId()).isEqualTo(initialHead.getId());
+  }
+
+  @Test
+  public void submitDependentConflictingChangesOutOfOrder() throws Exception {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b1");
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "b", "b2");
+    assertThat(change3.getCommit().getParent(0)).isEqualTo(change2.getCommit());
+
+    // Submit fails; change3 contains the delta "b1" -> "b2", which cannot be
+    // applied against tip.
+    submitWithConflict(change3.getChangeId());
+
+    ChangeInfo info3 = get(change3.getChangeId(), ListChangesOption.MESSAGES);
+    assertThat(info3.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(Iterables.getLast(info3.messages).message.toLowerCase())
+        .contains("path conflict");
+
+    // Tip has not changed.
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log.get(0)).isEqualTo(initialHead.getId());
   }
 }

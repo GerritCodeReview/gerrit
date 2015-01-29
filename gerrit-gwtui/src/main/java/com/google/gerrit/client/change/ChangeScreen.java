@@ -241,13 +241,30 @@ public class ChangeScreen extends Screen {
             loadConfigInfo(info, base);
           }
         }));
+    loadActionInfo(true, group.addFinal(
+        new GerritCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo info) {
+            info.init();
+            loadConfigInfo(info, base);
+          }
+        }));
   }
 
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
-      ListChangesOption.CURRENT_ACTIONS,
       ListChangesOption.ALL_REVISIONS));
+    if (!fg) {
+      call.background();
+    }
+    call.get(cb);
+  }
+
+  void loadActionInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
+    RestApi call = ChangeApi.actions(changeId.get(), revision);
+    ChangeList.addOptions(call, EnumSet.of(
+      ListChangesOption.CURRENT_ACTIONS));
     if (!fg) {
       call.background();
     }

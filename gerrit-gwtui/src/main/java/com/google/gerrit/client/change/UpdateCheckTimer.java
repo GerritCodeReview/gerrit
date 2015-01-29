@@ -80,6 +80,34 @@ class UpdateCheckTimer extends Timer implements ValueChangeHandler<Boolean> {
         schedule();
       }
     });
+    screen.loadActionInfo(false, new AsyncCallback<ChangeInfo>() {
+      @Override
+      public void onSuccess(ChangeInfo info) {
+        running = false;
+        screen.showUpdates(info);
+
+        int d = UserActivityMonitor.isActive()
+            ? POLL_PERIOD
+            : IDLE_PERIOD;
+        if (d != delay) {
+          delay = d;
+          schedule();
+        }
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        // On failures increase the delay time and try again,
+        // but place an upper bound on the delay.
+        running = false;
+        delay = (int) Math.max(
+            delay * (1.5 + Math.random()),
+            UserActivityMonitor.isActive()
+              ? MAX_PERIOD
+              : IDLE_PERIOD + MAX_PERIOD);
+        schedule();
+      }
+    });
   }
 
   @Override

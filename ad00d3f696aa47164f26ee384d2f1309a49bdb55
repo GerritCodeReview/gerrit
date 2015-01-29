@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97d54f02_80d6364c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-29T22:27:01Z",
+      "side": 1,
+      "message": "This compares object ids and ignores any extra metadata from CodeReviewCommit, which seems like the right behavior here. Is that what CodeReviewCommit.equals will always do?",
+      "range": {
+        "startLine": 658,
+        "startChar": 0,
+        "endLine": 658,
+        "endChar": 48
+      },
+      "revId": "ad00d3f696aa47164f26ee384d2f1309a49bdb55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

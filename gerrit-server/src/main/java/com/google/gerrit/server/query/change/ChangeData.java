@@ -445,8 +445,13 @@ public class ChangeData {
 
   public Change change() throws OrmException {
     if (change == null) {
-      change = db.changes().get(legacyId);
+      reloadChange();
     }
+    return change;
+  }
+
+  public Change reloadChange() throws OrmException {
+    change = db.changes().get(legacyId);
     return change;
   }
 

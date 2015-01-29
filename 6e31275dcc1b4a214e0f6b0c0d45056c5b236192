@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "17e95fcf_9cda2570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-29T22:23:39Z",
+      "side": 1,
+      "message": "Opps, wrong quote of REST endpoint. I meant:\n\n[...] or you should only consider returning revision specific actions in:\n\n  GET changes/\u003cid\u003e/revisions/\u003crev\u003e/actions",
+      "parentUuid": "17e95fcf_7cd6394f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17e95fcf_5cd17d54",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetActions.java",
         "patchSetId": 1

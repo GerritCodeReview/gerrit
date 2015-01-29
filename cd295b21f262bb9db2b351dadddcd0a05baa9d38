@@ -52,6 +52,24 @@
       "revId": "cd295b21f262bb9db2b351dadddcd0a05baa9d38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_9ada6d1e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T09:20:07Z",
+      "side": 1,
+      "message": "Point taken :-) ... will do in my next patch.",
+      "parentUuid": "b76333f1_2930ade4",
+      "revId": "cd295b21f262bb9db2b351dadddcd0a05baa9d38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d76c27f3_9ac82d46",
+        "filename": "ReleaseNotes/Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-29T17:02:44Z",
+      "side": 1,
+      "message": "I really hate writing shell scripts inside a Makefile. If this can be written more elegantly, please propose an improvement.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "161500a4ffc632f5046d57efd040c36646982cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

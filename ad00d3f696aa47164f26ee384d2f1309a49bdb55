@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d7cb4764_42f352fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-29T22:27:32Z",
+      "side": 1,
+      "message": "Why? Was this noticed by code inspection or was it producing symptoms?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "ad00d3f696aa47164f26ee384d2f1309a49bdb55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d54f02_80d6364c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

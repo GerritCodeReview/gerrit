@@ -139,6 +139,76 @@
       "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_e95df531",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T01:33:31Z",
+      "side": 1,
+      "message": "\"one per line in @Inject constructors\" seems to be the desired style according to recent review comments, but it\u0027s not mentioned in the style guide [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "parentUuid": "174cff89_0497165b",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 20
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_5f4a8b6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T01:33:31Z",
+      "side": 1,
+      "message": "Catch specific exceptions here rather than the generic Exception?",
+      "range": {
+        "startLine": 249,
+        "startChar": 13,
+        "endLine": 249,
+        "endChar": 22
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_c95a3138",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T01:33:31Z",
+      "side": 1,
+      "message": "And here?",
+      "range": {
+        "startLine": 267,
+        "startChar": 13,
+        "endLine": 267,
+        "endChar": 22
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

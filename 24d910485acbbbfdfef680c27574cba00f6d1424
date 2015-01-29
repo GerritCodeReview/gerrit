@@ -16,6 +16,24 @@
       "revId": "24d910485acbbbfdfef680c27574cba00f6d1424",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_da8b0532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-29T06:48:44Z",
+      "side": 1,
+      "message": "May be \"on change edits\"? We don\u0027t call them revisions, it\u0027s calle ChangeEdit and not RevisionEdit, because there is only one edit per change and ot one per revision.",
+      "parentUuid": "77929b13_5f984b8c",
+      "revId": "24d910485acbbbfdfef680c27574cba00f6d1424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

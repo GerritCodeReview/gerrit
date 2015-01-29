@@ -21,10 +21,12 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CreateChangeDialog;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 class CreateChangeAction {
-  static void call(Button b, final String project) {
+  static void call(final Button b, final String project) {
     // TODO Replace CreateChangeDialog with a nicer looking display.
     b.setEnabled(false);
     new CreateChangeDialog(new Project.NameKey(project)) {
@@ -52,6 +54,13 @@ class CreateChangeAction {
             }
         });
       }
+
+      @Override
+      public void onClose(CloseEvent<PopupPanel> event) {
+        super.onClose(event);
+        b.setEnabled(true);
+      }
+
     }.center();
   }
 }

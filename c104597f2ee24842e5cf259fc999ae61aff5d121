@@ -342,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "b76333f1_c91fd157",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T08:50:53Z",
+      "side": 1,
+      "message": "OK, then maybe build the string earlier and use the same string in both calls?",
+      "parentUuid": "b77173c9_f91ff756",
+      "range": {
+        "startLine": 133,
+        "startChar": 18,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_ff2cbfbf",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
         "patchSetId": 17

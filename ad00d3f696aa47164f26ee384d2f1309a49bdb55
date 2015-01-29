@@ -117,6 +117,30 @@
       "revId": "ad00d3f696aa47164f26ee384d2f1309a49bdb55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d54f02_00e22627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-29T22:53:29Z",
+      "side": 1,
+      "message": "I am not aware of any subclass of AnyObjectId that defines its own equals. Defining equals on subclasses in Java is fraught with peril, I\u0027m doubtful it will be an issue in the future.\n\nIt would be nice if AnyObjectId#equals(AnyObjectId, AnyObjectId), which is static, accepted null arguments, but that\u0027s neither here nor there.",
+      "parentUuid": "d7cb4764_a2017e33",
+      "range": {
+        "startLine": 658,
+        "startChar": 0,
+        "endLine": 658,
+        "endChar": 48
+      },
+      "revId": "ad00d3f696aa47164f26ee384d2f1309a49bdb55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

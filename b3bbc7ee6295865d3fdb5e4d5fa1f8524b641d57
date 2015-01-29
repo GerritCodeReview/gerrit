@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "174cff89_0435d6d4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-29T18:45:59Z",
+      "side": 1,
+      "message": "Oops, I meant to remove these checkouts. This makes these not dependent changes at all.",
+      "revId": "b3bbc7ee6295865d3fdb5e4d5fa1f8524b641d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

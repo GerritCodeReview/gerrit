@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "b77173c9_19198b76",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:46:23Z",
+      "side": 1,
+      "message": "Right, at the moment I do support only 1 external ID ... even in theory it would make sense for more than 1 ... but that would be a future change :-)",
+      "parentUuid": "77929b13_7f418f5b",
+      "range": {
+        "startLine": 282,
+        "startChar": 7,
+        "endLine": 282,
+        "endChar": 17
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b76333f1_296d4ded",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 17
@@ -77,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d76c27f3_ba297185",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:46:23Z",
+      "side": 1,
+      "message": "Yep will do.",
+      "parentUuid": "b76333f1_296d4ded",
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_1f364313",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
         "patchSetId": 17
@@ -88,6 +130,30 @@
       "writtenOn": "2015-01-28T11:36:20Z",
       "side": 1,
       "message": "nit: injected constructor arguments should be listed one per line.\n\nAlso, should we remove the `final` modifiers here?",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 69
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b77173c9_391ecf5f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:46:23Z",
+      "side": 1,
+      "message": "Done in next patch-set.",
+      "parentUuid": "77929b13_1f364313",
       "range": {
         "startLine": 72,
         "startChar": 6,
@@ -140,6 +206,48 @@
     },
     {
       "key": {
+        "uuid": "d76c27f3_1a309de4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77929b13_df2f7bb2",
+      "range": {
+        "startLine": 128,
+        "startChar": 15,
+        "endLine": 128,
+        "endChar": 25
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_7a3bd9cc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77929b13_3f3b07fc",
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b76333f1_097289cd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
         "patchSetId": 17
@@ -163,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "d76c27f3_3a3561d5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b76333f1_097289cd",
+      "range": {
+        "startLine": 133,
+        "startChar": 29,
+        "endLine": 133,
+        "endChar": 39
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b76333f1_e97615c0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
         "patchSetId": 17
@@ -174,6 +306,30 @@
       "writtenOn": "2015-01-28T11:36:20Z",
       "side": 1,
       "message": "nit: formatting of this message is inconsistent with the message at line 128 where the values are enclosed in \"{}\".",
+      "range": {
+        "startLine": 133,
+        "startChar": 18,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b77173c9_f91ff756",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:46:23Z",
+      "side": 1,
+      "message": "This is because I\u0027m using a log.error() where there is no {} replacement as the method does not accept varargs.",
+      "parentUuid": "b76333f1_e97615c0",
       "range": {
         "startLine": 133,
         "startChar": 18,

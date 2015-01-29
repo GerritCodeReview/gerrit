@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e95fcf_7cd6394f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-29T22:20:34Z",
+      "side": 1,
+      "message": "What actions? Change actions or revision actions or both?\n\nYour REST endpoint is revision specific, but in the client code you\u0027ve removed the CURRENT_ACTIONS option for:\n\n  GET /changes/\u003cid\u003e/detail\n\nrequest call, change specific call. Yet you are calling ChangeJson that renders change info, from revision specific request. That looks weird. Yes, we are (ab-)using already ChangeJson formatter from revision specific endpoints, but primary to render ChangeInfo response (e.g. cherry-pick endpoint).\n\nSo may be you need:\n\n  GET /changes/\u003cid\u003e/actions\n\nif you want to return change actions + list of revisions with  own action map (what would be a sustantial clone of detail response)\n\nor you should only consider returning revision specific action in:\n\n  GET /changes/\u003cid\u003e/detail\n\nin which case you probably want to split CURRENT_ACTIONS in two CHANGE_ACTIONS \u0026\u0026 REVISION_ACTIONS and pass it correspondingly.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17e95fcf_5cd17d54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-29T22:20:34Z",
+      "side": 1,
+      "message": "@Singleton",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

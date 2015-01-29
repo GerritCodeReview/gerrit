@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "97d54f02_c0d75e46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-29T22:34:29Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d7cb4764_42f352fb",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "ad00d3f696aa47164f26ee384d2f1309a49bdb55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d54f02_80d6364c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-29T22:27:01Z",
       "side": 1,
       "message": "This compares object ids and ignores any extra metadata from CodeReviewCommit, which seems like the right behavior here. Is that what CodeReviewCommit.equals will always do?",
+      "range": {
+        "startLine": 658,
+        "startChar": 0,
+        "endLine": 658,
+        "endChar": 48
+      },
+      "revId": "ad00d3f696aa47164f26ee384d2f1309a49bdb55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7cb4764_62e85605",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-29T22:34:29Z",
+      "side": 1,
+      "message": "CodeReviewCommit doesn\u0027t define equals, the nearest equals in its type hierarchy is in all the way up in AnyObjectId, so yes.",
+      "parentUuid": "97d54f02_80d6364c",
       "range": {
         "startLine": 658,
         "startChar": 0,

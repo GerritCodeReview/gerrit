@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77929b13_3f3547d5",
+        "filename": "Documentation/pgm-index.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T10:09:14Z",
+      "side": 1,
+      "message": "nit: missing period at the end of the sentence.",
+      "revId": "7a164b38c392dbb5dd443037dd642e732c667049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_69dd851c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T10:09:14Z",
+      "side": 1,
+      "message": "This seems to be incorrect.  Running it like this results in an error: \"fatal: No argument is allowed: SwitchSecureStore\"\n\nShould this be:\n\n java -jar gerrit.war SwitchSecureStore -d $gerrit_site ...\n\n?",
+      "range": {
+        "startLine": 32,
+        "startChar": 24,
+        "endLine": 32,
+        "endChar": 78
+      },
+      "revId": "7a164b38c392dbb5dd443037dd642e732c667049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

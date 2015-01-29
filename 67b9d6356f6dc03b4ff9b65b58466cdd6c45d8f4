@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77929b13_df221ba2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T08:48:15Z",
+      "side": 1,
+      "message": "Previous comment was referring to the width of the whole commit message, not only the subject.",
+      "revId": "67b9d6356f6dc03b4ff9b65b58466cdd6c45d8f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_2919cd76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T08:48:15Z",
+      "side": 1,
+      "message": "There\u0027s a known bug in the inline editor that causes non-ascii characters to be mangled.",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "67b9d6356f6dc03b4ff9b65b58466cdd6c45d8f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

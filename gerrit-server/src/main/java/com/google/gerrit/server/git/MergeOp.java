@@ -722,9 +722,10 @@ public class MergeOp {
           } else {
             msg = "will not retry";
           }
-          throw new IOException(cmd.getResult().name() + ", " + msg);
+          throw new IOException(cmd.getResult().name() + ", " + msg
+              + '\n' + branchUpdate);
         default:
-          throw new IOException(cmd.getResult().name());
+          throw new IOException(cmd.getResult().name() + '\n' + branchUpdate);
       }
     } catch (IOException e) {
       throw new MergeException("Cannot update " + destBranch.get(), e);

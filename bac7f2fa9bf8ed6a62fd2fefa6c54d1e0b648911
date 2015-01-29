@@ -95,6 +95,29 @@
     },
     {
       "key": {
+        "uuid": "77929b13_5fb12b12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T05:00:40Z",
+      "side": 1,
+      "message": "abstract static",
+      "range": {
+        "startLine": 70,
+        "startChar": 9,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "372663b6_0d97315b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1
@@ -224,6 +247,30 @@
       "side": 1,
       "message": "PostOp.call and ChangeOp.call both throw Exception. See my comments in PatchSetInserter as to how exceptions from the *Ops rae handled. I\u0027m open to suggestions, but throwing one or two exception types in those methods is probably not going to meet the goals.",
       "parentUuid": "b76333f1_c95a3138",
+      "range": {
+        "startLine": 267,
+        "startChar": 13,
+        "endLine": 267,
+        "endChar": 22
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_49b6410d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T05:00:40Z",
+      "side": 1,
+      "message": "OK, if that\u0027s what\u0027s thrown.",
+      "parentUuid": "77929b13_bf54f709",
       "range": {
         "startLine": 267,
         "startChar": 13,

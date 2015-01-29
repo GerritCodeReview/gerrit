@@ -46,6 +46,30 @@
       "revId": "7a07646861f766905af2ae305517cd4db3149815",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76333f1_499d217b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T07:00:19Z",
+      "side": 1,
+      "message": "OK, I see now.\n\nBut then, is it possible that this callback will be called before the one at line 237?  In that case changeStatus will not be initialised yet.",
+      "parentUuid": "b77173c9_f9a137bd",
+      "range": {
+        "startLine": 266,
+        "startChar": 16,
+        "endLine": 266,
+        "endChar": 38
+      },
+      "revId": "7a07646861f766905af2ae305517cd4db3149815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

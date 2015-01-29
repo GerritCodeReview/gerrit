@@ -167,7 +167,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       webInjector = createWebInjector();
 
       PluginGuiceEnvironment env = sysInjector.getInstance(PluginGuiceEnvironment.class);
-      env.setCfgInjector(cfgInjector);
+      env.setDbCfgInjector(dbInjector, cfgInjector);
       if (sshInjector != null) {
         env.setSshInjector(sshInjector);
       }

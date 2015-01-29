@@ -366,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "d76c27f3_3aec81cf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T09:05:30Z",
+      "side": 1,
+      "message": "Not really :-) I would not build the String (and use precious heap) if I am not sure that there will be an error condition.\n\nTypically is not a problem in error logs to use concatenation (as they are triggered ONLY in case of errors) whilst it is mandatory using {} replacement in debug logs, to avoid using the heap when the debug is disabled :-)\n\nI know that it stinks a bit but for sake of performance we can accept a bit of it IMHO",
+      "parentUuid": "b76333f1_c91fd157",
+      "range": {
+        "startLine": 133,
+        "startChar": 18,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_ff2cbfbf",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
         "patchSetId": 17

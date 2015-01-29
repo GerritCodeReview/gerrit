@@ -655,7 +655,7 @@ public class MergeOp {
       BatchRefUpdate branchUpdate) throws MergeException {
     CodeReviewCommit currentTip =
         mergeTip != null ? mergeTip.getCurrentTip() : null;
-    if (branchTip == currentTip) {
+    if (Objects.equals(branchTip, currentTip)) {
       logDebug("Branch already at merge tip {}, no update to perform",
           currentTip.name());
       return null;

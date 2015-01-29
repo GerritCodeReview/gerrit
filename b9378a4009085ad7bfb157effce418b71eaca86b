@@ -22,6 +22,30 @@
       "revId": "b9378a4009085ad7bfb157effce418b71eaca86b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d54f02_20ee4a14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-29T22:57:15Z",
+      "side": 0,
+      "message": "Is there any reason we couldn\u0027t just always copy SchemaModule\u0027s bindings to the plugin injector?",
+      "parentUuid": "17e95fcf_bcd7e146",
+      "range": {
+        "startLine": 196,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 3
+      },
+      "revId": "b9378a4009085ad7bfb157effce418b71eaca86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

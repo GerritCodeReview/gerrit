@@ -141,6 +141,30 @@
       "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7b973da_39f3effc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-29T23:32:04Z",
+      "side": 1,
+      "message": "Actually Rebase and other endpoints don\u0027t really need to render any output and thus don\u0027t need to use ChangeJson at all, because the UI ignores the output anyway, and just redirect to the change screen. It was some concern to drop it because of breaking the API: [1].\n\n [1] https://gerrit-review.googlesource.com/48944/",
+      "parentUuid": "97d54f02_00f946d5",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

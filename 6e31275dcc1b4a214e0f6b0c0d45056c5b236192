@@ -93,6 +93,30 @@
       "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7b973da_19ee2b14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-29T23:19:53Z",
+      "side": 1,
+      "message": "I guess you are referencing here this change, where Fix state was introduced: [1]? When the caller always provides the same options to ChangeJson and is never using fix state, then its instance doesn\u0027t maintain any state, right? In fact ChangeJson is used with this pattern from many other singletons in the code base:\n\n  @Singleton\n  public class Rebase [...]\n  [...]\n  @Inject\n  public Rebase(Provider\u003cRebaseChange\u003e rebaseChange,  \n    ChangeJson json) {\n    this.rebaseChange \u003d rebaseChange;\n    this.json \u003d json\n        .addOption(ListChangesOption.CURRENT_REVISION)\n        .addOption(ListChangesOption.CURRENT_COMMIT);\n  }\n  [...]\n\n* [1] https://gerrit-review.googlesource.com/62135",
+      "parentUuid": "d7cb4764_02f94ad5",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

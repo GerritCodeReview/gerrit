@@ -46,6 +46,30 @@
       "revId": "161500a4ffc632f5046d57efd040c36646982cea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_7a97592c",
+        "filename": "ReleaseNotes/Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-29T18:00:27Z",
+      "side": 1,
+      "message": "I overlooked this part of your comment.... Sorry, this is why I neither commented on it nor tried to make use of it. What is actually the proposed diff-index command doing/checking? Can you propose here a working script?\n\nRegarding the merge bases. This is only a poorly readable check if one commit is a predecessor of the other:\n\n  merge-base(A,B) \u003d A means that A is predecessor of B\n\nHaving to write a negation variant of the check here also doesn\u0027t make the script more readable. What I wanted to write here is:\n\n  IF exists($t) AND ($c is-predecessor-of $t) AND ($t is-predecessor-of $h) THEN\n    version \u003d $v\n  ELSE\n    version \u003d $v + \"(from N)\"\n  END\n\nHowever, since $v already exists and we only need the ELSE branch I wrote the negation of the IF condition which made the whole command much less readable.\n\nStill, I am curios about your variant with the diff-index and if it works in all cases.",
+      "parentUuid": "b77173c9_7909a70c",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "161500a4ffc632f5046d57efd040c36646982cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

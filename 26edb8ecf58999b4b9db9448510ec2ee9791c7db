@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77929b13_df49bb53",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T10:14:27Z",
+      "side": 1,
+      "message": "This is being called several times in this method.\n\nCall it once and keep the result in a local variable?",
+      "range": {
+        "startLine": 264,
+        "startChar": 30,
+        "endLine": 264,
+        "endChar": 50
+      },
+      "revId": "26edb8ecf58999b4b9db9448510ec2ee9791c7db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77929b13_ff46ff40",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T10:14:27Z",
+      "side": 1,
+      "message": "nit: unrelated to this change, but injected constructor args should be one per line.",
+      "range": {
+        "startLine": 54,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 29
+      },
+      "revId": "26edb8ecf58999b4b9db9448510ec2ee9791c7db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

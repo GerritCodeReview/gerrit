@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b77173c9_79e207df",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-01-29T10:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77929b13_df49bb53",
+      "range": {
+        "startLine": 264,
+        "startChar": 30,
+        "endLine": 264,
+        "endChar": 50
+      },
+      "revId": "26edb8ecf58999b4b9db9448510ec2ee9791c7db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_ff46ff40",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
         "patchSetId": 23

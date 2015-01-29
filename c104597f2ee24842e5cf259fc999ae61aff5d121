@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b77173c9_590f032c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T08:35:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77929b13_5f3ccbf4",
+      "revId": "c104597f2ee24842e5cf259fc999ae61aff5d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_7f418f5b",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 17

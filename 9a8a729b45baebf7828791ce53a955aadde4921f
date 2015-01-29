@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b76333f1_e92295a1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T08:50:37Z",
+      "side": 1,
+      "message": "Remove `final` from these?",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 11
+      },
+      "revId": "9a8a729b45baebf7828791ce53a955aadde4921f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

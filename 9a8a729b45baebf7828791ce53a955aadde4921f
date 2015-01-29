@@ -22,6 +22,30 @@
       "revId": "9a8a729b45baebf7828791ce53a955aadde4921f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_1ae73dee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-29T09:05:43Z",
+      "side": 1,
+      "message": "Actually they were there even before my change: worth putting into a separate change as it is not directly related to this.",
+      "parentUuid": "b76333f1_e92295a1",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 11
+      },
+      "revId": "9a8a729b45baebf7828791ce53a955aadde4921f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

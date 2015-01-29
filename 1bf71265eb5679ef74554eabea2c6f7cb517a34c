@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b76333f1_c9cd9167",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-29T10:56:45Z",
+      "side": 1,
+      "message": "[optional] is it necessary to import this method as static?\n\nCan we instead import SecureStoreProvider normally, and then invoke as\n\n SecureStoreProvider.getSecureStoreClassFromGerritConfig\n\n?\n\nalso, that method name is quite long...",
+      "revId": "1bf71265eb5679ef74554eabea2c6f7cb517a34c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

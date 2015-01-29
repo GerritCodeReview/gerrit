@@ -149,13 +149,15 @@ public class PluginGuiceEnvironment {
     return sysModule;
   }
 
-  public void setCfgInjector(Injector cfgInjector) {
+  public void setDbCfgInjector(Injector dbInjector, Injector cfgInjector) {
+    final Module db = copy(dbInjector);
     final Module cm = copy(cfgInjector);
     final Module sm = copy(sysInjector);
     sysModule = new AbstractModule() {
       @Override
       protected void configure() {
         install(copyConfigModule);
+        install(db);
         install(cm);
         install(sm);
       }

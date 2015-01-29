@@ -70,6 +70,30 @@
       "revId": "7a07646861f766905af2ae305517cd4db3149815",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b77173c9_99435b30",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-29T09:49:24Z",
+      "side": 1,
+      "message": "It works as expected, that what GroupCallback is for:\n\n  * Callbacks are added to the group with {@link #add(AsyncCallback)}, which\n  * returns a wrapped callback suitable for passing to an asynchronous RPC call.\n  * The last callback must be added using {@link #addFinal(AsyncCallback)} or\n  * {@link #done()} must be invoked.\n  *\n  * The enclosing group buffers returned results and ensures that\n  * {@code onSuccess} is called exactly once for each callback in the group, in\n  * the same order that callbacks were added. This allows callers to, for\n  * example, use a {@link ScreenLoadCallback} as the last callback in the list\n  * and only display the screen once all callbacks have succeeded.",
+      "parentUuid": "b76333f1_499d217b",
+      "range": {
+        "startLine": 266,
+        "startChar": 16,
+        "endLine": 266,
+        "endChar": 38
+      },
+      "revId": "7a07646861f766905af2ae305517cd4db3149815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

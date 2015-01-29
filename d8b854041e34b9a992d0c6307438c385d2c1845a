@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b77173c9_19e74bee",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-01-29T11:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77929b13_bf407723",
+      "revId": "d8b854041e34b9a992d0c6307438c385d2c1845a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_5fddab1b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
         "patchSetId": 28
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-29T10:59:07Z",
       "side": 1,
       "message": "nit: wrap?",
+      "revId": "d8b854041e34b9a992d0c6307438c385d2c1845a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_baee51bb",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-01-29T11:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77929b13_5fddab1b",
       "revId": "d8b854041e34b9a992d0c6307438c385d2c1845a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

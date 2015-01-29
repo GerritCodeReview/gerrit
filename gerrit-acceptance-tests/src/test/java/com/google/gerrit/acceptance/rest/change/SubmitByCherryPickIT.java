@@ -17,8 +17,12 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -183,5 +187,59 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(log.get(2).getParent(0)).isEqualTo(log.get(3));
 
     assertThat(log.get(3).getId()).isEqualTo(initialHead.getId());
+  }
+
+  @Test
+  public void submitDependentNonConflictingChangesOutOfOrder() throws Exception {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b");
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+
+    submit(change3.getChangeId());
+    // Submit succeeds due to successful merge.
+    submit(change2.getChangeId());
+
+    // change2 is the new tip.
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log.get(0).getShortMessage()).isEqualTo(
+        change2.getCommit().getShortMessage());
+    assertThat(log.get(0).getParent(0)).isEqualTo(log.get(1));
+
+    assertThat(log.get(1).getShortMessage()).isEqualTo(
+        change3.getCommit().getShortMessage());
+    assertThat(log.get(1).getParent(0)).isEqualTo(log.get(2));
+
+    assertThat(log.get(2).getId()).isEqualTo(initialHead.getId());
+  }
+
+  @Test
+  public void submitDependentConflictingChangesOutOfOrder() throws Exception {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b1");
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "b", "b2");
+
+    submit(change3.getChangeId());
+    // Submit fails due to merge conflict.
+    submitWithConflict(change2.getChangeId());
+    ChangeInfo info2 = get(change2.getChangeId(), ListChangesOption.MESSAGES);
+    assertThat(info2.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(Iterables.getLast(info2.messages).message.toLowerCase())
+        .contains("path conflict");
+
+    // change3 is still the tip.
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log.get(0).getShortMessage()).isEqualTo(
+        change3.getCommit().getShortMessage());
+    assertThat(log.get(0).getParent(0)).isEqualTo(initialHead.getId());
   }
 }

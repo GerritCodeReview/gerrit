@@ -514,11 +514,16 @@ public class MergeOp {
       Change chg;
       try {
         ctl = cd.changeControl();
-        chg = cd.change();
+        // Reload change in case index was stale.
+        chg = cd.reloadChange();
       } catch (OrmException e) {
         throw new MergeException("Failed to validate changes", e);
       }
       Change.Id changeId = cd.getId();
+      if (chg.getStatus() != Change.Status.SUBMITTED) {
+        logDebug("Change {} is not submitted: {}", changeId, chg.getStatus());
+        continue;
+      }
       if (chg.currentPatchSetId() == null) {
         logError("Missing current patch set on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));

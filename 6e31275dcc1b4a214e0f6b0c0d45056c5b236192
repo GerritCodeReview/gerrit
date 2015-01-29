@@ -117,6 +117,30 @@
       "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d54f02_00f946d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-29T23:25:51Z",
+      "side": 1,
+      "message": "\u003e I guess you are referencing here this change, where Fix state was introduced: [1]? \n\nNo.\n\nIn GetChange the EnumSet\u003cListChangesOption\u003e may be different on each request, but that doesn\u0027t apply to handlers like Rebase below where the set of options is fixed for all time.\n\nThe bigger issue is the AccountLoader. The various format() methods create and hold on to the account loader in a non-threadsafe way.\n\nRebase and other handlers that do this are broken.",
+      "parentUuid": "b7b973da_19ee2b14",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "6e31275dcc1b4a214e0f6b0c0d45056c5b236192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

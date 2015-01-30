@@ -27,6 +27,7 @@
 
 .table tr {
   vertical-align: top;
+  text-align: left;
 }
 .table tr:hover {
   background: rgba(209, 245, 248, 0.32);

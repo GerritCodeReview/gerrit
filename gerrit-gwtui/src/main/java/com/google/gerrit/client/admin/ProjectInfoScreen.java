@@ -581,6 +581,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     if (showCreateChange) {
       actionsPanel.add(createChangeAction());
     }
+
+    if (isOwner) {
+      actionsPanel.add(createEditConfigAction());
+    }
   }
 
   private Button createChangeAction() {
@@ -594,6 +598,19 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     });
     return createChange;
+  }
+
+  private Button createEditConfigAction() {
+    final Button editConfig = new Button(Util.C.buttonEditConfig());
+    editConfig.setStyleName("");
+    editConfig.setTitle(Util.C.buttonEditConfigDescription());
+    editConfig.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        EditConfigAction.call(editConfig, getProjectKey().get());
+      }
+    });
+    return editConfig;
   }
 
   private void doSave() {

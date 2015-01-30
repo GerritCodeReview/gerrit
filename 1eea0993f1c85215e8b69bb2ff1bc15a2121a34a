@@ -315,6 +315,24 @@
       "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_0b10bd73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T20:49:19Z",
+      "side": 1,
+      "message": "Yeah, I think the simplest thing for right now would be to drop /changes/X/actions entirely, and have the UI call /changes/X/revisions/Y/actions, getting the change actions from the /detail request.\n\nOne complication is that /detail?o\u003dCURRENT_ACTIONS always gets the revision actions in the detail request, which we are no longer going to need. You\u0027ll need to add a new option like CHANGE_ACTIONS to include the change actions but not the actions for the current revision.\n\nWe can add /changes/X/actions later as the nested structure if we decide it\u0027s useful.",
+      "parentUuid": "770d3bbb_07e2f627",
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,69 @@
       "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_431fe68b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-30T05:42:50Z",
+      "side": 1,
+      "message": "Unnecessary initialization; this is just discarded by the try block.",
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_c312f67d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-30T05:42:50Z",
+      "side": 1,
+      "message": "You call this deletePatchSetIfRefMissing, yet its really if the commit object is not present in the Git repository.\n\nThe commit could exist, but be incomplete if the ref is missing due to GC killing the tree(s) it needs, but leaving the commit around.\n\nThe ref could exist but point to a missing commit. And this would delete the patch set.\n\nDo you mean to call this deletePatchSetIfCommitMissing?",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 57
+      },
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_e4f8dad3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-30T05:42:50Z",
+      "side": 1,
+      "message": "IIRC on SQL you just deleted the only patch set and cannot rollback. Yay!",
+      "range": {
+        "startLine": 337,
+        "startChar": 8,
+        "endLine": 344,
+        "endChar": 11
+      },
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

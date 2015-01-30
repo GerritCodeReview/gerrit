@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e95fcf_7c2479df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeStatusPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-01-30T10:03:51Z",
+      "side": 1,
+      "message": "Do we want to hardcode such a mapping in the core, just to support some plugin?\nMaybe we could either integrate the WIP workflow directly into the core, or provide an API which allows plugins to do modifiy search strings?",
+      "revId": "927446e46a5ab6018e7871469685c4a46d58bb15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

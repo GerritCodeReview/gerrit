@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_2713ba84",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_8b714dcb",
+      "range": {
+        "startLine": 292,
+        "startChar": 3,
+        "endLine": 292,
+        "endChar": 25
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_e7148271",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2015-01-30T22:51:16Z",
       "side": 1,
       "message": "Get Revision Actions",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_0710b673",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1875,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_e7148271",
       "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_8b482d71",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "The prior change being just a refactoring of the action handling?",
+      "parentUuid": "f7df6b54_6b7741bd",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_4b7485b6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2015-01-30T22:51:16Z",
       "side": 1,
       "message": "If this is not going to be used by the UI, I would consider dropping this option. There are already a lot of options...",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_873a66f5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "I considered introducing 2 new options which construct the old CURRENT_ACTIONS option which then can be deprecated later on.\n\nAlso this option is rather used as the CURRENT_CHANGE_ACTIONS, no?",
+      "parentUuid": "f7df6b54_4b7485b6",
       "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_c7405e5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_6709b252",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_2b813928",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 6
@@ -104,6 +200,30 @@
       "writtenOn": "2015-01-30T22:51:16Z",
       "side": 1,
       "message": "This is a long name, I would just say \"toActionInfoMap\" or \"toActionMap\". The arguments differentiate them well enough, I think.",
+      "range": {
+        "startLine": 74,
+        "startChar": 34,
+        "endLine": 74,
+        "endChar": 55
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_cb4e357e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_2b813928",
       "range": {
         "startLine": 74,
         "startChar": 34,
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_ab43e953",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_0b7e7d96",
+      "range": {
+        "startLine": 76,
+        "startChar": 34,
+        "endLine": 76,
+        "endChar": 57
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_c7197ea9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 6
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_eb49f177",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_c7197ea9",
+      "range": {
+        "startLine": 89,
+        "startChar": 34,
+        "endLine": 89,
+        "endChar": 57
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_a71e8a8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 6
@@ -173,6 +341,30 @@
       "writtenOn": "2015-01-30T22:51:16Z",
       "side": 1,
       "message": "new LinkedHashMap\u003c\u003e",
+      "range": {
+        "startLine": 91,
+        "startChar": 34,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_e73b62fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_a71e8a8d",
       "range": {
         "startLine": 91,
         "startChar": 34,

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static com.google.gerrit.testutil.TestChanges.newChange;
 import static com.google.gerrit.testutil.TestChanges.newPatchSet;
 import static java.util.Collections.singleton;
@@ -29,10 +29,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -83,31 +83,19 @@ public class ConsistencyCheckerTest {
 
   @Test
   public void validNewChange() throws Exception {
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
-    RevCommit commit1 = repo.branch(c.currentPatchSetId().toRefName()).commit()
-        .parent(tip).create();
-    PatchSet ps1 = newPatchSet(c.currentPatchSetId(), commit1, userId);
-    db.patchSets().insert(singleton(ps1));
-
+    Change c = insertChange();
+    insertPatchSet(c);
     incrementPatchSet(c);
-    RevCommit commit2 = repo.branch(c.currentPatchSetId().toRefName()).commit()
-        .parent(tip).create();
-    PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit2, userId);
-    db.patchSets().insert(singleton(ps2));
-
+    insertPatchSet(c);
     assertProblems(c);
   }
 
   @Test
   public void validMergedChange() throws Exception {
-    Change c = newChange(project, userId);
+    Change c = insertChange();
     c.setStatus(Change.Status.MERGED);
-    db.changes().insert(singleton(c));
-    RevCommit commit1 = repo.branch(c.currentPatchSetId().toRefName()).commit()
-        .parent(tip).create();
-    PatchSet ps1 = newPatchSet(c.currentPatchSetId(), commit1, userId);
-    db.patchSets().insert(singleton(ps1));
+    insertPatchSet(c);
+    incrementPatchSet(c);
 
     incrementPatchSet(c);
     RevCommit commit2 = repo.branch(c.currentPatchSetId().toRefName()).commit()
@@ -135,28 +123,18 @@ public class ConsistencyCheckerTest {
   public void missingRepo() throws Exception {
     Change c = newChange(new Project.NameKey("otherproject"), userId);
     db.changes().insert(singleton(c));
-    PatchSet ps = newPatchSet(c.currentPatchSetId(),
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), userId);
-    db.patchSets().insert(singleton(ps));
+    insertMissingPatchSet(c, "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
     assertProblems(c, "Destination repository not found: otherproject");
   }
 
   @Test
   public void invalidRevision() throws Exception {
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
+    Change c = insertChange();
 
-    PatchSet ps = new PatchSet(c.currentPatchSetId());
-    ps.setRevision(new RevId("fooooooooooooooooooooooooooooooooooooooo"));
-    ps.setUploader(userId);
-    ps.setCreatedOn(TimeUtil.nowTs());
-    db.patchSets().insert(singleton(ps));
-
+    db.patchSets().insert(singleton(newPatchSet(c.currentPatchSetId(),
+            "fooooooooooooooooooooooooooooooooooooooo", userId)));
     incrementPatchSet(c);
-    RevCommit commit2 = repo.branch(c.currentPatchSetId().toRefName()).commit()
-        .parent(tip).create();
-    PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit2, userId);
-    db.patchSets().insert(singleton(ps2));
+    insertPatchSet(c);
 
     assertProblems(c,
         "Invalid revision on patch set 1:"
@@ -165,8 +143,7 @@ public class ConsistencyCheckerTest {
 
   @Test
   public void patchSetObjectMissing() throws Exception {
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
+    Change c = insertChange();
     PatchSet ps = newPatchSet(c.currentPatchSetId(),
         ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), userId);
     db.patchSets().insert(singleton(ps));
@@ -177,26 +154,20 @@ public class ConsistencyCheckerTest {
 
   @Test
   public void currentPatchSetMissing() throws Exception {
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
+    Change c = insertChange();
     assertProblems(c, "Current patch set 1 not found");
   }
 
   @Test
   public void duplicatePatchSetRevisions() throws Exception {
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
-    RevCommit commit1 = repo.branch(c.currentPatchSetId().toRefName()).commit()
-        .parent(tip).create();
-    PatchSet ps1 = newPatchSet(c.currentPatchSetId(), commit1, userId);
-    db.patchSets().insert(singleton(ps1));
-
+    Change c = insertChange();
+    PatchSet ps1 = insertPatchSet(c);
+    String rev = ps1.getRevision().get();
     incrementPatchSet(c);
-    PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit1, userId);
-    db.patchSets().insert(singleton(ps2));
+    insertMissingPatchSet(c, rev);
 
     assertProblems(c,
-        "Multiple patch sets pointing to " + commit1.name() + ": [1, 2]");
+        "Multiple patch sets pointing to " + rev + ": [1, 2]");
   }
 
   @Test
@@ -204,8 +175,7 @@ public class ConsistencyCheckerTest {
     RefUpdate ru = repo.getRepository().updateRef("refs/heads/master");
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
+    Change c = insertChange();
     RevCommit commit = repo.commit().create();
     PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
     db.patchSets().insert(singleton(ps));
@@ -215,23 +185,19 @@ public class ConsistencyCheckerTest {
 
   @Test
   public void mergedChangeIsNotMerged() throws Exception {
-    Change c = newChange(project, userId);
+    Change c = insertChange();
     c.setStatus(Change.Status.MERGED);
-    db.changes().insert(singleton(c));
-    RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
-        .parent(tip).create();
-    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
-    db.patchSets().insert(singleton(ps));
+    PatchSet ps = insertPatchSet(c);
+    String rev = ps.getRevision().get();
 
     assertProblems(c,
-        "Patch set 1 (" + commit.name() + ") is not merged into destination ref"
+        "Patch set 1 (" + rev + ") is not merged into destination ref"
         + " master (" + tip.name() + "), but change status is MERGED");
   }
 
   @Test
   public void newChangeIsMerged() throws Exception {
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
+    Change c = insertChange();
     RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
         .parent(tip).create();
     PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
@@ -245,8 +211,7 @@ public class ConsistencyCheckerTest {
 
   @Test
   public void newChangeIsMergedWithFix() throws Exception {
-    Change c = newChange(project, userId);
-    db.changes().insert(singleton(c));
+    Change c = insertChange();
     RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
         .parent(tip).create();
     PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
@@ -267,11 +232,40 @@ public class ConsistencyCheckerTest {
     assertProblems(c);
   }
 
+  private Change insertChange() throws Exception {
+    Change c = newChange(project, userId);
+    db.changes().insert(singleton(c));
+    return c;
+  }
+
+  private void incrementPatchSet(Change c) throws Exception {
+    TestChanges.incrementPatchSet(c);
+    db.changes().upsert(singleton(c));
+  }
+
+  private PatchSet insertPatchSet(Change c) throws Exception {
+    db.changes().upsert(singleton(c));
+    RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
+        .parent(tip).create();
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
+    db.patchSets().insert(singleton(ps));
+    return ps;
+  }
+
+  private PatchSet insertMissingPatchSet(Change c, String id) throws Exception {
+    PatchSet ps = newPatchSet(c.currentPatchSetId(),
+        ObjectId.fromString(id), userId);
+    db.patchSets().insert(singleton(ps));
+    return ps;
+  }
+
   private void assertProblems(Change c, String... expected) {
     assertThat(Lists.transform(checker.check(c).problems(),
           new Function<ProblemInfo, String>() {
             @Override
             public String apply(ProblemInfo in) {
+              checkArgument(in.status == null,
+                  "Status is not null: " + in.message);
               return in.message;
             }
           })).containsExactly((Object[]) expected);

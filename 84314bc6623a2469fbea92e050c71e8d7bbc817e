@@ -46,6 +46,30 @@
       "revId": "84314bc6623a2469fbea92e050c71e8d7bbc817e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_246832dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T07:41:23Z",
+      "side": 1,
+      "message": "Yes, I didn\u0027t take the user config approach initially because I knew it\u0027d conflict with the work to move config to git.",
+      "parentUuid": "17e95fcf_bcfe01bf",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 12
+      },
+      "revId": "84314bc6623a2469fbea92e050c71e8d7bbc817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

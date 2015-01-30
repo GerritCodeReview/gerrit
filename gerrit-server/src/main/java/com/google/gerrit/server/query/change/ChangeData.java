@@ -656,7 +656,13 @@ public class ChangeData {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).addValue(getId()).toString();
+    MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);
+    if (change != null) {
+      h.addValue(change);
+    } else {
+      h.addValue(legacyId);
+    }
+    return h.toString();
   }
 
   public static class ChangedLines {

@@ -145,6 +145,12 @@ Commit the changes and create the release tag on the new commit:
   git tag -a v2.5
 ----
 
+Tag the plugins:
+
+----
+  git submodule foreach git tag -a v2.5
+----
+
 [[build-gerrit]]
 === Build Gerrit
 
@@ -313,18 +319,16 @@ get them merged
 [[push-tag]]
 ==== Push the Release Tag
 
-* Push the new Release Tag
-+
-For an `RC`:
-+
-----
-  git push gerrit-review tag v2.5-rc0
-----
-+
-For a final `stable` release:
-+
+Push the new Release Tag:
+
 ----
   git push gerrit-review tag v2.5
+----
+
+Push the new Release Tag on the plugins:
+
+----
+  git submodule foreach git push gerrit-review tag v2.5
 ----
 
 

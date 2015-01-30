@@ -19,9 +19,11 @@ import static com.google.gerrit.extensions.client.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHECK;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_CHANGE_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
@@ -95,7 +97,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -140,13 +141,13 @@ public class ChangeJson {
   private final AccountLoader.Factory accountLoaderFactory;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
-  private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final Revisions revisions;
   private final WebLinks webLinks;
   private final EnumSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
+  private final Provider<ActionJson> actionJsonProvider;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -164,12 +165,12 @@ public class ChangeJson {
       AccountLoader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
-      DynamicMap<RestView<ChangeResource>> changeViews,
       Revisions revisions,
       WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
-      Provider<ConsistencyChecker> checkerProvider) {
+      Provider<ConsistencyChecker> checkerProvider,
+      Provider<ActionJson> actionJsonProvider) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -181,12 +182,12 @@ public class ChangeJson {
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
     this.downloadCommands = downloadCommands;
-    this.changeViews = changeViews;
     this.revisions = revisions;
     this.webLinks = webLinks;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
     this.checkerProvider = checkerProvider;
+    this.actionJsonProvider = actionJsonProvider;
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -197,6 +198,10 @@ public class ChangeJson {
 
   public ChangeJson addOptions(Collection<ListChangesOption> o) {
     options.addAll(o);
+    if (o.contains(CURRENT_ACTIONS)) {
+      options.add(CURRENT_CHANGE_ACTIONS);
+      options.add(CURRENT_REVISION_ACTIONS);
+    }
     return this;
   }
 
@@ -419,14 +424,9 @@ public class ChangeJson {
       }
     }
 
-    if (has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {
-      out.actions = Maps.newTreeMap();
-      for (UiAction.Description d : UiActions.from(
-          changeViews,
-          new ChangeResource(ctl),
-          userProvider)) {
-        out.actions.put(d.getId(), new ActionInfo(d));
-      }
+    if (has(CURRENT_CHANGE_ACTIONS) && userProvider.get().isIdentifiedUser()) {
+      actionJsonProvider.get().addChangeActions(out, cd);
+      // todo: why do we need to treat followup specially here?
       if (userProvider.get().isIdentifiedUser()
           && in.getStatus().isOpen()) {
         UiAction.Description descr = new UiAction.Description();
@@ -905,15 +905,9 @@ public class ChangeJson {
     }
 
     if ((out.isCurrent || (out.draft != null && out.draft))
-        && has(CURRENT_ACTIONS)
+        && has(CURRENT_REVISION_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
-      out.actions = Maps.newTreeMap();
-      for (UiAction.Description d : UiActions.from(
-          revisions,
-          new RevisionResource(new ChangeResource(ctl), in),
-          userProvider)) {
-        out.actions.put(d.getId(), new ActionInfo(d));
-      }
+      actionJsonProvider.get().addRevisionActions(out, cd, in.getId());
     }
 
     if (has(DRAFT_COMMENTS)

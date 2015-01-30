@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17707f17_e47d3a9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T10:05:07Z",
+      "side": 1,
+      "message": "Yes, I was going to look into that next and make any fixes in a follow up commit.\n\nCurrently fixing up the DeleteDraftChangeIT tests.  Change coming up soon.",
+      "parentUuid": "b7b973da_793ba7fa",
+      "revId": "601437eb756a79c8fee4a6592eb043f860ca05b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7b973da_5936e313",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2015-01-30T09:59:52Z",
       "side": 1,
       "message": "one or two chars are missing in this abbreviation, so that its not rendered as link.",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "601437eb756a79c8fee4a6592eb043f860ca05b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_c357560d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T10:05:07Z",
+      "side": 1,
+      "message": "Yeah, I keep doing that. How many chars is it supposed to link on?",
+      "parentUuid": "b7b973da_5936e313",
       "range": {
         "startLine": 9,
         "startChar": 7,

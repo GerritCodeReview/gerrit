@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e95fcf_5ce89d04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-30T06:25:13Z",
+      "side": 1,
+      "message": "I made some changes to WIP plugin recently, and realized, that trying to create all new changes as DRAFT wouldn\u0027t work in this context, that\u0027s because draft workflow can be disabled, with\n\n change.allowDrafts \u003d false\n\nIn this case, either client shouldn\u0027t send status\u003ddraft in the input or this should be ignored and create normal change.",
+      "revId": "fefaef9845c6b178465d42ceeacafa16e2aaa487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

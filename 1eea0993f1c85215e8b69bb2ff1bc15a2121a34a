@@ -284,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_0b279dd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T21:49:50Z",
+      "side": 1,
+      "message": "I squashed it into this commit as well, not sure if that was a wise idea. But it compiles and tests.",
+      "parentUuid": "f7df6b54_ab352907",
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_4bffe5bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetActions.java",
         "patchSetId": 4

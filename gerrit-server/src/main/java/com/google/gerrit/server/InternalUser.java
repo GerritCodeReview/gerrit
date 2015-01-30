@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -39,8 +40,9 @@ public class InternalUser extends CurrentUser {
     InternalUser create();
   }
 
+  @VisibleForTesting
   @Inject
-  protected InternalUser(CapabilityControl.Factory capabilityControlFactory) {
+  public InternalUser(CapabilityControl.Factory capabilityControlFactory) {
     super(capabilityControlFactory);
   }
 

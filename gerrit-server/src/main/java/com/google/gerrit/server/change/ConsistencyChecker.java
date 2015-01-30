@@ -28,6 +28,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -39,7 +42,9 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -82,6 +87,8 @@ public class ConsistencyChecker {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final Provider<CurrentUser> user;
+  private final Provider<PersonIdent> serverIdent;
 
   private FixInput fix;
   private Change change;
@@ -95,9 +102,13 @@ public class ConsistencyChecker {
 
   @Inject
   ConsistencyChecker(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      Provider<CurrentUser> user,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent) {
     this.db = db;
     this.repoManager = repoManager;
+    this.user = user;
+    this.serverIdent = serverIdent;
     reset();
   }
 
@@ -209,9 +220,11 @@ public class ConsistencyChecker {
         .treeSetValues(Ordering.natural().onResultOf(toPsId))
         .build();
     for (PatchSet ps : all) {
+      // Check revision format.
       ObjectId objId;
       String rev = ps.getRevision().get();
       int psNum = ps.getId().get();
+      String refName = ps.getId().toRefName();
       try {
         objId = ObjectId.fromString(rev);
       } catch (IllegalArgumentException e) {
@@ -221,16 +234,36 @@ public class ConsistencyChecker {
       }
       bySha.put(objId, ps);
 
+      // Check ref existence.
+      ProblemInfo refProblem = null;
+      try {
+        Ref ref = repo.getRef(refName);
+        if (ref == null) {
+          refProblem = problem("Ref missing: " + refName);
+        } else if (!objId.equals(ref.getObjectId())) {
+          refProblem = problem(String.format(
+              "Expected %s to point to %s, found %s",
+              ref.getName(), objId.name(), refName));
+        }
+      } catch (IOException e) {
+        error("Error reading ref: " + refName, e);
+        refProblem = lastProblem();
+      }
+
+      // Check object existence.
       RevCommit psCommit = parseCommit(
           objId, String.format("patch set %d", psNum));
       if (psCommit == null) {
         continue;
+      } else if (refProblem != null && fix != null) {
+        fixPatchSetRef(refProblem, ps);
       }
       if (ps.getId().equals(change.currentPatchSetId())) {
         currPsCommit = psCommit;
       }
     }
 
+    // Check for duplicates.
     for (Map.Entry<ObjectId, Collection<PatchSet>> e
         : bySha.asMap().entrySet()) {
       if (e.getValue().size() > 1) {
@@ -305,6 +338,44 @@ public class ConsistencyChecker {
     }
   }
 
+  private void fixPatchSetRef(ProblemInfo p, PatchSet ps) {
+    try {
+      RefUpdate ru = repo.updateRef(ps.getId().toRefName());
+      ru.setForceUpdate(true);
+      ru.setNewObjectId(ObjectId.fromString(ps.getRevision().get()));
+      ru.setRefLogIdent(newRefLogIdent());
+      ru.setRefLogMessage("Repair patch set ref", true);
+      RefUpdate.Result result = ru.update();
+      switch (result) {
+        case NEW:
+        case FORCED:
+        case FAST_FORWARD:
+        case NO_CHANGE:
+          p.status = Status.FIXED;
+          p.outcome = "Repaired patch set ref";
+          return;
+        default:
+          p.status = Status.FIX_FAILED;
+          p.outcome = "Failed to update patch set ref: " + result;
+          return;
+      }
+    } catch (IOException e) {
+      String msg = "Error fixing patch set ref";
+      log.warn(msg + ' ' + ps.getId().toRefName(), e);
+      p.status = Status.FIX_FAILED;
+      p.outcome = msg;
+    }
+  }
+
+  private PersonIdent newRefLogIdent() {
+    CurrentUser u = user.get();
+    if (u.isIdentifiedUser()) {
+      return ((IdentifiedUser) u).newRefLogIdent();
+    } else {
+      return serverIdent.get();
+    }
+  }
+
   private RevCommit parseCommit(ObjectId objId, String desc) {
     try {
       return rw.parseCommit(objId);
@@ -323,6 +394,10 @@ public class ConsistencyChecker {
     p.message = msg;
     problems.add(p);
     return p;
+  }
+
+  private ProblemInfo lastProblem() {
+    return problems.get(problems.size() - 1);
   }
 
   private boolean error(String msg, Throwable t) {

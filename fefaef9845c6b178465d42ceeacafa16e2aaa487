@@ -16,6 +16,24 @@
       "revId": "fefaef9845c6b178465d42ceeacafa16e2aaa487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_835d5e33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T08:36:10Z",
+      "side": 1,
+      "message": "I\u0027ve just tested this.\n\nAfter setting `allowDrafts` to false, I can\u0027t push a change to `refs/drafts/master`:\n\n ! [remote rejected] HEAD -\u003e refs/drafts/master (cannot upload drafts)\n\nCreating a new change worked, and it shows as draft in the UI.  But then it cannot be published:\n\n Draft workflow is disabled\n\nI\u0027ll upload a separate fix for this.",
+      "parentUuid": "17e95fcf_5ce89d04",
+      "revId": "fefaef9845c6b178465d42ceeacafa16e2aaa487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

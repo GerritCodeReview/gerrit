@@ -39,6 +39,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -116,6 +117,9 @@ public abstract class AbstractDaemonTest {
   @Inject
   protected Provider<InternalChangeQuery> queryProvider;
 
+  @Inject
+  protected @GerritServerConfig Config cfg;
+
   protected Git git;
   protected GerritServer server;
   protected TestAccount admin;
@@ -163,6 +167,16 @@ public abstract class AbstractDaemonTest {
     Config cfg = new Config();
     cfg.setBoolean("change", null, "submitWholeTopic", true);
     return cfg;
+  }
+
+  protected static Config allowDraftsDisabledConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "allowDrafts", false);
+    return cfg;
+  }
+
+  protected boolean isAllowDrafts() {
+    return cfg.getBoolean("change", "allowDrafts", true);
   }
 
   private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {

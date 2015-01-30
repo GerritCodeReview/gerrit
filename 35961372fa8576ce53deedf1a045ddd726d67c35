@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d7cb4764_c22cc2c0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProblemInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T17:06:45Z",
+      "side": 1,
+      "message": "Yes, append((Object) null) appends \"null\".",
+      "parentUuid": "17707f17_84dac66f",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_431fe68b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-01-30T05:42:50Z",
       "side": 1,
       "message": "Unnecessary initialization; this is just discarded by the try block.",
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d54f02_e012a27d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T17:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76ccb49_431fe68b",
       "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "97d54f02_00106673",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T17:06:45Z",
+      "side": 1,
+      "message": "Good point, will rename.\n\nWe need a separate check/fix to replace the ref if it\u0027s missing but the underlying object exists. Done.",
+      "parentUuid": "f76ccb49_c312f67d",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 57
+      },
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17707f17_e4f8dad3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2015-01-30T05:42:50Z",
       "side": 1,
       "message": "IIRC on SQL you just deleted the only patch set and cannot rollback. Yay!",
+      "range": {
+        "startLine": 337,
+        "startChar": 8,
+        "endLine": 344,
+        "endChar": 11
+      },
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7cb4764_e229c6ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T17:06:45Z",
+      "side": 1,
+      "message": "Transactions have been actually implemented in SQL since I29ab37e1c so I don\u0027t see why this wouldn\u0027t work. ConsistencyCheckerTest#onlyPatchSetObjectMissingWithFix() in fact tests this behavior and it works on in-memory H2 at least.\n\nThat said if we don\u0027t trust the implementation, it\u0027s easy to fix the check, done.",
+      "parentUuid": "17707f17_e4f8dad3",
       "range": {
         "startLine": 337,
         "startChar": 8,

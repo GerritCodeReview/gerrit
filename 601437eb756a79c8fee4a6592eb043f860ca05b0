@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7b973da_793ba7fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-30T09:59:52Z",
+      "side": 1,
+      "message": "This change is fixing the client side, however, the server side ist still broken, because from another client DRAFT changes can be created still created, even though the DRAFT workflow was disabled. Add the check to the REST endpoint in this or follow-up change as well?",
+      "revId": "601437eb756a79c8fee4a6592eb043f860ca05b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7b973da_5936e313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-30T09:59:52Z",
+      "side": 1,
+      "message": "one or two chars are missing in this abbreviation, so that its not rendered as link.",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "601437eb756a79c8fee4a6592eb043f860ca05b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

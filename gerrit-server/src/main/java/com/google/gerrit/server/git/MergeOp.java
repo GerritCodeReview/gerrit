@@ -460,8 +460,7 @@ public class MergeOp {
           }
         }
       }
-      logDebug("Opened branch {}: {}, (parsed to {})",
-          destBranch.get(), oldRef, branchTip);
+      logDebug("Opened branch {}: {}", destBranch.get(), branchTip);
       return branchUpdate;
     } catch (IOException e) {
       throw new MergeException("Cannot open branch", e);

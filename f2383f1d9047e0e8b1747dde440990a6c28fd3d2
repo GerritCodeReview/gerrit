@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_4b5b653d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:31:04Z",
+      "side": 1,
+      "message": "ok I\u0027ll try to split up the patch.",
+      "parentUuid": "770d3bbb_472d8eb8",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_4b7485b6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
         "patchSetId": 6
@@ -184,6 +202,24 @@
       "side": 1,
       "message": "I thought the new plan was for ChangeScreen to call\n\n* /detail?o\u003dCHANGE_ACTIONS\u0026o\u003d...\n* /revisions/Y/actions\n\nbecause the one we care about, submit, is a revision action. The change actions can still come from the detail call.",
       "parentUuid": "770d3bbb_873a66f5",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_072796d8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-30T23:31:04Z",
+      "side": 1,
+      "message": "right. I was confused.\n\nDo we need to care about history here? If so we\u0027d need to keep CURRENT_ACTIONS around and introduce CHANGE_ACTIONS additionally. If we do not care about history we could rename/re-purpose CURRENT_ACTIONS(10).",
+      "parentUuid": "770d3bbb_67309214",
       "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

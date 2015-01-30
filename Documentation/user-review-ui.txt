@@ -350,20 +350,25 @@ user last reviewed this change, are highlighted in bold.
 image::images/user-review-ui-change-screen-file-list-comments.png[width=800, link="images/user-review-ui-change-screen-file-list-comments.png"]
 
 [[size]]
-The size of the modifications in the files can be seen in the `Size`
-column. The footer row shows the total size of the change.
-
-For files, the `Size` column shows the sum of inserted and deleted
-lines as one number. For the total size, inserted and deleted lines are
-shown separately. In addition, the number of insertions and deletions
-is shown as a bar. The size of the bar indicates the amount of changed
-lines, and its coloring in green and red shows the proportion of
-insertions to deletions.
+The size of the modifications in the files can be seen in the `Size` column. The
+footer row shows the total size of the change.
 
 The size information is useful to easily spot the files that contain
 the most modifications; these files are likely to be the most relevant
 files for this change. The total change size gives an estimate of how
 long a review of this change may take.
+
+When the "Show Change Sizes As Colored Bars In Changes Table" user preference is
+enabled, the `Size` column shows the sum of inserted and deleted lines as one
+number.  In addition, the change size is shown as a bar. The size of the bar
+indicates the amount of changed lines, and its coloring shows the proportion of
+insertions (green) to deletions (red).
+
+When the "Show Change Sizes As Colored Bars In Changes Table" user preference is
+disabled, the colored bar is not shown.  For added and renamed files, the `Size`
+column shows the number of inserted and deleted lines. For new files, the column
+only shows the total number of lines in the new file. No size is shown for binary
+files and deleted files.
 
 image::images/user-review-ui-change-screen-file-list-size.png[width=800, link="images/user-review-ui-change-screen-file-list-size.png"]
 

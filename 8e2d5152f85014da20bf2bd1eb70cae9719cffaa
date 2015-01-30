@@ -46,6 +46,30 @@
       "revId": "8e2d5152f85014da20bf2bd1eb70cae9719cffaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7b973da_7949e772",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T13:50:31Z",
+      "side": 1,
+      "message": "It\u0027s used in quite a lot of the group REST endpoints, e.g. in AddMembers when you try to add a member to group that is no Gerrit internal group.",
+      "parentUuid": "17707f17_a4a182be",
+      "range": {
+        "startLine": 138,
+        "startChar": 18,
+        "endLine": 138,
+        "endChar": 37
+      },
+      "revId": "8e2d5152f85014da20bf2bd1eb70cae9719cffaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

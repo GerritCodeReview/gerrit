@@ -25,6 +25,10 @@
   width: 20px;
 }
 
+.table th {
+  vertical-align: top;
+  text-align: left;
+}
 .table tr {
   vertical-align: top;
 }

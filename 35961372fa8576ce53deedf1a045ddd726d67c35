@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17707f17_84dac66f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProblemInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T02:42:28Z",
+      "side": 1,
+      "message": "Is it OK that at least one of `status` or `outcome` can be null?",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "35961372fa8576ce53deedf1a045ddd726d67c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

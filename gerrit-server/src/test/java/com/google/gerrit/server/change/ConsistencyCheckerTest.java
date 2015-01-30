@@ -32,6 +32,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.testutil.FakeAccountByEmailCache;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
@@ -62,6 +64,7 @@ public class ConsistencyCheckerTest {
 
   @Before
   public void setUp() throws Exception {
+    FakeAccountByEmailCache accountCache = new FakeAccountByEmailCache();
     schemaFactory = InMemoryDatabase.newDatabase();
     schemaFactory.create();
     db = schemaFactory.open();
@@ -70,10 +73,12 @@ public class ConsistencyCheckerTest {
         Providers.<ReviewDb> of(db),
         repoManager,
         Providers.<CurrentUser> of(new InternalUser(null)),
-        Providers.of(new PersonIdent("server", "noreply@example.com")));
+        Providers.of(new PersonIdent("server", "noreply@example.com")),
+        new PatchSetInfoFactory(repoManager, accountCache));
     project = new Project.NameKey("repo");
     repo = new TestRepository<>(repoManager.createRepository(project));
     userId = new Account.Id(1);
+    accountCache.putAny(userId);
     db.accounts().insert(singleton(new Account(userId, TimeUtil.nowTs())));
     tip = repo.branch("master").commit().create();
   }
@@ -204,6 +209,109 @@ public class ConsistencyCheckerTest {
 
     assertThat(repo.getRepository().getRef(refName).getObjectId().name())
         .isEqualTo(ps.getRevision().get());
+  }
+
+  @Test
+  public void patchSetObjectAndRefMissingWithDeletingPatchSet()
+      throws Exception {
+    Change c = insertChange();
+    PatchSet ps1 = insertPatchSet(c);
+    incrementPatchSet(c);
+    PatchSet ps2 = insertMissingPatchSet(c,
+        "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+
+    FixInput fix = new FixInput();
+    fix.deletePatchSetIfCommitMissing = true;
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(2);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo("Ref missing: " + ps2.getId().toRefName());
+    assertThat(p.status).isNull();
+    p = problems.get(1);
+    assertThat(p.message).isEqualTo(
+        "Object missing: patch set 2: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(p.outcome).isEqualTo("Deleted patch set");
+
+    c = db.changes().get(c.getId());
+    assertThat(c.currentPatchSetId().get()).isEqualTo(1);
+    assertThat(db.patchSets().get(ps1.getId())).isNotNull();
+    assertThat(db.patchSets().get(ps2.getId())).isNull();
+  }
+
+  @Test
+  public void patchSetMultipleObjectsMissingWithDeletingPatchSets()
+      throws Exception {
+    Change c = insertChange();
+    PatchSet ps1 = insertPatchSet(c);
+
+    incrementPatchSet(c);
+    PatchSet ps2 = insertMissingPatchSet(c,
+        "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+
+    incrementPatchSet(c);
+    PatchSet ps3 = insertPatchSet(c);
+
+    incrementPatchSet(c);
+    PatchSet ps4 = insertMissingPatchSet(c,
+        "c0ffeeeec0ffeeeec0ffeeeec0ffeeeec0ffeeee");
+
+    FixInput fix = new FixInput();
+    fix.deletePatchSetIfCommitMissing = true;
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(4);
+
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo("Ref missing: " + ps4.getId().toRefName());
+    assertThat(p.status).isNull();
+
+    p = problems.get(1);
+    assertThat(p.message).isEqualTo(
+        "Object missing: patch set 4: c0ffeeeec0ffeeeec0ffeeeec0ffeeeec0ffeeee");
+    assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(p.outcome).isEqualTo("Deleted patch set");
+
+    p = problems.get(2);
+    assertThat(p.message).isEqualTo("Ref missing: " + ps2.getId().toRefName());
+    assertThat(p.status).isNull();
+
+    p = problems.get(3);
+    assertThat(p.message).isEqualTo(
+        "Object missing: patch set 2: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(p.outcome).isEqualTo("Deleted patch set");
+
+    c = db.changes().get(c.getId());
+    assertThat(c.currentPatchSetId().get()).isEqualTo(3);
+    assertThat(db.patchSets().get(ps1.getId())).isNotNull();
+    assertThat(db.patchSets().get(ps2.getId())).isNull();
+    assertThat(db.patchSets().get(ps3.getId())).isNotNull();
+    assertThat(db.patchSets().get(ps4.getId())).isNull();
+  }
+
+  @Test
+  public void onlyPatchSetObjectMissingWithFix() throws Exception {
+    Change c = insertChange();
+    PatchSet ps1 = insertMissingPatchSet(c,
+        "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+
+    FixInput fix = new FixInput();
+    fix.deletePatchSetIfCommitMissing = true;
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(2);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo("Ref missing: " + ps1.getId().toRefName());
+    assertThat(p.status).isNull();
+    p = problems.get(1);
+    assertThat(p.message).isEqualTo(
+        "Object missing: patch set 1: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    assertThat(p.status).isEqualTo(ProblemInfo.Status.FIX_FAILED);
+    assertThat(p.outcome)
+        .isEqualTo("Cannot delete patch set; no patch sets would remain");
+
+    c = db.changes().get(c.getId());
+    assertThat(c.currentPatchSetId().get()).isEqualTo(1);
+    assertThat(db.patchSets().get(ps1.getId())).isNotNull();
   }
 
   @Test

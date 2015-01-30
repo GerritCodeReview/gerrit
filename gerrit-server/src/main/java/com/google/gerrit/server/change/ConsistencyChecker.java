@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
@@ -32,6 +33,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -54,6 +57,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +93,7 @@ public class ConsistencyChecker {
   private final GitRepositoryManager repoManager;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
+  private final PatchSetInfoFactory patchSetInfoFactory;
 
   private FixInput fix;
   private Change change;
@@ -104,11 +109,13 @@ public class ConsistencyChecker {
   ConsistencyChecker(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       Provider<CurrentUser> user,
-      @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      PatchSetInfoFactory patchSetInfoFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.user = user;
     this.serverIdent = serverIdent;
+    this.patchSetInfoFactory = patchSetInfoFactory;
     reset();
   }
 
@@ -203,21 +210,29 @@ public class ConsistencyChecker {
     }
   }
 
+  private static final Function<PatchSet, Integer> TO_PS_ID =
+      new Function<PatchSet, Integer>() {
+        @Override
+        public Integer apply(PatchSet in) {
+          return in.getId().get();
+        }
+      };
+
+  private static final Ordering<PatchSet> PS_ID_ORDER = Ordering.natural()
+    .onResultOf(TO_PS_ID);
+
   private boolean checkPatchSets() {
     List<PatchSet> all;
     try {
-      all = db.get().patchSets().byChange(change.getId()).toList();
+      all = Lists.newArrayList(db.get().patchSets().byChange(change.getId()));
     } catch (OrmException e) {
       return error("Failed to look up patch sets", e);
     }
-    Function<PatchSet, Integer> toPsId = new Function<PatchSet, Integer>() {
-      @Override
-      public Integer apply(PatchSet in) {
-        return in.getId().get();
-      }
-    };
+    // Iterate in descending order so deletePatchSet can assume the latest patch
+    // set exists.
+    Collections.sort(all, PS_ID_ORDER.reverse());
     Multimap<ObjectId, PatchSet> bySha = MultimapBuilder.hashKeys(all.size())
-        .treeSetValues(Ordering.natural().onResultOf(toPsId))
+        .treeSetValues(PS_ID_ORDER)
         .build();
     for (PatchSet ps : all) {
       // Check revision format.
@@ -257,6 +272,9 @@ public class ConsistencyChecker {
       RevCommit psCommit = parseCommit(
           objId, String.format("patch set %d", psNum));
       if (psCommit == null) {
+        if (fix != null && fix.deletePatchSetIfCommitMissing) {
+          deletePatchSet(lastProblem(), ps.getId());
+        }
         continue;
       } else if (refProblem != null && fix != null) {
         fixPatchSetRef(refProblem, ps);
@@ -272,7 +290,7 @@ public class ConsistencyChecker {
       if (e.getValue().size() > 1) {
         problem(String.format("Multiple patch sets pointing to %s: %s",
             e.getKey().name(),
-            Collections2.transform(e.getValue(), toPsId)));
+            Collections2.transform(e.getValue(), TO_PS_ID)));
       }
     }
 
@@ -365,6 +383,66 @@ public class ConsistencyChecker {
     } catch (IOException e) {
       String msg = "Error fixing patch set ref";
       log.warn(msg + ' ' + ps.getId().toRefName(), e);
+      p.status = Status.FIX_FAILED;
+      p.outcome = msg;
+    }
+  }
+
+  private void deletePatchSet(ProblemInfo p, PatchSet.Id psId) {
+    ReviewDb db = this.db.get();
+    Change.Id cid = psId.getParentKey();
+    try {
+      db.changes().beginTransaction(cid);
+      try {
+        Change c = db.changes().get(cid);
+        if (c == null) {
+          throw new OrmException("Change missing: " + cid);
+        }
+
+        if (psId.equals(c.currentPatchSetId())) {
+          List<PatchSet> all = Lists.newArrayList(db.patchSets().byChange(cid));
+          if (all.size() == 1 && all.get(0).getId().equals(psId)) {
+            p.status = Status.FIX_FAILED;
+            p.outcome = "Cannot delete patch set; no patch sets would remain";
+            return;
+          }
+          // If there were multiple missing patch sets, assumes deletePatchSet
+          // has been called in decreasing order, so the max remaining PatchSet
+          // is the effective current patch set.
+          Collections.sort(all, PS_ID_ORDER.reverse());
+          PatchSet.Id latest = null;
+          for (PatchSet ps : all) {
+            latest = ps.getId();
+            if (!ps.getId().equals(psId)) {
+              break;
+            }
+          }
+          c.setCurrentPatchSet(patchSetInfoFactory.get(db, latest));
+          db.changes().update(Collections.singleton(c));
+        }
+
+        // Delete dangling primary key references. Don't delete ChangeMessages,
+        // which don't use patch sets as a primary key, and may provide useful
+        // historical information.
+        db.accountPatchReviews().delete(
+            db.accountPatchReviews().byPatchSet(psId));
+        db.patchSetAncestors().delete(
+            db.patchSetAncestors().byPatchSet(psId));
+        db.patchSetApprovals().delete(
+            db.patchSetApprovals().byPatchSet(psId));
+        db.patchComments().delete(
+            db.patchComments().byPatchSet(psId));
+        db.patchSets().deleteKeys(Collections.singleton(psId));
+        db.commit();
+
+        p.status = Status.FIXED;
+        p.outcome = "Deleted patch set";
+      } finally {
+        db.rollback();
+      }
+    } catch (PatchSetInfoNotAvailableException | OrmException e) {
+      String msg = "Error deleting patch set";
+      log.warn(msg + ' ' + psId, e);
       p.status = Status.FIX_FAILED;
       p.outcome = msg;
     }

@@ -260,6 +260,75 @@
     },
     {
       "key": {
+        "uuid": "f76ccb49_23682add",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T06:15:42Z",
+      "side": 1,
+      "message": "This is deprecated.  Use MoreObjects instead.",
+      "range": {
+        "startLine": 62,
+        "startChar": 26,
+        "endLine": 62,
+        "endChar": 46
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_44360e14",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T06:15:42Z",
+      "side": 1,
+      "message": "This is deprecated.  Use MoreObjects instead.",
+      "range": {
+        "startLine": 65,
+        "startChar": 26,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_03632e03",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T06:15:42Z",
+      "side": 1,
+      "message": "This exception is not thrown.",
+      "range": {
+        "startLine": 110,
+        "startChar": 40,
+        "endLine": 110,
+        "endChar": 58
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17707f17_0415f66b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
         "patchSetId": 39
@@ -276,6 +345,29 @@
         "startChar": 37,
         "endLine": 15,
         "endChar": 43
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_2441125d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T06:15:42Z",
+      "side": 1,
+      "message": "This exception is not thrown.",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 34
       },
       "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

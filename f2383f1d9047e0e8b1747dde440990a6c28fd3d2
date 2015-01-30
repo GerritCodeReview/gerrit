@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_8b714dcb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "Just CHANGE_ACTIONS. The \"CURRENT\" in \"CURRENT_ACTIONS\" refers to the current patch set.",
+      "range": {
+        "startLine": 292,
+        "startChar": 3,
+        "endLine": 292,
+        "endChar": 25
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_e7148271",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1875,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "Get Revision Actions",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_6b7741bd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "I would move the new options into a prior change.",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_4b7485b6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "If this is not going to be used by the UI, I would consider dropping this option. There are already a lot of options...",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_6709b252",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "No need to create a ChangeData here, you just use it in toRevisionActionInfoMap to get a RevisionResource.\n\nInstead, pass in rsrc to toRevisionActionInfoMap, and have the other caller in toChangeActionInfoMap construct the resource at the call site.",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_2b813928",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "This is a long name, I would just say \"toActionInfoMap\" or \"toActionMap\". The arguments differentiate them well enough, I think.",
+      "range": {
+        "startLine": 74,
+        "startChar": 34,
+        "endLine": 74,
+        "endChar": 55
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_0b7e7d96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "new LinkedHashMap\u003c\u003e()",
+      "range": {
+        "startLine": 76,
+        "startChar": 34,
+        "endLine": 76,
+        "endChar": 57
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_c7197ea9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "toActionMap",
+      "range": {
+        "startLine": 89,
+        "startChar": 34,
+        "endLine": 89,
+        "endChar": 57
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_a71e8a8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T22:51:16Z",
+      "side": 1,
+      "message": "new LinkedHashMap\u003c\u003e",
+      "range": {
+        "startLine": 91,
+        "startChar": 34,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

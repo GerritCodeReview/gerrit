@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
@@ -37,15 +38,24 @@ public class ChangeApi {
     call(id, "abandon").post(input, cb);
   }
 
-  /** Create a draft change. */
-  public static void createDraftChange(String project, String branch,
+  /** Create a new change.
+   *
+   * The new change is created as DRAFT unless the draft workflow is disabled
+   * by `change.allowDrafts = false` in the configuration, in which case the
+   * new change is created as NEW.
+   *
+   */
+  public static void createChange(String project, String branch,
       String subject, String base, AsyncCallback<ChangeInfo> cb) {
     CreateChangeInput input = CreateChangeInput.create();
     input.project(emptyToNull(project));
     input.branch(emptyToNull(branch));
     input.subject(emptyToNull(subject));
     input.base_change(emptyToNull(base));
-    input.status(Change.Status.DRAFT.toString());
+
+    if (Gerrit.getConfig().isAllowDraftChanges()) {
+      input.status(Change.Status.DRAFT.toString());
+    }
 
     new RestApi("/changes/").post(input, cb);
   }

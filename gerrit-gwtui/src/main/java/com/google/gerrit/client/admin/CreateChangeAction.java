@@ -37,7 +37,7 @@ class CreateChangeAction {
 
       @Override
       public void onSend() {
-        ChangeApi.createDraftChange(project, getDestinationBranch(),
+        ChangeApi.createChange(project, getDestinationBranch(),
           message.getText(), null,
           new GerritCallback<ChangeInfo>() {
             @Override

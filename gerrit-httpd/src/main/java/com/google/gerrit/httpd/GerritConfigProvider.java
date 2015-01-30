@@ -177,6 +177,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setReplyTitle(replyTitle);
     config.setReplyLabel(replyLabel);
 
+    config.setAllowDraftChanges(cfg.getBoolean("change", "allowDrafts", true));
+
     return config;
   }
 

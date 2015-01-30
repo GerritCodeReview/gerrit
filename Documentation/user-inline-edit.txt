@@ -5,12 +5,16 @@ browser.
 
 
 [[create-change]]
-== Creating a New Empty Change
+== Creating a New Change
 
 A new change can be created directly in the browser, meaning it is not necessary
 to clone the whole repository to make trivial changes.
 
-There are two different ways to create an empty change:
+The new change is created as a draft change, unless
+link:config-gerrit.html#change.allowDrafts[change.allowDrafts] is set to false,
+in which case the change is created as a normal new change.
+
+There are two different ways to create a new change:
 
 By clicking on the 'Create Change' button in the project screen:
 
@@ -22,8 +26,8 @@ The user can select the branch on which the new change should be created:
 
 image::images/inline-edit-create-change-project-screen-dialog.png[width=800, link="images/inline-edit-create-change-project-screen-dialog.png"]
 
-By clicking the 'Follow-Up' button on the change screen, to create an empty
-change based on the selected change.
+By clicking the 'Follow-Up' button on the change screen, to create a new change
+based on the selected change.
 
 [[create-change-from-change-screen]]
 

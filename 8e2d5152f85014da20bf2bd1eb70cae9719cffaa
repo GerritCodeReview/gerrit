@@ -94,6 +94,30 @@
       "revId": "8e2d5152f85014da20bf2bd1eb70cae9719cffaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_e3829212",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T13:57:33Z",
+      "side": 1,
+      "message": "Done.  I haven\u0027t tested it though.",
+      "parentUuid": "17707f17_e4ab7a9a",
+      "range": {
+        "startLine": 138,
+        "startChar": 18,
+        "endLine": 138,
+        "endChar": 37
+      },
+      "revId": "8e2d5152f85014da20bf2bd1eb70cae9719cffaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

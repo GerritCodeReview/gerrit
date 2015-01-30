@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PublishDraftPatchSet.Input;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -36,8 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -52,21 +49,18 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
   private final PatchSetNotificationSender sender;
   private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
-  private final boolean allowDrafts;
 
   @Inject
   public PublishDraftPatchSet(Provider<ReviewDb> dbProvider,
       ChangeUpdate.Factory updateFactory,
       PatchSetNotificationSender sender,
       ChangeHooks hooks,
-      ChangeIndexer indexer,
-      @GerritServerConfig Config cfg) {
+      ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
     this.sender = sender;
     this.hooks = hooks;
     this.indexer = indexer;
-    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
   }
 
   @Override
@@ -79,10 +73,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     if (!rsrc.getControl().canPublish(dbProvider.get())) {
       throw new AuthException("Cannot publish this draft patch set");
-    }
-
-    if (!allowDrafts) {
-      throw new ResourceConflictException("Draft workflow is disabled");
     }
 
     PatchSet updatedPatchSet = updateDraftPatchSet(rsrc);

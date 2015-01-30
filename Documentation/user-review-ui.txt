@@ -22,16 +22,6 @@ and the change status are displayed right above the commit message.
 
 image::images/user-review-ui-change-screen-commit-message.png[width=800, link="images/user-review-ui-change-screen-commit-message.png"]
 
-[[edit-commit-message]]
-The commit message can be edited directly in the Web UI by clicking on
-the `Edit Message` button in the change header. This opens a drop-down
-editor box in which the commit message can be edited. Saving
-modifications of the commit message automatically creates a change edit
-that must be published to become a new patch set. The commit message may
-only be edited on the current patch set.
-
-image::images/user-review-ui-change-screen-edit-commit-message.png[width=800, link="images/user-review-ui-change-screen-edit-commit-message.png"]
-
 [[permalink]]
 The numeric change ID is a link to the change and clicking on it
 refreshes the change screen. By copying the link location you can get

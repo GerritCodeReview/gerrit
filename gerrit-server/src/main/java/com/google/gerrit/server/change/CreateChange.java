@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -50,8 +51,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.gerrit.server.config.GerritServerConfig;
 
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -83,6 +86,7 @@ public class CreateChange implements
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson json;
   private final ChangeUtil changeUtil;
+  private final boolean allowDrafts;
 
   @Inject
   CreateChange(Provider<ReviewDb> db,
@@ -93,7 +97,8 @@ public class CreateChange implements
       CommitValidators.Factory commitValidatorsFactory,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson json,
-      ChangeUtil changeUtil) {
+      ChangeUtil changeUtil,
+      @GerritServerConfig Config config) {
     this.db = db;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -103,6 +108,7 @@ public class CreateChange implements
     this.changeInserterFactory = changeInserterFactory;
     this.json = json;
     this.changeUtil = changeUtil;
+    this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
   }
 
   @Override
@@ -127,6 +133,10 @@ public class CreateChange implements
       if (input.status != ChangeStatus.NEW
           && input.status != ChangeStatus.DRAFT) {
         throw new BadRequestException("unsupported change status");
+      }
+
+      if (!allowDrafts && input.status == ChangeStatus.DRAFT) {
+        throw new MethodNotAllowedException("cannot upload drafts");
       }
     }
 

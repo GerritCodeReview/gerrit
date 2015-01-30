@@ -1550,6 +1550,8 @@ Whether to show relative dates in the changes table.
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`      |not set if `false`|
 Whether to show change number in the change table.
+|`mute_common_path_prefixes` |not set if `false`|
+Whether to mute common path prefixes in file names in the file table.
 |`review_category_strategy`   ||
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
@@ -1591,6 +1593,8 @@ Whether to show relative dates in the changes table.
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`      |optional|
 Whether to show change number in the change table.
+|`mute_common_path_prefixes` |optional|
+Whether to mute common path prefixes in file names in the file table.
 |`review_category_strategy`   |optional|
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.

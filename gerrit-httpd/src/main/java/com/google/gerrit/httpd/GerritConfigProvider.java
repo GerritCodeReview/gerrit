@@ -177,6 +177,9 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setReplyTitle(replyTitle);
     config.setReplyLabel(replyLabel);
 
+    config.setMuteCommonPathsInFileTable(
+        cfg.getBoolean("change", "muteCommonPathsInFileTable", true));
+
     return config;
   }
 

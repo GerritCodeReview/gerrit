@@ -630,7 +630,7 @@ public class FileTable extends FlowPanel {
 
       if (Patch.COMMIT_MSG.equals(path)) {
         sb.append(Util.C.commitMessage());
-      } else {
+      } else if (Gerrit.getConfig().getMuteCommonPathsInFileTable()) {
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {
           sb.openSpan().setStyleName(R.css().commonPrefix())
@@ -639,6 +639,8 @@ public class FileTable extends FlowPanel {
         }
         sb.append(path.substring(commonPrefixLen));
         lastPath = path;
+      } else {
+        sb.append(path);
       }
 
       sb.closeAnchor();

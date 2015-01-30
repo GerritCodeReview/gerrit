@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e95fcf_1c637503",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T13:08:57Z",
+      "side": 1,
+      "message": "Would \u0027405 Method Not Allowed\u0027 [1] be a better response code?\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_405_method_not_allowed",
+      "range": {
+        "startLine": 138,
+        "startChar": 18,
+        "endLine": 138,
+        "endChar": 37
+      },
+      "revId": "8e2d5152f85014da20bf2bd1eb70cae9719cffaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

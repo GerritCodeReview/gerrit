@@ -15,17 +15,33 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.testutil.ConfigSuite;
+import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config allowDraftsDisabled() {
+    return allowDraftsDisabledConfig();
+  }
+
+  @Inject
+  @GerritServerConfig Config cfg;
+
+  protected boolean isAllowDrafts() {
+    return cfg.getBoolean("change", "allowDrafts", true);
+  }
 
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {
@@ -61,7 +77,17 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createDraftChange() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
     assertChange(newChangeInfo(ChangeStatus.DRAFT));
+  }
+
+  @Test
+  public void createDraftChangeNotAllowed() throws Exception {
+    assume().that(isAllowDrafts()).isFalse();
+    ChangeInfo ci = newChangeInfo(ChangeStatus.DRAFT);
+    RestResponse r = adminSession.post("/changes/", ci);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    assertThat(r.getEntityContent()).contains("cannot upload drafts");
   }
 
   private ChangeInfo newChangeInfo(ChangeStatus status) {

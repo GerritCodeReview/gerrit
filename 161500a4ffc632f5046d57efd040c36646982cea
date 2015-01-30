@@ -94,6 +94,30 @@
       "revId": "161500a4ffc632f5046d57efd040c36646982cea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76c27f3_1a8c1d1c",
+        "filename": "ReleaseNotes/Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-01-30T06:47:13Z",
+      "side": 1,
+      "message": "Are you sure that it actually was rebuild (there is no dependency on the Makefile)?\nFor me it worked (version \"2.10\" after checking out master/v2.10-1424-g2c707a6).\nWhen using git-diff-index, please also add a 2\u003e/dev/null to suppress the error message when a tag does not exist yet.",
+      "parentUuid": "b77173c9_99f11ba0",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "161500a4ffc632f5046d57efd040c36646982cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

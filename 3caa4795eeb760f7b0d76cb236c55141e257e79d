@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f76ccb49_43bb66f3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T10:45:27Z",
+      "side": 1,
+      "message": "This idiom is done in a few IT classes now.  I wonder if it\u0027s better to hoist this up into AbstractDaemonTest instead.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "3caa4795eeb760f7b0d76cb236c55141e257e79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

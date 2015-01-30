@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "3744a3e8_5d021b38",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76ccb49_a3fedabe",
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_c3fbd6cd",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 39
@@ -53,6 +71,30 @@
       "writtenOn": "2015-01-30T05:42:15Z",
       "side": 1,
       "message": "Is this needed?",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 2
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_7dffd7bc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Unfortunately yes, because under the hood it is an HTTP Header authentication.",
+      "parentUuid": "f76ccb49_c3fbd6cd",
       "range": {
         "startLine": 161,
         "startChar": 0,
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "3744a3e8_1dfc93c5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17707f17_8401e633",
+      "range": {
+        "startLine": 484,
+        "startChar": 30,
+        "endLine": 484,
+        "endChar": 33
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_e30ff252",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 39
@@ -99,6 +165,24 @@
       "writtenOn": "2015-01-30T05:42:15Z",
       "side": 1,
       "message": "Can these pooled connection limits be added in a separate commit?",
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_3df94fd6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1909,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Actually yes: as Gerrit acts as client to GitHub it may be running out of sockets very quickly without a pool.",
+      "parentUuid": "f76ccb49_e30ff252",
       "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -151,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "3744a3e8_dd14eb71",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1912,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76ccb49_0315ee6b",
+      "range": {
+        "startLine": 1912,
+        "startChar": 8,
+        "endLine": 1912,
+        "endChar": 18
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17707f17_c4fbdecd",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 39
@@ -162,6 +270,30 @@
       "writtenOn": "2015-01-30T05:42:15Z",
       "side": 1,
       "message": "Connections",
+      "range": {
+        "startLine": 1916,
+        "startChar": 52,
+        "endLine": 1916,
+        "endChar": 62
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_29fcadc5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17707f17_c4fbdecd",
       "range": {
         "startLine": 1916,
         "startChar": 52,
@@ -197,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "b71333db_09f9e9d5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1918,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76ccb49_231aea9c",
+      "range": {
+        "startLine": 1918,
+        "startChar": 14,
+        "endLine": 1918,
+        "endChar": 24
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_6324e2df",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 39
@@ -214,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "b71333db_e9145571",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1920,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Not necessarily but the min between the two would be the effective value used.",
+      "parentUuid": "f76ccb49_6324e2df",
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_8308fe4f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
         "patchSetId": 39
@@ -225,6 +399,30 @@
       "writtenOn": "2015-01-30T05:42:15Z",
       "side": 1,
       "message": "Is this the correct year?\n\nSame question on other added files.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_c91991a9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Actually it was when I wrote the code :-) You can\u0027t imagine for how long the change has been under review ... but it was actually written and posted in Oct 2013 :-O",
+      "parentUuid": "f76ccb49_8308fe4f",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -260,6 +458,30 @@
     },
     {
       "key": {
+        "uuid": "3744a3e8_fd19a7a8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76ccb49_a305fa36",
+      "range": {
+        "startLine": 38,
+        "startChar": 14,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_23682add",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
         "patchSetId": 39
@@ -271,6 +493,30 @@
       "writtenOn": "2015-01-30T06:15:42Z",
       "side": 1,
       "message": "This is deprecated.  Use MoreObjects instead.",
+      "range": {
+        "startLine": 62,
+        "startChar": 26,
+        "endLine": 62,
+        "endChar": 46
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_9d1e638e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76ccb49_23682add",
       "range": {
         "startLine": 62,
         "startChar": 26,
@@ -306,6 +552,30 @@
     },
     {
       "key": {
+        "uuid": "3744a3e8_bd231fd7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17707f17_44360e14",
+      "range": {
+        "startLine": 65,
+        "startChar": 26,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_03632e03",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 39
@@ -317,6 +587,30 @@
       "writtenOn": "2015-01-30T06:15:42Z",
       "side": 1,
       "message": "This exception is not thrown.",
+      "range": {
+        "startLine": 110,
+        "startChar": 40,
+        "endLine": 110,
+        "endChar": 58
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_5d09bb51",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76ccb49_03632e03",
       "range": {
         "startLine": 110,
         "startChar": 40,
@@ -352,6 +646,30 @@
     },
     {
       "key": {
+        "uuid": "3744a3e8_7d06f742",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17707f17_842f26b3",
+      "range": {
+        "startLine": 157,
+        "startChar": 28,
+        "endLine": 158,
+        "endChar": 49
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17707f17_0415f66b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
         "patchSetId": 39
@@ -363,6 +681,30 @@
       "writtenOn": "2015-01-30T05:42:15Z",
       "side": 1,
       "message": "Is this specific to github?  If not, it should not be in this package.",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_a91e5d8d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Moved to com.google.gerrit.httpd",
+      "parentUuid": "17707f17_0415f66b",
       "range": {
         "startLine": 15,
         "startChar": 37,
@@ -398,6 +740,30 @@
     },
     {
       "key": {
+        "uuid": "b71333db_892399d7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17707f17_2441125d",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 34
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17707f17_241af29c",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AuthType.java",
         "patchSetId": 39
@@ -409,6 +775,30 @@
       "writtenOn": "2015-01-30T05:42:15Z",
       "side": 1,
       "message": "implicitly",
+      "range": {
+        "startLine": 90,
+        "startChar": 5,
+        "endLine": 90,
+        "endChar": 14
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_69098552",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AuthType.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-30T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17707f17_241af29c",
       "range": {
         "startLine": 90,
         "startChar": 5,

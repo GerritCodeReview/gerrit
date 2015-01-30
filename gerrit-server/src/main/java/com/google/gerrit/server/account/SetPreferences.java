@@ -63,6 +63,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean relativeDateInChangeTable;
     public Boolean sizeBarInChangeTable;
     public Boolean legacycidInChangeTable;
+    public Boolean muteCommonPathPrefixes;
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
     public List<TopMenu.MenuItem> my;
@@ -149,6 +150,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.legacycidInChangeTable != null) {
         p.setLegacycidInChangeTable(i.legacycidInChangeTable);
+      }
+      if (i.muteCommonPathPrefixes != null) {
+        p.setMuteCommonPathPrefixes(i.muteCommonPathPrefixes);
       }
       if (i.reviewCategoryStrategy != null) {
         p.setReviewCategoryStrategy(i.reviewCategoryStrategy);

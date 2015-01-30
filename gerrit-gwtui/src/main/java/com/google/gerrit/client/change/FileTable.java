@@ -713,8 +713,18 @@ public class FileTable extends FlowPanel {
 
     private void columnDelta1(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn1());
-      if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
-        sb.append(info.lines_inserted() + info.lines_deleted());
+      if (!Patch.COMMIT_MSG.equals(info.path())
+          && !info.binary()
+          && !ChangeType.DELETED.matches(info.status())) {
+        if (ChangeType.ADDED.matches(info.status())) {
+          sb.append(info.lines_inserted())
+            .append(" lines");
+        } else {
+          sb.append("+")
+            .append(info.lines_inserted())
+            .append(", -")
+            .append(info.lines_deleted());
+        }
       }
       sb.closeTd();
     }

@@ -360,15 +360,16 @@ user last reviewed this change, are highlighted in bold.
 image::images/user-review-ui-change-screen-file-list-comments.png[width=800, link="images/user-review-ui-change-screen-file-list-comments.png"]
 
 [[size]]
-The size of the modifications in the files can be seen in the `Size`
-column. The footer row shows the total size of the change.
+The size of the modifications in the files can be seen in the `Size` column. The
+footer row shows the total size of the change.
 
-For files, the `Size` column shows the sum of inserted and deleted
-lines as one number. For the total size, inserted and deleted lines are
-shown separately. In addition, the number of insertions and deletions
-is shown as a bar. The size of the bar indicates the amount of changed
-lines, and its coloring in green and red shows the proportion of
-insertions to deletions.
+For modified files, the `Size` column shows the number of inserted and deleted
+lines. For new files, the column only shows the total number of lines in the new
+file. No size is shown for binary files and deleted files.
+
+In addition, the change size is shown as a bar. The size of the bar indicates
+the amount of changed lines, and its coloring shows the proportion of insertions
+(green) to deletions (red).
 
 The size information is useful to easily spot the files that contain
 the most modifications; these files are likely to be the most relevant

@@ -1,0 +1,308 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f76ccb49_8301de33",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "non-standard quote character.",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 151,
+        "endChar": 18
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_a3fedabe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "missing `link:` prefix on this link.",
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_c3fbd6cd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 2
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_8401e633",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 484,
+        "startChar": 30,
+        "endLine": 484,
+        "endChar": 33
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_e30ff252",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1909,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "Can these pooled connection limits be added in a separate commit?",
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_e3f8d2d3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1910,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "Connections",
+      "range": {
+        "startLine": 1910,
+        "startChar": 50,
+        "endLine": 1910,
+        "endChar": 60
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_0315ee6b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1912,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "connections",
+      "range": {
+        "startLine": 1912,
+        "startChar": 8,
+        "endLine": 1912,
+        "endChar": 18
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_c4fbdecd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "Connections",
+      "range": {
+        "startLine": 1916,
+        "startChar": 52,
+        "endLine": 1916,
+        "endChar": 62
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_231aea9c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1918,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "connections",
+      "range": {
+        "startLine": 1918,
+        "startChar": 14,
+        "endLine": 1918,
+        "endChar": 24
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_6324e2df",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 1920,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "Must this setting be \u003e\u003d pooledMaxConnectionsPerRoute?",
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_8308fe4f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "Is this the correct year?\n\nSame question on other added files.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_a305fa36",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "necessary?",
+      "range": {
+        "startLine": 38,
+        "startChar": 14,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_0415f66b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "Is this specific to github?  If not, it should not be in this package.",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_241af29c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AuthType.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T05:42:15Z",
+      "side": 1,
+      "message": "implicitly",
+      "range": {
+        "startLine": 90,
+        "startChar": 5,
+        "endLine": 90,
+        "endChar": 14
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -717,14 +717,28 @@ public class FileTable extends FlowPanel {
     private void columnDelta1(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn1());
       if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
-        sb.append(info.lines_inserted() + info.lines_deleted());
+        if (Gerrit.getUserAccount().getGeneralPreferences()
+            .isSizeBarInChangeTable()) {
+          sb.append(info.lines_inserted() + info.lines_deleted());
+        } else if (!ChangeType.DELETED.matches(info.status())) {
+          if (ChangeType.ADDED.matches(info.status())) {
+            sb.append(info.lines_inserted())
+              .append(" lines");
+          } else {
+            sb.append("+")
+              .append(info.lines_inserted())
+              .append(", -")
+              .append(info.lines_deleted());
+          }
+        }
       }
       sb.closeTd();
     }
 
     private void columnDelta2(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn2());
-      if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
+      if (Gerrit.getUserAccount().getGeneralPreferences().isSizeBarInChangeTable()
+          && !Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
           && (info.lines_inserted() != 0 || info.lines_deleted() != 0)) {
         int w = 80;
         int t = inserted + deleted;

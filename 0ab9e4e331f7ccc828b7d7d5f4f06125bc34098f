@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "17e95fcf_9c76a5bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T13:41:59Z",
+      "side": 1,
+      "message": "\u003e One question to ask with this approach can we always \n \u003e presume that creating new draft change is what we want here?\n \u003e Or may be ask user for a change that she wants to reuse for \n \u003e that?\n\nI think it\u0027s better to always create a new change here. In this case you really just want to edit the project.config and then let this change be reviewed and submitted. If you really want to do further changes, you can do so by using the normal inline edit features.\n\nI also think that always creating a new change is much easier than allowing the user to select a change for reuse. The problem is that from this screen you look at the HEAD revision of the refs/meta/config branch, but changes may be based on an older state. So it would be confusing if for example you see the project description in the screen as \u0027X\u0027, but then you select an older change where it was still \u0027Y\u0027. Filtering out old changes may be complex and also confusing (\"why I cannot select this and that change?\"). So for now I would just do the straight-forward way of always creating a new change. I also like that you can then write the commit message only later when you have done the edit.\n\nStill the workflow is not optimal yet and I hope we can make further improvements (not in this change). At the moment the workflow is like this:\n\n* Click \u0027Edit Config\u0027 button\n* Edit the \u0027project.config\u0027 file, save and go back to change\n* (optionally) Edit the commit message\n* Publish the edit\n* Publish the draft change\n\nAs a result I get a change with 2 patch sets, the first one being empty and useless.\n\nIdeally I would like to have such a workflow:\n\n* Click \u0027Edit Config\u0027 button\n* Edit the \u0027project.config\u0027 file, save and go back to change\n* Click \u0027Publish Edit\u0027 which maybe asks me for the commit message and results in a normal change with only 1 patch set\n\nThis workflow would require to create a normal change that only consists out of a change edit, which is only visible to the change owner. Then we wouldn\u0027t need to misuse the draft state to hide the empty change.\n\nThe xdocs plugin needs a similar workflow for starting to edit pages when browsing through the documentation (e.g. start browsing the documentation from the project list, by clicking on the Readme-Icon). Here I want to do the same, dispaly an edit icon, that creates a new change on the branch for which the documentation was viewed and immediately open the file that was viewed in EditScreen. In this scenario you likely want to add further files to that change. I want to support this by allowing to browse the documentation from the change ref (the xdocs plugin already supports this, you only need a link from the change screen to browse the documentation). If you now click on the edit icon when you browse documentation from a change ref, the file would be automatically added to this change, and no new change would be created.\n\nAt least this is how I envision the final wiki workflow with the xdocs plugin.\n\n \u003e and put on their web page locations of untranslated files \n \u003e with line numbers:\n\nMaybe this could also serve your use-case with the comment translation. You could have this web-page in the gerrit project and then it decides from the ref from which this web-page is browsed whether a new change is created (branch ref) or whether an existing change is used (change ref).",
+      "parentUuid": "17e95fcf_3c6831dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "0ab9e4e331f7ccc828b7d7d5f4f06125bc34098f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f76ccb49_a3889a36",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/EditConfigAction.java",
         "patchSetId": 1

@@ -441,6 +441,7 @@ public class FileTable extends FlowPanel {
     private final NativeMap<JsArray<CommentInfo>> comments;
     private final NativeMap<JsArray<CommentInfo>> drafts;
     private final boolean hasUser;
+    private final boolean showChangeSizeBars;
     private boolean attached;
     private int row;
     private double start;
@@ -461,6 +462,8 @@ public class FileTable extends FlowPanel {
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
+      this.showChangeSizeBars = !hasUser
+          || Gerrit.getUserAccount().getGeneralPreferences().isSizeBarInChangeTable();
       myTable.addStyleName(R.css().table());
     }
 
@@ -717,14 +720,27 @@ public class FileTable extends FlowPanel {
     private void columnDelta1(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn1());
       if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
-        sb.append(info.lines_inserted() + info.lines_deleted());
+        if (showChangeSizeBars) {
+          sb.append(info.lines_inserted() + info.lines_deleted());
+        } else if (!ChangeType.DELETED.matches(info.status())) {
+          if (ChangeType.ADDED.matches(info.status())) {
+            sb.append(info.lines_inserted())
+              .append(" lines");
+          } else {
+            sb.append("+")
+              .append(info.lines_inserted())
+              .append(", -")
+              .append(info.lines_deleted());
+          }
+        }
       }
       sb.closeTd();
     }
 
     private void columnDelta2(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn2());
-      if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
+      if (showChangeSizeBars
+          && !Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
           && (info.lines_inserted() != 0 || info.lines_deleted() != 0)) {
         int w = 80;
         int t = inserted + deleted;
@@ -771,26 +787,28 @@ public class FileTable extends FlowPanel {
 
       // delta2
       sb.openTh().setStyleName(R.css().deltaColumn2());
-      int w = 80;
-      int t = inserted + deleted;
-      int i = Math.max(1, (int) (((double) w) * inserted / t));
-      int d = Math.max(1, (int) (((double) w) * deleted / t));
-      if (i + d > w && i > d) {
-        i = w - d;
-      } else if (i + d > w && d > i) {
-        d = w - i;
-      }
-      if (0 < inserted) {
-        sb.openDiv()
-        .setStyleName(R.css().inserted())
-        .setAttribute("style", "width:" + i + "px")
-        .closeDiv();
-      }
-      if (0 < deleted) {
-        sb.openDiv()
-          .setStyleName(R.css().deleted())
-          .setAttribute("style", "width:" + d + "px")
+      if (showChangeSizeBars) {
+        int w = 80;
+        int t = inserted + deleted;
+        int i = Math.max(1, (int) (((double) w) * inserted / t));
+        int d = Math.max(1, (int) (((double) w) * deleted / t));
+        if (i + d > w && i > d) {
+          i = w - d;
+        } else if (i + d > w && d > i) {
+          d = w - i;
+        }
+        if (0 < inserted) {
+          sb.openDiv()
+          .setStyleName(R.css().inserted())
+          .setAttribute("style", "width:" + i + "px")
           .closeDiv();
+        }
+        if (0 < deleted) {
+          sb.openDiv()
+            .setStyleName(R.css().deleted())
+            .setAttribute("style", "width:" + d + "px")
+            .closeDiv();
+        }
       }
       sb.closeTh();
 

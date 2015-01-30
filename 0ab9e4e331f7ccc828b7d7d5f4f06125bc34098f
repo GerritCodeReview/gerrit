@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e95fcf_3c6831dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-30T13:05:27Z",
+      "side": 1,
+      "message": "Great idea! One question to ask with this approach can we always presume that creating new draft change is what we want here? Or may be ask user for a change that she wants to reuse for that?\n\nI\u0027ve heard similar requirement from our community: they have thousand lines of german code comments (C++) and would like to ask the community to translate the code comments in english. Now, to pull core repository with 2 GB just to translate 1 line of comment, is well, not really acceptable.\n\nSo the idea is to use Gerrit in lie edit feature. Ideally, they could ran a script and put on their web page locations of untranslated files with line numbers:\n\n  foo.cxx:42\n  bar.cxx:42\n  [...]\n\nNow clicking on this link should open file foo.cxx on line 42 and they translate it and publish and done.\n\nThe only question here: where is the change is come from? So one idea was to ask the user to provide a change number and reuse it to redirect to gerrit. Yet, here you had similar challenge and just said: let always create new change ;-)\n\nGitHub has one neat feature: \"Fork and Edit\".\n\nMay be we could also offer something magic REST endpoint, that does just that: \"Create Change And Edit in Context Of This Change\", so that i could say something like:\n\n*  https://gerrit-review.googlesource.com/#/c/0/gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties,edit\n\nor similar, so that change \"0\" is activating \"Create Change And Edit\" workflow case, like Fork and Edit workflow in GitHub.\n\nProblem: we need to pass project and branch somehow.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "0ab9e4e331f7ccc828b7d7d5f4f06125bc34098f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

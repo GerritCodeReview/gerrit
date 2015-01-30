@@ -134,7 +134,12 @@ version as parameter, e.g.:
   ./tools/version.py 2.5
 ----
 
-Commit the change and create the release tag on the new commit:
+Also check and update the referenced `archetypeVersion` and the
+`archetypeRepository` in the `Documentation/dev-plugins.txt` file.
+If the referenced `archetypeVersion` will be available in the Maven central,
+delete the line with the `archetypeRepository`.
+
+Commit the changes and create the release tag on the new commit:
 
 ----
   git tag -a v2.5

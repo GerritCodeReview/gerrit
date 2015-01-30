@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_472d8eb8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T23:25:08Z",
+      "side": 1,
+      "message": "I mean add these two options into a change prior to the one that adds the Get*Actions handlers.\n\nI\u0027m not sure what you mean by \"refactoring\" because both of the changes I just listed are behavioral changes to the REST API.",
+      "parentUuid": "f7df6b54_8b482d71",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_4b7485b6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
         "patchSetId": 6
@@ -148,6 +166,24 @@
       "side": 1,
       "message": "I considered introducing 2 new options which construct the old CURRENT_ACTIONS option which then can be deprecated later on.\n\nAlso this option is rather used as the CURRENT_CHANGE_ACTIONS, no?",
       "parentUuid": "f7df6b54_4b7485b6",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_67309214",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T23:25:08Z",
+      "side": 1,
+      "message": "I thought the new plan was for ChangeScreen to call\n\n* /detail?o\u003dCHANGE_ACTIONS\u0026o\u003d...\n* /revisions/Y/actions\n\nbecause the one we care about, submit, is a revision action. The change actions can still come from the detail call.",
+      "parentUuid": "770d3bbb_873a66f5",
       "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

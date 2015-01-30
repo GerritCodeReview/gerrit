@@ -318,13 +318,13 @@ get them merged
 For an `RC`:
 +
 ----
-  git push gerrit-review refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
+  git push gerrit-review tag v2.5-rc0
 ----
 +
 For a final `stable` release:
 +
 ----
-  git push gerrit-review refs/tags/v2.5:refs/tags/v2.5
+  git push gerrit-review tag v2.5
 ----
 
 

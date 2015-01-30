@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b71333db_09e20928",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:47:31Z",
+      "side": 1,
+      "message": "Should we really have a different formatting for newly added files? Why not simply\n\n  sb.append(\"+\")\n    .append(info.lines_inserted())\n\n? This formatting would be more consistent.",
+      "range": {
+        "startLine": 720,
+        "startChar": 10,
+        "endLine": 721,
+        "endChar": 30
+      },
+      "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

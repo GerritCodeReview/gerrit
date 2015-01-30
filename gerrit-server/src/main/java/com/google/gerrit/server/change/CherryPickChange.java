@@ -113,89 +113,87 @@ public class CherryPickChange {
 
     Project.NameKey project = change.getProject();
     IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
-    Repository git = null;
-    ObjectInserter oi = null;
-    RevWalk revWalk = null;
-
+    final Repository git;
     try {
       git = gitManager.openRepository(project);
-      oi = git.newObjectInserter();
-      revWalk = new RevWalk(oi.newReader());
-
-      Ref destRef = git.getRef(destinationBranch);
-      if (destRef == null) {
-        throw new InvalidChangeOperationException("Branch "
-            + destinationBranch + " does not exist.");
-      }
-
-      final RevCommit mergeTip = revWalk.parseCommit(destRef.getObjectId());
-
-      RevCommit commitToCherryPick =
-          revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
-
-      PersonIdent committerIdent =
-          identifiedUser.newCommitterIdent(TimeUtil.nowTs(),
-              serverTimeZone);
-
-      final ObjectId computedChangeId =
-          ChangeIdUtil
-              .computeChangeId(commitToCherryPick.getTree(), mergeTip,
-                  commitToCherryPick.getAuthorIdent(), committerIdent, message);
-      String commitMessage =
-          ChangeIdUtil.insertId(message, computedChangeId).trim() + '\n';
-
-      RevCommit cherryPickCommit;
-      ProjectState projectState = refControl.getProjectControl().getProjectState();
-      cherryPickCommit =
-          mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,
-              commitToCherryPick, committerIdent, commitMessage, revWalk);
-      oi.flush();
-
-      Change.Key changeKey;
-      final List<String> idList = cherryPickCommit.getFooterLines(
-          FooterConstants.CHANGE_ID);
-      if (!idList.isEmpty()) {
-        final String idStr = idList.get(idList.size() - 1).trim();
-        changeKey = new Change.Key(idStr);
-      } else {
-        changeKey = new Change.Key("I" + computedChangeId.name());
-      }
-
-      Branch.NameKey newDest =
-          new Branch.NameKey(change.getProject(), destRef.getName());
-      List<ChangeData> destChanges = queryProvider.get()
-          .setLimit(2)
-          .byBranchKey(newDest, changeKey);
-      if (destChanges.size() > 1) {
-        throw new InvalidChangeOperationException("Several changes with key "
-            + changeKey + " reside on the same branch. "
-            + "Cannot create a new patch set.");
-      } else if (destChanges.size() == 1) {
-        // The change key exists on the destination branch. The cherry pick
-        // will be added as a new patch set.
-        return insertPatchSet(git, revWalk, destChanges.get(0).change(),
-            cherryPickCommit, refControl, identifiedUser);
-      } else {
-        // Change key not found on destination branch. We can create a new
-        // change.
-        return createNewChange(git, revWalk, changeKey, project,
-            patch.getId(), destRef, cherryPickCommit, refControl,
-            identifiedUser, change.getTopic());
-      }
-    } catch (MergeIdenticalTreeException | MergeConflictException e) {
-      throw new MergeException("Cherry pick failed: " + e.getMessage());
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(change.getId(), e);
-    } finally {
-      if (revWalk != null) {
+    }
+
+    try {
+      RevWalk revWalk = new RevWalk(git);
+      try {
+        Ref destRef = git.getRef(destinationBranch);
+        if (destRef == null) {
+          throw new InvalidChangeOperationException("Branch "
+              + destinationBranch + " does not exist.");
+        }
+
+        final RevCommit mergeTip = revWalk.parseCommit(destRef.getObjectId());
+
+        RevCommit commitToCherryPick =
+            revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+
+        PersonIdent committerIdent =
+            identifiedUser.newCommitterIdent(TimeUtil.nowTs(),
+                serverTimeZone);
+
+        final ObjectId computedChangeId =
+            ChangeIdUtil
+                .computeChangeId(commitToCherryPick.getTree(), mergeTip,
+                    commitToCherryPick.getAuthorIdent(), committerIdent, message);
+        String commitMessage =
+            ChangeIdUtil.insertId(message, computedChangeId).trim() + '\n';
+
+        RevCommit cherryPickCommit;
+        ObjectInserter oi = git.newObjectInserter();
+        try {
+          ProjectState projectState = refControl.getProjectControl().getProjectState();
+          cherryPickCommit =
+              mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,
+                  commitToCherryPick, committerIdent, commitMessage, revWalk);
+        } catch (MergeIdenticalTreeException | MergeConflictException e) {
+          throw new MergeException("Cherry pick failed: " + e.getMessage());
+        } finally {
+          oi.release();
+        }
+
+        Change.Key changeKey;
+        final List<String> idList = cherryPickCommit.getFooterLines(
+            FooterConstants.CHANGE_ID);
+        if (!idList.isEmpty()) {
+          final String idStr = idList.get(idList.size() - 1).trim();
+          changeKey = new Change.Key(idStr);
+        } else {
+          changeKey = new Change.Key("I" + computedChangeId.name());
+        }
+
+        Branch.NameKey newDest =
+            new Branch.NameKey(change.getProject(), destRef.getName());
+        List<ChangeData> destChanges = queryProvider.get()
+            .setLimit(2)
+            .byBranchKey(newDest, changeKey);
+        if (destChanges.size() > 1) {
+          throw new InvalidChangeOperationException("Several changes with key "
+              + changeKey + " reside on the same branch. "
+              + "Cannot create a new patch set.");
+        } else if (destChanges.size() == 1) {
+          // The change key exists on the destination branch. The cherry pick
+          // will be added as a new patch set.
+          return insertPatchSet(git, revWalk, destChanges.get(0).change(),
+              cherryPickCommit, refControl, identifiedUser);
+        } else {
+          // Change key not found on destination branch. We can create a new
+          // change.
+          return createNewChange(git, revWalk, changeKey, project,
+              patch.getId(), destRef, cherryPickCommit, refControl,
+              identifiedUser, change.getTopic());
+        }
+      } finally {
         revWalk.release();
       }
-      if (oi != null) {
-        oi.release();
-      }
-      if (git != null) {
-        git.close();
-      }
+    } finally {
+      git.close();
     }
   }
 

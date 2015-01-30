@@ -52,7 +52,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -111,7 +110,6 @@ public class PatchSetInserter {
   private boolean runHooks;
   private boolean sendMail;
   private Account.Id uploader;
-  private BatchRefUpdate batchRefUpdate;
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
@@ -216,11 +214,6 @@ public class PatchSetInserter {
     return this;
   }
 
-  public PatchSetInserter setBatchRefUpdate(BatchRefUpdate batchRefUpdate) {
-    this.batchRefUpdate = batchRefUpdate;
-    return this;
-  }
-
   public Change insert() throws InvalidChangeOperationException, OrmException,
       IOException, NoSuchChangeException {
     init();
@@ -228,23 +221,16 @@ public class PatchSetInserter {
 
     Change c = ctl.getChange();
     Change updatedChange;
-
-    if (batchRefUpdate != null) {
-      // Caller passed in update; add command, but don't execute.
-      batchRefUpdate.addCommand(new ReceiveCommand(ObjectId.zeroId(), commit,
-        patchSet.getRefName(), ReceiveCommand.Type.CREATE));
-    } else {
-      RefUpdate ru = git.updateRef(patchSet.getRefName());
-      ru.setExpectedOldObjectId(ObjectId.zeroId());
-      ru.setNewObjectId(commit);
-      ru.disableRefLog();
-      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-        throw new IOException(String.format(
-            "Failed to create ref %s in %s: %s", patchSet.getRefName(),
-            c.getDest().getParentKey().get(), ru.getResult()));
-      }
-      gitRefUpdated.fire(c.getProject(), ru);
+    RefUpdate ru = git.updateRef(patchSet.getRefName());
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(commit);
+    ru.disableRefLog();
+    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+      throw new IOException(String.format(
+          "Failed to create ref %s in %s: %s", patchSet.getRefName(),
+          c.getDest().getParentKey().get(), ru.getResult()));
     }
+    gitRefUpdated.fire(c.getProject(), ru);
 
     final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
 

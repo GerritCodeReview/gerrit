@@ -87,11 +87,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
             IdentifiedUser uploader =
                 args.identifiedUserFactory.create(args.mergeUtil
                     .getSubmitter(n).getAccountId());
-            PatchSet newPatchSet = rebaseChange.rebase(args.repo, args.rw,
-                args.inserter, n.getPatchsetId(), n.change(), uploader,
-                mergeTip.getCurrentTip(), args.mergeUtil,
-                args.serverIdent.get(), false, false, ValidatePolicy.NONE,
-                args.batchRefUpdate);
+            PatchSet newPatchSet =
+                rebaseChange.rebase(args.repo, args.rw, args.inserter,
+                    n.getPatchsetId(), n.change(), uploader,
+                    mergeTip.getCurrentTip(), args.mergeUtil,
+                    args.serverIdent.get(), false, false, ValidatePolicy.NONE);
 
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(args.db,

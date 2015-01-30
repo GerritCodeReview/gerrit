@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.changedetail;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -43,7 +42,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -140,7 +138,7 @@ public class RebaseChange {
       rebase(git, rw, inserter, patchSetId, change,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
-          committerIdent, true, true, ValidatePolicy.GERRIT, null);
+          committerIdent, true, true, ValidatePolicy.GERRIT);
     } catch (MergeConflictException e) {
       throw new IOException(e.getMessage());
     } finally {
@@ -270,8 +268,6 @@ public class RebaseChange {
    * @param sendMail if a mail notification should be sent for the new patch set
    * @param runHooks if hooks should be run for the new patch set
    * @param validate if commit validation should be run for the new patch set
-   * @param batchRefUpdate if not null, a batch ref update for creating new
-   *     refs, which will not be executed.
    * @return the new patch set which is based on the given base commit
    * @throws NoSuchChangeException thrown if the change to which the patch set
    *         belongs does not exist or is not visible to the user
@@ -279,13 +275,14 @@ public class RebaseChange {
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
    */
-  public PatchSet rebase(Repository git, RevWalk revWalk,
-      ObjectInserter inserter, PatchSet.Id patchSetId, Change change,
-      IdentifiedUser uploader, RevCommit baseCommit, MergeUtil mergeUtil,
-      PersonIdent committerIdent, boolean sendMail, boolean runHooks,
-      ValidatePolicy validate, @Nullable BatchRefUpdate batchRefUpdate)
-      throws NoSuchChangeException, OrmException, IOException,
-      InvalidChangeOperationException, MergeConflictException {
+  public PatchSet rebase(final Repository git, final RevWalk revWalk,
+      final ObjectInserter inserter, final PatchSet.Id patchSetId,
+      final Change change, final IdentifiedUser uploader, final RevCommit baseCommit,
+      final MergeUtil mergeUtil, PersonIdent committerIdent,
+      boolean sendMail, boolean runHooks, ValidatePolicy validate)
+          throws NoSuchChangeException,
+      OrmException, IOException, InvalidChangeOperationException,
+      MergeConflictException {
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
@@ -308,9 +305,6 @@ public class RebaseChange {
         .setUploader(uploader.getAccountId())
         .setSendMail(sendMail)
         .setRunHooks(runHooks);
-    if (batchRefUpdate != null) {
-      patchSetInserter.setBatchRefUpdate(batchRefUpdate);
-    }
 
     final PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
     final ChangeMessage cmsg = new ChangeMessage(

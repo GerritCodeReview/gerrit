@@ -30,7 +30,6 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -61,7 +60,6 @@ public abstract class SubmitStrategy {
     protected final RevWalk rw;
     protected final ObjectInserter inserter;
     protected final RevFlag canMergeFlag;
-    protected final BatchRefUpdate batchRefUpdate;
     protected final Set<RevCommit> alreadyAccepted;
     protected final Branch.NameKey destBranch;
     protected final ApprovalsUtil approvalsUtil;
@@ -73,9 +71,9 @@ public abstract class SubmitStrategy {
         Provider<PersonIdent> serverIdent, ReviewDb db,
         ChangeControl.GenericFactory changeControlFactory, Repository repo,
         RevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
-        BatchRefUpdate batchRefUpdate, Set<RevCommit> alreadyAccepted,
-        Branch.NameKey destBranch, ApprovalsUtil approvalsUtil,
-        MergeUtil mergeUtil, ChangeIndexer indexer) {
+        Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
+        ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
+        ChangeIndexer indexer) {
       this.identifiedUserFactory = identifiedUserFactory;
       this.serverIdent = serverIdent;
       this.db = db;
@@ -84,7 +82,6 @@ public abstract class SubmitStrategy {
       this.repo = repo;
       this.rw = rw;
       this.inserter = inserter;
-      this.batchRefUpdate = batchRefUpdate;
       this.canMergeFlag = canMergeFlag;
       this.alreadyAccepted = alreadyAccepted;
       this.destBranch = destBranch;

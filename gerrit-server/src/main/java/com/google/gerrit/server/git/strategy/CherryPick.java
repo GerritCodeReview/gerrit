@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.MergeConflictException;
@@ -36,8 +37,8 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,13 +50,16 @@ import java.util.Map;
 
 public class CherryPick extends SubmitStrategy {
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final GitReferenceUpdated gitRefUpdated;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   CherryPick(SubmitStrategy.Arguments args,
-      PatchSetInfoFactory patchSetInfoFactory) {
+      PatchSetInfoFactory patchSetInfoFactory,
+      GitReferenceUpdated gitRefUpdated) {
     super(args);
 
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.gitRefUpdated = gitRefUpdated;
     this.newCommits = new HashMap<>();
   }
 
@@ -170,6 +174,8 @@ public class CherryPick extends SubmitStrategy {
     ps.setUploader(cherryPickUser.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
 
+    RefUpdate ru;
+
     args.db.changes().beginTransaction(n.change().getId());
     try {
       insertAncestors(args.db, ps.getId(), newCommit);
@@ -185,13 +191,22 @@ public class CherryPick extends SubmitStrategy {
       }
       args.db.patchSetApprovals().insert(approvals);
 
-      args.batchRefUpdate.addCommand(
-          new ReceiveCommand(ObjectId.zeroId(), newCommit, ps.getRefName()));
+      ru = args.repo.updateRef(ps.getRefName());
+      ru.setExpectedOldObjectId(ObjectId.zeroId());
+      ru.setNewObjectId(newCommit);
+      ru.disableRefLog();
+      if (ru.update(args.rw) != RefUpdate.Result.NEW) {
+        throw new IOException(String.format(
+            "Failed to create ref %s in %s: %s", ps.getRefName(), n.change()
+                .getDest().getParentKey().get(), ru.getResult()));
+      }
 
       args.db.commit();
     } finally {
       args.db.rollback();
     }
+
+    gitRefUpdated.fire(n.change().getProject(), ru);
 
     newCommit.copyFrom(n);
     newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);

@@ -241,7 +241,6 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
               rw,
               null /*inserter*/,
               canMerge,
-              null /*batchRefUpdate*/,
               accepted,
               key.load.dest).dryRun(tip, rev);
         } finally {

@@ -21,6 +21,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.RebaseChange;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -33,7 +34,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -55,6 +55,7 @@ public class SubmitStrategyFactory {
   private final Provider<PersonIdent> myIdent;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
@@ -67,7 +68,7 @@ public class SubmitStrategyFactory {
       @GerritPersonIdent Provider<PersonIdent> myIdent,
       final ChangeControl.GenericFactory changeControlFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final RebaseChange rebaseChange,
+      final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
       final ProjectCache projectCache,
       final ApprovalsUtil approvalsUtil,
       final MergeUtil.Factory mergeUtilFactory,
@@ -76,6 +77,7 @@ public class SubmitStrategyFactory {
     this.myIdent = myIdent;
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
@@ -83,19 +85,20 @@ public class SubmitStrategyFactory {
     this.indexer = indexer;
   }
 
-  public SubmitStrategy create(SubmitType submitType, ReviewDb db,
-      Repository repo, RevWalk rw, ObjectInserter inserter,
-      RevFlag canMergeFlag, BatchRefUpdate batchRefUpdated,
-      Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch)
+  public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
+      final Repository repo, final RevWalk rw, final ObjectInserter inserter,
+      final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
+      final Branch.NameKey destBranch)
       throws MergeException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
-    SubmitStrategy.Arguments args = new SubmitStrategy.Arguments(
-        identifiedUserFactory, myIdent, db, changeControlFactory, repo, rw,
-        inserter, canMergeFlag, batchRefUpdated, alreadyAccepted, destBranch,
-        approvalsUtil, mergeUtilFactory.create(project), indexer);
+    final SubmitStrategy.Arguments args =
+        new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db,
+            changeControlFactory, repo, rw, inserter, canMergeFlag,
+            alreadyAccepted, destBranch,approvalsUtil,
+            mergeUtilFactory.create(project), indexer);
     switch (submitType) {
       case CHERRY_PICK:
-        return new CherryPick(args, patchSetInfoFactory);
+        return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);
       case FAST_FORWARD_ONLY:
         return new FastForwardOnly(args);
       case MERGE_ALWAYS:

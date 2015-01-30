@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17707f17_847646bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T07:58:12Z",
+      "side": 1,
+      "message": "Should this behave same as for added files, i.e. show the number lines?",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "7f51bb55a014db2cb1fee870acda630f1e2d580d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_63494273",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T07:58:12Z",
+      "side": 1,
+      "message": "and renamed",
+      "range": {
+        "startLine": 356,
+        "startChar": 4,
+        "endLine": 356,
+        "endChar": 12
+      },
+      "revId": "7f51bb55a014db2cb1fee870acda630f1e2d580d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

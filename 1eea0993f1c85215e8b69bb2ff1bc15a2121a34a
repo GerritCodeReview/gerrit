@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_ebed7117",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "This should just be the action info map. Don\u0027t include the rest of the ChangeInfo.",
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_cbf2b5f7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "Missing documentation for revision action info.",
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_ebc6919d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "Optional nit: I try to be consistent between full/abbreviated argument names within a single constructor. So probably:\n\n this.changeDataFactory \u003d changeDataFactory",
+      "range": {
+        "startLine": 54,
+        "startChar": 29,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d54f02_002786d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "You should be able to omit this. If you wanted to inline it in the method call below instead of assigning it you would need it. Hooray for type inference.",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 54
+      },
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_e7c6c29d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "Why should format(RevisionResource) return a ChangeInfo and not (at the very least) a RevisionInfo? Though ideally it would return a Map\u003cString, ActionInfo\u003e",
+      "range": {
+        "startLine": 63,
+        "startChar": 9,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_c7cbbea5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "What if there is overlap between change and revision actions? Looks like the revision action will just be ignored, which I don\u0027t think is what we want.\n\nThe bigger issue is that actions don\u0027t indicate in the ActionInfo whether they are for change or revision URLs. The code in ChangeScreen#init{Change,Revisions}Action does different things for the different maps. If you flatten it all out into a single map, the UI code won\u0027t have a way of distinguishing.\n\nI think if you want to return all of these in the same structure you need to mimic the nested structure of ChangeInfo:\n\n {\n  \"actions\": {\"changeaction1\": {...}},\n  \"revisions\": {\"deadbeef\": {\"revaction1: {...}}},\n }\n\n(If you want to reuse ChangeInfo for this purpose, with no other fields populated, I guess that\u0027s ok.)\n\nThis makes the distinction clear. It should also help explain how to break up the change and revision parts of this class: the thing responsible for generating the top-level object first produces change actions, then loops over revisions (\u003c\u003d1 revision in this case) and calls the thing responsible for generating the revision object.\n\nThen GetActions calls the top-level populator, and GetRevisionActions calls the same inner-level populator that the top-level thing is calling in the loop.",
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_4bffe5bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetActions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "As discussed in person, you could make GetAction a @Singleton if you made delegate a Provider\u003cActionJson\u003e",
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_abe76933",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T19:12:25Z",
+      "side": 1,
+      "message": "This is GetRevisionActions, why is it returning a ChangeInfo? \"Actions for this revision\" sounds like a Map\u003cString, ActionInfo\u003e, no?",
+      "revId": "1eea0993f1c85215e8b69bb2ff1bc15a2121a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

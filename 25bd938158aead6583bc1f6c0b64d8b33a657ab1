@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7b973da_f926d7da",
+        "filename": "ReleaseNotes/Makefile",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-30T10:08:21Z",
+      "side": 1,
+      "message": "Thanks to Martin Waitz for the hint to use \"git diff-index ...\" here!",
+      "revId": "25bd938158aead6583bc1f6c0b64d8b33a657ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

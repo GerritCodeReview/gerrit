@@ -45,6 +45,30 @@
       "revId": "433c92ec683d6d4b5cd042ea6e13d1961a35fd94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f76ccb49_030fae2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T14:15:29Z",
+      "side": 1,
+      "message": "it is a permission issue.  upload of drafts is not allowed.\n\nactually I am planning to look into all the messages related to drafts and tidy them up.",
+      "parentUuid": "17e95fcf_9c5dc533",
+      "range": {
+        "startLine": 139,
+        "startChar": 45,
+        "endLine": 139,
+        "endChar": 65
+      },
+      "revId": "433c92ec683d6d4b5cd042ea6e13d1961a35fd94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

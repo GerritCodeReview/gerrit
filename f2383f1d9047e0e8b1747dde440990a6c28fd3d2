@@ -226,6 +226,24 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_0b555d04",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-30T23:33:29Z",
+      "side": 1,
+      "message": "We can\u0027t change the public REST API without sufficient warning, so the former.",
+      "parentUuid": "770d3bbb_072796d8",
+      "revId": "f2383f1d9047e0e8b1747dde440990a6c28fd3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_6709b252",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 6

@@ -22,6 +22,30 @@
       "revId": "8e2d5152f85014da20bf2bd1eb70cae9719cffaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17707f17_a4a182be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T13:20:29Z",
+      "side": 1,
+      "message": "Maybe, but it looks like we don\u0027t explicitly send that response from any of the existing endpoints.  It\u0027s only sent from the REST servlet and the plugin servlet.",
+      "parentUuid": "17e95fcf_1c637503",
+      "range": {
+        "startLine": 138,
+        "startChar": 18,
+        "endLine": 138,
+        "endChar": 37
+      },
+      "revId": "8e2d5152f85014da20bf2bd1eb70cae9719cffaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

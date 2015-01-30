@@ -329,6 +329,29 @@
     },
     {
       "key": {
+        "uuid": "17707f17_842f26b3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-30T06:18:07Z",
+      "side": 1,
+      "message": "Missing argument for the string formatting.",
+      "range": {
+        "startLine": 157,
+        "startChar": 28,
+        "endLine": 158,
+        "endChar": 49
+      },
+      "revId": "3624f99f9b709ae65f81a20c6115f40382c5b86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17707f17_0415f66b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
         "patchSetId": 39

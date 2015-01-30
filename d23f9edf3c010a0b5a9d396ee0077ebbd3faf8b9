@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b71333db_a9d09d52",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "Write this debug log only if remoteExternalId !\u003d null ?",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 13
+      },
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_c9cbd1a5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "Is this the right order of arguments? Shouldn\u0027t this be switched?",
+      "range": {
+        "startLine": 130,
+        "startChar": 69,
+        "endLine": 131,
+        "endChar": 25
+      },
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_69dbc576",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "Do not import the Id class, but use Account.Id instead.",
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_fdcbe7a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "Don\u0027t import the Key class, but use AccountExternalId.Key instead.",
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_ddc62b9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_49d80178",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "no final in new code",
+      "range": {
+        "startLine": 383,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 9
+      },
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_29e5cd2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "[optional] filteredKeysByScheme",
+      "range": {
+        "startLine": 386,
+        "startChar": 16,
+        "endLine": 386,
+        "endChar": 34
+      },
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_bdd55f42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "Is this necessary?\n\nIf I understand this correctly the byName cache is only a mapping from username to Account.Id and the Account.Id is then used to do the lookup in the byId cache. Since the username \u003c-\u003e Account.Id relation is not changed, there is no need to evict the user from the byName cache, or am I missing something?",
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_9dd0a353",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-30T20:14:21Z",
+      "side": 1,
+      "message": "no final",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 11
+      },
+      "revId": "d23f9edf3c010a0b5a9d396ee0077ebbd3faf8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

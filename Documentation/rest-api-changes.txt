@@ -285,6 +285,13 @@ default. Optional fields are:
   authenticated to obtain the available actions.
 --
 
+[[change-actions]]
+--
+* `CHANGE_ACTIONS`: include information on available
+  change actions for the change. The caller must be
+  authenticated to obtain the available actions.
+--
+
 [[reviewed]]
 --
 * `REVIEWED`: include the `reviewed` field if the caller is

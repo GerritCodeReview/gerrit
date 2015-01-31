@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "375bc3e2_a5d53e42",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-31T12:51:28Z",
+      "side": 1,
+      "message": "This was to keep it consistent with the way it looked before in the old change screen.",
+      "parentUuid": "b71333db_09e20928",
+      "range": {
+        "startLine": 720,
+        "startChar": 10,
+        "endLine": 721,
+        "endChar": 30
+      },
+      "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_a7e7aa33",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-30T20:53:51Z",
       "side": 1,
       "message": "Ugh, I find this cluttered and really prefer the simpler single number.",
+      "range": {
+        "startLine": 723,
+        "startChar": 10,
+        "endLine": 726,
+        "endChar": 42
+      },
+      "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "375bc3e2_45db2a76",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-31T12:51:28Z",
+      "side": 1,
+      "message": "I don\u0027t find the single number useful but it hasn\u0027t bothered me enough to do anything about it; this change is a result of complaints internally from users we\u0027re trying to migrate to the new change screen.\n\nHave you not had any complaints about the single number since migrating the users on googlesource.com?",
+      "parentUuid": "770d3bbb_a7e7aa33",
       "range": {
         "startLine": 723,
         "startChar": 10,

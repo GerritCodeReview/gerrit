@@ -93,6 +93,30 @@
       "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "375bc3e2_25e2ae28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-31T17:29:11Z",
+      "side": 1,
+      "message": "We migrated our users over a year ago. There was a compliant or two but I asked them to try it for a few more days. No compliant after.\n\nSome people are just afraid of change.\n\nThe bar shows you visually very quickly what direction the number is in; mostly red mostly delete, mostly green mostly add, 50/50 its mostly edit. The number shows you magnitude... am I going to be spending a lot of time in this file?\n\nThe bar also tries to show magnitude by making its length relative to its peers.\n\nOur other Google internal code review tool also switched to this format a few months before I parroted it in Gerrit\u0027s CS2. Some people who use both were already familiar with the interface.\n\nIf you really feel like you need to add the +,- counts to each file I would prefer this to be a user preference, and off by default. For the same reason we have show user name in change table as a preference. Printing the full name in the score columns is very busy and cluttered. But some people find it valuable enough to want on by default. Most I think leave it off.",
+      "parentUuid": "375bc3e2_45db2a76",
+      "range": {
+        "startLine": 723,
+        "startChar": 10,
+        "endLine": 726,
+        "endChar": 42
+      },
+      "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

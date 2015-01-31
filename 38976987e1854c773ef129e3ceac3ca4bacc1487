@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3744a3e8_9d350308",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/PooledHttpClientProvider.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "The documentation of these parameters is missing?",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 43
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_bd3a3ff5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "Do we need a Map here if we only store a single key-value pair in it?",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_e93b35fc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "Why does this need to be protected?",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 11
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_5d30db13",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "Is it correct to have 2 times the baseUrl here?",
+      "range": {
+        "startLine": 93,
+        "startChar": 13,
+        "endLine": 93,
+        "endChar": 50
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_7d2d97b8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "Wasn\u0027t the trailing slash already removed when the GitHub URL was read from the config?",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 40
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744a3e8_1d2a53a2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "Use trimTrailingSlash method?",
+      "range": {
+        "startLine": 94,
+        "startChar": 12,
+        "endLine": 94,
+        "endChar": 53
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_a9353d07",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "I believe everywhere else we write it as \u0027authorized\u0027",
+      "range": {
+        "startLine": 95,
+        "startChar": 42,
+        "endLine": 95,
+        "endChar": 52
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71333db_c940715b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-31T07:16:05Z",
+      "side": 1,
+      "message": "authorized",
+      "range": {
+        "startLine": 105,
+        "startChar": 40,
+        "endLine": 105,
+        "endChar": 50
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,9 +15,14 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
@@ -27,14 +32,43 @@ import java.util.Map;
 
 public class ActionJson {
   private final Revisions revisions;
+  private final DynamicMap<RestView<ChangeResource>> changeViews;
 
   @Inject
-  ActionJson(Revisions revisions) {
+  ActionJson(
+      Revisions revisions,
+      DynamicMap<RestView<ChangeResource>> changeViews) {
     this.revisions = revisions;
+    this.changeViews = changeViews;
   }
 
   public Map<String, ActionInfo> format(RevisionResource rsrc) {
     return toActionMap(rsrc);
+  }
+
+  public ChangeInfo addChangeActions(ChangeInfo to, ChangeControl ctl) {
+    to.actions = toActionMap(ctl);
+    return to;
+  }
+
+  public RevisionInfo addRevisionActions(RevisionInfo to,
+      RevisionResource rsrc) {
+    to.actions = toActionMap(rsrc);
+    return to;
+  }
+
+  private Map<String, ActionInfo> toActionMap(ChangeControl ctl) {
+    Map<String, ActionInfo> out = new LinkedHashMap<>();
+    if (ctl.getCurrentUser().isIdentifiedUser()) {
+      Provider<CurrentUser> userProvider = Providers.of(ctl.getCurrentUser());
+      for (UiAction.Description d : UiActions.from(
+          changeViews,
+          new ChangeResource(ctl),
+          userProvider)) {
+        out.put(d.getId(), new ActionInfo(d));
+      }
+    }
+    return out;
   }
 
   private Map<String, ActionInfo> toActionMap(RevisionResource rsrc) {

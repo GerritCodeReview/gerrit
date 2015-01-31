@@ -15,9 +15,16 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -27,17 +34,46 @@ import java.util.Map;
 public class ActionJson {
   private final Provider<CurrentUser> userProvider;
   private final Revisions revisions;
+  private final DynamicMap<RestView<ChangeResource>> changeViews;
 
   @Inject
   ActionJson(
       Provider<CurrentUser> user,
-      Revisions revisions) {
+      Revisions revisions,
+      DynamicMap<RestView<ChangeResource>> changeViews) {
     this.userProvider = user;
     this.revisions = revisions;
+    this.changeViews = changeViews;
   }
 
   public Map<String, ActionInfo> format(RevisionResource rsrc) {
     return toActionMap(rsrc);
+  }
+
+  public ChangeInfo addChangeActions(ChangeInfo to, ChangeData cd)
+      throws OrmException {
+    to.actions = toActionMap(cd);
+    return to;
+  }
+
+  public RevisionInfo addRevisionActions(RevisionInfo to, RevisionResource rsrc) {
+    to.actions = toActionMap(rsrc);
+    return to;
+  }
+
+  private Map<String, ActionInfo> toActionMap(ChangeData cd)
+      throws OrmException {
+    Map<String, ActionInfo> out = new LinkedHashMap<>();
+    if (userProvider.get().isIdentifiedUser()) {
+      ChangeControl ctl = cd.changeControl().forUser(userProvider.get());
+      for (UiAction.Description d : UiActions.from(
+          changeViews,
+          new ChangeResource(ctl),
+          userProvider)) {
+        out.put(d.getId(), new ActionInfo(d));
+      }
+    }
+    return out;
   }
 
   private Map<String, ActionInfo> toActionMap(RevisionResource rsrc) {

@@ -27,6 +27,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
+
 public class RevisionResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<RestView<RevisionResource>>() {};
@@ -75,6 +76,7 @@ public class RevisionResource implements RestResource, HasETag {
   public String getETag() {
     // Conservative estimate: refresh the revision if its parent change has
     // changed, so we don't have to check whether a given modification affected
+    // this revision specifically. If submitWholetopic is enabled, a change
     // this revision specifically.
     return change.getETag();
   }

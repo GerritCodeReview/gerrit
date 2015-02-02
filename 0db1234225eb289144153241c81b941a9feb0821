@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_e70ec22e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-02T18:37:41Z",
+      "side": 1,
+      "message": "The Gitiles plugin for Gerrit reuses the same GitRepositoryManager instance that the server is using, so it should Just Work.",
+      "parentUuid": "5775973c_4e303314",
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71c27fd_facbe9a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

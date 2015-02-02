@@ -16,6 +16,24 @@
       "revId": "b9a8c3476174a467b3d405dba2598dcc07031bb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_07555604",
+        "filename": ".gitmodules",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T09:34:23Z",
+      "side": 1,
+      "message": "Oh yes ... apologies. Fixing it now",
+      "parentUuid": "f7df6b54_ab91a967",
+      "revId": "b9a8c3476174a467b3d405dba2598dcc07031bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

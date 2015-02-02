@@ -117,6 +117,30 @@
       "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "375bc3e2_c5edda17",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-02T00:34:42Z",
+      "side": 1,
+      "message": "\u003e We migrated our users over a year ago.\n\nOh. I thought it was more recent than that, from your comment on [1]:\n\n\u003e I am probably going to reset everyone on googlesource.com to CS2 on Monday, and would like to delete CS1 around the end of this month (Jan 31 2015). I want it gone as much as anyone else does.\n\n\u003e If you really feel like you need to add the +,- counts to each file I would prefer this to be a user preference, and off by default. \n\nOK, I will rework it with this approach.  Are we going to try to get the user preferences migrated to git for 2.11?\n\n[1] https://gerrit-review.googlesource.com/#/c/49601/",
+      "parentUuid": "375bc3e2_25e2ae28",
+      "range": {
+        "startLine": 723,
+        "startChar": 10,
+        "endLine": 726,
+        "endChar": 42
+      },
+      "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -154,6 +154,23 @@
       "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_0bef9db9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-02T20:20:09Z",
+      "side": 1,
+      "message": "Don\u0027t inject userProvider into this class, use rsrc.getControl().getCurrentUser().\n\nIn theory they could actually be different users, though in practice probably not. Definitely a code savings though.",
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

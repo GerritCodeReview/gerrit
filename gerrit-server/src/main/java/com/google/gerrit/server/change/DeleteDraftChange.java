@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -57,7 +58,8 @@ public class DeleteDraftChange implements
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
       throws ResourceConflictException, AuthException,
-      ResourceNotFoundException, OrmException, IOException {
+      ResourceNotFoundException, MethodNotAllowedException,
+      OrmException, IOException {
     if (rsrc.getChange().getStatus() != Status.DRAFT) {
       throw new ResourceConflictException("Change is not a draft");
     }
@@ -67,7 +69,7 @@ public class DeleteDraftChange implements
     }
 
     if (!allowDrafts) {
-      throw new ResourceConflictException("Draft workflow is disabled");
+      throw new MethodNotAllowedException("Draft workflow is disabled");
     }
 
     try {

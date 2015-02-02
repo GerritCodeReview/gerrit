@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -69,7 +70,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, OrmException, IOException {
+      ResourceConflictException, MethodNotAllowedException,
+      OrmException, IOException {
     PatchSet patchSet = rsrc.getPatchSet();
     PatchSet.Id patchSetId = patchSet.getId();
     Change change = rsrc.getChange();
@@ -79,7 +81,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     if (!allowDrafts) {
-      throw new ResourceConflictException("Draft workflow is disabled");
+      throw new MethodNotAllowedException("Draft workflow is disabled");
     }
 
     if (!rsrc.getControl().canDeleteDraft(dbProvider.get())) {

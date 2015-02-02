@@ -94,6 +94,30 @@
       "revId": "751441fdfaf1b7b9e494118018bc1b798bd29118",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_a7ba0aee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T11:33:58Z",
+      "side": 1,
+      "message": "Ah, okay, looks like I overlooked this.\n\nI tested the version of this patch set and it works fine :)",
+      "parentUuid": "5775973c_ae23d7d6",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 634,
+        "endChar": 40
+      },
+      "revId": "751441fdfaf1b7b9e494118018bc1b798bd29118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

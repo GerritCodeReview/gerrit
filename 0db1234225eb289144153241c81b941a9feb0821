@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_4b47e53d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-02T18:38:42Z",
+      "side": 1,
+      "message": "Gitiles works and for Gitweb, I fixed it in this change.",
+      "parentUuid": "5775973c_4e303314",
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71c27fd_facbe9a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

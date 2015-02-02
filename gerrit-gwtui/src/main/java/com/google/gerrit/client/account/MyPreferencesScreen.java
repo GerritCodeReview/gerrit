@@ -133,7 +133,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
 
-    final Grid formGrid = new Grid(11, 2);
+    final Grid formGrid = new Grid(10, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -166,10 +166,6 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, sizeBarInChangeTable);
-    row++;
-
-    formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, legacycidInChangeTable);
     row++;
 
     formGrid.setText(row, labelIdx, "");

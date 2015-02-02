@@ -249,8 +249,6 @@ public class ChangeScreen extends Screen {
         ListChangesOption.CHANGE_ACTIONS,
         ListChangesOption.ALL_REVISIONS));
     if (!firstCall) {
-      ChangeList.addOptions(call, EnumSet.of(
-      ListChangesOption.CURRENT_ACTIONS));
       call.background();
     }
     call.get(cb);

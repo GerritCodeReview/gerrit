@@ -15,8 +15,10 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.ui.UserActivityMonitor;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Timer;
@@ -57,6 +59,35 @@ class UpdateCheckTimer extends Timer implements ValueChangeHandler<Boolean> {
       public void onSuccess(ChangeInfo info) {
         running = false;
         screen.showUpdates(info);
+
+        int d = UserActivityMonitor.isActive()
+            ? POLL_PERIOD
+            : IDLE_PERIOD;
+        if (d != delay) {
+          delay = d;
+          schedule();
+        }
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        // On failures increase the delay time and try again,
+        // but place an upper bound on the delay.
+        running = false;
+        delay = (int) Math.max(
+            delay * (1.5 + Math.random()),
+            UserActivityMonitor.isActive()
+              ? MAX_PERIOD
+              : IDLE_PERIOD + MAX_PERIOD);
+        schedule();
+      }
+    });
+    screen.loadRevisionActionInfo(new AsyncCallback<NativeMap<ActionInfo>>() {
+      @Override
+      public void onSuccess(NativeMap<ActionInfo> info) {
+        running = false;
+
+        // here we need to apply the new action info map
 
         int d = UserActivityMonitor.isActive()
             ? POLL_PERIOD

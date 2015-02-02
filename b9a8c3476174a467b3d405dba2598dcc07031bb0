@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_ab91a967",
+        "filename": ".gitmodules",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T08:55:42Z",
+      "side": 1,
+      "message": "unintended change?",
+      "revId": "b9a8c3476174a467b3d405dba2598dcc07031bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

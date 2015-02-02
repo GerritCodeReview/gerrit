@@ -141,6 +141,30 @@
       "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5775973c_0ee54b2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-02T01:38:43Z",
+      "side": 1,
+      "message": "We successfully migrated everyone except for one holdout group over a year ago.\n\nThe holdout group had done some hacky JS based on the old screen DOM that we had to fully replace in CS2 and rewrite their JS and then get them to accept that rewrite. That only happened recently. :)\n\nI don\u0027t know if the user pref in git is going to make 2.11. Dave Borowitz is focused on MergeOp being a nightmare for us right now, and I don\u0027t have the time to write the conversion tools we need to run that migration on our systems right now. So we would like to push back the user pref conversion a little bit.\n\nWhich means it will be faster to add this to the database.",
+      "parentUuid": "375bc3e2_c5edda17",
+      "range": {
+        "startLine": 723,
+        "startChar": 10,
+        "endLine": 726,
+        "endChar": 42
+      },
+      "revId": "e1b5e557ab0d0fbec6b6ee8f62f2b407a5663fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

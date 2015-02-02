@@ -767,10 +767,11 @@ public class RestApiServlet extends HttpServlet {
       b64 = new BinaryResult() {
         @Override
         public void writeTo(OutputStream out) throws IOException {
-          OutputStream e = BaseEncoding.base64().encodingStream(
-              new OutputStreamWriter(out, ISO_8859_1));
-          src.writeTo(e);
-          e.flush();
+          try (OutputStream e = BaseEncoding.base64().encodingStream(
+              new OutputStreamWriter(out, ISO_8859_1))) {
+            src.writeTo(e);
+            e.flush();
+          }
         }
       };
     }

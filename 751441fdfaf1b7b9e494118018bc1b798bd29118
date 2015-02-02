@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5775973c_2ef927d6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-02T10:20:52Z",
+      "side": 1,
+      "message": "Ah, I\u0027ve just updated this locally, but done it a different way and you\u0027ve uploaded this before I could test it :)\n\n      boolean isMuteCommonPathPrefixes \u003d Gerrit.isSignedIn()\n          \u0026\u0026 Gerrit.getUserAccount().getGeneralPreferences().isMuteCommonPathPrefixes();\n          : false;\n      if (Patch.COMMIT_MSG.equals(path)) {\n        sb.append(Util.C.commitMessage());\n      } else if (isMuteCommonPathPrefixes) {\n        int commonPrefixLen \u003d commonPrefix(path);\n        if (commonPrefixLen \u003e 0) {\n          sb.openSpan().setStyleName(R.css().commonPrefix())\n            .append(path.substring(0, commonPrefixLen))\n            .closeSpan();\n        }\n        sb.append(path.substring(commonPrefixLen));\n        lastPath \u003d path;\n      } else {\n        sb.append(path);\n      }",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 634,
+        "endChar": 40
+      },
+      "revId": "751441fdfaf1b7b9e494118018bc1b798bd29118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

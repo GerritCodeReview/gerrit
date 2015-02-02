@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_cbe195da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-02T19:56:13Z",
+      "side": 1,
+      "message": "So IIUC this is actually testing buggy behavior, because the handler really needs to check that change 1 is submittable.\n\nPlease at least put a TODO in here about it.",
+      "revId": "b04fe67e5ffb231dd8d2ca4a041422b4a5acd8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

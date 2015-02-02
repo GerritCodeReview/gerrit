@@ -253,12 +253,14 @@ public class ServerPlugin extends Plugin {
             public File get() {
               if (!ready) {
                 synchronized (dataDir) {
-                  if (!dataDir.exists() && !dataDir.mkdirs()) {
-                    throw new ProvisionException(String.format(
-                        "Cannot create %s for plugin %s",
-                        dataDir.getAbsolutePath(), getName()));
+                  if (!ready) {
+                    if (!dataDir.exists() && !dataDir.mkdirs()) {
+                      throw new ProvisionException(String.format(
+                          "Cannot create %s for plugin %s",
+                          dataDir.getAbsolutePath(), getName()));
+                    }
+                    ready = true;
                   }
-                  ready = true;
                 }
               }
               return dataDir;

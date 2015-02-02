@@ -73,6 +73,7 @@ class ReviewNoteMerger implements NoteMerger {
         lt.openStream());
     ObjectId noteData = inserter.insert(Constants.OBJ_BLOB,
         lo.getSize() + sep.length + lt.getSize(), union);
+    union.close();
     return new Note(ours, noteData);
   }
 }

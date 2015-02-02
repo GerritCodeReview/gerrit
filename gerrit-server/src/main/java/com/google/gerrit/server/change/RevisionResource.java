@@ -15,6 +15,9 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -25,7 +28,13 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
+
+import java.nio.charset.Charset;
 
 public class RevisionResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
@@ -75,8 +84,29 @@ public class RevisionResource implements RestResource, HasETag {
   public String getETag() {
     // Conservative estimate: refresh the revision if its parent change has
     // changed, so we don't have to check whether a given modification affected
-    // this revision specifically.
-    return change.getETag();
+    // this revision specifically. If submitWholetopic is enabled, a change
+    // may stay unchanged, but a change in the same topic was changed,
+    // which may enable the submit button, so we need to take care of that
+    // as well here.
+    Provider<Submit> submitProvider;
+    boolean submitWholeTopic = submitProvider.get().submitWholeTopicEnabled();
+
+    if (submitWholeTopic
+        && change.getChange().getTopic() != null
+        && !change.getChange().getTopic().equals("")) {
+          String topic = change.getChange().getTopic();
+      Hasher h = Hashing.md5().newHasher();
+      try {
+        for (ChangeData c : submitProvider.get().changesByTopic(topic)) {
+          h.putString(new ChangeResource(c.changeControl()).getETag(), Charset.forName("UTF-8"));
+        }
+      } catch (OrmException e){
+        throw new OrmRuntimeException(e);
+      }
+      return h.hash().toString();
+    } else {
+      return change.getETag();
+    }
   }
 
   Account.Id getAccountId() {

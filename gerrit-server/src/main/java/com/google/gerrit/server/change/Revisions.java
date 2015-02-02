@@ -107,7 +107,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws OrmException, IOException, AuthException {
     if (id.equals("0")) {
       return loadEdit(change, null);
-    } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
+    } else if (id.length() < 6 && id.matches("^-?[1-9][0-9]{0,4}$")) {
       // Legacy patch set number syntax.
       return byLegacyPatchSetId(change, id);
     } else if (id.length() < 4 || id.length() > RevId.LEN) {

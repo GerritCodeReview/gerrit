@@ -1694,6 +1694,7 @@ public class ReceiveCommits {
         .setRequestScopePropagator(requestScopePropagator)
         .setSendMail(true)
         .insert();
+      insertCommonAncestorForMerge(db, commit, ps, change);
       created = true;
 
       if (magicBranch != null && magicBranch.submit) {
@@ -2059,6 +2060,8 @@ public class ReceiveCommits {
 
         cmUtil.addChangeMessage(db, update, newChangeMessage(db));
 
+        insertCommonAncestorForMerge(db, newCommit, newPatchSet, change);
+
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.
           //
@@ -2161,6 +2164,31 @@ public class ReceiveCommits {
 
       return newPatchSet.getId();
     }
+
+  }
+
+  private void insertCommonAncestorForMerge(ReviewDb db, RevCommit newCommit,
+      PatchSet newPatchSet, Change change) throws MissingObjectException,
+      IncorrectObjectTypeException, IOException, OrmException {
+    if (newCommit.getParentCount() == 1) {
+      return;
+    }
+    PatchSet commonAncestor =
+        new PatchSet(new PatchSet.Id(change.getId(), -1
+            * newPatchSet.getPatchSetId()));
+    commonAncestor.setCreatedOn(newPatchSet.getCreatedOn());
+    commonAncestor.setDraft(newPatchSet.isDraft());
+    commonAncestor.setUploader(newPatchSet.getUploader());
+
+    RevWalk rw = new RevWalk(repo);
+    rw.setRevFilter(RevFilter.MERGE_BASE);
+    for (RevCommit parent : newCommit.getParents()) {
+      rw.markStart(rw.parseCommit(parent));
+    }
+    commonAncestor.setRevision(new RevId(rw.next().getId().name()));
+    rw.release();
+
+    db.patchSets().insert(Collections.singleton(commonAncestor));
   }
 
   private List<Ref> refs(Change.Id changeId) {

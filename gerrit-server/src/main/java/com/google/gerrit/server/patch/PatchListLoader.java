@@ -133,6 +133,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
       final boolean againstParent =
           b.getParentCount() > 0 && b.getParent(0) == a;
+      final boolean againstCommonAncestor =
+          key.getOldId() != null && b.getParentCount() > 1;
 
       RevCommit aCommit = a instanceof RevCommit ? (RevCommit) a : null;
       RevTree aTree = rw.parseTree(a);
@@ -144,7 +146,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
-      Set<String> paths = key.getOldId() != null
+      Set<String> paths = key.getOldId() != null && !againstCommonAncestor
           ? FluentIterable.from(patchListCache.get(
                   new PatchListKey(key.projectKey, null, key.getNewId(),
                   key.getWhitespace())).getPatches())
@@ -158,8 +160,10 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
           : null;
       int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
-      entries.add(newCommitMessage(cmp, reader,
-          againstParent ? null : aCommit, b));
+      if (!againstCommonAncestor) {
+        entries.add(newCommitMessage(cmp, reader, againstParent ? null : aCommit,
+            b));
+      }
       for (int i = 0; i < cnt; i++) {
         DiffEntry diffEntry = diffEntries.get(i);
         if (paths == null || paths.contains(diffEntry.getNewPath())

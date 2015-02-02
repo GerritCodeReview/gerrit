@@ -1146,8 +1146,12 @@ public class ChangeScreen extends Screen {
     int selectedIdx = list.length();
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
+      String id = r.id();
+      if (id.startsWith("-")) {
+        id = "CA" + id;
+      }
       diffBase.addItem(
-        r.id() + ": " + r.name().substring(0, 6),
+        id + ": " + r.name().substring(0, 6),
         r.name());
       if (r.name().equals(revision)) {
         SelectElement.as(diffBase.getElement()).getOptions()
@@ -1212,6 +1216,12 @@ public class ChangeScreen extends Screen {
   }
 
   private static String normalize(String r) {
-    return r != null && !r.isEmpty() ? r : null;
+    if (r != null && !r.isEmpty()) {
+      if (r.startsWith("-")) {
+        return r.substring(1);
+      }
+      return r;
+    }
+    return null;
   }
 }

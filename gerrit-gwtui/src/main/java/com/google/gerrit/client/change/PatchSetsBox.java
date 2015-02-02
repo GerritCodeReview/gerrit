@@ -191,6 +191,9 @@ class PatchSetsBox extends Composite {
   }
 
   private void revision(SafeHtmlBuilder sb, int index, RevisionInfo r) {
+    if (r._number() < 0) {
+      return;
+    }
     CommitInfo c = r.commit();
     sb.openTr();
     if (revision.equals(r.name())) {

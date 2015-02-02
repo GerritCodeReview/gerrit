@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_677772bd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/PooledHttpClientProvider.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T08:48:05Z",
+      "side": 1,
+      "message": "True, added in next patch-set.",
+      "parentUuid": "3744a3e8_9d350308",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 43
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3744a3e8_bd3a3ff5",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
         "patchSetId": 42
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_47746eb6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T08:48:05Z",
+      "side": 1,
+      "message": "Actually this class comes from another series of changes where it was actually more than one pair :-) \nBut you are right, in this change it is definitely overkill :o)",
+      "parentUuid": "3744a3e8_bd3a3ff5",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b71333db_e93b35fc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
         "patchSetId": 42
@@ -59,6 +107,30 @@
       "writtenOn": "2015-01-31T07:16:05Z",
       "side": 1,
       "message": "Why does this need to be protected?",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 11
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_077e7696",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T08:48:05Z",
+      "side": 1,
+      "message": "To be honest, all those static final are \"well-known\" public URLs and can be freely exposed as public.",
+      "parentUuid": "b71333db_e93b35fc",
       "range": {
         "startLine": 33,
         "startChar": 2,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_e7492278",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T08:48:05Z",
+      "side": 1,
+      "message": "All this branch is not used at all as the baseUrl HAS to be an absolute one :-) Will remove that else {} altogether :-)",
+      "parentUuid": "3744a3e8_7d2d97b8",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 40
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3744a3e8_1d2a53a2",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
         "patchSetId": 42
@@ -128,6 +224,30 @@
       "writtenOn": "2015-01-31T07:16:05Z",
       "side": 1,
       "message": "Use trimTrailingSlash method?",
+      "range": {
+        "startLine": 94,
+        "startChar": 12,
+        "endLine": 94,
+        "endChar": 53
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_2baff9aa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T08:48:05Z",
+      "side": 1,
+      "message": "see above.",
+      "parentUuid": "3744a3e8_1d2a53a2",
       "range": {
         "startLine": 94,
         "startChar": 12,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_0bac3db2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T08:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b71333db_a9353d07",
+      "range": {
+        "startLine": 95,
+        "startChar": 42,
+        "endLine": 95,
+        "endChar": 52
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b71333db_c940715b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 42
@@ -174,6 +318,30 @@
       "writtenOn": "2015-01-31T07:16:05Z",
       "side": 1,
       "message": "authorized",
+      "range": {
+        "startLine": 105,
+        "startChar": 40,
+        "endLine": 105,
+        "endChar": 50
+      },
+      "revId": "38976987e1854c773ef129e3ceac3ca4bacc1487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_eb97b15a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-02T08:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b71333db_c940715b",
       "range": {
         "startLine": 105,
         "startChar": 40,

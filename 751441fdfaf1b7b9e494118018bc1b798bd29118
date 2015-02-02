@@ -46,6 +46,30 @@
       "revId": "751441fdfaf1b7b9e494118018bc1b798bd29118",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_cb13d556",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T10:31:42Z",
+      "side": 1,
+      "message": "\u003e boolean isMuteCommonPathPrefixes \u003d Gerrit.isSignedIn()\n \u003e   \u0026\u0026 Gerrit.getUserAccount().getGeneralPreferences().isMuteCommonPathPrefixes();\n\nMy first version looked similar to this, but then I realized that\n  a) we already have the \u0027hasUser\u0027 variable for Gerrit.isSignedIn()\n  b) the commit message says that the default is to mute common path prefixes,\n     and we should apply the default for not signed in users",
+      "parentUuid": "5775973c_ee19dfa8",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 634,
+        "endChar": 40
+      },
+      "revId": "751441fdfaf1b7b9e494118018bc1b798bd29118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -58,9 +58,33 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCreateProjectApiWithGitSuffix() throws Exception {
+    final String newProjectName = "newProject";
+    ProjectInfo p = gApi.projects().name(newProjectName + ".git").create().get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
   public void testCreateProject() throws Exception {
     final String newProjectName = "newProject";
     RestResponse r = adminSession.put("/projects/" + newProjectName);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
+    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
+  public void testCreateProjectWithGitSuffix() throws Exception {
+    final String newProjectName = "newProject";
+    RestResponse r = adminSession.put("/projects/" + newProjectName + ".git");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertThat(p.name).isEqualTo(newProjectName);

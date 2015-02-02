@@ -771,6 +771,7 @@ public class RestApiServlet extends HttpServlet {
               new OutputStreamWriter(out, ISO_8859_1));
           src.writeTo(e);
           e.flush();
+          e.close();
         }
       };
     }

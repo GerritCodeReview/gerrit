@@ -26,6 +26,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Constants;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -46,6 +48,10 @@ class ProjectsImpl extends Projects.NotImplemented implements Projects {
 
   @Override
   public ProjectApi name(String name) throws RestApiException {
+    if (name.endsWith(Constants.DOT_GIT_EXT)) {
+      name = name.substring(0, name.length() - Constants.DOT_GIT_EXT.length());
+    }
+
     try {
       return api.create(projects.parse(name));
     } catch (UnprocessableEntityException e) {

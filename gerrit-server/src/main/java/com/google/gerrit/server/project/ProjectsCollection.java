@@ -31,6 +31,8 @@ import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.lib.Constants;
+
 @Singleton
 public class ProjectsCollection implements
     RestCollection<TopLevelResource, ProjectResource>,
@@ -88,6 +90,9 @@ public class ProjectsCollection implements
   }
 
   private ProjectResource _parse(String id) throws IOException {
+    if (id.endsWith(Constants.DOT_GIT_EXT)) {
+      id = id.substring(0, id.length() - Constants.DOT_GIT_EXT.length());
+    }
     ProjectControl ctl;
     try {
       ctl = controlFactory.controlFor(

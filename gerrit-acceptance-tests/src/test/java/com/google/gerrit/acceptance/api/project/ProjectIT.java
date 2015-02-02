@@ -44,6 +44,17 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name);
   }
 
+  @Test
+  public void createProjectFooWithGitSuffix() throws Exception {
+    String name = "foo";
+    assertThat(name).isEqualTo(
+        gApi.projects()
+            .name(name + ".git")
+            .create()
+            .get()
+            .name);
+  }
+
   @Test(expected = RestApiException.class)
   public void createProjectFooBar() throws Exception {
     ProjectInput in = new ProjectInput();

@@ -69,7 +69,7 @@ public class DeleteDraftChange implements
     }
 
     if (!allowDrafts) {
-      throw new MethodNotAllowedException("Draft workflow is disabled");
+      throw new MethodNotAllowedException("draft workflow is disabled");
     }
 
     try {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_870266e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_abfd2978",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_4747ce3d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-02T20:19:13Z",
       "side": 1,
       "message": "CR\n\nAlthough probably you should be consistent between Code-Review and Verified here, rather than abbreviating one but not the other.",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_eb91f138",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_4747ce3d",
       "range": {
         "startLine": 10,
         "startChar": 60,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_ab8be904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_6bf86185",
+      "range": {
+        "startLine": 16,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_cb96352f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_8b026de6",
+      "range": {
+        "startLine": 16,
+        "startChar": 31,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_4bf5a589",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -105,6 +201,30 @@
       "writtenOn": "2015-02-02T20:19:13Z",
       "side": 1,
       "message": "JSON",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 4
+      },
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_67f89285",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_4bf5a589",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_0bc67d37",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1870,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_2bdb7925",
+      "range": {
+        "startLine": 1870,
+        "startChar": 84,
+        "endLine": 1870,
+        "endChar": 118
+      },
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_6723f2a7",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 8
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_e70362ed",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_6723f2a7",
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_0bef9db9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 8
@@ -168,6 +330,47 @@
       "writtenOn": "2015-02-02T20:20:09Z",
       "side": 1,
       "message": "Don\u0027t inject userProvider into this class, use rsrc.getControl().getCurrentUser().\n\nIn theory they could actually be different users, though in practice probably not. Definitely a code savings though.",
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_c7085e0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_0bef9db9",
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_a7fd6a78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-02T21:39:00Z",
+      "side": 1,
+      "message": "Though we need a Provider\u003cCurrentUser\u003e for the UIActions.from(...) here. I added an anonymous class here to make it work without injecting a userProvider.",
+      "range": {
+        "startLine": 46,
+        "startChar": 36,
+        "endLine": 47,
+        "endChar": 41
+      },
       "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

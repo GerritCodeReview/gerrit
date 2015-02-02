@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_ab188973",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T11:30:49Z",
+      "side": 1,
+      "message": "Do we really need/want to handle this on this level?\n\nLocalDiskRepositoryManager#createRepository(File, Project.NameKey) already contains logic for handling names with the \".git\" extension. Why is this not working/not enough?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 5
+      },
+      "revId": "4a87c7b1b54cac31b0b56e19f97f7861fc690f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

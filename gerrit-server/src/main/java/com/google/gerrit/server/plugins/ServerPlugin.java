@@ -251,8 +251,8 @@ public class ServerPlugin extends Plugin {
 
             @Override
             public File get() {
-              if (!ready) {
-                synchronized (dataDir) {
+              synchronized (dataDir) {
+                if (!ready) {
                   if (!dataDir.exists() && !dataDir.mkdirs()) {
                     throw new ProvisionException(String.format(
                         "Cannot create %s for plugin %s",

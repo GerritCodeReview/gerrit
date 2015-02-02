@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "375bc3e2_05fc52c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 50
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-02T04:41:33Z",
+      "side": 1,
+      "message": "This is now added twice.\n\nFixed in https://gerrit-review.googlesource.com/#/c/64010/",
+      "range": {
+        "startLine": 170,
+        "startChar": 3,
+        "endLine": 175,
+        "endChar": 62
+      },
+      "revId": "36934dc6effc4d4c72bd5b5f7bbf70de009689c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

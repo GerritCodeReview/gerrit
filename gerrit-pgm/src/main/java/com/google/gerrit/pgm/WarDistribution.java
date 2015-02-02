@@ -49,8 +49,9 @@ public class WarDistribution implements PluginsDistribution {
             String pluginJarName = new File(ze.getName()).getName();
             String pluginName = pluginJarName.substring(0,
                 pluginJarName.length() - JAR.length());
-            final InputStream in = zf.getInputStream(ze);
-            processor.process(pluginName, in);
+            try (InputStream in = zf.getInputStream(ze)) {
+              processor.process(pluginName, in);
+            }
           }
         }
       }

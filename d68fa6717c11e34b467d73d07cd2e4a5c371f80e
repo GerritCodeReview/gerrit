@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_2bdb7925",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1870,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-02T20:11:27Z",
+      "side": 1,
+      "message": "If you look at the other HTTP request examples we use full revisions instead of placeholders",
+      "range": {
+        "startLine": 1870,
+        "startChar": 84,
+        "endLine": 1870,
+        "endChar": 118
+      },
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_6723f2a7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-02T20:11:27Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "d68fa6717c11e34b467d73d07cd2e4a5c371f80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

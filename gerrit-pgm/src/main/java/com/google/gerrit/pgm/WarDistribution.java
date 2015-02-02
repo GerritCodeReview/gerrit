@@ -51,6 +51,7 @@ public class WarDistribution implements PluginsDistribution {
                 pluginJarName.length() - JAR.length());
             final InputStream in = zf.getInputStream(ze);
             processor.process(pluginName, in);
+            in.close();
           }
         }
       }

@@ -70,6 +70,30 @@
       "revId": "4a87c7b1b54cac31b0b56e19f97f7861fc690f21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_2b2db990",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T12:03:38Z",
+      "side": 1,
+      "message": "Ah, okay! So the root cause of the problem is that we only accept \u0027\u003cproject-name\u003e\u0027 but not \u0027\u003cproject-name\u003e.git\u0027 as project ID in the URLs of the project related REST endpoints (\u0027/projects/\u003cproject-id\u003e/...).\n\nIf this is okay (and I think it is), then this fix looks good to me.\n\nMaybe we could clarify then in rest-api-projects.html#project-name that the project name must be given without \u0027.git\u0027 extension.",
+      "parentUuid": "5775973c_0e130b84",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 5
+      },
+      "revId": "4a87c7b1b54cac31b0b56e19f97f7861fc690f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_a7432a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T08:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5775973c_6eff2fbd",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "59a6d5b4af8e16af199b5e13ce4f67abb551cbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "375bc3e2_c514fa71",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_cb9cf581",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T08:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "375bc3e2_c514fa71",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "59a6d5b4af8e16af199b5e13ce4f67abb551cbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "375bc3e2_e519f6a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-02-02T08:33:31Z",
       "side": 1,
       "message": "If we use this message, we should be consistent with capitalisation.  Other messages begin with lower case letter.",
+      "range": {
+        "startLine": 139,
+        "startChar": 45,
+        "endLine": 139,
+        "endChar": 50
+      },
+      "revId": "59a6d5b4af8e16af199b5e13ce4f67abb551cbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_c74e1e7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T08:50:24Z",
+      "side": 1,
+      "message": "Yes, lowercase is better. I changed this message everywhere to lowercase but now capitalisation is inconsistent in DeleteDraftPatchSet and DeleteDraftChange. We may want to clean this up once globally.\n\nDone",
+      "parentUuid": "375bc3e2_e519f6a8",
       "range": {
         "startLine": 139,
         "startChar": 45,

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "770d3bbb_e797e25a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 44
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T14:02:45Z",
+      "side": 1,
+      "message": "Should we give some more details about what to configure in GitHub, e.g. which URL must be provided as Authorization callback URL?\n\nOn my first try I wrongly configured \u0027http://\u003chost\u003e:8080/login\u0027 and this resulted in an endless redirect loop with requests to \u0027http://\u003chost\u003e:8080/login?error\u003dredirect_uri_mismatch\u0026error_description\u003dThe+redirect_uri+MUST+match+the+registered+callback+URL+for+this+application.\u0026error_uri\u003dhttps%3A%2F%2Fdeveloper.github.com%2Fv3%2Foauth%2F%23redirect-uri-mismatch\u0026state\u003d86NgNuKihuGJzTTGBUgRDNVBiL0q_nZRSNFXd1L1XTo%2C%2Flogin\u0027. I guess this should actually not result in an endless redirect loop but rather be properly logged as error? I only could see the error by inspecting the requests sent by the browser with using the browser developer tools.\n\nSo my suggestion is to say here that \u0027http://\u003chost\u003e:8080/oauth\u0027 should be configured as Authorization callback URL.",
+      "range": {
+        "startLine": 157,
+        "startChar": 50,
+        "endLine": 157,
+        "endChar": 77
+      },
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_cb3ab5c8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T14:02:45Z",
+      "side": 1,
+      "message": "Looks like here it\u0027s too late to set the response status. When I\u0027m reaching this code I\u0027m getting:\n\nWARN  org.eclipse.jetty.server.HttpChannel : /oauth?code\u003d7eefeb8697212b7c62c2\u0026state\u003dwjm3XI24hnUc7A2fbZ0JaLOjmVkrEQxOMidLRy50Zfg%2C%2Flogin\njava.lang.IllegalStateException: Committed\n  at org.eclipse.jetty.server.Response.resetBuffer(Response.java:1253)\n  at org.eclipse.jetty.server.Response.sendError(Response.java:567)\n  at org.eclipse.jetty.server.Response.sendError(Response.java:544)\n  at com.google.gerrit.httpd.auth.github.GitHubLogin.login(GitHubLogin.java:68)\n  at com.google.gerrit.httpd.auth.github.OAuthWebFilter.doFilter(OAuthWebFilter.java:78)\n  at com.google.gerrit.httpd.RunAsFilter.doFilter(RunAsFilter.java:117)\n  at com.google.gerrit.httpd.AllRequestFilter$FilterProxy$1.doFilter(AllRequestFilter.java:64)\n  at com.google.gerrit.httpd.AllRequestFilter$FilterProxy.doFilter(AllRequestFilter.java:57)\n  at com.google.gerrit.httpd.RequestContextFilter.doFilter(RequestContextFilter.java:75)",
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_0b2afd78",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T14:02:45Z",
+      "side": 1,
+      "message": "Instead of reading the canonicalWebUrl directly from the config, you could get it injected by\n\n  @CanonicalWebUrl Provider\u003cString\u003e url",
+      "range": {
+        "startLine": 75,
+        "startChar": 15,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_07ac36b2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-02T14:02:45Z",
+      "side": 1,
+      "message": "make this method static?\n\n[optional] inline this method, trimming the trailing slash is not needed for all invocations of this method with gitHubUrl and gitHubApiUrl, since from them the trailing slash is already removed in lines 57-63",
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

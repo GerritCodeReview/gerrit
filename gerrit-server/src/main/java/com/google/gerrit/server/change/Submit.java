@@ -432,6 +432,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
+  public boolean submitWholeTopicEnabled() {
+    return submitWholeTopic;
+  }
+  public List<ChangeData> changesByTopic(String topic) {
+    return queryProvider.get().byTopicOpen(topic);
+  }
+
   private BatchMetaDataUpdate approve(RevisionResource rsrc,
       ChangeUpdate update, IdentifiedUser caller, Timestamp timestamp)
       throws OrmException {

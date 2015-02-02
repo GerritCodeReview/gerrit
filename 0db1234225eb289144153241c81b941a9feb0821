@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5775973c_4e303314",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-02T18:20:45Z",
+      "side": 1,
+      "message": "I am curious how this example would interact with external viewers like gitweb or gitiles?",
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71c27fd_facbe9a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "It would not solve the problem because the main mount would still be the bottleneck.\n\nWe are trying to split the load across multiple storages so any solution that requires a main mount having other mounts will suffer the same problems mentioned in this change.\n\nWith this change, the application does \"an if\" to determine if the project goes in another storage and this way, we can really split the load across multiple storages.\n\nMore background about that change:\nWe are getting a lot of reads on some repositories and these numbers are getting bigger, day after day, especially if you add them to the numbers of all the other repositories. I know we could give to heavy repositories a dedicated Gerrit instance but we can\u0027t, we must have all the repositories on the same Gerrit server. We scaled our hardware accordingly but now we see that the bottle neck is the file system and this change is going to allow us to remove that bottle neck by spiting the file system load across multiple volume.\n\nHopefully I can get this change in, otherwise it would mean that we will need to run a fork of Gerrit which we managed to not do so far (we are also up to date with versions, currently running 2.9.4...I know 2.10 is out...). We do have a custom version but only to cherry-pick bug fixes merged in newer version (or master).",
       "parentUuid": "d71c27fd_facbe9a4",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 50
+      },
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5775973c_ae3af7f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-02T18:20:45Z",
+      "side": 1,
+      "message": "\u003e It would not solve the problem because the main mount would still be the bottleneck.\n\nThis sounds very much like an assumption.  Your kernel controls mount points and should potentially (if well designed) be able to recognize submounts without having to even access directories in between (or would it still need to access them for ACL checks)?  With links, it is understandable that the kernel needs to lookup the link destination within the NFS share and so it is inherently limited by that.\n\nI want to support scalibility in Gerrit, and this patch could potentially aid in some particular use cases.  However, like Dave, it feels a bit like feature bloat right now, so I have to ask myself how could this be implemented in a way that does not feel like that?  Generally the answer to such questions is \"support it with a plugin somehow\".  So, would a plugin approach make more sense here?  What would be needed to support a feature like this with a plugin?\n\nIf I continue down the scalibility path, one place that we want to take Gerrit is to support DFS jgit backends.  How would we get there in Gerrit?  Would we want to be able to support both jgit DFS and normal jgit from the same server instance?  Would we want to be able to configure that on a per project basis?  No one besides google has bit off the DFS piece yet.  That may be pruely  because of the experimental nature of it, but perhaps also because there is no transition path to DFS?  \n\nAs Gerrit maintainers, if we want to get to DFS someday, we may need to support a mixed mode operation.  If we do, we will likely make Gerrit more complicated, it would be nice if we could hide that complexity behind plugins.  If we did, I suspect that we would end up with something that looks a bit like this patch?  We would probably end up configuring on a per project (or per project wildcard) basis, which projects use which backend plugins?\n\nI am not sure what to conclude from all that, but I thought that it might help people think a bit beyond just this patch.  It might mean that this approach makes sense in the short term because it is not that much different than a long term feature we likely will want to support?",
+      "parentUuid": "770d3bbb_678c124b",
       "range": {
         "startLine": 30,
         "startChar": 45,

@@ -243,14 +243,23 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
+  void loadChangeInfo(boolean firstCall, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
-      ListChangesOption.CURRENT_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
-    if (!fg) {
+        ListChangesOption.CHANGE_ACTIONS,
+        ListChangesOption.ALL_REVISIONS));
+    if (firstCall) {
+      ChangeList.addOptions(call, EnumSet.of(
+      ListChangesOption.CURRENT_ACTIONS));
+    } else {
       call.background();
     }
+    call.get(cb);
+  }
+
+  void loadRevisionActionInfo(AsyncCallback<NativeMap<ActionInfo>> cb) {
+    RestApi call = ChangeApi.actions(changeId.get(), revision);
+    call.background();
     call.get(cb);
   }
 

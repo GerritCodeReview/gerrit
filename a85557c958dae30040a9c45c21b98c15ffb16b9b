@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_ab82c9de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-02T23:00:37Z",
+      "side": 1,
+      "message": "ITYM:\n\n .setLabel(submitTopicLabel)\n .setTitle(topicProblems)\n\nThe label is the text that\u0027s displayed on the button. The title is the tooltip.",
+      "range": {
+        "startLine": 294,
+        "startChar": 10,
+        "endLine": 296,
+        "endChar": 50
+      },
+      "revId": "a85557c958dae30040a9c45c21b98c15ffb16b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

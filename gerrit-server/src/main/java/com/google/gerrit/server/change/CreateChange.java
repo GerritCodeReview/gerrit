@@ -136,7 +136,7 @@ public class CreateChange implements
       }
 
       if (!allowDrafts && input.status == ChangeStatus.DRAFT) {
-        throw new MethodNotAllowedException("cannot upload drafts");
+        throw new MethodNotAllowedException("Draft workflow is disabled");
       }
     }
 

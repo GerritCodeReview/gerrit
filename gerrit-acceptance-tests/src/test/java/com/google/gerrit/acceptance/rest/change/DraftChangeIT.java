@@ -103,7 +103,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
   public void createDraftChangeWhenDraftsNotAllowed() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
     PushOneCommit.Result r = createDraftChange();
-    r.assertErrorStatus("cannot upload drafts");
+    r.assertErrorStatus("Draft workflow is disabled");
   }
 
   private PushOneCommit.Result createDraftChange() throws Exception {

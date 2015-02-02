@@ -78,7 +78,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo ci = newChangeInfo(ChangeStatus.DRAFT);
     RestResponse r = adminSession.post("/changes/", ci);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_METHOD_NOT_ALLOWED);
-    assertThat(r.getEntityContent()).contains("cannot upload drafts");
+    assertThat(r.getEntityContent()).contains("Draft workflow is disabled");
   }
 
   private ChangeInfo newChangeInfo(ChangeStatus status) {

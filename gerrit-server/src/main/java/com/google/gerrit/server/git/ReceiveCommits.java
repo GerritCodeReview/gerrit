@@ -1268,13 +1268,17 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.draft
-        && (!receiveConfig.allowDrafts
-            || projectControl.controlForRef("refs/drafts/" + ref)
-            .isBlocked(Permission.PUSH))) {
-      errors.put(Error.CODE_REVIEW, ref);
-      reject(cmd, "cannot upload drafts");
-      return;
+    if (magicBranch.draft) {
+      if (!receiveConfig.allowDrafts) {
+        errors.put(Error.CODE_REVIEW, ref);
+        reject(cmd, "Draft workflow is disabled");
+        return;
+      } else if (projectControl.controlForRef("refs/drafts/" + ref)
+          .isBlocked(Permission.PUSH)) {
+        errors.put(Error.CODE_REVIEW, ref);
+        reject(cmd, "cannot upload drafts");
+        return;
+      }
     }
 
     if (!magicBranch.ctl.canUpload()) {

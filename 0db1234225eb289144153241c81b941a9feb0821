@@ -123,6 +123,52 @@
       "revId": "0db1234225eb289144153241c81b941a9feb0821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5775973c_6e2defb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-02T20:24:53Z",
+      "side": 1,
+      "message": "nit: space needed after \"if\" and before \"{\".",
+      "range": {
+        "startLine": 157,
+        "startChar": 6,
+        "endLine": 157,
+        "endChar": 8
+      },
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5775973c_0e2a2ba2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-02T20:24:53Z",
+      "side": 1,
+      "message": "Hmm, it doesn\u0027t look like you are doing anything here to remove projects which might fall under an alternate base path\u0027s control?  This seems like something that might be worth adding a \"listing\" test for?",
+      "range": {
+        "startLine": 413,
+        "startChar": 19,
+        "endLine": 413,
+        "endChar": 27
+      },
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

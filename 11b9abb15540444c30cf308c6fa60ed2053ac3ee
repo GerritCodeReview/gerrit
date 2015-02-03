@@ -46,6 +46,30 @@
       "revId": "11b9abb15540444c30cf308c6fa60ed2053ac3ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5775973c_8eba9bee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-03T03:36:29Z",
+      "side": 1,
+      "message": "\u003e I am not sure if you can link to a specific issue\n\nI don\u0027t see any \"permalink\" on the issue page, but if you put the number in the \"Enter CID(s)\" search box on the top right, you get a link like this:\n\nhttps://scan4.coverity.com/reports.htm#v11684/p10102/fileInstanceId\u003d162644\u0026defectInstanceId\u003d47605\u0026mergedDefectId\u003d19961\n\nwhich is a bit unwieldy but does link directly to the report.\n\nAn alternative approach could be to create new issues on the Gerrit issue tracker for the ones that need to be fixed, and put that link in there.  Then at least it makes it easier to link to them from the commit message, and more importantly, from the release notes.\n\nOr, instead of writing \"issue 19961\" you could change it to \"CID 19961\" which will prevent the incorrect linking to the gerrit tracker.",
+      "parentUuid": "f7df6b54_2bec9993",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "11b9abb15540444c30cf308c6fa60ed2053ac3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

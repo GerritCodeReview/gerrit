@@ -483,7 +483,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryInfo._number).isEqualTo(change.get()._number);
     assertThat(cherryInfo.cherryPickOfPatchSet).isEqualTo(1);
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(cherryIt.next().message).isEqualTo("Cherry picked as patch set 2.");
   }
 
   @Test
@@ -519,7 +519,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(cherryIt.next().message).isEqualTo("Cherry picked as patch set 2.");
 
     // Parent of change 2 should now be the change that was merged, i.e.
     // change 2 is rebased onto the head of the master branch.

@@ -443,7 +443,7 @@ public class CherryPickChange {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
-    inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
+    inserter.setMessage("Cherry picked as patch set " + inserter.getPatchSetId().get() + ".");
     inserter.setTopic(topic);
     if (workInProgress != null) {
       inserter.setWorkInProgress(workInProgress);

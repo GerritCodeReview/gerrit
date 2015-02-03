@@ -58,4 +58,10 @@ public interface GroupBackend {
    *         given groups, {@code false} otherwise
    */
   boolean memberOfAny(IdentifiedUser user, Iterable<AccountGroup.UUID> ids);
+
+  /**
+   * @return {@code true} if the group with the given UUID is visible to all
+   *         registered users.
+   */
+  boolean isVisibleToAll(AccountGroup.UUID uuid);
 }

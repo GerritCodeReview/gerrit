@@ -250,4 +250,9 @@ public class LdapGroupBackend extends AbstractGroupBackend {
     }
     return out;
   }
+
+  @Override
+  public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+    return handles(uuid) && helper.groupsVisibleToAll();
+  }
 }

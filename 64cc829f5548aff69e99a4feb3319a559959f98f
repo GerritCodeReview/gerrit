@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "770d3bbb_c764deb2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1893,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-03T10:43:08Z",
+      "side": 1,
+      "message": "Nit: missing new line.",
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_cb57559a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-03T10:43:08Z",
+      "side": 1,
+      "message": "@Singleton",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_6b67418b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-03T10:43:08Z",
+      "side": 1,
+      "message": "Revisions is singleton itself. So this class doesn\u0027t have any state and can be also singleton.",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 25
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_ab5c09bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-03T10:43:08Z",
+      "side": 1,
+      "message": "All new REST endpoints (and the new code generally) should be test covered. With acceptance test framework it\u0027s only 11 LoC:\n\n  public class ActionsIT extends AbstractDaemonTest {\n  @Test\n  public void revisionActions() throws Exception {\n    assertThat(getActions(createChange().getChangeId())).hasSize(1);\n  }\n  private Map\u003cString, ActionInfo\u003e getActions(String changeId)\n      throws IOException {\n    return newGson().fromJson(\n        adminSession.get(\"/changes/\"\n            + changeId\n            + \"/revisions/1/actions\").getReader(),\n        new TypeToken\u003cMap\u003cString, ActionInfo\u003e\u003e() {}.getType());\n  }\n  [...]\n\nThis test is failing: expected only one action: cherry-pick, but in fact two actions are returned: submit + cherry-pick. That\u0027s because Submit.getDescription() was broken in this series. On stable-2.9 the code is:\n\n  return new UiAction.Description()\n      .setTitle(String.format(\n          \"Submit patch set %d into %s\",\n          resource.getPatchSet().getPatchSetId(),\n          resource.getChange().getDest().getShortName()))\n      .setVisible(!resource.getPatchSet().isDraft()\n          \u0026\u0026 resource.getChange().getStatus().isOpen()\n          \u0026\u0026 resource.getPatchSet().getId().equals(current)\n          \u0026\u0026 resource.getControl().canSubmit());\n\n\nWhile in this series true just set directly:\n\n  return new UiAction.Description()\n      .setLabel(label)\n      .setTitle(...)\n      .setVisible(true);",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_e7b6c2bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-03T10:43:08Z",
+      "side": 1,
+      "message": "Nit: Unneeded space.",
+      "range": {
+        "startLine": 27,
+        "startChar": 43,
+        "endLine": 27,
+        "endChar": 44
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_eb5211ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-03T10:43:08Z",
+      "side": 1,
+      "message": "Just ActionJson, after ActionJson was changed to singleton. The rest of this file should be adjusted correspndingly.",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_8b614d79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-03T10:43:08Z",
+      "side": 1,
+      "message": "All these exceptions are unsed. \"Exception\" is never used in real code, only in unit tests.",
+      "range": {
+        "startLine": 36,
+        "startChar": 52,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

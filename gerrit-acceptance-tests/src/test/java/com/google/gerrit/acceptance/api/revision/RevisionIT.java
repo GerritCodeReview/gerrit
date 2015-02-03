@@ -170,6 +170,28 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickSameBranch() throws Exception {
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "master";
+    in.message = "it generates a new patch set";
+
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            "another_file.txt", "another content");
+    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+
+    ChangeApi orig = gApi.changes()
+        .id("p~master~" + r2.getChangeId());
+    ChangeApi cherry = orig.revision(r2.getCommit().name())
+        .cherryPick(in);
+    ChangeInfo cherryInfo = cherry.get();
+    assertThat((Iterable<?>)cherryInfo.messages).hasSize(1);
+    Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
+    assertThat(cherryIt.next().message).isEqualTo("Cherry picked as patch set 2.");
+  }
+
+  @Test
   public void cherryPickIdenticalTree() throws Exception {
     PushOneCommit.Result r = createChange();
     CherryPickInput in = new CherryPickInput();

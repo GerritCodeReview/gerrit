@@ -16,6 +16,24 @@
       "revId": "a2b953e4e13af691a7af8118ac6c667458805215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_8ac6cb9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T17:57:55Z",
+      "side": 1,
+      "message": "ObjectLoader does not implement the AutoClosable interface as it comes from JGit and not java itself. (I tried to have the lo and lt in try statement, did not work)",
+      "parentUuid": "375bc3e2_85ba82ee",
+      "revId": "a2b953e4e13af691a7af8118ac6c667458805215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

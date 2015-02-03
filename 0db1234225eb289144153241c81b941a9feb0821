@@ -150,6 +150,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_282debb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-03T22:47:55Z",
+      "side": 1,
+      "message": "\u003e I asked for a plugin repo to be created(events-log), I did not get it (I am still hoping to get it).\n\nPlease disregard this part of my comment, this plugin repo is now created",
+      "parentUuid": "972c6f7c_883b37fd",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 50
+      },
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5775973c_6e2defb8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 9

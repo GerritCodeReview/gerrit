@@ -152,4 +152,9 @@ public class SystemGroupBackend implements GroupBackend {
         ANONYMOUS_USERS,
         REGISTERED_USERS));
   }
+
+  @Override
+  public boolean isVisibleTo(AccountGroup.UUID uuid, IdentifiedUser user) {
+    return false;
+  }
 }

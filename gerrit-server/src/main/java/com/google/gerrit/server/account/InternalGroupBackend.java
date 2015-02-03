@@ -90,4 +90,13 @@ public class InternalGroupBackend implements GroupBackend {
   public GroupMembership membershipsOf(IdentifiedUser user) {
     return groupMembershipFactory.create(user);
   }
+
+  @Override
+  public boolean isVisibleTo(AccountGroup.UUID uuid, IdentifiedUser user) {
+    AccountGroup g = groupCache.get(uuid);
+    if (g != null) {
+      return g.isVisibleToAll();
+    }
+    return false;
+  }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5775973c_ae7197ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-03T00:59:00Z",
+      "side": 1,
+      "message": "This does not correspond to an issue on the gerrit issue tracker [1].\n\nIssues should be listed in the change footer in the form:\n\n Bug: Issue 1234\n\n[1] http://code.google.com/p/gerrit/issues/list",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "7bfb4df673cf785cfce10d2e6579781f54ef07fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

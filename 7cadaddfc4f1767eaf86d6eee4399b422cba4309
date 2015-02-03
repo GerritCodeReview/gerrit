@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_aaf2aff5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T19:07:39Z",
+      "side": 1,
+      "message": "That\u0027s true, it makes no sense. \n\nThinking of it now, would it make sense to condition it on !firstcall, so it we would only need one polling call in the background, where latency doesn\u0027t matter.\n\nThe way I understand the issue, we want to reduce latency for the rest of the change screen to load fast except for the buttons, because they take time due to database queries for the topic.\n\nOne disadvantage of putting it back together in one call in the background would be more sent data as when polling for the 2 different events with different callbacks, but we\u0027d have less queries from one client.",
+      "parentUuid": "972c6f7c_e8d59341",
+      "revId": "7cadaddfc4f1767eaf86d6eee4399b422cba4309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d73267d2_2ad87f77",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/UpdateCheckTimer.java",
         "patchSetId": 2

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7df6b54_eba0d13f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-03T16:45:59Z",
+      "side": 1,
+      "message": "unused variable, this results in a warning in Eclipse",
+      "range": {
+        "startLine": 178,
+        "startChar": 25,
+        "endLine": 178,
+        "endChar": 27
+      },
+      "revId": "7e8f15eb7eb00f1ff5c9e8ccb0d93db1800a384b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_8b382d6f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 5
@@ -13,6 +36,47 @@
       "writtenOn": "2015-02-03T12:58:27Z",
       "side": 1,
       "message": "I have no idea why, but here it doesn\u0027t find the previous change, then it creates a new one. Any ideas?",
+      "revId": "7e8f15eb7eb00f1ff5c9e8ccb0d93db1800a384b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_27ecda93",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-03T16:45:59Z",
+      "side": 1,
+      "message": "I believe this is because in the CherryPickInput you provide a commit message without Change-Id line, as result Gerrit will compute and insert a new Change-Id for the cherry-pick commit and searching changes by this new Change-Id returns no results.",
+      "parentUuid": "f7df6b54_8b382d6f",
+      "revId": "7e8f15eb7eb00f1ff5c9e8ccb0d93db1800a384b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_cba5154e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-03T16:45:59Z",
+      "side": 1,
+      "message": "actually it will be 2 messages",
+      "range": {
+        "startLine": 189,
+        "startChar": 49,
+        "endLine": 189,
+        "endChar": 60
+      },
       "revId": "7e8f15eb7eb00f1ff5c9e8ccb0d93db1800a384b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

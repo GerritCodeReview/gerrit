@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_4813ff82",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T21:13:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow.\n\nI think we need to poll both change and actions in the background. If the change is updated, the whole page reloads. If the actions are updated, just the action buttons reload. But the actions might be updated even if the change wasn\u0027t, so it has to be a separate call.",
+      "parentUuid": "d73267d2_aaf2aff5",
+      "revId": "7cadaddfc4f1767eaf86d6eee4399b422cba4309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d73267d2_2ad87f77",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/UpdateCheckTimer.java",
         "patchSetId": 2

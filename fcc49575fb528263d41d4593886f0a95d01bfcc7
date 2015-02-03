@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "770d3bbb_c7097ed7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-03T16:51:48Z",
+      "side": 1,
+      "message": "This may be a bug that the Change-Id must be specified here. Maybe Gerrit could recognize that it\u0027s a cherry-pick to the same branch and reuse the existing Change-Id automatically? But that\u0027s another story and another change :)",
+      "range": {
+        "startLine": 182,
+        "startChar": 50,
+        "endLine": 182,
+        "endChar": 81
+      },
+      "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

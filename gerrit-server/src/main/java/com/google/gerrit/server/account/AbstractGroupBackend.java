@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -22,5 +23,10 @@ public abstract class AbstractGroupBackend implements GroupBackend {
   @Override
   public boolean memberOfAny(IdentifiedUser user, Iterable<UUID> ids) {
     return membershipsOf(user).containsAnyOf(ids);
+  }
+
+  @Override
+  public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+    return false;
   }
 }

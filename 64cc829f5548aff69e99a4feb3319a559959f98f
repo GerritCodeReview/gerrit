@@ -249,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_6af997d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T20:06:38Z",
+      "side": 1,
+      "message": "Thinking about it further, why would we not send disabled but visible actions via the rest API? The action being disabled is a valuable information to have, though it may be harder for the client to check what is allowed to be done, i.e. in a script. Though as I\u0027d plan to use this feature in the web UI and want to give feedback to the users why you cannot submit, this is really needed to be exposed in the call.",
+      "parentUuid": "972c6f7c_88edf718",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_eb5211ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 10

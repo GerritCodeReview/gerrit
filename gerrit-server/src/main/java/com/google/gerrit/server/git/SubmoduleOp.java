@@ -207,11 +207,11 @@ public class SubmoduleOp {
           schema.submoduleSubscriptions().bySubmodule(updatedBranch).toList();
 
       if (!subscribers.isEmpty()) {
-        String msgbuf = msg;
-        if (msgbuf == null) {
-          // Initialize the message buffer
-          msgbuf = "";
-
+        // Initialize the message buffer
+        StringBuilder sb = new StringBuilder();
+        if (msg != null) {
+          sb.append(msg);
+        } else {
           // The first updatedBranch on a cascade event of automatic
           // updates of repos is added to updatedSubscribers set so
           // if we face a situation having
@@ -227,8 +227,8 @@ public class SubmoduleOp {
                 && (c.getStatusCode() == CommitMergeStatus.CLEAN_MERGE
                     || c.getStatusCode() == CommitMergeStatus.CLEAN_PICK
                     || c.getStatusCode() == CommitMergeStatus.CLEAN_REBASE)) {
-              msgbuf += "\n";
-              msgbuf += c.getFullMessage();
+              sb.append("\n")
+                .append(c.getFullMessage());
             }
           }
         }
@@ -246,7 +246,7 @@ public class SubmoduleOp {
 
             Map<Branch.NameKey, String> paths = new HashMap<>(1);
               paths.put(updatedBranch, s.getPath());
-              updateGitlinks(s.getSuperProject(), myRw, modules, paths, msgbuf);
+              updateGitlinks(s.getSuperProject(), myRw, modules, paths, sb.toString());
             }
           } catch (SubmoduleException e) {
               log.warn("Cannot update gitlinks for " + s + " due to " + e.getMessage());

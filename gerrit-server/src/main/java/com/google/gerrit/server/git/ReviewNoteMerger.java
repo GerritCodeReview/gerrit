@@ -67,12 +67,12 @@ class ReviewNoteMerger implements NoteMerger {
     ObjectLoader lo = reader.open(ours.getData());
     byte[] sep = new byte[] {'\n'};
     ObjectLoader lt = reader.open(theirs.getData());
-    UnionInputStream union = new UnionInputStream(
-        lo.openStream(),
-        new ByteArrayInputStream(sep),
-        lt.openStream());
-    ObjectId noteData = inserter.insert(Constants.OBJ_BLOB,
-        lo.getSize() + sep.length + lt.getSize(), union);
-    return new Note(ours, noteData);
+    try (ByteArrayInputStream b = new ByteArrayInputStream(sep);
+        UnionInputStream union = new UnionInputStream(
+        lo.openStream(), b, lt.openStream())) {
+      ObjectId noteData = inserter.insert(Constants.OBJ_BLOB,
+          lo.getSize() + sep.length + lt.getSize(), union);
+      return new Note(ours, noteData);
+    }
   }
 }

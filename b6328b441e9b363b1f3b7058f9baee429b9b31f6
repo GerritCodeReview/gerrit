@@ -16,6 +16,24 @@
       "revId": "b6328b441e9b363b1f3b7058f9baee429b9b31f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_abd769c1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T02:04:45Z",
+      "side": 1,
+      "message": "Why do you write two statements in the try block?\nJust surrounding the\n\n    OutputStream e \u003d ... (new ...)\n\nwith a try (...) would also work. I guess style issues?\n\ndone, nevertheless",
+      "parentUuid": "f7df6b54_ebb691bb",
+      "revId": "b6328b441e9b363b1f3b7058f9baee429b9b31f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

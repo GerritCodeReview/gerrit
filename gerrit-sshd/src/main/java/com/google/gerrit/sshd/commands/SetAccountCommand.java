@@ -307,17 +307,17 @@ final class SetAccountCommand extends SshCommand {
   private List<String> readSshKey(final List<String> sshKeys)
       throws UnsupportedEncodingException, IOException {
     if (!sshKeys.isEmpty()) {
-      String sshKey;
       int idx = sshKeys.indexOf("-");
       if (idx >= 0) {
-        sshKey = "";
+        StringBuilder sshKey = new StringBuilder();
         BufferedReader br =
             new BufferedReader(new InputStreamReader(in, "UTF-8"));
         String line;
         while ((line = br.readLine()) != null) {
-          sshKey += line + "\n";
+          sshKey.append(line)
+            .append("\n");
         }
-        sshKeys.set(idx, sshKey);
+        sshKeys.set(idx, sshKey.toString());
       }
     }
     return sshKeys;

@@ -138,6 +138,16 @@ public class GroupControl {
       || user.getCapabilities().canAdministrateServer();
   }
 
+  public boolean isVisible(GroupBackend groupBackend) {
+    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    return (accountGroup != null && accountGroup.isVisibleToAll())
+        || user instanceof InternalUser
+        || user.getEffectiveGroups().contains(group.getGroupUUID())
+        || isOwner()
+        || user.getCapabilities().canAdministrateServer()
+        || groupBackend.isVisibleTo(group.getGroupUUID(), (IdentifiedUser)user);
+  }
+
   public boolean isOwner() {
     AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
     if (accountGroup == null) {

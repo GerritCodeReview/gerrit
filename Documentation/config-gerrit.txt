@@ -2259,6 +2259,12 @@ perform a query.
 +
 By default, true, requiring the certificate to be verified.
 
+[[ldap.visibleToAll]]ldap.visibleToAll::
++
+If true the ldap groups will be visible to all users.
++
+By default, false, the ldap groups will be visible only to admins and members.
+
 [[ldap.username]]ldap.username::
 +
 _(Optional)_ Username to bind to the LDAP server with.  If not set,

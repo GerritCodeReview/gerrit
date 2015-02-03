@@ -33,6 +33,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.auth.ldap.LdapGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -91,8 +92,14 @@ public class GroupsCollection implements
       throw new ResourceNotFoundException(id.get());
     }
     GroupControl ctl = groupControlFactory.controlFor(group);
-    if (!ctl.isVisible()) {
-      throw new ResourceNotFoundException(id);
+    if (group.getClass().getEnclosingClass().equals(LdapGroupBackend.class)) {
+      if (!ctl.isVisible(groupBackend)) {
+        throw new ResourceNotFoundException(id);
+      }
+    } else {
+      if (!ctl.isVisible()) {
+        throw new ResourceNotFoundException(id);
+      }
     }
     return new GroupResource(ctl);
   }
@@ -109,9 +116,20 @@ public class GroupsCollection implements
   public GroupDescription.Basic parse(String id)
       throws UnprocessableEntityException {
     GroupDescription.Basic group = parseId(id);
-    if (group == null || !groupControlFactory.controlFor(group).isVisible()) {
+    if (group == null) {
       throw new UnprocessableEntityException(String.format(
           "Group Not Found: %s", id));
+    }
+    if (group.getClass().getEnclosingClass().equals(LdapGroupBackend.class)) {
+      if (!groupControlFactory.controlFor(group).isVisible(groupBackend)) {
+        throw new UnprocessableEntityException(String.format(
+            "Group Not Found: %s", id));
+      }
+    } else {
+      if (!groupControlFactory.controlFor(group).isVisible()) {
+        throw new UnprocessableEntityException(String.format(
+            "Group Not Found: %s", id));
+      }
     }
     return group;
   }

@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
@@ -89,5 +90,10 @@ public class InternalGroupBackend implements GroupBackend {
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
     return groupMembershipFactory.create(user);
+  }
+
+  @Override
+  public boolean isVisibleTo(UUID uuid, IdentifiedUser user) {
+    return true;
   }
 }

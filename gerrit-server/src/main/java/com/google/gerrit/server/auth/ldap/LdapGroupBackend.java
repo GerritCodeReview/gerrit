@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -249,5 +250,10 @@ public class LdapGroupBackend implements GroupBackend {
       log.warn("Cannot query LDAP for groups matching requested name", e);
     }
     return out;
+  }
+
+  @Override
+  public boolean isVisibleTo(UUID uuid, IdentifiedUser user) {
+    return helper.isLdapGroupsVisibleToAll();
   }
 }

@@ -26,7 +26,9 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.auth.ldap.LdapGroupBackend;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -184,5 +186,15 @@ public class UniversalGroupBackend implements GroupBackend {
       }
       return groups;
     }
+  }
+
+  @Override
+  public boolean isVisibleTo(UUID uuid, IdentifiedUser user) {
+    for (GroupBackend g : backends) {
+      if (g instanceof LdapGroupBackend) {
+        return ((LdapGroupBackend)g).isVisibleTo(uuid, user);
+      }
+    }
+    return false;
   }
 }

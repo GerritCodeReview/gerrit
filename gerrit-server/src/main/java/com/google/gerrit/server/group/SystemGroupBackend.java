@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
@@ -151,5 +152,10 @@ public class SystemGroupBackend implements GroupBackend {
     return new ListGroupMembership(ImmutableSet.of(
         ANONYMOUS_USERS,
         REGISTERED_USERS));
+  }
+
+  @Override
+  public boolean isVisibleTo(UUID uuid, IdentifiedUser user) {
+    return true;
   }
 }

@@ -135,7 +135,8 @@ public class GroupControl {
       || user instanceof InternalUser
       || user.getEffectiveGroups().contains(group.getGroupUUID())
       || isOwner()
-      || user.getCapabilities().canAdministrateServer();
+      || group.getName().startsWith("ldap/") ? true :
+        user.getCapabilities().canAdministrateServer();
   }
 
   public boolean isOwner() {

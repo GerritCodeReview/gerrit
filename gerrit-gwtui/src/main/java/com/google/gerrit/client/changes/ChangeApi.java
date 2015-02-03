@@ -91,6 +91,13 @@ public class ChangeApi {
     detail(id).get(cb);
   }
 
+  public static RestApi actions(int id, String revision) {
+    if (revision == null || revision.equals("")) {
+      revision = "current";
+    }
+    return call(id, revision, "actions");
+  }
+
   public static RestApi detail(int id) {
     return call(id, "detail");
   }

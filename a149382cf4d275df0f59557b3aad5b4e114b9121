@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_07d2f6d5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 44
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-03T14:03:37Z",
+      "side": 1,
+      "message": "Sounds great to add more documentation to make the initial setup easier!\n\nRegarding the endless redirect loop when the Authorization callback URL is misconfigured in GitHub, is documentation enough, or should we handle \u0027/login?error\u003dMSG\u0027 in the code so that it results in a proper error log entry?",
+      "parentUuid": "f7df6b54_0b179de6",
+      "range": {
+        "startLine": 157,
+        "startChar": 50,
+        "endLine": 157,
+        "endChar": 77
+      },
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_cb3ab5c8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
         "patchSetId": 44

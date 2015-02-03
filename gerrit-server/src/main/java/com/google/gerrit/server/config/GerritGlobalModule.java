@@ -88,6 +88,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.GroupMembersRetrieval;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.auth.AuthBackend;
@@ -365,6 +366,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);
+    DynamicSet.setOf(binder(), GroupMembersRetrieval.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     install(new GitwebConfig.LegacyModule(cfg));

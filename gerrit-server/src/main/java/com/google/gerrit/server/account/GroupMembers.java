@@ -16,11 +16,13 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -44,17 +46,20 @@ public class GroupMembers {
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
   private final CurrentUser currentUser;
+  private final DynamicSet<GroupMembersRetrieval> membersProviders;
 
   @Inject
   GroupMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
       final AccountCache accountCache,
       final ProjectControl.GenericFactory projectControl,
+      DynamicSet<GroupMembersRetrieval> membersProviders,
       @Assisted final CurrentUser currentUser) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
+    this.membersProviders = membersProviders;
     this.currentUser = currentUser;
   }
 
@@ -74,7 +79,7 @@ public class GroupMembers {
     if (group != null) {
       return getGroupMembers(group, project, seen);
     }
-    return Collections.emptySet();
+    return getExternalGroupMembers(groupUUID, project);
   }
 
   private Set<Account> getProjectOwners(final Project.NameKey project,
@@ -118,6 +123,17 @@ public class GroupMembers {
         if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
           members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
         }
+      }
+    }
+    return members;
+  }
+
+  private Set<Account> getExternalGroupMembers(AccountGroup.UUID groupUUID, NameKey project)
+      throws NoSuchGroupException, NoSuchProjectException {
+    Set<Account> members = new HashSet<>();
+    for (GroupMembersRetrieval membersProvider : membersProviders) {
+      if (membersProvider.handles(groupUUID)) {
+        members.addAll(membersProvider.get(groupUUID, project));
       }
     }
     return members;

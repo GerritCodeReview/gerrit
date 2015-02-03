@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_abc08900",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/WarDistribution.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T01:32:57Z",
+      "side": 1,
+      "message": "Should be a try-with-resources block.",
+      "revId": "e8e0c7a955c55d3676cbc387d211e8cc209f176b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

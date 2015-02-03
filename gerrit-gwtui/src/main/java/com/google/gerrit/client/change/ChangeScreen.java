@@ -239,19 +239,53 @@ public class ChangeScreen extends Screen {
           public void onSuccess(ChangeInfo info) {
             info.init();
             loadConfigInfo(info, base);
+            loadRevisionActionInfo(info);
           }
         }));
   }
 
-  void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
+  void loadChangeInfo(boolean firstCall, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
-      ListChangesOption.CURRENT_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
-    if (!fg) {
+        ListChangesOption.CHANGE_ACTIONS,
+        ListChangesOption.ALL_REVISIONS));
+    if (!firstCall) {
+      ChangeList.addOptions(call, EnumSet.of(
+      ListChangesOption.CURRENT_ACTIONS));
       call.background();
     }
     call.get(cb);
+  }
+
+  void loadRevisionActionInfo(final ChangeInfo info) {
+    RestApi call = ChangeApi.actions(changeId.get(), revision);
+    call.background();
+    call.get(new GerritCallback<NativeMap<ActionInfo>>() {
+      @Override
+      public void onSuccess(NativeMap<ActionInfo> result) {
+        actions.initRevisionActions(info, revision, result);
+        final boolean touchStatusText = result.containsKey("submit")
+            && info.status() == Change.Status.NEW;
+        if (touchStatusText) {
+          statusText.setInnerText(info.mergeable()
+              ? Util.C.readyToSubmit()
+              : Util.C.mergeConflict());
+          setVisible(notMergeable, !info.mergeable());
+        }
+        ChangeApi.revision(changeId.get(), revision)
+        .view("submit_type")
+        .get(new AsyncCallback<NativeString>() {
+          @Override
+          public void onSuccess(NativeString result) {
+            renderSubmitType(result.asString());
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        });
+      }
+    });
   }
 
   @Override
@@ -914,36 +948,6 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
-    if (canSubmit) {
-      actions.setSubmitEnabled();
-      if (status == Change.Status.NEW) {
-        statusText.setInnerText(Util.C.readyToSubmit());
-      }
-    }
-    ChangeApi.revision(changeId.get(), revision)
-      .view("submit_type")
-      .get(new AsyncCallback<NativeString>() {
-        @Override
-        public void onSuccess(NativeString result) {
-          if (canSubmit) {
-            if (status == Change.Status.NEW) {
-              statusText.setInnerText(changeInfo.mergeable()
-                  ? Util.C.readyToSubmit()
-                  : Util.C.mergeConflict());
-            }
-          }
-          setVisible(notMergeable, !changeInfo.mergeable());
-
-          renderSubmitType(result.asString());
-        }
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
-  }
-
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
     RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision,
         info.current_revision());
@@ -996,31 +1000,6 @@ public class ChangeScreen extends Screen {
       }
     }
     return revOrId != null ? info.revision(revOrId) : null;
-  }
-
-  private boolean isSubmittable(ChangeInfo info) {
-    boolean canSubmit = info.status().isOpen();
-    if (canSubmit && info.status() == Change.Status.NEW) {
-      for (String name : info.labels()) {
-        LabelInfo label = info.label(name);
-        switch (label.status()) {
-          case NEED:
-            statusText.setInnerText("Needs " + name);
-            canSubmit = false;
-            break;
-          case REJECT:
-          case IMPOSSIBLE:
-            if (label.blocking()) {
-              statusText.setInnerText("Not " + name);
-              canSubmit = false;
-            }
-            break;
-          default:
-            break;
-          }
-      }
-    }
-    return canSubmit;
   }
 
   private void renderChangeInfo(ChangeInfo info) {
@@ -1083,7 +1062,6 @@ public class ChangeScreen extends Screen {
 
     if (current) {
       quickApprove.set(info, revision, replyAction);
-      loadSubmitType(info.status(), isSubmittable(info));
     } else {
       quickApprove.setVisible(false);
       setVisible(strategy, false);
@@ -1201,6 +1179,7 @@ public class ChangeScreen extends Screen {
     if (!updateAvailable.isAttached()) {
       add(updateAvailable);
     }
+    loadRevisionActionInfo(newInfo);
   }
 
   private void startPoller() {

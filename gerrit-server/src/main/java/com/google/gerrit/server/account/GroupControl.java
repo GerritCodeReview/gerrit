@@ -45,7 +45,7 @@ public class GroupControl {
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(who, group);
+      return new GroupControl(who, group, groupBackend);
     }
   }
 
@@ -85,7 +85,7 @@ public class GroupControl {
     }
 
     public GroupControl controlFor(GroupDescription.Basic group) {
-      return new GroupControl(user.get(), group);
+      return new GroupControl(user.get(), group, groupBackend);
     }
 
     public GroupControl validateFor(final AccountGroup.Id groupId)
@@ -110,14 +110,20 @@ public class GroupControl {
   private final CurrentUser user;
   private final GroupDescription.Basic group;
   private Boolean isOwner;
+  private final GroupBackend groupBackend;
 
-  GroupControl(CurrentUser who, GroupDescription.Basic gd) {
+  GroupControl(CurrentUser who, GroupDescription.Basic gd, GroupBackend gb) {
     user = who;
     group =  gd;
+    groupBackend = gb;
   }
 
   public GroupDescription.Basic getGroup() {
     return group;
+  }
+
+  public GroupBackend getGroupBackend() {
+    return groupBackend;
   }
 
   public CurrentUser getCurrentUser() {
@@ -126,16 +132,15 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
-    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
     /* Check for canAdministrateServer may seem redundant, but allows
      * for visibility of all groups that are not an internal group to
      * server administrators.
      */
-    return (accountGroup != null && accountGroup.isVisibleToAll())
-      || user instanceof InternalUser
+    return user instanceof InternalUser
       || user.getEffectiveGroups().contains(group.getGroupUUID())
       || isOwner()
-      || user.getCapabilities().canAdministrateServer();
+      || user.getCapabilities().canAdministrateServer()
+      || groupBackend.isVisibleTo(group.getGroupUUID(), (IdentifiedUser)user);
   }
 
   public boolean isOwner() {

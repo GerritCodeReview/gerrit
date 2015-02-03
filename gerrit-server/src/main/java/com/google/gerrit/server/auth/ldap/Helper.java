@@ -70,6 +70,7 @@ import javax.security.auth.login.LoginException;
   private final String readTimeoutMillis;
   private final String connectTimeoutMillis;
   private final boolean useConnectionPooling;
+  private final boolean groupsVisibleToAll;
 
   @Inject
   Helper(@GerritServerConfig final Config config,
@@ -81,6 +82,7 @@ import javax.security.auth.login.LoginException;
     this.password = LdapRealm.optional(config, "password", "");
     this.referral = LdapRealm.optional(config, "referral", "ignore");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
+    this.groupsVisibleToAll = config.getBoolean("ldap", "groupsVisibleToAll", false);
     this.authentication =
         LdapRealm.optional(config, "authentication", "simple");
     String readTimeout = LdapRealm.optional(config, "readTimeout");
@@ -300,6 +302,10 @@ import javax.security.auth.login.LoginException;
         recursivelyExpandGroups(groupDNs, schema, ctx, dn);
       }
     }
+  }
+
+  public boolean isLdapGroupsVisibleToAll() {
+    return this.groupsVisibleToAll;
   }
 
   class LdapSchema {

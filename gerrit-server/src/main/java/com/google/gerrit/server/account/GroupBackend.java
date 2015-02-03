@@ -50,4 +50,9 @@ public interface GroupBackend {
 
   /** @return the group membership checker for the backend. */
   GroupMembership membershipsOf(IdentifiedUser user);
+
+  /** @return {@code true} if the group with the given UUID is visble to the
+   * given user.
+   */
+  boolean isVisibleTo(AccountGroup.UUID uuid, IdentifiedUser user);
 }

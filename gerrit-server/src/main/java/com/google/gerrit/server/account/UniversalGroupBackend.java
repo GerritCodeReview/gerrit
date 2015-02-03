@@ -185,4 +185,14 @@ public class UniversalGroupBackend implements GroupBackend {
       return groups;
     }
   }
+
+  @Override
+  public boolean isVisibleTo(AccountGroup.UUID uuid, IdentifiedUser user) {
+    for (GroupBackend g : backends) {
+      if (g.handles(uuid)) {
+        return g.isVisibleTo(uuid, user);
+      }
+    }
+    return false;
+  }
 }

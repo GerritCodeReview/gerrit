@@ -250,4 +250,9 @@ public class LdapGroupBackend implements GroupBackend {
     }
     return out;
   }
+
+  @Override
+  public boolean isVisibleTo(AccountGroup.UUID uuid, IdentifiedUser user) {
+    return helper.isLdapGroupsVisibleToAll();
+  }
 }

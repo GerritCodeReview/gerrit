@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_0b6e7d64",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-02-03T10:13:58Z",
+      "side": 1,
+      "message": "Doesn\u0027t compile. Need to import ChangeMessageInfo",
+      "revId": "b93ae12224433e3e64fa623b3728033bae73ee90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_6bcbc124",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T01:33:18Z",
+      "side": 1,
+      "message": "Should be a try-with-resources block.",
+      "revId": "8c19d858ab05a3ed6d9280f6daf66791865d186f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

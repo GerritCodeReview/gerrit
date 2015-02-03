@@ -126,6 +126,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_883b37fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-03T21:46:54Z",
+      "side": 1,
+      "message": "\u003e So, would a plugin approach make more sense here? What would be needed to support a feature like this with a plugin?\n\nI tried this approach before submitting this change so I reworked the LocalDiskRepositoryManager in a way that it can be extended and I implemented a plugin that provides a class that extends LocalDiskRepositoryManager to add support for multiple repository location.\n\nThe only problem I saw with the plugin approach is the changes I had to do in the core were kind of harder to understand than if I code this feature directly in the core. That said, I could give it another try but it would be easier to get the core change accepted if I also contribute the plugin to help people understand the change in the core but the last time I asked for a plugin repo to be created(events-log), I did not get it (I am still hoping to get it).\n\n\nSo, would you like me to do this in a plugin? if yes I would like to get the plugin repo created so I can submit the plugin as well to help support the change in the core.\n\nI am not sure about the name but I will wait for your answer before we discuss the name.",
+      "parentUuid": "5775973c_ae3af7f4",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 50
+      },
+      "revId": "0db1234225eb289144153241c81b941a9feb0821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5775973c_6e2defb8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 9

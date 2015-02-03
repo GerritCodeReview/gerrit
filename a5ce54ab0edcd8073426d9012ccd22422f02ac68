@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_8aedeb18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T19:02:59Z",
+      "side": 1,
+      "message": "This is no good. I count 7 /revisions requests to serve the change screen; we can\u0027t be doing this ETag computation for every single one of them, when the only one that we actually care about is /revisions/X/actions.\n\nIt\u0027s possible (read: likely) that the REST API glue only knows how to handle HasETag on a RestResource, not on a RestReadView. We need to fix that.",
+      "revId": "a5ce54ab0edcd8073426d9012ccd22422f02ac68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

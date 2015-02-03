@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_ab81a995",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1893,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T18:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_c764deb2",
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_cb57559a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 10
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_0700b6a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T18:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_cb57559a",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_6b67418b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 10
@@ -53,6 +95,30 @@
       "writtenOn": "2015-02-03T10:43:08Z",
       "side": 1,
       "message": "Revisions is singleton itself. So this class doesn\u0027t have any state and can be also singleton.",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 25
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_8b86eda9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T18:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_6b67418b",
       "range": {
         "startLine": 29,
         "startChar": 16,
@@ -111,6 +177,54 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_cad0c354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T18:06:49Z",
+      "side": 1,
+      "message": "Thanks a lot for pointing out how to test this. I will include a test in the next revision of this change.\n\nI do not quite understand how the UiAction.Description() broke down by that change. I\u0027ll try to play around with that and understand it. Are you hinting at the .setVisible(true);\nas opposed to .setVisible(\u003cvariable\u003e) being different there?",
+      "parentUuid": "f7df6b54_ab5c09bf",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_e72b622a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T18:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_e7b6c2bb",
+      "range": {
+        "startLine": 27,
+        "startChar": 43,
+        "endLine": 27,
+        "endChar": 44
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_eb5211ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 10
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "770d3bbb_a7256a55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T18:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_eb5211ac",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_8b614d79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 10
@@ -145,6 +283,30 @@
       "writtenOn": "2015-02-03T10:43:08Z",
       "side": 1,
       "message": "All these exceptions are unsed. \"Exception\" is never used in real code, only in unit tests.",
+      "range": {
+        "startLine": 36,
+        "startChar": 52,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770d3bbb_c7305e99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T18:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_8b614d79",
       "range": {
         "startLine": 36,
         "startChar": 52,

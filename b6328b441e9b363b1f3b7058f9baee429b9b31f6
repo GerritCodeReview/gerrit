@@ -34,6 +34,24 @@
       "revId": "b6328b441e9b363b1f3b7058f9baee429b9b31f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5775973c_4e5ef32e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T02:37:30Z",
+      "side": 1,
+      "message": "\u003e Just surrounding the\n\u003e     OutputStream e \u003d ... (new ...)\n\u003e with a try (...) would also work. I guess style issues?\n\nIt would work in the sense of writing out the padding, but it wouldn\u0027t close e in the case of error, and wouldn\u0027t prevent a resource leak if there were an actual resource opened.\n\nThe block I wrote is roughly equivalent to:\n\n OutputStreamWriter w \u003d ...\n try {\n   OutputStream e \u003d ...\n   try {\n     ...\n   } finally {\n     e.close();\n   }\n } finally {\n   w.close();\n }\n\nYou can see why putting more assignments in the try-with-resources scales better here.",
+      "parentUuid": "f7df6b54_abd769c1",
+      "revId": "b6328b441e9b363b1f3b7058f9baee429b9b31f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

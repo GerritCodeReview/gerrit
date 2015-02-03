@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_0b179de6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 44
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-03T08:48:28Z",
+      "side": 1,
+      "message": "Will dedicate another patch-set with a revamped documentation / instructions material for easing the first-time-install-pain :-)",
+      "parentUuid": "770d3bbb_07743663",
+      "range": {
+        "startLine": 157,
+        "startChar": 50,
+        "endLine": 157,
+        "endChar": 77
+      },
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_cb3ab5c8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
         "patchSetId": 44
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Let me reproduce the problem and fix it in the next patch-set.",
       "parentUuid": "f7df6b54_cb3ab5c8",
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_2b1a5910",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-03T08:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_0b00bda1",
       "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -131,6 +173,30 @@
     },
     {
       "key": {
+        "uuid": "f7df6b54_4b1da506",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-03T08:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770d3bbb_e75fe2db",
+      "range": {
+        "startLine": 75,
+        "startChar": 15,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_07ac36b2",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
         "patchSetId": 44
@@ -160,6 +226,24 @@
       "side": 1,
       "message": "Yes, it is now overkill and can be removed.",
       "parentUuid": "770d3bbb_07ac36b2",
+      "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_6b206142",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-03T08:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7df6b54_eb2b312a",
       "revId": "a149382cf4d275df0f59557b3aad5b4e114b9121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

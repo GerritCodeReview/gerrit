@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5775973c_ae48b770",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-03T02:10:20Z",
+      "side": 1,
+      "message": "I think it would be better to use an explicit link to the issue, because otherwise the commentlink automatically links to the gerrit issue tracker and results in a 404 (or potentially a completely different issue).\n\nOr maybe it\u0027s better to not link the issue at all, since it\u0027s only actually visible to people who are members of the project on coverity.com?",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "11b9abb15540444c30cf308c6fa60ed2053ac3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7df6b54_ebb691bb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T01:32:35Z",
+      "side": 1,
+      "message": "This is interesting. I had to actually look at the implementation of StandardBaseEncoding to see that close() is not a no-op (or just a wrapper for flush()). It writes out any pending padding. As far as being a leak, it\u0027s a false positive, as neither the stream nor the writer actually holds on to any resources besides a buffer that gets GCed.\n\nI\u0027m not opposed to fixing this, since some libraries are picky about padding.\n\nThat said, the fix should actually be:\n\n try (OutputStreamWriter w \u003d new OutputStreamWriter(out, ISO_8859_1);\n     OutputStream e \u003d BaseEncoding.base64().encodingStream(w)) {\n   src.writeTo(e);\n   e.flush();\n }",
+      "revId": "b6328b441e9b363b1f3b7058f9baee429b9b31f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
@@ -56,7 +55,6 @@ public class ComplexDisclosurePanel extends Composite implements
       {
         setElement((Element)(DOM.createTD()));
         getElement().setInnerHTML("&nbsp;");
-        addStyleName(Gerrit.RESOURCES.css().complexHeader());
       }
 
       @Override

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_0a301b13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T22:20:46Z",
+      "side": 1,
+      "message": "You don\u0027t have to respond now but here are some thoughts for when you do.\n\nThe downside of that approach is that in the short term it changes the exception types thrown within libraries deep in the stack.\n\nThink about things like MergeUtil: right now they throw JGit exceptions or NoSuchChangeExceptions or what have you.\nIdeally we convert all of those to take BatchUpdates as args, and add ops to the BatchUpdate. Those ops need to throw *something*. Should we just convert them to use exceptions understood by RestApiHandler? I\u0027m not convinced that\u0027s always a good idea. For example, one might naively convert NoSuchChangeException from a library call into ResourceNotFoundException. But the translation is not always that simple: sometimes NoSuchChangeException should 404, yes, but if we\u0027re doing something more complicated like trying to submit all changes in a topic from a single handler, a NoSuchChangeException should probably 500.\n\nMaybe we should throw something other than a NoSuchChangeException from that library call. But that\u0027s not always an option, like when the library in question is JGit.\n\nBottom line is exceptions have to be translated somewhere, unfortunately. The main advantage of doing it at the topmost level is that there are only relatively few \"topmost\" handlers, as opposed to translating them all when the ops are created. Of course, then you still run into problems like the one above.\n\nMight just be there\u0027s no good answer.",
+      "parentUuid": "5726779d_a6f2e6f5",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 385,
+        "endChar": 5
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_5fb12b12",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1
@@ -363,6 +387,24 @@
       "writtenOn": "2015-02-03T22:08:54Z",
       "side": 1,
       "message": "Stupid question, should we defer this until after we executeChangeOps()?\n\nThat way someone watching this can see the database state match the ref state.",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_2a2ddfb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T22:20:46Z",
+      "side": 1,
+      "message": "I thought that to, and at one point actually had a TODO in here about it, but that\u0027s not the way most callers work now. Both CherryPick and PachSetInserter (including prior to this change) fire the ref update event as soon as it happens.\n\nI can see the argument both ways, honestly.",
+      "parentUuid": "3c21e895_b5e3e02c",
       "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

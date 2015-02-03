@@ -22,6 +22,30 @@
       "revId": "11b9abb15540444c30cf308c6fa60ed2053ac3ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7df6b54_2bec9993",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T02:24:09Z",
+      "side": 1,
+      "message": "I am not sure if we can configure it such that you don\u0027t need to login to view the issues (would be my preference, so it\u0027s easier to reach a broader audience). \n\nA commit message should contain all the information ideally. So I\u0027d personally not mind if there is additional information, which is easy to ignore.\n\nI am not sure if you can link to a specific issue, so I did not even try.\n\nI\u0027ll leave this open until tomorrow, so other people can have an opinion on that as well. Then I\u0027d probably just remove the link to coverity?",
+      "parentUuid": "5775973c_ae48b770",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "11b9abb15540444c30cf308c6fa60ed2053ac3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

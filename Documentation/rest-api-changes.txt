@@ -281,8 +281,15 @@ default. Optional fields are:
 [[actions]]
 --
 * `CURRENT_ACTIONS`: include information on available actions
-  for the change and its current revision. The caller must be
-  authenticated to obtain the available actions.
+  for the change and its current revision. Ignored if the caller
+  is not authenticated.
+--
+
+[[change-actions]]
+--
+* `CHANGE_ACTIONS`: include information on available
+  change actions for the change. Ignored if the caller
+  is not authenticated.
 --
 
 [[reviewed]]

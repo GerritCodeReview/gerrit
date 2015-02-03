@@ -2172,7 +2172,8 @@ a new project.
 |Field Name                  ||Description
 |`name`                      |optional|
 The name of the project (not encoded). +
-If set, must match the project name in the URL.
+If set, must match the project name in the URL. +
+If name ends with `.git` the suffix will be automatically removed.
 |`parent`                    |optional|
 The name of the parent project. +
 If not set, the `All-Projects` project will be the parent project.

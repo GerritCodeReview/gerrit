@@ -1857,6 +1857,44 @@ describes the revision.
 Adding query parameter `links` (for example `/changes/.../commit?links`)
 returns a link:#commit-info[CommitInfo] with the additional field `web_links`.
 
+[[get-revision-actions]]
+=== Get Revision Actions
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/actions'
+--
+
+Retrieves revision link:#action-info[actions] of the revision of a change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/actions' HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+{
+  "submit": {
+    "method": "POST",
+    "label": "Submit whole topic",
+    "title": "Other changes in this topic are not ready"
+  },
+  "cherrypick": {
+    "method": "POST",
+    "label": "Cherry Pick",
+    "title": "Cherry pick change to a different branch",
+    "enabled": true
+  }
+}
+----
+
+The response is a flat map of possible revision actions mapped to their
+link:#action-info[ActionInfo].
+
 [[get-review]]
 === Get Review
 --

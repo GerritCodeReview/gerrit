@@ -34,6 +34,24 @@
       "revId": "a2b953e4e13af691a7af8118ac6c667458805215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ead58741",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T18:50:27Z",
+      "side": 1,
+      "message": "Right, but ObjectLoader#openStream() returns an ObjectStream which is AutoCloseable.\n\n try (ObjectStream os \u003d lo.openStream();\n     ByteArrayInputStream b \u003d new ByteArrayInputStream(sep);\n     ObjectStream ts \u003d lt.openStream();\n     UnionInputStream union \u003d new UnionInputStream(os, b, ts)) {",
+      "parentUuid": "d73267d2_8ac6cb9c",
+      "revId": "a2b953e4e13af691a7af8118ac6c667458805215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -90,4 +90,10 @@ public class InternalGroupBackend extends AbstractGroupBackend {
   public GroupMembership membershipsOf(IdentifiedUser user) {
     return groupMembershipFactory.create(user);
   }
+
+  @Override
+  public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+    GroupDescription.Internal g = get(uuid);
+    return g != null && g.getAccountGroup().isVisibleToAll();
+  }
 }

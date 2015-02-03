@@ -206,4 +206,14 @@ public class UniversalGroupBackend extends AbstractGroupBackend {
       return groups;
     }
   }
+
+  @Override
+  public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+    for (GroupBackend g : backends) {
+      if (g.handles(uuid)) {
+        return g.isVisibleToAll(uuid);
+      }
+    }
+    return false;
+  }
 }

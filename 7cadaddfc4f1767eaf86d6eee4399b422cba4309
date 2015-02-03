@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_0adbbb76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T18:58:22Z",
+      "side": 1,
+      "message": "/revision/\u003cid\u003e/",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "7cadaddfc4f1767eaf86d6eee4399b422cba4309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_e8d59341",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T18:58:22Z",
+      "side": 1,
+      "message": "Why add CURRENT_ACTIONS here? I thought the point was to not load revision actions at all in the /changes/X/detail call, since they may be stale.",
+      "revId": "7cadaddfc4f1767eaf86d6eee4399b422cba4309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_2ad87f77",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/UpdateCheckTimer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T18:58:22Z",
+      "side": 1,
+      "message": "It\u0027s not immediately obvious why this call needs to happen on the timer, whereas all other REST API calls (file list, etc.) do not. The reason of course is that those are all triggered by the change being modified, whereas the action map may change even if the change itself was not modified. IOW all the stuff we\u0027ve already talked about. But there should be a comment here reminding us :)",
+      "revId": "7cadaddfc4f1767eaf86d6eee4399b422cba4309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_4ae5b32e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/UpdateCheckTimer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T18:58:22Z",
+      "side": 1,
+      "message": "Factor this out?",
+      "revId": "7cadaddfc4f1767eaf86d6eee4399b422cba4309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

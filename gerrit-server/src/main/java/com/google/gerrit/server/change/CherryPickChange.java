@@ -209,7 +209,7 @@ public class CherryPickChange {
     final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
     PatchSet current = db.get().patchSets().get(change.currentPatchSetId());
     inserter
-      .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
+      .setMessage("Cherry picked as patch set " + newPatchSetId.get() + ".")
       .setDraft(current.isDraft())
       .setUploader(identifiedUser.getAccountId())
       .insert();

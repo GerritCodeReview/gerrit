@@ -23,4 +23,9 @@ public abstract class AbstractGroupBackend implements GroupBackend {
   public boolean memberOfAny(IdentifiedUser user, Iterable<AccountGroup.UUID> ids) {
     return membershipsOf(user).containsAnyOf(ids);
   }
+
+  @Override
+  public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+    return false;
+  }
 }

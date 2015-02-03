@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3c21e895_95e0e420",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "Ack. I think eventually hoisting this into the callers is the right thing to do longer term. For a reviewable change now, having the conditionals inside PatchSetInserter is fine.",
+      "parentUuid": "372663b6_cd880938",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 9
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "372663b6_ad85bd1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 1
@@ -83,6 +107,30 @@
       "writtenOn": "2015-01-28T23:19:53Z",
       "side": 1,
       "message": "This will disappear. Kind of. I\u0027m not 100% sure yet. What I have here is what\u0027s needed to keep the existing behavior of PatchSetInserter, but obviously we don\u0027t want every BatchUpdate caller to have to do all those checks.\n\nI see a few options, which we can mix and match:\n\n* Let UpdateException bubble up where we\u0027re not actually getting any benefit from unwrapping (e.g. IOException/OrmException).\n* For exception types that are understood by RestApiServlet.java:346, unwrap and rethrow them inside the preceding catch block. That allows *Op writers to trigger specific HTTP error codes, without requiring unwrapping at the execute site.\n* For exception types that are immediately wrapped and rethrown as REST API exceptions, change the *Ops _either_ to throw those exception types directly, or have the callers that are already doing the rewrapping also unwrap UpdateException first. For example, see CherryPick.java:91, which is one of the callers of PatchSetInserter. If we changed *Op to throw BadRequestException, we could drop the InvalidChangeOperationException. Alternatively, we could change CherryPick\u0027s catch block to:\n\n } catch (UpdateException e) {\n   if (e.getCause() instanceof InvalidChangeOperationException ) {\n     throw new BadRequestException(e.getCause().getMessage());\n   } else ...\n\n* Use some sort of structured return value other than exceptions, and have a higher-level handler like RestApiServlet interpret those. (This is the option I\u0027ve thought through the least.)",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 385,
+        "endChar": 5
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_a6f2e6f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "I don\u0027t know I can form an opinion right now.\n\nAllowing the callers in REST API handlers to not write catch blocks would be preferred. Which means BatchRefUpdate.execute() throws types understood by RestApiServlet.",
+      "parentUuid": "372663b6_ad85bd1d",
       "range": {
         "startLine": 370,
         "startChar": 6,
@@ -111,6 +159,29 @@
         "startChar": 9,
         "endLine": 70,
         "endChar": 24
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_75c668a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "Consider either Runnable (no checked exceptions) or Callable (checked exceptions) instead. These are far more common in the platform and libraries and can be much more composable than declaring your own almost sorta type.\n\nIf you use Callable just document that the return value is discarded.",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 40
       },
       "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -183,6 +254,115 @@
         "endLine": 134,
         "endChar": 20
       },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_e6d5be41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "one per line happens because very often these things become kitchen sinks and we add more objects to the constructor later. when they are not line wrapped we have to reflow and it can be harder to see what the delta is.\n\ni don\u0027t care very much either way. but the longer the constructor\u0027s arg list is, the higher odds it grows later. or so it seems to me.",
+      "parentUuid": "b76333f1_e95df531",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 20
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_55cb6ca5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "Consider Builder style and return this?",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_35d0f051",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "return this?",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_15d5f441",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "return this?",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_f5d9587c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "make this a field and just add a builder style method to set it false?",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_b5e3e02c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-03T22:08:54Z",
+      "side": 1,
+      "message": "Stupid question, should we defer this until after we executeChangeOps()?\n\nThat way someone watching this can see the database state match the ref state.",
       "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_88edf718",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-03T19:36:52Z",
+      "side": 1,
+      "message": "I think what you\u0027re trying to say is this. When querying a  newly created change, you\u0027d get\n\n)]}\u0027\n{\n  \"submit\": {\n    \"method\": \"POST\",\n    \"label\": \"Submit whole topic\",\n    \"title\": \"Other changes in this topic are not ready\"\n  },\n  \"cherrypick\": {\n    \"method\": \"POST\",\n    \"label\": \"Cherry Pick\",\n    \"title\": \"Cherry pick change to a different branch\",\n    \"enabled\": true\n  }\n}\n\nThe submit should not be there (it\u0027s missing an enabled:true, but that\u0027s not what it used to be historically), so you\u0027d rather expect:\n\n)]}\u0027\n{\n  \"cherrypick\": {\n    \"method\": \"POST\",\n    \"label\": \"Cherry Pick\",\n    \"title\": \"Cherry pick change to a different branch\",\n    \"enabled\": true\n  }\n}\n\nand that\u0027s it.",
+      "parentUuid": "d73267d2_cad0c354",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_eb5211ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 10

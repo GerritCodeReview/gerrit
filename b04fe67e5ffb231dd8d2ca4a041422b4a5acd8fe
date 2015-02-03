@@ -34,6 +34,24 @@
       "revId": "b04fe67e5ffb231dd8d2ca4a041422b4a5acd8fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "375bc3e2_652d06b9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-03T00:53:59Z",
+      "side": 1,
+      "message": "Thanks for fixing it.",
+      "parentUuid": "f7df6b54_4bbc85b7",
+      "revId": "b04fe67e5ffb231dd8d2ca4a041422b4a5acd8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

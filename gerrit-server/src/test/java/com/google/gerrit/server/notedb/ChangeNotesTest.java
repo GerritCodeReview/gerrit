@@ -812,7 +812,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         noteString);
   }
 
-
   @Test
   public void patchLineCommentMultipleOnePatchsetOneFileBothSides()
       throws Exception {
@@ -1151,6 +1150,34 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     assertTrue(notes.getDraftBaseComments(otherUserId).values().isEmpty());
     assertTrue(notes.getDraftPsComments(otherUserId).values().isEmpty());
+  }
+
+  @Test
+  public void fileComment() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    String uuid = "uuid";
+    String messageForBase = "comment for base";
+    Timestamp now = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    PatchLineComment commentForBase =
+        newPublishedPatchLineComment(psId, "filename", uuid,
+        null, 0, otherUser, null, now, messageForBase,
+        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.upsertComment(commentForBase);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    Multimap<PatchSet.Id, PatchLineComment> commentsForBase =
+        notes.getBaseComments();
+    Multimap<PatchSet.Id, PatchLineComment> commentsForPs =
+        notes.getPatchSetComments();
+
+    assertTrue(commentsForPs.isEmpty());
+    assertEquals(commentForBase,
+        Iterables.getOnlyElement(commentsForBase.get(psId)));
   }
 
   @Test

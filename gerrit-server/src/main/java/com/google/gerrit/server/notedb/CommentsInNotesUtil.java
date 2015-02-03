@@ -232,7 +232,9 @@ public class CommentsInNotesUtil {
 
     int startLine = RawParseUtils.parseBase10(note, ptr.value, ptr);
     if (startLine == 0) {
-      return null;
+      range.setEndLine(0);
+      ptr.value += 1;
+      return range;
     }
 
     if (note[ptr.value] == '\n') {

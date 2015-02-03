@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
@@ -55,6 +56,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -156,6 +158,10 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
     assertThat((Iterable<?>)orig.get().messages).hasSize(2);
+    Iterator<ChangeMessageInfo> origIt = orig.get().messages.iterator();
+    origIt.next();
+    assertThat(origIt.next().message)
+        .startsWith("Patch Set 1: Cherry Picked\n\nThis patchset was cherry picked to branch foo as commit ");
 
     assertThat(cherry.get().subject).contains(in.message);
     assertThat(cherry.get().topic).isEqualTo("someTopic");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5775973c_2e55a704",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-03T02:38:23Z",
+      "side": 1,
+      "message": "This should also have one assignment per newly opened resource.",
+      "revId": "710bf8d8a614dcece073a3e180986972e1f8c425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

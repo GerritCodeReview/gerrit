@@ -768,8 +768,7 @@ defined globally or on a per-project basis.
 [[category_submit]]
 === Submit
 
-This category permits users to push the `Submit Patch Set n` button
-on the web UI.
+This category permits users to submit changes.
 
 Submitting a change causes it to be merged into the destination
 branch as soon as possible, making it a permanent part of the

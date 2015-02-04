@@ -130,7 +130,6 @@ public class AndSource extends AndPredicate<ChangeData>
       Paginated p = (Paginated) source;
       while (skipped && r.size() < p.limit() + start) {
         skipped = false;
-        last = null;
         ResultSet<ChangeData> next = p.restart(nextStart);
 
         for (ChangeData data : buffer(source, next)) {
@@ -139,7 +138,6 @@ public class AndSource extends AndPredicate<ChangeData>
           } else {
             skipped = true;
           }
-          last = data;
           nextStart++;
         }
       }

@@ -46,6 +46,30 @@
       "revId": "9bbffa71b3674e0f39db147e14db76a7db9fe474",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_6aac37b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-04T14:18:14Z",
+      "side": 1,
+      "message": "If you use the quick fix of Eclipse, it will add it without a space. It still suppresses the warning if you add a space but I think we should not use a space to be consistent with the way Eclipse fixes that warning.",
+      "parentUuid": "3c21e895_153cd4ef",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 24
+      },
+      "revId": "9bbffa71b3674e0f39db147e14db76a7db9fe474",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c21e895_f507183e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T01:52:40Z",
+      "side": 1,
+      "message": "This doesn\u0027t describe the change properly. What it is actually changing is the comment added when a patch set of an open change is cherry picked onto the same branch.\n\nIn this case where this results in a new patch set on the same change, I think the existing message \"Uploaded patch set X\" is correct.\n\nWhat I think needs to be fixed is the message when the change is cherry picked as a new change on another branch, or as a new change on the same branch (i.e. if the Change-Id is not there).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5726779d_6610ee75",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 6
@@ -13,6 +36,24 @@
       "writtenOn": "2015-02-04T01:20:17Z",
       "side": 1,
       "message": "In this test we should be asserting that the destination change has the \"Cherry picked as patch set 1\" message.",
+      "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_863b2afd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T01:52:40Z",
+      "side": 1,
+      "message": "Hmm, it seems there is actually no message added to the change when it is cherry-picked, so a test here will not work.",
+      "parentUuid": "5726779d_6610ee75",
       "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

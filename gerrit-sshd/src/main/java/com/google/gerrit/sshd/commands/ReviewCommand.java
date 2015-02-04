@@ -340,15 +340,16 @@ public class ReviewCommand extends SshCommand {
     }
 
     for (LabelType type : allProjectsControl.getLabelTypes().getLabelTypes()) {
-      String usage;
-      usage = "score for " + type.getName() + "\n";
+      StringBuilder usage = new StringBuilder("score for ")
+        .append(type.getName())
+        .append("\n");
 
       for (LabelValue v : type.getValues()) {
-        usage += v.format() + "\n";
+        usage.append(v.format()).append("\n");
       }
 
       final String name = "--" + type.getName().toLowerCase();
-      optionList.add(new ApproveOption(name, usage, type));
+      optionList.add(new ApproveOption(name, usage.toString(), type));
     }
 
     super.parseCommandLine();

@@ -411,8 +411,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     a.add(null);
     a.add(new CipherNone.Factory());
-    setCipherFactories(filter(cfg, "cipher", a.toArray(new NamedFactory[a
-        .size()])));
+    setCipherFactories(filter(cfg, "cipher",
+        (NamedFactory<Cipher>[])a.toArray(new NamedFactory[a.size()])));
   }
 
   private void initMacs(final Config cfg) {

@@ -166,6 +166,23 @@
       "revId": "751441fdfaf1b7b9e494118018bc1b798bd29118",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_8697aa5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_107.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-04T18:00:33Z",
+      "side": 1,
+      "message": "We hate these sorts of preference changes where the boolean default is Y. It forces us to carry a patch in our tree forever.\n\nWe already carry a patch for size_bar_in_change_table. This will just have to go with it.",
+      "revId": "751441fdfaf1b7b9e494118018bc1b798bd29118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

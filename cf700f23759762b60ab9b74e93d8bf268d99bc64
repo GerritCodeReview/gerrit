@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_4a44d337",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-04T23:32:48Z",
+      "side": 1,
+      "message": "We constructed a new OutputStream down there. So we had 2 of them. I\u0027m not sure with the semantics, but we do need to close only one of them or both?",
+      "parentUuid": "d73267d2_0a4adb47",
+      "revId": "cf700f23759762b60ab9b74e93d8bf268d99bc64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_154a9467",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 5

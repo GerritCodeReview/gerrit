@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5726779d_a69ca680",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-04T22:39:43Z",
+      "side": 1,
+      "message": "See here we close the OutputStream. If this OutputStream is our container\u0027s implementation it hates on you for closing it twice.",
+      "revId": "cf700f23759762b60ab9b74e93d8bf268d99bc64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_154a9467",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-04T22:39:43Z",
+      "side": 1,
+      "message": "Oh. *sigh* flush() is insufficient to write the padding. You must call close().\n\nI think we need to wrap the incoming OutputStream with a new implementation that ignores close() so that we don\u0027t double close the supplied stream.",
+      "revId": "cf700f23759762b60ab9b74e93d8bf268d99bc64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

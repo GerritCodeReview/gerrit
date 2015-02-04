@@ -109,6 +109,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean relativeDateInChangeTable;
     Boolean sizeBarInChangeTable;
     Boolean legacycidInChangeTable;
+    Boolean muteCommonPathPrefixes;
     ReviewCategoryStrategy reviewCategoryStrategy;
     DiffView diffView;
     List<TopMenu.MenuItem> my;
@@ -127,6 +128,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
         sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
         legacycidInChangeTable = p.isLegacycidInChangeTable() ? true : null;
+        muteCommonPathPrefixes = p.isMuteCommonPathPrefixes() ? true : null;
         reviewCategoryStrategy = p.getReviewCategoryStrategy();
         diffView = p.getDiffView();
       }

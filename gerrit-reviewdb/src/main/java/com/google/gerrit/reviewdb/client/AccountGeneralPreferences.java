@@ -157,6 +157,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 18, length = 20, notNull = false)
   protected String reviewCategoryStrategy;
 
+  @Column(id = 19)
+  protected boolean muteCommonPathPrefixes;
+
   public AccountGeneralPreferences() {
   }
 
@@ -295,6 +298,15 @@ public final class AccountGeneralPreferences {
     this.legacycidInChangeTable = legacycidInChangeTable;
   }
 
+  public boolean isMuteCommonPathPrefixes() {
+    return muteCommonPathPrefixes;
+  }
+
+  public void setMuteCommonPathPrefixes(
+      boolean muteCommonPathPrefixes) {
+    this.muteCommonPathPrefixes = muteCommonPathPrefixes;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -309,5 +321,6 @@ public final class AccountGeneralPreferences {
     diffView = null;
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
+    muteCommonPathPrefixes = true;
   }
 }

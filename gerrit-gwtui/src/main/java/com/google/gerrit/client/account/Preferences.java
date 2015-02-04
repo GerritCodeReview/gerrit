@@ -44,6 +44,7 @@ public class Preferences extends JavaScriptObject {
     p.relativeDateInChangeTable(in.isRelativeDateInChangeTable());
     p.sizeBarInChangeTable(in.isSizeBarInChangeTable());
     p.legacycidInChangeTable(in.isLegacycidInChangeTable());
+    p.muteCommonPathPrefixes(in.isMuteCommonPathPrefixes());
     p.reviewCategoryStrategy(in.getReviewCategoryStrategy());
     p.diffView(in.getDiffView());
     p.setMyMenus(myMenus);
@@ -101,6 +102,9 @@ public class Preferences extends JavaScriptObject {
 
   public final native boolean legacycidInChangeTable()
   /*-{ return this.legacycid_in_change_table || false }-*/;
+
+  public final native boolean muteCommonPathPrefixes()
+  /*-{ return this.mute_common_path_prefixes || false }-*/;
 
   public final ReviewCategoryStrategy reviewCategoryStrategy() {
     String s = reviewCategeoryStrategyRaw();
@@ -163,6 +167,9 @@ public class Preferences extends JavaScriptObject {
 
   public final native void legacycidInChangeTable(boolean s)
   /*-{ this.legacycid_in_change_table = s }-*/;
+
+  public final native void muteCommonPathPrefixes(boolean s)
+  /*-{ this.mute_common_path_prefixes = s }-*/;
 
   public final void reviewCategoryStrategy(ReviewCategoryStrategy s) {
     reviewCategoryStrategyRaw(s != null ? s.toString() : null);

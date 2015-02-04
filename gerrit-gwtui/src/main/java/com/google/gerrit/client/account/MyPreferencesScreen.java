@@ -50,6 +50,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
   private CheckBox legacycidInChangeTable;
+  private CheckBox muteCommonPathPrefixes;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -132,8 +133,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
+    muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
 
-    final Grid formGrid = new Grid(10, 2);
+    final Grid formGrid = new Grid(11, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -172,6 +174,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, legacycidInChangeTable);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, muteCommonPathPrefixes);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
 
@@ -201,6 +207,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(sizeBarInChangeTable);
     e.listenTo(legacycidInChangeTable);
+    e.listenTo(muteCommonPathPrefixes);
     e.listenTo(diffView);
   }
 
@@ -226,6 +233,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
     legacycidInChangeTable.setEnabled(on);
+    muteCommonPathPrefixes.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
   }
@@ -242,6 +250,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
+    muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
     setListBox(reviewCategoryStrategy,
         AccountGeneralPreferences.ReviewCategoryStrategy.NONE,
         p.reviewCategoryStrategy());
@@ -325,6 +334,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.setSizeBarInChangeTable(sizeBarInChangeTable.getValue());
     p.setLegacycidInChangeTable(legacycidInChangeTable.getValue());
+    p.setMuteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
     p.setReviewCategoryStrategy(getListBox(reviewCategoryStrategy,
         ReviewCategoryStrategy.NONE,
         ReviewCategoryStrategy.values()));

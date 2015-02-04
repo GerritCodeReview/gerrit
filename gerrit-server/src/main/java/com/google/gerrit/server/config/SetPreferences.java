@@ -52,6 +52,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
         || i.relativeDateInChangeTable != null
         || i.sizeBarInChangeTable != null
         || i.legacycidInChangeTable != null
+        || i.muteCommonPathPrefixes != null
         || i.reviewCategoryStrategy != null) {
       throw new BadRequestException("unsupported option");
     }

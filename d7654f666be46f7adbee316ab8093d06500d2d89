@@ -22,6 +22,30 @@
       "revId": "d7654f666be46f7adbee316ab8093d06500d2d89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ea7107ca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-02-04T06:52:19Z",
+      "side": 1,
+      "message": "Right, it took me a while to realize this.\n\nWorth a comment in the code.",
+      "parentUuid": "3c21e895_f575d8b5",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 3
+      },
+      "revId": "d7654f666be46f7adbee316ab8093d06500d2d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

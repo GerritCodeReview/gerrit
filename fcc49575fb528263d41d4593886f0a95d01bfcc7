@@ -104,6 +104,23 @@
       "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_6a27d7d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-02-04T06:03:17Z",
+      "side": 1,
+      "message": "Not related to this test. You can just next() the iterator, like in the other test.",
+      "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

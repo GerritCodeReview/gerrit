@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5726779d_86b08a11",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T08:31:33Z",
+      "side": 1,
+      "message": "There must be an easier way.",
+      "range": {
+        "startLine": 241,
+        "startChar": 23,
+        "endLine": 242,
+        "endChar": 38
+      },
+      "revId": "f2c46342b01ab6189c9eac18b669a2676fdeef3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

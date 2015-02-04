@@ -297,6 +297,30 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_ca18c375",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-04T21:25:51Z",
+      "side": 1,
+      "message": "Yeah I address that in Ief2d4677208900143a67db7b06882e24d1bf2a5d\n\nWhat you can see on the web UI and what you are told by the REST API are different. So I want to make the REST API the one and only truth and rip out the additional logic in the change screen for the web UI.\n\nThat change is addressing your concern such that you only need to ask for /changes/\u003cid\u003e/revisions/\u003cid\u003e/actions and you\u0027re all set, no further thinking required. \nUnfortunately this will also slightly change the  /changes/\u003cid\u003e/detail request.",
+      "parentUuid": "972c6f7c_88497779",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_eb5211ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 10

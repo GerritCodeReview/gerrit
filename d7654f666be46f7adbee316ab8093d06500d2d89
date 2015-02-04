@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c21e895_f575d8b5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T06:51:24Z",
+      "side": 1,
+      "message": "Note:\n\nThis is not testing the case where we have a series of changes and use the cherry-pick feature to rebase a change from the middle of the series onto the branch head.\n\nIn this test the new patch set has the same parent as the previous patch set.  It is successful because the commit message is changed.",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 3
+      },
+      "revId": "d7654f666be46f7adbee316ab8093d06500d2d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c21e895_957c649e",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-04T17:45:14Z",
+      "side": 1,
+      "message": "This name is no longer descriptive of its purpose. It seems like these should be separate user preferences.",
+      "range": {
+        "startLine": 361,
+        "startChar": 10,
+        "endLine": 361,
+        "endChar": 60
+      },
+      "revId": "198bb7e9ee2474d53d6f76d4effc2c658a2ceaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

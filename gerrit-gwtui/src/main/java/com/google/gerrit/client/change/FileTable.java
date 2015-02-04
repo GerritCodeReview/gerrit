@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -202,8 +203,8 @@ public class FileTable extends FlowPanel {
 
   void setValue(NativeMap<FileInfo> fileMap,
       Timestamp myLastReply,
-      NativeMap<JsArray<CommentInfo>> comments,
-      NativeMap<JsArray<CommentInfo>> drafts) {
+      @Nullable NativeMap<JsArray<CommentInfo>> comments,
+      @Nullable NativeMap<JsArray<CommentInfo>> drafts) {
     JsArray<FileInfo> list = fileMap.values();
     FileInfo.sortFileInfoByPath(list);
 
@@ -453,8 +454,8 @@ public class FileTable extends FlowPanel {
     private DisplayCommand(NativeMap<FileInfo> map,
         JsArray<FileInfo> list,
         Timestamp myLastReply,
-        NativeMap<JsArray<CommentInfo>> comments,
-        NativeMap<JsArray<CommentInfo>> drafts) {
+        @Nullable NativeMap<JsArray<CommentInfo>> comments,
+        @Nullable NativeMap<JsArray<CommentInfo>> drafts) {
       this.myTable = new MyTable(map, list);
       this.list = list;
       this.myLastReply = myLastReply;
@@ -707,7 +708,10 @@ public class FileTable extends FlowPanel {
     }
 
     private JsArray<CommentInfo> get(String p, NativeMap<JsArray<CommentInfo>> m) {
-      JsArray<CommentInfo> r =  m.get(p);
+      JsArray<CommentInfo> r = null;
+      if (m != null) {
+        r = m.get(p);
+      }
       if (r == null) {
         r = JsArray.createArray().cast();
       }

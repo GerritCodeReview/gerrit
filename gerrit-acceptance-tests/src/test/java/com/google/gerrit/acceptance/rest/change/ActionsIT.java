@@ -39,7 +39,7 @@ public class ActionsIT extends AbstractDaemonTest {
   public void revisionActions() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
-    assertThat(actions).hasSize(2);
+    assertThat(actions).hasSize(1);
   }
 
   private Map<String, ActionInfo> getActions(String changeId)

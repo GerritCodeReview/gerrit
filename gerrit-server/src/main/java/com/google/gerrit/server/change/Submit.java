@@ -81,6 +81,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -272,6 +273,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && resource.getChange().getStatus().isOpen()
         && resource.getPatchSet().getId().equals(current)
         && resource.getControl().canSubmit();
+
+    ReviewDb db = dbProvider.get();
+    ChangeData cd = changeDataFactory.create(db, resource.getControl());
+    if (areChangesSubmittable(Arrays.asList(cd), resource.getUser()) != null)
+      visible = false;
+
     if (!visible) {
       return new UiAction.Description()
         .setLabel("")

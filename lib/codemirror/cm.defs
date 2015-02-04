@@ -53,6 +53,7 @@ CM_MODES = [
   'erlang',
   'gas',
   'gfm',
+  'go',
   'groovy',
   'haskell',
   'htmlmixed',

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5726779d_6610ee75",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T01:20:17Z",
+      "side": 1,
+      "message": "In this test we should be asserting that the destination change has the \"Cherry picked as patch set 1\" message.",
+      "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770d3bbb_c7097ed7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 6
@@ -13,6 +30,30 @@
       "writtenOn": "2015-02-03T16:51:48Z",
       "side": 1,
       "message": "This may be a bug that the Change-Id must be specified here. Maybe Gerrit could recognize that it\u0027s a cherry-pick to the same branch and reuse the existing Change-Id automatically? But that\u0027s another story and another change :)",
+      "range": {
+        "startLine": 182,
+        "startChar": 50,
+        "endLine": 182,
+        "endChar": 81
+      },
+      "revId": "fcc49575fb528263d41d4593886f0a95d01bfcc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_4613f282",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T01:20:17Z",
+      "side": 1,
+      "message": "I think this is as expected.\n\nWhen the cherry pick is invoked from the UI, the message from the source change is copied and used to pre-fill the message in the input.  Typically the user will not change the commit message.\n\nWhen a project does not have the \"Require Change-Id\" line, it\u0027s possible that the source change doesn\u0027t have a Change-Id line and then cherry-picking to the same branch will not behave in the same way; it will create a new change.\n\nIn this test, there is no Change-Id in the source change, so we have to explicitly set it on the destination change.\n\nActually, I think the addition of this test doesn\u0027t really belong in this change.\n\nFor this change, it should be enough to add an assertion in the `cherryPick` test as I mentioned at line 165.  The tests for cherry picking to the same branch should be added in a separate change, following this one.",
+      "parentUuid": "770d3bbb_c7097ed7",
       "range": {
         "startLine": 182,
         "startChar": 50,

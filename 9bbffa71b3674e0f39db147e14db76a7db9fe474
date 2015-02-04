@@ -22,6 +22,30 @@
       "revId": "9bbffa71b3674e0f39db147e14db76a7db9fe474",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_153cd4ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T04:12:19Z",
+      "side": 1,
+      "message": "By hand. I\u0027ll check later if it still suppresses the warnings in Eclipse if I add a space.",
+      "parentUuid": "5726779d_262d16ba",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 24
+      },
+      "revId": "9bbffa71b3674e0f39db147e14db76a7db9fe474",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -94,6 +94,30 @@
       "revId": "d7654f666be46f7adbee316ab8093d06500d2d89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_667e2e98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T07:04:42Z",
+      "side": 1,
+      "message": "Re-added the test from the patch set before my modifications.",
+      "parentUuid": "972c6f7c_48813f27",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 3
+      },
+      "revId": "d7654f666be46f7adbee316ab8093d06500d2d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

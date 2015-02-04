@@ -22,6 +22,30 @@
       "revId": "62ee316ede1613b9a19368ee7dfc707c95b2919a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_c66c42f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T06:09:28Z",
+      "side": 1,
+      "message": "I\u0027m just following the existing style here, but this is a good point.\n\nI don\u0027t know the original reason for passing it as argument.  Perhaps for performance?",
+      "parentUuid": "972c6f7c_a8671b0c",
+      "range": {
+        "startLine": 301,
+        "startChar": 6,
+        "endLine": 301,
+        "endChar": 35
+      },
+      "revId": "62ee316ede1613b9a19368ee7dfc707c95b2919a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

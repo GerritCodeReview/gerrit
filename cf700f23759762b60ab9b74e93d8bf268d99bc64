@@ -33,6 +33,24 @@
       "revId": "cf700f23759762b60ab9b74e93d8bf268d99bc64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_0823c7a7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-04T23:21:53Z",
+      "side": 1,
+      "message": "Or would it make sense to change the contract of the callee, such that we always make sure to have closed the OutputStream in writeTo(..) ?",
+      "parentUuid": "3c21e895_154a9467",
+      "revId": "cf700f23759762b60ab9b74e93d8bf268d99bc64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

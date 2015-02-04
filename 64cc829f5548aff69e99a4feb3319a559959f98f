@@ -273,6 +273,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_88497779",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-04T07:34:22Z",
+      "side": 1,
+      "message": "What I was trying to say is that if someone with ACL+2 would use new REST endpoint for new change (that wasn\u0027t approved yet) with topic assigned, then different results are returned dependend on `wholeTopicEnabled` being set or not:\n\n\n* without `wholeTopicEnabled` option submit action is  returned as visible and enabled:\n\n  \"submit\": {\n    \"method\": \"POST\",\n    \"label\": \"Submit\",\n    \"title\": \"Submit patch set 1 into master\",\n    \"enabled\": true\n  },\n  \"cherrypick\": {\n    \"method\": \"POST\",\n    \"label\": \"Cherry Pick\",\n    \"title\": \"Cherry pick change to a different branch\",\n    \"enabled\": true\n  }\n\n\n* with `wholeTopicEnabled` option submit action is returned without enabled being set\n\n\n  \"submit\": {\n    \"method\": \"POST\",\n    \"label\": \"Submit whole topic\",\n    \"title\": \"Other changes in this topic are not ready\"\n  },\n  \"cherrypick\": {\n    \"method\": \"POST\",\n    \"label\": \"Cherry Pick\",\n    \"title\": \"Cherry pick change to a different branch\",\n    \"enabled\": true\n  }\n\n\nBut you are right, historically it was always that way. Sorry for the confusion here, this series didn\u0027t break it. Submit action was always returned as enabled for users with ACL+2 and UI decided on its own if submit action should be hidden or not, dependend on votes. This logic is pretty complex, so may be we just want to leave it as is for now.\n\nOTOH: When revision actions were returned as part of the GET /changes/\u003cid\u003e/detail request, it was possible for the caller to induce the fact if submit button should be hidden or not, dependend on labels that were returned as part of the detail REST endpoint. Now, when only revision actiosn are returned in this new isolated form, there is no way for the caller to decide if submit action should be hidden or not. It would always need to call detail REST endpoint to figure it out.",
+      "parentUuid": "d73267d2_6af997d5",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "64cc829f5548aff69e99a4feb3319a559959f98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df6b54_eb5211ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 10

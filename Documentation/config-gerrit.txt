@@ -2390,6 +2390,16 @@ Directory servers.
 Default is unset for RFC 2307 servers (disabled)
 and `memberOf` for Active Directory.
 
+[[ldap.fetchMemberOfEagerly]]ldap.fetchMemberOfEagerly::
++
+_(Optional)_ Whether to fetch the `memberOf` account attribute on
+login. Setups which use LDAP for user authentication but don't make
+use of the LDAP groups may benefit from setting this option to `false`
+as this will result in a much faster LDAP login.
++
+Default is unset for RFC 2307 servers (disabled) and `true` for
+Active Directory.
+
 [[ldap.groupBase]]ldap.groupBase::
 +
 Root of the tree containing all group objects.  This is typically

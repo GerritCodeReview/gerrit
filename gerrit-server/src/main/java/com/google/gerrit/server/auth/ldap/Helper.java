@@ -185,13 +185,20 @@ import javax.security.auth.login.LoginException;
     return ldapSchema;
   }
 
-  LdapQuery.Result findAccount(final Helper.LdapSchema schema,
-      final DirContext ctx, final String username) throws NamingException,
-      AccountException {
+  LdapQuery.Result findAccount(Helper.LdapSchema schema,
+      DirContext ctx, String username, boolean fetchMemberOf)
+      throws NamingException, AccountException {
     final HashMap<String, String> params = new HashMap<>();
     params.put(LdapRealm.USERNAME, username);
 
-    for (LdapQuery accountQuery : schema.accountQueryList) {
+    List<LdapQuery> accountQueryList;
+    if (fetchMemberOf) {
+      accountQueryList = schema.accountWithMemberOfQueryList;
+    } else {
+      accountQueryList = schema.accountQueryList;
+    }
+
+    for (LdapQuery accountQuery : accountQueryList) {
       List<LdapQuery.Result> res = accountQuery.query(ctx, params);
       if (res.size() == 1) {
         return res.get(0);
@@ -213,7 +220,7 @@ import javax.security.auth.login.LoginException;
 
       if (account == null) {
         try {
-          account = findAccount(schema, ctx, username);
+          account = findAccount(schema, ctx, username, false);
         } catch (AccountException e) {
           LdapRealm.log.warn("Account " + username +
               " not found, assuming empty group membership");
@@ -234,9 +241,9 @@ import javax.security.auth.login.LoginException;
     }
 
     if (schema.accountMemberField != null) {
-      if (account == null) {
+      if (account == null || account.getAll(schema.accountMemberField) == null) {
         try {
-          account = findAccount(schema, ctx, username);
+          account = findAccount(schema, ctx, username, true);
         } catch (AccountException e) {
           LdapRealm.log.warn("Account " + username +
               " not found, assuming empty group membership");
@@ -311,6 +318,7 @@ import javax.security.auth.login.LoginException;
     final String accountMemberField;
     final String[] accountMemberFieldArray;
     final List<LdapQuery> accountQueryList;
+    final List<LdapQuery> accountWithMemberOfQueryList;
 
     final List<String> groupBases;
     final SearchScope groupScope;
@@ -322,6 +330,7 @@ import javax.security.auth.login.LoginException;
       type = discoverLdapType(ctx);
       groupMemberQueryList = new ArrayList<>();
       accountQueryList = new ArrayList<>();
+      accountWithMemberOfQueryList = new ArrayList<>();
 
       final Set<String> accountAtts = new HashSet<>();
 
@@ -375,7 +384,6 @@ import javax.security.auth.login.LoginException;
           LdapRealm.optdef(config, "accountMemberField", type.accountMemberField());
       if (accountMemberField != null) {
         accountMemberFieldArray = new String[] {accountMemberField};
-        accountAtts.add(accountMemberField);
       } else {
         accountMemberFieldArray = null;
       }
@@ -384,8 +392,15 @@ import javax.security.auth.login.LoginException;
       final String accountPattern =
           LdapRealm.reqdef(config, "accountPattern", type.accountPattern());
 
+      Set<String> accountWithMemberOfAtts;
+      if (accountMemberField != null) {
+        accountWithMemberOfAtts = new HashSet<>(accountAtts);
+        accountWithMemberOfAtts.add(accountMemberField);
+      } else {
+        accountWithMemberOfAtts = null;
+      }
       for (String accountBase : LdapRealm.requiredList(config, "accountBase")) {
-        final LdapQuery accountQuery =
+        LdapQuery accountQuery =
             new LdapQuery(accountBase, accountScope, new ParameterizedString(
                 accountPattern), accountAtts);
         if (accountQuery.getParameters().isEmpty()) {
@@ -393,6 +408,13 @@ import javax.security.auth.login.LoginException;
               "No variables in ldap.accountPattern");
         }
         accountQueryList.add(accountQuery);
+
+        if (accountWithMemberOfAtts != null) {
+          LdapQuery accountWithMemberOfQuery =
+              new LdapQuery(accountBase, accountScope, new ParameterizedString(
+                  accountPattern), accountWithMemberOfAtts);
+          accountWithMemberOfQueryList.add(accountWithMemberOfQuery);
+        }
       }
     }
 

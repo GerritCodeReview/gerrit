@@ -68,6 +68,7 @@ public class LdapRealm extends AbstractRealm {
   private final EmailExpander emailExpander;
   private final LoadingCache<String, Optional<Account.Id>> usernameCache;
   private final Set<Account.FieldName> readOnlyAccountFields;
+  private final boolean fetchMemberOfEagerly;
   private final Config config;
 
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
@@ -95,6 +96,8 @@ public class LdapRealm extends AbstractRealm {
     if (optdef(config, "accountSshUserName", "DEFAULT") != null) {
       readOnlyAccountFields.add(Account.FieldName.USER_NAME);
     }
+
+    fetchMemberOfEagerly = optional(config, "fetchMemberOfEagerly", true);
   }
 
   static SearchScope scope(final Config c, final String setting) {
@@ -215,7 +218,8 @@ public class LdapRealm extends AbstractRealm {
       }
       try {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
-        final LdapQuery.Result m = helper.findAccount(schema, ctx, username);
+        final LdapQuery.Result m = helper.findAccount(schema, ctx, username,
+            fetchMemberOfEagerly);
 
         if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify
@@ -244,7 +248,9 @@ public class LdapRealm extends AbstractRealm {
         // in the middle of authenticating the user, its likely we will
         // need to know what access rights they have soon.
         //
-        membershipCache.put(username, helper.queryForGroups(ctx, username, m));
+        if (fetchMemberOfEagerly) {
+          membershipCache.put(username, helper.queryForGroups(ctx, username, m));
+        }
         return who;
       } finally {
         try {

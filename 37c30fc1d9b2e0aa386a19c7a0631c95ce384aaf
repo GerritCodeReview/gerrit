@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5726779d_065e5a2d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T08:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_c6436253",
+      "revId": "37c30fc1d9b2e0aa386a19c7a0631c95ce384aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5726779d_a64e667c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5726779d_265b563e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T08:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_a64e667c",
+      "range": {
+        "startLine": 210,
+        "startChar": 17,
+        "endLine": 210,
+        "endChar": 81
+      },
+      "revId": "37c30fc1d9b2e0aa386a19c7a0631c95ce384aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5726779d_e6485e72",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 9
@@ -53,6 +95,24 @@
       "writtenOn": "2015-02-04T07:07:45Z",
       "side": 1,
       "message": "Assert that the second change\u0027s parent is now the branch head, i.e. it was rebased.",
+      "revId": "37c30fc1d9b2e0aa386a19c7a0631c95ce384aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_4658523f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-04T08:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_e6485e72",
       "revId": "37c30fc1d9b2e0aa386a19c7a0631c95ce384aaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

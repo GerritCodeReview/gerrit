@@ -34,6 +34,24 @@
       "revId": "a5ce54ab0edcd8073426d9012ccd22422f02ac68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_0a23bba7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-04T22:03:02Z",
+      "side": 1,
+      "message": "Look at RestApiServlet.notModified. That checks if the resource\u0027s ETag changed. You need a similar interface like ETagView that with a method getETag(RestResource) that views can implement. In notModified, the view ETag would take precedence over the resource ETag if both have them. notModified is only called late enough in the pipeline that you have the actual view object already available.\n\n(The view implementation could also check if the RestResource argument has its own ETag and include that in its computation of course, but I don\u0027t think your implementation would do that.)",
+      "parentUuid": "972c6f7c_68ac43b4",
+      "revId": "a5ce54ab0edcd8073426d9012ccd22422f02ac68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

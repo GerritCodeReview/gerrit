@@ -43,6 +43,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ChangeModifiedException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.ssh.NoSshInfo;
@@ -379,13 +380,5 @@ public class PatchSetInserter {
   private boolean messageIsForChange() {
     return changeMessage != null && changeMessage.getKey().getParentKey()
         .equals(patchSet.getId().getParentKey());
-  }
-
-  public class ChangeModifiedException extends InvalidChangeOperationException {
-    private static final long serialVersionUID = 1L;
-
-    public ChangeModifiedException(String msg) {
-      super(msg);
-    }
   }
 }

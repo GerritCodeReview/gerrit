@@ -16,6 +16,24 @@
       "revId": "f9d1a563396a4764852898539f7a844fb915078a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_084e67fb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/ETagView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T20:48:49Z",
+      "side": 1,
+      "message": "I tried playing around with that yesterday afternoon, but the problem arises if you are in RestApiServlet and checking for that interface as instanceof and the template type cannot be interfered dynamically.\n\nI liked that approach and will try again.",
+      "parentUuid": "972c6f7c_c8336f91",
+      "revId": "f9d1a563396a4764852898539f7a844fb915078a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

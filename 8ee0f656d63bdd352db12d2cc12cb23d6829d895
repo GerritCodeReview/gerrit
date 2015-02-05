@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "972c6f7c_68d8c326",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 48
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T10:07:01Z",
+      "side": 1,
+      "message": "Maybe just:\n  The Gerrit OAuth callback",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 43
+      },
+      "revId": "8ee0f656d63bdd352db12d2cc12cb23d6829d895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_0abf3bae",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 48
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T10:07:01Z",
+      "side": 1,
+      "message": "`\u003cgerrit canonical URL\u003e/oauth`",
+      "range": {
+        "startLine": 161,
+        "startChar": 45,
+        "endLine": 161,
+        "endChar": 73
+      },
+      "revId": "8ee0f656d63bdd352db12d2cc12cb23d6829d895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_2abcffb6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 48
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T10:07:01Z",
+      "side": 1,
+      "message": "in the",
+      "range": {
+        "startLine": 162,
+        "startChar": 21,
+        "endLine": 162,
+        "endChar": 23
+      },
+      "revId": "8ee0f656d63bdd352db12d2cc12cb23d6829d895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_4ac93348",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 48
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T10:07:01Z",
+      "side": 1,
+      "message": "The use",
+      "range": {
+        "startLine": 163,
+        "startChar": 68,
+        "endLine": 163,
+        "endChar": 71
+      },
+      "revId": "8ee0f656d63bdd352db12d2cc12cb23d6829d895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_eab907cb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 48
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T10:07:01Z",
+      "side": 1,
+      "message": "authorization",
+      "range": {
+        "startLine": 163,
+        "startChar": 47,
+        "endLine": 163,
+        "endChar": 60
+      },
+      "revId": "8ee0f656d63bdd352db12d2cc12cb23d6829d895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

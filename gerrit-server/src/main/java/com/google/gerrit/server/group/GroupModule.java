@@ -22,6 +22,7 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
+import com.google.gerrit.server.account.ReviewersGroupBackend;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 
 public class GroupModule extends FactoryModule {
@@ -37,5 +38,7 @@ public class GroupModule extends FactoryModule {
     bind(InternalGroupBackend.class).in(SINGLETON);
     DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
     DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
+
+    DynamicSet.setOf(binder(), ReviewersGroupBackend.class);
   }
 }

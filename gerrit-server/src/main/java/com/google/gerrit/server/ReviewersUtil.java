@@ -38,8 +38,8 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.UniversalReviewersGroupBackend;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.index.account.AccountIndex;
@@ -88,7 +88,7 @@ public class ReviewersUtil {
   private final AccountQueryProcessor queryProcessor;
   private final AccountControl accountControl;
   private final Provider<ReviewDb> dbProvider;
-  private final GroupBackend groupBackend;
+  private final UniversalReviewersGroupBackend groupBackend;
   private final GroupMembers.Factory groupMembersFactory;
   private final Provider<CurrentUser> currentUser;
 
@@ -100,7 +100,7 @@ public class ReviewersUtil {
       AccountQueryProcessor queryProcessor,
       AccountControl.Factory accountControlFactory,
       Provider<ReviewDb> dbProvider,
-      GroupBackend groupBackend,
+      UniversalReviewersGroupBackend groupBackend,
       GroupMembers.Factory groupMembersFactory,
       Provider<CurrentUser> currentUser) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);

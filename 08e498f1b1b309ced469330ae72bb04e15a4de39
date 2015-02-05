@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_2a64ff83",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-05T20:23:33Z",
+      "side": 1,
+      "message": "I think this one is another problem related to inline editing. For now, you need to fix that file manually, without online edit.",
+      "parentUuid": "3c21e895_b544003a",
+      "range": {
+        "startLine": 1182,
+        "startChar": 23,
+        "endLine": 1182,
+        "endChar": 25
+      },
+      "revId": "08e498f1b1b309ced469330ae72bb04e15a4de39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "972c6f7c_281deb07",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 13

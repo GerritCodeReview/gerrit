@@ -91,6 +91,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.google.gson.stream.MalformedJsonException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -719,6 +720,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  @SuppressWarnings("resource")
   static void replyBinaryResult(
       @Nullable HttpServletRequest req,
       HttpServletResponse res,
@@ -731,7 +733,11 @@ public class RestApiServlet extends HttpServlet {
             "attachment; filename=\"" + bin.getAttachmentName() + "\"");
       }
       if (bin.isBase64()) {
-        bin = stackBase64(res, bin);
+        if (req != null && JSON_TYPE.equals(req.getHeader(HttpHeaders.ACCEPT))) {
+          bin = stackJsonString(res, bin);
+        } else {
+          bin = stackBase64(res, bin);
+        }
       }
       if (bin.canGzip() && acceptsGzip(req)) {
         bin = stackGzip(res, bin);
@@ -756,6 +762,24 @@ public class RestApiServlet extends HttpServlet {
     } finally {
       appResult.close();
     }
+  }
+
+  private static BinaryResult stackJsonString(HttpServletResponse res,
+      final BinaryResult src) throws IOException {
+    TemporaryBuffer.Heap buf = heap(Integer.MAX_VALUE);
+    buf.write(JSON_MAGIC);
+    try(Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
+        JsonWriter json = new JsonWriter(w)) {
+      json.setLenient(true);
+      json.setHtmlSafe(true);
+      json.value(src.asString());
+      w.write('\n');
+    }
+    res.setHeader("X-FYI-Content-Encoding", "json");
+    res.setHeader("X-FYI-Content-Type", src.getContentType());
+    return asBinaryResult(buf)
+      .setContentType(JSON_TYPE)
+      .setCharacterEncoding(UTF_8.name());
   }
 
   private static BinaryResult stackBase64(HttpServletResponse res,

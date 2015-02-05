@@ -45,6 +45,7 @@ public class RestApi {
   private static final String JSON_TYPE = "application/json";
   private static final String JSON_UTF8 = JSON_TYPE + "; charset=utf-8";
   private static final String TEXT_TYPE = "text/plain";
+  private static final String TEXT_UTF8 = TEXT_TYPE + "; charset=utf-8";
 
   /**
    * Expected JSON content body prefix that prevents XSSI.
@@ -129,9 +130,14 @@ public class RestApi {
         final String type;
         if (isJsonBody(res)) {
           try {
-            // javac generics bug
-            data = RestApi.<T> cast(parseJson(res));
-            type = JSON_TYPE;
+            JSONValue val = parseJson(res);
+            if (isJsonEncoded(res) && val.isString() != null) {
+              data = NativeString.wrap(val.isString().stringValue()).cast();
+              type = simpleType(res.getHeader("X-FYI-Content-Type"));
+            } else {
+              data = RestApi.<T> cast(val);
+              type = JSON_TYPE;
+            }
           } catch (JSONException e) {
             if (!background) {
               RpcStatus.INSTANCE.onRpcComplete();
@@ -140,9 +146,6 @@ public class RestApi {
                 "Invalid JSON: " + e.getMessage()));
             return;
           }
-        } else if (isEncodedBase64(res)) {
-          data = NativeString.wrap(decodeBase64(res.getText())).cast();
-          type = simpleType(res.getHeader("X-FYI-Content-Type"));
         } else if (isTextBody(res)) {
           data = NativeString.wrap(res.getText()).cast();
           type = TEXT_TYPE;
@@ -371,7 +374,7 @@ public class RestApi {
 
   public <T extends JavaScriptObject> void post(String content,
       HttpCallback<T> cb) {
-    sendRaw(POST, content, cb);
+    sendText(POST, content, cb);
   }
 
   public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
@@ -389,7 +392,7 @@ public class RestApi {
 
   public <T extends JavaScriptObject> void put(String content,
       HttpCallback<T> cb) {
-    sendRaw(PUT, content, cb);
+    sendText(PUT, content, cb);
   }
 
   public <T extends JavaScriptObject> void put(
@@ -423,10 +426,7 @@ public class RestApi {
   private static native String str(JavaScriptObject jso)
   /*-{ return JSON.stringify(jso) }-*/;
 
-  private static native String decodeBase64(String a)
-  /*-{ return $wnd.atob(a) }-*/;
-
-  private <T extends JavaScriptObject> void sendRaw(Method method, String body,
+  private <T extends JavaScriptObject> void sendText(Method method, String body,
       HttpCallback<T> cb) {
     HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
@@ -434,7 +434,7 @@ public class RestApi {
         RpcStatus.INSTANCE.onRpcStart();
       }
       RequestBuilder req = request(method);
-      req.setHeader("Content-Type", TEXT_TYPE);
+      req.setHeader("Content-Type", TEXT_UTF8);
       req.sendRequest(body, httpCallback);
     } catch (RequestException e) {
       httpCallback.onError(null, e);
@@ -461,9 +461,8 @@ public class RestApi {
     return isContentType(res, TEXT_TYPE);
   }
 
-  private static boolean isEncodedBase64(Response res) {
-    return "base64".equals(res.getHeader("X-FYI-Content-Encoding"))
-        && isTextBody(res);
+  private static boolean isJsonEncoded(Response res) {
+    return "json".equals(res.getHeader("X-FYI-Content-Encoding"));
   }
 
   private static boolean isContentType(Response res, String want) {

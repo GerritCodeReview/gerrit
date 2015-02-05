@@ -14,11 +14,17 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * Wrapper around a non-JSON result from a {@link RestView}.
@@ -34,13 +40,7 @@ public abstract class BinaryResult implements Closeable {
 
   /** Produce a UTF-8 encoded result from a string. */
   public static BinaryResult create(String data) {
-    try {
-      return create(data.getBytes("UTF-8"))
-        .setContentType("text/plain")
-        .setCharacterEncoding("UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("JVM does not support UTF-8", e);
-    }
+    return new StringResult(data);
   }
 
   /** Produce an {@code application/octet-stream} result from a byte array. */
@@ -144,6 +144,28 @@ public abstract class BinaryResult implements Closeable {
    */
   public abstract void writeTo(OutputStream os) throws IOException;
 
+  /**
+   * Return a copy of the result as a String.
+   * <p>
+   * The default version of this method copies the result into a temporary byte
+   * array and then tries to decode it using the configured encoding.
+   *
+   * @return string version of the result.
+   * @throws IOException if the data cannot be produced or could not be
+   *         decoded to a String.
+   */
+  public String asString() throws IOException {
+    long len = getContentLength();
+    ByteArrayOutputStream buf;
+    if (0 < len) {
+      buf = new ByteArrayOutputStream((int) len);
+    } else {
+      buf = new ByteArrayOutputStream();
+    }
+    writeTo(buf);
+    return decode(buf.toByteArray(), getCharacterEncoding());
+  }
+
   /** Close the result and release any resources it holds. */
   @Override
   public void close() throws IOException {
@@ -161,6 +183,25 @@ public abstract class BinaryResult implements Closeable {
         getContentType());
   }
 
+  private static String decode(byte[] data, String enc) {
+    try {
+      Charset cs = enc != null
+          ? Charset.forName(enc)
+          : StandardCharsets.UTF_8;
+      return cs.newDecoder()
+        .onMalformedInput(CodingErrorAction.REPORT)
+        .onUnmappableCharacter(CodingErrorAction.REPORT)
+        .decode(ByteBuffer.wrap(data))
+        .toString();
+    } catch (UnsupportedCharsetException | CharacterCodingException e) {
+      // Fallback to ISO-8850-1 style encoding.
+      StringBuilder r = new StringBuilder(data.length);
+      for (byte b : data)
+          r.append((char) (b & 0xff));
+      return r.toString();
+    }
+  }
+
   private static class Array extends BinaryResult {
     private final byte[] data;
 
@@ -172,6 +213,27 @@ public abstract class BinaryResult implements Closeable {
     @Override
     public void writeTo(OutputStream os) throws IOException {
       os.write(data);
+    }
+
+    @Override
+    public String asString() {
+      return decode(data, getCharacterEncoding());
+    }
+  }
+
+  private static class StringResult extends Array {
+    private final String str;
+
+    StringResult(String str) {
+      super(str.getBytes(StandardCharsets.UTF_8));
+      setContentType("text/plain");
+      setCharacterEncoding("UTF-8");
+      this.str = str;
+    }
+
+    @Override
+    public String asString() {
+      return str;
     }
   }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "972c6f7c_682a837a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-02-05T01:22:01Z",
+      "side": 1,
+      "message": "In an ideal world the commit message can be self-contained, so people wondering what this code is about would have fewer hops to track it down.\n\nE.g., it\u0027s worth mentioning that the goal is to prevent a double-close, while still closing the stream that encodes base64 so it can add padding to produce complete output.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "09efffcc42641792e9caf1709c15ab3369092df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_482dbf8f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-02-05T01:22:01Z",
+      "side": 1,
+      "message": "Should this delegate for flush and the other forms of write, too?",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 34
+      },
+      "revId": "09efffcc42641792e9caf1709c15ab3369092df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

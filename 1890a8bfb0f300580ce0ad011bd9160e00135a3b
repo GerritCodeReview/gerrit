@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_cac0c302",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T15:12:42Z",
+      "side": 1,
+      "message": "How is this modification related to the change?",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "1890a8bfb0f300580ce0ad011bd9160e00135a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_4a4e932a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T15:12:42Z",
+      "side": 1,
+      "message": "nit: no use of final for parameters in new code if not required",
+      "range": {
+        "startLine": 137,
+        "startChar": 44,
+        "endLine": 137,
+        "endChar": 49
+      },
+      "revId": "1890a8bfb0f300580ce0ad011bd9160e00135a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_a87d5b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T15:12:42Z",
+      "side": 1,
+      "message": "Is this RuntimeException supposed to be handled by the following catch in line 153?\n\nIf yes, this is not working and I would suggest to use the Java 7 feature to catch multiple exceptions types in one catch block.\n\nIf no, shouldn\u0027t we rather throw the IOException, so that the caller must handle it?",
+      "range": {
+        "startLine": 152,
+        "startChar": 18,
+        "endLine": 152,
+        "endChar": 34
+      },
+      "revId": "1890a8bfb0f300580ce0ad011bd9160e00135a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "972c6f7c_e88753ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T15:39:09Z",
+      "side": 1,
+      "message": "Making this private broke the delete-project plugin.\n\nIf you don\u0027t mind, I make it public again:\n  https://gerrit-review.googlesource.com/64181",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "c4377cd3d1060b439eef43ca94290c87bf3ef16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

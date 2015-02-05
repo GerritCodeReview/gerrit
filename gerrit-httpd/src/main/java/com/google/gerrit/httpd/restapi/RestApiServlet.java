@@ -105,6 +105,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -766,11 +767,16 @@ public class RestApiServlet extends HttpServlet {
     } else {
       b64 = new BinaryResult() {
         @Override
-        public void writeTo(OutputStream out) throws IOException {
-          try (OutputStreamWriter w = new OutputStreamWriter(out, ISO_8859_1);
-              OutputStream e = BaseEncoding.base64().encodingStream(w)) {
+        public void writeTo(final OutputStream out) throws IOException {
+          try (OutputStreamWriter w = new OutputStreamWriter(
+              new FilterOutputStream(out) {
+                @Override
+                public void close() {
+                  // do not close `out`, but only `w` and `e`
+                }
+              }, ISO_8859_1);
+            OutputStream e = BaseEncoding.base64().encodingStream(w)) {
             src.writeTo(e);
-            e.flush();
           }
         }
       };

@@ -46,6 +46,30 @@
       "revId": "48be849bb96b355d0e155be81d0b702efa896bc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_4844df37",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-05T06:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_7599c88e",
+      "range": {
+        "startLine": 431,
+        "startChar": 31,
+        "endLine": 431,
+        "endChar": 43
+      },
+      "revId": "48be849bb96b355d0e155be81d0b702efa896bc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

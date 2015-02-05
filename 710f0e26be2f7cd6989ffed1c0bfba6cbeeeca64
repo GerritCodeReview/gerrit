@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_885fb7dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-05T16:16:12Z",
+      "side": 1,
+      "message": "\u003e With this condition all LDAP groups are now visible to everyone. Is this really what we want? If yes, this should be much clearer in the commit message.\n\nWhat is your opinion about having ldap groups visible to everyone? We did not see any other way than this to allow a someone to include an ldap group (which he is not a member of) in a gerrit group.",
+      "parentUuid": "d73267d2_ea8747ed",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 44
+      },
+      "revId": "710f0e26be2f7cd6989ffed1c0bfba6cbeeeca64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "972c6f7c_48c93f48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-05T12:32:47Z",
       "side": 1,
       "message": "This formatting looks strange, why not to write it as\n\n  || group.getName().startsWith(\"ldap/\")\n  || user.getCapabilities().canAdministrateServer();\n\n?",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 54
+      },
+      "revId": "710f0e26be2f7cd6989ffed1c0bfba6cbeeeca64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_aae2afa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-05T16:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "972c6f7c_48c93f48",
       "range": {
         "startLine": 138,
         "startChar": 6,

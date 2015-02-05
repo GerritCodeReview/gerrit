@@ -22,6 +22,30 @@
       "revId": "553683c176083df8bc38b7c5489a5b25c9e1e8c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5726779d_c6e602f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-05T18:31:29Z",
+      "side": 1,
+      "message": "I don\u0027t think so.  In the previous change I renamed things from ChangeEvents to Events, not from StreamEvents to Events.  In the docs we still reference this stuff as StreamEvents, which is still what the events primarily support.  If someone takes up the task of making hooks and email fire off of these events someday, then it might makes sense to think of them as primary Gerrit events, but for now, I think it helps to clarify the type of Events we are talking about.",
+      "parentUuid": "0b9697c9_fba56fba",
+      "range": {
+        "startLine": 20,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "553683c176083df8bc38b7c5489a5b25c9e1e8c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

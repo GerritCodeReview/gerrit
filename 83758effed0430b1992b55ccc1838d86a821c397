@@ -52,6 +52,42 @@
       "revId": "83758effed0430b1992b55ccc1838d86a821c397",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ca8b6304",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 50
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-05T11:45:42Z",
+      "side": 1,
+      "message": "Fixed in patch-51.\nI guess when you are using UTF-8 chars (such as the ellipsis) there must a a problem in the decoding on the backend REST-API in-line edit layer.",
+      "parentUuid": "972c6f7c_88aa576e",
+      "revId": "83758effed0430b1992b55ccc1838d86a821c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ea902733",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 50
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-05T11:45:42Z",
+      "side": 1,
+      "message": "And yep, you are right :-)",
+      "parentUuid": "972c6f7c_c8b44fd4",
+      "revId": "83758effed0430b1992b55ccc1838d86a821c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

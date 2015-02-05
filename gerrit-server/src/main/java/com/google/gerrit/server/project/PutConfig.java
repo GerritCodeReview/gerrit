@@ -253,6 +253,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                           "The value '%s' is not permitted for parameter '%s' of plugin '"
                               + pluginName + "'", value, v.getKey()));
                     }
+                    //$FALL-THROUGH$
                   case STRING:
                     cfg.setString(v.getKey(), value);
                     break;

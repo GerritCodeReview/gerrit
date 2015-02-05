@@ -227,6 +227,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (msg != null) {
           throw new ResourceConflictException(msg.getMessage());
         }
+        //$FALL-THROUGH$
       default:
         throw new ResourceConflictException("change is " + status(change));
     }

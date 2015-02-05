@@ -1733,6 +1733,7 @@ public class ReceiveCommits {
             addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
             break;
           }
+          //$FALL-THROUGH$
         default:
           addMessage("change " + c.getChangeId() + " is "
               + c.getStatus().name().toLowerCase());

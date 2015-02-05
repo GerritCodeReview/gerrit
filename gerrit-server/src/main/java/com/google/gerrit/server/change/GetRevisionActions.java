@@ -14,22 +14,68 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-@Singleton
-public class GetRevisionActions implements RestReadView<RevisionResource> {
-  private final ActionJson delegate;
+import org.eclipse.jgit.lib.Config;
 
+import java.nio.charset.StandardCharsets;
+
+@Singleton
+public class GetRevisionActions implements RestReadView<RevisionResource>,
+com.google.gerrit.extensions.restapi.ETagView {
+  private final ActionJson delegate;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final Config config;
   @Inject
-  GetRevisionActions(ActionJson delegate) {
+  GetRevisionActions(
+      ActionJson delegate,
+      Provider<InternalChangeQuery> queryProvider,
+      @GerritServerConfig Config config) {
     this.delegate = delegate;
+    this.queryProvider = queryProvider;
+    this.config = config;
   }
 
   @Override
   public Object apply(RevisionResource rsrc) {
     return Response.withMustRevalidate(delegate.format(rsrc));
+  }
+
+  @Override
+  public String getETag(RestResource rsrc) {
+    RevisionResource rev = (RevisionResource) rsrc;
+    if (submitWholeTopicEnabled(config)
+        && rev.getChange().getTopic() != null
+        && !rev.getChange().getTopic().equals("")) {
+      String topic = rev.getChange().getTopic();
+      Hasher h = Hashing.md5().newHasher();
+      try {
+        for (ChangeData c : queryProvider.get().byTopicOpen(topic)) {
+          h.putString(new ChangeResource(c.changeControl()).getETag(),
+              StandardCharsets.UTF_8);
+        }
+      } catch (OrmException e){
+        throw new OrmRuntimeException(e);
+      }
+      return h.hash().toString();
+    } else {
+      return rev.getETag();
+    }
+  }
+
+  static boolean submitWholeTopicEnabled(Config config) {
+    return config.getBoolean("change", null, "submitWholeTopic" , false);
   }
 }

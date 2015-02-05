@@ -268,11 +268,11 @@ class SshLog implements LifecycleListener {
   }
 
   private String extractWhat(DispatchCommand dcmd) {
-    String commandName = dcmd.getCommandName();
+    StringBuilder commandName = new StringBuilder(dcmd.getCommandName());
     String[] args = dcmd.getArguments();
     for (int i = 1; i < args.length; i++) {
-      commandName = commandName + "." + args[i];
+      commandName.append(".").append(args[i]);
     }
-    return commandName;
+    return commandName.toString();
   }
 }

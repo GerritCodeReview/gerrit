@@ -16,6 +16,24 @@
       "revId": "83758effed0430b1992b55ccc1838d86a821c397",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_88aa576e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 50
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-05T11:42:27Z",
+      "side": 1,
+      "message": "I have used the in-line edit ... and haven\u0027t changed that line at all :-O\nGuess it is a bug on in-line edit :-( Let me rework the change locally.",
+      "parentUuid": "972c6f7c_68efe3b8",
+      "revId": "83758effed0430b1992b55ccc1838d86a821c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c21e895_b5ad20b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-05T04:09:01Z",
+      "side": 1,
+      "message": "I don\u0027t understand how ignoring the UI event when the Diff base popup selects another field in edit mode fixes the linked issue.\n\nA more descriptive commit message would help.\n\nIs the diffBase widget just supposed to be disabled or invisible in edit mode?",
+      "revId": "464cbb5efe199d2a15104c338713dc2b99804214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

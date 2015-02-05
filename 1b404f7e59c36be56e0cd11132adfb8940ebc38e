@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_aa646fb1",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T13:32:23Z",
+      "side": 1,
+      "message": "What\u0027s the advantage of having SuggestAccountsRequest instead of having\n  \n  List\u003cAccountInfo\u003e suggestAccounts(String query, int limit)\n\n? I guess, it\u0027s making this API easily extensible?\nMaybe you can add a sentence explaining the motivation for SuggestAccountsRequest to the commit message?",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 54
+      },
+      "revId": "1b404f7e59c36be56e0cd11132adfb8940ebc38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_c88b6f04",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T13:32:23Z",
+      "side": 1,
+      "message": "The JavaDoc is for the 2 suggestAccounts methods and the SuggestAccountsRequest class is missing, since this is an API we should have it.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 48
+      },
+      "revId": "1b404f7e59c36be56e0cd11132adfb8940ebc38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

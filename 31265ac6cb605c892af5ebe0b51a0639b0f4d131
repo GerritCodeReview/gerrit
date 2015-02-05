@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_8a040bbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-05T18:40:50Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "31265ac6cb605c892af5ebe0b51a0639b0f4d131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_aa09cfd7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-05T18:40:50Z",
+      "side": 1,
+      "message": "nit:extra space",
+      "range": {
+        "startLine": 420,
+        "startChar": 8,
+        "endLine": 420,
+        "endChar": 9
+      },
+      "revId": "31265ac6cb605c892af5ebe0b51a0639b0f4d131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_28c88b25",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-02-05T18:40:50Z",
+      "side": 1,
+      "message": "nit:extra blank line",
+      "revId": "31265ac6cb605c892af5ebe0b51a0639b0f4d131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

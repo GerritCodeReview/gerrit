@@ -22,6 +22,30 @@
       "revId": "48be849bb96b355d0e155be81d0b702efa896bc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_7599c88e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-05T04:23:01Z",
+      "side": 1,
+      "message": "The MDN license is.. fuzzy. So something like https://github.com/dankogai/js-base64/blob/master/base64.js which is clearly under the MIT would be preferred. (clearly BSD or Apache2 would also be fine)\n\nThe URL encoding thing is nuts.",
+      "parentUuid": "ce4e4d56_d1e96410",
+      "range": {
+        "startLine": 431,
+        "startChar": 31,
+        "endLine": 431,
+        "endChar": 43
+      },
+      "revId": "48be849bb96b355d0e155be81d0b702efa896bc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_6a00b7a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T19:23:09Z",
+      "side": 1,
+      "message": "This is the cause of the 500s I get when testing this.\n\nNot in request scoped user\n\tat com.google.gerrit.server.IdentifiedUser.getStarredChanges(IdentifiedUser.java:331)\n\tat com.google.gerrit.server.change.ChangeResource.getETag(ChangeResource.java:66)\n\tat com.google.gerrit.server.change.GetRevisionActions.getETag(GetRevisionActions.java:67)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.notModified(RestApiServlet.java:403)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:302)",
+      "range": {
+        "startLine": 67,
+        "startChar": 22,
+        "endLine": 67,
+        "endChar": 69
+      },
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

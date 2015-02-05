@@ -22,6 +22,30 @@
       "revId": "198bb7e9ee2474d53d6f76d4effc2c658a2ceaf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_d55bfc39",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-05T00:29:47Z",
+      "side": 1,
+      "message": "I was trying to avoid adding Yet Another Preference.\n\nWould you be OK with renaming this in the UI?\n\nIf I add another preference it\u0027s going to have to default to Y, to keep consistency with current default behaviour, which will add to the patches you have to maintain according to your comment on the \"mute common path prefixes\" preference.",
+      "parentUuid": "3c21e895_957c649e",
+      "range": {
+        "startLine": 361,
+        "startChar": 10,
+        "endLine": 361,
+        "endChar": 60
+      },
+      "revId": "198bb7e9ee2474d53d6f76d4effc2c658a2ceaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

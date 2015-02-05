@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "972c6f7c_c8336f91",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/ETagView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:41:29Z",
+      "side": 1,
+      "message": "I think instead of a marker interface it might be more typesafe to have ETagView extend RestReadView:\n\n public interface ETagView\u003cR extends RestResource\u003e extends RestReadView\u003cR\u003e {\n   public String getETag(R rsrc);\n }\n\nThen you know it is safe to cast the rsrc (i.e. ignore the warnings) to an R when calling getETag.",
+      "revId": "f9d1a563396a4764852898539f7a844fb915078a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

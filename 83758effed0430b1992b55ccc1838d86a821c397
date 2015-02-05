@@ -34,6 +34,24 @@
       "revId": "83758effed0430b1992b55ccc1838d86a821c397",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_c8b44fd4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 50
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T11:44:10Z",
+      "side": 1,
+      "message": "Ah, it\u0027s likly the problem that is addressed by [1].\n\n[1] https://gerrit-review.googlesource.com/63130",
+      "parentUuid": "972c6f7c_88aa576e",
+      "revId": "83758effed0430b1992b55ccc1838d86a821c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

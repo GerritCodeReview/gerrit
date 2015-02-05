@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_6817e3e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T20:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "972c6f7c_28f6cb5f",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "972c6f7c_4803ffb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_aa570f9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T20:38:21Z",
+      "side": 1,
+      "message": "The API is split out in the previous commit?",
+      "parentUuid": "972c6f7c_4803ffb0",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "972c6f7c_6800c3a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2015-02-05T20:10:18Z",
       "side": 1,
       "message": "Don\u0027t do this. Make a static method to extract this boolean from a Config, and inject the Config into this class same as you do into Submit",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_28640b84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T20:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "972c6f7c_6800c3a3",
       "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_ca5c43c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T20:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d73267d2_8a524bab",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "972c6f7c_a830fb97",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 11
@@ -128,6 +200,30 @@
       "writtenOn": "2015-02-05T20:10:18Z",
       "side": 1,
       "message": "rev.getETag()",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ea610778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T20:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "972c6f7c_a830fb97",
       "range": {
         "startLine": 75,
         "startChar": 13,

@@ -16,6 +16,8 @@ CLOSURE_COMPILER_ARGS = [
   '--warning_level QUIET'
 ]
 
+SRCS = glob(['third-party/**/*.js'])
+
 genrule(
   name = 'css',
   cmd = ';'.join([
@@ -51,8 +53,10 @@ genrule(
     ] +
     ['unzip -p $(location :zip) %s/%s >>$OUT' % (TOP, n) for n in CM_JS] +
     ['unzip -p $(location :zip) %s/addon/%s >>$OUT' % (TOP, n)
-     for n in CM_ADDONS]
+     for n in CM_ADDONS] +
+    ['cat $SRCS >>$OUT']
   ),
+  srcs = SRCS,
   out = 'cm-verbose.js',
 )
 

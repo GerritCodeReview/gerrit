@@ -22,6 +22,30 @@
       "revId": "648819aca773cd517445d7edf85a02f3892c2e62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c21e895_b558803e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeModifiedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-05T01:27:05Z",
+      "side": 1,
+      "message": "This is not new code, it\u0027s extracted out of an existing file.  I used the same date as on the existing file.",
+      "parentUuid": "d73267d2_0aa57bc9",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "648819aca773cd517445d7edf85a02f3892c2e62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

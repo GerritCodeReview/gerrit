@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "972c6f7c_e8c5930f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T18:07:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t all existing callers be adapted now to convert the IOException to InvalidPluginException, so that the behaviour is not changed?",
+      "revId": "daab2c8725f9300f1dd34cfc0ca49ec366ce4bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

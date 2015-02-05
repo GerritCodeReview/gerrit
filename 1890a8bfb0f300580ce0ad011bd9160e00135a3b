@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_e85e73dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-05T16:16:43Z",
+      "side": 1,
+      "message": "OK, will extract this to separate change and base whole topic on that one",
+      "parentUuid": "972c6f7c_a8647bb1",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "1890a8bfb0f300580ce0ad011bd9160e00135a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d73267d2_4a4e932a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 18

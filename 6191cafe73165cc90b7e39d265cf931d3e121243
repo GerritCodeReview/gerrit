@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_6a4b5719",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-05T14:54:00Z",
+      "side": 1,
+      "message": "Let me draw your attention to the fact that the change that implements this, wan\u0027t reviewed yet ;-)",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 43
+      },
+      "revId": "6191cafe73165cc90b7e39d265cf931d3e121243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

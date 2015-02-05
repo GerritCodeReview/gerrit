@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -42,6 +43,8 @@ import java.io.IOException;
 @Singleton
 public class DeleteBranch implements RestModifyView<BranchResource, Input>{
   private static final Logger log = LoggerFactory.getLogger(DeleteBranch.class);
+  private static final int MAX_LOCK_FAILURE_CALLS = 10;
+  private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
 
   static class Input {
   }
@@ -81,14 +84,28 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
     Repository r = repoManager.openRepository(rsrc.getNameKey());
     try {
       RefUpdate.Result result;
-      RefUpdate u;
-      try {
-        u = r.updateRef(rsrc.getRef());
-        u.setForceUpdate(true);
-        result = u.delete();
-      } catch (IOException e) {
-        log.error("Cannot delete " + rsrc.getBranchKey(), e);
-        throw e;
+      RefUpdate u = r.updateRef(rsrc.getRef());
+      u.setForceUpdate(true);
+      int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
+      for (;;) {
+        try {
+          result = u.delete();
+        } catch (LockFailedException e) {
+          result = RefUpdate.Result.LOCK_FAILURE;
+        } catch (IOException e) {
+          log.error("Cannot delete " + rsrc.getBranchKey(), e);
+          throw e;
+        }
+        if (result == RefUpdate.Result.LOCK_FAILURE
+            && --remainingLockFailureCalls > 0) {
+          try {
+            Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
+          } catch (InterruptedException ie) {
+            // ignore
+          }
+        } else {
+          break;
+        }
       }
 
       switch (result) {

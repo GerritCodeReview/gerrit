@@ -169,6 +169,11 @@ public class RevisionIT extends AbstractDaemonTest {
     origIt.next();
     assertThat(origIt.next().message).isEqualTo(expectedMessage);
 
+    assertThat((Iterable<?>)cherry.get().messages).hasSize(1);
+    Iterator<ChangeMessageInfo> cherryIt = cherry.get().messages.iterator();
+    expectedMessage = "Patch Set 1: Cherry Picked from branch master.";
+    assertThat(cherryIt.next().message).isEqualTo(expectedMessage);
+
     assertThat(cherry.get().subject).contains(in.message);
     assertThat(cherry.get().topic).isEqualTo("someTopic");
     cherry.current().review(ReviewInput.approve());

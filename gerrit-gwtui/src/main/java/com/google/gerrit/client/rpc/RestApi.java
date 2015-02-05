@@ -424,7 +424,7 @@ public class RestApi {
   /*-{ return JSON.stringify(jso) }-*/;
 
   private static native String decodeBase64(String a)
-  /*-{ return $wnd.atob(a) }-*/;
+  /*-{ return $wnd.Base64.decode(a) }-*/;
 
   private <T extends JavaScriptObject> void sendRaw(Method method, String body,
       HttpCallback<T> cb) {

@@ -243,12 +243,12 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  void loadChangeInfo(boolean firstCall, AsyncCallback<ChangeInfo> cb) {
+  void loadChangeInfo(boolean f, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
-        ListChangesOption.CHANGE_ACTIONS,
-        ListChangesOption.ALL_REVISIONS));
-    if (!firstCall) {
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.ALL_REVISIONS));
+    if (!f) {
       call.background();
     }
     call.get(cb);

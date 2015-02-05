@@ -58,6 +58,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
@@ -299,7 +300,7 @@ public class RestApiServlet extends HttpServlet {
         checkRequiresCapability(viewData);
       }
 
-      if (notModified(req, rsrc)) {
+      if (notModified(req, rsrc, viewData.view)) {
         res.sendError(SC_NOT_MODIFIED);
         return;
       }
@@ -392,9 +393,18 @@ public class RestApiServlet extends HttpServlet {
     return defaultMessage;
   }
 
-  private static boolean notModified(HttpServletRequest req, RestResource rsrc) {
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private static boolean notModified(HttpServletRequest req, RestResource rsrc,
+      RestView<RestResource> view) {
     if (!isGetOrHead(req)) {
       return false;
+    }
+
+    if (view instanceof ETagView) {
+      String have = req.getHeader(HttpHeaders.IF_NONE_MATCH);
+      if (have != null) {
+        return have.equals(((ETagView) view).getETag(rsrc));
+      }
     }
 
     if (rsrc instanceof RestResource.HasETag) {

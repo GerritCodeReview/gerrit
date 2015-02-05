@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "972c6f7c_28f6cb5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:10:18Z",
+      "side": 1,
+      "message": "Huh? Just inject InternalChangeQuery directly.",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_4803ffb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:10:18Z",
+      "side": 1,
+      "message": "This is no better than just doing the cast without checking which throws a ClassCastException if it fails.\n\nI have a slightly better but still not great idea that I will comment on once you\u0027ve split out the API into a separate change.",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_6800c3a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:10:18Z",
+      "side": 1,
+      "message": "Don\u0027t do this. Make a static method to extract this boolean from a Config, and inject the Config into this class same as you do into Submit",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d73267d2_6a00b7a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 11
@@ -18,6 +69,70 @@
         "startChar": 22,
         "endLine": 67,
         "endChar": 69
+      },
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_882b372b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:10:18Z",
+      "side": 1,
+      "message": "I don\u0027t know why this would be racy. I can see why it might fail though. Is the call from RestApiServlet late enough that the RequestContext has been initialized?",
+      "parentUuid": "d73267d2_6a00b7a3",
+      "range": {
+        "startLine": 67,
+        "startChar": 22,
+        "endLine": 67,
+        "endChar": 69
+      },
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_8a524bab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:10:18Z",
+      "side": 1,
+      "message": "Never use Charset.forName. Use StandardCharsets.UTF_8.",
+      "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_a830fb97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:10:18Z",
+      "side": 1,
+      "message": "rev.getETag()",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 46
       },
       "revId": "8a0fdc62df65ff99cb8861e6557dd8c27971c394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

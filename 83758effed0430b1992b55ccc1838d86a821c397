@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "972c6f7c_68efe3b8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 50
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-05T11:31:34Z",
+      "side": 1,
+      "message": "What has happened here? (same below in line 923)",
+      "revId": "83758effed0430b1992b55ccc1838d86a821c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

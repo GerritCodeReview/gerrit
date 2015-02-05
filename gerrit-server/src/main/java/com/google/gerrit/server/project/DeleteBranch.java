@@ -104,7 +104,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
           break;
 
         case REJECTED_CURRENT_BRANCH:
-          log.warn("Cannot delete " + rsrc.getBranchKey() + ": " + result.name());
+          log.error("Cannot delete " + rsrc.getBranchKey() + ": " + result.name());
           throw new ResourceConflictException("cannot delete current branch");
 
         default:

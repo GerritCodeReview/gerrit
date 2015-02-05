@@ -34,6 +34,24 @@
       "revId": "f9d1a563396a4764852898539f7a844fb915078a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ca336391",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/ETagView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T20:52:43Z",
+      "side": 1,
+      "message": "Yeah, there is no way to make the call in a typesafe manner. You will probably have to do a raw cast. But you know that it\u0027s safe at runtime because you have already verified that the type of the RestReadView matches the type of the RestResource.\n\n(I also forgot to mention: the other reason it\u0027s ok to do this as a subinterface rather than a marker interface is that ETags only really make sense on read views, they don\u0027t make sense on views that modify the data.)",
+      "parentUuid": "972c6f7c_084e67fb",
+      "revId": "f9d1a563396a4764852898539f7a844fb915078a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

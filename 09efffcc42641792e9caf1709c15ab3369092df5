@@ -45,6 +45,30 @@
       "revId": "09efffcc42641792e9caf1709c15ab3369092df5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_eaebc7b6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-05T01:29:21Z",
+      "side": 1,
+      "message": "I was searching for the right way to do it java-ish.\nWould I implement any method and delegate to out by hand?\n\nI was rather looking for a construct, which is more like java-script-ish like\n\n    new OutputStream(out) {\n        @Override // any other method is inherited by `out`\n        public void close() {\n            // do our thing\n        }\n\nwhere we don\u0027t subclass classes but derive behavior from an object.",
+      "parentUuid": "972c6f7c_482dbf8f",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 34
+      },
+      "revId": "09efffcc42641792e9caf1709c15ab3369092df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

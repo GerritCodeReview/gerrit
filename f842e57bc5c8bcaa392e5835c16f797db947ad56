@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73267d2_8a87aba9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T22:05:35Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "f842e57bc5c8bcaa392e5835c16f797db947ad56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ca81a395",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-05T22:05:35Z",
+      "side": 1,
+      "message": "Pretty sure this gives you a couple of warnings. Suppress them:\n\n @SupressWarnings(\"whatever\")\n ETagView view \u003d (ETagView) view;\n return have.equals(view.getETag(rsrc));\n\n(If the method call also has a warning, you\u0027ll need to put @SuppressWarnings on the method.",
+      "revId": "f842e57bc5c8bcaa392e5835c16f797db947ad56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

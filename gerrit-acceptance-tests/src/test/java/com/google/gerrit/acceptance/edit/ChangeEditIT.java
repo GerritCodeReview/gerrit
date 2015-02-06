@@ -53,10 +53,10 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.ObjectId;
@@ -82,7 +82,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private final static String FILE_NAME3 = "foo3";
   private final static byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private final static byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
-  private final static byte[] CONTENT_NEW2 = "qux".getBytes(UTF_8);
+  private final static byte[] CONTENT_NEW2 = "quxÄÜÖßµ".getBytes(UTF_8);
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -301,16 +301,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(adminSession.get(urlEditMessage()).getStatusCode())
         .isEqualTo(SC_NOT_FOUND);
     EditMessage.Input in = new EditMessage.Input();
-    in.message = String.format("New commit message\n\nChange-Id: %s",
+    in.message = String.format("New commit message\n\n" +
+        CONTENT_NEW2 + "\n\nChange-Id: %s",
         change.getKey());
     assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
         .isEqualTo(SC_NO_CONTENT);
-    RestResponse r = adminSession.get(urlEditMessage());
-    assertThat(adminSession.get(urlEditMessage()).getStatusCode())
-        .isEqualTo(SC_OK);
-    String content = r.getEntityContent();
-    assertThat(StringUtils.newStringUtf8(Base64.decodeBase64(content)))
-        .isEqualTo(in.message);
+    RestResponse r = adminSession.getJsonAccept(urlEditMessage());
+    assertThat(r.getStatusCode()).isEqualTo(SC_OK);
+    assertThat(readContentFromJson(r)).isEqualTo(in.message);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
@@ -538,11 +536,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RestSession.newRawInput(CONTENT_NEW2)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    RestResponse r = adminSession.get(urlEditFile());
+    RestResponse r = adminSession.getJsonAccept(urlEditFile());
     assertThat(r.getStatusCode()).isEqualTo(SC_OK);
-    String content = r.getEntityContent();
-    assertThat(StringUtils.newStringUtf8(Base64.decodeBase64(content)))
-        .isEqualTo(StringUtils.newStringUtf8(CONTENT_NEW2));
+    assertThat(readContentFromJson(r)).isEqualTo(
+        StringUtils.newStringUtf8(CONTENT_NEW2));
   }
 
   @Test
@@ -717,5 +714,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     RestResponse r = adminSession.get(files ? urlGetFiles() : urlEdit());
     assertThat(r.getStatusCode()).isEqualTo(SC_OK);
     return newGson().fromJson(r.getReader(), EditInfo.class);
+  }
+
+  private String readContentFromJson(RestResponse r) throws IOException {
+    JsonReader jsonReader = new JsonReader(r.getReader());
+    jsonReader.setLenient(true);
+    return newGson().fromJson(jsonReader, String.class);
   }
 }

@@ -16,9 +16,11 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
 
+import org.apache.http.Header;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -41,7 +43,20 @@ public class RestSession extends HttpSession {
 
   @Override
   public RestResponse get(String endPoint) throws IOException {
+    return getWithHeader(endPoint, null);
+  }
+
+  public RestResponse getJsonAccept(String endPoint) throws IOException {
+    return getWithHeader(endPoint,
+        new BasicHeader(HttpHeaders.ACCEPT, "application/json"));
+  }
+
+  private RestResponse getWithHeader(String endPoint, Header header)
+      throws IOException {
     HttpGet get = new HttpGet(url + "/a" + endPoint);
+    if (header != null) {
+      get.addHeader(header);
+    }
     return new RestResponse(getClient().execute(get));
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_d7b49c05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T21:40:31Z",
+      "side": 1,
+      "message": "Don\u0027t throw an unchecked exception. The only place where you *had* to do this was in the UiAction method, because the signature didn\u0027t allow checked exceptions.\n\nI think ResourceConflictException would be fine here.",
+      "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

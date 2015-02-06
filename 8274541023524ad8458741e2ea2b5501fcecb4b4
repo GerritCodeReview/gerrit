@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_588afd2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T21:34:57Z",
+      "side": 1,
+      "message": "Yes, unnecessary optimization. The HotSpot JIT is pretty smart and should be able to inline the getChange().getTopic() call chain. So you\u0027d only be paying for the extra storage operation. (If that. The JIT might even choose to reorder it, who knows.)\n\nAnyway, this is the kind of optimization you\u0027d want to measure first. And considering 5 lines down we\u0027re doing a Lucene search...probably not going to make a difference :)",
+      "parentUuid": "7cbfe0de_f761e0fb",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "8274541023524ad8458741e2ea2b5501fcecb4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_77315018",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 16

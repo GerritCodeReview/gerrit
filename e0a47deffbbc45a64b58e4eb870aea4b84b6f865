@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbad4ec_58a1ddbc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T21:26:22Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 422,
+        "startChar": 33,
+        "endLine": 422,
+        "endChar": 49
+      },
+      "revId": "e0a47deffbbc45a64b58e4eb870aea4b84b6f865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_b76b68d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventDeserializer.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T21:26:22Z",
+      "side": 1,
+      "message": "Tiny tiny nit: consistent capitalization with the rest of the file.",
+      "range": {
+        "startLine": 45,
+        "startChar": 36,
+        "endLine": 45,
+        "endChar": 37
+      },
+      "revId": "e0a47deffbbc45a64b58e4eb870aea4b84b6f865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

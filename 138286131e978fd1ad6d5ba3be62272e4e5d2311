@@ -39,6 +39,30 @@
       "revId": "138286131e978fd1ad6d5ba3be62272e4e5d2311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_77a4b0ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T22:03:51Z",
+      "side": 1,
+      "message": "This is passed into the submit method and propagated down the call stack. \n\nIn server/git/ReceiveCommit submit is called with force\u003dtrue and in Submit.java:apply it is called with force\u003dfalse.\nExamining checkSubmitRule shows, that when force\u003d\u003dtrue, there will be no exception in case of not finding a set of rules which would enable submission of this.\n\nThinking about that, maybe `force` should not be passed to checkSubmitRule, but should rather be used to determine if checkSubmitRule should be called at all.\n\nThough you seem to need some kind of result of checkSubmitRule to record it in the change update.",
+      "parentUuid": "9cbad4ec_1884851e",
+      "range": {
+        "startLine": 247,
+        "startChar": 37,
+        "endLine": 247,
+        "endChar": 50
+      },
+      "revId": "138286131e978fd1ad6d5ba3be62272e4e5d2311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

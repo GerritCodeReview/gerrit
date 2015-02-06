@@ -34,6 +34,24 @@
       "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_782261a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T21:54:19Z",
+      "side": 1,
+      "message": "\u003e I only expect this exception to trigger, when you deliberately choose to call submit without checking if you are allowed to do so.\n\nNot so. Your web UI could have an outdated version of the actions, where one of the changes recently became not submittable, and you clicked on the button.\n\n\u003e And in that case a server throwing the hands up in the air, \"500!\" is totally fine?\n\nNo, 409 is better. 500 means \"something broke.\" Nothing broke here, it was just a data race.",
+      "parentUuid": "9cbad4ec_d8128d54",
+      "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

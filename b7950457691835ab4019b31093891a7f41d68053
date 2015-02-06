@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ccee4a3_140fb454",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 52
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T10:18:51Z",
+      "side": 1,
+      "message": "does this generate a hyperlink to that section?",
+      "range": {
+        "startLine": 497,
+        "startChar": 48,
+        "endLine": 497,
+        "endChar": 63
+      },
+      "revId": "b7950457691835ab4019b31093891a7f41d68053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_1bfa3bca",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 52
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T10:18:51Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "b7950457691835ab4019b31093891a7f41d68053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_d4413c5f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 52
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T10:18:51Z",
+      "side": 1,
+      "message": "Add the default values.  See comment below.",
+      "revId": "b7950457691835ab4019b31093891a7f41d68053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_f43c38f5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 52
+      },
+      "lineNbr": 1937,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T10:18:51Z",
+      "side": 1,
+      "message": "Documentation of these settings was already done at line 1880-1888.\n\nRemove this, but move the information about defaults into the paragraphs above.",
+      "range": {
+        "startLine": 1927,
+        "startChar": 0,
+        "endLine": 1937,
+        "endChar": 17
+      },
+      "revId": "b7950457691835ab4019b31093891a7f41d68053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

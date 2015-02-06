@@ -598,4 +598,14 @@ public final class Change {
   public void setTopic(String topic) {
     this.topic = topic;
   }
+
+  @Override
+  public String toString() {
+    return new StringBuilder(getClass().getSimpleName())
+        .append('{').append(changeId)
+        .append(" (").append(changeKey).append("), ")
+        .append("dest=").append(dest).append(", ")
+        .append("status=").append(status).append('}')
+        .toString();
+  }
 }

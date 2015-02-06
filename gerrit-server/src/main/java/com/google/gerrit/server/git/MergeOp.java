@@ -494,6 +494,7 @@ public class MergeOp {
 
   private ListMultimap<SubmitType, Change> validateChangeList(
       List<ChangeData> submitted) throws MergeException {
+    logDebug("Validating {} changes", submitted.size());
     ListMultimap<SubmitType, Change> toSubmit = ArrayListMultimap.create();
 
     Map<String, Ref> allRefs;

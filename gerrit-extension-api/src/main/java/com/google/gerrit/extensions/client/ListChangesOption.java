@@ -55,7 +55,10 @@ public enum ListChangesOption {
   WEB_LINKS(14),
 
   /** Include consistency check results. */
-  CHECK(15);
+  CHECK(15),
+
+  /** Include allowed change actions client could perform. */
+  CHANGE_ACTIONS(16);
 
   private final int value;
 

@@ -642,6 +642,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 
+  static boolean wholeTopicEnabled(Config config) {
+    return config.getBoolean("change", null, "submitWholeTopic" , false);
+  }
+
   public static class CurrentRevision implements
       RestModifyView<ChangeResource, SubmitInput> {
     private final Provider<ReviewDb> dbProvider;

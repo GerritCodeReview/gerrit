@@ -362,14 +362,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   private Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
-      boolean force) throws ResourceConflictException, OrmException,
-      IOException {
-    ReviewDb db = dbProvider.get();
-    ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
+      boolean force, ReviewDb db, ChangeData cd, Timestamp timestamp)
+          throws ResourceConflictException, OrmException, IOException {
+
     List<SubmitRecord> submitRecords = checkSubmitRule(cd,
         rsrc.getPatchSet(), force);
 
-    final Timestamp timestamp = TimeUtil.nowTs();
     Change change = rsrc.getChange();
     ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
     update.submit(submitRecords);
@@ -392,13 +390,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   private Change submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
-      boolean force, String topic) throws ResourceConflictException, OrmException,
+      boolean force, ReviewDb db, ChangeData cd, Timestamp timestamp,
+      String topic) throws ResourceConflictException, OrmException,
       IOException {
     Preconditions.checkNotNull(topic);
-    final Timestamp timestamp = TimeUtil.nowTs();
-
-    ReviewDb db = dbProvider.get();
-    ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
 
     List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
     String problems = areChangesSubmittable(changesByTopic, caller, force);
@@ -440,10 +435,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
     String topic = rsrc.getChange().getTopic();
+    Timestamp timestamp = TimeUtil.nowTs();
+    ReviewDb db = dbProvider.get();
+    ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
     if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
-      return submitWholeTopic(rsrc, caller, force, topic);
+      return submitWholeTopic(rsrc, caller, force, db, cd, timestamp, topic);
     } else {
-      return submitThisChange(rsrc, caller, force);
+      return submitThisChange(rsrc, caller, force, db, cd, timestamp);
     }
   }
 

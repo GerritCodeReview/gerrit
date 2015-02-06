@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_b844795d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T19:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_7708304e",
+      "revId": "f369cc0e14511a274ca67700ac4bd02ffffa92cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_d8416d5f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_d84f2d78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T19:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_d8416d5f",
+      "revId": "f369cc0e14511a274ca67700ac4bd02ffffa92cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_b836b911",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2015-02-06T18:41:36Z",
       "side": 1,
       "message": "Always use {} around blocks.",
+      "revId": "f369cc0e14511a274ca67700ac4bd02ffffa92cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_170fb454",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T19:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_b836b911",
       "revId": "f369cc0e14511a274ca67700ac4bd02ffffa92cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c21e895_f5f83885",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T05:11:00Z",
+      "side": 1,
+      "message": "There\u0027s a lot of duplicated code in these two functions.  It might be worth trying to refactor it a bit.",
+      "range": {
+        "startLine": 355,
+        "startChar": 2,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "51315c15db7e98758b5ba0f7a0ce2a847a20fa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

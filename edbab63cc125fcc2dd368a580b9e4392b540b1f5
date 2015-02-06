@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ccee4a3_94d4e446",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/events/EventsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T06:41:59Z",
+      "side": 1,
+      "message": "I expected this to fail, but it doesn\u0027t.  The call is successful and the result is that the previous registration which was done at line 51 is overridden.\n\nSo if we then call:\n\n EventTypes.getClass(\u0027test-event\u0027);\n\n, it returns `AnotherTestEvent.class` instead of `TestEvent.class`.\n\nThe question is what is the actual expected behaviour here?  should it fail, or should it silently override the previous registration?",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 55
+      },
+      "revId": "edbab63cc125fcc2dd368a580b9e4392b540b1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

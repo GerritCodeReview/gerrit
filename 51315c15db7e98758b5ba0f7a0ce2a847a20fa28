@@ -22,6 +22,30 @@
       "revId": "51315c15db7e98758b5ba0f7a0ce2a847a20fa28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_dbf3b3fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T07:54:22Z",
+      "side": 1,
+      "message": "When these functions were introduced, Dave complained it\u0027s hard to read when all in one function, see discussion in https://gerrit-review.googlesource.com/#/c/63041/8/gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java\n\nI will try to refactor it a bit such that double code is removed.",
+      "parentUuid": "3c21e895_f5f83885",
+      "range": {
+        "startLine": 355,
+        "startChar": 2,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "51315c15db7e98758b5ba0f7a0ce2a847a20fa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

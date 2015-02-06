@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fcb1100e_bbcfc7af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T06:13:11Z",
+      "side": 1,
+      "message": "This was renamed to Event.",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb1100e_fbc54f93",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 16

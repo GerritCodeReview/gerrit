@@ -244,7 +244,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    * @return a reason why any of the changes is not submittable or null
    */
   private String areChangesSubmittable(List<ChangeData> changes,
-      IdentifiedUser identifiedUser) {
+      IdentifiedUser identifiedUser, boolean force) {
     for (ChangeData c : changes) {
       try {
         ChangeControl changeControl = c.changeControl().forUser(
@@ -255,7 +255,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (!changeControl.canSubmit()) {
           return DEFAULT_BLOCKED_TOPIC_TOOLTIP;
         }
-        checkSubmitRule(c, c.currentPatchSet(), false);
+        checkSubmitRule(c, c.currentPatchSet(), force);
       } catch (OrmException e) {
         log.error(String.valueOf(e));
         throw new OrmRuntimeException(e);
@@ -277,7 +277,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
-    if (areChangesSubmittable(Arrays.asList(cd), resource.getUser()) != null) {
+    if (areChangesSubmittable(Arrays.asList(cd), resource.getUser(), false)
+        != null) {
       visible = false;
     }
 
@@ -297,7 +298,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(changesByTopic.size()));
       String topicProblems = areChangesSubmittable(changesByTopic,
-          resource.getUser());
+          resource.getUser(), false);
       if (!Strings.isNullOrEmpty(topicProblems)) {
         return new UiAction.Description()
           .setLabel(submitTopicLabel)

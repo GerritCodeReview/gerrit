@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbad4ec_d8660d12",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T19:03:22Z",
+      "side": 1,
+      "message": "This is now a no-op change, unrelated to this change as a whole.",
+      "revId": "8274541023524ad8458741e2ea2b5501fcecb4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_b86b59d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T19:03:22Z",
+      "side": 1,
+      "message": "Nit: if you\u0027re going to write a Javadoc comment, make it a full Javadoc comment:\n\n* one line summary of the whole method\n* additional details, if necessary, after a \u003cp\u003e\n* document all parameters\n\nIf you just want an implementation comment, put it in // comments.",
+      "revId": "8274541023524ad8458741e2ea2b5501fcecb4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_d7413c5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T19:03:22Z",
+      "side": 1,
+      "message": "ETag",
+      "range": {
+        "startLine": 65,
+        "startChar": 21,
+        "endLine": 65,
+        "endChar": 25
+      },
+      "revId": "8274541023524ad8458741e2ea2b5501fcecb4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_b736c811",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T19:03:22Z",
+      "side": 1,
+      "message": "How about:\n\n String topic \u003d rsrc.getChange().getTopic();\n if (submitWholeTopicEnabled(config) \u0026\u0026 !Strings.isNullOrEmpty(topic)) {",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "8274541023524ad8458741e2ea2b5501fcecb4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_77315018",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T19:03:22Z",
+      "side": 1,
+      "message": "Maybe invert the if condition and add an early return:\n\n if (!submitWholeTopicEnabled(config) || ...) {\n   return rsrc.getETag();\n }\n \u003ceverything else\u003e",
+      "revId": "8274541023524ad8458741e2ea2b5501fcecb4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_7876e1c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T19:03:22Z",
+      "side": 1,
+      "message": "This implementation should be shared with Submit. It should maybe even live in Submit.",
+      "revId": "8274541023524ad8458741e2ea2b5501fcecb4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

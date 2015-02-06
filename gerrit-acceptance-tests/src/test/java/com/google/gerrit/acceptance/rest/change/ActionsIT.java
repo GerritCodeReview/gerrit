@@ -18,10 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -36,9 +39,20 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revisionActions() throws Exception {
+  public void initialRevisionActions() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
+    assertThat(actions).containsKey("cherrypick");
+    assertThat(actions).hasSize(1);
+  }
+
+  @Test
+  public void approvedRevisionActions() throws Exception {
+    String changeId = createChangeWithTopic().getChangeId();
+    approve(changeId);
+    Map<String, ActionInfo> actions = getActions(changeId);
+    assertThat(actions).containsKey("cherrypick");
+    assertThat(actions).containsKey("submit");
     assertThat(actions).hasSize(2);
   }
 
@@ -55,5 +69,13 @@ public class ActionsIT extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master%topic=foo");
+  }
+
+  private void approve(String changeId) throws IOException {
+    RestResponse r = adminSession.post(
+        "/changes/" + changeId + "/revisions/current/review",
+        new ReviewInput().label("Code-Review", 2));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.consume();
   }
 }

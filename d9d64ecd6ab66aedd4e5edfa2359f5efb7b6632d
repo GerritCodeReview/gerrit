@@ -22,6 +22,29 @@
       "revId": "d9d64ecd6ab66aedd4e5edfa2359f5efb7b6632d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_57d76c48",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 50
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-06T07:34:00Z",
+      "side": 0,
+      "message": "This check was erroneuosly removed: now the diff is failing for binary files, for anonymous users.",
+      "range": {
+        "startLine": 270,
+        "startChar": 13,
+        "endLine": 270,
+        "endChar": 33
+      },
+      "revId": "d9d64ecd6ab66aedd4e5edfa2359f5efb7b6632d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

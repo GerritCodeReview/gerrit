@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_57052c34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T18:51:32Z",
+      "side": 1,
+      "message": "Done, which leads me to a question: Is this syntax sensible, because there are tools relying on it? If so where do I find/use these tools?",
+      "parentUuid": "9cbad4ec_58055d34",
+      "range": {
+        "startLine": 76,
+        "startChar": 19,
+        "endLine": 76,
+        "endChar": 20
+      },
+      "revId": "967d671fb376af431e57c043622043db3a19e352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_180fe554",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 11
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_78314118",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T18:51:32Z",
+      "side": 1,
+      "message": "done.\n\ncheckerProvider is not marked as Singleton, so it should have a Provider here.",
+      "parentUuid": "9cbad4ec_180fe554",
+      "revId": "967d671fb376af431e57c043622043db3a19e352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_3812a980",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 11
@@ -53,6 +95,30 @@
       "writtenOn": "2015-02-06T18:40:08Z",
       "side": 1,
       "message": "Nit: redundant parens.",
+      "range": {
+        "startLine": 416,
+        "startChar": 8,
+        "endLine": 416,
+        "endChar": 9
+      },
+      "revId": "967d671fb376af431e57c043622043db3a19e352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_582e7db6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T18:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_3812a980",
       "range": {
         "startLine": 416,
         "startChar": 8,

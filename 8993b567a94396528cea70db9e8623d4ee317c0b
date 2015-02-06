@@ -16,6 +16,24 @@
       "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_37ae38ad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T23:46:37Z",
+      "side": 1,
+      "message": "This file is growing in https://gerrit-review.googlesource.com/#/c/64081/ (also part of the submitWholeTopic topic) and adds checks for the right action keys (\"submit\", \"cherrypick\"), but it doesn\u0027t check for the labels.",
+      "parentUuid": "fcb1100e_db1853a5",
+      "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

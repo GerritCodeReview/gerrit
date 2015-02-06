@@ -52,6 +52,24 @@
       "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_57a1acbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T22:24:29Z",
+      "side": 1,
+      "message": "That\u0027s true. By changing the OrmRuntimeException to ResourceConflictException it will exactly do that.\nThe exception would propagate up to RestApiServlet::service, where a ResourceConflictException is caught and translated into a 409 SC_CONFLICT.\n\nSo all which is wrong is the exception type here in my point of view.",
+      "parentUuid": "9cbad4ec_782261a5",
+      "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

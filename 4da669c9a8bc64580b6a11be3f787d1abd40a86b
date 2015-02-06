@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbad4ec_f8131188",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-06T11:43:39Z",
+      "side": 1,
+      "message": "May be clarify this, that there is no automatic way, but one could still switch manually, by changing all encrypted passwords to clear text passwords, and by removing special SecureStoreClasse config option from Gerrit configuration file.",
+      "revId": "4da669c9a8bc64580b6a11be3f787d1abd40a86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

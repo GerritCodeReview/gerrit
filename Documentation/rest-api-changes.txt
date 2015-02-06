@@ -1445,6 +1445,10 @@ avoid downloading the encoded file contents.
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
 ----
 
+Alternatively, if the only value of the Accept request header is
+`application/json` the content is returned as JSON string and
+`X-FYI-Content-Encoding` is set to `json`.
+
 [[get-edit-meta-data]]
 === Retrieve meta data of a file from Change Edit
 --
@@ -1511,6 +1515,18 @@ The commit message is returned as base64 encoded string.
   VGhpcyBpcyBhIGNvbW1pdCBtZXNzYWdlCgpDaGFuZ2UtSWQ6IElhYzhmZGM1MGRlZjFiYWUzYjAz
 M2JhNjcxZTk0OTBmNzUxNDU5ZGUzCg==
 ----
+
+Alternatively, if the only value of the Accept request header is
+`application/json` the commit message is returned as JSON string:
+
+.Response
+----
+  HTTP/1.1 200 OK
+
+)]}'
+"Subject of the commit message\n\nThis is the body of the commit message.\n\nChange-Id: Iaf1ba916bf843c175673d675bf7f52862f452db9\n"
+----
+
 
 [[publish-edit]]
 === Publish Change Edit
@@ -2860,6 +2876,10 @@ avoid downloading the encoded file contents.
 
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
+
+Alternatively, if the only value of the Accept request header is
+`application/json` the content is returned as JSON string and
+`X-FYI-Content-Encoding` is set to `json`.
 
 [[get-diff]]
 === Get Diff

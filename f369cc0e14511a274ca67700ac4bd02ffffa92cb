@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_7708304e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T18:41:36Z",
+      "side": 1,
+      "message": "This subject doesn\u0027t really make sense, please rewrite.",
+      "revId": "f369cc0e14511a274ca67700ac4bd02ffffa92cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_d8416d5f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T18:41:36Z",
+      "side": 1,
+      "message": "This delta would be easier to understand if you made an assertion over the key set of actions.",
+      "revId": "f369cc0e14511a274ca67700ac4bd02ffffa92cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_b836b911",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T18:41:36Z",
+      "side": 1,
+      "message": "Always use {} around blocks.",
+      "revId": "f369cc0e14511a274ca67700ac4bd02ffffa92cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

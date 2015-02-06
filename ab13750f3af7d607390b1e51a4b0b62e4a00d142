@@ -16,6 +16,24 @@
       "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_d8128d54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-06T21:49:35Z",
+      "side": 1,
+      "message": "This imitates the behavior of submitThisChange(), which has the check for a single change as:\n\n     List\u003cSubmitRecord\u003e submitRecords \u003d checkSubmitRule(cd,\n        rsrc.getPatchSet(), force);\n\nThe checkSubmitRule also just throws a ResourceConflictException if a label is missing. All the areChangesSubmittable is doing is having a loop around a bunch of changes and giving a textual return instead. \n\nSo I thought to have the same behavior as the single change commit, we want to also throw an exception here. So I would change that to ResourceConflictException instead of OrmRuntimeException. \n\nThis is in fact a precaution as the check if it is submittable should have been done before, when displaying the web UI or in the respective /detail or /actions REST API call. I only expect this exception to trigger, when you deliberately choose to call submit without checking if you are allowed to do so. And in that case a server throwing the hands up in the air, \"500!\" is totally fine?",
+      "parentUuid": "7cbfe0de_d7b49c05",
+      "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

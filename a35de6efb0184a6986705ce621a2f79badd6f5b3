@@ -216,6 +216,29 @@
     },
     {
       "key": {
+        "uuid": "fcb1100e_fbee6f11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T07:03:08Z",
+      "side": 1,
+      "message": "Should this just accept a Class?  Then the caller doesn\u0027t have to instantiate an instance that\u0027s only going to be used to call getClass() and then be discarded.",
+      "range": {
+        "startLine": 41,
+        "startChar": 35,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ccee4a3_f4c55893",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 16
@@ -305,6 +328,47 @@
         "endLine": 43,
         "endChar": 3
       },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_14e1f423",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T07:03:08Z",
+      "side": 1,
+      "message": "Yes, that\u0027s probably the best approach.",
+      "parentUuid": "9cbad4ec_58d79d48",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_f4ee7811",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T07:03:08Z",
+      "side": 1,
+      "message": "Add a javadoc on this, and mention that it returns null if the given type is not registered?\n\nOr should it throw an exception if the type is not registered?",
       "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

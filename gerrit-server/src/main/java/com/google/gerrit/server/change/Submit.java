@@ -169,7 +169,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.titlePattern = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTooltip"),
         DEFAULT_TOOLTIP));
-    submitWholeTopic = cfg.getBoolean("change", null, "submitWholeTopic" , false);
+    submitWholeTopic = wholeTopicEnabled(cfg);
     this.submitTopicLabel = MoreObjects.firstNonNull(
         Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
         "Submit whole topic");
@@ -645,6 +645,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           targetUser.getAccountId()));
     }
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
+  }
+
+  static boolean wholeTopicEnabled(Config config) {
+    return config.getBoolean("change", null, "submitWholeTopic" , false);
   }
 
   public static class CurrentRevision implements

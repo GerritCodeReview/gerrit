@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_37599842",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-06T21:36:35Z",
+      "side": 1,
+      "message": "Not really \"instead of\" because that\u0027s what the implementation of that method does.",
+      "revId": "30dcb2b6a3a9a1a763a09bdbc5be45b5c1ca436a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

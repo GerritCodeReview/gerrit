@@ -16,6 +16,24 @@
       "revId": "4da669c9a8bc64580b6a11be3f787d1abd40a86b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_d8184da5",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-06T11:58:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether documentation should contain DIY descriptions.\n\nIs there already DIY somewhere in gerrit doc?\n\nWhat is others take on this?",
+      "parentUuid": "9cbad4ec_f8131188",
+      "revId": "4da669c9a8bc64580b6a11be3f787d1abd40a86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

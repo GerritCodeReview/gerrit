@@ -399,15 +399,20 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
 
-    List<SubmitRecord> submitRecords = checkSubmitRule(cd,
-        rsrc.getPatchSet(), force);
+    List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
+    String problems = areChangesSubmittable(changesByTopic, caller, force);
+    if (problems != null) {
+      throw new ResourceConflictException(problems);
+    }
 
     Change change = rsrc.getChange();
     ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
+
+    List<SubmitRecord> submitRecords = checkSubmitRule(cd,
+        rsrc.getPatchSet(), force);
     update.submit(submitRecords);
 
     db.changes().beginTransaction(change.getId());
-    List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
     try {
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.

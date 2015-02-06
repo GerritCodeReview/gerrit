@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_b8cfd9af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-02-06T06:44:23Z",
+      "side": 1,
+      "message": "Agreed, but this isn\u0027t a javadoc, and I am not talking about a specific class, I am laying the context for this change.  These Events are known in our docs as StreamsEvents.  If ib didn\u0027t specify stream, this commit message risks sounding like it is for all events.",
+      "parentUuid": "1ccee4a3_d4ca5ca1",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb1100e_fbc54f93",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 16
@@ -155,6 +179,30 @@
       "writtenOn": "2015-02-06T06:31:09Z",
       "side": 1,
       "message": "What\u0027s the expected behavior here if it\u0027s called with multiple classes, but some of them have the same type?\n\nI just tested it, and what happens is that the last one registered \"wins\".  I would have expected it to fail on registering a type that is already registered.\n\nI\u0027ll upload a commit that has has a test case for this, so it\u0027s easier to discuss.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_b7cfe8af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-02-06T06:44:23Z",
+      "side": 1,
+      "message": "Hmm, should a plugin perhaps be able to override the type for a particular Id?  That would allow the plugin to potentially add more data to the event, which could be useful.",
+      "parentUuid": "1ccee4a3_f4c55893",
       "range": {
         "startLine": 41,
         "startChar": 2,

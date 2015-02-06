@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "5726779d_c6b442d4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-06T02:40:15Z",
+      "side": 1,
+      "message": "FYI this problem was fixed by:\n\nhttps://gerrit-review.googlesource.com/#/c/63130/",
+      "parentUuid": "3c21e895_75dc2820",
+      "range": {
+        "startLine": 1182,
+        "startChar": 23,
+        "endLine": 1182,
+        "endChar": 25
+      },
+      "revId": "08e498f1b1b309ced469330ae72bb04e15a4de39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "972c6f7c_281deb07",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 13

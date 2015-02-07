@@ -67,12 +67,8 @@ public class JarScanner implements PluginContentScanner {
 
   private final JarFile jarFile;
 
-  public JarScanner(File srcFile) throws InvalidPluginException {
-    try {
-      this.jarFile = new JarFile(srcFile);
-    } catch (IOException e) {
-      throw new InvalidPluginException("Cannot scan plugin file " + srcFile, e);
-    }
+  public JarScanner(File srcFile) throws IOException {
+    this.jarFile = new JarFile(srcFile);
   }
 
   @Override

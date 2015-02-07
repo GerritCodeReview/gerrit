@@ -142,9 +142,10 @@ public class JarPluginProvider implements ServerPluginProvider {
           new URLClassLoader(urls.toArray(new URL[urls.size()]),
               PluginLoader.parentFor(type));
 
+      JarScanner jarScanner = createJarScanner(srcJar);
       ServerPlugin plugin =
           new ServerPlugin(name, description.canonicalUrl, description.user,
-              srcJar, snapshot, new JarScanner(srcJar), description.dataDir,
+              srcJar, snapshot, jarScanner, description.dataDir,
               pluginLoader);
       plugin.setCleanupHandle(new CleanupHandle(tmp, jarFile));
       keep = true;
@@ -153,6 +154,15 @@ public class JarPluginProvider implements ServerPluginProvider {
       if (!keep) {
         jarFile.close();
       }
+    }
+  }
+
+  private JarScanner createJarScanner(File srcJar)
+      throws InvalidPluginException {
+    try {
+      return new JarScanner(srcJar);
+    } catch (IOException e) {
+      throw new InvalidPluginException("Cannot scan plugin file " + srcJar, e);
     }
   }
 }

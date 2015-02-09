@@ -150,10 +150,6 @@ class Actions extends Composite {
     submit.setVisible(canSubmit);
   }
 
-  boolean isSubmitEnabled() {
-    return submit.isVisible() && submit.isEnabled();
-  }
-
   @UiHandler("followUp")
   void onFollowUp(@SuppressWarnings("unused") ClickEvent e) {
     if (followUpAction == null) {

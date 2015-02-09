@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_5769ac8b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T12:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_58f0bd6b",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 16
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_57bbecbf",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
         "patchSetId": 36

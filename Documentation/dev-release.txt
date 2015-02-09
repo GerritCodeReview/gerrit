@@ -400,9 +400,8 @@ including some or all of the following in the email:
 * Update the new discussion group announcement to be sticky
 ** Go to: http://groups.google.com/group/repo-discuss/topics
 ** Click on the announcement thread
-** Near the top right, click on options
-** Under options, click the "Display this top first" checkbox
-** and Save
+** Near the top right, click on actions
+** Under actions, click the "Display this top first" checkbox
 
 * Update the previous discussion group announcement to no longer be sticky
 ** See above (unclick checkbox)

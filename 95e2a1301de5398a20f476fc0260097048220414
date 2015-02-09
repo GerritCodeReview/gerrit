@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_b78c881c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "the init program",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_38d4e9c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "init",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 58
+      },
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_97918438",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "implementations",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 37
+      },
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_7755d0b7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "Move this down (just above the line 224) and remove the \"final\" qualifier.",
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_78214146",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "After adding another constructor in the SecureStoreProvider use it here:\n\n  super(injector, sitePaths, secureStoreInitData.className);",
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_17733480",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreInitData.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "rename to jarFile ?",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 17
+      },
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_f760c0a0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreInitData.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "rename to jarFile ?",
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_d765bcae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T14:07:46Z",
+      "side": 1,
+      "message": "Instead of making this protected, just to make it modifiable from the InitStepSecureStoreProvider, add another constructor which takes the className as the third parameter.",
+      "revId": "95e2a1301de5398a20f476fc0260097048220414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

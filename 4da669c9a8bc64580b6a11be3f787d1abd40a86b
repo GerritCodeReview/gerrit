@@ -34,6 +34,24 @@
       "revId": "4da669c9a8bc64580b6a11be3f787d1abd40a86b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_78bee1b1",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T08:51:06Z",
+      "side": 1,
+      "message": "After thinking about this again, @David you are right, will add short description how to switch do default secure store manually",
+      "parentUuid": "9cbad4ec_d8184da5",
+      "revId": "4da669c9a8bc64580b6a11be3f787d1abd40a86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

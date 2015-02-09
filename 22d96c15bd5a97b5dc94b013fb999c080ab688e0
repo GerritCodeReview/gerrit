@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_b73008e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T09:58:38Z",
+      "side": 1,
+      "message": "a list of the currently stored values",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "22d96c15bd5a97b5dc94b013fb999c080ab688e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_973504d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T09:58:38Z",
+      "side": 1,
+      "message": "a list() method was added to the SecureStore interface",
+      "range": {
+        "startLine": 11,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "22d96c15bd5a97b5dc94b013fb999c080ab688e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_f892f13c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T09:58:38Z",
+      "side": 1,
+      "message": "the old implementation and encrypt them with the new one",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "22d96c15bd5a97b5dc94b013fb999c080ab688e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

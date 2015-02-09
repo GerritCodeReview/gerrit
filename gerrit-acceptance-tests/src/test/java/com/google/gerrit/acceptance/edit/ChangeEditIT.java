@@ -82,7 +82,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private final static String FILE_NAME3 = "foo3";
   private final static byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private final static byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
-  private final static byte[] CONTENT_NEW2 = "quxÄÜÖßµ".getBytes(UTF_8);
+  private final static String CONTENT_NEW2_STR = "quxÄÜÖßµ";
+  private final static byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -302,7 +303,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(SC_NOT_FOUND);
     EditMessage.Input in = new EditMessage.Input();
     in.message = String.format("New commit message\n\n" +
-        CONTENT_NEW2 + "\n\nChange-Id: %s",
+        CONTENT_NEW2_STR + "\n\nChange-Id: %s",
         change.getKey());
     assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
         .isEqualTo(SC_NO_CONTENT);

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_f8de71df",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:56:01Z",
+      "side": 1,
+      "message": "I would rather go the other way around and in 62 also return -1 instead of throwing exception\n\nThis is because throwing exception will also print a stacktrace which is considered a a bug withing the program. Where here we are dealing with wrong parameters provided by user (or not properly configured system). Which is not a bug in program it self.\n\nWhat do you think about such approach @Edvin?",
+      "parentUuid": "9cbad4ec_f8b551b1",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 16
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_57bbecbf",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
         "patchSetId": 36
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_d8e3ada9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_57bbecbf",
+      "range": {
+        "startLine": 107,
+        "startChar": 37,
+        "endLine": 107,
+        "endChar": 41
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_77bef0b1",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
         "patchSetId": 36
@@ -59,6 +107,30 @@
       "writtenOn": "2015-02-09T11:46:08Z",
       "side": 1,
       "message": "too",
+      "range": {
+        "startLine": 161,
+        "startChar": 17,
+        "endLine": 161,
+        "endChar": 19
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_17c5742b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_77bef0b1",
       "range": {
         "startLine": 161,
         "startChar": 17,

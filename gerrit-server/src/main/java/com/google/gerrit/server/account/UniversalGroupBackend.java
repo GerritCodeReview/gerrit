@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMP
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -26,6 +27,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
@@ -43,7 +45,7 @@ import java.util.Set;
  * set of GroupBackends.
  */
 @Singleton
-public class UniversalGroupBackend implements GroupBackend {
+public class UniversalGroupBackend extends AbstractGroupBackend {
   private static final Logger log =
       LoggerFactory.getLogger(UniversalGroupBackend.class);
 
@@ -93,6 +95,25 @@ public class UniversalGroupBackend implements GroupBackend {
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
     return new UniversalGroupMembership(user);
+  }
+
+  @Override
+  public boolean memberOfAny(IdentifiedUser user, Iterable<AccountGroup.UUID> ids) {
+    Multimap<GroupBackend, AccountGroup.UUID> groups = LinkedListMultimap.create();
+    for (AccountGroup.UUID uuid : ids) {
+      for (GroupBackend g : backends) {
+        if (g.handles(uuid)) {
+          groups.put(g, uuid);
+        }
+      }
+    }
+
+    for (Map.Entry<GroupBackend, Collection<UUID>> e : groups.asMap().entrySet()) {
+      if (e.getKey().memberOfAny(user, e.getValue())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private class UniversalGroupMembership implements GroupMembership {

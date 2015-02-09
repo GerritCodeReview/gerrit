@@ -49,6 +49,69 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_78f8214c",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T12:09:20Z",
+      "side": 1,
+      "message": "Consider renaming the file to \u0027pgm-SwitchSecureStore.txt\u0027. This naming would be consistent with \u0027pgm-LocalUsernamesToLowerCase.txt\u0027.",
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_9812d501",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T12:09:20Z",
+      "side": 1,
+      "message": "SwitchSecureStore",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_b80d99e1",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T12:09:20Z",
+      "side": 1,
+      "message": "SwitchSecureStore",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 19
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_37c87843",
         "filename": "Documentation/pgm-switch-secure-store.txt",
         "patchSetId": 37

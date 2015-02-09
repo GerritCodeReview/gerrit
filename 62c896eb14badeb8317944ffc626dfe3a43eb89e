@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbad4ec_f8b551b1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:46:08Z",
+      "side": 1,
+      "message": "Why not to throw a RuntimeException here as it is done above in line 62?",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 16
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_57bbecbf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:46:08Z",
+      "side": 1,
+      "message": "Why square brackets? Are we not formatting keys in subsections like this:\n  section.subsection.key",
+      "range": {
+        "startLine": 107,
+        "startChar": 37,
+        "endLine": 107,
+        "endChar": 41
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_77bef0b1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:46:08Z",
+      "side": 1,
+      "message": "too",
+      "range": {
+        "startLine": 161,
+        "startChar": 17,
+        "endLine": 161,
+        "endChar": 19
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

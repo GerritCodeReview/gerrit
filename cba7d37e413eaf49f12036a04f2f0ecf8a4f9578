@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_d83f2d56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T15:49:31Z",
+      "side": 1,
+      "message": "This method was moved from \u0027Make SecureStore an abstract class\u0027 patch where it is used outside of this class",
+      "parentUuid": "9cbad4ec_7866e190",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 9
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_17d1f4d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T15:49:31Z",
+      "side": 1,
+      "message": "look on my comment for \u0027public\u0027 modifier",
+      "parentUuid": "7cbfe0de_97c4e414",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_58631d7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 30
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_f7de80df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T15:49:31Z",
+      "side": 1,
+      "message": "The null reference  can also come from \u0027InitStepSecureStoreProvider\u0027, therefore it is handled there. In one place only.\n\nAFAIR we cannot inject here GerritServierConfig, because it is not yet bound in Guice. Here we are at the very beginning of init step. If I could easily use GerritServerConfig here then for sure would use it. Instead it was easier to load config manually",
+      "parentUuid": "9cbad4ec_58631d7f",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 76
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_77ca7020",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 30
@@ -82,6 +154,24 @@
       "writtenOn": "2015-02-09T15:35:11Z",
       "side": 1,
       "message": "the null case is already handled, see above",
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_b834797b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T15:49:31Z",
+      "side": 1,
+      "message": "one of the null cases yes, it is handled above. but there is another one from \u0027InitStepSecureStoreProvider\u0027 therefore it should also handled hare.",
+      "parentUuid": "7cbfe0de_77ca7020",
       "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

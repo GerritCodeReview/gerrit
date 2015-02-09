@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_58f0bd6b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:58:21Z",
+      "side": 1,
+      "message": "Yes, then returning -1 above is better.",
+      "parentUuid": "9cbad4ec_f8de71df",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 16
+      },
+      "revId": "62c896eb14badeb8317944ffc626dfe3a43eb89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_57bbecbf",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
         "patchSetId": 36

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_57f64c99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_38a18985",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "681a11a4a075bd1fd371a59c5362a557de46d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_b7e5a8e6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 31
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-09T10:16:27Z",
       "side": 1,
       "message": "in the old SecureStore to the new one",
+      "range": {
+        "startLine": 12,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "681a11a4a075bd1fd371a59c5362a557de46d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_37f3d8a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_b7e5a8e6",
       "range": {
         "startLine": 12,
         "startChar": 60,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_17f0d498",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_97eaa4b2",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "681a11a4a075bd1fd371a59c5362a557de46d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_b85a39e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_f877916f",
+      "range": {
+        "startLine": 14,
+        "startChar": 66,
+        "endLine": 14,
+        "endChar": 71
+      },
+      "revId": "681a11a4a075bd1fd371a59c5362a557de46d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_77d03001",
         "filename": "/COMMIT_MSG",
         "patchSetId": 31
@@ -105,6 +201,30 @@
       "writtenOn": "2015-02-09T10:16:27Z",
       "side": 1,
       "message": "as an abstract class",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "681a11a4a075bd1fd371a59c5362a557de46d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_f7a9e07a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_77d03001",
       "range": {
         "startLine": 27,
         "startChar": 31,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_d7aedc80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_988655f3",
+      "range": {
+        "startLine": 30,
+        "startChar": 49,
+        "endLine": 30,
+        "endChar": 62
+      },
+      "revId": "681a11a4a075bd1fd371a59c5362a557de46d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_17d7b4f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 31
@@ -151,6 +295,30 @@
       "writtenOn": "2015-02-09T10:16:27Z",
       "side": 1,
       "message": "Maybe \"findSubClasses\" would be a better name for these methods?",
+      "range": {
+        "startLine": 137,
+        "startChar": 22,
+        "endLine": 137,
+        "endChar": 36
+      },
+      "revId": "681a11a4a075bd1fd371a59c5362a557de46d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_d865edae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T11:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_17d7b4f7",
       "range": {
         "startLine": 137,
         "startChar": 22,

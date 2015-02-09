@@ -46,6 +46,30 @@
       "revId": "548b982f7699174b1788f17e3a868e8e26a31022",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_b8b359eb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-09T08:30:37Z",
+      "side": 1,
+      "message": "Thanks David :-)",
+      "parentUuid": "1ccee4a3_14569412",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 63
+      },
+      "revId": "548b982f7699174b1788f17e3a868e8e26a31022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

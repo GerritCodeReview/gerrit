@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbad4ec_b8bfd98d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:53:36Z",
+      "side": 1,
+      "message": "(with dependencies) in a separate jar",
+      "range": {
+        "startLine": 1735,
+        "startChar": 21,
+        "endLine": 1735,
+        "endChar": 58
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_37c87843",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:53:36Z",
+      "side": 1,
+      "message": "implementation",
+      "range": {
+        "startLine": 12,
+        "startChar": 24,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_98c41515",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:53:36Z",
+      "side": 1,
+      "message": "`$site_path/lib` (as in line 18)",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_f792003d",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:53:36Z",
+      "side": 1,
+      "message": "however",
+      "range": {
+        "startLine": 22,
+        "startChar": 29,
+        "endLine": 22,
+        "endChar": 37
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_d797fc2a",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:53:36Z",
+      "side": 1,
+      "message": "`$site_path/lib`",
+      "range": {
+        "startLine": 24,
+        "startChar": 35,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_78ca6120",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:53:36Z",
+      "side": 1,
+      "message": "`$site_path/etc/secure.conf`",
+      "range": {
+        "startLine": 25,
+        "startChar": 32,
+        "endLine": 25,
+        "endChar": 58
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_58c79d16",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T11:53:36Z",
+      "side": 1,
+      "message": "jar dependencies",
+      "range": {
+        "startLine": 31,
+        "startChar": 55,
+        "endLine": 31,
+        "endChar": 69
+      },
+      "revId": "940b02a48ae04fc8826b20bcb48927e62a03850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -183,10 +183,9 @@ public class CapabilityControl {
     // the 'CI Servers' actually use the BATCH queue while everyone else gets
     // to use the INTERACTIVE queue without additional grants.
     //
-    GroupMembership groups = user.getEffectiveGroups();
     boolean batch = false;
     for (PermissionRule r : capabilities.priority) {
-      if (match(groups, r)) {
+      if (user.memberOf(r.getGroup().getUUID())) {
         switch (r.getAction()) {
           case INTERACTIVE:
             if (!SystemGroupBackend.isAnonymousOrRegistered(r.getGroup())) {
@@ -265,9 +264,8 @@ public class CapabilityControl {
       return rules;
     }
 
-    GroupMembership groups = user.getEffectiveGroups();
     if (rules.size() == 1) {
-      if (!match(groups, rules.get(0))) {
+      if (!user.memberOf(rules.get(0).getGroup().getUUID())) {
         rules = Collections.emptyList();
       }
       effective.put(permissionName, rules);
@@ -276,7 +274,7 @@ public class CapabilityControl {
 
     List<PermissionRule> mine = new ArrayList<>(rules.size());
     for (PermissionRule rule : rules) {
-      if (match(groups, rule)) {
+      if (user.memberOf(rule.getGroup().getUUID())) {
         mine.add(rule);
       }
     }
@@ -304,7 +302,7 @@ public class CapabilityControl {
             return rule.getGroup().getUUID();
           }
         });
-    return user.getEffectiveGroups().containsAnyOf(ids);
+    return user.memberOfAny(ids);
   }
 
   private static boolean match(GroupMembership groups,

@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.AbstractGroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
@@ -59,7 +59,7 @@ import javax.security.auth.login.LoginException;
 /**
  * Implementation of GroupBackend for the LDAP group system.
  */
-public class LdapGroupBackend implements GroupBackend {
+public class LdapGroupBackend extends AbstractGroupBackend {
   private static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
 
   private static final String LDAP_NAME = "ldap/";

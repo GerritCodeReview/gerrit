@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server;
 
+import autovalue.shaded.com.google.common.common.collect.Iterables;
+
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -36,6 +39,11 @@ public class AnonymousUser extends CurrentUser {
   @Override
   public GroupMembership getEffectiveGroups() {
     return new ListGroupMembership(Collections.singleton(SystemGroupBackend.ANONYMOUS_USERS));
+  }
+
+  @Override
+  public boolean memberOfAny(Iterable<AccountGroup.UUID> ids) {
+    return Iterables.contains(ids, SystemGroupBackend.ANONYMOUS_USERS);
   }
 
   @Override

@@ -21,6 +21,7 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
 class ReviewerPredicate extends IndexPredicate<ChangeData> {
+
   private final Account.Id id;
   private boolean allowDrafts;
 

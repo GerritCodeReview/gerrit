@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_b70da8e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T16:20:26Z",
+      "side": 1,
+      "message": "I still don\u0027t find any other usage of this method except in this class:\n\n  $ git grep getSecureStoreClassFromGerritConfig\n  gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java:  public static String getSecureStoreClassFromGerritConfig(SitePaths sitePaths) {\n  gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java:    this(injector, sitePaths, getSecureStoreClassFromGerritConfig(sitePaths));",
+      "parentUuid": "9cbad4ec_d83f2d56",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 9
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_58631d7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 30
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "The null reference  can also come from \u0027InitStepSecureStoreProvider\u0027, therefore it is handled there. In one place only.\n\nAFAIR we cannot inject here GerritServierConfig, because it is not yet bound in Guice. Here we are at the very beginning of init step. If I could easily use GerritServerConfig here then for sure would use it. Instead it was easier to load config manually",
       "parentUuid": "9cbad4ec_58631d7f",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 76
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_584c3d00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T16:20:26Z",
+      "side": 1,
+      "message": "\u003e The null reference  can also come from \u0027InitStepSecureStoreProvider\u0027, therefore it is handled there. In one place only.\n\nDoesn\u0027t look so. The InitStepSecureStoreProvider will only be bound when the SecureStoreInitData is not null, in which case also its secureStoreClassName is not null.\n\nI haven\u0027t really tried the injection of the @GerritServerConfig. Maybe you can add a couple of bindings in the BaseInit to make it injectable. It might be worth a try.",
+      "parentUuid": "7cbfe0de_f7de80df",
       "range": {
         "startLine": 58,
         "startChar": 30,

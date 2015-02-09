@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "1ccee4a3_34ae30ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-09T20:41:19Z",
+      "side": 1,
+      "message": "I am currently leaning towards a solution that has *Op runnables throw REST-API-compatible exceptions. Still on the fence as to whether execute() should unwrap them, or RestApiHandler should.\n\nI think callers that throw NoSuchChangeException should for the most part _not_ convert those to ResourceNotFoundException, and so on. The REST API handler should (does) do an initial parse that might throw RNFE and result in a 404. If the change disappears racily after the fact, I think it\u0027s fine to return a 500.\n\nOne exception to this pattern might be ResourceConflictException; transaction code should feel free to throw these exceptions and converting them to 409 should be the correct thing in most cases.",
+      "parentUuid": "d73267d2_0a301b13",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 385,
+        "endChar": 5
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77929b13_5fb12b12",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1

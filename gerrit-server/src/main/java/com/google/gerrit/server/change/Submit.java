@@ -18,7 +18,6 @@ import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
@@ -333,78 +332,49 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       });
   }
 
-  private Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
-      boolean force) throws ResourceConflictException, OrmException,
-      IOException {
-    List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
-    final Timestamp timestamp = TimeUtil.nowTs();
-    Change change = rsrc.getChange();
-    ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
-    update.submit(submitRecords);
-
-    ReviewDb db = dbProvider.get();
-    db.changes().beginTransaction(change.getId());
-    try {
-      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
-      // Write update commit after all normalized label commits.
-      batch.write(update, new CommitBuilder());
-      change = submitToDatabase(db, change.getId(), timestamp);
-      if (change == null) {
-        return null;
-      }
-      db.commit();
-    } finally {
-      db.rollback();
-    }
-    indexer.index(db, change);
-    return change;
-  }
-
-  private Change submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
-      boolean force, String topic) throws ResourceConflictException, OrmException,
-      IOException {
-    Preconditions.checkNotNull(topic);
-    List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
-    final Timestamp timestamp = TimeUtil.nowTs();
-    Change change = rsrc.getChange();
-    ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
-    update.submit(submitRecords);
-
-    ReviewDb db = dbProvider.get();
-    db.changes().beginTransaction(change.getId());
-
-    List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
-    try {
-      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
-      // Write update commit after all normalized label commits.
-      batch.write(update, new CommitBuilder());
-
-      for (ChangeData c : changesByTopic) {
-        if (submitToDatabase(db, c.getId(), timestamp) == null) {
-          return null;
-        }
-      }
-      db.commit();
-    } finally {
-      db.rollback();
-    }
-    List<Change.Id> ids = new ArrayList<>(changesByTopic.size());
-    for (ChangeData c : changesByTopic) {
-      ids.add(c.getId());
-    }
-    indexer.indexAsync(ids).checkedGet();
-    return change;
-  }
-
   public Change submit(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
     String topic = rsrc.getChange().getTopic();
-    if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
-      return submitWholeTopic(rsrc, caller, force, topic);
-    } else {
-      return submitThisChange(rsrc, caller, force);
+    List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
+    Timestamp timestamp = TimeUtil.nowTs();
+    Change change = rsrc.getChange();
+    ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
+    update.submit(submitRecords);
+    ReviewDb db = dbProvider.get();
+    db.changes().beginTransaction(change.getId());
+    List<ChangeData> changesToSubmit = null;
+    try {
+      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
+      // Write update commit after all normalized label commits.
+      batch.write(update, new CommitBuilder());
+
+      if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
+        changesToSubmit = queryProvider.get().byTopicOpen(topic);
+        for (ChangeData c : changesToSubmit) {
+          if (submitToDatabase(db, c.getId(), timestamp) == null) {
+            return null;
+          }
+        }
+      } else {
+        change = submitToDatabase(db, change.getId(), timestamp);
+      }
+
+      db.commit();
+    } finally {
+      db.rollback();
     }
+
+    if (changesToSubmit != null) {
+      List<Change.Id> ids = new ArrayList<>(changesToSubmit.size());
+      for (ChangeData c : changesToSubmit) {
+        ids.add(c.getId());
+      }
+      indexer.indexAsync(ids).checkedGet();
+    } else {
+      indexer.index(db, change);
+    }
+    return change;
   }
 
   private BatchMetaDataUpdate approve(RevisionResource rsrc,

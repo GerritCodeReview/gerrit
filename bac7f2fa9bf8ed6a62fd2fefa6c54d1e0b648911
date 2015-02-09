@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "fcb1100e_1b847b1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-09T22:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77929b13_5fb12b12",
+      "range": {
+        "startLine": 70,
+        "startChar": 9,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_75c668a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1
@@ -225,6 +249,30 @@
       "writtenOn": "2015-02-03T22:08:54Z",
       "side": 1,
       "message": "Consider either Runnable (no checked exceptions) or Callable (checked exceptions) instead. These are far more common in the platform and libraries and can be much more composable than declaring your own almost sorta type.\n\nIf you use Callable just document that the return value is discarded.",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 40
+      },
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_14ab349d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-09T22:35:20Z",
+      "side": 1,
+      "message": "In a previous iteration this had a narrower throws declaration, but I agree it seems silly now. (Though I don\u0027t know how much we\u0027ll have in the way of \"libraries\" using this. OTOH, if we support async operations, then Callable gives us that for free.)\n\nChanged to Callable.",
+      "parentUuid": "3c21e895_75c668a1",
       "range": {
         "startLine": 81,
         "startChar": 2,
@@ -349,6 +397,24 @@
     },
     {
       "key": {
+        "uuid": "1ccee4a3_f498b88d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-09T22:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_55cb6ca5",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_35d0f051",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1
@@ -360,6 +426,24 @@
       "writtenOn": "2015-02-03T22:08:54Z",
       "side": 1,
       "message": "return this?",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_fb0d4f32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-09T22:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_35d0f051",
       "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -383,6 +467,24 @@
     },
     {
       "key": {
+        "uuid": "fcb1100e_db129354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-09T22:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_15d5f441",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_f5d9587c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1
@@ -394,6 +496,24 @@
       "writtenOn": "2015-02-03T22:08:54Z",
       "side": 1,
       "message": "make this a field and just add a builder style method to set it false?",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_bb17c742",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-09T22:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_f5d9587c",
       "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -94,6 +94,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "Submit patch set ${patchSet} into ${branch}";
   private static final String DEFAULT_TOPIC_TOOLTIP =
       "Submit all ${topicSize} changes of the same topic";
+  private static final String DEFAULT_BLOCKED_TOPIC_TOOLTIP =
+      "Other changes in this topic are not ready";
+  private static final String DEFAULT_BLOCKED_HIDDEN_TOPIC_TOOLTIP =
+      "Other hidden changes in this topic are not ready";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -233,22 +237,32 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  private boolean areChangesSubmittable(List<ChangeData> changes,
+  /**
+   * @param changes list of changes to be submitted at once
+   * @param identifiedUser the user who is checking to submit
+   * @return a reason why any of the changes is not submittable or null
+   */
+  private String problemsForSubmittingChanges(List<ChangeData> changes,
       IdentifiedUser identifiedUser) {
     for (ChangeData c : changes) {
       try {
         ChangeControl changeControl = c.changeControl().forUser(
             identifiedUser);
-        if (!changeControl.canSubmit()) {
-          return false;
+        if (!changeControl.isVisible(dbProvider.get())) {
+          return DEFAULT_BLOCKED_HIDDEN_TOPIC_TOOLTIP;
         }
+        if (!changeControl.canSubmit()) {
+          return DEFAULT_BLOCKED_TOPIC_TOOLTIP;
+        }
+        checkSubmitRule(c, c.currentPatchSet(), false);
       } catch (OrmException e) {
-        log.error("Failed to get a ChangeControl for Change.Id " +
-            String.valueOf(c.getId()), e);
-        return false;
+        log.error(String.valueOf(e));
+        throw new OrmRuntimeException(e);
+      } catch (ResourceConflictException e) {
+        return DEFAULT_BLOCKED_TOPIC_TOOLTIP;
       }
     }
-    return true;
+    return null;
   }
 
   @Override
@@ -274,17 +288,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       }
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(changesByTopic.size()));
-      // TODO(sbeller):
-      // If the button is visible but disabled the problem of submitting
-      // is at another change in the same topic. Tell the user via
-      // tooltip. Caution: Check access control for those changes.
-      return new UiAction.Description()
-        .setLabel(submitTopicLabel)
-        .setTitle(Strings.emptyToNull(
-            submitTopicTooltip.replace(params)))
-        .setVisible(true)
-        .setEnabled(areChangesSubmittable(
-            changesByTopic, resource.getUser()));
+      String topicProblems = problemsForSubmittingChanges(changesByTopic,
+          resource.getUser());
+      if (!Strings.isNullOrEmpty(topicProblems)) {
+        return new UiAction.Description()
+          .setLabel(submitTopicLabel)
+          .setTitle(topicProblems)
+          .setVisible(true)
+          .setEnabled(false);
+      } else {
+        return new UiAction.Description()
+          .setLabel(submitTopicLabel)
+          .setTitle(Strings.emptyToNull(
+              submitTopicTooltip.replace(params)))
+          .setVisible(true)
+          .setEnabled(true);
+      }
     } else {
       RevId revId = resource.getPatchSet().getRevision();
       Map<String, String> params = ImmutableMap.of(
@@ -336,13 +355,16 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
-    List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
+    ReviewDb db = dbProvider.get();
+    ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
+    List<SubmitRecord> submitRecords = checkSubmitRule(cd,
+        rsrc.getPatchSet(), force);
+
     final Timestamp timestamp = TimeUtil.nowTs();
     Change change = rsrc.getChange();
     ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
     update.submit(submitRecords);
 
-    ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
@@ -364,13 +386,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       boolean force, String topic) throws ResourceConflictException, OrmException,
       IOException {
     Preconditions.checkNotNull(topic);
-    List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
     final Timestamp timestamp = TimeUtil.nowTs();
+
+    ReviewDb db = dbProvider.get();
+    ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
+
+    List<SubmitRecord> submitRecords = checkSubmitRule(cd,
+        rsrc.getPatchSet(), force);
+
     Change change = rsrc.getChange();
     ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
     update.submit(submitRecords);
 
-    ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
 
     List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
@@ -498,12 +525,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  private List<SubmitRecord> checkSubmitRule(RevisionResource rsrc,
-      boolean force) throws ResourceConflictException, OrmException {
-    ChangeData cd =
-        changeDataFactory.create(dbProvider.get(), rsrc.getControl());
+  private List<SubmitRecord> checkSubmitRule(ChangeData cd,
+      PatchSet patchSet, boolean force)
+          throws ResourceConflictException, OrmException {
     List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
-        .setPatchSet(rsrc.getPatchSet())
+        .setPatchSet(patchSet)
         .canSubmit();
     Optional<SubmitRecord> ok = findOkRecord(results);
     if (ok.isPresent()) {
@@ -514,8 +540,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     } else if (results.isEmpty()) {
       throw new IllegalStateException(String.format(
           "ChangeControl.canSubmit returned empty list for %s in %s",
-          rsrc.getPatchSet().getId(),
-          rsrc.getChange().getProject().get()));
+          patchSet.getId(),
+          cd.change().getProject().get()));
     }
 
     for (SubmitRecord record : results) {
@@ -556,8 +582,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
                 throw new IllegalStateException(String.format(
                     "Unsupported SubmitRecord.Label %s for %s in %s",
                     lbl.toString(),
-                    rsrc.getPatchSet().getId(),
-                    rsrc.getChange().getProject().get()));
+                    patchSet.getId(),
+                    cd.change().getProject().get()));
             }
           }
           throw new ResourceConflictException(msg.toString());
@@ -566,8 +592,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           throw new IllegalStateException(String.format(
               "Unsupported SubmitRecord %s for %s in %s",
               record,
-              rsrc.getPatchSet().getId(),
-              rsrc.getChange().getProject().get()));
+              patchSet.getId().getId(),
+              cd.change().getProject().get()));
       }
     }
     throw new IllegalStateException();

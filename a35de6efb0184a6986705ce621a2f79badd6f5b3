@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "fcb1100e_7b225fa5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-09T23:04:07Z",
+      "side": 1,
+      "message": "Done by you.",
+      "parentUuid": "fcb1100e_7bda5f72",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 77
+      },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb1100e_fbee6f11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 16
@@ -382,6 +406,30 @@
     },
     {
       "key": {
+        "uuid": "fcb1100e_5b1fa357",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-09T23:04:07Z",
+      "side": 1,
+      "message": "Done by you.",
+      "parentUuid": "1ccee4a3_14e1f423",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ccee4a3_f4ee7811",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 16
@@ -393,6 +441,24 @@
       "writtenOn": "2015-02-06T07:03:08Z",
       "side": 1,
       "message": "Add a javadoc on this, and mention that it returns null if the given type is not registered?\n\nOr should it throw an exception if the type is not registered?",
+      "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_b492406a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-02-09T23:04:07Z",
+      "side": 1,
+      "message": "Done by you.",
+      "parentUuid": "1ccee4a3_f4ee7811",
       "revId": "a35de6efb0184a6986705ce621a2f79badd6f5b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -82,7 +82,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private final static String FILE_NAME3 = "foo3";
   private final static byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private final static byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
-  private final static byte[] CONTENT_NEW2 = "quxÄÜÖßµ".getBytes(UTF_8);
+  private final static String CONTENT_NEW2 = "quxÄÜÖßµ";
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -199,7 +199,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertByteArray(fileUtil.getContent(projectCache.get(edit.getChange().getProject()),
         ObjectId.fromString(edit.getRevision().get()), FILE_NAME), CONTENT_NEW);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.getChange().getProject()),
-        ObjectId.fromString(edit.getRevision().get()), FILE_NAME2), CONTENT_NEW2);
+        ObjectId.fromString(edit.getRevision().get()), FILE_NAME2), CONTENT_NEW2.getBytes("UTF-8"));
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
         current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
@@ -223,7 +223,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertByteArray(fileUtil.getContent(projectCache.get(edit.getChange().getProject()),
         ObjectId.fromString(edit.getRevision().get()), FILE_NAME), CONTENT_NEW);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.getChange().getProject()),
-        ObjectId.fromString(edit.getRevision().get()), FILE_NAME2), CONTENT_NEW2);
+        ObjectId.fromString(edit.getRevision().get()), FILE_NAME2), CONTENT_NEW2.getBytes("UTF-8"));
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
         current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
@@ -475,7 +475,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW2);
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW2.getBytes("UTF-8"));
   }
 
   @Test
@@ -492,7 +492,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(SC_NO_CONTENT);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW2);
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW2.getBytes("UTF-8"));
   }
 
   @Test
@@ -539,7 +539,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     RestResponse r = adminSession.getJsonAccept(urlEditFile());
     assertThat(r.getStatusCode()).isEqualTo(SC_OK);
     assertThat(readContentFromJson(r)).isEqualTo(
-        StringUtils.newStringUtf8(CONTENT_NEW2));
+        StringUtils.newStringUtf8(CONTENT_NEW2.getBytes("UTF-8")));
   }
 
   @Test
@@ -582,7 +582,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME2), CONTENT_NEW2);
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME2), CONTENT_NEW2.getBytes("UTF-8"));
   }
 
   @Test

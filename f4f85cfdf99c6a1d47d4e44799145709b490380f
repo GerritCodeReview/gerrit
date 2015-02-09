@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_1729f482",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T09:37:43Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 284,
+        "startChar": 16,
+        "endLine": 284,
+        "endChar": 20
+      },
+      "revId": "f4f85cfdf99c6a1d47d4e44799145709b490380f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_f73680e4",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T09:37:43Z",
+      "side": 1,
+      "message": "Make secureStore in line 77 final and use it here.",
+      "range": {
+        "startLine": 84,
+        "startChar": 40,
+        "endLine": 84,
+        "endChar": 65
+      },
+      "revId": "f4f85cfdf99c6a1d47d4e44799145709b490380f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_38c86943",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InvalidSecureStoreException.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-09T09:37:43Z",
+      "side": 1,
+      "message": "Is this the right package?",
+      "revId": "f4f85cfdf99c6a1d47d4e44799145709b490380f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

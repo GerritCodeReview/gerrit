@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbad4ec_7866e190",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T15:35:11Z",
+      "side": 1,
+      "message": "private\n\nthis is only used from this class",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 9
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_97c4e414",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T15:35:11Z",
+      "side": 1,
+      "message": "the name could be shorter for a method used only in this class:\n\n  secureStoreClassName",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_58631d7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T15:35:11Z",
+      "side": 1,
+      "message": "Either handle the null case in the constructor below or here but don\u0027t in both places. For me it is cleaner if the protected constructor doesn\u0027t  care about the null case.\n\nLoad the secureStoreClassName form gerrit.config here and pass it.\n\nBtw, why not inject the:\n\n  @GerritServerConfig Config cfg\n\nhere and eliminate the gerrit.config loading code from the static method? Then its implementation becomes a one liner and can be inlined here:\n\n  @Inject\n  SecureStoreProvider(\n      Injector injector,\n      @GerritServerConfig Config cfg,\n      SitePaths sitePaths) {\n    this(injector, sitePaths, cfg.getString(\"gerrit\", null, \"secureStoreClass\"));\n  }\n\n  protected SecureStoreProvider(\n      Injector injector,\n      SitePaths sitePaths,\n      String secureStoreClassName) {\n    this.injector \u003d injector;\n    this.libdir \u003d sitePaths.lib_dir;\n    this.secureStoreClassName \u003d secureStoreClassName;\n  }",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 76
+      },
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_77ca7020",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-09T15:35:11Z",
+      "side": 1,
+      "message": "the null case is already handled, see above",
+      "revId": "cba7d37e413eaf49f12036a04f2f0ecf8a4f9578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

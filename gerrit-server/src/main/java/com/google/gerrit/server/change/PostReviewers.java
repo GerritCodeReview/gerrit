@@ -44,6 +44,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.UniversalReviewersGroupBackend;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -99,6 +100,7 @@ public class PostReviewers
   private final ReviewerJson json;
   private final ReviewerAdded reviewerAdded;
   private final NotesMigration migration;
+  private final UniversalReviewersGroupBackend reviewersGroupBackend;
 
   @Inject
   PostReviewers(AccountsCollection accounts,
@@ -116,7 +118,8 @@ public class PostReviewers
       @GerritServerConfig Config cfg,
       ReviewerJson json,
       ReviewerAdded reviewerAdded,
-      NotesMigration migration) {
+      NotesMigration migration,
+      UniversalReviewersGroupBackend reviewersGroupBackend) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
@@ -133,6 +136,7 @@ public class PostReviewers
     this.json = json;
     this.reviewerAdded = reviewerAdded;
     this.migration = migration;
+    this.reviewersGroupBackend = reviewersGroupBackend;
   }
 
   @Override
@@ -191,15 +195,18 @@ public class PostReviewers
 
   private Addition putGroup(ChangeResource rsrc, AddReviewerInput input)
       throws RestApiException, OrmException, IOException {
+    ChangeControl control = rsrc.getControl();
     GroupDescription.Basic group =
-        groupsCollection.parseInternal(input.reviewer);
+        reviewersGroupBackend.parse(input.reviewer, control.getProjectControl());
+    if (group == null) {
+      group = groupsCollection.parseInternal(input.reviewer);
+    }
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
       return fail(input.reviewer, MessageFormat.format(ChangeMessages.get().groupIsNotAllowed,
           group.getName()));
     }
 
     Map<Account.Id, ChangeControl> reviewers = new HashMap<>();
-    ChangeControl control = rsrc.getControl();
     Set<Account> members;
     try {
       members = groupMembersFactory.create(control.getUser()).listAccounts(

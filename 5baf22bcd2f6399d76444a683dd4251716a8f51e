@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_b7d808f3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T15:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_57c76c16",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 56
+      },
+      "revId": "5baf22bcd2f6399d76444a683dd4251716a8f51e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_186da566",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 31
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_97dd04e3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T15:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_186da566",
+      "revId": "5baf22bcd2f6399d76444a683dd4251716a8f51e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_38706942",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
         "patchSetId": 31
@@ -53,6 +95,30 @@
       "writtenOn": "2015-02-09T15:35:23Z",
       "side": 1,
       "message": "In the BaseInit you already know if the secureStoreInitData will be null. Why bind a null-provider there and then handle that case here? Instead, just bind the SecureStore.class to the SecureStoreProvider in the null case.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "5baf22bcd2f6399d76444a683dd4251716a8f51e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_77f3907a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-09T15:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_38706942",
       "range": {
         "startLine": 28,
         "startChar": 0,

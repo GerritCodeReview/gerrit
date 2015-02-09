@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ccee4a3_34599042",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-09T08:12:59Z",
+      "side": 1,
+      "message": "Following comment should be added:\n\n //$FALL-THROUGH$\n\nto prevent a warning in Eclipse.",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 63
+      },
+      "revId": "548b982f7699174b1788f17e3a868e8e26a31022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

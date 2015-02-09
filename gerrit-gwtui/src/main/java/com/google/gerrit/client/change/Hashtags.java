@@ -169,7 +169,7 @@ public class Hashtags extends Composite {
           .openElement("button")
           .setAttribute("title", "Remove hashtag")
           .setAttribute("onclick", REMOVE + "(event)")
-          .append("☒")
+          .append("×")
           .closeElement("button")
           .closeSpan();
       if (itr.hasNext()) {

@@ -94,6 +94,30 @@
       "revId": "b7df4c2fdc84821cc0ef6ec19fc621600e3e1b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_970ce4b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-10T07:50:57Z",
+      "side": 1,
+      "message": "Ah okay, for editing the commit message, this make sense. I wasn\u0027t thinking about this use case.\n\nOkay, then for now we can leave the test as it is. If we ever decide to make cherry-pick that smart that it is a no-op if the parent commit and the commit message stay the same, we can still adapt this test.",
+      "parentUuid": "7cbfe0de_777dd002",
+      "range": {
+        "startLine": 186,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "b7df4c2fdc84821cc0ef6ec19fc621600e3e1b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

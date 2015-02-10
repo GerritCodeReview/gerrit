@@ -927,26 +927,21 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
-    if (canSubmit) {
-      if (status == Change.Status.NEW) {
-        statusText.setInnerText(Util.C.readyToSubmit());
-      }
+  private void loadSubmitType(final Change.Status status) {
+    if (status == Change.Status.NEW) {
+      statusText.setInnerText(Util.C.readyToSubmit());
     }
     ChangeApi.revision(changeId.get(), revision)
       .view("submit_type")
       .get(new AsyncCallback<NativeString>() {
         @Override
         public void onSuccess(NativeString result) {
-          if (canSubmit) {
             if (status == Change.Status.NEW) {
               statusText.setInnerText(changeInfo.mergeable()
                   ? Util.C.readyToSubmit()
                   : Util.C.mergeConflict());
             }
-          }
           setVisible(notMergeable, !changeInfo.mergeable());
-
           renderSubmitType(result.asString());
         }
 
@@ -1111,13 +1106,16 @@ public class ChangeScreen extends Screen {
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
 
+    quickApprove.set(info, revision, replyAction);
     if (current) {
-      quickApprove.set(info, revision, replyAction);
-      loadSubmitType(info.status(), isSubmittable(info));
+      if (!isSubmittable(info)) {
+        loadSubmitType(info.status());
+      }
     } else {
-      quickApprove.setVisible(false);
-      setVisible(strategy, false);
+        setVisible(strategy, false);
     }
+
+    actions.reloadRevisionActions(actionMap);
   }
 
   private void renderOwner(ChangeInfo info) {

@@ -125,16 +125,16 @@ maven_jar(
 
 maven_jar(
   name = 'parboiled-core',
-  id = 'org.parboiled:parboiled-core:1.1.6',
-  sha1 = '11bd0c34fc6ac3c3cbf440ab8180cc6422c044e9',
+  id = 'org.parboiled:parboiled-core:1.1.7',
+  sha1 = 'a60ff9a54cbeb30ec44c89e16ac4c35913cbad5a',
   license = 'Apache2.0',
   attach_source = False,
 )
 
 maven_jar(
   name = 'parboiled-java',
-  id = 'org.parboiled:parboiled-java:1.1.6-14-g76586a4',
-  sha1 = '8cbe0bd4d41c4e2dc0db1107719ca44132f87fed',
+  id = 'org.parboiled:parboiled-java:1.1.7',
+  sha1 = '2298c64ce8ee8e2fb37e97e16d7be52f0c7cf61f',
   license = 'Apache2.0',
   deps = [
     ':parboiled-core',
@@ -144,7 +144,6 @@ maven_jar(
   ],
   attach_source = False,
   visibility = ['//gerrit-server:server_tests'],
-  repository = GERRIT,
 )
 
 maven_jar(

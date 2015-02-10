@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "91b71f4c_300ba84f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-10T20:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ab2ff1_ec202bd0",
+      "revId": "4d92a9ad7ac9892e0cc443282e4b632b6c734474",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11ab2ff1_8c1b679e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "91b71f4c_f02000d0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-10T20:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ab2ff1_8c1b679e",
+      "revId": "4d92a9ad7ac9892e0cc443282e4b632b6c734474",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11ab2ff1_ac162374",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-02-10T20:11:33Z",
       "side": 1,
       "message": "Optional nit: unnecessary blank line.",
+      "revId": "4d92a9ad7ac9892e0cc443282e4b632b6c734474",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11ab2ff1_0c08174f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-10T20:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ab2ff1_ac162374",
       "revId": "4d92a9ad7ac9892e0cc443282e4b632b6c734474",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

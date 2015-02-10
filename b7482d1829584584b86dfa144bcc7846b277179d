@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_37351853",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T09:18:15Z",
+      "side": 0,
+      "message": "This test is already verbose enough. May be just hard code one UTF-8 char in commit message test below? Another option is to define a string and byte constant and use it below where needed:\n\n  private final static String CONTENT_NEW2_STR \u003d \"quxÄÜÖßµ\";\n  private final static byte[] CONTENT_NEW2 \u003d CONTENT_NEW2_STR.getBytes(UTF_8);",
+      "revId": "b7482d1829584584b86dfa144bcc7846b277179d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "087835dbad880420721aed7c8680081d4e935830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_f8cb11d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-02-10T07:15:01Z",
+      "side": 1,
+      "message": "I commented here https://gerrit-review.googlesource.com/#/c/62647/ , that a multiplication \"×\" with a CSS-border would probably look better than the char with the built-in border.\n\nYeah. It certainly does not make sense out of context. I should have left the line out of the commit message.",
+      "parentUuid": "fcb1100e_dbae1381",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "087835dbad880420721aed7c8680081d4e935830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

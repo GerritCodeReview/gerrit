@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cbfe0de_77aef0ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2123,
+      "author": {
+        "id": 1012247
+      },
+      "writtenOn": "2015-02-10T18:42:11Z",
+      "side": 1,
+      "message": "nitpicking: the rest of the code uses // comments; the /* */ appear to be only used for Doxygen",
+      "revId": "7ff683e8b7c7474ec9f3a0a1cf3dd57e48333142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

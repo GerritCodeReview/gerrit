@@ -84,10 +84,6 @@ a:hover {
   color: black;
 }
 
-.hyperlink {
-  text-decoration: underline;
-}
-
 .accountLinkPanel {
   display: inline;
 }
@@ -105,10 +101,6 @@ a:hover {
   top: -1px;
 }
 
-.accountName {
-  white-space: nowrap;
-}
-
 .inputFieldTypeHint {
   color: grey;
 }
@@ -116,13 +108,6 @@ a:hover {
 .smallHeading {
   margin-top: 5px;
   font-weight: bold;
-}
-
-.blockHeader {
-  font-size: small;
-  font-weight: bold;
-  background: trimColor;
-  padding: 0.2em 0.2em 0.2em 0.5em;
 }
 
 .link {
@@ -156,47 +141,6 @@ a:hover {
 }
 
 /** CommentPanel **/
-.commentPanelBorder {
-  border-top: 1px solid lightgray;
-  border-left: 1px solid lightgray;
-  border-right: 1px solid lightgray;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-.commentPanelBorder.commentPanelLast {
-  border-bottom: 1px solid lightgray;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-@if user.agent safari {
-  .commentPanelBorder {
-    \-webkit-border-top-left-radius: 8px;
-    \-webkit-border-top-right-radius: 8px;
-    \-webkit-border-bottom-left-radius: 0px;
-    \-webkit-border-bottom-right-radius: 0px;
-  }
-  .commentPanelBorder.commentPanelLast {
-    \-webkit-border-bottom-left-radius: 8px;
-    \-webkit-border-bottom-right-radius: 8px;
-  }
-}
-
-@if user.agent gecko1_8 {
-  .commentPanelBorder {
-    \-moz-border-radius-topleft: 8px;
-    \-moz-border-radius-topright: 8px;
-    \-moz-border-radius-bottomleft: 0;
-    \-moz-border-radius-bottomright: 0;
-  }
-  .commentPanelBorder.commentPanelLast {
-    \-moz-border-radius-bottomleft: 8px;
-    \-moz-border-radius-bottomright: 8px;
-  }
-}
-
 .commentPanelHeader {
   cursor: pointer;
   width: 100%;
@@ -223,9 +167,6 @@ a:hover {
   font-size: small;
   padding-left: 0.5em;
   padding-right: 0.5em;
-}
-.commentPanelMenuBar {
-  float: right;
 }
 .commentPanelMessage p {
   margin-top: 0px;
@@ -428,10 +369,6 @@ a:hover {
   width: 100%;
   margin-top: 15px;
 }
-.errorDialogText {
-  font-size: 15px;
-  font-family: verdana;
-}
 .errorDialog a,
 .errorDialog a:visited,
 .errorDialog a:hover {
@@ -459,10 +396,6 @@ a:hover {
   overflow: hidden;
 }
 
-.screenNoHeader {
-  margin-top: 5px;
-}
-
 /** ChangeTable **/
 .changeTable {
   border-collapse: separate;
@@ -475,10 +408,6 @@ a:hover {
 
 .changeTable tr:nth-child\(odd\) {
   background: tableOddRowColor;
-}
-
-.changeTable .outdated {
-  background: changeTableOutdatedColor !important;
 }
 
 .changeTable .iconCell {
@@ -675,10 +604,6 @@ a:hover {
 
 
 /** PatchScreen **/
-.patchScreenDisplayControls .gwt-CheckBox {
-  margin-right: 1em;
-}
-
 .reviewedPanelBottom {
   float: right;
   font-size: small;
@@ -714,10 +639,6 @@ a:hover {
   white-space: pre;
   padding-left: 0.2em;
   border-left: thin solid #b0bdcc;
-}
-
-.patchContentTable .diffTextForBinaryInSideBySide {
- width: 50%;
 }
 
 .patchContentTable .diffTextFileHeader {
@@ -787,9 +708,6 @@ a:hover {
   background: white;
   border-bottom: 1px solid white;
 }
-.lineNumber.rightmost {
-  border-left: thin solid #b0bdcc;
-}
 .lineNumber.rightBorder {
   border-right: thin solid #b0bdcc;
 }
@@ -809,14 +727,6 @@ a:hover {
 .lineNumber.fileColumnHeader {
   border-bottom: 1px solid trimColor;
 }
-.noLineLineNumber {
-  font-family: mono-font;
-  width: 3.5em;
-  padding-left: 0.2em;
-  padding-right: 0.2em;
-  background: white;
-  border-bottom: 1px solid white;
-}
 
 .fileLine {
   padding-left: 0;
@@ -824,21 +734,10 @@ a:hover {
   white-space: pre;
   border-left: thin solid #b0bdcc;
 }
-.fileLineNone {
-  background: #eeeeee;
-  border-bottom: 1px solid #eeeeee;
-}
-.fileLineMode {
-  font-weight: bold;
-}
 .fileLineDELETE,
 .fileLineDELETE .wdc {
   background: #ffeeee;
   border-bottom: 1px solid #ffeeee;
-}
-.fileLineCONTEXT {
-  background: white;
-  border-bottom: 1px solid white;
 }
 .fileLineINSERT,
 .fileLineINSERT .wdc {
@@ -850,27 +749,6 @@ a:hover {
 }
 .patchContentTable .wdi {
   border-bottom: 1px solid #9F9;
-}
-
-.patchContentTable .skipLine .iconCell,
-.patchContentTable .skipLine {
-  font-family: norm-font;
-  text-align: center;
-  font-style: italic;
-  background: #def;
-  color: grey;
-}
-.patchContentTable .skipLine div {
-  display: inline;
-}
-.patchContentTable a.skipLine {
-  color: grey;
-  text-decoration: none;
-}
-.patchContentTable a:hover.skipLine {
-  background: white;
-  color: #00A;
-  text-decoration: underline;
 }
 
 .patchContentTable td.cellsNextToFileComment {
@@ -908,36 +786,6 @@ a:hover {
   margin-right: 5px;
 }
 
-.changeScreen .gwt-DisclosurePanel .header td {
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-.changeScreen .gwt-DisclosurePanel .complexHeader {
-  white-space: nowrap;
-}
-.changeScreen .gwt-DisclosurePanel .complexHeader span {
-  white-space: nowrap;
-}
-
-.patchSetRevision {
-  padding-left: 20px;
-  font-size: 8pt;
-}
-
-.patchSetLink {
-  padding-left: 0.5em;
-  font-size: 8pt;
-}
-
-.changeScreen .gwt-DisclosurePanel .content {
-  margin-bottom: 10px;
-}
-
-.gwt-DisclosurePanel .content {
-  margin-left: 10px;
-}
-
 .changeScreenDescription,
 .changeScreenDescription textarea {
   white-space: pre;
@@ -947,74 +795,6 @@ a:hover {
 .changeScreenDescription p {
   margin-top: 0px;
   padding-top: 0.5em;
-}
-
-.changeComments {
-  padding-top: 1em;
-  width: 60em;
-}
-
-.infoTable {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-.infoTable td {
-  border-left: 1px solid trimColor;
-  border-bottom: 1px solid trimColor;
-  padding: 2px 6px 1px;
-}
-
-.infoTable td.header {
-  background-color: trimColor;
-  font-weight: normal;
-  padding: 2px 4px 0 6px;
-  font-style: italic;
-  text-align: left;
-  vertical-align: top;
-  white-space: nowrap;
-}
-
-.rightmost  {
-  border-right: 1px solid trimColor;
-}
-
-.infoTable td.approvalrole {
-  width: 5em;
-  border-left: none;
-  font-style: italic;
-  white-space: nowrap;
-}
-
-.infoTable td.approvalscore {
-  text-align: center;
-}
-.infoTable td.notVotable {
-  background: #F5F5F5;
-}
-.infoTable td.negscore {
-  color: red;
-}
-.infoTable td.posscore {
-  color: #08a400;
-}
-
-.infoTable td.approvalhint {
-  white-space: nowrap;
-  text-align: left;
-  color: #444444;
-}
-
-.changeInfoBlock {
-  margin-right: 15px;
-}
-
-.changeInfoTopicPanel img {
-  float: right;
-}
-
-.changeInfoTopicPanel a {
-  float: left;
 }
 
 .avatarInfoPanel {
@@ -1060,27 +840,6 @@ a:hover {
   border-bottom: 1px solid trimColor;
 }
 
-.infoBlock td.closedstate {
-  font-weight: bold;
-}
-
-.infoBlock td.useridentity {
-  white-space: nowrap;
-}
-.changeInfoBlock td.changeid {
-  font-size: x-small;
-}
-
-
-.patchSetInfoBlock {
-  margin-bottom: 10px;
-}
-.patchSetUserIdentity {
-  white-space: nowrap;
-}
-.patchSetUserIdentity .gwt-InlineLabel {
-  margin-left: 0.2em;
-}
 
 .patchSetActions {
   margin-bottom: 10px;
@@ -1088,39 +847,6 @@ a:hover {
 .patchSetActions .gwt-Button {
   margin-right: 30px;
   font-size: 8pt;
-}
-
-.selectPatchSetOldVersion {
-  font-weight: bold;
-  margin-right: 30px;
-  margin-top: 5px;
-}
-
-.approvalTable {
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-.missingApprovalList {
-  margin-top: 5px;
-  margin-left: 1em;
-  padding-left: 1em;
-  margin-bottom: 0px;
-}
-.missingApproval {
-  font-size: small;
-  white-space: nowrap;
-}
-.addReviewer {
-  margin-left: 1em;
-  margin-top: 5px;
-  white-space: nowrap;
-}
-.removeReviewer {
-  padding: 0px;
-}
-td.removeReviewerCell {
-  padding-left: 4em;
-  border-left: none;
 }
 
 .downloadBox {
@@ -1168,9 +894,6 @@ td.removeReviewerCell {
 .downloadBoxCopyLabel div {
   float: right;
 }
-td.downloadLinkListCell {
-  padding: 0px;
-}
 .downloadLinkHeader {
   background: trimColor;
   white-space: nowrap;
@@ -1207,27 +930,6 @@ a:hover.downloadLink {
 }
 .downloadLinkCopyLabel .gwt-TextBox {
   width: 30em;
-}
-
-.parentsTable {
-  border-style: none;
-  outline: 0px;
-  padding: 0px;
-  border-spacing: 0px;
-  text-align: left;
-  font-family: mono-font;
-  font-size: 10px;
-}
-
-.parentsTable td.noborder {
-  border: none;
-}
-
-.parentsTable td.monospace {
-  font-family: mono-font;
-  font-size: 10px;
-  margin: 0px;
-  padding-left: 0px;
 }
 
 /** UnifiedScreen **/
@@ -1348,10 +1050,6 @@ a:hover.downloadLink {
   width: 100%;
 }
 
-.createGroupLink {
-  margin-bottom: 10px;
-}
-
 .createProjectPanel {
   margin-bottom: 10px;
   background-color: trimColor;
@@ -1437,64 +1135,8 @@ a:hover.downloadLink {
   width: 45em;
 }
 
-.projectAdminLabelRangeLine {
-  white-space: nowrap;
-}
-.projectAdminLabelValue {
-  font-family: mono-font;
-  font-size: small;
-}
 .projectActions {
   margin-bottom: 10px;
-}
-
-/** PublishCommentsScreen **/
-.publishCommentsScreen .smallHeading {
-  font-size: small;
-  font-weight: bold;
-  white-space: nowrap;
-}
-.publishCommentsScreen .labelList {
-  margin-bottom: 10px;
-  margin-left: 10px;
-  background: trimColor;
-  width: 25em;
-  white-space: nowrap;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-.publishCommentsScreen .coverMessage {
-  margin-left: 10px;
-  padding: 5px 5px 5px 5px;
-}
-.publishCommentsScreen .coverMessage textarea {
-  font-size: small;
-}
-.publishCommentsScreen .labelList .gwt-RadioButton {
-  font-size: smaller;
-}
-.publishCommentsScreen .patchComments {
-  margin-left: 1em;
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-}
-.publishCommentsScreen .gwt-Hyperlink {
-  white-space: nowrap;
-  font-size: small;
-}
-.publishCommentsScreen .lineHeader {
-  white-space: nowrap;
-  font-family: mono-font;
-  font-size: small;
-  font-style: italic;
-  padding-left: 3px;
-}
-.publishCommentsScreen .commentPanel {
-  border: none;
-  width: 35em;
-}
-.publishCommentsScreen .commentPanelDateCell {
-  display: none;
 }
 
 
@@ -1539,10 +1181,6 @@ a:hover.downloadLink {
 .groupDescriptionPanel {
   margin-bottom: 3px;
 }
-.groupExternalNameFilterTextBox {
-  margin-right: 2px;
-  margin-bottom: 2px;
-}
 .groupNamePanel {
   margin-bottom: 3px;
 }
@@ -1556,9 +1194,6 @@ a:hover.downloadLink {
   margin-bottom: 3px;
 }
 .groupOwnerTextBox {
-  margin-bottom: 2px;
-}
-.groupTypeSelectListBox {
   margin-bottom: 2px;
 }
 

@@ -16,9 +16,11 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -190,34 +192,42 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  public void execute() throws UpdateException {
-    executeRefUpdates();
-    executeChangeOps();
-    reindexChanges();
-    executePostOps();
+  public void execute() throws UpdateException, RestApiException {
+    try {
+      executeRefUpdates();
+      executeChangeOps();
+      reindexChanges();
+      executePostOps();
+    } catch (UpdateException | RestApiException e) {
+      // Propagate REST API exceptions thrown by operations. Most operations
+      // should throw non-REST exceptions like NoSuchChangeException, under the
+      // assumption that validation is done by REST API handlers in advance of
+      // executing the batch. They commonly throw ResourceConflictException to
+      // indicate an atomic operation failure.
+      throw e;
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw new UpdateException(e);
+    }
   }
 
-  private void executeRefUpdates() throws UpdateException {
+  private void executeRefUpdates() throws IOException, UpdateException {
     if (batchRefUpdate.getCommands().isEmpty()) {
       return;
     }
-    try {
-      inserter.flush();
-      batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
-      boolean ok = true;
-      for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
-        if (cmd.getResult() != ReceiveCommand.Result.OK) {
-          ok = false;
-          break;
-        }
+    inserter.flush();
+    batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
+    boolean ok = true;
+    for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
+      if (cmd.getResult() != ReceiveCommand.Result.OK) {
+        ok = false;
+        break;
       }
-      if (!ok) {
-        throw new UpdateException("BatchRefUpdate failed: " + batchRefUpdate);
-      }
-      gitRefUpdated.fire(project, batchRefUpdate);
-    } catch (IOException e) {
-      throw new UpdateException(e);
     }
+    if (!ok) {
+      throw new UpdateException("BatchRefUpdate failed: " + batchRefUpdate);
+    }
+    gitRefUpdated.fire(project, batchRefUpdate);
   }
 
   private void executeChangeOps() throws UpdateException {
@@ -244,21 +254,13 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void reindexChanges() throws UpdateException {
-    try {
-      ChangeIndexer.allAsList(indexFutures).checkedGet();
-    } catch (IOException e) {
-      throw new UpdateException(e);
-    }
+  private void reindexChanges() throws IOException {
+    ChangeIndexer.allAsList(indexFutures).checkedGet();
   }
 
-  private void executePostOps() throws UpdateException {
-    try {
-      for (Callable<?> op : postOps) {
-        op.call();
-      }
-    } catch (Exception e) {
-      throw new UpdateException(e);
+  private void executePostOps() throws Exception {
+    for (Callable<?> op : postOps) {
+      op.call();
     }
   }
 }

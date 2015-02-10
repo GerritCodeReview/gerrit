@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -114,7 +116,8 @@ public class CherryPickChange {
       final RefControl refControl) throws NoSuchChangeException,
       OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, MergeException {
+      InvalidChangeOperationException, MergeException, UpdateException,
+      RestApiException {
 
     if (Strings.isNullOrEmpty(ref)) {
       throw new InvalidChangeOperationException(
@@ -210,7 +213,7 @@ public class CherryPickChange {
       RevCommit cherryPickCommit, RefControl refControl,
       IdentifiedUser identifiedUser)
       throws InvalidChangeOperationException, IOException, OrmException,
-      NoSuchChangeException {
+      NoSuchChangeException, UpdateException, RestApiException {
     final ChangeControl changeControl =
         refControl.getProjectControl().controlFor(change);
     final PatchSetInserter inserter = patchSetInserterFactory

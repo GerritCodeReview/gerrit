@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -345,7 +347,8 @@ public class ChangeUtil {
   public Change.Id editCommitMessage(ChangeControl ctl, PatchSet ps,
       String message, PersonIdent myIdent) throws NoSuchChangeException,
       OrmException, MissingObjectException, IncorrectObjectTypeException,
-      IOException, InvalidChangeOperationException {
+      IOException, InvalidChangeOperationException, UpdateException,
+      RestApiException {
     Change change = ctl.getChange();
     Change.Id changeId = change.getId();
 

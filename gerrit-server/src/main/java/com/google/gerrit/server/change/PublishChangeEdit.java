@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Optional;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -28,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -84,8 +84,9 @@ public class PublishChangeEdit implements
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Publish.Input in)
-        throws AuthException, ResourceConflictException, NoSuchChangeException,
-        IOException, InvalidChangeOperationException, OrmException {
+        throws NoSuchChangeException,
+        IOException, InvalidChangeOperationException, OrmException,
+        RestApiException, UpdateException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(String.format(

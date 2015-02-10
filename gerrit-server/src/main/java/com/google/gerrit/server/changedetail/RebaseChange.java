@@ -16,6 +16,7 @@ package com.google.gerrit.server.changedetail;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -106,10 +108,13 @@ public class RebaseChange {
    * @throws OrmException thrown in case accessing the database fails
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
+   * @throws RestApiException thrown if an error occurred that should be
+   *     converted to an HTTP error code.
+   * @throws UpdateException thrown if a problem occurred during batch update.
    */
   public void rebase(Change change, PatchSet.Id patchSetId, final IdentifiedUser uploader)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
-      InvalidChangeOperationException {
+      InvalidChangeOperationException, UpdateException, RestApiException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
         changeControlFactory.validateFor(change, uploader);
@@ -273,6 +278,9 @@ public class RebaseChange {
    * @throws OrmException thrown in case accessing the database fails
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
+   * @throws RestApiException thrown if an error occurred that should be
+   *     converted to an HTTP error code.
+   * @throws UpdateException thrown if a problem occurred during batch update.
    */
   public PatchSet rebase(final Repository git, final RevWalk revWalk,
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
@@ -281,7 +289,7 @@ public class RebaseChange {
       boolean runHooks, ValidatePolicy validate)
           throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
-      MergeConflictException {
+      MergeConflictException, UpdateException, RestApiException {
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }

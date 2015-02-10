@@ -16,6 +16,24 @@
       "revId": "77ed9d3652fa2074064ababa7d45fe4060c1b7d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91b71f4c_90425462",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-10T20:29:48Z",
+      "side": 1,
+      "message": "I am also a bit confused here. This is mostly due to the fact\nwe have a `canSubmit` variable in many functions. Sometimes\nit should mean \"we can submit this change\"\nand sometimes it means \"the submit button would display\".\nThat was no problem before because it was the same.\n\nSo the last two changes are still very rough and not well thought out. I mainly put it up to gerrit because the textual\ndiff is better than git or gitk, so I can review it myself as well.\n\nNow on topic:\nYou only need to have the quickApprove button if we\u0027re in the current revision of a new open change (`if (current)` handles that) and if there is no submit button shown.\n\nMind that this isSubmittable means \"is *this* change submittable deduced from the labels in the given ChangeInfo)\", so if we could not submit this change alone, we\u0027d want to have the quickapprove button, otherwise hide it.\n\nThe reason I am trying to fix it in the first place is that there is something broken subtly. The quickapprove button is not part of the revision actions so originally it could rely on the whole change info information provided the REST call.\n\nNow it seems to show up when the disabled submit button is already showing.",
+      "parentUuid": "91b71f4c_b0167874",
+      "revId": "77ed9d3652fa2074064ababa7d45fe4060c1b7d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

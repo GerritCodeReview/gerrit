@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -40,6 +41,8 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -178,6 +181,66 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherry.get().topic).isEqualTo("someTopic");
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
+  }
+
+  @Test
+  public void cherryPickToSameBranch() throws Exception {
+    PushOneCommit.Result r = createChange();
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "master";
+    in.message = "it generates a new patch set\n\nChange-Id: " + r.getChangeId();
+    ChangeInfo cherryInfo = gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .revision(r.getCommit().name())
+        .cherryPick(in)
+        .get();
+    assertThat((Iterable<?>)cherryInfo.messages).hasSize(2);
+    Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+  }
+
+  @Test
+  public void cherryPickToSameBranchWithRebase() throws Exception {
+    // Push a new change, then merge it
+    PushOneCommit.Result baseChange = createChange();
+    RevisionApi baseRevision =
+        gApi.changes().id("p~master~" + baseChange.getChangeId()).current();
+    baseRevision.review(ReviewInput.approve());
+    baseRevision.submit();
+
+    // Push a new change (change 1)
+    PushOneCommit.Result r1 = createChange();
+
+    // Push another new change (change 2)
+    String subject = "Test change\n\n" +
+        "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), subject,
+            "another_file.txt", "another content");
+    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+
+    // Change 2's parent should be change 1
+    assertThat(r2.getCommit().getParents()[0].name())
+      .isEqualTo(r1.getCommit().name());
+
+    // Cherry pick change 2 onto the same branch
+    ChangeApi orig = gApi.changes().id("p~master~" + r2.getChangeId());
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "master";
+    in.message = subject;
+    ChangeApi cherry = orig.revision(r2.getCommit().name()).cherryPick(in);
+    ChangeInfo cherryInfo = cherry.get();
+    assertThat((Iterable<?>)cherryInfo.messages).hasSize(2);
+    Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+
+    // Parent of change 2 should now be the change that was merged, i.e.
+    // change 2 is rebased onto the head of the master branch.
+    String newParent = cherryInfo.revisions.get(cherryInfo.currentRevision)
+        .commit.parents.get(0).commit;
+    assertThat(newParent).isEqualTo(baseChange.getCommit().name());
   }
 
   @Test

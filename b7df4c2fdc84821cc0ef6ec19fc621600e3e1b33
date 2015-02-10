@@ -70,6 +70,30 @@
       "revId": "b7df4c2fdc84821cc0ef6ec19fc621600e3e1b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_777dd002",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-02-10T07:30:35Z",
+      "side": 1,
+      "message": "Oh, sorry. I misread it.\n\nHere cherry-pick is effectively used to edit the commit message :)",
+      "parentUuid": "7cbfe0de_179b340b",
+      "range": {
+        "startLine": 186,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "b7df4c2fdc84821cc0ef6ec19fc621600e3e1b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

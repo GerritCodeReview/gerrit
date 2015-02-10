@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ccee4a3_94b864c6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 54
+      },
+      "lineNbr": 1886,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "So we can make up to 512 concurrent connections to a remote server?\n\nThat sounds like an awful lot. Like a Gerrit server could turn into a DoS attack against some poor helpless server elsewhere on the Internet.\n\nMaybe a lower default would make sense?",
+      "range": {
+        "startLine": 1881,
+        "startChar": 0,
+        "endLine": 1886,
+        "endChar": 16
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_b4b360eb",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 54
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "Adding these deps here may be a challenge for the gerrit-review build. But I can see why its compelling to drop GitHub support directly into gerrit-httpd rather than another module like gerrit-openid.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_bbb347eb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/PooledHttpClientProvider.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "FWIW the provider doesn\u0027t have to be @Singleton",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_5bbb23c0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "What a long and convoluted way to avoid using request attributes.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 1
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_fb92ef3c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "FYI things stored in the session are supposed to be Serializable as containers may store the session on disk or replicate it across a cluster of servers.\n\nEons ago we had something in the session for the OpenID stuff but we had to remove it because it was causing problems in some installations on some containers (not mine).\n\nWe may just be revisiting this decision at a later date once this gets more widespread use.",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_74bee8b1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/HttpGitHubOAuthModule.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "This is missing an .in(Scopes.SINGLETON).",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_1bc59b2b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "Given my remarks below you should probably only call this function when its actually required.",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_54bbecbf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "This may exhaust entropy on the local server and cause login stalls and general denial of service until enough entropy builds up again to start another RNG.\n\nYou should create the SecureRandom once at server startup and retain it long term through a singleton. This helps avoid depleting local high quality entropy on each login request.\n\nIn the early early days of Gerrit we had such issues with SSH where users just couldn\u0027t login for hours or days because the SSH server was depleting entropy at every connection.",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_3bc85743",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "throw IllegalStateException() is a better way to handle this than return null.\n\n_IF_ UTF_8 disappears for some reason the stack trace and exception will be easier to find and debug than an NPE in the caller.",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_9bb88bc6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "Completely redundant with the switch below where this is also set again.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 14
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_7bbedfb1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T03:49:27Z",
+      "side": 1,
+      "message": "This was set above. You only need to do it once.",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

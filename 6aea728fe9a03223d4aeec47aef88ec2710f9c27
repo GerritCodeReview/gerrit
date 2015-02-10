@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_b707e890",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-10T11:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_17ea1478",
+      "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_f70320b6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
         "patchSetId": 32
@@ -72,6 +90,42 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_1774541c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-10T11:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb1100e_9b03ebec",
+      "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_38caa9cd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-10T11:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_f70320b6",
+      "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_d7081cd3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
         "patchSetId": 32
@@ -83,6 +137,24 @@
       "writtenOn": "2015-02-09T16:21:07Z",
       "side": 1,
       "message": "btw, with the @Nullable we have a potential NPE here",
+      "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_f7fd6010",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-10T11:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_d7081cd3",
       "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11ab2ff1_0c2f77b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T21:39:06Z",
+      "side": 1,
+      "message": "We don\u0027t have GWT unit tests. That\u0027s because the framework that was used is still broken against GWT 2.7: [1]. How about to borrow Buck team\u0027s idea to at least document the test plan, see for example [2].\n\nFor this change something like this would be useful:\n\nTEST PLAN:\n\nAction for draft change\n\n* 1. upload new draft change with git push gerrit HEAD:refs/drafts/master\n* 2. open the change in change screen\n* 3. ensure that delete draft change button is shown \n\nActions for draft patch set\n\n* 1. upload new draft patch set to existing non draft change with git push gerrit HEAD:refs/drafts/master\n* 2. open the change in change screen\n* 3. ensure that delete and publish patch set buttons are shown \n\n\n* [1] https://github.com/gwt-test-utils/gwt-test-utils/issues/68\n* [2] https://github.com/facebook/buck/commit/82a89b9e30760ffad09a582f52b5abc780d8ff36",
+      "revId": "9c6bce7c1d905d840e62e8058365b27039d7014d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91b71f4c_102f84b5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T21:39:06Z",
+      "side": 1,
+      "message": "So instead of rendering the change and revision actions by retrieving the change actions from ChangeInfo action map and revision actions from RevisionInfo action map, you are dropping all actions and replacing the GET /changes/\u003cid\u003e/detail REST endpoint result with a dummy list?",
+      "range": {
+        "startLine": 1059,
+        "startChar": 29,
+        "endLine": 1059,
+        "endChar": 60
+      },
+      "revId": "9c6bce7c1d905d840e62e8058365b27039d7014d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

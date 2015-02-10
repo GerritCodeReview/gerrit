@@ -22,6 +22,30 @@
       "revId": "a4c05b5f55c3ef6a5d12cf7c3dc913d9b8877a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_d72b7cf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T08:24:27Z",
+      "side": 1,
+      "message": "There are two use cases:\n\n* 1. current patch set is edit and comments and drafts must not be loaded\n* 2. current patch set is not edit and comments and drafts must be loaded\n\nIn both cases CommentInfo map must be passed in to Files panel. The situation is even more complex, because of List wrapper around the map. This wrapper is used because of asynchronous nature of comment and drafts loading.",
+      "parentUuid": "9cbad4ec_d8f96d0c",
+      "range": {
+        "startLine": 841,
+        "startChar": 6,
+        "endLine": 841,
+        "endChar": 49
+      },
+      "revId": "a4c05b5f55c3ef6a5d12cf7c3dc913d9b8877a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

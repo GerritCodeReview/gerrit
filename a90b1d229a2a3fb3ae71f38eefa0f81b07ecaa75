@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_371cf8e0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 54
+      },
+      "lineNbr": 1886,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Fair enough :-) ... will lower to 16 (max conns per route) and the total connections to 32. The OAuth phase (from the outbound API conns) should take only few msecs so it should be enough even for heavy production use.",
+      "parentUuid": "1ccee4a3_94b864c6",
+      "range": {
+        "startLine": 1881,
+        "startChar": 0,
+        "endLine": 1886,
+        "endChar": 16
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ccee4a3_b4b360eb",
         "filename": "gerrit-httpd/BUCK",
         "patchSetId": 54
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-10T03:49:27Z",
       "side": 1,
       "message": "Adding these deps here may be a challenge for the gerrit-review build. But I can see why its compelling to drop GitHub support directly into gerrit-httpd rather than another module like gerrit-openid.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_1719f4f0",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 54
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Ideally when the auth backends are done, this may go away into a separate module ... home can we live with it in the meantime :-)",
+      "parentUuid": "1ccee4a3_b4b360eb",
       "range": {
         "startLine": 31,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_98f3f52a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/PooledHttpClientProvider.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb1100e_bbb347eb",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb1100e_5bbb23c0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
         "patchSetId": 54
@@ -76,6 +142,30 @@
       "writtenOn": "2015-02-10T03:49:27Z",
       "side": 1,
       "message": "What a long and convoluted way to avoid using request attributes.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 1
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_78e94135",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Actually this part of the implementation is directly coming from the GitHub Plugin design, where the header enrichment was made in the Servlet Filter outside the Gerrit Guice injectors on behalf of a HTTP reverse-proxy header enrichment.\n\nWe were using HTTP Headers instead of Servlet Request attributes for allowing the implementation to work with current Gerrit HTTP authentication.\n\nKeeping the same design (and most of the code) in this context may then seem \"convoluted\" as you pointed out, but there was a rationale behind it :-)\n\nThat decision in this context may be completely reviewed but this would mean a much deeper refactoring of the code, possibly avoiding to reuse the HTTP login servlets altogether.\n\nWhat do you think?",
+      "parentUuid": "fcb1100e_5bbb23c0",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_f7268032",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Yes, makes sense.\n\nApart from user/token (strings) the only complex object is OAuthProtocol which (sob!) contains an HttpClient which is *NOT* serialisable.\n\nWill remove the use of OAuthProtocol instance outside GitHubLogin object so that it can then be freely serialised over the network (or persisted)",
+      "parentUuid": "fcb1100e_fb92ef3c",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ccee4a3_74bee8b1",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/HttpGitHubOAuthModule.java",
         "patchSetId": 54
@@ -116,6 +224,24 @@
       "writtenOn": "2015-02-10T03:49:27Z",
       "side": 1,
       "message": "This is missing an .in(Scopes.SINGLETON).",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_38e3c957",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/HttpGitHubOAuthModule.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ccee4a3_74bee8b1",
       "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_b7200816",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "I see your point: it was generated as secure random to prevent hijacked calls. \nUsing a random seed generated in a singleton and then varying it with a standard random based on that seed + time should suffice and ease the CPU load on the secure random calculations.",
+      "parentUuid": "1ccee4a3_54bbecbf",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb1100e_3bc85743",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 54
@@ -167,6 +311,24 @@
       "writtenOn": "2015-02-10T03:49:27Z",
       "side": 1,
       "message": "throw IllegalStateException() is a better way to handle this than return null.\n\n_IF_ UTF_8 disappears for some reason the stack trace and exception will be easier to find and debug than an NPE in the caller.",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_97250426",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb1100e_3bc85743",
       "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -196,6 +358,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_18e00547",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb1100e_9bb88bc6",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 14
+      },
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb1100e_7bbedfb1",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 54
@@ -207,6 +393,24 @@
       "writtenOn": "2015-02-10T03:49:27Z",
       "side": 1,
       "message": "This was set above. You only need to do it once.",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_f899d1e8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb1100e_7bbedfb1",
       "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fcb1100e_9b03ebec",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-10T01:56:30Z",
+      "side": 1,
+      "message": "While we\u0027re here, another minor nit.  The injected ctor arguments should be listed one per line.",
+      "parentUuid": "7cbfe0de_f70320b6",
+      "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_d7081cd3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
         "patchSetId": 32

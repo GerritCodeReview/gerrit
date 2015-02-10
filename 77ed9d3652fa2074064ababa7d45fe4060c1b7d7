@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91b71f4c_b0167874",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-10T20:12:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow the logic here. If this change is not submittable due to some other changes in the topic being not submittable, what\u0027s the harm in still displaying the CR+2 quick-approve button?",
+      "revId": "77ed9d3652fa2074064ababa7d45fe4060c1b7d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

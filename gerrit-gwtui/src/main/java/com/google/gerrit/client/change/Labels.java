@@ -273,7 +273,7 @@ class Labels extends Grid {
         html.openElement("button")
             .setAttribute("title", Util.M.removeReviewer(name))
             .setAttribute("onclick", REMOVE + "(event)")
-            .append("☒")
+            .append("×")
             .closeElement("button");
       }
       html.closeSpan();

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_78aee1ff",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-10T09:01:11Z",
+      "side": 1,
+      "message": "Shall we document that [1] ?\n\n[1] https://gerrit-review.googlesource.com/64288",
+      "parentUuid": "fcb1100e_9b03ebec",
+      "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_d7081cd3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
         "patchSetId": 32

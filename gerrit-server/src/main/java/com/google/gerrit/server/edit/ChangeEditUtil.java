@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -142,10 +144,11 @@ public class ChangeEditUtil {
    * @throws NoSuchChangeException
    * @throws IOException
    * @throws OrmException
-   * @throws ResourceConflictException
+   * @throws UpdateException
+   * @throws RestApiException
    */
   public void publish(ChangeEdit edit) throws NoSuchChangeException,
-      IOException, OrmException, ResourceConflictException {
+      IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
@@ -211,8 +214,8 @@ public class ChangeEditUtil {
 
   private Change insertPatchSet(ChangeEdit edit, Change change,
       Repository repo, RevWalk rw, PatchSet basePatchSet, RevCommit squashed)
-      throws NoSuchChangeException, InvalidChangeOperationException,
-      OrmException, IOException {
+      throws NoSuchChangeException, RestApiException, UpdateException,
+      InvalidChangeOperationException, OrmException, IOException {
     PatchSet ps = new PatchSet(
         ChangeUtil.nextPatchSetId(change.currentPatchSetId()));
     ps.setRevision(new RevId(ObjectId.toString(squashed)));

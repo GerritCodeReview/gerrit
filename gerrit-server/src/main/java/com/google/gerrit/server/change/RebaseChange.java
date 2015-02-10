@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -106,11 +108,13 @@ public class RebaseChange {
    * @throws IOException if accessing the repository fails.
    * @throws InvalidChangeOperationException if rebase is not possible or not
    *     allowed.
+   * @throws RestApiException
+   * @throws UpdateException
    */
   public void rebase(Repository git, RevWalk rw, RevisionResource rsrc,
       String newBaseRev) throws NoSuchChangeException, EmailException,
-          OrmException, IOException, ResourceConflictException,
-          InvalidChangeOperationException {
+          OrmException, IOException, InvalidChangeOperationException,
+          UpdateException, RestApiException {
     Change change = rsrc.getChange();
     PatchSet patchSet = rsrc.getPatchSet();
     IdentifiedUser uploader = (IdentifiedUser) rsrc.getControl().getCurrentUser();
@@ -245,13 +249,15 @@ public class RebaseChange {
    * @throws IOException if rebase is not possible.
    * @throws InvalidChangeOperationException if rebase is not possible or not
    *     allowed.
+   * @throws RestApiException
+   * @throws UpdateException
    */
   public PatchSet rebase(Repository git, RevWalk rw,
       ObjectInserter inserter, Change change, PatchSet.Id patchSetId,
       IdentifiedUser uploader, RevCommit baseCommit, MergeUtil mergeUtil,
       PersonIdent committerIdent, boolean runHooks, ValidatePolicy validate)
       throws NoSuchChangeException, OrmException, IOException,
-      InvalidChangeOperationException, MergeConflictException {
+      InvalidChangeOperationException, MergeConflictException, UpdateException, RestApiException {
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }

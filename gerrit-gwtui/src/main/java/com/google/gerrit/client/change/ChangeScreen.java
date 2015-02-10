@@ -1110,12 +1110,15 @@ public class ChangeScreen extends Screen {
     history.set(commentLinkProcessor, replyAction, changeId, info);
 
     if (current) {
-      quickApprove.set(info, revision, replyAction);
-      loadSubmitType(info.status(), isSubmittable(info));
-    } else {
-      quickApprove.setVisible(false);
-      setVisible(strategy, false);
+      if (!isSubmittable(info)) {
+        quickApprove.set(info, revision, replyAction);
+        setVisible(strategy, false);
+      } else {
+        loadSubmitType(info.status(), true);
+      }
     }
+
+    actions.reloadRevisionActions(actionMap);
   }
 
   private void renderOwner(ChangeInfo info) {

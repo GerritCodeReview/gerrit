@@ -265,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_b8a35919",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-10T08:49:34Z",
+      "side": 1,
+      "message": "Yep, done only when class is loaded and only to get an initial secure random seed.",
+      "parentUuid": "fcb1100e_1bc59b2b",
+      "revId": "a90b1d229a2a3fb3ae71f38eefa0f81b07ecaa75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ccee4a3_54bbecbf",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 54

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -75,8 +77,8 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
   @Override
   public ChangeInfo apply(RevisionResource rsrc, RebaseInput input)
-      throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, EmailException, OrmException, IOException {
+      throws EmailException, OrmException, UpdateException, RestApiException,
+      IOException {
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
@@ -233,8 +235,8 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
-        throws AuthException, ResourceNotFoundException,
-        ResourceConflictException, EmailException, OrmException, IOException {
+        throws EmailException, OrmException, UpdateException, RestApiException,
+        IOException {
       PatchSet ps =
           rebase.dbProvider.get().patchSets()
               .get(rsrc.getChange().currentPatchSetId());

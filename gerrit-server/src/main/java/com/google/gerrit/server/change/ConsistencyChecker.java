@@ -31,6 +31,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -472,7 +474,7 @@ public class ConsistencyChecker {
       p.outcome = "Inserted as patch set " + change.currentPatchSetId().get();
       return inserter.getPatchSet();
     } catch (InvalidChangeOperationException | OrmException | IOException
-        | NoSuchChangeException e) {
+        | NoSuchChangeException | UpdateException | RestApiException e) {
       warn(e);
       p.status = Status.FIX_FAILED;
       p.outcome = "Error inserting new patch set";

@@ -70,6 +70,24 @@
       "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11ab2ff1_8cf087ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-10T20:00:35Z",
+      "side": 1,
+      "message": "Yes, that\u0027s exactly what I was going for, sorry for not mentioning it explicitly.",
+      "parentUuid": "7cbfe0de_57a1acbc",
+      "revId": "ab13750f3af7d607390b1e51a4b0b62e4a00d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

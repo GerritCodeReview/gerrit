@@ -388,11 +388,8 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void initChangeAction(ChangeInfo info) {
+  private void initChangeAction(ChangeInfo info, NativeMap<ActionInfo> actions) {
     if (info.status() == Status.DRAFT) {
-      NativeMap<ActionInfo> actions = info.has_actions()
-          ? info.actions()
-          : NativeMap.<ActionInfo> create();
       actions.copyKeysIntoChildren("id");
       if (actions.containsKey("/")) {
         deleteChange.setVisible(true);
@@ -401,7 +398,8 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void initRevisionsAction(ChangeInfo info, String revision) {
+  private void initRevisionsAction(ChangeInfo info, String revision,
+      NativeMap<ActionInfo> actions) {
     int currentPatchSet;
     if (info.current_revision() != null
         && info.revisions().containsKey(info.current_revision())) {
@@ -429,9 +427,6 @@ public class ChangeScreen extends Screen {
 
     RevisionInfo revInfo = info.revision(revision);
     if (revInfo.draft()) {
-      NativeMap<ActionInfo> actions = revInfo.has_actions()
-          ? revInfo.actions()
-          : NativeMap.<ActionInfo> create();
       actions.copyKeysIntoChildren("id");
 
       if (actions.containsKey("publish")) {
@@ -1026,19 +1021,7 @@ public class ChangeScreen extends Screen {
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
-    RevisionInfo revisionInfo = info.revision(revision);
-    boolean current = info.status().isOpen()
-        && revision.equals(info.current_revision())
-        && !revisionInfo.is_edit();
 
-    if (revisionInfo.is_edit()) {
-      statusText.setInnerText(Util.C.changeEdit());
-    } else if (!current && info.status() == Change.Status.NEW) {
-      statusText.setInnerText(Util.C.notCurrent());
-      labels.setVisible(false);
-    } else {
-      statusText.setInnerText(Util.toLongString(info.status()));
-    }
     labels.set(info);
 
     renderOwner(info);
@@ -1046,8 +1029,6 @@ public class ChangeScreen extends Screen {
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
     initIncludedInAction(info);
-    initChangeAction(info);
-    initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
     initProjectLinks(info);
     initBranchLink(info);
@@ -1066,6 +1047,35 @@ public class ChangeScreen extends Screen {
     } else {
       setVisible(hashtagTableRow, false);
     }
+
+    StringBuilder sb = new StringBuilder();
+    sb.append(Util.M.changeScreenTitleId(info.id_abbreviated()));
+    if (info.subject() != null) {
+      sb.append(": ");
+      sb.append(info.subject());
+    }
+    setWindowTitle(sb.toString());
+
+    renderRevisionInfo(info, NativeMap.<ActionInfo> create());
+  }
+
+  void renderRevisionInfo(ChangeInfo info, NativeMap<ActionInfo> actionMap) {
+    RevisionInfo revisionInfo = info.revision(revision);
+    boolean current = info.status().isOpen()
+        && revision.equals(info.current_revision())
+        && !revisionInfo.is_edit();
+
+    if (revisionInfo.is_edit()) {
+      statusText.setInnerText(Util.C.changeEdit());
+    } else if (!current && info.status() == Change.Status.NEW) {
+      statusText.setInnerText(Util.C.notCurrent());
+      labels.setVisible(false);
+    } else {
+      statusText.setInnerText(Util.toLongString(info.status()));
+    }
+
+    initChangeAction(info, actionMap);
+    initRevisionsAction(info, revision, actionMap);
 
     if (Gerrit.isSignedIn()) {
       replyAction = new ReplyAction(info, revision,
@@ -1088,14 +1098,6 @@ public class ChangeScreen extends Screen {
       quickApprove.setVisible(false);
       setVisible(strategy, false);
     }
-
-    StringBuilder sb = new StringBuilder();
-    sb.append(Util.M.changeScreenTitleId(info.id_abbreviated()));
-    if (info.subject() != null) {
-      sb.append(": ");
-      sb.append(info.subject());
-    }
-    setWindowTitle(sb.toString());
   }
 
   private void renderOwner(ChangeInfo info) {

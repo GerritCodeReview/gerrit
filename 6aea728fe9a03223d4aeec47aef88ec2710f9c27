@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_d79edcce",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-10T16:31:18Z",
+      "side": 1,
+      "message": "My comment above wasn\u0027t an objection... there was no hint to move this line above the if statement :-(\n\nit was only there to help understanding why a null check is not necessary in the InitStepSecureStoreProvider.",
+      "parentUuid": "7cbfe0de_b707e890",
+      "revId": "6aea728fe9a03223d4aeec47aef88ec2710f9c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_f70320b6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitStepSecureStoreProvider.java",
         "patchSetId": 32

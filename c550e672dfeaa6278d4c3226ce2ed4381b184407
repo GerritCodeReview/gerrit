@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_57e64c67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-10T13:59:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbfe0de_97daa4a0",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "c550e672dfeaa6278d4c3226ce2ed4381b184407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_18b5a549",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 8
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7cbfe0de_77e95035",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-10T13:59:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_18b5a549",
+      "revId": "c550e672dfeaa6278d4c3226ce2ed4381b184407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_38b86941",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 8
@@ -53,6 +95,30 @@
       "writtenOn": "2015-02-10T10:25:40Z",
       "side": 1,
       "message": "\"next.setVisible(true)\" is not needed since setupNavigationLink is taking care to make the link visible.",
+      "range": {
+        "startLine": 442,
+        "startChar": 8,
+        "endLine": 443,
+        "endChar": 79
+      },
+      "revId": "c550e672dfeaa6278d4c3226ce2ed4381b184407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_f850b14e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-10T13:59:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_38b86941",
       "range": {
         "startLine": 442,
         "startChar": 8,
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_d855ed3c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-10T13:59:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbad4ec_58943da3",
+      "range": {
+        "startLine": 626,
+        "startChar": 4,
+        "endLine": 626,
+        "endChar": 25
+      },
+      "revId": "c550e672dfeaa6278d4c3226ce2ed4381b184407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_d7d01c86",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 8
@@ -123,6 +213,30 @@
       "writtenOn": "2015-02-10T10:25:40Z",
       "side": 1,
       "message": "Is \u0027open\u0027 ever set?",
+      "range": {
+        "startLine": 654,
+        "startChar": 6,
+        "endLine": 657,
+        "endChar": 7
+      },
+      "revId": "c550e672dfeaa6278d4c3226ce2ed4381b184407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbad4ec_b84a3997",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-10T13:59:33Z",
+      "side": 1,
+      "message": "Nope, you\u0027re right. Should be in follow-up change",
+      "parentUuid": "7cbfe0de_d7d01c86",
       "range": {
         "startLine": 654,
         "startChar": 6,

@@ -46,6 +46,30 @@
       "revId": "a4c05b5f55c3ef6a5d12cf7c3dc913d9b8877a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_89c41999",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T22:10:52Z",
+      "side": 1,
+      "message": "I managed to eliminate the needs for empty collection by passing in null to FileTable and marking the attributes as nullable there and handling this case correspondingly. Done.",
+      "parentUuid": "9cbad4ec_d8f96d0c",
+      "range": {
+        "startLine": 841,
+        "startChar": 6,
+        "endLine": 841,
+        "endChar": 49
+      },
+      "revId": "a4c05b5f55c3ef6a5d12cf7c3dc913d9b8877a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

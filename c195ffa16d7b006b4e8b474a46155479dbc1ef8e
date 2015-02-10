@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb1100e_7b6c9f9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T07:15:58Z",
+      "side": 1,
+      "message": "This is an acceptable solution. :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "c195ffa16d7b006b4e8b474a46155479dbc1ef8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_5b69e38b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T07:15:58Z",
+      "side": 1,
+      "message": "IIRC anonymous users will crash here because they have no user account to get the prefs from.",
+      "range": {
+        "startLine": 720,
+        "startChar": 12,
+        "endLine": 720,
+        "endChar": 59
+      },
+      "revId": "c195ffa16d7b006b4e8b474a46155479dbc1ef8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_3b761770",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-10T07:15:58Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "c195ffa16d7b006b4e8b474a46155479dbc1ef8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

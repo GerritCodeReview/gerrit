@@ -21,6 +21,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -125,16 +127,16 @@ public class ChangeEditUtil {
    * its parent.
    *
    * @param edit change edit to publish
-   * @throws AuthException
    * @throws NoSuchChangeException
    * @throws IOException
    * @throws InvalidChangeOperationException
    * @throws OrmException
-   * @throws ResourceConflictException
+   * @throws UpdateException
+   * @throws RestApiException
    */
-  public void publish(ChangeEdit edit) throws AuthException,
-      NoSuchChangeException, IOException, InvalidChangeOperationException,
-      OrmException, ResourceConflictException {
+  public void publish(ChangeEdit edit) throws NoSuchChangeException,
+      IOException, InvalidChangeOperationException, OrmException,
+      RestApiException, UpdateException {
     Change change = edit.getChange();
     Repository repo = gitManager.openRepository(change.getProject());
     try {
@@ -234,8 +236,8 @@ public class ChangeEditUtil {
 
   private void insertPatchSet(ChangeEdit edit, Change change,
       Repository repo, RevWalk rw, PatchSet basePatchSet, RevCommit squashed)
-      throws NoSuchChangeException, InvalidChangeOperationException,
-      OrmException, IOException {
+      throws NoSuchChangeException, RestApiException, UpdateException,
+      InvalidChangeOperationException, OrmException, IOException {
     PatchSet ps = new PatchSet(
         ChangeUtil.nextPatchSetId(change.currentPatchSetId()));
     ps.setRevision(new RevId(ObjectId.toString(squashed)));

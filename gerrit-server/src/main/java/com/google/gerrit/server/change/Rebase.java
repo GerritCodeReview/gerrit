@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Rebase.Input;
 import com.google.gerrit.server.changedetail.RebaseChange;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -56,8 +58,7 @@ public class Rebase implements RestModifyView<RevisionResource, Input>,
 
   @Override
   public ChangeInfo apply(RevisionResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, EmailException, OrmException {
+      throws EmailException, OrmException, UpdateException, RestApiException {
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     if (!control.canRebase()) {
@@ -104,8 +105,7 @@ public class Rebase implements RestModifyView<RevisionResource, Input>,
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, Input input)
-        throws AuthException, ResourceNotFoundException,
-        ResourceConflictException, EmailException, OrmException {
+        throws EmailException, OrmException, UpdateException, RestApiException {
       PatchSet ps =
           dbProvider.get().patchSets()
               .get(rsrc.getChange().currentPatchSetId());

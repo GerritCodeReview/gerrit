@@ -21,11 +21,13 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -55,8 +57,8 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
 
   @Override
   public ChangeInfo apply(RevisionResource revision, CherryPickInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, OrmException, IOException, EmailException {
+      throws OrmException, IOException, EmailException, UpdateException,
+      RestApiException {
     final ChangeControl control = revision.getControl();
 
     if (input.message == null || input.message.trim().isEmpty()) {

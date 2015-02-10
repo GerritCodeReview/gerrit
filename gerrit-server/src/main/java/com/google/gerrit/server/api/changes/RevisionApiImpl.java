@@ -49,6 +49,7 @@ import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.changedetail.RebaseChange;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -181,7 +182,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   public ChangeApi rebase() throws RestApiException {
     try {
       return changes.id(rebase.apply(revision, null)._number);
-    } catch (OrmException | EmailException e) {
+    } catch (OrmException | EmailException | UpdateException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
   }
@@ -195,7 +196,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
       return changes.id(cherryPick.apply(revision, in)._number);
-    } catch (OrmException | EmailException | IOException e) {
+    } catch (OrmException | EmailException | IOException | UpdateException e) {
       throw new RestApiException("Cannot cherry pick", e);
     }
   }

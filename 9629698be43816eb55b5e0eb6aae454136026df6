@@ -93,6 +93,29 @@
       "revId": "9629698be43816eb55b5e0eb6aae454136026df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912c7f7c_a8c9dbb1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T22:45:26Z",
+      "side": 0,
+      "message": "Where is this code now? Here is the response from GET /changes/\u003cid\u003e/detail: [1]. Note: there are two different action maps. One from change info and another one from revision info.\n\n* [1] http://paste.openstack.org/show/170998/",
+      "range": {
+        "startLine": 432,
+        "startChar": 6,
+        "endLine": 434,
+        "endChar": 44
+      },
+      "revId": "9629698be43816eb55b5e0eb6aae454136026df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "912c7f7c_c8ce0fb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T22:45:26Z",
+      "side": 1,
+      "message": "Please remove this. We are never adding attribution to reviewers.",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "b88021438ee7ef0d99dd65879f2e129fa3ec1a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_c9ce11b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T22:45:26Z",
+      "side": 1,
+      "message": "You removed the draft patch set buttons part from my previous comment? I think this part is still broken.",
+      "revId": "b88021438ee7ef0d99dd65879f2e129fa3ec1a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_a9c9ddb1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-10T22:45:26Z",
+      "side": 1,
+      "message": "This is wrong map, one from change info and not one from revision info, that you need. The right one would be the code that you have removed:\n\n  RevisionInfo revInfo \u003d info.revision(revision);\n    if (revInfo.draft()) {\n      NativeMap\u003cActionInfo\u003e actionMap \u003d revInfo.has_actions()\n          ? revInfo.actions()\n          : NativeMap.\u003cActionInfo\u003e create();\n  }",
+      "range": {
+        "startLine": 1063,
+        "startChar": 29,
+        "endLine": 1063,
+        "endChar": 38
+      },
+      "revId": "b88021438ee7ef0d99dd65879f2e129fa3ec1a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

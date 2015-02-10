@@ -1126,6 +1126,7 @@ td.removeReviewerCell {
 .downloadBox {
   min-width: 580px;
   margin: 5px;
+  margin-right: 15px;
 }
 .downloadBoxTable {
   border-spacing: 0;

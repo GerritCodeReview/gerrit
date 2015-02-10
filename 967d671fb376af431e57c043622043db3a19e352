@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "91b71f4c_f0e5a02e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-10T20:03:38Z",
+      "side": 1,
+      "message": "Sorry, I mean \"because ChangeJson is *not* a singleton\".\n\nCreating a new ChangeJson instance with Guice will also create a new ConsistencyChecker (or ActionJson) instance even if we don\u0027t use a provider.\n\nThe only reason we would need a provider in a non-singleton object like this is if we need to construct multiple new instances. But we don\u0027t.",
+      "parentUuid": "9cbad4ec_78314118",
+      "revId": "967d671fb376af431e57c043622043db3a19e352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_3812a980",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 11

@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "9cbad4ec_58943da3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-10T10:32:49Z",
+      "side": 1,
+      "message": "I guess this should be part of the follow-up change?\n  https://gerrit-review.googlesource.com/63680",
+      "parentUuid": "7cbfe0de_f7cb20d5",
+      "range": {
+        "startLine": 626,
+        "startChar": 4,
+        "endLine": 626,
+        "endChar": 25
+      },
+      "revId": "c550e672dfeaa6278d4c3226ce2ed4381b184407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_d7d01c86",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 8

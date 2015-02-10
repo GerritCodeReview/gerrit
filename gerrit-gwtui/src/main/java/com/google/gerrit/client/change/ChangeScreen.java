@@ -928,25 +928,20 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
-    if (canSubmit) {
-      if (status == Change.Status.NEW) {
-        statusText.setInnerText(Util.C.readyToSubmit());
-      }
+    if (status == Change.Status.NEW) {
+      statusText.setInnerText(Util.C.readyToSubmit());
     }
     ChangeApi.revision(changeId.get(), revision)
       .view("submit_type")
       .get(new AsyncCallback<NativeString>() {
         @Override
         public void onSuccess(NativeString result) {
-          if (canSubmit) {
             if (status == Change.Status.NEW) {
               statusText.setInnerText(changeInfo.mergeable()
                   ? Util.C.readyToSubmit()
                   : Util.C.mergeConflict());
             }
-          }
           setVisible(notMergeable, !changeInfo.mergeable());
-
           renderSubmitType(result.asString());
         }
 
@@ -1113,7 +1108,7 @@ public class ChangeScreen extends Screen {
         quickApprove.set(info, revision, replyAction);
         setVisible(strategy, false);
       } else {
-        loadSubmitType(info.status(), true);
+        loadSubmitType(info.status());
       }
     }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ccee4a3_34875027",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-10T00:50:08Z",
+      "side": 1,
+      "message": "I don\u0027t think this is working as intended.\n\nIf you run this test in the debugger, set a breakpoint here and inspect the content of `in.message` after this line, it contains something like:\n\n New commit message\n \n [B@132e0f74\n \n Change-Id: I33f04ed2d8efb3be432d1201f3a3072c00afb5d9\n\nAccording to FindBugs, this is because `CONTENT_NEW2` is a byte array.  When it\u0027s used in a string concatenation, toString is called on it, which results in that `[B@132e0f74` text instead of the actual content.",
+      "range": {
+        "startLine": 304,
+        "startChar": 4,
+        "endLine": 306,
+        "endChar": 25
+      },
+      "revId": "7d257feeee784bcc4357c32d4807135a4b26dfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -911,7 +911,6 @@ public class ChangeScreen extends Screen {
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
     if (canSubmit) {
-      actions.setSubmitEnabled();
       if (status == Change.Status.NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }

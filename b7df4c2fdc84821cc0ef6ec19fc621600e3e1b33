@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fcb1100e_7b55bfb7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-10T08:50:30Z",
+      "side": 1,
+      "message": "These are unused.  Not sure how they got in.\n\nRemoved in https://gerrit-review.googlesource.com/64370",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 56
+      },
+      "revId": "b7df4c2fdc84821cc0ef6ec19fc621600e3e1b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbfe0de_5791acea",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 11

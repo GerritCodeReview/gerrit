@@ -17,10 +17,10 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -251,7 +251,7 @@ public class PatchSetInserter {
   }
 
   public Change insert() throws InvalidChangeOperationException, OrmException,
-      IOException, NoSuchChangeException {
+      IOException, NoSuchChangeException, UpdateException, RestApiException {
     init();
     validate();
     final AtomicReference<Change> updatedChange = new AtomicReference<>();
@@ -361,14 +361,6 @@ public class PatchSetInserter {
       if (executeBatch) {
         bu.execute();
       }
-    } catch (UpdateException e) {
-      Throwables.propagateIfInstanceOf(e.getCause(),
-          NoSuchChangeException.class);
-      Throwables.propagateIfInstanceOf(e.getCause(),
-          InvalidChangeOperationException.class);
-      Throwables.propagateIfInstanceOf(e.getCause(), OrmException.class);
-      Throwables.propagateIfInstanceOf(e.getCause(), IOException.class);
-      Throwables.propagateIfPossible(e.getCause());
     } finally {
       if (executeBatch) {
         bu.close();

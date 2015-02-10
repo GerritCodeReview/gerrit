@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7cbfe0de_97daa4a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-10T10:27:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we need this in the commit message. Maybe just remove it.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "c550e672dfeaa6278d4c3226ce2ed4381b184407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_18b5a549",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 8

@@ -46,6 +46,30 @@
       "revId": "b7df4c2fdc84821cc0ef6ec19fc621600e3e1b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbfe0de_179b340b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-10T07:29:02Z",
+      "side": 1,
+      "message": "Yes, this makes sense and this is what the test below in line 204 is testing.\n\nIf I read this test here correctly the second patch set has exactly the same parent and diff as the first patch set. What is the use of the second patch set in this case? I think cherry-pick should recognize this situation and just do nothing.",
+      "parentUuid": "9cbad4ec_98dad5a0",
+      "range": {
+        "startLine": 186,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "b7df4c2fdc84821cc0ef6ec19fc621600e3e1b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

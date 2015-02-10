@@ -62,6 +62,29 @@
       "revId": "c195ffa16d7b006b4e8b474a46155479dbc1ef8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccee4a3_34763070",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-10T08:08:23Z",
+      "side": 1,
+      "message": "This also needs to be done conditionally.",
+      "range": {
+        "startLine": 788,
+        "startChar": 6,
+        "endLine": 808,
+        "endChar": 7
+      },
+      "revId": "c195ffa16d7b006b4e8b474a46155479dbc1ef8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

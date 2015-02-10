@@ -221,6 +221,7 @@ Here are some guidelines that Gerrit uses:
     should be before the instance members.
   * Annotations should go before language keywords (`final`, `private`, etc) +
     Example: `@Assisted @Nullable final type varName`
+  * The `@Inject`-ed constructor arguments should be listed one per line.
   * Imports should be mostly alphabetical (uppercase sorts before
     all lowercase, which means classes come before packages at the
     same level).

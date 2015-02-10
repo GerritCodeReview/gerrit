@@ -22,6 +22,30 @@
       "revId": "6ad54044ddd1b46100fc7f0f14b35879a2594c17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb1100e_7bca5f20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-10T18:48:43Z",
+      "side": 1,
+      "message": "Done. Can\u0027t ref.getObjectId() return null though? I handled that just in case.",
+      "parentUuid": "fcb1100e_fb60afa0",
+      "range": {
+        "startLine": 246,
+        "startChar": 43,
+        "endLine": 246,
+        "endChar": 50
+      },
+      "revId": "6ad54044ddd1b46100fc7f0f14b35879a2594c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

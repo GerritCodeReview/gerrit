@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b137c3c2_c937f10a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T13:40:25Z",
+      "side": 1,
+      "message": "we normally define spacing by CSS",
+      "revId": "e33b1216002d3f8152d82cc1c21c0a4d0286f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_a942bd61",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T13:40:25Z",
+      "side": 1,
+      "message": "What is this good for?\n\nIf there are results, which is the case for almost any project, then this redirects to the project branches screen, so that we end up in an endless loop here?",
+      "range": {
+        "startLine": 651,
+        "startChar": 6,
+        "endLine": 654,
+        "endChar": 7
+      },
+      "revId": "e33b1216002d3f8152d82cc1c21c0a4d0286f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

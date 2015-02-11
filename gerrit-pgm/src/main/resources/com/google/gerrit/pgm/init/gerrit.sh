@@ -2,12 +2,9 @@
 #
 # Launch Gerrit Code Review as a daemon process.
 
-# To get the service to restart correctly on reboot, uncomment below (3 lines):
-# ========================
 # chkconfig: 3 99 99
 # description: Gerrit Code Review
 # processname: gerrit
-# ========================
 
 ### BEGIN INIT INFO
 # Provides:          gerrit

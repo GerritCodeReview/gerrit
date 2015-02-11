@@ -146,13 +146,10 @@ background, use the rc.d style start script created by 'init':
 ('Optional') Configure the daemon to automatically start and stop
 with the operating system.
 
-Uncomment the following 3 lines in the `'$site_path/bin/gerrit.sh'`
-script:
+Add the following in `/etc/default/gerritcodereview`
 
 ====
- chkconfig: 3 99 99
- description: Gerrit Code Review
- processname: gerrit
+  GERRIT_SITE = <path_to_gerrit_directory>
 ====
 
 Then link the `gerrit.sh` script into `rc3.d`:

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "912c7f7c_886097f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-11T18:37:12Z",
+      "side": 1,
+      "message": "Done, added a hint to the commit message.",
+      "parentUuid": "b137c3c2_69e0c521",
+      "range": {
+        "startLine": 1063,
+        "startChar": 4,
+        "endLine": 1066,
+        "endChar": 40
+      },
+      "revId": "a778d81faf6561d55e3863ca00ded4c4ba2e3bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "912c7f7c_c8e52f2f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-11T07:44:03Z",
       "side": 1,
       "message": "private",
+      "range": {
+        "startLine": 1069,
+        "startChar": 2,
+        "endLine": 1069,
+        "endChar": 6
+      },
+      "revId": "a778d81faf6561d55e3863ca00ded4c4ba2e3bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912c7f7c_a8655b08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-11T18:37:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "912c7f7c_c8e52f2f",
       "range": {
         "startLine": 1069,
         "startChar": 2,

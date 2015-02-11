@@ -2070,7 +2070,7 @@ a trusted username in the `TRUSTED_USER` HTTP Header:
 	type = HTTP
 	httpHeader = TRUSTED_USER
 
-[http]
+[httpd]
 	filterClass = org.anyorg.MySecureFilter
 ----
 

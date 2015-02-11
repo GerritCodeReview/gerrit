@@ -22,6 +22,30 @@
       "revId": "ac5e0b40b1edd7e682d78b5e59b8181d77413b63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_69f7e5df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012532
+      },
+      "writtenOn": "2015-02-11T13:03:29Z",
+      "side": 1,
+      "message": "I\u0027d rather have an email upon changed commit message than a configuration option.",
+      "parentUuid": "912c7f7c_68f7e3df",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "ac5e0b40b1edd7e682d78b5e59b8181d77413b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

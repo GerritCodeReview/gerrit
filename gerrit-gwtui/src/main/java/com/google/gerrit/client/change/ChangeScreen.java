@@ -770,16 +770,11 @@ public class ChangeScreen extends Screen {
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
+    Timestamp lastReply = myLastReply(info);
     if (rev.is_edit()) {
-      NativeMap<JsArray<CommentInfo>> emptyComment = NativeMap.create();
-      files.set(
-          b != null ? new PatchSet.Id(changeId, b._number()) : null,
-          new PatchSet.Id(changeId, rev._number()),
-          style, reply, fileTableMode, edit != null);
-      files.setValue(info.edit().files(), myLastReply(info), emptyComment,
-          emptyComment);
+      loadFileList(b, rev, lastReply, group, null, null);
     } else {
-      loadDiff(b, rev, myLastReply(info), group);
+      loadDiff(b, rev, lastReply, group);
     }
     loadCommit(rev, group);
 
@@ -819,23 +814,7 @@ public class ChangeScreen extends Screen {
       final Timestamp myLastReply, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
-    DiffApi.list(changeId.get(),
-      base != null ? base.name() : null,
-      rev.name(),
-      group.add(new AsyncCallback<NativeMap<FileInfo>>() {
-        @Override
-        public void onSuccess(NativeMap<FileInfo> m) {
-          files.set(
-              base != null ? new PatchSet.Id(changeId, base._number()) : null,
-              new PatchSet.Id(changeId, rev._number()),
-              style, reply, fileTableMode, edit != null);
-          files.setValue(m, myLastReply, comments.get(0), drafts.get(0));
-        }
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+    loadFileList(base, rev, myLastReply, group, comments, drafts);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {
       ChangeApi.revision(changeId.get(), rev.name())
@@ -852,6 +831,31 @@ public class ChangeScreen extends Screen {
             }
           }));
     }
+  }
+
+  private void loadFileList(final RevisionInfo base, final RevisionInfo rev,
+      final Timestamp myLastReply, CallbackGroup group,
+      final List<NativeMap<JsArray<CommentInfo>>> comments,
+      final List<NativeMap<JsArray<CommentInfo>>> drafts) {
+    DiffApi.list(changeId.get(),
+      base != null ? base.name() : null,
+      rev.name(),
+      group.add(new AsyncCallback<NativeMap<FileInfo>>() {
+        @Override
+        public void onSuccess(NativeMap<FileInfo> m) {
+          files.set(
+              base != null ? new PatchSet.Id(changeId, base._number()) : null,
+              new PatchSet.Id(changeId, rev._number()),
+              style, reply, fileTableMode, edit != null);
+          files.setValue(m, myLastReply,
+              comments != null ? comments.get(0) : null,
+              drafts != null ? drafts.get(0) : null);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      }));
   }
 
   private List<NativeMap<JsArray<CommentInfo>>> loadComments(

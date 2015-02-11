@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b137c3c2_69e0c521",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-11T07:44:03Z",
+      "side": 1,
+      "message": "The only reason to do it here is the follow-up change [1], where actions are retrieved from dedicated endpoint. It was hard to see the justification for all this overhead from the commit message. I think that proper map initialization should be done here.\n\n  actions.copyKeysIntoChildren(\"id\");\n\n  [1] https://gerrit-review.googlesource.com/#/c/64413",
+      "range": {
+        "startLine": 1063,
+        "startChar": 4,
+        "endLine": 1066,
+        "endChar": 40
+      },
+      "revId": "a778d81faf6561d55e3863ca00ded4c4ba2e3bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912c7f7c_c8e52f2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-11T07:44:03Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 1069,
+        "startChar": 2,
+        "endLine": 1069,
+        "endChar": 6
+      },
+      "revId": "a778d81faf6561d55e3863ca00ded4c4ba2e3bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

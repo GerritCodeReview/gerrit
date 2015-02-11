@@ -140,6 +140,29 @@
       "revId": "9629698be43816eb55b5e0eb6aae454136026df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912c7f7c_48e3ff2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-11T07:44:03Z",
+      "side": 0,
+      "message": "This line belongs to initialization of actionMap on line 432. There is no reason to separate it.",
+      "range": {
+        "startLine": 435,
+        "startChar": 6,
+        "endLine": 435,
+        "endChar": 41
+      },
+      "revId": "9629698be43816eb55b5e0eb6aae454136026df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

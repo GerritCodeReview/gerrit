@@ -2070,11 +2070,11 @@ a trusted username in the `TRUSTED_USER` HTTP Header:
 	type = HTTP
 	httpHeader = TRUSTED_USER
 
-[http]
+[httpd]
 	filterClass = org.anyorg.MySecureFilter
 ----
 
-[[httpd.robotsFile]]httpd.robotsFile::
+[[httpemailheadertpd.robotsFile]]httpd.robotsFile::
 +
 Location of an external robots.txt file to be used instead of the one
 bundled with the .war of the application.

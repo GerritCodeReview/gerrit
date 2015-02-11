@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "912c7f7c_88eb3705",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-11T07:44:21Z",
+      "side": 1,
+      "message": "Replace AsyncCallback with GerritCallback and remove onFailure() method?",
+      "range": {
+        "startLine": 263,
+        "startChar": 17,
+        "endLine": 263,
+        "endChar": 30
+      },
+      "revId": "f77b480755ddcb1856b39a3cab5fef722ac3b1f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_a9f0fded",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-11T07:44:21Z",
+      "side": 1,
+      "message": "Rename to actions?",
+      "range": {
+        "startLine": 269,
+        "startChar": 50,
+        "endLine": 269,
+        "endChar": 56
+      },
+      "revId": "f77b480755ddcb1856b39a3cab5fef722ac3b1f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912c7f7c_a8f0fbed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-11T07:44:21Z",
+      "side": 1,
+      "message": "Move the proper map initialization here. See my comment in another change:\n\n  actions.copyKeysIntoChildren(\"id\");",
+      "revId": "f77b480755ddcb1856b39a3cab5fef722ac3b1f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

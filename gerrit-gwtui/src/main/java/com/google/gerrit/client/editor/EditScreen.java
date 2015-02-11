@@ -130,7 +130,7 @@ public class EditScreen extends Screen {
     super.onLoad();
 
     CallbackGroup group1 = new CallbackGroup();
-    CallbackGroup group2 = new CallbackGroup();
+    final CallbackGroup group2 = new CallbackGroup();
     final CallbackGroup group3 = new CallbackGroup();
 
     CodeMirror.initLibrary(group1.add(new AsyncCallback<Void>() {
@@ -140,6 +140,9 @@ public class EditScreen extends Screen {
       public void onSuccess(Void result) {
         // Load theme after CM library to ensure theme can override CSS.
         ThemeLoader.loadTheme(prefs.theme(), themeCallback);
+
+        group2.done();
+        group3.done();
       }
 
       @Override
@@ -229,8 +232,6 @@ public class EditScreen extends Screen {
       }
     });
     group1.done();
-    group2.done();
-    group3.done();
   }
 
   @Override

@@ -63,6 +63,30 @@
       "revId": "9c6bce7c1d905d840e62e8058365b27039d7014d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_0900292f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-11T08:55:35Z",
+      "side": 1,
+      "message": "OK, now i see the reason for your original version: follow-up change where you are loading the revision actions from dedicated endpoint and GET /changes/\u003cid\u003e/detail wouldn\u0027t return actions in revision info anyway, because CURRENT_ACTIONS is replaced with CHANGE_ACTIONS in the endpoint invocation. There are two problems here: For one you did this change in the wrong change (and you forgot to do it again in the right change after this was reverted). For another: why to call it from here, at all, when it is called from onSuccess() method of new GET actions endpoint?",
+      "parentUuid": "11ab2ff1_0c72d7c9",
+      "range": {
+        "startLine": 1059,
+        "startChar": 29,
+        "endLine": 1059,
+        "endChar": 60
+      },
+      "revId": "9c6bce7c1d905d840e62e8058365b27039d7014d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.EventTypes;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
@@ -64,10 +65,17 @@ final class StreamEvents extends BaseCommand {
   private final Gson gson = new Gson();
 
   /** Special event to notify clients they missed other events. */
-  private final Object droppedOutputEvent = new Object() {
-    @SuppressWarnings("unused")
-    final String type = "dropped-output";
-  };
+  private static final class DroppedOutputEvent extends Event {
+    public DroppedOutputEvent() {
+      super("dropped-output");
+    }
+  }
+
+  private static final DroppedOutputEvent droppedOutputEvent = new DroppedOutputEvent();
+
+  static {
+    EventTypes.registerClass(droppedOutputEvent);
+  }
 
   private final EventListener listener = new EventListener() {
     @Override

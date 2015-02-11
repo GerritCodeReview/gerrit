@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11ab2ff1_cc328feb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-11T20:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b137c3c2_497f8191",
+      "range": {
+        "startLine": 475,
+        "startChar": 6,
+        "endLine": 475,
+        "endChar": 47
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b137c3c2_697c459c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-11T19:26:28Z",
       "side": 1,
       "message": "Combine both the if statements into one single if statement.",
+      "range": {
+        "startLine": 475,
+        "startChar": 7,
+        "endLine": 476,
+        "endChar": 51
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91b71f4c_d0321ceb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-11T20:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b137c3c2_697c459c",
       "range": {
         "startLine": 475,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "91b71f4c_70425030",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-11T20:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b137c3c2_8947b963",
+      "range": {
+        "startLine": 494,
+        "startChar": 34,
+        "endLine": 494,
+        "endChar": 38
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "912c7f7c_c841af4f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 7
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "11ab2ff1_ec2dcb8f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-11T20:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "912c7f7c_c841af4f",
+      "range": {
+        "startLine": 725,
+        "startChar": 6,
+        "endLine": 728,
+        "endChar": 7
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b137c3c2_a94c7d88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 7
@@ -105,6 +201,24 @@
       "writtenOn": "2015-02-11T19:26:28Z",
       "side": 1,
       "message": "nit: wrap this line",
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11ab2ff1_4c3fbfb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-02-11T20:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b137c3c2_a94c7d88",
       "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -402,7 +402,7 @@ public class EditScreen extends Screen {
     InlineHyperlink unified = new InlineHyperlink();
     unified.setHTML(new ImageResourceRenderer()
         .render(Gerrit.RESOURCES.unifiedDiff()));
-    sbs.setTargetHistoryToken(
+    unified.setTargetHistoryToken(
         Dispatcher.toPatch("unified", base, new Patch.Key(revision, path)));
     unified.setTitle(PatchUtil.C.unifiedDiff());
     linkPanel.add(unified);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b137c3c2_6912857d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-11T13:34:16Z",
+      "side": 1,
+      "message": "I don\u0027t see how will this provider read the gerrit.secureStoreClass from etc/gerrit.config at runtime?\n\nA simple test where I put in the etc/gerrit.config:\n\n  [gerrit]\n    secureStoreClass \u003d abc\n\nshowed that the secureStoreClassNameProvider.get(), in the line 61, returned an empty string at runtime.",
+      "revId": "ba2613cb846ae398b7476ed7e7aac70e985af63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

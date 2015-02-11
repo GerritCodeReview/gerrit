@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "912c7f7c_68f7e3df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T12:58:58Z",
+      "side": 1,
+      "message": "I agree on not having email notifications for trivial rebase, but would like to get informed when the commit message gets updated :(\n\nIt happens frequently that I give a -1 CR if the commit message needs to be improved and now I would miss when the author addresses my comments.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "ac5e0b40b1edd7e682d78b5e59b8181d77413b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

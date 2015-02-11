@@ -31,6 +31,7 @@ public interface GerritCss extends CssResource {
   String addWatchPanel();
   String avatarInfoPanel();
   String bottomheader();
+  String branchTablePrevNextLinks();
   String cAPPROVAL();
   String cLastUpdate();
   String cOWNER();

@@ -1232,6 +1232,20 @@ a:hover.downloadLink {
   cursor: pointer;
 }
 
+.branchTablePrevNextLinks {
+  position: relative;
+}
+.branchTablePrevNextLinks td {
+  float: left;
+  width: 5em;
+  text-align: left;
+  padding-right: 10px;
+}
+.branchTablePrevNextLinks .gwt-Hyperlink {
+  font-size: 9pt;
+  color: #2a5db0;
+}
+
 /** PluginListScreen **/
 .pluginsTable {
 }

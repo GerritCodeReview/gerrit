@@ -929,7 +929,6 @@ public class ChangeScreen extends Screen {
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
     if (canSubmit) {
-      actions.setSubmitEnabled();
       if (status == Change.Status.NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }
@@ -1122,6 +1121,7 @@ public class ChangeScreen extends Screen {
       quickApprove.setVisible(false);
       setVisible(strategy, false);
     }
+    actions.reloadRevisionActions(actionMap);
   }
 
   private void renderOwner(ChangeInfo info) {

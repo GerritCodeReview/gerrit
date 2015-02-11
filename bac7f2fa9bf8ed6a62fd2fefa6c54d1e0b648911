@@ -520,6 +520,24 @@
     },
     {
       "key": {
+        "uuid": "912c7f7c_687c439c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-11T19:04:33Z",
+      "side": 1,
+      "message": "This is always true, so I just dropped this. It was only false when there was a separate BatchRefUpdate passed in (to PatchSetInserter), but we totally nuked that approach.",
+      "parentUuid": "fcb1100e_bb17c742",
+      "revId": "bac7f2fa9bf8ed6a62fd2fefa6c54d1e0b648911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_b5e3e02c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1

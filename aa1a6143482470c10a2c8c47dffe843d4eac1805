@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b137c3c2_497f8191",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T19:26:28Z",
+      "side": 1,
+      "message": "This looks not fully correct.\n\nIf \u0027match\u0027 can be null, \u0027match.equals\u0027 fails with a NullPointerException, if match cannot be null we always enter the if block, and the if can be removed.\n\nAlso if the first condition (\u0027!match.equals(\"\")\u0027) is false (when match \u003d \"\"), the second condition (\u0027match !\u003d null\u0027) is always true, which makes the first condition not having any effect.\n\nShould this be:\n  match !\u003d null \u0026\u0026 !match.equals(\"\")\n?",
+      "range": {
+        "startLine": 475,
+        "startChar": 6,
+        "endLine": 475,
+        "endChar": 47
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_697c459c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T19:26:28Z",
+      "side": 1,
+      "message": "Combine both the if statements into one single if statement.",
+      "range": {
+        "startLine": 475,
+        "startChar": 7,
+        "endLine": 476,
+        "endChar": 51
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_8947b963",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T19:26:28Z",
+      "side": 1,
+      "message": "Why null? Shouldn\u0027t we pass in \u0027match\u0027 here?\nWith passing null we would lose the filter, wouldn\u0027t we?",
+      "range": {
+        "startLine": 494,
+        "startChar": 34,
+        "endLine": 494,
+        "endChar": 38
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912c7f7c_c841af4f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T19:26:28Z",
+      "side": 1,
+      "message": "This makes no sense here.\n\nIn the project list the projects are links which navigate to the project screen. In the project list the idea with the filter reacting to the ENTER key is that you can type as much into the filter to find your project (first in the list), and then allow you to open it directly by pressing ENTER, rather then switching to the mouse and clicking on the first result.\n\nHere the situation is different. The branches in the list are not clickable, hence there is nothing to open. This code here just reloads the project branches screen and the match and skip info is lost. This is quite confusing.\n\nSince the branches are not clickable, I would remove the whole open logic from this class.",
+      "range": {
+        "startLine": 725,
+        "startChar": 6,
+        "endLine": 728,
+        "endChar": 7
+      },
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b137c3c2_a94c7d88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-11T19:26:28Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "aa1a6143482470c10a2c8c47dffe843d4eac1805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

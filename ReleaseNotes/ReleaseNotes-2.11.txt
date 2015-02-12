@@ -110,6 +110,20 @@ label and tooltip] to be configured.
 +
 Header files are now listed before implementation files.
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=3148[Issue 3148]:
+Allow display of colored size bars to be enabled or disabled per user.
++
+The 'Show Change Sizes As Colored Bars In Changes Table' setting is renamed to
+'Show Change Sizes As Colored Bars' and is now used to also control how the
+change size is shown per file in the file table.
++
+When enabled (which is the default), the change size per file is shown as a sum
+of lines added/removed, and also representated by a colored bar showing the
+proportion of added/removed lines.
++
+When disabled, the colored bar is not shown and the change size per file is shown
+in the same way as it used to be in the old change screen.
+
 
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
@@ -146,6 +160,14 @@ Projects Screen
 
 * Add pagination of the branch list page.
 
+* Add an 'Edit Config' button on the project info page.
++
+The button creates a new change on the `refs/meta/config` branch and opens the
+`project.config` file in the inline editor.
++
+This allows project owners to easily edit the `project.config` file from the
+browser, which is useful since it is possible that not all configuration options
+are available in the UI.
 
 REST
 ~~~~
@@ -309,7 +331,7 @@ HTTP Authentication may also be used when running in slave mode.
 * Add a message to changes created via cherry pick.
 +
 When a change is cherry-picked to another branch using the cherry-pick action,
-the message "Patch Set <number>: Cherry Picked from branch <name>." is added as
+the message 'Patch Set <number>: Cherry Picked from branch <name>.' is added as
 a change message on the created change.
 
 
@@ -435,10 +457,10 @@ erroneously considered not visible to the user.
 * Sort list of updated changes in output from push.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2940[Issue 2940]:
-Improve warning messages when Change-Id is missing in the commit message.
+Improve warning messages when `Change-Id` is missing in the commit message.
 
 ** Add a hint to amend the commit after installing the commit-msg hook.
-** Don't show 'Suggestion for commit message' when Change-Id is missing.
+** Don't show 'Suggestion for commit message' when `Change-Id` is missing.
 
 * Allow to publish draft patch sets even when `allowDrafts` is false.
 +
@@ -462,12 +484,12 @@ Secondary Index / Search
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2822[Issue 2822]:
-Improve Lucene analysis of words linked with '_' or '.'.
+Improve Lucene analysis of words linked with underscore or dot.
 +
-Instead of treating words linked with '_' or '.' as one word, Lucene now
+Instead of treating words linked with underscore or dot as one word, Lucene now
 treats them as separate words.
 
-* Fix support for change~branch~id in query syntax.
+* Fix support for `change~branch~id` in query syntax.
 
 
 Configuration
@@ -503,13 +525,13 @@ In the file table, parts of the file path that are common to the file previously
 listed are muted. The purpose of this is to make it easier to see files that all
 belong under the same path, but some users find it annoying.
 +
-This feature can now be enabled or disabled, per user, with the "Mute Common
-Path Prefixes In File List" setting.
+This feature can now be enabled or disabled, per user, with the 'Mute Common
+Path Prefixes In File List' setting.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3130[Issue 3130]:
-Remove special handling of "LGTM" in review comments
+Remove special handling of 'LGTM' in review comments
 +
-Typing "LGTM" in the review cover message no longer automatically selects the
+Typing 'LGTM' in the review cover message no longer automatically selects the
 highest available Code-Review score.
 
 * Show a confirmation dialog before deleting a draft change or patch set.
@@ -555,8 +577,8 @@ header for displaying more important actions such as 'Publish'.
 +
 When a cherry-pick operation failed with 'Cherry pick failed' error, there was no
 way to know the reason for the failure: merge conflict or the commit is already
-on the target branch.  These failures are now differentiated and a proper error
-is reported to the client.
+on the target branch.  These failures are now differentiated and an appropriate
+error is reported.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2837[Issue 2837]:
 Improve display of long user names for collapsed comments in history.
@@ -599,6 +621,11 @@ to the default tab ('Related Changes').
 +
 Under some circumstances the browser's scrollbar would be shown over the
 copy-to-clipboard icons in the download dropdown.
+
+* Display +1 score's text next to the checkbox for simple boolean labels.
++
+In the reply box, the text of the label score is displayed on the right hand
+side when a score is selected, but this was missing for simple boolean labels.
 
 
 Side-By-Side Diff
@@ -675,7 +702,7 @@ Fix handling of project names ending with `.git`.
 The projects REST API documentation states that the `.git` suffix will be
 stripped off the input project name, if present.
 +
-This was working for the "Create Project" endpoint, but not for any of the
+This was working for the 'Create Project' endpoint, but not for any of the
 others.
 
 

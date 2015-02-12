@@ -144,11 +144,13 @@ public class ChangeEditModifier {
    * @param edit change edit that contains edit to rebase
    * @param current patch set to rebase the edit on
    * @throws AuthException
+   * @throws ResourceConflictException thrown if rebase fails due to merge conflicts
    * @throws InvalidChangeOperationException
    * @throws IOException
    */
   public void rebaseEdit(ChangeEdit edit, PatchSet current)
-      throws AuthException, InvalidChangeOperationException, IOException {
+      throws AuthException, ResourceConflictException,
+      InvalidChangeOperationException, IOException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -202,7 +204,7 @@ public class ChangeEditModifier {
           }
         } else {
           // TODO(davido): Allow to resolve conflicts inline
-          throw new InvalidChangeOperationException("merge conflict");
+          throw new ResourceConflictException("merge conflict");
         }
       } finally {
         rw.release();

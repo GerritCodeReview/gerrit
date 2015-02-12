@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_83427e52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T12:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_a2647e0c",
+      "range": {
+        "startLine": 693,
+        "startChar": 6,
+        "endLine": 696,
+        "endChar": 7
+      },
+      "revId": "7b7e6a91f16633faedc1c52a02f39227e8fd84a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ba607d2_dfab9b8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-22T08:10:40Z",
       "side": 1,
       "message": "This comment is not relevant to the entire method.",
+      "range": {
+        "startLine": 1871,
+        "startChar": 4,
+        "endLine": 1871,
+        "endChar": 20
+      },
+      "revId": "7b7e6a91f16633faedc1c52a02f39227e8fd84a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_a3477a61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1871,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T12:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ba607d2_dfab9b8e",
       "range": {
         "startLine": 1871,
         "startChar": 4,

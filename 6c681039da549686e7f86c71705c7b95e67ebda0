@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7669c173_07145667",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/AnonymousUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-12T11:53:28Z",
+      "side": 1,
+      "message": "This is the annoying thing about Eclipse\u0027s autocompletion.\n\nIIRC there\u0027s a setting you can do to make it never suggest certain packages.",
+      "parentUuid": "f654d1b2_032d2eb9",
+      "revId": "6c681039da549686e7f86c71705c7b95e67ebda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_8214da69",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
         "patchSetId": 1

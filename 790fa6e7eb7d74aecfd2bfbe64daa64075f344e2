@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_03576e0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2045,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-12T12:47:20Z",
+      "side": 1,
+      "message": "There is one small disadvantage to review a change years after it was uploaded: i have no idea.",
+      "parentUuid": "f654d1b2_635ae237",
+      "range": {
+        "startLine": 2045,
+        "startChar": 48,
+        "endLine": 2045,
+        "endChar": 68
+      },
+      "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_026a8ad6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2015-02-12T12:36:52Z",
       "side": 1,
       "message": "Isn\u0027t the removal handled by the prev command?",
+      "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_22718ec6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2092,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-12T12:47:20Z",
+      "side": 1,
+      "message": "Yes, you are right. This comment is stale and should be removed.",
+      "parentUuid": "d6dfcd7d_026a8ad6",
       "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

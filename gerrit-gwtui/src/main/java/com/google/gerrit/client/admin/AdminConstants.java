@@ -143,4 +143,7 @@ public interface AdminConstants extends Constants {
   String buttonCreateDescription();
   String buttonCreateChange();
   String buttonCreateChangeDescription();
+  String buttonEditConfig();
+  String buttonEditConfigDescription();
+  String editConfigMessage();
 }

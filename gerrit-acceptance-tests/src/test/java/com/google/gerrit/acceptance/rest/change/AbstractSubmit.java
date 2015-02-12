@@ -29,8 +29,8 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.EventListener;
+import com.google.gerrit.common.EventSource;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -98,13 +98,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private IdentifiedUser.GenericFactory factory;
 
   @Inject
-  ChangeHooks hooks;
+  EventSource source;
 
   @Before
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
     CurrentUser listenerUser = factory.create(user.id);
-    hooks.addEventListener(new EventListener() {
+    source.addEventListener(new EventListener() {
 
       @Override
       public void onEvent(Event event) {

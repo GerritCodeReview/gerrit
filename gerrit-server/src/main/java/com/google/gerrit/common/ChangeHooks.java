@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gwtorm.server.OrmException;
 
@@ -34,10 +33,6 @@ import java.util.Set;
 
 /** Invokes hooks on server actions. */
 public interface ChangeHooks {
-  public void addEventListener(EventListener listener, CurrentUser user);
-
-  public void removeEventListener(EventListener listener);
-
   /**
    * Fire the Patchset Created Hook.
    *

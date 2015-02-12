@@ -155,13 +155,13 @@ public abstract class SafeHtml
 
       } else if (isPreFormat(p)) {
         r.openElement("p");
+        r.openSpan();
         for (final String line : p.split("\n")) {
-          r.openSpan();
           r.setStyleName(RESOURCES.css().wikiPreFormat());
           r.append(asis(line));
-          r.closeSpan();
           r.br();
         }
+        r.closeSpan();
         r.closeElement("p");
 
       } else if (isList(p)) {

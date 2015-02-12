@@ -20,6 +20,8 @@
   white-space: pre;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
+  display: block;
+  overflow: auto;
 }
 
 .wikiQuote {

@@ -22,6 +22,29 @@
       "revId": "22ebbe32e7c7f752b7d299c8e93ef7abb3f49010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967c75f2_a8d4fb42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-12T02:11:28Z",
+      "side": 1,
+      "message": "I was not able to reproduce it. The only errors I see in the console are 404 because of missing avatar images.",
+      "range": {
+        "startLine": 20,
+        "startChar": 38,
+        "endLine": 21,
+        "endChar": 28
+      },
+      "revId": "22ebbe32e7c7f752b7d299c8e93ef7abb3f49010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

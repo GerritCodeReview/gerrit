@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.events.Event;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -182,23 +181,4 @@ public interface ChangeHooks {
   public void doHashtagsChangedHook(Change change, Account account,
       Set<String>added, Set<String> removed, Set<String> hashtags,
       ReviewDb db) throws OrmException;
-
-  /**
-   * Post a stream event that is related to a change
-   *
-   * @param change The change that the event is related to
-   * @param event The event to post
-   * @param db The database
-   * @throws OrmException
-   */
-  public void postEvent(Change change, Event event, ReviewDb db)
-      throws OrmException;
-
-  /**
-   * Post a stream event that is related to a branch
-   *
-   * @param branchName The branch that the event is related to
-   * @param event The event to post
-   */
-  public void postEvent(Branch.NameKey branchName, Event event);
 }

@@ -46,6 +46,30 @@
       "revId": "b92d7d93e6f480f22272cdac2d1cd4915c79502d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_c39ab682",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-12T14:26:48Z",
+      "side": 1,
+      "message": "This is embarrassing! I have only tested it with %edit option passed to git push ;-(",
+      "parentUuid": "f654d1b2_a3c0da52",
+      "range": {
+        "startLine": 571,
+        "startChar": 38,
+        "endLine": 571,
+        "endChar": 49
+      },
+      "revId": "b92d7d93e6f480f22272cdac2d1cd4915c79502d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

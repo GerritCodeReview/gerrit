@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_827e9a92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2045,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T13:32:24Z",
+      "side": 1,
+      "message": "Yes, I can imagine... :(\n\nActually I understand it now, after I pushed another patch set :D\nWill rewrite it once more.",
+      "parentUuid": "f654d1b2_03576e0e",
+      "range": {
+        "startLine": 2045,
+        "startChar": 48,
+        "endLine": 2045,
+        "endChar": 68
+      },
+      "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_026a8ad6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Yes, you are right. This comment is stale and should be removed.",
       "parentUuid": "d6dfcd7d_026a8ad6",
+      "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_627b96a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2092,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T13:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_22718ec6",
       "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

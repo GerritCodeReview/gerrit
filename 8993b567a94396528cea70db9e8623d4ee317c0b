@@ -142,6 +142,24 @@
       "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_b45fa031",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-12T21:30:33Z",
+      "side": 1,
+      "message": "I look at them manually in the debugger of eclipse, such that I see the internal table.\n\ngetString got called in the constructor, so is there a point in checking later again if config.getString(\"change\", null, \"submitWholetopic\", false) will yield another result?\n\nPersonally I suspected the early initialisation to be the problem, but I am not sure anymore.",
+      "parentUuid": "165885e4_445d6e2c",
+      "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "54ef9a184cbb7c48463544aaf2ffb987ec16384f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_a499c28c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-12T23:19:55Z",
+      "side": 1,
+      "message": "When reloading the page in another browser, the quick approve button is gone after approval, so I think the problem is missing reloading or missing section of client side javascript which is not executed any more.\n\nNow if I follow the code of quickapprove:onClick, I come to \n\n      ChangeApi.revision(changeId.get(), revision)\n        .view(\"review\")\n        .post(input, new GerritCallback\u003cReviewInput\u003e() {\n          @Override\n          public void onSuccess(ReviewInput result) {\n            Gerrit.display(PageLinks.toChange(changeId));\n          }\n        });\n\nBy the name `Gerrit.display(PageLinks.toChange(changeId));`\nI\u0027d assume a page refresh is triggered (though we\u0027re not seeing a reload as a user).",
+      "parentUuid": "165885e4_64a3cac9",
+      "revId": "54ef9a184cbb7c48463544aaf2ffb987ec16384f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

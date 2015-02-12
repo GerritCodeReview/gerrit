@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_0343ee34",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T19:56:45Z",
+      "side": 1,
+      "message": "We still need those 2 lines to clear the input fields :)",
+      "range": {
+        "startLine": 300,
+        "startChar": 12,
+        "endLine": 301,
+        "endChar": 35
+      },
+      "revId": "7a1a2ca7d75c9cf13deef1b9d217f63584f33d5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

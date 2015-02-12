@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dfcd7d_22d50e3e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T08:38:06Z",
+      "side": 1,
+      "message": "Charsets.UTF_8.name()",
+      "range": {
+        "startLine": 223,
+        "startChar": 25,
+        "endLine": 223,
+        "endChar": 30
+      },
+      "revId": "9969e6659b1b3eab6814e72e25a113875fdf344b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

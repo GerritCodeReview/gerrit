@@ -22,6 +22,30 @@
       "revId": "9969e6659b1b3eab6814e72e25a113875fdf344b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_83e6fe39",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-12T08:41:50Z",
+      "side": 1,
+      "message": "c\u0027mon ... It is an error message that is likely to occur like being hit by an asteroid right now :-)\nIt is cleaner to leave it as whole string as it is meant to be used for documentation purposes only ;-)",
+      "parentUuid": "d6dfcd7d_22d50e3e",
+      "range": {
+        "startLine": 223,
+        "startChar": 25,
+        "endLine": 223,
+        "endChar": 30
+      },
+      "revId": "9969e6659b1b3eab6814e72e25a113875fdf344b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

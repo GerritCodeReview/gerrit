@@ -1,0 +1,371 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dfcd7d_e2eb2600",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "maybe \u0027groupsVisibleToAll\u0027 is a more accurate name",
+      "range": {
+        "startLine": 2262,
+        "startChar": 26,
+        "endLine": 2262,
+        "endChar": 38
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_23f86ace",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "if the group with the given UUID is visble to the given user",
+      "range": {
+        "startLine": 54,
+        "startChar": 27,
+        "endLine": 54,
+        "endChar": 70
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_e31a5299",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be needed to pass the group backend as parameter. The group backend is already injected into the GroupControl factories and should be just passed to the GroupControl contructor.",
+      "range": {
+        "startLine": 141,
+        "startChar": 27,
+        "endLine": 141,
+        "endChar": 52
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_03144e67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "At least this part could be moved into InternalGroupBackend.",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 66
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_430a464a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "Do not import the UUID class, but rather use AccountGroup.UUID.",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_63074241",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "AccountGroup.UUID",
+      "range": {
+        "startLine": 96,
+        "startChar": 29,
+        "endLine": 96,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_42013234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "This is not correct. Internal groups are not visible to everyone. They are only visible to administrators, group owners and group members, or if the visibleToAll flag is set.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_22feaebd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "Do not import the UUID class, but rather use AccountGroup.UUID.",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_a3245ae2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "AccountGroup.UUID",
+      "range": {
+        "startLine": 192,
+        "startChar": 29,
+        "endLine": 192,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_831fde87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "Why do you ignore other backends than the LdapGroupBackend?\n\nI think you should check whether the backend handles the group (GroupBackend#handles(AccountGroup.UUID)) and only if yes invoke isVisibleTo on it.",
+      "range": {
+        "startLine": 193,
+        "startChar": 3,
+        "endLine": 198,
+        "endChar": 17
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_23114a78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "Do not import the UUID class, but rather use AccountGroup.UUID.",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_c33e36ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "ccountGroup.UUID",
+      "range": {
+        "startLine": 256,
+        "startChar": 29,
+        "endLine": 256,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_82fb3acc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "We shouldn\u0027t have any LDAP-specific code outside of the LdapGroupBackend.",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 12
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_e3433267",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "We shouldn\u0027t have any LDAP-specific code outside of the LdapGroupBackend.",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 5
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_c215426c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "Do not import the UUID class, but rather use AccountGroup.UUID.",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_a21abe97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "AccountGroup.UUID",
+      "range": {
+        "startLine": 158,
+        "startChar": 29,
+        "endLine": 158,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_62f8b6cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T09:16:16Z",
+      "side": 1,
+      "message": "Is this correct? I though that not all system groups are not visible to everyone.",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 16
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

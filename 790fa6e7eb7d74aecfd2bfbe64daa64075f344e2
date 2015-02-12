@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_635ae237",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2045,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T12:36:52Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 2045,
+        "startChar": 48,
+        "endLine": 2045,
+        "endChar": 68
+      },
+      "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_026a8ad6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2092,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T12:36:52Z",
+      "side": 1,
+      "message": "Isn\u0027t the removal handled by the prev command?",
+      "revId": "790fa6e7eb7d74aecfd2bfbe64daa64075f344e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

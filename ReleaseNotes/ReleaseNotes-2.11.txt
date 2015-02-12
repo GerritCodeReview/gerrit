@@ -106,6 +106,11 @@ Allow the 'Reply' button's
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#change.replyLabel[
 label and tooltip] to be configured.
 
+* Improve file sorting for C and C++ files.
++
+Header files are now listed before implementation files.
+
+
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
 
@@ -130,9 +135,17 @@ colored annotations.
 ** Dart
 ** Dockerfile
 ** GLSL shader
+** Go
 ** Objective C
 ** link:http://code.google.com/p/gerrit/issues/detail?id=2779[Issue 2779]: reStructured text
 ** Soy
+
+
+Projects Screen
+^^^^^^^^^^^^^^^
+
+* Add pagination of the branch list page.
+
 
 REST
 ~~~~
@@ -154,8 +167,8 @@ check change endpoint].
 In the past, Gerrit bugs, lack of transactions, and unreliable NoSQL backends
 have at various times produced a bewildering variety of corrupt states.
 +
-This endpoint can be used to detect and explain some of these possible states
-of a change.
+This endpoint can be used to detect, explain, and repair some of these possible
+states of a change.
 
 Change Edits
 ^^^^^^^^^^^^
@@ -196,17 +209,21 @@ Delete Change Edit].
 Projects
 ^^^^^^^^
 
+* Add new
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#delete-branches[
+Delete Branches] endpoint.
+
 * Add filtering and pagination options on the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#list-branches[
-list branches] endpoint.
+List Branches] endpoint.
 
 * Add new
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#list-tags[
-list tags] endpoint.
+List Tags] endpoint.
 
 * Add new
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#get-tag[
-get tag] endpoint.
+Get Tag] endpoint.
 
 
 Configuration
@@ -281,11 +298,19 @@ Daemon
 ~~~~~~
 
 * Allow to enable the http daemon when running in slave mode.
-
++
 The `--enable-httpd` option can be used in conjunction with the `--slave` option
 to allow clients to fetch from the slave over the http protocol.
++
+HTTP Authentication may also be used when running in slave mode.
 
 * Include the submitter's name in the change message when a change is submitted.
+
+* Add a message to changes created via cherry pick.
++
+When a change is cherry-picked to another branch using the cherry-pick action,
+the message "Patch Set <number>: Cherry Picked from branch <name>." is added as
+a change message on the created change.
 
 
 ssh
@@ -415,6 +440,23 @@ Improve warning messages when Change-Id is missing in the commit message.
 ** Add a hint to amend the commit after installing the commit-msg hook.
 ** Don't show 'Suggestion for commit message' when Change-Id is missing.
 
+* Allow to publish draft patch sets even when `allowDrafts` is false.
++
+If a user uploaded a change while `allowDrafts` was enabled, and then it was
+disabled by the administrator, the uploaded change could not be published and
+was stuck in the draft state.
+
+
+Authentication
+~~~~~~~~~~~~~~
+
+* Improve LDAP login times and transfer 40x less data.
++
+When recursively expanding LDAP groups, all attributes were fetched. However
+only one of the attributes is actually needed. By fetching only that attribute,
+the amount of data transferred is significantly reduced and the login time is
+decreased.
+
 
 Secondary Index / Search
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -453,6 +495,22 @@ list.
 +
 For changes in the 'Related Changes' tab that are closed the link was
 bringing the user to GitWeb, and not as expected to the change screen.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3147[Issue 3147]:
+Allow to disable muting of common path prefixes in the file list.
++
+In the file table, parts of the file path that are common to the file previously
+listed are muted. The purpose of this is to make it easier to see files that all
+belong under the same path, but some users find it annoying.
++
+This feature can now be enabled or disabled, per user, with the "Mute Common
+Path Prefixes In File List" setting.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3130[Issue 3130]:
+Remove special handling of "LGTM" in review comments
++
+Typing "LGTM" in the review cover message no longer automatically selects the
+highest available Code-Review score.
 
 * Show a confirmation dialog before deleting a draft change or patch set.
 +
@@ -535,6 +593,13 @@ Make the selected tab persistent.
 If a change from the 'Same Topic' tab was clicked, the selected tab would reset
 to the default tab ('Related Changes').
 
+* Left-align column titles in the file list.
+
+* Increase right margin of download box to make space for scrollbar.
++
+Under some circumstances the browser's scrollbar would be shown over the
+copy-to-clipboard icons in the download dropdown.
+
 
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
@@ -579,6 +644,15 @@ available if the download commands are installed.
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#suggest-reviewers[
 suggest reviewers] endpoint.
 
+* Return correct response from 'delete draft' endpoints.
++
+When the `change.allowDrafts` setting is False, it is not allowed to delete
+draft changes or patch sets.
++
+In this case the response `405 Method Not Allowed` is now returned, instead of
+`409 Conflict`
+
+
 Projects
 ^^^^^^^^
 
@@ -586,6 +660,33 @@ Projects
 options in the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#list-projects[
 list projects] endpoint.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2706[Issue 2706]:
+Do not delete branches concurrently.
++
+Deleting multiple branches from the UI was resulting in a 500 error when
+branches are in the packed-refs.
+
+* Add retry logic for lock failure when deleting a branch.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3153[Issue 3153]:
+Fix handling of project names ending with `.git`.
++
+The projects REST API documentation states that the `.git` suffix will be
+stripped off the input project name, if present.
++
+This was working for the "Create Project" endpoint, but not for any of the
+others.
+
+
+Plugins
+~~~~~~~
+
+Replication
+^^^^^^^^^^^
+
+* Create missing repositories on the remote when replicating with the git
+protocol.
 
 
 Upgrades

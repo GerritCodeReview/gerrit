@@ -106,6 +106,24 @@
       "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_e44d7a83",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-12T21:15:30Z",
+      "side": 1,
+      "message": "I don\u0027t doubt they should work.\n\nWhen debugging this and other new tests in this file, I can see that `submitWholeTopicEnabled()` returns true, but when setting a breakpoint to Submit:getDescription(...) I can see there the class variable `submitWholeTopic` flag being false.\n\nWhen introducing a having a GerritConfig config variable, which just keeps the config in memory from the constructor, I don\u0027t see a line in there setting `submitWholeTopic` either.",
+      "parentUuid": "d6dfcd7d_82897a3c",
+      "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

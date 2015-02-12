@@ -178,6 +178,24 @@
       "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_f46918e3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-12T21:47:29Z",
+      "side": 1,
+      "message": "I believe it works for you, so I guessed I messed up locally. So I redownloaded this exact version (current is 23), and rerun the test, I still get this.submitWholeTopic \u003d\u003d false.",
+      "parentUuid": "d6dfcd7d_a210fe4a",
+      "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

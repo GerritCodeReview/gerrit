@@ -351,7 +351,6 @@ class ReplyBox extends Composite {
     final String id = lv.info.name();
     final CheckBox b = new CheckBox();
     b.setText(id);
-    b.setTitle(lv.info.value_text("+1"));
     b.setEnabled(lv.permitted.contains((short) 1));
     if (self != null && self.value() == 1) {
       b.setValue(true);
@@ -364,6 +363,10 @@ class ReplyBox extends Composite {
     });
     b.setStyleName(style.label_name());
     labelsTable.setWidget(row, 0, b);
+
+    CellFormatter fmt = labelsTable.getCellFormatter();
+    fmt.setStyleName(row, labelHelpColumn, style.label_help());
+    labelsTable.setText(row, labelHelpColumn, lv.info.value_text("+1"));
   }
 
   private static boolean isCheckBox(Set<Short> values) {

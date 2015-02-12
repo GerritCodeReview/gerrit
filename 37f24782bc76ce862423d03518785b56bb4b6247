@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1616c500_54f8ccce",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-12T19:15:13Z",
+      "side": 1,
+      "message": "Nit: flow like this:\n\n revInfo.has_actions()\n     ? info.actions() : NativeMap.\u003cActionInfo\u003e create();\n\nOr:\n\n revInfo.has_actions()\n     ? info.actions()\n     : NativeMap.\u003cActionInfo\u003e create();",
+      "revId": "37f24782bc76ce862423d03518785b56bb4b6247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

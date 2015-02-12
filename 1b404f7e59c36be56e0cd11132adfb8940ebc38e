@@ -69,6 +69,30 @@
       "revId": "1b404f7e59c36be56e0cd11132adfb8940ebc38e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_6286f62b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T20:25:47Z",
+      "side": 1,
+      "message": "I agree that there is no need to repeat here all the details from the REST API documentation, but a very brief JavaDoc documentation would be good. Could be as short as one sentence per method.",
+      "parentUuid": "d6dfcd7d_228cee49",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 48
+      },
+      "revId": "1b404f7e59c36be56e0cd11132adfb8940ebc38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

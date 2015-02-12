@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d6dfcd7d_42d81276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T08:13:26Z",
+      "side": 1,
+      "message": "This seems to work only if the match is not a regular expression.",
+      "range": {
+        "startLine": 11,
+        "startChar": 65,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "774eac032cac517f11a25f99c9b0b701378c9636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_67d5123d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 8
@@ -18,6 +41,29 @@
         "startChar": 7,
         "endLine": 263,
         "endChar": 15
+      },
+      "revId": "774eac032cac517f11a25f99c9b0b701378c9636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_c3ecf61d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T08:13:26Z",
+      "side": 1,
+      "message": "If \u0027match\u0027 is a regular expression this does not work.\n\nE.g. if \u0027match\u0027 is \u0027^.*1.3.*\u0027 and e new branch \u0027stable-1.3.1\u0027 is created it is not added to the table although it matches the regular expression. Only after refreshing the page it is displayed.",
+      "range": {
+        "startLine": 472,
+        "startChar": 6,
+        "endLine": 475,
+        "endChar": 7
       },
       "revId": "774eac032cac517f11a25f99c9b0b701378c9636",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

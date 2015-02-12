@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_43d24609",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-12T23:11:32Z",
+      "side": 1,
+      "message": "All this is obsolete now, because you dropped CURRENT_ACTIONS from options supplied to GET /changes/\u003cid\u003e/detail endpoint. I mentioned it in my comment to another changed. Have you missed my comment?",
+      "range": {
+        "startLine": 1092,
+        "startChar": 0,
+        "endLine": 1096,
+        "endChar": 41
+      },
+      "revId": "26c46db485522d7e143c09bd55f1b7c7e2e12663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_4220129d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-12T23:11:32Z",
+      "side": 1,
+      "message": "Does this method still need to be called from here? It is already invoked on line 269.",
+      "range": {
+        "startLine": 1097,
+        "startChar": 4,
+        "endLine": 1097,
+        "endChar": 40
+      },
+      "revId": "26c46db485522d7e143c09bd55f1b7c7e2e12663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

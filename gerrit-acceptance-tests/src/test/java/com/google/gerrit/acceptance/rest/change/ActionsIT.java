@@ -40,6 +40,14 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
+    String changeId = createChangeWithTopic("foo1").getChangeId();
+    Map<String, ActionInfo> actions = getActions(changeId);
+    assertThat(actions).containsKey("cherrypick");
+    assertThat(actions).hasSize(1);
+  }
+
+  @Test
   public void revisionActionsOneChangePerTopic() throws Exception {
     String changeId = createChangeWithTopic("foo1").getChangeId();
     approve(changeId);

@@ -45,6 +45,30 @@
       "revId": "1b404f7e59c36be56e0cd11132adfb8940ebc38e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_228cee49",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-02-12T19:13:46Z",
+      "side": 1,
+      "message": "You are right, there should be some documentation. I\u0027m just not sure how much we should add here because it will lead in a lot of duplication of rest-api-documentation. This is probably a more basic question to think about for the whole extensions-api.",
+      "parentUuid": "972c6f7c_c88b6f04",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 48
+      },
+      "revId": "1b404f7e59c36be56e0cd11132adfb8940ebc38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

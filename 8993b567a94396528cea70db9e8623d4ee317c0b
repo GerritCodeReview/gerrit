@@ -88,6 +88,24 @@
       "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_82897a3c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-12T19:48:16Z",
+      "side": 1,
+      "message": "This should work. @ConfigSuite.Config annotated method above supposed to set up the configuration. When you run this unit test from Eclipse you should see two executions, the deafult suite with submitWholeTopic disabled and the custom suite, with submitWholeTopic enabled. That\u0027s how it works for notedb unit tests.",
+      "parentUuid": "1616c500_b43e80e8",
+      "revId": "8993b567a94396528cea70db9e8623d4ee317c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

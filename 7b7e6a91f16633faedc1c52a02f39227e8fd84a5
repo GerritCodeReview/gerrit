@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d6dfcd7d_a2647e0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T12:33:46Z",
+      "side": 1,
+      "message": "Make this a one-liner\n\n  boolean edit \u003d magicBranch !\u003d null \u0026\u0026 magicBranch.edit;",
+      "range": {
+        "startLine": 693,
+        "startChar": 6,
+        "endLine": 696,
+        "endChar": 7
+      },
+      "revId": "7b7e6a91f16633faedc1c52a02f39227e8fd84a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ba607d2_dfab9b8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4

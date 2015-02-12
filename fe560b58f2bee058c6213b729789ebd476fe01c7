@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6e41952_e1d20658",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2262,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_e2eb2600",
+      "range": {
+        "startLine": 2262,
+        "startChar": 26,
+        "endLine": 2262,
+        "endChar": 38
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_23f86ace",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-12T09:16:16Z",
       "side": 1,
       "message": "if the group with the given UUID is visble to the given user",
+      "range": {
+        "startLine": 54,
+        "startChar": 27,
+        "endLine": 54,
+        "endChar": 70
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_44d80e76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_23f86ace",
       "range": {
         "startLine": 54,
         "startChar": 27,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b6e41952_21d50e3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_e31a5299",
+      "range": {
+        "startLine": 141,
+        "startChar": 27,
+        "endLine": 141,
+        "endChar": 52
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_03144e67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2015-02-12T09:16:16Z",
       "side": 1,
       "message": "At least this part could be moved into InternalGroupBackend.",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 66
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_94c8a4ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_03144e67",
       "range": {
         "startLine": 142,
         "startChar": 4,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "165885e4_04e2162c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_430a464a",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_63074241",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
         "patchSetId": 3
@@ -122,6 +236,30 @@
       "writtenOn": "2015-02-12T09:16:16Z",
       "side": 1,
       "message": "AccountGroup.UUID",
+      "range": {
+        "startLine": 96,
+        "startChar": 29,
+        "endLine": 96,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_24df125d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_63074241",
       "range": {
         "startLine": 96,
         "startChar": 29,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "1616c500_f4cd98ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_42013234",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_22feaebd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
         "patchSetId": 3
@@ -174,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "165885e4_c4ecfe1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_22feaebd",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_a3245ae2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
         "patchSetId": 3
@@ -185,6 +365,30 @@
       "writtenOn": "2015-02-12T09:16:16Z",
       "side": 1,
       "message": "AccountGroup.UUID",
+      "range": {
+        "startLine": 192,
+        "startChar": 29,
+        "endLine": 192,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_e4f1faf2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_a3245ae2",
       "range": {
         "startLine": 192,
         "startChar": 29,
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "165885e4_64fe6abf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_831fde87",
+      "range": {
+        "startLine": 193,
+        "startChar": 3,
+        "endLine": 198,
+        "endChar": 17
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_23114a78",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
         "patchSetId": 3
@@ -237,6 +465,24 @@
     },
     {
       "key": {
+        "uuid": "165885e4_84e6063a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_23114a78",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_c33e36ea",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
         "patchSetId": 3
@@ -248,6 +494,30 @@
       "writtenOn": "2015-02-12T09:16:16Z",
       "side": 1,
       "message": "ccountGroup.UUID",
+      "range": {
+        "startLine": 256,
+        "startChar": 29,
+        "endLine": 256,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_a4eb0201",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_c33e36ea",
       "range": {
         "startLine": 256,
         "startChar": 29,
@@ -283,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "1616c500_b4c32091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_82fb3acc",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 12
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_e3433267",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
         "patchSetId": 3
@@ -294,6 +588,30 @@
       "writtenOn": "2015-02-12T09:16:16Z",
       "side": 1,
       "message": "We shouldn\u0027t have any LDAP-specific code outside of the LdapGroupBackend.",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 5
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_04fbf6cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_e3433267",
       "range": {
         "startLine": 123,
         "startChar": 4,
@@ -323,6 +641,24 @@
     },
     {
       "key": {
+        "uuid": "165885e4_4401ee33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_c215426c",
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_a21abe97",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
         "patchSetId": 3
@@ -346,6 +682,30 @@
     },
     {
       "key": {
+        "uuid": "b6e41952_41d81276",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_a21abe97",
+      "range": {
+        "startLine": 158,
+        "startChar": 29,
+        "endLine": 158,
+        "endChar": 33
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_62f8b6cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
         "patchSetId": 3
@@ -357,6 +717,30 @@
       "writtenOn": "2015-02-12T09:16:16Z",
       "side": 1,
       "message": "Is this correct? I though that not all system groups are not visible to everyone.",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 16
+      },
+      "revId": "fe560b58f2bee058c6213b729789ebd476fe01c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_e41a5a99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-12T21:32:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_62f8b6cf",
       "range": {
         "startLine": 159,
         "startChar": 4,

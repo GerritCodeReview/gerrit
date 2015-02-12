@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_23adcab0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/AnonymousUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T14:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_032d2eb9",
+      "revId": "6c681039da549686e7f86c71705c7b95e67ebda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_8214da69",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_425db22c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T14:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_8214da69",
+      "revId": "6c681039da549686e7f86c71705c7b95e67ebda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_e364920d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2015-02-12T11:12:08Z",
       "side": 1,
       "message": "unneeded modification",
+      "revId": "6c681039da549686e7f86c71705c7b95e67ebda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_225a2e36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-12T14:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_e364920d",
       "revId": "6c681039da549686e7f86c71705c7b95e67ebda0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

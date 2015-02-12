@@ -45,6 +45,30 @@
       "revId": "47e8c220fd194ba531f62b842b10cd1fc77fe2df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_237b8aa5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-02-12T11:57:54Z",
+      "side": 1,
+      "message": "Actually it is not needed, as it is done above.\n\nIn fact, this flag can be completely removed since both calls now pass false. What do you say?",
+      "parentUuid": "f654d1b2_437486b6",
+      "range": {
+        "startLine": 320,
+        "startChar": 21,
+        "endLine": 320,
+        "endChar": 26
+      },
+      "revId": "47e8c220fd194ba531f62b842b10cd1fc77fe2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

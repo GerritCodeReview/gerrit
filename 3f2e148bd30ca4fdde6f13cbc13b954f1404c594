@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "165885e4_042d36b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-12T19:19:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165885e4_a43d42ec",
+      "revId": "3f2e148bd30ca4fdde6f13cbc13b954f1404c594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "165885e4_843846fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 20
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "165885e4_242ab2a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-12T19:19:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165885e4_843846fd",
+      "revId": "3f2e148bd30ca4fdde6f13cbc13b954f1404c594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "165885e4_44332e20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 20
@@ -47,6 +83,24 @@
       "writtenOn": "2015-02-12T19:12:11Z",
       "side": 1,
       "message": "Just !\u003d null. The Config object distinguishes between null and the empty string. This means if these were configurable, admins could change the behavior of this block by setting the value to \"\".",
+      "revId": "3f2e148bd30ca4fdde6f13cbc13b954f1404c594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_d424dce3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-12T19:19:44Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "165885e4_44332e20",
       "revId": "3f2e148bd30ca4fdde6f13cbc13b954f1404c594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

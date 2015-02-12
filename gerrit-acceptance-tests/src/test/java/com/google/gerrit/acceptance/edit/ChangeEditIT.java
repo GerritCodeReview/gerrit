@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -100,6 +101,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private Change change;
   private String changeId;
   private Change change2;
+  private String changeId2;
   private PatchSet ps;
   private PatchSet ps2;
 
@@ -111,7 +113,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     amendChange(git, admin.getIdent(), changeId);
     change = getChange(changeId);
     assertThat(ps).isNotNull();
-    String changeId2 = newChange2(git, admin.getIdent());
+    changeId2 = newChange2(git, admin.getIdent());
     change2 = getChange(changeId2);
     assertThat(change2).isNotNull();
     ps2 = getCurrentPatchSet(changeId2);
@@ -229,6 +231,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
         current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
     assertThat(afterRebase).isNotEqualTo(beforeRebase);
+  }
+
+  @Test
+  public void rebaseEditWithConflictsRest_Conflict() throws Exception {
+    PatchSet current = getCurrentPatchSet(changeId2);
+    assertThat(modifier.createEdit(change2, current)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    ChangeEdit edit = editUtil.byChange(change2).get();
+    assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
+        current.getPatchSetId());
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT, FILE_NAME,
+            new String(CONTENT_NEW2), changeId2);
+    push.to(git, "refs/for/master").assertOkStatus();
+    RestResponse r = adminSession.post(urlRebase());
+    assertThat(r.getStatusCode()).isEqualTo(SC_CONFLICT);
   }
 
   @Test

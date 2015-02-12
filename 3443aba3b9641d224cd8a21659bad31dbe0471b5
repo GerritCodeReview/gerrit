@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7669c173_27f87ace",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 56
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-12T09:49:42Z",
+      "side": 1,
+      "message": "FindBugs is reporting a problem here:\n\n\nBug: Bitwise OR of signed byte value computed in com.google.gerrit.httpd.auth.github.OAuthProtocol.generateRandomSeed() \n\nLoads a byte value (e.g., a value loaded from a byte array or returned by a method\nwith return type byte) and performs a bitwise OR with that value. Byte values are\nsign extended to 32 bits before any any bitwise operations are performed on the value.\nThus, if b[0] contains the value 0xff, and x is initially 0, then the\ncode ((x \u003c\u003c 8) | b[0]) will sign extend 0xff to get 0xffffffff, and thus give the\nvalue 0xffffffff as the result.\n\nIn particular, the following code for packing a byte array into an int is badly wrong:\n \n int result \u003d 0;\n for(int i \u003d 0; i \u003c 4; i++)\n   result \u003d ((result \u003c\u003c 8) | b[i]);\n\nThe following idiom will work instead:\n \n int result \u003d 0;\n for(int i \u003d 0; i \u003c 4; i++)\n   result \u003d ((result \u003c\u003c 8) | (b[i] \u0026 0xff));\n \nRank: Scariest (2), confidence: Normal\nPattern: BIT_IOR_OF_SIGNED_BYTE \nType: BIT, Category: CORRECTNESS (Correctness)",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 213,
+        "endChar": 29
+      },
+      "revId": "3443aba3b9641d224cd8a21659bad31dbe0471b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

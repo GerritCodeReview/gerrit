@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dfcd7d_822a1a79",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T05:52:19Z",
+      "side": 0,
+      "message": "Why was this removed?",
+      "range": {
+        "startLine": 1069,
+        "startChar": 4,
+        "endLine": 1075,
+        "endChar": 34
+      },
+      "revId": "3e7e73e8253dfc1767b087686408ce1eafc36d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

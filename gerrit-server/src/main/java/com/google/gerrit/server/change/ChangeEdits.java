@@ -244,7 +244,7 @@ public class ChangeEdits implements
 
   // TODO(davido): Turn the boolean options to ChangeEditOption enum,
   // like it's already the case for ListChangesOption/ListGroupsOption
-  static class Detail implements RestReadView<ChangeResource> {
+  public static class Detail implements RestReadView<ChangeResource> {
     private final ChangeEditUtil editUtil;
     private final ChangeEditJson editJson;
     private final FileInfoJson fileInfoJson;

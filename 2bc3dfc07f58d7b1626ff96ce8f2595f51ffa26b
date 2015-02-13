@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dfcd7d_e205e6f2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T10:27:42Z",
+      "side": 1,
+      "message": "Add for which endpoint this option is added: GET /changes/\u003cid\u003e/detail ?",
+      "revId": "2bc3dfc07f58d7b1626ff96ce8f2595f51ffa26b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

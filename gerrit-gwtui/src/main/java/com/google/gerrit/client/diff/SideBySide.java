@@ -246,7 +246,7 @@ public class SideBySide extends Screen {
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
         diffTable.set(prefs, list, diff, edit != null, currentPatchSet,
-            changeStatus.isOpen());
+            changeStatus.isOpen(), diff.binary());
         header.setChangeInfo(info);
       }
 

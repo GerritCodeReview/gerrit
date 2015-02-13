@@ -213,7 +213,8 @@ class PatchScriptBuilder {
         content.getHeaderLines(), diffPrefs, a.dst, b.dst, edits,
         a.displayMethod, b.displayMethod, a.mimeType.toString(),
         b.mimeType.toString(), comments, history, hugeFile,
-        intralineDifferenceIsPossible, intralineFailure, intralineTimeout);
+        intralineDifferenceIsPossible, intralineFailure, intralineTimeout,
+        content.getPatchType() == Patch.PatchType.BINARY);
   }
 
   private static boolean isModify(PatchListEntry content) {

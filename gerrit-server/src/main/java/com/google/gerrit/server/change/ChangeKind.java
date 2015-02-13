@@ -22,6 +22,9 @@ public enum ChangeKind {
   /** Conflict-free merge between the new parent and the prior patch set. */
   TRIVIAL_REBASE,
 
-  /** Same tree and same parents. */
-  NO_CODE_CHANGE;
+  /** Same tree and same parent tree. */
+  NO_CODE_CHANGE,
+
+  /** Same tree, parent tree, same commit message. */
+  NO_CHANGE;
 }

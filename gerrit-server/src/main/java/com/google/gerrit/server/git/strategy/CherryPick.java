@@ -107,7 +107,8 @@ public class CherryPick extends SubmitStrategy {
     // taking the delta relative to that one parent and redoing
     // that on the current merge tip.
     try {
-      CodeReviewCommit merge = writeCherryPickCommit(mergeTip.getCurrentTip(), n);
+      CodeReviewCommit merge =
+          writeCherryPickCommit(mergeTip.getCurrentTip(), n);
       mergeTip.moveTipTo(merge, merge.getName());
       newCommits.put(mergeTip.getCurrentTip().getPatchsetId()
           .getParentKey(), mergeTip.getCurrentTip());
@@ -193,8 +194,8 @@ public class CherryPick extends SubmitStrategy {
       args.db.changes().update(Collections.singletonList(n.change()));
 
       List<PatchSetApproval> approvals = Lists.newArrayList();
-      for (PatchSetApproval a
-          : args.approvalsUtil.byPatchSet(args.db, n.getControl(), n.getPatchsetId())) {
+      for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
+          args.db, n.getControl(), n.getPatchsetId())) {
         approvals.add(new PatchSetApproval(ps.getId(), a));
       }
       args.db.patchSetApprovals().insert(approvals);
@@ -218,14 +219,15 @@ public class CherryPick extends SubmitStrategy {
 
     newCommit.copyFrom(n);
     newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
-    newCommit.setControl(args.changeControlFactory.controlFor(n.change(), cherryPickUser));
+    newCommit.setControl(
+        args.changeControlFactory.controlFor(n.change(), cherryPickUser));
     newCommits.put(newCommit.getPatchsetId().getParentKey(), newCommit);
     setRefLogIdent(submitAudit);
     return newCommit;
   }
 
-  private static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
-      throws OrmException {
+  private static void insertAncestors(ReviewDb db, PatchSet.Id id,
+      RevCommit src) throws OrmException {
     int cnt = src.getParentCount();
     List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
     for (int p = 0; p < cnt; p++) {

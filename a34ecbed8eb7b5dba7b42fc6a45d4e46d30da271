@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_e3ac928c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T09:16:30Z",
+      "side": 0,
+      "message": "Comment is missing, that the field with this ID was removed:\n\n  // DELETED: id \u003d 7 (copySelfOnEmail)",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 36
+      },
+      "revId": "a34ecbed8eb7b5dba7b42fc6a45d4e46d30da271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

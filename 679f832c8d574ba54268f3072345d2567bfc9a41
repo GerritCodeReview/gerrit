@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_23f2aaa1",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T09:16:30Z",
+      "side": 1,
+      "message": "Unrelated change or bad rebase?",
+      "revId": "679f832c8d574ba54268f3072345d2567bfc9a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_c3a716a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 16
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T09:16:30Z",
+      "side": 1,
+      "message": "Discrepancy in constant name and the text.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 44
+      },
+      "revId": "679f832c8d574ba54268f3072345d2567bfc9a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

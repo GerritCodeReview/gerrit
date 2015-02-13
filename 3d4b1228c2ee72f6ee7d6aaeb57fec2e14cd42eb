@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_a3c21a09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T14:09:15Z",
+      "side": 1,
+      "message": "Is this correct? Follow-up change introduced switching of SecureStore implementation. There are number of steps that must be accomplished in order to switch to different secure store implementation. This section implies that secure store switch can be already done with this change, by running re-init with different secure-store-lib parameters, so that new SwitchSecureStore pgm isn\u0027t needed?\n\n  java -jar gerrit.war SwitchSecureStore --new-secure-store-lib $path -d\n$site",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "3d4b1228c2ee72f6ee7d6aaeb57fec2e14cd42eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_83bd9e95",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T14:09:15Z",
+      "side": 1,
+      "message": "Move this binding to other on line 239. This way we have all binding sin one place.",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 229,
+        "endChar": 47
+      },
+      "revId": "3d4b1228c2ee72f6ee7d6aaeb57fec2e14cd42eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -58,7 +58,7 @@
 .. How to read stats from the JVM
 . High availability
 . Replication
-. link:https://gerrit-review.googlesource.com/#/admin/projects/?filter=plugins%252F[Plugins]
+. link:config-plugins.html[Plugins]
 . link:config-contact.html[User Contact Information]
 . link:config-reverseproxy.html[Reverse Proxy]
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7669c173_a71a2a66",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T09:03:55Z",
+      "side": 1,
+      "message": "In fact this entire new block is in the wrong place.  Probably a rebase mistake.",
+      "parentUuid": "7669c173_e710224c",
+      "range": {
+        "startLine": 1357,
+        "startChar": 0,
+        "endLine": 1359,
+        "endChar": 63
+      },
+      "revId": "563da9419bb1157d016ecbb9139eb0442caeb16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67bf134_8b2e0d89",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
         "patchSetId": 15

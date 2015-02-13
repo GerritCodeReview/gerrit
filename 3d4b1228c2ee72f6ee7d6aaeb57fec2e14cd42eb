@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_426e5299",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-13T15:03:51Z",
+      "side": 1,
+      "message": "I agree to fail. However, at this step we cannot yet write, in the error message, to use the SwitchSecureStore program as, at this stage, it doesn\u0027t exist yet.",
+      "parentUuid": "d6dfcd7d_a27e3e47",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "3d4b1228c2ee72f6ee7d6aaeb57fec2e14cd42eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_83bd9e95",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 34

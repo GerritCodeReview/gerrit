@@ -66,76 +66,84 @@ public class CherryPick extends SubmitStrategy {
   @Override
   protected MergeTip _run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws MergeException {
-    MergeTip mergeTip =
-        branchTip != null ? new MergeTip(branchTip, toMerge)
-            : null;
-        List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
-        while (!sorted.isEmpty()) {
-          CodeReviewCommit n = sorted.remove(0);
+    MergeTip mergeTip = branchTip != null
+        ? new MergeTip(branchTip, toMerge) : null;
+    List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
+    while (!sorted.isEmpty()) {
+      CodeReviewCommit n = sorted.remove(0);
       try {
         if (mergeTip == null) {
-          // The branch is unborn. Take a fast-forward resolution to
-          // create the branch.
-          //
-          mergeTip = new MergeTip(n, Lists.newArrayList(n));
-          n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-
+          mergeTip = cherryPickUnbornRoot(n);
         } else if (n.getParentCount() == 0) {
-          // Refuse to merge a root commit into an existing branch,
-          // we cannot obtain a delta for the cherry-pick to apply.
-          //
-          n.setStatusCode(CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT);
-
+          cherryPickRootOntoBranch(n);
         } else if (n.getParentCount() == 1) {
-          // If there is only one parent, a cherry-pick can be done by
-          // taking the delta relative to that one parent and redoing
-          // that on the current merge tip.
-          //
-          try {
-            CodeReviewCommit merge = writeCherryPickCommit(mergeTip.getCurrentTip(), n);
-            mergeTip.moveTipTo(merge, merge.getName());
-            newCommits.put(mergeTip.getCurrentTip().getPatchsetId()
-                .getParentKey(), mergeTip.getCurrentTip());
-          } catch (MergeConflictException mce) {
-            n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
-            mergeTip = null;
-          } catch (MergeIdenticalTreeException mie) {
-            n.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
-            mergeTip = null;
-          }
+          mergeTip = cherryPickOne(n, mergeTip);
         } else {
-          // There are multiple parents, so this is a merge commit. We
-          // don't want to cherry-pick the merge as clients can't easily
-          // rebase their history with that merge present and replaced
-          // by an equivalent merge with a different first parent. So
-          // instead behave as though MERGE_IF_NECESSARY was configured.
-          //
-          if (!args.mergeUtil.hasMissingDependencies(args.mergeSorter, n)) {
-            if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
-              mergeTip.moveTipTo(n, n.getName());
-            } else {
-              mergeTip.moveTipTo(
-                  args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo,
-                      args.rw, args.inserter, args.canMergeFlag,
-                      args.destBranch, mergeTip.getCurrentTip(), n), n.getName());
-           }
-            final PatchSetApproval submitApproval =
-                args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-                    mergeTip.getCurrentTip(), args.alreadyAccepted);
-            setRefLogIdent(submitApproval);
-          } else {
-            // One or more dependencies were not met. The status was
-            // already marked on the commit so we have nothing further
-            // to perform at this time.
-            //
-          }
+          cherryPickMultipleParents(n, mergeTip);
         }
-
       } catch (NoSuchChangeException | IOException | OrmException e) {
         throw new MergeException("Cannot merge " + n.name(), e);
       }
     }
     return mergeTip;
+  }
+
+  private MergeTip cherryPickUnbornRoot(CodeReviewCommit n) {
+    // The branch is unborn. Take fast-forward resolution to create the branch.
+    MergeTip mergeTip = new MergeTip(n, Lists.newArrayList(n));
+    n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+    return mergeTip;
+  }
+
+  private void cherryPickRootOntoBranch(CodeReviewCommit n) {
+    // Refuse to merge a root commit into an existing branch, we cannot obtain a
+    // delta for the cherry-pick to apply.
+    n.setStatusCode(CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT);
+  }
+
+  private MergeTip cherryPickOne(CodeReviewCommit n, MergeTip mergeTip)
+      throws NoSuchChangeException, OrmException, IOException {
+    // If there is only one parent, a cherry-pick can be done by
+    // taking the delta relative to that one parent and redoing
+    // that on the current merge tip.
+    try {
+      CodeReviewCommit merge = writeCherryPickCommit(mergeTip.getCurrentTip(), n);
+      mergeTip.moveTipTo(merge, merge.getName());
+      newCommits.put(mergeTip.getCurrentTip().getPatchsetId()
+          .getParentKey(), mergeTip.getCurrentTip());
+      return mergeTip;
+    } catch (MergeConflictException mce) {
+      n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
+      return null;
+    } catch (MergeIdenticalTreeException mie) {
+      n.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
+      return null;
+    }
+  }
+
+  private void cherryPickMultipleParents(CodeReviewCommit n, MergeTip mergeTip)
+      throws IOException, MergeException {
+    // There are multiple parents, so this is a merge commit. We don't want
+    // to cherry-pick the merge as clients can't easily rebase their history
+    // with that merge present and replaced by an equivalent merge with a
+    // different first parent. So instead behave as though MERGE_IF_NECESSARY
+    // was configured.
+    if (!args.mergeUtil.hasMissingDependencies(args.mergeSorter, n)) {
+      if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
+        mergeTip.moveTipTo(n, n.getName());
+      } else {
+        CodeReviewCommit result = args.mergeUtil.mergeOneCommit(
+            args.serverIdent.get(), args.repo, args.rw, args.inserter,
+            args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(), n);
+        mergeTip.moveTipTo(result, n.getName());
+      }
+      PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(args.rw,
+          args.canMergeFlag, mergeTip.getCurrentTip(), args.alreadyAccepted);
+      setRefLogIdent(submitApproval);
+    } else {
+      // One or more dependencies were not met. The status was already marked on
+      // the commit so we have nothing further to perform at this time.
+    }
   }
 
   private CodeReviewCommit writeCherryPickCommit(CodeReviewCommit mergeTip,

@@ -22,6 +22,75 @@
       "revId": "786eec511aefce2bf6f26a105e121457dd5a28c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_a76eaae7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T01:25:28Z",
+      "side": 1,
+      "message": "This is common to both cases.  It could be moved above this if-block and also removed from the noSubmitWholeTopicAssertions method.",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 48
+      },
+      "revId": "786eec511aefce2bf6f26a105e121457dd5a28c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_876926e4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T01:25:28Z",
+      "side": 1,
+      "message": "Use the assertThat method:\n\n assertThat(actions.get(\"submit\").enabled).isTrue()",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "786eec511aefce2bf6f26a105e121457dd5a28c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_8b692de4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T01:25:28Z",
+      "side": 1,
+      "message": "and here:\n\n assertThat(actions.get(\"submit\").label).isEqualTo(\"Submit whole topic\")\n\nYou could probably also factor the `actions.get(\"submit\")` part out to a local variable for slightly better readability.",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 75
+      },
+      "revId": "786eec511aefce2bf6f26a105e121457dd5a28c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

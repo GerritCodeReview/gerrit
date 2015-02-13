@@ -22,6 +22,30 @@
       "revId": "be49bb08e5a2019d415fa582717bd2a897a63951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_07f53688",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-13T17:33:13Z",
+      "side": 1,
+      "message": "\u003e Now that coverity scan runs regularly, I though about pointing out the newly detections. \n\nI think these might be more helpful if they ended up in our bug tracker with a specific label? If you just sprinkle them in code reviews it\u0027ll be hard to keep track of them as the number grows.\n\n\u003e In com.​google.​gerrit.​server.​change.​ConsistencyChecker$1.​apply(com.​google.​gerrit.​reviewdb.​client.​PatchSet): This parameter is always used in a way that requires it to be nonnull, but the parameter is explicitly annotated as being Nullable.\n\nThis seems like a false positive. The Function interface defines the input argument to be @Nullable because _some_ functions may require null inputs, but this function is not designed to work with nulls.\n\nI don\u0027t know what the Guava solution for this would look like is but I don\u0027t really care.",
+      "parentUuid": "1616c500_b49a0081",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 9
+      },
+      "revId": "be49bb08e5a2019d415fa582717bd2a897a63951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

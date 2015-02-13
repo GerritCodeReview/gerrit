@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_a27e3e47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T14:34:25Z",
+      "side": 1,
+      "message": "I agree that when --secure-store-lib option wasn\u0027t provided during re-init step for a secure-store aware site, that then the existing secure-store-lib from gerrit config is used.\n\nHowever, in case when different --secure-store-lib option is provided (the use case that secure-store-switch is care about), we should fail and dump the secure-store-lib name that is currently used and reference gerrit administrator to SwitchSecureStore pgm, when that\u0027s really what she meant to do.",
+      "parentUuid": "d6dfcd7d_829fba3b",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "3d4b1228c2ee72f6ee7d6aaeb57fec2e14cd42eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_83bd9e95",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 34

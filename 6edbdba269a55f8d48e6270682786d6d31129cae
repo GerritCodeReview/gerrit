@@ -16,6 +16,24 @@
       "revId": "6edbdba269a55f8d48e6270682786d6d31129cae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_62d9d626",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T08:59:06Z",
+      "side": 1,
+      "message": "Yes, this is the only place we need it. Would you mind to squash it? We don\u0027t support yet squashing in browser by clicking \"Squash\" button ;-(",
+      "parentUuid": "f67bf134_cb0bb51f",
+      "revId": "6edbdba269a55f8d48e6270682786d6d31129cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

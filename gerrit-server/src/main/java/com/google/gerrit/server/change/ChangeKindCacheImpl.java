@@ -197,21 +197,20 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         walk.parseBody(next);
 
         if (!next.getFullMessage().equals(prior.getFullMessage())) {
-          if (next.getTree() == prior.getTree() && isSameParents(prior, next)) {
+          if (isSameDeltaAndTree(prior, next)) {
             return ChangeKind.NO_CODE_CHANGE;
           } else {
             return ChangeKind.REWORK;
           }
         }
 
+        if (isSameDeltaAndTree(prior, next)) {
+          return ChangeKind.NO_CHANGE;
+        }
+
         if (prior.getParentCount() != 1 || next.getParentCount() != 1) {
           // Trivial rebases done by machine only work well on 1 parent.
           return ChangeKind.REWORK;
-        }
-
-        if (next.getTree() == prior.getTree() &&
-           isSameParents(prior, next)) {
-          return ChangeKind.TRIVIAL_REBASE;
         }
 
         // A trivial rebase can be detected by looking for the next commit
@@ -232,13 +231,25 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       }
     }
 
-    private static boolean isSameParents(RevCommit prior, RevCommit next) {
+    private static boolean isSameDeltaAndTree(RevCommit prior, RevCommit next) {
+      if (next.getTree() != prior.getTree()) {
+        return false;
+      }
+
       if (prior.getParentCount() != next.getParentCount()) {
         return false;
       } else if (prior.getParentCount() == 0) {
         return true;
       }
-      return prior.getParent(0).equals(next.getParent(0));
+
+      // Make sure that the prior/next delta is the same - not just the tree.
+      // This is done by making sure that the parent trees are equal.
+      for (int i = 0; i < prior.getParentCount(); i++) {
+        if (next.getParent(i).getTree() != prior.getParent(i).getTree()) {
+          return false;
+        }
+      }
+      return true;
     }
   }
 

@@ -107,11 +107,11 @@ public class ChangeEditUtil {
    * @return edit for this change for this user, if present.
    * @throws IOException
    */
-  public Optional<ChangeEdit> byChange(Change change, IdentifiedUser me)
+  public Optional<ChangeEdit> byChange(Change change, IdentifiedUser user)
       throws IOException {
     Repository repo = gitManager.openRepository(change.getProject());
     try {
-      String editRefPrefix = editRefPrefix(me.getAccountId(), change.getId());
+      String editRefPrefix = editRefPrefix(user.getAccountId(), change.getId());
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(editRefPrefix);
       if (refs.isEmpty()) {
         return Optional.absent();
@@ -125,7 +125,7 @@ public class ChangeEditUtil {
       try {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
         PatchSet basePs = getBasePatchSet(change, ref);
-        return Optional.of(new ChangeEdit(me, change, ref, commit, basePs));
+        return Optional.of(new ChangeEdit(user, change, ref, commit, basePs));
       } finally {
         rw.release();
       }

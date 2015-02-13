@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1616c500_b49a0081",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-13T17:28:16Z",
+      "side": 1,
+      "message": "Now that coverity scan runs regularly, I though about pointing out the newly detections. \n\nIn com.​google.​gerrit.​server.​change.​ConsistencyChecker$1.​apply(com.​google.​gerrit.​reviewdb.​client.​PatchSet): This parameter is always used in a way that requires it to be nonnull, but the parameter is explicitly annotated as being Nullable.\n\nI\u0027m not familiar with the code, so I don\u0027t see that problem yet, but maybe this rings a bell for you?",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 9
+      },
+      "revId": "be49bb08e5a2019d415fa582717bd2a897a63951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

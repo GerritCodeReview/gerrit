@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_028baa07",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-13T13:30:57Z",
+      "side": 1,
+      "message": "Good point. I will add a sentence to clarify this.\n\nFor now the release manager is only creating release tags for core plugins. Stable branches are created on need (based on the tag) if a fix needs to be done for a release.\n\nFor other plugins it is the responsibility of the plugin owner to release the plugin and/or to create stable branches.\n\nIf the responsibility of the release manager should be extended, this should be discussed on the mailing list.\n\nDone",
+      "parentUuid": "d6dfcd7d_a2959e23",
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67bf134_6bcf2160",
         "filename": "Documentation/config-plugins.txt",
         "patchSetId": 1

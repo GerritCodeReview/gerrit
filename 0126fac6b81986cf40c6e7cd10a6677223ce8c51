@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_a2b8fea5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T22:49:34Z",
+      "side": 1,
+      "message": "Not yet.",
+      "parentUuid": "7669c173_27407a25",
+      "range": {
+        "startLine": 295,
+        "startChar": 30,
+        "endLine": 295,
+        "endChar": 53
+      },
+      "revId": "0126fac6b81986cf40c6e7cd10a6677223ce8c51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21b53cf8_3c01712d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 11
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_02be0a90",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T22:49:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7669c173_c7ddde1a",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 37
+      },
+      "revId": "0126fac6b81986cf40c6e7cd10a6677223ce8c51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21b53cf8_1cfeb5c1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 11
@@ -83,6 +131,30 @@
       "writtenOn": "2014-12-19T05:11:22Z",
       "side": 1,
       "message": "same here.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 35
+      },
+      "revId": "0126fac6b81986cf40c6e7cd10a6677223ce8c51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_e30a52cb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T22:49:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21b53cf8_1cfeb5c1",
       "range": {
         "startLine": 344,
         "startChar": 0,

@@ -55,6 +55,7 @@ public abstract class Response<T> {
     return obj;
   }
 
+  public abstract boolean isNone();
   public abstract int statusCode();
   public abstract T value();
   public abstract CacheControl caching();
@@ -70,6 +71,11 @@ public abstract class Response<T> {
     private Impl(int sc, T val) {
       statusCode = sc;
       value = val;
+    }
+
+    @Override
+    public boolean isNone() {
+      return false;
     }
 
     @Override
@@ -101,6 +107,11 @@ public abstract class Response<T> {
 
   private static final class None extends Response<Object> {
     private None() {
+    }
+
+    @Override
+    public boolean isNone() {
+      return true;
     }
 
     @Override

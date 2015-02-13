@@ -52,6 +52,24 @@
       "revId": "54ef9a184cbb7c48463544aaf2ffb987ec16384f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_b434c0db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-13T22:46:48Z",
+      "side": 1,
+      "message": "Is this the problem you were referring to where you were incorrectly computing the ETag? So this works now?",
+      "parentUuid": "165885e4_a499c28c",
+      "revId": "54ef9a184cbb7c48463544aaf2ffb987ec16384f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

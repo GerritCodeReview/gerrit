@@ -34,6 +34,24 @@
       "revId": "a68ca267061225e02d530e95652ed5074c44a0d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_23cf0a2f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-13T14:41:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it also work when pushing over HTTP? The push over HTTP is done with authentication, isn\u0027t it? So in principle it should work?",
+      "parentUuid": "f654d1b2_43c80628",
+      "revId": "a68ca267061225e02d530e95652ed5074c44a0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

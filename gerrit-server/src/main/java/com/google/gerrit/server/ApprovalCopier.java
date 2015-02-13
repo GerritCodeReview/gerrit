@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.change.ChangeKind.NO_CODE_CHANGE;
+import static com.google.gerrit.server.change.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.server.change.ChangeKind.TRIVIAL_REBASE;
 
 import com.google.common.collect.HashBasedTable;
@@ -164,7 +165,8 @@ public class ApprovalCopier {
       return true;
     }
     return (type.isCopyAllScoresOnTrivialRebase() && kind == TRIVIAL_REBASE)
-        || (type.isCopyAllScoresIfNoCodeChange() && kind == NO_CODE_CHANGE);
+        || (type.isCopyAllScoresIfNoCodeChange() && kind == NO_CODE_CHANGE)
+        || (type.isCopyAllScoresIfNoChange() && kind == NO_CHANGE);
   }
 
   private static PatchSetApproval copy(PatchSetApproval src, PatchSet.Id psId) {

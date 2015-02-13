@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_43bc86b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T10:44:07Z",
+      "side": 1,
+      "message": "Actually, this is not quite true. The most recent master fixed some issues that are related to Gerrit build on other platform:\n\n* https://github.com/facebook/buck/issues/243\n* https://github.com/facebook/buck/issues/247",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "48b5bef06617663d69d148e9158df12962c60a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

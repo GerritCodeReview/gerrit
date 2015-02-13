@@ -510,6 +510,24 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_c305d6bd",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T22:49:02Z",
+      "side": 1,
+      "message": "Resolved: we can just reuse the registration made by archive formats used by change screen.",
+      "parentUuid": "81a6e8d1_ff6d3ff2",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1a12cbc_0041a66a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -545,6 +563,24 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_82517acb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T22:49:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1a12cbc_0041a66a",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1a12cbc_e045a276",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -556,6 +592,30 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "This is pretty onerous on the client.\n\nIf this is false we could load up a VisibleRefFilter and look to see if they are asking for a tree that happens to be a current branch tip, tag, or a patch set they can see.\n\nOr do something like RefControl.isMergedIntoBranchOrTag to check if its a sane revision reachable for the caller.",
+      "range": {
+        "startLine": 298,
+        "startChar": 35,
+        "endLine": 298,
+        "endChar": 70
+      },
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_624ef62a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T22:49:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1a12cbc_e045a276",
       "range": {
         "startLine": 298,
         "startChar": 35,

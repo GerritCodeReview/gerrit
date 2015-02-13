@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "165885e4_2486322b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-13T00:05:24Z",
+      "side": 1,
+      "message": "I missed the connection to this change as I was chasing other bugs first. Sorry for that.",
+      "parentUuid": "f654d1b2_43d24609",
+      "range": {
+        "startLine": 1092,
+        "startChar": 0,
+        "endLine": 1096,
+        "endChar": 41
+      },
+      "revId": "26c46db485522d7e143c09bd55f1b7c7e2e12663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_4220129d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-12T23:11:32Z",
       "side": 1,
       "message": "Does this method still need to be called from here? It is already invoked on line 269.",
+      "range": {
+        "startLine": 1097,
+        "startChar": 4,
+        "endLine": 1097,
+        "endChar": 40
+      },
+      "revId": "26c46db485522d7e143c09bd55f1b7c7e2e12663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_944d4485",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-13T00:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_4220129d",
       "range": {
         "startLine": 1097,
         "startChar": 4,

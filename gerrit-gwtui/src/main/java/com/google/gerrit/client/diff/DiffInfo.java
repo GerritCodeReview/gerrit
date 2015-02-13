@@ -35,6 +35,7 @@ public class DiffInfo extends JavaScriptObject {
   public final native JsArrayString diff_header() /*-{ return this.diff_header; }-*/;
   public final native JsArray<Region> content() /*-{ return this.content; }-*/;
   public final native JsArray<DiffWebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+  public final native boolean binary() /*-{ return this.binary || false; }-*/;
 
   public final List<WebLinkInfo> side_by_side_web_links() {
     return filterWebLinks(DiffView.SIDE_BY_SIDE);

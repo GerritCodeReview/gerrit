@@ -16,6 +16,24 @@
       "revId": "ba2613cb846ae398b7476ed7e7aac70e985af63a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_03c68e3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-13T11:47:53Z",
+      "side": 1,
+      "message": "Solving this problem is way complicated when we would relay on injection of @GerritServerConfig. This is because gerrit sever config depends on SecureStore to be able to read and store data from it. Then we end up in provider/proxy-class and lay construction hell. It is way easier to create jgit Config object and read content of gerrit.config. Also it is way easier to understand how this code actually works and when instances are created.\n\nTherefore I would go of the previous solution with static method that creates jgit Config object base on SitePahts.gerrit_config",
+      "parentUuid": "b137c3c2_6912857d",
+      "revId": "ba2613cb846ae398b7476ed7e7aac70e985af63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

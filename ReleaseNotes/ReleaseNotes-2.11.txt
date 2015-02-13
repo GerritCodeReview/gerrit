@@ -124,6 +124,8 @@ proportion of added/removed lines.
 When disabled, the colored bar is not shown and the change size per file is shown
 in the same way as it used to be in the old change screen.
 
+* Show changes across all projects and branches in the `Same Topic` tab.
+
 
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
@@ -158,7 +160,7 @@ colored annotations.
 Projects Screen
 ^^^^^^^^^^^^^^^
 
-* Add pagination of the branch list page.
+* Add pagination and filtering on the branch list page.
 
 * Add an 'Edit Config' button on the project info page.
 +
@@ -172,6 +174,12 @@ are available in the UI.
 REST
 ~~~~
 
+Accounts
+^^^^^^^^
+
+* Add new link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-accounts.html#suggest-account[
+Suggest Account endpoint].
+
 Changes
 ^^^^^^^
 
@@ -184,13 +192,22 @@ Publish Change Edit] endpoints.
 
 * Add new
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#check-change[
-check change endpoint].
+Check Change endpoint].
 +
 In the past, Gerrit bugs, lack of transactions, and unreliable NoSQL backends
 have at various times produced a bewildering variety of corrupt states.
 +
 This endpoint can be used to detect, explain, and repair some of these possible
 states of a change.
+
+* Add new
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#get-revision-actions[
+Get Revision Actions endpoint].
+
+* Add
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#change-actions[
+`CHANGE_ACTIONS`] option.
+
 
 Change Edits
 ^^^^^^^^^^^^
@@ -333,6 +350,8 @@ HTTP Authentication may also be used when running in slave mode.
 When a change is cherry-picked to another branch using the cherry-pick action,
 the message 'Patch Set <number>: Cherry Picked from branch <name>.' is added as
 a change message on the created change.
+
+* Don't send 'new patch set' notification emails for trivial rebases.
 
 
 ssh
@@ -626,6 +645,15 @@ copy-to-clipboard icons in the download dropdown.
 +
 In the reply box, the text of the label score is displayed on the right hand
 side when a score is selected, but this was missing for simple boolean labels.
+
+* Don't show missing accounts as reviewer suggestions.
+
+* Show the email address that matched the search in reviewer suggestions.
++
+When matching accounts by email address against an external account, results
+now show the email address that matched, not the preferred email address.
+
+* Fix accidental reviewer selection on slow networks.
 
 
 Side-By-Side Diff

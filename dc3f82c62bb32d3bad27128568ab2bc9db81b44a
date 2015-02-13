@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "165885e4_04f53688",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-13T18:34:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_0abafbdc",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_c8aaaf8c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 7
@@ -166,6 +184,24 @@
       "side": 1,
       "message": "I don\u0027t see a value into this intermediate state. How would we explain the logic to our users? Why is C not in the result of b..a comparison?\n\nSo, yes I would like to see a complete solution without an intermediate state which is hard to explain.",
       "parentUuid": "0ee06512_0bfb1dd2",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_891fd985",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-13T18:34:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce4e4d56_3101d02f",
       "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -231,6 +267,30 @@
       "side": 1,
       "message": "What I meant was to have a test case which is red on the old code and green with the new code. I asked for that because all your new tests couldn\u0027t compile against the old code and, thus, we didn\u0027t have an easy way to see how to old code fails.\n\nIf is enough that the assertDeleted (line 166) fails on the old code and succeeds on the new code. Please remove this catch block.",
       "parentUuid": "ce13adda_6904e53f",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 5
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_f7ee6015",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-13T18:34:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeb7594b_50162c6c",
       "range": {
         "startLine": 168,
         "startChar": 0,

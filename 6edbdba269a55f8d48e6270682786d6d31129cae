@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f67bf134_cb0bb51f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T07:33:04Z",
+      "side": 1,
+      "message": "Mention why?\n\nOr is it better to just squash this in with the following change, if that\u0027s the only place it\u0027s used?",
+      "revId": "6edbdba269a55f8d48e6270682786d6d31129cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

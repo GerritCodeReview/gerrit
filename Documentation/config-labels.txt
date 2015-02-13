@@ -241,18 +241,33 @@ as trivial rebase if the commit message is the same as in the previous
 patch set and if it has the same code delta as the previous patch set.
 This is the case if the change was rebased onto a different parent.
 This can be used to enable sticky approvals, reducing turn-around for
-trivial rebases prior to submitting a change. Defaults to false.
+trivial rebases prior to submitting a change.
+It is recommended to enable this for the Code-Review label.
+Defaults to false.
 
 [[label_copyAllScoresIfNoCodeChange]]
 === `label.Label-Name.copyAllScoresIfNoCodeChange`
 
 If true, all scores for the label are copied forward when a new patch
-set is uploaded that has the same parent commit as the previous patch
+set is uploaded that has the same parent tree as the previous patch
 set and the same code delta as the previous patch set. This means only
 the commit message is different. This can be used to enable sticky
 approvals on labels that only depend on the code, reducing turn-around
 if only the commit message is changed prior to submitting a change.
+It is recommended to enable this for the Verified label.
 Defaults to false.
+
+[[label_copyAllScoresIfNoChange]]
+=== `label.Label-Name.copyAllScoresIfNoChange`
+
+If true, all scores for the label are copied forward when a new patch
+set is uploaded that has the same parent tree, code delta, and commit
+message as the previous patch set. This means that only the patch
+set commit is different. This can be used to enable sticky
+approvals on labels that only depend on the code, reducing turn-around
+if only the commit message is changed prior to submitting a change.
+It is recommended to enable this for both Verified and Code-Review labels.
+Defaults to true.
 
 [[label_canOverride]]
 === `label.Label-Name.canOverride`

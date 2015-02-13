@@ -206,17 +206,21 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    change = submit(rsrc, caller, false);
-    if (change == null) {
+    List<Change> submittedChanges = submit(rsrc, caller, false);
+    if (submittedChanges.contains(null)) {
       throw new ResourceConflictException("change is "
           + status(dbProvider.get().changes().get(rsrc.getChange().getId())));
     }
 
     if (input.waitForMerge) {
-      mergeQueue.merge(change.getDest());
+      for (Change c: submittedChanges) {
+        mergeQueue.merge(c.getDest());
+      }
       change = dbProvider.get().changes().get(change.getId());
     } else {
-      mergeQueue.schedule(change.getDest());
+      for (Change c: submittedChanges) {
+        mergeQueue.schedule(c.getDest());
+      }
     }
 
     if (change == null) {
@@ -391,7 +395,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return change;
   }
 
-  private Change submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
+  private List<Change> submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
       boolean force, String topic) throws ResourceConflictException, OrmException,
       IOException {
     Preconditions.checkNotNull(topic);
@@ -429,21 +433,24 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       db.rollback();
     }
     List<Change.Id> ids = new ArrayList<>(changesByTopic.size());
+    List<Change> ret = new ArrayList<>(changesByTopic.size());
     for (ChangeData c : changesByTopic) {
       ids.add(c.getId());
+      ret.add(c.change());
     }
     indexer.indexAsync(ids).checkedGet();
-    return change;
+
+    return ret;
   }
 
-  public Change submit(RevisionResource rsrc, IdentifiedUser caller,
+  public List<Change> submit(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
     String topic = rsrc.getChange().getTopic();
     if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
       return submitWholeTopic(rsrc, caller, force, topic);
     } else {
-      return submitThisChange(rsrc, caller, force);
+      return Arrays.asList(submitThisChange(rsrc, caller, force));
     }
   }
 

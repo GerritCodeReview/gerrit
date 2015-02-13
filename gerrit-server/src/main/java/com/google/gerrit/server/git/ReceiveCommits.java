@@ -1726,37 +1726,39 @@ public class ReceiveCommits {
       throws OrmException, IOException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
-    Change c;
+    List<Change> changes;
     try {
       // Force submit even if submit rule evaluation fails.
-      c = submit.submit(rsrc, currentUser, true);
+      changes = submit.submit(rsrc, currentUser, true);
     } catch (ResourceConflictException e) {
       throw new IOException(e);
     }
-    if (c == null) {
+    if (changes.contains(null)) {
       addError("Submitting change " + changeCtl.getChange().getChangeId()
           + " failed.");
     } else {
       addMessage("");
-      mergeQueue.merge(c.getDest());
-      c = db.changes().get(c.getId());
-      switch (c.getStatus()) {
-        case SUBMITTED:
-          addMessage("Change " + c.getChangeId() + " submitted.");
-          break;
-        case MERGED:
-          addMessage("Change " + c.getChangeId() + " merged.");
-          break;
-        case NEW:
-          ChangeMessage msg = submit.getConflictMessage(rsrc);
-          if (msg != null) {
-            addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
+      for (Change c : changes) {
+        mergeQueue.merge(c.getDest());
+        c = db.changes().get(c.getId());
+        switch (c.getStatus()) {
+          case SUBMITTED:
+            addMessage("Change " + c.getChangeId() + " submitted.");
             break;
-          }
-          //$FALL-THROUGH$
-        default:
-          addMessage("change " + c.getChangeId() + " is "
-              + c.getStatus().name().toLowerCase());
+          case MERGED:
+            addMessage("Change " + c.getChangeId() + " merged.");
+            break;
+          case NEW:
+            ChangeMessage msg = submit.getConflictMessage(rsrc);
+            if (msg != null) {
+              addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
+              break;
+            }
+            //$FALL-THROUGH$
+          default:
+            addMessage("change " + c.getChangeId() + " is "
+                + c.getStatus().name().toLowerCase());
+        }
       }
     }
   }

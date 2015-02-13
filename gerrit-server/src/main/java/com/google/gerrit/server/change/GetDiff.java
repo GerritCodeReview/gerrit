@@ -189,6 +189,9 @@ public class GetDiff implements RestReadView<FileResource> {
       result.webLinks = links.isEmpty() ? null : links.toList();
 
       if (!webLinksOnly) {
+        if (ps.isBinary()) {
+          result.binary = true;
+        }
         if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
           result.metaA = new FileMeta();
           result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),

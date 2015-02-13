@@ -56,6 +56,7 @@ public class PatchScript {
   protected boolean intralineDifference;
   protected boolean intralineFailure;
   protected boolean intralineTimeout;
+  protected boolean binary;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final FileMode om, final FileMode nm,
@@ -64,7 +65,7 @@ public class PatchScript {
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
       final String mta, final String mtb, final CommentDetail cd,
       final List<Patch> hist, final boolean hf, final boolean id,
-      final boolean idf, final boolean idt) {
+      final boolean idf, final boolean idt, boolean bin) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -86,6 +87,7 @@ public class PatchScript {
     intralineDifference = id;
     intralineFailure = idf;
     intralineTimeout = idt;
+    binary = bin;
   }
 
   protected PatchScript() {
@@ -193,5 +195,9 @@ public class PatchScript {
       ctx = Math.max(a.size(), b.size());
     }
     return new EditList(edits, ctx, a.size(), b.size()).getHunks();
+  }
+
+  public boolean isBinary() {
+    return binary;
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f67bf134_ebb6b109",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T02:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f67bf134_0b577d0e",
+      "range": {
+        "startLine": 19,
+        "startChar": 35,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "9b9cc6208f47fcdf3b7b2a291be41446255e7f2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_e7b6e209",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-13T02:44:02Z",
       "side": 1,
       "message": "Duplicate imports (lines 33-34)",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "9b9cc6208f47fcdf3b7b2a291be41446255e7f2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_8bbb6df0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T02:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7669c173_e7b6e209",
       "range": {
         "startLine": 30,
         "startChar": 0,

@@ -138,7 +138,7 @@ public class RebaseChange {
       rebase(git, rw, inserter, patchSetId, change,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
-          committerIdent, true, true, ValidatePolicy.GERRIT);
+          committerIdent, true, ValidatePolicy.GERRIT);
     } catch (MergeConflictException e) {
       throw new IOException(e.getMessage());
     } finally {
@@ -265,7 +265,6 @@ public class RebaseChange {
    * @param baseCommit the commit that should be the new base
    * @param mergeUtil merge utilities for the destination project
    * @param committerIdent the committer's identity
-   * @param sendMail if a mail notification should be sent for the new patch set
    * @param runHooks if hooks should be run for the new patch set
    * @param validate if commit validation should be run for the new patch set
    * @return the new patch set which is based on the given base commit
@@ -279,7 +278,7 @@ public class RebaseChange {
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change change, final IdentifiedUser uploader, final RevCommit baseCommit,
       final MergeUtil mergeUtil, PersonIdent committerIdent,
-      boolean sendMail, boolean runHooks, ValidatePolicy validate)
+      boolean runHooks, ValidatePolicy validate)
           throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       MergeConflictException {
@@ -303,7 +302,7 @@ public class RebaseChange {
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())
         .setUploader(uploader.getAccountId())
-        .setSendMail(sendMail)
+        .setSendMail(false)
         .setRunHooks(runHooks);
 
     final PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();

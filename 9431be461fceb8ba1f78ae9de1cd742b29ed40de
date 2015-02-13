@@ -1,0 +1,481 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f67bf134_4bd26509",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "remove this or replace with something like \"custom\"",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_87e7e6ee",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "under the",
+      "range": {
+        "startLine": 22,
+        "startChar": 33,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_a7ec6ad1",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 27,
+        "startChar": 54,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_6bcf2160",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "Is this regular ascii?  It looks different on my browser.",
+      "range": {
+        "startLine": 54,
+        "startChar": 47,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_47d24e09",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "Does it provide download for projects?  I thought that was only in the project-download-commands plugin.",
+      "range": {
+        "startLine": 63,
+        "startChar": 55,
+        "endLine": 63,
+        "endChar": 63
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_0bdc5d16",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "surround with backticks",
+      "range": {
+        "startLine": 90,
+        "startChar": 52,
+        "endLine": 90,
+        "endChar": 69
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_67cf5260",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "Mention that this is needed because Gerrit can only assign rights to a group, not to individuals?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 35
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_2bd91927",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "functionality",
+      "range": {
+        "startLine": 108,
+        "startChar": 44,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_07dc5616",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "administrative",
+      "range": {
+        "startLine": 124,
+        "startChar": 16,
+        "endLine": 124,
+        "endChar": 29
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_cb065501",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "as a",
+      "range": {
+        "startLine": 155,
+        "startChar": 57,
+        "endLine": 155,
+        "endChar": 59
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_27d95a27",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "looks like non-ascii",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 1
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_eb0b1106",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "link?",
+      "range": {
+        "startLine": 180,
+        "startChar": 24,
+        "endLine": 180,
+        "endChar": 58
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_8b004de4",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "Isn\u0027t this obsoleted by the cookbook plugin?",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 89
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_c7063e01",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "Add that this is useful for administrators to be able to easily completely delete a change or patch set from the server.",
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_e70b4206",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "Make this into a subsection called \"Issue tracker plugins\" or something like that?\n\nThen there can be an introductory paragraph that explains the general purpose, rather than repeating the similar text for each one.\n\nAlso it would probably be good to mention its-base.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 14
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_870046e4",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "remove this bit",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 377,
+        "endChar": 12
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_ab0509f3",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "provides a",
+      "range": {
+        "startLine": 390,
+        "startChar": 12,
+        "endLine": 390,
+        "endChar": 20
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_4bfb457f",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "provides a",
+      "range": {
+        "startLine": 399,
+        "startChar": 12,
+        "endLine": 399,
+        "endChar": 20
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_6bf88181",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "installations",
+      "range": {
+        "startLine": 453,
+        "startChar": 7,
+        "endLine": 453,
+        "endChar": 13
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_a7054af3",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "non-ascii",
+      "range": {
+        "startLine": 466,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 1
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_47fb2e7f",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-13T11:09:55Z",
+      "side": 1,
+      "message": "non-ascii",
+      "range": {
+        "startLine": 468,
+        "startChar": 54,
+        "endLine": 468,
+        "endChar": 55
+      },
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

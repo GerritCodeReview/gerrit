@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_829fba3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-13T14:17:36Z",
+      "side": 1,
+      "message": "I am not absolutely sure if this is correct but it at least tries to address the question on using the --secure-store-lib option on an existing site which already has a custom secure store defined. This is NOT a fully implemented switching as any existing \"old\" secure store will be simply ignored.\n\nAnyway, this may not be the best decision. However, we must do something in this case:\n* do what I implemented in this PS\n* write an error and fail the init\n\nI am also OK with the second option.",
+      "parentUuid": "f654d1b2_a3c21a09",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "3d4b1228c2ee72f6ee7d6aaeb57fec2e14cd42eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_83bd9e95",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 34
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-13T14:09:15Z",
       "side": 1,
       "message": "Move this binding to other on line 239. This way we have all binding sin one place.",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 229,
+        "endChar": 47
+      },
+      "revId": "3d4b1228c2ee72f6ee7d6aaeb57fec2e14cd42eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_629c3647",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-13T14:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_83bd9e95",
       "range": {
         "startLine": 228,
         "startChar": 8,

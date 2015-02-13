@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_4357a6bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-13T13:58:13Z",
+      "side": 1,
+      "message": "This new test fails for me when it is executed in the context of com.google.gerrit.acceptance.git.HttpPushForReviewIT. \n\n[2015-02-13 14:56:22,387] ERROR com.google.gerrit.server.git.ReceiveCommits : Cannt retrieve edit\ncom.google.gerrit.extensions.restapi.AuthException: Authentication required\n\tat com.google.gerrit.server.edit.ChangeEditUtil.byChange(ChangeEditUtil.java:95)\n\tat com.google.gerrit.server.git.ReceiveCommits$ReplaceRequest.newEdit(ReceiveCommits.java:1979)\n\tat com.google.gerrit.server.git.ReceiveCommits$ReplaceRequest.validate(ReceiveCommits.java:1967)\n\tat com.google.gerrit.server.git.ReceiveCommits.preparePatchSetsForReplace(ReceiveCommits.java:1772)\n\tat com.google.gerrit.server.git.ReceiveCommits.processCommands(ReceiveCommits.java:567)",
+      "revId": "a68ca267061225e02d530e95652ed5074c44a0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

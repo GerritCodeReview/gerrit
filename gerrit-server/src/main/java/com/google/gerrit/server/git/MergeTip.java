@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -23,6 +24,14 @@ import java.util.Map;
  * Class describing a merge tip during merge operation.
  */
 public class MergeTip {
+  public static MergeTip from(@Nullable CodeReviewCommit initial,
+      Collection<CodeReviewCommit> toMerge) {
+    if (initial == null) {
+      return null;
+    }
+    return new MergeTip(initial, toMerge);
+  }
+
   private CodeReviewCommit branchTip;
   private Map<String,String> mergeResults;
 
@@ -30,7 +39,8 @@ public class MergeTip {
    * @param initial Tip before the merge operation.
    * @param toMerge List of CodeReview commits to be merged in merge operation.
    */
-  public MergeTip(CodeReviewCommit initial, Collection<CodeReviewCommit> toMerge) {
+  private MergeTip(CodeReviewCommit initial,
+      Collection<CodeReviewCommit> toMerge) {
     this.mergeResults = Maps.newHashMap();
     this.branchTip = initial;
     // Assume fast-forward merge until opposite is proven.

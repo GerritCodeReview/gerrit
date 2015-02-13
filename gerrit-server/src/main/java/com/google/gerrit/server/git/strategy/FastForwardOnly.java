@@ -31,7 +31,7 @@ public class FastForwardOnly extends SubmitStrategy {
   @Override
   protected MergeTip _run(final CodeReviewCommit branchTip,
       final Collection<CodeReviewCommit> toMerge) throws MergeException {
-    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
+    MergeTip mergeTip = MergeTip.from(branchTip, toMerge);
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
         args.mergeSorter, toMerge);
     final CodeReviewCommit newMergeTipCommit =

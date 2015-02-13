@@ -66,8 +66,7 @@ public class CherryPick extends SubmitStrategy {
   @Override
   protected MergeTip _run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws MergeException {
-    MergeTip mergeTip = branchTip != null
-        ? new MergeTip(branchTip, toMerge) : null;
+    MergeTip mergeTip = MergeTip.from(branchTip, toMerge);
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
@@ -90,7 +89,7 @@ public class CherryPick extends SubmitStrategy {
 
   private MergeTip cherryPickUnbornRoot(CodeReviewCommit n) {
     // The branch is unborn. Take fast-forward resolution to create the branch.
-    MergeTip mergeTip = new MergeTip(n, Lists.newArrayList(n));
+    MergeTip mergeTip = MergeTip.from(n, Lists.newArrayList(n));
     n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
     return mergeTip;
   }

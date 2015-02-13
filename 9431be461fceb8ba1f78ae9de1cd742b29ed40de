@@ -143,6 +143,23 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_a2959e23",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T13:17:54Z",
+      "side": 1,
+      "message": "I am missing clarification about stable-branch creation. Some plugin owner are disappeared. While it is normal with open source project that peoples are disappearing, that\u0027s really annoying for the Gerrit installations that rely on those plugins and are not able to upgrade to new Gerrit versions, because the plugins don\u0027t compile or stable branches weren\u0027t created or both.\n\nShould release manager for specific release take care for stable-branche creation for all known and maintained plugins that are listed on this page? Should we add a section for this in release documentation or in this page?\n\nSay when final 2.10 was released, release manager should ensure, that for al plugins stable-2.10 branches are created.",
+      "revId": "9431be461fceb8ba1f78ae9de1cd742b29ed40de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67bf134_6bcf2160",
         "filename": "Documentation/config-plugins.txt",
         "patchSetId": 1

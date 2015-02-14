@@ -198,6 +198,7 @@ public class BatchUpdate implements AutoCloseable {
     this.repo = checkNotNull(repo, "repo");
     this.revWalk = checkNotNull(revWalk, "revWalk");
     this.inserter = checkNotNull(inserter, "inserter");
+    batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
     return this;
   }
 
@@ -223,6 +224,10 @@ public class BatchUpdate implements AutoCloseable {
   public ObjectInserter getObjectInserter() throws IOException {
     initRepository();
     return inserter;
+  }
+
+  public Timestamp getWhen() {
+    return when;
   }
 
   public BatchUpdate addRefUpdate(ReceiveCommand cmd) {

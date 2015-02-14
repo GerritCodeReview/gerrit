@@ -980,6 +980,7 @@ public class MergeOp {
     update.commit();
     sendMergedEmail(c, submitter);
     indexer.index(db, c);
+    // TODO: this fails
     if (submitter != null && mergeResultRev != null) {
       try {
         hooks.doChangeMergedHook(c,

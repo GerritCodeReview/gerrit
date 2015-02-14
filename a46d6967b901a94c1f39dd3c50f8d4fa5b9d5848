@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1616c500_94e264df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-14T00:30:25Z",
+      "side": 1,
+      "message": "The BatchUpdate implements AutoClosable, so the call to close will eventually be made anyway (on garbage collection?). Why do you execute it here explicitely?",
+      "range": {
+        "startLine": 373,
+        "startChar": 1,
+        "endLine": 375,
+        "endChar": 7
+      },
+      "revId": "a46d6967b901a94c1f39dd3c50f8d4fa5b9d5848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

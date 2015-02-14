@@ -111,6 +111,10 @@ public class BatchUpdate implements AutoCloseable {
       }
       return batchRefUpdate;
     }
+
+    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
+      getBatchRefUpdate().addCommand(cmd);
+    }
   }
 
   public class ChangeContext extends Context {
@@ -210,7 +214,6 @@ public class BatchUpdate implements AutoCloseable {
       closeRepo = true;
       inserter = repo.newObjectInserter();
       revWalk = new RevWalk(inserter.newReader());
-      batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
     }
   }
 
@@ -227,12 +230,6 @@ public class BatchUpdate implements AutoCloseable {
   public ObjectInserter getObjectInserter() throws IOException {
     initRepository();
     return inserter;
-  }
-
-  public BatchUpdate addRefUpdate(ReceiveCommand cmd) throws IOException {
-    initRepository();
-    batchRefUpdate.addCommand(cmd);
-    return this;
   }
 
   public BatchUpdate addOp(ChangeControl ctl, Op op) {

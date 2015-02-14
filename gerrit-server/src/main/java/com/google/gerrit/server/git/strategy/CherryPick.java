@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
@@ -24,21 +25,23 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
+import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,16 +53,13 @@ import java.util.Map;
 
 public class CherryPick extends SubmitStrategy {
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final GitReferenceUpdated gitRefUpdated;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   CherryPick(SubmitStrategy.Arguments args,
-      PatchSetInfoFactory patchSetInfoFactory,
-      GitReferenceUpdated gitRefUpdated) {
+      PatchSetInfoFactory patchSetInfoFactory) {
     super(args);
 
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.gitRefUpdated = gitRefUpdated;
     this.newCommits = new HashMap<>();
   }
 
@@ -70,17 +70,18 @@ public class CherryPick extends SubmitStrategy {
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
-      try {
+      try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
         if (mergeTip.getCurrentTip() == null) {
           cherryPickUnbornRoot(n, mergeTip);
         } else if (n.getParentCount() == 0) {
           cherryPickRootOntoBranch(n);
         } else if (n.getParentCount() == 1) {
-          cherryPickOne(n, mergeTip);
+          cherryPickOne(u, n, mergeTip);
         } else {
-          cherryPickMultipleParents(n, mergeTip);
+          cherryPickMultipleParents(u, n, mergeTip);
         }
-      } catch (NoSuchChangeException | IOException | OrmException e) {
+        u.execute();
+      } catch (IOException | UpdateException | RestApiException e) {
         throw new MergeException("Cannot merge " + n.name(), e);
       }
     }
@@ -99,8 +100,8 @@ public class CherryPick extends SubmitStrategy {
     n.setStatusCode(CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT);
   }
 
-  private void cherryPickOne(CodeReviewCommit n, MergeTip mergeTip)
-      throws NoSuchChangeException, OrmException, IOException {
+  private void cherryPickOne(BatchUpdate u, CodeReviewCommit n,
+      MergeTip mergeTip) throws IOException {
     // If there is only one parent, a cherry-pick can be done by taking the
     // delta relative to that one parent and redoing that on the current merge
     // tip.
@@ -109,10 +110,8 @@ public class CherryPick extends SubmitStrategy {
     // cherry-pick as many commits as possible.
     try {
       CodeReviewCommit merge =
-          writeCherryPickCommit(mergeTip.getCurrentTip(), n);
+          writeCherryPickCommit(u, mergeTip.getCurrentTip(), n);
       mergeTip.moveTipTo(merge, merge);
-      newCommits.put(mergeTip.getCurrentTip().getPatchsetId()
-          .getParentKey(), mergeTip.getCurrentTip());
     } catch (MergeConflictException mce) {
       n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
     } catch (MergeIdenticalTreeException mie) {
@@ -120,8 +119,8 @@ public class CherryPick extends SubmitStrategy {
     }
   }
 
-  private void cherryPickMultipleParents(CodeReviewCommit n, MergeTip mergeTip)
-      throws IOException, MergeException {
+  private void cherryPickMultipleParents(BatchUpdate u, CodeReviewCommit n,
+      MergeTip mergeTip) throws IOException, MergeException {
     // There are multiple parents, so this is a merge commit. We don't want
     // to cherry-pick the merge as clients can't easily rebase their history
     // with that merge present and replaced by an equivalent merge with a
@@ -132,7 +131,7 @@ public class CherryPick extends SubmitStrategy {
         mergeTip.moveTipTo(n, n);
       } else {
         CodeReviewCommit result = args.mergeUtil.mergeOneCommit(
-            args.serverIdent.get(), args.repo, args.rw, args.inserter,
+            newServerIdent(u), args.repo, args.rw, args.inserter,
             args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(), n);
         mergeTip.moveTipTo(result, n);
       }
@@ -145,17 +144,23 @@ public class CherryPick extends SubmitStrategy {
     }
   }
 
-  private CodeReviewCommit writeCherryPickCommit(CodeReviewCommit mergeTip,
-      CodeReviewCommit n) throws IOException, OrmException,
-      NoSuchChangeException, MergeConflictException,
-      MergeIdenticalTreeException {
+  private PersonIdent newServerIdent(BatchUpdate u) {
+    return new PersonIdent(args.serverIdent.get(), u.getWhen());
+  }
 
+  private CodeReviewCommit writeCherryPickCommit(BatchUpdate u,
+      CodeReviewCommit mergeTip, final CodeReviewCommit n) throws IOException,
+      MergeConflictException, MergeIdenticalTreeException {
+    // TODO(dborowitz): Add a repo-modifying phase to BatchUpdate, preferably
+    // reading in a transaction.
     args.rw.parseBody(n);
 
-    PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
+    final PatchSet.Id id =
+        ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());
+    final PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
 
-    IdentifiedUser cherryPickUser;
-    PersonIdent serverNow = args.serverIdent.get();
+    final IdentifiedUser cherryPickUser;
+    PersonIdent serverNow = newServerIdent(u);
     PersonIdent cherryPickCommitterIdent;
     if (submitAudit != null) {
       cherryPickUser =
@@ -169,58 +174,45 @@ public class CherryPick extends SubmitStrategy {
 
     String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);
 
-    CodeReviewCommit newCommit =
+    // TODO(dborowitz): Still flushes the commit immediately; remove flush when
+    // we no longer pass in inserter.
+    final CodeReviewCommit newCommit =
         (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
             args.inserter, mergeTip, n, cherryPickCommitterIdent,
             cherryPickCmtMsg, args.rw);
+    newCommits.put(id.getParentKey(), newCommit);
 
-    PatchSet.Id id =
-        ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());
-    PatchSet ps = new PatchSet(id);
-    ps.setCreatedOn(TimeUtil.nowTs());
-    ps.setUploader(cherryPickUser.getAccountId());
-    ps.setRevision(new RevId(newCommit.getId().getName()));
+    u.addRefUpdate(
+        new ReceiveCommand(ObjectId.zeroId(), newCommit, id.toRefName()));
 
-    RefUpdate ru;
+    u.addChangeOp(new ChangeOp(n.getControl()) {
+      @Override
+      public void call(ReviewDb db, ChangeUpdate update) throws Exception {
+        PatchSet ps = new PatchSet(id);
+        ps.setCreatedOn(TimeUtil.nowTs());
+        ps.setUploader(cherryPickUser.getAccountId());
+        ps.setRevision(new RevId(newCommit.getId().getName()));
 
-    args.db.changes().beginTransaction(n.change().getId());
-    try {
-      insertAncestors(args.db, ps.getId(), newCommit);
-      args.db.patchSets().insert(Collections.singleton(ps));
-      n.change()
-          .setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
-      args.db.changes().update(Collections.singletonList(n.change()));
+        insertAncestors(args.db, ps.getId(), newCommit);
+        args.db.patchSets().insert(Collections.singleton(ps));
+        n.change()
+            .setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
+        args.db.changes().update(Collections.singletonList(n.change()));
 
-      List<PatchSetApproval> approvals = Lists.newArrayList();
-      for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
-          args.db, n.getControl(), n.getPatchsetId())) {
-        approvals.add(new PatchSetApproval(ps.getId(), a));
+        List<PatchSetApproval> approvals = Lists.newArrayList();
+        for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
+            args.db, n.getControl(), n.getPatchsetId())) {
+          approvals.add(new PatchSetApproval(ps.getId(), a));
+        }
+        args.db.patchSetApprovals().insert(approvals);
+
+        newCommit.copyFrom(n);
+        newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
+        newCommit.setControl(
+            args.changeControlFactory.controlFor(n.change(), cherryPickUser));
+        setRefLogIdent(submitAudit);
       }
-      args.db.patchSetApprovals().insert(approvals);
-
-      ru = args.repo.updateRef(ps.getRefName());
-      ru.setExpectedOldObjectId(ObjectId.zeroId());
-      ru.setNewObjectId(newCommit);
-      ru.disableRefLog();
-      if (ru.update(args.rw) != RefUpdate.Result.NEW) {
-        throw new IOException(String.format(
-            "Failed to create ref %s in %s: %s", ps.getRefName(), n.change()
-                .getDest().getParentKey().get(), ru.getResult()));
-      }
-
-      args.db.commit();
-    } finally {
-      args.db.rollback();
-    }
-
-    gitRefUpdated.fire(n.change().getProject(), ru);
-
-    newCommit.copyFrom(n);
-    newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
-    newCommit.setControl(
-        args.changeControlFactory.controlFor(n.change(), cherryPickUser));
-    newCommits.put(newCommit.getPatchsetId().getParentKey(), newCommit);
-    setRefLogIdent(submitAudit);
+    });
     return newCommit;
   }
 

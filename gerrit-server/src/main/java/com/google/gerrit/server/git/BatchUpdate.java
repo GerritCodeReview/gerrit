@@ -28,6 +28,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -107,6 +109,12 @@ public class BatchUpdate implements AutoCloseable {
       return new BatchUpdate(db, repoManager, indexer, changeUpdateFactory,
           gitRefUpdated, project, when);
     }
+
+    public BatchUpdate create(ReviewDb db, Repository repo, RevWalk revWalk,
+        ObjectInserter inserter, Project.NameKey project, Timestamp when) {
+      return new BatchUpdate(db, repo, revWalk, inserter, indexer,
+          changeUpdateFactory, gitRefUpdated, project, when);
+    }
   }
 
   private final ReviewDb db;
@@ -121,11 +129,14 @@ public class BatchUpdate implements AutoCloseable {
   private final ObjectInserter inserter;
   private final RevWalk revWalk;
   private final BatchRefUpdate batchRefUpdate;
+  private final boolean autoClose;
 
-  private final ListMultimap<Change.Id, ChangeOp> changeOps;
-  private final Map<Change.Id, ChangeControl> changeControls;
-  private final List<Callable<?>> postOps;
-  private final List<CheckedFuture<?, IOException>> indexFutures;
+  private final ListMultimap<Change.Id, ChangeOp> changeOps =
+      ArrayListMultimap.create();
+  private final Map<Change.Id, ChangeControl> changeControls = new HashMap<>();
+  private final List<Callable<?>> postOps = new ArrayList<>();
+  private final List<CheckedFuture<?, IOException>> indexFutures =
+      new ArrayList<>();
 
   private BatchUpdate(ReviewDb db, GitRepositoryManager repoManager,
       ChangeIndexer indexer, ChangeUpdate.Factory changeUpdateFactory,
@@ -141,17 +152,40 @@ public class BatchUpdate implements AutoCloseable {
     inserter = repo.newObjectInserter();
     revWalk = new RevWalk(inserter.newReader());
     batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
-    changeOps = ArrayListMultimap.create();
-    postOps = new ArrayList<>();
-    changeControls = new HashMap<>();
-    indexFutures = new ArrayList<>();
+    autoClose = true;
+  }
+
+  private BatchUpdate(ReviewDb db, Repository repo, RevWalk revWalk,
+      ObjectInserter inserter, ChangeIndexer indexer,
+      ChangeUpdate.Factory changeUpdateFactory,
+      GitReferenceUpdated gitRefUpdated, Project.NameKey project,
+      Timestamp when) {
+    this.db = db;
+    this.repo = repo;
+    this.revWalk = revWalk;
+    this.inserter = inserter;
+    this.indexer = indexer;
+    this.changeUpdateFactory = changeUpdateFactory;
+    this.gitRefUpdated = gitRefUpdated;
+    this.project = project;
+    this.when = when;
+    batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
+    autoClose = false;
   }
 
   @Override
   public void close() {
-    revWalk.release();
-    inserter.release();
-    repo.close();
+    try {
+      db.rollback();
+    } catch (OrmException e) {
+      // TODO(dborowitz): catch this in MergeOp.
+      throw new OrmRuntimeException(e);
+    }
+    if (autoClose) {
+      revWalk.release();
+      inserter.release();
+      repo.close();
+    }
   }
 
   public RevWalk getRevWalk() {
@@ -168,6 +202,10 @@ public class BatchUpdate implements AutoCloseable {
 
   public BatchRefUpdate getBatchRefUpdate() {
     return batchRefUpdate;
+  }
+
+  public Timestamp getWhen() {
+    return when;
   }
 
   public BatchUpdate addRefUpdate(ReceiveCommand cmd) {

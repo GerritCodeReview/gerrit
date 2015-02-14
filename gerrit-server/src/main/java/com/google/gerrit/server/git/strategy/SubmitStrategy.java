@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeSorter;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -67,8 +69,11 @@ public abstract class SubmitStrategy {
     protected final ChangeIndexer indexer;
     protected final MergeSorter mergeSorter;
 
+    private final BatchUpdate.Factory batchUpdateFactory;
+
     Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
         Provider<PersonIdent> serverIdent, ReviewDb db,
+        BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory, Repository repo,
         RevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
@@ -77,6 +82,7 @@ public abstract class SubmitStrategy {
       this.identifiedUserFactory = identifiedUserFactory;
       this.serverIdent = serverIdent;
       this.db = db;
+      this.batchUpdateFactory = batchUpdateFactory;
       this.changeControlFactory = changeControlFactory;
 
       this.repo = repo;
@@ -89,6 +95,11 @@ public abstract class SubmitStrategy {
       this.mergeUtil = mergeUtil;
       this.indexer = indexer;
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
+    }
+
+    BatchUpdate newBatchUpdate(Timestamp when) {
+      return batchUpdateFactory.create(db, repo, rw, inserter,
+          destBranch.getParentKey(), when);
     }
   }
 

@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeException;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -55,6 +57,7 @@ public abstract class SubmitStrategy {
     protected final IdentifiedUser.GenericFactory identifiedUserFactory;
     protected final Provider<PersonIdent> serverIdent;
     protected final ReviewDb db;
+    protected final BatchUpdate.Factory batchUpdateFactory;
     protected final ChangeControl.GenericFactory changeControlFactory;
 
     protected final Repository repo;
@@ -71,6 +74,7 @@ public abstract class SubmitStrategy {
 
     Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
         Provider<PersonIdent> serverIdent, ReviewDb db,
+        BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory, Repository repo,
         CodeReviewRevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
@@ -79,6 +83,7 @@ public abstract class SubmitStrategy {
       this.identifiedUserFactory = identifiedUserFactory;
       this.serverIdent = serverIdent;
       this.db = db;
+      this.batchUpdateFactory = batchUpdateFactory;
       this.changeControlFactory = changeControlFactory;
 
       this.repo = repo;
@@ -92,6 +97,11 @@ public abstract class SubmitStrategy {
       this.indexer = indexer;
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
       this.caller = caller;
+    }
+
+    BatchUpdate newBatchUpdate(Timestamp when) {
+      return batchUpdateFactory.create(db, destBranch.getParentKey(), when)
+          .setRepository(repo, rw, inserter);
     }
   }
 

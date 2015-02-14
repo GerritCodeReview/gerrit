@@ -307,7 +307,7 @@ public class PatchSetInserter {
 
     @Override
     public void updateRepo(RepoContext ctx) throws IOException {
-      ctx.getBatchRefUpdate().addCommand(new ReceiveCommand(ObjectId.zeroId(),
+      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
           commit, patchSet.getRefName(), ReceiveCommand.Type.CREATE));
     }
 

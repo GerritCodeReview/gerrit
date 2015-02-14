@@ -21,7 +21,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RebaseChange;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;
@@ -53,9 +53,9 @@ public class SubmitStrategyFactory {
 
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Provider<PersonIdent> myIdent;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
@@ -66,18 +66,19 @@ public class SubmitStrategyFactory {
   SubmitStrategyFactory(
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritPersonIdent Provider<PersonIdent> myIdent,
+      final BatchUpdate.Factory batchUpdateFactory,
       final ChangeControl.GenericFactory changeControlFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
+      final RebaseChange rebaseChange,
       final ProjectCache projectCache,
       final ApprovalsUtil approvalsUtil,
       final MergeUtil.Factory mergeUtilFactory,
       final ChangeIndexer indexer) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
@@ -92,12 +93,13 @@ public class SubmitStrategyFactory {
       throws MergeException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
     SubmitStrategy.Arguments args = new SubmitStrategy.Arguments(
-        identifiedUserFactory, myIdent, db, changeControlFactory, repo, rw,
-        inserter, canMergeFlag, alreadyAccepted, destBranch,approvalsUtil,
-        mergeUtilFactory.create(project), indexer, caller);
+        identifiedUserFactory, myIdent, db, batchUpdateFactory,
+        changeControlFactory, repo, rw, inserter, canMergeFlag, alreadyAccepted,
+        destBranch,approvalsUtil, mergeUtilFactory.create(project), indexer,
+        caller);
     switch (submitType) {
       case CHERRY_PICK:
-        return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);
+        return new CherryPick(args, patchSetInfoFactory);
       case FAST_FORWARD_ONLY:
         return new FastForwardOnly(args);
       case MERGE_ALWAYS:

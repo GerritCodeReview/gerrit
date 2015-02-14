@@ -209,7 +209,6 @@ public class BatchUpdate implements AutoCloseable {
       this.repo = repoManager.openRepository(project);
       inserter = repo.newObjectInserter();
       revWalk = new RevWalk(inserter.newReader());
-      batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
     }
   }
 

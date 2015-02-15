@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f67bf134_2b9cb945",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-15T12:59:13Z",
+      "side": 1,
+      "message": "Note that the line breaks here won\u0027t cause new paragraphs in the HTML output.",
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_e77ee248",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-15T12:59:13Z",
+      "side": 1,
+      "message": "Note: The Verified label is not installed by default, so it might be worth adding a caveat like \"if installed\" on this sentence.",
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_eb7eb148",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-15T12:59:13Z",
+      "side": 1,
+      "message": "sha1",
+      "range": {
+        "startLine": 266,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 10
+      },
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_878366e7",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-15T12:59:13Z",
+      "side": 1,
+      "message": "This contradicts what is said in the opening sentence.",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 37
+      },
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_8b836de7",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-15T12:59:13Z",
+      "side": 1,
+      "message": "This is a change in behaviour.  It might be better to make the default false, so the behaviour is same as before.",
+      "range": {
+        "startLine": 270,
+        "startChar": 20,
+        "endLine": 270,
+        "endChar": 37
+      },
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_83283e2f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-15T21:03:53Z",
+      "side": 1,
+      "message": "In other similar cases (also in this file) die() is used, so may be:\n\n  String err \u003d String.format(\n      \"Different secure store was previously configured: %s.\",\n      currentSecureStoreClassName);\n  die(err, new RuntimeException(\"secure store mismatch\"));",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 21
+      },
+      "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_42f1326e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-15T21:03:53Z",
+      "side": 1,
+      "message": "May be we should issue different message here, when secure-store aware site was re-initialized and --secure-store-lib was ommited? E.g\n\n* \"induce secure-store class from gerrit config file\" and\n* \"(re-)using provided secure-store class\"",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 244,
+        "endChar": 9
+      },
+      "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

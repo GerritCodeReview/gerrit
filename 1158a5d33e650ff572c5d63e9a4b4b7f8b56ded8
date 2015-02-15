@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dfcd7d_22eeae8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-15T21:08:13Z",
+      "side": 1,
+      "message": "This is called SwitchSecureStore in follow-up change. Make it consistent? Here and below?",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "1158a5d33e650ff572c5d63e9a4b4b7f8b56ded8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_43232652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-15T21:08:13Z",
+      "side": 1,
+      "message": "Nit: wrap this line.",
+      "range": {
+        "startLine": 15,
+        "startChar": 70,
+        "endLine": 15,
+        "endChar": 73
+      },
+      "revId": "1158a5d33e650ff572c5d63e9a4b4b7f8b56ded8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

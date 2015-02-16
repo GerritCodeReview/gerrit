@@ -119,7 +119,7 @@ public class QueryBuilder {
     }
   }
 
-  private Query not(Predicate<ChangeData> p)
+  protected Query not(Predicate<ChangeData> p)
       throws QueryParseException {
     Predicate<ChangeData> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
@@ -207,7 +207,7 @@ public class QueryBuilder {
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private Query notTimestamp(TimestampRangePredicate<ChangeData> r)
+  protected Query notTimestamp(TimestampRangePredicate<ChangeData> r)
       throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return NumericRangeQuery.newLongRange(

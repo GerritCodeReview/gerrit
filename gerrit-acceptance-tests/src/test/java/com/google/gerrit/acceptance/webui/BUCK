@@ -1,0 +1,17 @@
+include_defs('//gerrit-acceptance-tests/tests.defs')
+
+acceptance_tests(
+  srcs = glob(['*IT.java']),
+  deps = [
+    ':web_ui_test'
+  ],
+  labels = ['webui'],
+)
+
+java_library(
+  name = 'web_ui_test',
+  srcs = ['AbstractWebUiTest.java'],
+  deps = [
+    '//gerrit-acceptance-tests:lib',
+  ],
+)

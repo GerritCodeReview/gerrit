@@ -38,6 +38,8 @@ import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -48,7 +50,8 @@ import java.util.concurrent.TimeUnit;
 public class GerritServer {
 
   /** Returns fully started Gerrit server */
-  static GerritServer start(Config cfg, boolean memory, boolean enableHttpd)
+  static GerritServer start(Config cfg, boolean memory, boolean enableHttpd,
+      final boolean headless)
       throws Exception {
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
@@ -80,6 +83,7 @@ public class GerritServer {
           Runtime.getRuntime().availableProcessors(), null));
       daemon.setDatabaseForTesting(ImmutableList.<Module>of(
           new InMemoryTestingDatabaseModule(cfg)));
+      daemon.setHeadless(headless);
       daemon.start();
     } else {
       site = initSite(cfg);
@@ -87,7 +91,14 @@ public class GerritServer {
       daemonService.submit(new Callable<Void>() {
         @Override
         public Void call() throws Exception {
-          int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless" });
+          List<String> argv = new ArrayList<>(2);
+          argv.add("-d");
+          argv.add(site.getPath());
+          if (headless) {
+            argv.add("--headless");
+          }
+
+          int rc = daemon.main(argv.toArray(new String[0]));
           if (rc != 0) {
             System.out.println("Failed to start Gerrit daemon. Check "
                 + site.getPath() + "/logs/error_log");

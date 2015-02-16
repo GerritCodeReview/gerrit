@@ -1,0 +1,78 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '2.44.0'
+
+maven_jar(
+  name = 'selenium-api',
+  id = 'org.seleniumhq.selenium:selenium-api:' + VERSION,
+  sha1 = 'ed8379783481df59c8046f9671c0e0195acd930d',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-server',
+  id = 'org.seleniumhq.selenium:selenium-server:' + VERSION,
+  sha1 = '818edc1dc0ba8a646162f2dda5a7a2aee3f7354b',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-remote-driver',
+  id = 'org.seleniumhq.selenium:selenium-remote-driver:' + VERSION,
+  sha1 = 'ef7b79655dfab115b04dee1e2be22f2c3411c0e9',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-firefox-driver',
+  id = 'org.seleniumhq.selenium:selenium-firefox-driver:' + VERSION,
+  sha1 = '123ed3b0b8b70e51f6794ba1b1531a199e307249',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':selenium-remote-driver',
+    '//lib/commons:exec',
+    '//lib/commons:io',
+  ],
+)
+
+maven_jar(
+  name = 'selenium-chrome-driver',
+  id = 'org.seleniumhq.selenium:selenium-chrome-driver:' + VERSION,
+  sha1 = '08322dfa839ec29ed7ba3397be3b9a49dda037d5',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':selenium-remote-driver',
+  ],
+)
+
+maven_jar(
+  name = 'selenium-ie-driver',
+  id = 'org.seleniumhq.selenium:selenium-ie-driver:' + VERSION,
+  sha1 = 'deee9750f5d20f7c78ad44a3c896bfbea613711a',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':selenium-remote-driver',
+  ],
+)
+
+maven_jar(
+  name = 'netty',
+  id = 'org.jboss.netty:netty:3.2.10.Final',
+  sha1 = 'd9059f88c65784f3286643bc5325cdca968ee555',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-safari-driver',
+  id = 'org.seleniumhq.selenium:selenium-safari-driver:' + VERSION,
+  sha1 = 'c6e505c109c85022cee747eac07965cca78b6191',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':netty',
+    ':selenium-remote-driver',
+  ],
+)

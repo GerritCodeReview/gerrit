@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_63618277",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-16T08:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_83283e2f",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 21
+      },
+      "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_42f1326e",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 37
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-15T21:03:53Z",
       "side": 1,
       "message": "May be we should issue different message here, when secure-store aware site was re-initialized and --secure-store-lib was ommited? E.g\n\n* \"induce secure-store class from gerrit config file\" and\n* \"(re-)using provided secure-store class\"",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 244,
+        "endChar": 9
+      },
+      "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_036e8e66",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-16T08:42:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether such information would be usable for user. What is your take on that @Shasa?",
+      "parentUuid": "d6dfcd7d_42f1326e",
       "range": {
         "startLine": 242,
         "startChar": 8,

@@ -25,7 +25,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lucene.CustomMappingAnalyzer;
-import com.google.gerrit.lucene.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -56,13 +55,13 @@ import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
+import io.searchbox.indices.IndicesExists;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +88,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
   private final IndexCollection indexes;
   private final Schema<ChangeData> schema;
   private final JestHttpClient client;
-  private final QueryBuilder queryBuilder;
+  private final ElasticsearchQueryBuilder queryBuilder;
   private final boolean refresh;
 
   private String indexName;
@@ -174,6 +173,9 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
         builder.array(name, values.getValues());
       } else {
         for (Object value : values.getValues()) {
+          if (value == null || (value instanceof String) && ((String) value).isEmpty()) {
+            continue;
+          }
           builder.field(name, value);
         }
       }
@@ -199,6 +201,47 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
       .build();
   }
 
+  private String getMappings() {
+    String properties ="{"
+        + "     \"_approval\":{\"type\":\"string\"},"
+        + "     \"_change\":{\"type\":\"string\"},"
+        + "     \"added\":{\"type\":\"long\"},"
+        + "     \"change_id\":{\"type\":\"string\"},"
+        + "     \"comment\":{\"type\":\"string\"},"
+        + "     \"commit\":{\"type\":\"string\"},"
+        + "     \"deleted\":{\"type\":\"long\"},"
+        + "     \"delta\":{\"type\":\"long\"},"
+        + "     \"file\":{\"type\":\"multi_field\","
+        + "          \"fields\":{ \"file\":{\"type\":\"string\"},"
+        + "                     \"keyword\":{\"type\":\"string\","
+        + "                                  \"index\":\"not_analyzed\"}}},"
+        + "     \"filepart\":{\"type\":\"string\"},"
+        + "     \"label\":{\"type\":\"multi_field\","
+        + "          \"fields\":{ \"label\":{\"type\":\"string\"},"
+        + "                     \"keyword\":{\"type\":\"string\","
+        + "                                  \"index\":\"not_analyzed\"}}},"
+        + "     \"mergeable2\":{\"type\":\"string\"},"
+        + "     \"message\":{\"type\":\"string\"},"
+        + "     \"owner\":{\"type\":\"long\"},"
+        + "     \"project\":{\"type\":\"string\"},"
+        + "     \"projects\":{\"type\":\"string\"},"
+        + "     \"ref\":{\"type\":\"multi_field\","
+        + "         \"fields\":{ \"ref\":{\"type\":\"string\"},"
+        + "                     \"keyword\":{\"type\":\"string\","
+        + "                                  \"index\":\"not_analyzed\"}}},"
+        + "     \"reviewed\":{\"type\":\"long\"},"
+        + "     \"reviewer\":{\"type\":\"long\"},"
+        + "     \"status\":{\"type\":\"string\"},"
+        + "     \"topic2\":{\"type\":\"string\"},"
+        + "     \"updated2\":{\"type\":\"date\", \"format\":\"dateOptionalTime\"}}";
+    String mappings =
+        "{\"mappings\" : "
+        + "{\"open_changes\":{ \"properties\":" + properties + "}"
+        + ", \"closed_changes\":{ \"properties\":" + properties + "}"
+        + "}}";
+    return mappings;
+  }
+
   @Override
   public void replace(ChangeData cd) throws IOException {
     String deleteIndex;
@@ -216,6 +259,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
       throw new IOException(e);
     }
 
+    createIndex();
     Bulk bulk = new Bulk.Builder()
       .addAction(insert(insertIndex, cd))
       .addAction(delete(deleteIndex, cd.getId()))
@@ -226,6 +270,20 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
       throw new IOException(String.format(
           "Failed to replace change %s in index %s: %s", cd.getId(), indexName,
           result.getErrorMessage()));
+    }
+  }
+
+  private void createIndex() throws IOException {
+    JestResult eResult = client.execute(new IndicesExists.Builder(indexName).build());
+    if (!eResult.isSucceeded()) {
+      JestResult result = client.execute(
+          new CreateIndex.Builder(indexName).settings(getMappings()).build());
+      if (!result.isSucceeded()) {
+        String error = String.format("Failed to create index %s with mapping: %s",
+            indexName, result.getErrorMessage());
+        log.error(error);
+        throw new IOException(error);
+      }
     }
   }
 
@@ -288,20 +346,16 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
   private class QuerySource implements ChangeDataSource {
     private final Search search;
 
-    private QueryStringQueryBuilder buildQuery(Predicate<ChangeData> p)
-        throws QueryParseException {
-      String q = queryBuilder.toQuery(p).toString();
-      return QueryBuilders.queryString(q);
-    }
-
     public QuerySource(List<String> types, Predicate<ChangeData> p,
         int start, int limit) throws QueryParseException {
       List<Sort> sorts = ImmutableList.of(
           new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),
           new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
+      QueryBuilder qb = queryBuilder.toQueryBuilder(p);
+      log.info(qb.toString());
       search = new Search.Builder(
           new SearchSourceBuilder()
-            .query(buildQuery(p))
+            .query(qb)
             .from(start)
             .size(limit)
             .toString())

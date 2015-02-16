@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dfcd7d_227cee03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-16T14:35:05Z",
+      "side": 1,
+      "message": "After looking at this again, I think it was not a good suggestion from me to move the complete visibility check into the group backend. I rather think that this logic should stay in GroupControl. Instead we should have a method that checks if the group is visible to all users. I\u0027ve already uploaded a patch set for this. Please have a look.",
+      "revId": "743697d0a7c4ba3dfeb5e06ff88b6c29ea31fb8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

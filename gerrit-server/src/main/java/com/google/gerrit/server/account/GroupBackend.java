@@ -54,8 +54,8 @@ public interface GroupBackend {
   /**
    * Check if the user is member of any of the given groups.
    *
-   * @return <code>true</code> if the user is a member of at least one of the
-   *         given groups, <code>false</code> otherwise
+   * @return {@code true} if the user is a member of at least one of the
+   *         given groups, {@code false} otherwise
    */
   boolean memberOfAny(IdentifiedUser user, Iterable<AccountGroup.UUID> ids);
 }

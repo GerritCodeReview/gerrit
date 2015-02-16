@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_42649288",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3413,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_438fa640",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_02bc4ae6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RebaseAction.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "Why do we need to set this here? Why is the button text not already set in RebaseDialog?",
+      "range": {
+        "startLine": 35,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 7
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_22618e78",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RebaseAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_02bc4ae6",
       "range": {
         "startLine": 35,
         "startChar": 5,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_c3a15646",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_e2c04654",
+      "range": {
+        "startLine": 154,
+        "startChar": 23,
+        "endLine": 154,
+        "endChar": 64
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_4320069d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 6
@@ -76,6 +142,30 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "Would be cool if I could enter a word and get the changes suggested that contain that word in the subject.",
+      "range": {
+        "startLine": 155,
+        "startChar": 27,
+        "endLine": 155,
+        "endChar": 63
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_0233aa92",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "wip",
+      "parentUuid": "f654d1b2_4320069d",
       "range": {
         "startLine": 155,
         "startChar": 27,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_83ab5e22",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Want me to change cherryPickTitle as well, cause currently it is consistent?",
+      "parentUuid": "f654d1b2_c30b961f",
+      "range": {
+        "startLine": 156,
+        "startChar": 14,
+        "endLine": 156,
+        "endChar": 41
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_0389ae39",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -122,6 +236,24 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "unused import",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_a3b0da8c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_0389ae39",
       "revId": "12e3747027ca9e760ff056049b93a11591049148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_4396c6e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_23862a2b",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_638c224b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -156,6 +306,30 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "Here and also in the rest of the files.\n\nWe don\u0027t use \u0027final\u0027 for method parameters in new code anymore if not required.",
+      "range": {
+        "startLine": 41,
+        "startChar": 22,
+        "endLine": 41,
+        "endChar": 27
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_626b9656",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Ok, didn\u0027t know that. Nevertheless, its required by the following closure \u0027ChangeList.next(\"project:\" + project + \" AND branch:\" + branch\u0027",
+      "parentUuid": "f654d1b2_638c224b",
       "range": {
         "startLine": 41,
         "startChar": 22,
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_c238a270",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_c2b1c214",
+      "range": {
+        "startLine": 49,
+        "startChar": 53,
+        "endLine": 49,
+        "endChar": 87
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_a2b63e08",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -202,6 +400,30 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "not used, remove this variable",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_a23d9e5e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "OK, that\u0027s it! I\u0027ve done too many style related bugs. Are you guys running checkstyle or how can I stop spending your time with silly mistakes like this?",
+      "parentUuid": "d6dfcd7d_a2b63e08",
       "range": {
         "startLine": 67,
         "startChar": 26,
@@ -231,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_6393c2f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_42a652da",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_83159e3a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -242,6 +482,30 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "Wow, 1000 changes are really a lot. Who will dig through such a long list?",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 72,
+        "endChar": 52
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_03a0ce39",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_83159e3a",
       "range": {
         "startLine": 70,
         "startChar": 10,
@@ -277,6 +541,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_239dcafa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "wip",
+      "parentUuid": "d6dfcd7d_82b05a0a",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 36
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_a31a1a66",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -288,6 +576,30 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "Styling should be done by CSS.",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 93,
+        "endChar": 78
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_c38ab6b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "wip",
+      "parentUuid": "f654d1b2_a31a1a66",
       "range": {
         "startLine": 92,
         "startChar": 10,
@@ -317,6 +629,24 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_e38fb2c1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "wip",
+      "parentUuid": "d6dfcd7d_62ad56b0",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_22a34eca",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -328,6 +658,24 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "Just displaying the change number is not very useful. Why not to show the change subject in addition?",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_8384bea7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "wip",
+      "parentUuid": "d6dfcd7d_22a34eca",
       "revId": "12e3747027ca9e760ff056049b93a11591049148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -351,6 +699,24 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_a389babe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "wip",
+      "parentUuid": "f654d1b2_e339f2d1",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_631d025c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 6
@@ -362,6 +728,24 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "unused import",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_437fa6fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Its should have been used :).",
+      "parentUuid": "f654d1b2_631d025c",
       "revId": "12e3747027ca9e760ff056049b93a11591049148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -385,6 +769,24 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_23762a25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_c29a6282",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_c334f6dc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 6
@@ -402,6 +804,24 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_424db2fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_c334f6dc",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_a29f5e70",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 6
@@ -413,6 +833,24 @@
       "writtenOn": "2015-02-12T15:23:50Z",
       "side": 1,
       "message": "Does this need to be adapted?",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_224a2ee8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 1,
+      "message": "I think so, I was inspired by how its done in CherryPick.java.",
+      "parentUuid": "d6dfcd7d_a29f5e70",
       "revId": "12e3747027ca9e760ff056049b93a11591049148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

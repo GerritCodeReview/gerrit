@@ -16,6 +16,24 @@
       "revId": "aa9af4397ce8a4965663e3387e7af034410544a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_637c2205",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T14:17:42Z",
+      "side": 0,
+      "message": "Done (mistake when porting patch from 2.9)",
+      "parentUuid": "f654d1b2_032a0e7b",
+      "revId": "aa9af4397ce8a4965663e3387e7af034410544a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

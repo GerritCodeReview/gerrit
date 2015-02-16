@@ -25,13 +25,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lucene.CustomMappingAnalyzer;
-import com.google.gerrit.lucene.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexRewriteImpl;
 import com.google.gerrit.server.index.Schema;
@@ -57,12 +59,12 @@ import io.searchbox.core.search.sort.Sort.Sorting;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +91,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
   private final IndexCollection indexes;
   private final Schema<ChangeData> schema;
   private final JestHttpClient client;
-  private final QueryBuilder queryBuilder;
+  private final ElasticsearchQueryBuilder queryBuilder;
   private final boolean refresh;
 
   private String indexName;
@@ -174,6 +176,9 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
         builder.array(name, values.getValues());
       } else {
         for (Object value : values.getValues()) {
+          if (value == null || (value instanceof String) && ((String) value).isEmpty()) {
+            continue;
+          }
           builder.field(name, value);
         }
       }
@@ -197,6 +202,43 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
       .index(indexName)
       .type(type)
       .build();
+  }
+
+  private String getMappings() {
+    return "{\"mappings\" : " + getMappingProperties("open_changes") + ","
+        + getMappingProperties("closed_changes") + "}";
+  }
+
+  private static String setMappingField(FieldDef<?,?> f) {
+    String name = f.getName();
+    FieldType<?> type = f.getType();
+    if (type == FieldType.EXACT) {
+      return "\"" + name + "\":{\"type\":\"string\","
+          + "\"fields\":{\"key\":{\"type\":\"string\",\"index\":\"not_analyzed\"}}}";
+    } else if (type == FieldType.TIMESTAMP) {
+            return "\"" + name + "\":{\"type\":\"date\","
+        + "\"format\":\"dateOptionalTime\"}";
+    } else if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE
+        || type == FieldType.LONG) {
+      return "\"" + name + "\":{\"type\":\"long\"}";
+    } else if (type == FieldType.PREFIX || type == FieldType.FULL_TEXT
+        || type == FieldType.STORED_ONLY) {
+      return "\"" + name + "\":{\"type\":\"string\"}";
+    } else {
+      return "\"" + name + "\":{\"type\":\"" + type + "\"}";
+    }
+  }
+
+  public static String getMappingProperties(String type) {
+    Schema<ChangeData> schema = ChangeSchemas.getLatest();
+    String properties = "{\"" + type + "\":{\"properties\":{";
+    List<String> p = Lists.newArrayListWithCapacity(schema.getFields().size());
+    for (FieldDef<?, ?> f : schema.getFields().values()) {
+      p.add(setMappingField(f));
+    }
+    properties += StringUtils.join(p, ",");
+    properties += "}}}";
+    return properties;
   }
 
   @Override
@@ -258,7 +300,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
 
     // Recreate the index.
     result = client.execute(
-        new CreateIndex.Builder(indexName).build());
+        new CreateIndex.Builder(indexName).settings(getMappings()).build());
     if (!result.isSucceeded()) {
       String error = String.format("Failed to create index %s: %s",
           indexName, result.getErrorMessage());
@@ -288,20 +330,18 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
   private class QuerySource implements ChangeDataSource {
     private final Search search;
 
-    private QueryStringQueryBuilder buildQuery(Predicate<ChangeData> p)
-        throws QueryParseException {
-      String q = queryBuilder.toQuery(p).toString();
-      return QueryBuilders.queryString(q);
-    }
-
     public QuerySource(List<String> types, Predicate<ChangeData> p,
         int start, int limit) throws QueryParseException {
       List<Sort> sorts = ImmutableList.of(
           new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),
           new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
+      for (Sort sort : sorts) {
+        sort.setIgnoreUnmapped();
+      }
+      QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       search = new Search.Builder(
           new SearchSourceBuilder()
-            .query(buildQuery(p))
+            .query(qb)
             .from(start)
             .size(limit)
             .toString())

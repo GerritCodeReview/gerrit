@@ -40,9 +40,25 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'exec',
+  id = 'org.apache.commons:commons-exec:1.3',
+  sha1 = '8dfb9facd0830a27b1b5f29f84593f0aeee7773b',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+)
+
+maven_jar(
   name = 'lang',
   id = 'commons-lang:commons-lang:2.5',
   sha1 = 'b0236b252e86419eef20c31a44579d2aee2f0a69',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+)
+
+maven_jar(
+  name = 'lang3',
+  id = 'org.apache.commons:commons-lang3:3.3.2',
+  sha1 = '90a3822c38ec8c996e84c16a3477ef632cbc87a3',
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
 )

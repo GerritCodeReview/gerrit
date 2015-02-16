@@ -260,13 +260,17 @@ public class Daemon extends SiteProgram {
   public void setDatabaseForTesting(List<Module> modules) {
     dbInjector = Guice.createInjector(Stage.PRODUCTION, modules);
     test = true;
-    headless = true;
   }
 
   @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     test = true;
+  }
+
+  @VisibleForTesting
+  public void setHeadless(boolean h) {
+    headless = h;
   }
 
   @VisibleForTesting

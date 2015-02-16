@@ -306,6 +306,7 @@ The following groups of tests are currently supported:
 * rest
 * server
 * ssh
+* webui
 
 To run a specific test, e.g. the acceptance test
 `com.google.gerrit.acceptance.git.HttpPushForReviewIT`:

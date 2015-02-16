@@ -22,6 +22,30 @@
       "revId": "9420e8e9834bd93ba2ed8c2326bb8081bfab782b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_e20a0699",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-16T15:02:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_63bf423a",
+      "range": {
+        "startLine": 314,
+        "startChar": 17,
+        "endLine": 314,
+        "endChar": 41
+      },
+      "revId": "9420e8e9834bd93ba2ed8c2326bb8081bfab782b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

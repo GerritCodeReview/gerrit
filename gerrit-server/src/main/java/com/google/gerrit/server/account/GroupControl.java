@@ -133,10 +133,10 @@ public class GroupControl {
      * server administrators.
      */
     return user instanceof InternalUser
-      || user.memberOf(group.getGroupUUID())
-      || isOwner()
+      || groupBackend.isVisibleToAll(group.getGroupUUID())
       || user.getCapabilities().canAdministrateServer()
-      || groupBackend.isVisibleToAll(group.getGroupUUID());
+      || isOwner()
+      || user.memberOf(group.getGroupUUID());
   }
 
   public boolean isOwner() {

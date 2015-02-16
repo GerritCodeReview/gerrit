@@ -141,7 +141,9 @@ public abstract class AbstractDaemonTest {
           boolean mem = description.getAnnotation(UseLocalDisk.class) == null;
           boolean enableHttpd = description.getAnnotation(NoHttpd.class) == null
               && description.getTestClass().getAnnotation(NoHttpd.class) == null;
-          beforeTest(config(description), mem, enableHttpd);
+          boolean headless = description.getTestClass().getAnnotation(
+              UseGui.class) == null;
+          beforeTest(config(description), mem, enableHttpd, headless);
           base.evaluate();
           afterTest();
         }
@@ -184,8 +186,9 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
-  private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
-    server = startServer(cfg, memory, enableHttpd);
+  private void beforeTest(Config cfg, boolean memory, boolean enableHttpd,
+      boolean headless) throws Exception {
+    server = startServer(cfg, memory, enableHttpd, headless);
     server.getTestInjector().injectMembers(this);
     admin = accounts.admin();
     user = accounts.user();
@@ -202,8 +205,8 @@ public abstract class AbstractDaemonTest {
   }
 
   protected GerritServer startServer(Config cfg, boolean memory,
-      boolean enableHttpd) throws Exception {
-    return GerritServer.start(cfg, memory, enableHttpd);
+      boolean enableHttpd, boolean headless) throws Exception {
+    return GerritServer.start(cfg, memory, enableHttpd, headless);
   }
 
   private void afterTest() throws Exception {

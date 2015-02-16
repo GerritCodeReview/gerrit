@@ -138,6 +138,29 @@
       "revId": "4514c7bc63470eddfe2d34b66013fa5d869f781d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_a35e9ab1",
+        "filename": "lib/selenium/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-16T07:59:47Z",
+      "side": 1,
+      "message": "Thanks, missed it.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 25
+      },
+      "revId": "4514c7bc63470eddfe2d34b66013fa5d869f781d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

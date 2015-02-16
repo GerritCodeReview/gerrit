@@ -133,7 +133,7 @@ public class GroupControl {
      */
     return (accountGroup != null && accountGroup.isVisibleToAll())
       || user instanceof InternalUser
-      || user.getEffectiveGroups().contains(group.getGroupUUID())
+      || user.memberOf(group.getGroupUUID())
       || isOwner()
       || user.getCapabilities().canAdministrateServer();
   }
@@ -144,7 +144,7 @@ public class GroupControl {
       isOwner = false;
     } else if (isOwner == null) {
       AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
-      isOwner = getCurrentUser().getEffectiveGroups().contains(ownerUUID)
+      isOwner = getCurrentUser().memberOf(ownerUUID)
              || getCurrentUser().getCapabilities().canAdministrateServer();
     }
     return isOwner;

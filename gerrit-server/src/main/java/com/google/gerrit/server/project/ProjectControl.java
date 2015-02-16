@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
@@ -299,8 +298,7 @@ public class ProjectControl {
 
   private boolean isDeclaredOwner() {
     if (declaredOwner == null) {
-      GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = effectiveGroups.containsAnyOf(state.getAllOwners());
+      declaredOwner = user.memberOfAny(state.getAllOwners());
     }
     return declaredOwner;
   }
@@ -374,11 +372,11 @@ public class ProjectControl {
       }
     }
 
-    if (iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
+    if (iUser.memberOfAny(okGroupIds)) {
       return Capable.OK;
     }
 
-    if (iUser.getEffectiveGroups().containsAnyOf(missingInfoGroupIds)) {
+    if (iUser.memberOfAny(missingInfoGroupIds)) {
       final StringBuilder msg = new StringBuilder();
       for (ContributorAgreement ca : contributorAgreements) {
         if (ca.isRequireContactInformation()) {
@@ -512,7 +510,7 @@ public class ProjectControl {
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {
-      return user.getEffectiveGroups().contains(uuid);
+      return user.memberOf(uuid);
     }
   }
 

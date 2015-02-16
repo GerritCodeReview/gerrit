@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "7669c173_0751b6c8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/webui/ChromeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-16T08:01:42Z",
+      "side": 1,
+      "message": "Do you actually have Chrome installed?  It fails for me in the same place, because I don\u0027t have it. (I use Chromium).",
+      "parentUuid": "f654d1b2_83591ece",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "4514c7bc63470eddfe2d34b66013fa5d869f781d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_e3549297",
         "filename": "lib/commons/BUCK",
         "patchSetId": 1

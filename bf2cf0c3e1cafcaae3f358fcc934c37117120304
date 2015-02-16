@@ -93,6 +93,30 @@
       "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_c3387670",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-16T09:17:27Z",
+      "side": 1,
+      "message": "This kind of information is usable for Gerrit admins, who are the ones running the init program. So it is likely usable. I don\u0027t have a strong opinion on the message format and content. It should just be clear that a secure store is (re)used.",
+      "parentUuid": "f654d1b2_036e8e66",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 244,
+        "endChar": 9
+      },
+      "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

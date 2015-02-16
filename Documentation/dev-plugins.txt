@@ -274,7 +274,7 @@ the @PluginName String injection containing their own plugin name.
 During their initialization plugins may get access to the
 `project.config` file of the `All-Projects` project and they are able
 to store configuration parameters in it. For this a plugin `InitStep`
-can get `com.google.gerrit.pgm.init.AllProjectsConfig` injected:
+can get `com.google.gerrit.pgm.init.api.AllProjectsConfig` injected:
 
 [source,java]
 ----

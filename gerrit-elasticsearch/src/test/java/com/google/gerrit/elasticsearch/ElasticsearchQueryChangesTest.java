@@ -15,7 +15,6 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -32,52 +31,11 @@ import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.File;
 
 public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
   private static Node node;
-
-  private void disabled() {
-    assume().that(false).isTrue();
-  }
-
-  @Test
-  @Override
-  public void byBranchAndRef() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byTopic() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byLabel() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byFileRegex() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byPathExact() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byPathRegex() throws Exception {
-    disabled();
-  }
 
   @Before
   public void startElasticsearchNode() throws Exception {

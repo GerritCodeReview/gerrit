@@ -37,6 +37,12 @@ java_library(
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
     '//lib/mina:sshd',
+    '//lib/selenium:selenium-api',
+    '//lib/selenium:selenium-server',
+    '//lib/selenium:selenium-remote-driver',
+    '//lib/selenium:selenium-htmlunit-driver',
+    '//lib/selenium:selenium-firefox-driver',
+    '//lib/selenium:selenium-chrome-driver',
   ],
   visibility = [
     '//tools/eclipse:classpath',

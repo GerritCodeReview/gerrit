@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_63bf423a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-02-16T15:01:54Z",
+      "side": 1,
+      "message": "The \"Ldap\" in the method name is redundant as this class is already Ldap specific.",
+      "range": {
+        "startLine": 314,
+        "startChar": 17,
+        "endLine": 314,
+        "endChar": 41
+      },
+      "revId": "9420e8e9834bd93ba2ed8c2326bb8081bfab782b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

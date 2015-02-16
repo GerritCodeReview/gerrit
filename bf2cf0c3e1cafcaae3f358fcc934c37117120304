@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_23170abe",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-16T13:59:05Z",
+      "side": 1,
+      "message": "so I would keep it as it is",
+      "parentUuid": "f654d1b2_c3387670",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 244,
+        "endChar": 9
+      },
+      "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_6201d6a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/CopyConfigModule.java",
         "patchSetId": 37
@@ -131,6 +155,30 @@
       "writtenOn": "2015-02-16T09:21:01Z",
       "side": 1,
       "message": "Take care that I removed this line. If you still want to expose the SecureStore to plugins then this has to be (re)introduced here. Btw, why wasn\u0027t this done in the same style like all other bindings (see above)?",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 3
+      },
+      "revId": "bf2cf0c3e1cafcaae3f358fcc934c37117120304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_031a0ee5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/CopyConfigModule.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-16T13:59:05Z",
+      "side": 1,
+      "message": "Having access to secure store from plugins seams reasonable in case one would like to store some data there (eg. passwords to some external systems)",
+      "parentUuid": "d6dfcd7d_6201d6a9",
       "range": {
         "startLine": 123,
         "startChar": 0,

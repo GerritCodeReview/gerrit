@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "f654d1b2_43eb2631",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-16T15:58:55Z",
+      "side": 1,
+      "message": "Ok, if it\u0027s consistent with the cherry pick title, leave it like this :)",
+      "parentUuid": "f654d1b2_83ab5e22",
+      "range": {
+        "startLine": 156,
+        "startChar": 14,
+        "endLine": 156,
+        "endChar": 41
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_0389ae39",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -342,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_2236ae5e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-16T15:58:55Z",
+      "side": 1,
+      "message": "Oh, you are right!",
+      "parentUuid": "d6dfcd7d_626b9656",
+      "range": {
+        "startLine": 41,
+        "startChar": 22,
+        "endLine": 41,
+        "endChar": 27
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_c2b1c214",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -424,6 +472,30 @@
       "side": 1,
       "message": "OK, that\u0027s it! I\u0027ve done too many style related bugs. Are you guys running checkstyle or how can I stop spending your time with silly mistakes like this?",
       "parentUuid": "d6dfcd7d_a2b63e08",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_63e8a233",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-16T15:58:55Z",
+      "side": 1,
+      "message": "We have documented some agreements on styles in [1].\n\nIf you use Eclipse, some things are shown as warning. I\u0027m not running checkstyle, but I think David did it at least once.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "parentUuid": "d6dfcd7d_a23d9e5e",
       "range": {
         "startLine": 67,
         "startChar": 26,

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 
 public abstract class AbstractGroupBackend implements GroupBackend {
 
   @Override
-  public boolean memberOfAny(IdentifiedUser user, Iterable<UUID> ids) {
+  public boolean memberOfAny(IdentifiedUser user, Iterable<AccountGroup.UUID> ids) {
     return membershipsOf(user).containsAnyOf(ids);
   }
 }

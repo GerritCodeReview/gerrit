@@ -92,7 +92,7 @@ public class QueryBuilder {
     }
   }
 
-  private Query and(Predicate<ChangeData> p)
+  protected Query and(Predicate<ChangeData> p)
       throws QueryParseException {
     try {
       BooleanQuery b = new BooleanQuery();
@@ -119,7 +119,7 @@ public class QueryBuilder {
     }
   }
 
-  private Query not(Predicate<ChangeData> p)
+  protected Query not(Predicate<ChangeData> p)
       throws QueryParseException {
     Predicate<ChangeData> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {

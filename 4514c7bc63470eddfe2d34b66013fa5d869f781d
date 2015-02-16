@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7669c173_875cc6e4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/webui/AbstractWebUiTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-16T07:49:53Z",
+      "side": 1,
+      "message": "This isn\u0027t working.  The `url` contains something like `http://localhost:45741` which can be loaded, but just returns a blank page with \"Forbidden\".",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "4514c7bc63470eddfe2d34b66013fa5d869f781d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_a761caa3",
+        "filename": "lib/selenium/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-16T07:49:53Z",
+      "side": 1,
+      "message": "Not sure if these are strictly needed here.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "4514c7bc63470eddfe2d34b66013fa5d869f781d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

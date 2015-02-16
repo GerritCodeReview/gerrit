@@ -1,0 +1,136 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '2.44.0'
+
+maven_jar(
+  name = 'selenium-api',
+  id = 'org.seleniumhq.selenium:selenium-api:' + VERSION,
+  sha1 = 'ed8379783481df59c8046f9671c0e0195acd930d',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-server',
+  id = 'org.seleniumhq.selenium:selenium-server:' + VERSION,
+  sha1 = '818edc1dc0ba8a646162f2dda5a7a2aee3f7354b',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-remote-driver',
+  id = 'org.seleniumhq.selenium:selenium-remote-driver:' + VERSION,
+  sha1 = 'ef7b79655dfab115b04dee1e2be22f2c3411c0e9',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'htmlunit',
+  id = 'net.sourceforge.htmlunit:htmlunit:2.15',
+  sha1 = '8d3e66215a2337cfbc5c3316820ab300022baa54',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'htmlunit-core-js',
+  id = 'net.sourceforge.htmlunit:htmlunit-core-js:2.15',
+  sha1 = 'a16512d2d032155cfa84fa1dcce79fe0aaa8b56a',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'sac',
+  id = 'org.w3c.css:sac:1.3',
+  sha1 = 'cdb2dcb4e22b83d6b32b93095f644c3462739e82',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'xml-apis',
+  id = 'xml-apis:xml-apis:1.4.01',
+  sha1 = '3789d9fada2d3d458c4ba2de349d48780f381ee3',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'xalan',
+  id = 'xalan:xalan:2.7.2',
+  sha1 = 'd55d3f02a56ec4c25695fe67e1334ff8c2ecea23',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-htmlunit-driver',
+  id = 'org.seleniumhq.selenium:selenium-htmlunit-driver:' + VERSION,
+  sha1 = 'aadf1303dedddddf059c8bd97b8816f28fec3cf8',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':htmlunit',
+    ':htmlunit-core-js',
+    ':sac',
+    ':selenium-api',
+    ':selenium-server',
+    ':selenium-remote-driver',
+    ':xalan',
+    ':xml-apis',
+    '//lib/commons:lang3',
+  ],
+)
+
+maven_jar(
+  name = 'selenium-firefox-driver',
+  id = 'org.seleniumhq.selenium:selenium-firefox-driver:' + VERSION,
+  sha1 = '123ed3b0b8b70e51f6794ba1b1531a199e307249',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':selenium-remote-driver',
+    '//lib/commons:exec',
+    '//lib/commons:io',
+  ],
+)
+
+maven_jar(
+  name = 'selenium-chrome-driver',
+  id = 'org.seleniumhq.selenium:selenium-chrome-driver:' + VERSION,
+  sha1 = '08322dfa839ec29ed7ba3397be3b9a49dda037d5',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':selenium-remote-driver',
+  ],
+)
+
+maven_jar(
+  name = 'selenium-ie-driver',
+  id = 'org.seleniumhq.selenium:selenium-ie-driver:' + VERSION,
+  sha1 = 'deee9750f5d20f7c78ad44a3c896bfbea613711a',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':selenium-remote-driver',
+  ],
+)
+
+maven_jar(
+  name = 'netty',
+  id = 'org.jboss.netty:netty:3.2.10.Final',
+  sha1 = 'd9059f88c65784f3286643bc5325cdca968ee555',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [],
+)
+
+maven_jar(
+  name = 'selenium-safari-driver',
+  id = 'org.seleniumhq.selenium:selenium-safari-driver:' + VERSION,
+  sha1 = 'c6e505c109c85022cee747eac07965cca78b6191',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':netty',
+    ':selenium-remote-driver',
+  ],
+)

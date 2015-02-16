@@ -35,10 +35,10 @@ public class MergeAlways extends SubmitStrategy {
     if (branchTip == null) {
       // The branch is unborn. Take a fast-forward resolution to
       // create the branch.
-      mergeTip = MergeTip.from(sorted.get(0), toMerge);
+      mergeTip = new MergeTip(sorted.get(0), toMerge);
       sorted.remove(0);
     } else {
-      mergeTip = MergeTip.from(branchTip, toMerge);
+      mergeTip = new MergeTip(branchTip, toMerge);
     }
     while (!sorted.isEmpty()) {
       CodeReviewCommit mergedFrom = sorted.remove(0);

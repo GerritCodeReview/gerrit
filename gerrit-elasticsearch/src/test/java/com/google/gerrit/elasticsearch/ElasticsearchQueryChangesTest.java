@@ -45,37 +45,13 @@ public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @Override
-  public void byBranchAndRef() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byTopic() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
   public void byLabel() throws Exception {
     disabled();
   }
 
   @Test
   @Override
-  public void byFileRegex() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byPathExact() throws Exception {
-    disabled();
-  }
-
-  @Test
-  @Override
-  public void byPathRegex() throws Exception {
+  public void byTriplet() throws Exception {
     disabled();
   }
 

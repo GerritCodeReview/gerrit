@@ -83,7 +83,7 @@ public class LdapAuthBackend implements AuthBackend {
       }
       try {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
-        final LdapQuery.Result m = helper.findAccount(schema, ctx, username);
+        final LdapQuery.Result m = helper.findAccount(schema, ctx, username, false);
 
         if (authConfig.getAuthType() == AuthType.LDAP) {
           // We found the user account, but we need to verify

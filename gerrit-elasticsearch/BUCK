@@ -28,6 +28,7 @@ java_test(
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':elasticsearch',
+    '//gerrit-extension-api:api',
     '//gerrit-server:server',
     '//gerrit-server:testutil',
     '//gerrit-server:query_tests',

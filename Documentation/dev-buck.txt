@@ -306,6 +306,7 @@ The following groups of tests are currently supported:
 * rest
 * server
 * ssh
+* webui
 
 To run a specific test, e.g. the acceptance test
 `com.google.gerrit.acceptance.git.HttpPushForReviewIT`:
@@ -321,6 +322,37 @@ To create test coverage report:
 ----
 
 The HTML report is created in `buck-out/gen/jacoco/code-coverage/index.html`.
+
+=== Web UI Tests
+
+Tests for the Web UI are available using Selenium Webdriver with the following
+browsers:
+
+* Chrome
+* Firefox
+* Internet Explorer
+* Safari
+
+The Web UI tests are skipped by default. To run them, the environment variable
+`GERRIT_DEV_RUN_UI_ACCEPTANCE_TESTS` must be set to one of `TRUE`, `YES` or `Y`
+(case insensitive):
+
+----
+  GERRIT_DEV_RUN_UI_ACCEPTANCE_TESTS=Y buck test --include webui --no-cache
+----
+
+Tests will be skipped for browsers that are not available on the system where
+the tests are run. Since the tests cannot currently be run on Windows, it is
+expected that the Internet Explorer tests will always be skipped.
+
+Tests for Chrome and Internet Explorer require additional components to be
+downloaded and installed. See the
+link:https://code.google.com/p/selenium/wiki/ChromeDriver[ChromeDriver] and
+link:https://code.google.com/p/selenium/wiki/InternetExplorerDriver[
+InternetExplorerDriver] pages for download details.
+
+The test for Chrome expects the ChromeDriver distribution file to be present
+in the user's home folder.
 
 == Dependencies
 

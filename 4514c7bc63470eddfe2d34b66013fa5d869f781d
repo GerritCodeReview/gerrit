@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_a20abec9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/webui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-16T07:55:00Z",
+      "side": 1,
+      "message": "Inconsistent formatting of list with one element, compared to line 8 above.",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 4
+      },
+      "revId": "4514c7bc63470eddfe2d34b66013fa5d869f781d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_e3549297",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-16T07:55:00Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "4514c7bc63470eddfe2d34b66013fa5d869f781d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_a761caa3",
         "filename": "lib/selenium/BUCK",
         "patchSetId": 1

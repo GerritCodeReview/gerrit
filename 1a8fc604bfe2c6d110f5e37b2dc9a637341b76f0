@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_a233dea1",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T10:18:14Z",
+      "side": 1,
+      "message": "Yeah, I noticed. What exactly do you want me to change with this comment?",
+      "parentUuid": "f67bf134_2b9cb945",
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_e77ee248",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_0229ea31",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T10:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7669c173_e77ee248",
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67bf134_eb7eb148",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2015-02-15T12:59:13Z",
       "side": 1,
       "message": "sha1",
+      "range": {
+        "startLine": 266,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 10
+      },
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_c24f0203",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T10:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f67bf134_eb7eb148",
       "range": {
         "startLine": 266,
         "startChar": 4,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_a2547e96",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T10:18:14Z",
+      "side": 1,
+      "message": "Good catch - copy/paste error.",
+      "parentUuid": "7669c173_878366e7",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 37
+      },
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67bf134_8b836de7",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 2
@@ -93,6 +177,30 @@
       "writtenOn": "2015-02-15T12:59:13Z",
       "side": 1,
       "message": "This is a change in behaviour.  It might be better to make the default false, so the behaviour is same as before.",
+      "range": {
+        "startLine": 270,
+        "startChar": 20,
+        "endLine": 270,
+        "endChar": 37
+      },
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_025a8ac0",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-16T10:18:14Z",
+      "side": 1,
+      "message": "Before this patch, this scenario was classed as a \"Trivial Rebase\" by Gerrit (which is clearly wrong). Nevertheless, that is our reference behaviour, which is what this non-backward compatible patch fixes. \n\nI defaulted it to true, otherwise people who currently have copyAllScoresOnTrivialRebase set to true, will no longer have CodeReview+2 replicated. \n\nCan you think of an existing or future approval (label) which needs to be re-approved when nothing but the SHA1 has changed?",
+      "parentUuid": "f67bf134_8b836de7",
       "range": {
         "startLine": 270,
         "startChar": 20,

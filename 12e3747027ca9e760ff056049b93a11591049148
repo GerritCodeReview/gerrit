@@ -508,6 +508,30 @@
     },
     {
       "key": {
+        "uuid": "f67bf134_8bd60dc4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-17T00:20:50Z",
+      "side": 1,
+      "message": "Eclipse will highlight a lot of the low-hanging fruit type warnings. There\u0027s also Eclipse\u0027s auto-formatting (use the tools/GoogleFormat.xml setting) but that can sometimes do strange things with line wrapping.\n\nI don\u0027t recommend to use CheckStyle yet. It\u0027s not fully configured for Gerrit and produces far too many false warnings to be useful.",
+      "parentUuid": "f654d1b2_63e8a233",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_42a652da",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6

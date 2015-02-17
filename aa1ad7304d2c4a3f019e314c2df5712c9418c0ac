@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1616c500_14b934c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T17:58:08Z",
+      "side": 1,
+      "message": "This makes no sense, Abandon is a singleton. @Assisted is only for instances that are created via assisted injection (https://github.com/google/guice/wiki/AssistedInject)",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_84bda695",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T17:58:08Z",
+      "side": 1,
+      "message": "The only caller is in ChangeApiImpl, and you don\u0027t need to hoist the BatchUpdate into that caller, as it\u0027s just a very thin wrapper.\n\nI think the most common pattern we will want to go with is constructing a batch update in the apply method of each RestModifyView. In the few cases where they might be called with a preexisting BatchUpdate, you would factor it out at the method argument level rather than trying to store it in an instance field.\n\nBasically:\n\n public ChangeInfo apply(ChangeResource rsrc, MyInput in) {\n   AtomicReference\u003cChange\u003e updatedChange;\n   try (BatchUpdate u \u003d batchUpdateFactory.create(\n       db.get(), rsrc.getChange().getDest().getParentKey(),\n       TimeUtil.nowTs())) {\n     updatedChange \u003d apply(rsrc, in, u);\n   }\n   return json.format(updatedChange.get());\n }\n\n public AtomicReference\u003cChange\u003e apply(ChangeResource rsrc, MyInput in, BatchUpdate u) {\n   AtomicReference\u003cChange\u003e updatedChange \u003d new AtomicReference\u003c\u003e();\n   u.addChangeOp(...);\n   return updatedChange;\n }\n\n(I haven\u0027t fully thought through the AtomicReference thing; it might be overkill just to avoid a single db read.)\n\nBut, as I mentioned above, doing this is unnecessary for Abandon because nobody else would call Abandon#apply directly with their own BatchUpdate.",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165885e4_44c80e28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T17:58:08Z",
+      "side": 1,
+      "message": "This is never used. The result of the AtomicUpdate is only used on the LHS to pass to updateFactory.create and newMessage, both of which are still inside the ChangeOp.",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_54c3ac2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T17:58:08Z",
+      "side": 1,
+      "message": "?\n\nThis doesn\u0027t compile.",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_b4904034",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T17:58:08Z",
+      "side": 1,
+      "message": "Declare the variable where it\u0027s assigned.",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1616c500_74c6a83c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T17:58:08Z",
+      "side": 1,
+      "message": "Don\u0027t blindly cast; fail early if !control.getCurrentUser().isIdentifiedUser().",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

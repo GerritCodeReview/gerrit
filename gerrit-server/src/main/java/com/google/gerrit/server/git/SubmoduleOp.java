@@ -358,8 +358,7 @@ public class SubmoduleOp {
       rfu.setForceUpdate(false);
       rfu.setNewObjectId(commitId);
       rfu.setExpectedOldObjectId(currentCommitId);
-      rfu
-          .setRefLogMessage("Submit to " + subscriber.getParentKey().get(),
+      rfu.setRefLogMessage("Submit to " + subscriber.getParentKey().get(),
               true);
 
       switch (rfu.update()) {

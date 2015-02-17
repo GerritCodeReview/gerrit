@@ -17,9 +17,6 @@ package com.google.gerrit.server.events;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
-import com.google.gerrit.server.events.Event;
-import com.google.gerrit.server.events.EventTypes;
-
 import org.junit.Test;
 
 public class EventTypesTest {

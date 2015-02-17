@@ -38,6 +38,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -51,7 +52,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.gerrit.server.config.GerritServerConfig;
 
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;

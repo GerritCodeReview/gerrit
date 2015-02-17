@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6dfcd7d_82417a7d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-17T20:09:53Z",
+      "side": 1,
+      "message": "Why is this comment changed? Patch set 2 adds FILE_B, but the first commit of patch set 1 is amended, so patch set 2 really contains 3 files: +FILE_A, +FILE_B, -FILE_D",
+      "revId": "9a69f409a17ec5f733ac108885ab6b29676420dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_623ef604",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-17T20:09:53Z",
+      "side": 1,
+      "message": "Unneded modification, please move the line back up. These unneeded changes really make the review less efficient and it also spoils the usage of git blame.",
+      "revId": "9a69f409a17ec5f733ac108885ab6b29676420dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

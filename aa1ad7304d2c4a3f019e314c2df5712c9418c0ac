@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "2bffe0b9_85e82201",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T22:09:08Z",
+      "side": 1,
+      "message": "Yes of course.",
+      "parentUuid": "2bffe0b9_e5c2368e",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "165885e4_44c80e28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 1
@@ -171,6 +189,24 @@
       "side": 1,
       "message": "Originally I just wanted to just wrap this class up into the new batch updater, not making invasive changes to the code\nsuch as these style question. Mind that before the `message` was declared in line 93 and assigned in 118.\n\nI\u0027ll change it nevertheless now to fit the desired style.",
       "parentUuid": "1616c500_b4904034",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bfcdcc3_a4e32224",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T22:09:08Z",
+      "side": 1,
+      "message": "\u003e Originally I just wanted to just wrap this class up into the new batch updater, not making invasive changes to the code\nsuch as these style question.\n\nEh, this is not particularly invasive. The diff highlighting would have made it clear.\n\nPlus, the reason it was like that before was that message was used outside of the try block. If that\u0027s still the case, you\u0027ll have to leave the declaration up there.",
+      "parentUuid": "2bffe0b9_c5c73a9c",
       "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

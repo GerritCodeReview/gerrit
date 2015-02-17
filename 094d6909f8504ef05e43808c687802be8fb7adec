@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "4b8df443_6e768fbf",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 57
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-17T12:05:20Z",
+      "side": 1,
+      "message": "True, and using standard HTTP wouldn\u0027t be enough anyway.\nBut honestly we should then go back to the plugin approach, which seems to me much cleaner:\n\n- Gerrit exposes OAuth extensions that need to be then implemented by an OAuth provider\n- Extra dependencies are inside the OAuth provider plugin and NOT in Gerrit itself\n- GitHub OAuth provider could be a core plugin, but if you do not use OAuth you\u0027ll not have the HTTP Client dependencies at all.\n\nShould I just then restart from scratch with a new approach?\n\nLuca.",
+      "parentUuid": "4b8df443_ee227fc2",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_47fa4e44",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
         "patchSetId": 57

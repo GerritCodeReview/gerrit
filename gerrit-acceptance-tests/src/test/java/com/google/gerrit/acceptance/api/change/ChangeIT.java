@@ -68,9 +68,14 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void abandon() throws Exception {
     PushOneCommit.Result r = createChange();
+    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes()
         .id(r.getChangeId())
         .abandon();
+    ChangeInfo info = get(r.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("abandoned");
   }
 
   @Test

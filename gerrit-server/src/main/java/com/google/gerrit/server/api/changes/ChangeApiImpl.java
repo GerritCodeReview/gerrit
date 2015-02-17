@@ -45,6 +45,7 @@ import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SuggestReviewers;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -147,7 +148,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   public void abandon(AbandonInput in) throws RestApiException {
     try {
       abandon.apply(change, in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | UpdateException e) {
       throw new RestApiException("Cannot abandon change", e);
     }
   }

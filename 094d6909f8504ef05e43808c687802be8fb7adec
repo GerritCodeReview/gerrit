@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4b8df443_0e38abfb",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 57
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-17T09:42:37Z",
+      "side": 1,
+      "message": "Thinking about the http-* dependencies, all that part is a bit overkill IMHO. We do need to make one single HTTP Get to a GitHub endpoint and using standard Java URLConnection would be more than enough :-)\n\nIt will avoid all the pooling configuration part and in modern Java7 connections are automatically pooled anyway.\n\nWhat do you think?",
+      "parentUuid": "f67bf134_eb0a31cb",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_47fa4e44",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
         "patchSetId": 57
@@ -60,6 +84,30 @@
       "writtenOn": "2015-02-17T04:27:10Z",
       "side": 1,
       "message": "OK, so you took this from the existing GitHub plugin and that was relying on an external HTTP reverse proxy to provide the username.\n\nI don\u0027t think that is an excuse for 57 iterations of this change using a hacked wrapped request to shove the value into an HTTP header that must be specified in the gerrit.config file when you could have just attached it to a request attribute in memory and avoided the entire configuration mess.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_42ac9207",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-17T09:42:37Z",
+      "side": 1,
+      "message": "Yes, agreed on this: apart from the historical reasons ... here can be highly simplified, avoiding the HTTP-auth related headers.",
+      "parentUuid": "7669c173_47fa4e44",
       "range": {
         "startLine": 26,
         "startChar": 0,
@@ -123,6 +171,30 @@
       "writtenOn": "2015-02-17T04:27:10Z",
       "side": 1,
       "message": "Completely unnecessary and horribly complex.\n\nThis is all you need:\n\n  private static final SecureRandom rng \u003d SecureRandom.getInstance(\"SHA1PRNG\");",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 28
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6dfcd7d_22a98ef7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-17T09:42:37Z",
+      "side": 1,
+      "message": "OK, will change in next patch-set.",
+      "parentUuid": "7669c173_870fe6d9",
       "range": {
         "startLine": 209,
         "startChar": 0,

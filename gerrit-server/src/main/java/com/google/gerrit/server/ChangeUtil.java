@@ -282,7 +282,8 @@ public class ChangeUtil {
             TimeUtil.nowTs());
         change.setTopic(changeToRevert.getTopic());
         ChangeInserter ins =
-            changeInserterFactory.create(refControl, change, revertCommit);
+            changeInserterFactory.create(refControl.getProjectControl(),
+                change, revertCommit);
         PatchSet ps = ins.getPatchSet();
 
         String ref = refControl.getRefName();

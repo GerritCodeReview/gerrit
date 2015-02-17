@@ -244,7 +244,8 @@ public class CherryPickChange {
                 destRef.getName()), TimeUtil.nowTs());
     change.setTopic(topic);
     ChangeInserter ins =
-        changeInserterFactory.create(refControl, change, cherryPickCommit);
+        changeInserterFactory.create(refControl.getProjectControl(), change,
+            cherryPickCommit);
     PatchSet newPatchSet = ins.getPatchSet();
 
     CommitValidators commitValidators =

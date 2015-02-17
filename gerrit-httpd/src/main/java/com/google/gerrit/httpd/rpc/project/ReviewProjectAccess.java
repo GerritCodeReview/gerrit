@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
@@ -25,15 +24,12 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReviewers;
@@ -41,9 +37,6 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.mail.CreateChangeSender;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
@@ -54,18 +47,11 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
-  private static final Logger log =
-      LoggerFactory.getLogger(ReviewProjectAccess.class);
-
   interface Factory {
     ReviewProjectAccess create(
         @Assisted("projectName") Project.NameKey projectName,
@@ -77,26 +63,21 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
 
   private final ReviewDb db;
   private final IdentifiedUser user;
-  private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<PostReviewers> reviewersProvider;
-  private final ChangeIndexer indexer;
-  private final ChangeHooks hooks;
-  private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ProjectCache projectCache;
   private final ChangesCollection changes;
+  private final ChangeInserter.Factory changeInserterFactory;
 
   @Inject
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory, ReviewDb db,
-      IdentifiedUser user, PatchSetInfoFactory patchSetInfoFactory,
+      IdentifiedUser user,
       Provider<PostReviewers> reviewersProvider,
-      ChangeIndexer indexer,
-      ChangeHooks hooks,
-      CreateChangeSender.Factory createChangeSenderFactory,
       ProjectCache projectCache,
       AllProjectsNameProvider allProjects,
       ChangesCollection changes,
+      ChangeInserter.Factory changeInserterFactory,
       Provider<SetParent> setParent,
 
       @Assisted("projectName") Project.NameKey projectName,
@@ -109,23 +90,20 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         parentProjectName, message, false);
     this.db = db;
     this.user = user;
-    this.patchSetInfoFactory = patchSetInfoFactory;
     this.reviewersProvider = reviewersProvider;
-    this.indexer = indexer;
-    this.hooks = hooks;
-    this.createChangeSenderFactory = createChangeSenderFactory;
     this.projectCache = projectCache;
     this.changes = changes;
+    this.changeInserterFactory = changeInserterFactory;
   }
 
   @Override
-  protected Change.Id updateProjectConfig(ProjectConfig config,
-      MetaDataUpdate md, boolean parentProjectUpdate) throws IOException,
-      OrmException {
+  protected Change.Id updateProjectConfig(ProjectControl ctl,
+      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
+      throws IOException, OrmException {
     Change.Id changeId = new Change.Id(db.nextChangeId());
-    PatchSet ps =
-        new PatchSet(new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID));
-    RevCommit commit = config.commitToNewRef(md, ps.getRefName());
+    RevCommit commit =
+        config.commitToNewRef(md, new PatchSet.Id(changeId,
+            Change.INITIAL_PATCH_SET_ID).toRefName());
     if (commit.getId().equals(base)) {
       return null;
     }
@@ -138,35 +116,10 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
             config.getProject().getNameKey(),
             RefNames.REFS_CONFIG),
         TimeUtil.nowTs());
+    ChangeInserter ins =
+        changeInserterFactory.create(ctl, change, commit);
+    ins.insert();
 
-    ps.setCreatedOn(change.getCreatedOn());
-    ps.setUploader(change.getOwner());
-    ps.setRevision(new RevId(commit.name()));
-
-    PatchSetInfo info = patchSetInfoFactory.get(commit, ps.getId());
-    change.setCurrentPatchSet(info);
-    ChangeUtil.updated(change);
-
-    db.changes().beginTransaction(changeId);
-    try {
-      insertAncestors(ps.getId(), commit);
-      db.patchSets().insert(Collections.singleton(ps));
-      db.changes().insert(Collections.singleton(change));
-      db.commit();
-    } finally {
-      db.rollback();
-    }
-    indexer.index(db, change);
-    hooks.doPatchsetCreatedHook(change, ps, db);
-    try {
-      CreateChangeSender cm =
-          createChangeSenderFactory.create(change);
-      cm.setFrom(change.getOwner());
-      cm.setPatchSet(ps, info);
-      cm.send();
-    } catch (Exception err) {
-      log.error("Cannot send email for new change " + change.getId(), err);
-    }
     ChangeResource rsrc;
     try {
       rsrc = changes.parse(changeId);
@@ -178,20 +131,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       addAdministratorsAsReviewers(rsrc);
     }
     return changeId;
-  }
-
-  private void insertAncestors(PatchSet.Id id, RevCommit src)
-      throws OrmException {
-    final int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
-    for (int p = 0; p < cnt; p++) {
-      PatchSetAncestor a;
-
-      a = new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
-      a.setAncestorRevision(new RevId(src.getParent(p).name()));
-      toInsert.add(a);
-    }
-    db.patchSetAncestors().insert(toInsert);
   }
 
   private void addProjectOwnersAsReviewers(ChangeResource rsrc) {

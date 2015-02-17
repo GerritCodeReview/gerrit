@@ -207,7 +207,8 @@ public class CreateChange implements
             now);
 
         ChangeInserter ins =
-            changeInserterFactory.create(refControl, change, c);
+            changeInserterFactory.create(refControl.getProjectControl(),
+                change, c);
 
         validateCommit(git, refControl, c, me, ins);
         updateRef(git, rw, c, change, ins.getPatchSet());

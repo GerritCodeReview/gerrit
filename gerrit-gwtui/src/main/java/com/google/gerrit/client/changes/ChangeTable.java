@@ -376,8 +376,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     int width = Math.max(2, 70 * p / 100);
-    int red = p > 50 ? 255 : (int) Math.round((p) * 5.12);
-    int green = p < 50 ? 255 : (int) Math.round(256 - (p - 50) * 5.12);
+    int red = p >= 50 ? 255 : (int) Math.round((p) * 5.12);
+    int green = p <= 50 ? 255 : (int) Math.round(256 - (p - 50) * 5.12);
     String bg = "#" + toHex(red) + toHex(green) + "00";
 
     SimplePanel panel = new SimplePanel();

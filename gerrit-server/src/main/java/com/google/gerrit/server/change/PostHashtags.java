@@ -49,8 +49,6 @@ public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInpu
       throw new BadRequestException(e.getMessage());
     } catch (ValidationException e) {
       throw new ResourceConflictException(e.getMessage());
-    } catch (com.google.gerrit.server.auth.AuthException e) {
-      throw new AuthException(e.getMessage());
     }
   }
 }

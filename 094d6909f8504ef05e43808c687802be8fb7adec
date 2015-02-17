@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4b8df443_ee227fc2",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 57
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-17T11:01:28Z",
+      "side": 1,
+      "message": "The point here is that we want to allow to extend OAuth2/OpenID Connect 2 dependency chain in future, for example when some dedicated OAuth2/OpenID Connect 2 libraries are pulled. Remember the plan is not to restrict to only one OAuth2 provider, but support other OAuth2/OpenID Connect 2 providers as well. My current understanding is that it is easier for Gerrit stack holders to drop unneeded additional dependencies from their Gerrit installations (when they don\u0027t provide these services, like SSHD, OpenID, OAuth2, ...), when the code is located in dedicated gerrit sub-projects:\n\n* gerrit-sshd\n* gerrit-openid\n* gerrit-oauth\n\nSo the way to go here is to move the whole subtree:\n\ngerrit-httpd/src/main/java/com/google/gerrit/httpd/auth\n\nwith entire dependencies to its own gerrit sub-project: gerrit-oauth and move conditional Guice binding from WebModule to Daemon and WebAppInitializer:\n\n  case OAUTH_GITHUB:\n        install(new HttpGitHubOAuthModule());\n\nOf course gerrit-pgm \u0026 gerrit-war must pull the dependencies of new gerrit-oauth project.",
+      "parentUuid": "4b8df443_0e38abfb",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_47fa4e44",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
         "patchSetId": 57

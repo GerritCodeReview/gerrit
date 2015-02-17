@@ -59,7 +59,7 @@ The change was submitted and was added to the merge queue.
 +
 The change stays in the merge queue if it depends on a change that is
 still in review. In this case it will get automatically merged when all
-predecessor changes have been merged.
+dependency changes have been merged.
 +
 This status can also mean that the change depends on an abandoned
 change or on an outdated patch set of another change. In this case you

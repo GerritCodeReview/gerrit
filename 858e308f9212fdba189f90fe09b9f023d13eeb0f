@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7669c173_070456b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOnly.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-17T05:14:29Z",
+      "side": 1,
+      "message": "It\u0027s failing here with NPE in the \"submit to empty repo\" test.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "858e308f9212fdba189f90fe09b9f023d13eeb0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_4bfa6544",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-17T05:14:29Z",
+      "side": 1,
+      "message": "NPE in the \"submit to empty repo\" test.",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 35
+      },
+      "revId": "858e308f9212fdba189f90fe09b9f023d13eeb0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

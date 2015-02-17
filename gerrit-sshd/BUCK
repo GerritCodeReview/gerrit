@@ -52,6 +52,7 @@ java_test(
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:junit',
+    '//lib/mina:sshd',
   ],
   source_under_test = [':sshd'],
 )

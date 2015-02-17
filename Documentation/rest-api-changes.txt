@@ -3636,6 +3636,7 @@ link:#diff-content[DiffContent] entities.
 |`web_links`       |optional|
 Links to the file diff in external sites as a list of
 link:rest-api-changes.html#diff-web-link-info[DiffWebLinkInfo] entries.
+|`binary`          |not set if `false`|Whether the file is binary.
 |==========================
 
 [[diff-intraline-info]]

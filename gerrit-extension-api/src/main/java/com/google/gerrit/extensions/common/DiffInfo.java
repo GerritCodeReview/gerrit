@@ -32,6 +32,8 @@ public class DiffInfo {
   public List<ContentEntry> content;
   // Links to the file diff in external sites
   public List<DiffWebLinkInfo> webLinks;
+  // Binary file
+  public Boolean binary;
 
   public static enum IntraLineStatus {
     OK,

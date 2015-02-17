@@ -2072,6 +2072,7 @@ public class ReceiveCommits {
       String message = "Uploaded patch set " + newPatchSet.getPatchSetId();
       switch (changeKind) {
         case TRIVIAL_REBASE:
+        case NO_CHANGE:
           message += ": Patch Set " + priorPatchSet.get() + " was rebased";
           break;
         case NO_CODE_CHANGE:

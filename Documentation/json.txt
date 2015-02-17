@@ -119,7 +119,9 @@ kind:: Kind of change uploaded.
 
   TRIVIAL_REBASE;; Conflict-free merge between the new parent and the prior patch set.
 
-  NO_CODE_CHANGE;; No code changed; same tree and same parents.
+  NO_CODE_CHANGE;; No code changed; same tree and same parent tree.
+
+  NO_CHANGE;; No changes; same commit message, same tree and same parent tree.
 
 approvals:: The <<approval,approval attribute>> granted.
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4b8df443_2ec807ad",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 57
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-17T07:55:37Z",
+      "side": 1,
+      "message": "\u003e Look at the existing OpenID support,\n\nThere is own project for gerrit-openid, where dedicated stack of libraries is used. But no matter if this stack is used in gerrit-httpd or in gerrit-openid it needs to be bound in Guice injector. The binding code for OpenIdModule module is located not in gerrit-httpd but in gerrit-pgm (Daemon) and gerrit-war (WebAppInitializer). In which case openid libs are used in:\n\n* gerrit-pgm/BUCK \u003d\u003e pgm  \u003d\u003e \u0027//gerrit-openid:openid\u0027\n* gerrit-war/BUCK \u003d\u003e init \u003d\u003e \u0027//gerrit-openid:openid\u0027\n\nThis rises the question: why it\u0027s less problematic to have the unneeded stack of libraries in another part of dependency graph? In both cases, the code must be changed to remove unneeded parts for servers that don\u0027t need them.",
+      "parentUuid": "f67bf134_eb0a31cb",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_47fa4e44",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
         "patchSetId": 57

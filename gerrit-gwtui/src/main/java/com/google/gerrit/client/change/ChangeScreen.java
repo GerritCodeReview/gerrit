@@ -240,7 +240,10 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo info) {
             info.init();
+            // Revision loading may be slower than the rest, so do it
+            // asynchronous to have the rest fast.
             loadConfigInfo(info, base);
+            loadRevisionInfo();
           }
         }));
   }
@@ -248,12 +251,24 @@ public class ChangeScreen extends Screen {
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
-      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.CHANGE_ACTIONS,
       ListChangesOption.ALL_REVISIONS));
     if (!fg) {
       call.background();
     }
     call.get(cb);
+  }
+
+  void loadRevisionInfo() {
+    RestApi call = ChangeApi.actions(changeId.get(), revision);
+    call.background();
+    call.get(new GerritCallback<NativeMap<ActionInfo>>() {
+      @Override
+      public void onSuccess(NativeMap<ActionInfo> actionMap) {
+        actionMap.copyKeysIntoChildren("id");
+        renderRevisionInfo(changeInfo, actionMap);
+      }
+    });
   }
 
   @Override
@@ -1073,13 +1088,6 @@ public class ChangeScreen extends Screen {
       sb.append(info.subject());
     }
     setWindowTitle(sb.toString());
-
-    RevisionInfo revInfo = info.revision(revision);
-    NativeMap<ActionInfo> actionMap = revInfo.has_actions()
-        ? info.actions()
-        : NativeMap.<ActionInfo> create();
-    actionMap.copyKeysIntoChildren("id");
-    renderRevisionInfo(info, actionMap);
   }
 
   private void renderRevisionInfo(ChangeInfo info,

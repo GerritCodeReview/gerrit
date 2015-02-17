@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f67bf134_eb0a31cb",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 57
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-17T04:27:10Z",
+      "side": 1,
+      "message": "I really don\u0027t want these deps in here. If you submit this as-is, we\u0027ll need a few days at Google to untangle these deps before we can update gerrit-review with any newer versions.\n\nLook at the existing OpenID support, that is the current best way to do an auth support in core using a stack of libraries that aren\u0027t needed by all servers.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_47fa4e44",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-17T04:27:10Z",
+      "side": 1,
+      "message": "OK, so you took this from the existing GitHub plugin and that was relying on an external HTTP reverse proxy to provide the username.\n\nI don\u0027t think that is an excuse for 57 iterations of this change using a hacked wrapped request to shove the value into an HTTP header that must be specified in the gerrit.config file when you could have just attached it to a request attribute in memory and avoided the entire configuration mess.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_a7146aec",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-17T04:27:10Z",
+      "side": 1,
+      "message": "nit: missing final",
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f67bf134_cb05f5bd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-17T04:27:10Z",
+      "side": 1,
+      "message": "rng (see below)",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 204,
+        "endChar": 15
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7669c173_870fe6d9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-17T04:27:10Z",
+      "side": 1,
+      "message": "Completely unnecessary and horribly complex.\n\nThis is all you need:\n\n  private static final SecureRandom rng \u003d SecureRandom.getInstance(\"SHA1PRNG\");",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 28
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

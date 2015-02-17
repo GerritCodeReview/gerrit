@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6bf478d1_efc2218e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-17T21:31:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1616c500_14b934c5",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "165885e4_84bda695",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "2bffe0b9_e5c2368e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-17T21:31:30Z",
+      "side": 1,
+      "message": "// Everything that used to be in apply\n\nexcept db.changes().beginTransaction(); db.commit() and so forth\n\nThe whole point of this refactoring is to rip out the database interactions, if I understand correctly?",
+      "parentUuid": "8befecfe_d0eedc0d",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "165885e4_44c80e28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 1
@@ -117,6 +153,24 @@
       "writtenOn": "2015-02-17T17:58:08Z",
       "side": 1,
       "message": "Declare the variable where it\u0027s assigned.",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bffe0b9_c5c73a9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-17T21:31:30Z",
+      "side": 1,
+      "message": "Originally I just wanted to just wrap this class up into the new batch updater, not making invasive changes to the code\nsuch as these style question. Mind that before the `message` was declared in line 93 and assigned in 118.\n\nI\u0027ll change it nevertheless now to fit the desired style.",
+      "parentUuid": "1616c500_b4904034",
       "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

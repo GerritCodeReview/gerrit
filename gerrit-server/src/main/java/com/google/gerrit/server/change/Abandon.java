@@ -16,25 +16,29 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeOp;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,7 +47,9 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.util.Collections;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
@@ -54,100 +60,97 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
-  private final ChangeIndexer indexer;
-  private final ChangeUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
+  private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
   Abandon(ChangeHooks hooks,
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
-      ChangeIndexer indexer,
-      ChangeUpdate.Factory updateFactory,
-      ChangeMessagesUtil cmUtil) {
+      ChangeMessagesUtil cmUtil,
+      BatchUpdate.Factory batchUpdateFactory) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
-    this.indexer = indexer;
-    this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
+    this.batchUpdateFactory = batchUpdateFactory;
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, AbandonInput input)
-      throws AuthException, ResourceConflictException, OrmException,
-      IOException {
+  public ChangeInfo apply(ChangeResource req,
+      final AbandonInput input)
+      throws RestApiException, UpdateException, OrmException {
     ChangeControl control = req.getControl();
     IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
-    Change change = req.getChange();
     if (!control.canAbandon()) {
       throw new AuthException("abandon not permitted");
-    } else if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + status(change));
-    } else if (change.getStatus() == Change.Status.DRAFT) {
-      throw new ResourceConflictException("draft changes cannot be abandoned");
     }
-    change = abandon(control, input.message, caller.getAccount());
+    Change change = abandon(control, input.message, caller.getAccount());
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
   public Change abandon(ChangeControl control,
-      String msgTxt, Account acc) throws ResourceConflictException,
-      OrmException, IOException {
-    Change change;
-    ChangeMessage message;
-    ChangeUpdate update;
-    Change.Id changeId = control.getChange().getId();
-    ReviewDb db = dbProvider.get();
-    db.changes().beginTransaction(changeId);
-    try {
-      change = db.changes().atomicUpdate(
-        changeId,
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.ABANDONED);
-              ChangeUtil.updated(change);
-              return change;
-            }
-            return null;
+      final String msgTxt, final Account acc) throws RestApiException,
+      UpdateException {
+    final Change.Id id = control.getChange().getId();
+    final AtomicReference<Change> change = new AtomicReference<>();
+    final AtomicReference<PatchSet> patchSet = new AtomicReference<>();
+    final AtomicReference<ChangeMessage> message = new AtomicReference<>();
+
+    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
+        control.getChange().getProject(), TimeUtil.nowTs())) {
+      u.addChangeOp(new ChangeOp(control) {
+        @Override
+        public void call(ReviewDb db, ChangeUpdate update) throws OrmException,
+            ResourceConflictException {
+          Change c = db.changes().get(id);
+          if (c == null || !c.getStatus().isOpen()) {
+            throw new ResourceConflictException("change is " + status(c));
+          } else if (c.getStatus() == Change.Status.DRAFT) {
+            throw new ResourceConflictException(
+                "draft changes cannot be abandoned");
           }
-        });
-      if (change == null) {
-        throw new ResourceConflictException("change is "
-            + status(db.changes().get(changeId)));
-      }
+          c.setStatus(Change.Status.ABANDONED);
+          ChangeUtil.updated(c);
+          db.changes().update(Collections.singleton(c));
 
-      //TODO(yyonas): atomic update was not propagated
-      update = updateFactory.create(control, change.getLastUpdatedOn());
-      message = newMessage(msgTxt, acc != null ? acc.getId() : null, change);
-      cmUtil.addChangeMessage(db, update, message);
-      db.commit();
-    } finally {
-      db.rollback();
-    }
-    update.commit();
+          ChangeMessage m = newMessage(
+              msgTxt, acc != null ? acc.getId() : null, c);
+          cmUtil.addChangeMessage(db, update, m);
 
-    indexer.index(db, change);
-    try {
-      ReplyToChangeSender cm = abandonedSenderFactory.create(change.getId());
-      if (acc != null) {
-        cm.setFrom(acc.getId());
-      }
-      cm.setChangeMessage(message);
-      cm.send();
-    } catch (Exception e) {
-      log.error("Cannot email update for change " + change.getChangeId(), e);
+          change.set(c);
+          message.set(m);
+          patchSet.set(db.patchSets().get(c.currentPatchSetId()));
+        }
+      });
+      u.addPostOp(new Callable<Void>() {
+        @Override
+        public Void call() throws OrmException {
+          // TODO(dborowitz): send email while indexing.
+          Change c = change.get();
+          try {
+            ReplyToChangeSender cm = abandonedSenderFactory.create(id);
+            if (acc != null) {
+              cm.setFrom(acc.getId());
+            }
+            cm.setChangeMessage(message.get());
+            cm.send();
+          } catch (Exception e) {
+            log.error("Cannot email update for change " + id, e);
+          }
+          hooks.doChangeAbandonedHook(c,
+              acc,
+              patchSet.get(),
+              Strings.emptyToNull(msgTxt),
+              dbProvider.get());
+          return null;
+        }
+      });
+      u.execute();
     }
-    hooks.doChangeAbandonedHook(change,
-        acc,
-        db.patchSets().get(change.currentPatchSetId()),
-        Strings.emptyToNull(msgTxt),
-        db);
-    return change;
+    return change.get();
   }
 
   @Override

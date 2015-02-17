@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b8df443_ce5b033e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-17T19:28:35Z",
+      "side": 1,
+      "message": "You are still changing things that are unrelated to your change. \u0027assertThat(entries).hasSize(3)\u0027 as it was before is better.",
+      "revId": "5582af26641bf907e142a02d29b297efc6f5cc33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

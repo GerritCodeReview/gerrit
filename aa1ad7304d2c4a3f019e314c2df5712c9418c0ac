@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8befecfe_d0eedc0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-17T21:05:38Z",
+      "side": 1,
+      "message": "No, it\u0027s a good start, and I was actually going to suggest Abandon as one of the simplest handlers to convert. You\u0027re just overthinking it\n\nThis change should really be:\n\n public ChangeInfo apply(ChangeResource rsrc, AbandonInput in) {\n   try (BatchUpdate u \u003d batchUpdateFactory.create(...)) {\n     u.addChangeOp(new ChangeOp(rsrc.getControl()) {\n       @Override\n       public void call(ReviewDb db, ChangeUpdate update) {\n         // Everything that used to be in apply\n       }\n     });\n   }\n   return json.format(change);\n }",
+      "parentUuid": "8befecfe_f0c2008e",
+      "revId": "aa1ad7304d2c4a3f019e314c2df5712c9418c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "165885e4_44c80e28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 1

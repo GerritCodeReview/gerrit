@@ -19,6 +19,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import java.util.Map;
+
 public class EventTypesTest {
   public static class TestEvent extends Event {
     public TestEvent() {
@@ -59,6 +61,10 @@ public class EventTypesTest {
     } catch (IllegalArgumentException e) {
       assertThat(EventTypes.getClass("test-event")).isEqualTo(TestEvent.class);
     }
+
+    Map<String, Class<?>> events = EventTypes.getEvents();
+    assertThat(events).containsKey("test-event");
+    assertThat(events).containsKey("another-test-event");
   }
 
   @Test

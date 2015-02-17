@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,5 +62,13 @@ public class EventTypes {
    **/
   public static Class<?> getClass(String type) {
     return typesByString.get(type);
+  }
+
+  /** Get the registered event types.
+   *
+   * @return Map of registered event types to classes.
+   **/
+  public static ImmutableMap<String, Class<?>> getEvents() {
+    return ImmutableMap.copyOf(typesByString);
   }
 }

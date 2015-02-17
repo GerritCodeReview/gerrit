@@ -5,7 +5,7 @@ gerrit stream-events - Monitor events occurring in real time
 
 == SYNOPSIS
 --
-'ssh' -p <port> <host> 'gerrit stream-events'
+'ssh' -p <port> <host> 'gerrit stream-events' [--list-available-events]
 --
 
 == DESCRIPTION
@@ -17,6 +17,9 @@ only receives events for changes they can view on the web, or in
 the project repository.
 
 Event output is in JSON, one event per line.
+
+If the `--list-available-events` option is given, the command only
+lists the available event names, and then exits.
 
 == ACCESS
 Caller must be a member of the privileged 'Administrators' group,

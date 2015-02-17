@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
+import com.google.common.collect.UnmodifiableIterator;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -32,9 +33,11 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -57,6 +60,10 @@ final class StreamEvents extends BaseCommand {
   @Inject
   @StreamCommandExecutor
   private WorkQueue.Executor pool;
+
+  @Option(name = "--list-available-events",
+      usage = "print a list of available events, and exit")
+  private boolean listEvents;
 
   /** Queue of events to stream to the connected user. */
   private final LinkedBlockingQueue<Event> queue =
@@ -130,9 +137,20 @@ final class StreamEvents extends BaseCommand {
       onExit(1);
       return;
     }
-
     stdout = toPrintWriter(out);
-    source.addEventListener(listener, currentUser);
+    if (listEvents) {
+      UnmodifiableIterator<Map.Entry<String, Class<?>>> it =
+          EventTypes.getEvents().entrySet().iterator();
+      while (it.hasNext()) {
+        Map.Entry<String, Class<?>> entry = it.next();
+        stdout.print(String.format("%s (%s)\n",
+            entry.getKey(), entry.getValue().getCanonicalName()));
+      }
+      stdout.flush();
+      onExit(0);
+    } else {
+      source.addEventListener(listener, currentUser);
+    }
   }
 
   @Override

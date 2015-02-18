@@ -945,6 +945,24 @@
     },
     {
       "key": {
+        "uuid": "2b19a030_5523acc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-18T17:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_a389babe",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_631d025c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 6

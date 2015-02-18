@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0bfcdcc3_24f852ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-18T00:04:29Z",
+      "side": 1,
+      "message": "Here we compare mergeTip to null",
+      "revId": "858e308f9212fdba189f90fe09b9f023d13eeb0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_070456b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOnly.java",
         "patchSetId": 1
@@ -36,6 +53,30 @@
       "writtenOn": "2015-02-17T05:14:29Z",
       "side": 1,
       "message": "NPE in the \"submit to empty repo\" test.",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 35
+      },
+      "revId": "858e308f9212fdba189f90fe09b9f023d13eeb0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bfcdcc3_04f556d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-18T00:04:29Z",
+      "side": 1,
+      "message": "Yeah, in CherryPick we just check mergeTip \u003d\u003d null.\n\nHonestly I think allowing null as the initial tip in MergeTip makes more sense.",
+      "parentUuid": "f67bf134_4bfa6544",
       "range": {
         "startLine": 66,
         "startChar": 10,

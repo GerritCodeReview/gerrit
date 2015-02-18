@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6b0718cc_7726b0d9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-18T21:24:24Z",
+      "side": 1,
+      "message": "Garbage?",
+      "range": {
+        "startLine": 1092,
+        "startChar": 57,
+        "endLine": 1092,
+        "endChar": 64
+      },
+      "revId": "28ab9eeb00b139e2604129ecc1d854fcb76d5fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bffe0b9_657be6a6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 17

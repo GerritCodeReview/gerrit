@@ -80,8 +80,11 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
 
   @Override
   protected ProjectAccess updateProjectConfig(ProjectControl ctl,
-      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
-      throws IOException, NoSuchProjectException, ConfigInvalidException {
+      ProjectConfig config, MetaDataUpdate md, String message,
+      boolean parentProjectUpdate) throws IOException, NoSuchProjectException,
+      ConfigInvalidException {
+    md.setMessage(message);
+
     RevCommit commit = config.commit(md);
 
     hooks.doRefUpdatedHook(

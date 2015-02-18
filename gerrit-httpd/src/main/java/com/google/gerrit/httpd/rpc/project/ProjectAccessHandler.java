@@ -54,7 +54,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
   private final ProjectControl.Factory projectControlFactory;
   protected final GroupBackend groupBackend;
-  private final MetaDataUpdate.User metaDataUpdateFactory;
+  protected final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllProjectsNameProvider allProjects;
   private final Provider<SetParent> setParent;
 
@@ -158,12 +158,11 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         if (!message.endsWith("\n")) {
           message += "\n";
         }
-        md.setMessage(message);
       } else {
-        md.setMessage("Modify access rules\n");
+        message = "Modify access rules\n";
       }
 
-      return updateProjectConfig(projectControl, config, md,
+      return updateProjectConfig(projectControl, config, md, message,
           parentProjectUpdate);
     } finally {
       md.close();
@@ -171,7 +170,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   }
 
   protected abstract T updateProjectConfig(ProjectControl ctl,
-      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
+      ProjectConfig config, MetaDataUpdate md, String message, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException,
       OrmException;
 

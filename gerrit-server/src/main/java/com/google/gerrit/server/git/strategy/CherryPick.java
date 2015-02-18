@@ -66,13 +66,12 @@ public class CherryPick extends SubmitStrategy {
   @Override
   protected MergeTip _run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws MergeException {
-    MergeTip mergeTip = branchTip != null
-        ? new MergeTip(branchTip, toMerge) : null;
+    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
       try {
-        if (mergeTip == null) {
+        if (mergeTip.getCurrentTip() == null) {
           mergeTip = cherryPickUnbornRoot(n);
         } else if (n.getParentCount() == 0) {
           cherryPickRootOntoBranch(n);

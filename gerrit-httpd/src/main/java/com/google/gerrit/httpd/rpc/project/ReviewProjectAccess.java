@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
@@ -100,6 +101,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   protected Change.Id updateProjectConfig(ProjectControl ctl,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException {
+    md.setInsertChangeId(true);
     Change.Id changeId = new Change.Id(db.nextChangeId());
     RevCommit commit =
         config.commitToNewRef(md, new PatchSet.Id(changeId,
@@ -109,7 +111,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     }
 
     Change change = new Change(
-        new Change.Key("I" + commit.name()),
+        getChangeId(commit),
         changeId,
         user.getAccountId(),
         new Branch.NameKey(
@@ -131,6 +133,14 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       addAdministratorsAsReviewers(rsrc);
     }
     return changeId;
+  }
+
+  private static Change.Key getChangeId(RevCommit commit) {
+    List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
+    Change.Key changeKey = !idList.isEmpty()
+        ? new Change.Key(idList.get(idList.size() - 1).trim())
+        : new Change.Key("I" + commit.name());
+    return changeKey;
   }
 
   private void addProjectOwnersAsReviewers(ChangeResource rsrc) {

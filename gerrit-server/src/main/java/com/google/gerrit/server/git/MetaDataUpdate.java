@@ -148,6 +148,7 @@ public class MetaDataUpdate {
   private final BatchRefUpdate batch;
   private final CommitBuilder commit;
   private boolean allowEmpty;
+  private boolean insertChangeId;
 
   @AssistedInject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
@@ -180,6 +181,10 @@ public class MetaDataUpdate {
     this.allowEmpty = allowEmpty;
   }
 
+  public void setInsertChangeId(boolean insertChangeId) {
+    this.insertChangeId = insertChangeId;
+  }
+
   /** @return batch in which to run the update, or {@code null} for no batch. */
   BatchRefUpdate getBatch() {
     return batch;
@@ -200,6 +205,10 @@ public class MetaDataUpdate {
 
   boolean allowEmpty() {
     return allowEmpty;
+  }
+
+  boolean insertChangeId() {
+    return insertChangeId;
   }
 
   public CommitBuilder getCommitBuilder() {

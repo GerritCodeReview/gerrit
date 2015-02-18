@@ -43,6 +43,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.BufferedReader;
@@ -269,6 +270,14 @@ public abstract class VersionedMetaData {
 
         if (src != null) {
           commit.addParentId(src);
+        }
+
+        if (update.insertChangeId()) {
+          ObjectId id =
+              ChangeIdUtil.computeChangeId(res, getRevision(),
+                  commit.getAuthor(), commit.getCommitter(),
+                  commit.getMessage());
+          commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), id));
         }
 
         src = inserter.insert(commit);

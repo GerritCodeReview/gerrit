@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0bfcdcc3_c4b97ef9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-18T18:25:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bfcdcc3_a447a263",
+      "range": {
+        "startLine": 212,
+        "startChar": 19,
+        "endLine": 212,
+        "endChar": 20
+      },
+      "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bffe0b9_e566b60d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2015-02-18T18:14:20Z",
       "side": 1,
       "message": "This kinda sucks because these all happen in serial, even if the merge queue is using multiple threads. At least on a super-slow server like googlesource.com, this will be slower than if someone wrote a script to call /submit over the REST API in parallel for the equivalent set of changes.\n\nWe should make schedule return a Future, then we could do these all in parallel and still block until they\u0027re done.\n\nBut don\u0027t worry about it for now.",
+      "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bffe0b9_c56bbad5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-18T18:25:59Z",
+      "side": 1,
+      "message": "added a todo note.",
+      "parentUuid": "2bffe0b9_e566b60d",
       "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0bfcdcc3_a4be82dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-18T18:25:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bfcdcc3_844ca688",
+      "range": {
+        "startLine": 217,
+        "startChar": 19,
+        "endLine": 217,
+        "endChar": 20
+      },
+      "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bffe0b9_052312c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 4
@@ -76,6 +142,24 @@
       "writtenOn": "2015-02-18T18:14:20Z",
       "side": 1,
       "message": "This block has no effect.\n\nThe only way this could have an effect is if it\u0027s followed by a catch block for a type that\u0027s a superclass:\n\n } catch (SomeSpecificIOException e) {\n   throw e;\n } catch (IOException e) {\n   // Do something that\u0027s not \"throw e\".\n }\n\nBut that\u0027s not what you have here.",
+      "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bfcdcc3_245cd235",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-18T18:25:59Z",
+      "side": 1,
+      "message": "I think I messed up the semantics of a try block. When writing these lines I assumed all exceptions not listed in the catch would be ignored silently. Which makes no sense at all. Though I realize a try/finally construct without catches is just about program flow to make sure the cleanup is performed all the time.\n\nI\u0027ll remove these lines again.\nDone.",
+      "parentUuid": "2bffe0b9_052312c9",
       "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "0bfcdcc3_e4b47a01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-18T18:25:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bfcdcc3_6462caf0",
+      "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bfcdcc3_0482f62f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -110,6 +212,24 @@
       "writtenOn": "2015-02-18T18:14:20Z",
       "side": 1,
       "message": "Only do this if changes is non-empty",
+      "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bfcdcc3_0459d645",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-18T18:25:59Z",
+      "side": 1,
+      "message": "They should be non-empty by definition. The changes in Submit makes submit.submit always return non null for each change, so this is a list of non null changes.\n\nThere are the 2 cases with submitting just a single change, then the changes list contains exactly one change. The other case of `submitWholeTopic` can only be triggered by merging one change, so the list contains at least one change.\n\nAm I missing a detail here?",
+      "parentUuid": "0bfcdcc3_0482f62f",
       "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

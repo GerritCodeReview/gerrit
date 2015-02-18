@@ -142,12 +142,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change1 =
         createChange(git, "Change 1", "a.txt", "content", "test-topic");
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "b.txt", "content", "test-topic");
+        createEmptyChange(git, "test-topic");
+    PushOneCommit.Result change3 =
+        createChange(git, "Change 3", "b.txt", "content", "test-topic");
     approve(change1.getChangeId());
     approve(change2.getChangeId());
-    submit(change2.getChangeId());
+    approve(change3.getChangeId());
+    submit(change3.getChangeId());
     change1.assertChange(Change.Status.MERGED, "test-topic", admin);
     change2.assertChange(Change.Status.MERGED, "test-topic", admin);
+    change3.assertChange(Change.Status.MERGED, "test-topic", admin);
   }
 
   protected Git createProject() throws JSchException, IOException,
@@ -190,6 +194,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master");
+  }
+
+  protected PushOneCommit.Result createEmptyChange(Git git, String topic)
+      throws GitAPIException {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    return push.empty(git, "refs/for/master/" + topic);
   }
 
   protected PushOneCommit.Result createChange(Git git, String subject,

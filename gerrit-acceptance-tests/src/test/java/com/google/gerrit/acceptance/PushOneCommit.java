@@ -163,6 +163,10 @@ public class PushOneCommit {
     return execute(git, ref);
   }
 
+  public Result empty(Git git, String ref) throws GitAPIException {
+    return execute(git, ref);
+  }
+
   public Result rm(Git git, String ref) throws GitAPIException {
     GitUtil.rm(git, fileName);
     return execute(git, ref);

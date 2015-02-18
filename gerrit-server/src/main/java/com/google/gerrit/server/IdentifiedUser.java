@@ -326,11 +326,6 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
-  public boolean memberOfAny(Iterable<UUID> ids) {
-    return groupBackend.memberOfAny(this, ids);
-  }
-
-  @Override
   public Set<Change.Id> getStarredChanges() {
     if (starredChanges == null) {
       if (dbProvider == null) {

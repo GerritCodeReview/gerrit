@@ -358,11 +358,6 @@ public class Util {
     }
 
     @Override
-    public boolean memberOfAny(Iterable<UUID> ids) {
-      return getEffectiveGroups().containsAnyOf(ids);
-    }
-
-    @Override
     public String getUserName() {
       return username;
     }

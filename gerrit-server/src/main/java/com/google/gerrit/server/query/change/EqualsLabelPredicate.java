@@ -131,7 +131,7 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
         return false;
       }
 
-      if (group != null && !reviewer.memberOf(group)) {
+      if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
         return false;
       }
 

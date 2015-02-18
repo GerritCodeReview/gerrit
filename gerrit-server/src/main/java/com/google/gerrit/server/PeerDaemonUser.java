@@ -51,11 +51,6 @@ public class PeerDaemonUser extends CurrentUser {
   }
 
   @Override
-  public boolean memberOfAny(Iterable<UUID> ids) {
-    return false;
-  }
-
-  @Override
   public Set<Change.Id> getStarredChanges() {
     return Collections.emptySet();
   }

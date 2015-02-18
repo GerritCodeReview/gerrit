@@ -22,7 +22,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AbstractGroupBackend;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class SystemGroupBackend extends AbstractGroupBackend {
+public class SystemGroupBackend implements GroupBackend {
   /** Common UUID assigned to the "Anonymous Users" group. */
   public static final AccountGroup.UUID ANONYMOUS_USERS =
       new AccountGroup.UUID("global:Anonymous-Users");

@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_62655631",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-18T10:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dfcd7d_0233aa92",
+      "range": {
+        "startLine": 155,
+        "startChar": 27,
+        "endLine": 155,
+        "endChar": 63
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_c30b961f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 6
@@ -532,6 +556,30 @@
     },
     {
       "key": {
+        "uuid": "d6dfcd7d_c2526253",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-18T10:17:26Z",
+      "side": 1,
+      "message": "Git it, thanks!",
+      "parentUuid": "f67bf134_8bd60dc4",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_42a652da",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -661,6 +709,30 @@
     },
     {
       "key": {
+        "uuid": "6b0718cc_17d49445",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-18T10:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_239dcafa",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 36
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f654d1b2_a31a1a66",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -708,6 +780,30 @@
     },
     {
       "key": {
+        "uuid": "6b0718cc_77e1901f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-18T10:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_c38ab6b4",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 93,
+        "endChar": 78
+      },
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_62ad56b0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -743,6 +839,24 @@
     },
     {
       "key": {
+        "uuid": "6b0718cc_57de0c67",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-18T10:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d1b2_e38fb2c1",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6dfcd7d_22a34eca",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 6
@@ -771,6 +885,24 @@
       "writtenOn": "2015-02-16T14:17:42Z",
       "side": 1,
       "message": "wip",
+      "parentUuid": "d6dfcd7d_22a34eca",
+      "revId": "12e3747027ca9e760ff056049b93a11591049148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b0718cc_b7e96809",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-18T10:17:26Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "d6dfcd7d_22a34eca",
       "revId": "12e3747027ca9e760ff056049b93a11591049148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

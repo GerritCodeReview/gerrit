@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -28,6 +29,9 @@ import java.util.Set;
 
 /** An anonymous user who has not yet authenticated. */
 public class AnonymousUser extends CurrentUser {
+  private static final ListGroupMembership ANONYMOUS = new ListGroupMembership(
+      ImmutableSet.of(SystemGroupBackend.ANONYMOUS_USERS));
+
   @Inject
   AnonymousUser(CapabilityControl.Factory capabilityControlFactory) {
     super(capabilityControlFactory);
@@ -35,7 +39,7 @@ public class AnonymousUser extends CurrentUser {
 
   @Override
   public GroupMembership getEffectiveGroups() {
-    return new ListGroupMembership(Collections.singleton(SystemGroupBackend.ANONYMOUS_USERS));
+    return ANONYMOUS;
   }
 
   @Override

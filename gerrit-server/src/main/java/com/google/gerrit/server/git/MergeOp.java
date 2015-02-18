@@ -612,7 +612,7 @@ public class MergeOp {
                 idstr, ps.getId());
             commit.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
             try {
-              setMerged(chg, null, commit.getName());
+              setMerged(chg, null, commit);
             } catch (OrmException e) {
               logError("Cannot mark change " + chg.getId() + " merged", e);
             }
@@ -776,10 +776,9 @@ public class MergeOp {
       String txt = s.getMessage();
       logDebug("Status of change {} ({}) on {}: {}", c.getId(), commit.name(),
           c.getDest(), s);
-      String commitName = commit.getName();
       // If mergeTip is null merge failed and mergeResultRev will not be read.
-      String mergeResultRev =
-          mergeTip != null ? mergeTip.getMergeResults().get(commitName) : null;
+      ObjectId mergeResultRev =
+          mergeTip != null ? mergeTip.getMergeResults().get(commit) : null;
       try {
         switch (s) {
           case CLEAN_MERGE:
@@ -948,7 +947,7 @@ public class MergeOp {
     return m;
   }
 
-  private void setMerged(Change c, ChangeMessage msg, String mergeResultRev)
+  private void setMerged(Change c, ChangeMessage msg, ObjectId mergeResultRev)
       throws OrmException, IOException {
     logDebug("Setting change {} merged", c.getId());
     ChangeUpdate update = null;
@@ -985,7 +984,7 @@ public class MergeOp {
       try {
         hooks.doChangeMergedHook(c,
             accountCache.get(submitter.getAccountId()).getAccount(),
-            merged, db, mergeResultRev);
+            merged, db, mergeResultRev.name());
       } catch (OrmException ex) {
         logError("Cannot run hook for submitted patch set " + c.getId(), ex);
       }

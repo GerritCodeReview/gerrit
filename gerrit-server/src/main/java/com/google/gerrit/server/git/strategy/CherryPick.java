@@ -108,7 +108,7 @@ public class CherryPick extends SubmitStrategy {
     try {
       CodeReviewCommit merge =
           writeCherryPickCommit(mergeTip.getCurrentTip(), n);
-      mergeTip.moveTipTo(merge, merge.getName());
+      mergeTip.moveTipTo(merge, merge);
       newCommits.put(mergeTip.getCurrentTip().getPatchsetId()
           .getParentKey(), mergeTip.getCurrentTip());
       return mergeTip;
@@ -130,12 +130,12 @@ public class CherryPick extends SubmitStrategy {
     // was configured.
     if (!args.mergeUtil.hasMissingDependencies(args.mergeSorter, n)) {
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
-        mergeTip.moveTipTo(n, n.getName());
+        mergeTip.moveTipTo(n, n);
       } else {
         CodeReviewCommit result = args.mergeUtil.mergeOneCommit(
             args.serverIdent.get(), args.repo, args.rw, args.inserter,
             args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(), n);
-        mergeTip.moveTipTo(result, n.getName());
+        mergeTip.moveTipTo(result, n);
       }
       PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(args.rw,
           args.canMergeFlag, mergeTip.getCurrentTip(), args.alreadyAccepted);

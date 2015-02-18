@@ -68,7 +68,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
         // create the branch.
         //
         n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-        mergeTip.moveTipTo(n, n.getName());
+        mergeTip.moveTipTo(n, n);
 
       } else if (n.getParentCount() == 0) {
         // Refuse to merge a root commit into an existing branch,
@@ -80,7 +80,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
         if (args.mergeUtil.canFastForward(args.mergeSorter,
             mergeTip.getCurrentTip(), args.rw, n)) {
           n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-          mergeTip.moveTipTo(n, n.getName());
+          mergeTip.moveTipTo(n, n);
 
         } else {
           try {
@@ -101,9 +101,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // rebaseChange.rebase() may already have copied some approvals,
             // use upsert, not insert, to avoid constraint violation on database
             args.db.patchSetApprovals().upsert(approvals);
-            mergeTip.moveTipTo((CodeReviewCommit) args.rw.parseCommit(ObjectId
-                .fromString(newPatchSet.getRevision().get())), newPatchSet
-                .getRevision().get());
+            ObjectId newTipId =
+                ObjectId.fromString(newPatchSet.getRevision().get());
+            CodeReviewCommit newTip =
+                (CodeReviewCommit) args.rw.parseCommit(newTipId);
+            mergeTip.moveTipTo(newTip, newTipId);
             n.change().setCurrentPatchSet(
                 patchSetInfoFactory.get(mergeTip.getCurrentTip(),
                     newPatchSet.getId()));
@@ -133,12 +135,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
         //
         try {
           if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
-            mergeTip.moveTipTo(n, n.getName());
+            mergeTip.moveTipTo(n, n);
           } else {
             mergeTip.moveTipTo(
                 args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
                     args.repo, args.rw, args.inserter, args.canMergeFlag,
-                    args.destBranch, mergeTip.getCurrentTip(), n), n.getName());
+                    args.destBranch, mergeTip.getCurrentTip(), n), n);
           }
           PatchSetApproval submitApproval =
               args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

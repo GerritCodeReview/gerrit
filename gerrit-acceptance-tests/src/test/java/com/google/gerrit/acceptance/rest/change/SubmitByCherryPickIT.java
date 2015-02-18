@@ -241,4 +241,31 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     List<RevCommit> log = getRemoteLog();
     assertThat(log.get(0)).isEqualTo(initialHead.getId());
   }
+
+  @Test
+  public void submitSubsetOfDependentChanges() throws Exception {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    createChange(git, "Change 2", "b", "b");
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+    createChange(git, "Change 4", "d", "d");
+    PushOneCommit.Result change5 = createChange(git, "Change 5", "e", "e");
+
+    // Out of the above, only submit 3 and 5.
+    submitStatusOnly(change3.getChangeId());
+    submit(change5.getChangeId());
+
+    ChangeInfo info3 = get(change3.getChangeId());
+    assertThat(info3.status).isEqualTo(ChangeStatus.MERGED);
+
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log.get(0).getShortMessage())
+        .isEqualTo(change5.getCommit().getShortMessage());
+    assertThat(log.get(1).getShortMessage())
+        .isEqualTo(change3.getCommit().getShortMessage());
+    assertThat(log.get(2).getShortMessage())
+        .isEqualTo(initialHead.getShortMessage());
+  }
 }

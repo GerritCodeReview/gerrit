@@ -26,7 +26,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -358,7 +357,7 @@ public class Util {
     }
 
     @Override
-    public boolean memberOfAny(Iterable<UUID> ids) {
+    public boolean memberOfAny(Iterable<AccountGroup.UUID> ids) {
       return getEffectiveGroups().containsAnyOf(ids);
     }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b169c00_b4c2008d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-18T06:50:45Z",
+      "side": 1,
+      "message": "This seems have caused issue 3184. See reproducer test case in [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/64811/",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "d89a1cccae8070359b65dc5c8a1096aae0fbc9d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

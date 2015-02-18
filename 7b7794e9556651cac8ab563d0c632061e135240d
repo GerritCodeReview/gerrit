@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bfcdcc3_a470c2c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-18T16:56:28Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s possible or intended for this to work as written, at least for cherry-pick and possibly also for rebase if necessary.\n\nIn CherryPick, we will catch MergeIdenticalTreeException, set the commit status to ALREADY_MERGED, and mark the change closed without modifying the repo. This doesn\u0027t fire a ChangeMergedEvent (I believe this is intentional, but not 100% sure), so checkMergeResult below fails.",
+      "revId": "7b7794e9556651cac8ab563d0c632061e135240d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

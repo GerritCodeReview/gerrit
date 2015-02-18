@@ -241,4 +241,36 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     List<RevCommit> log = getRemoteLog();
     assertThat(log.get(0)).isEqualTo(initialHead.getId());
   }
+
+  @Test
+  public void submitChangeAfterParentFailsDueToConflict() throws Exception {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b1");
+    submit(change2.getChangeId());
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "b", "b2");
+    assertThat(change3.getCommit().getParent(0)).isEqualTo(initialHead);
+    PushOneCommit.Result change4 = createChange(git, "Change 3", "c", "c3");
+
+    submitStatusOnly(change3.getChangeId());
+    submitStatusOnly(change4.getChangeId());
+
+    // Merge fails; change3 contains the delta "b1" -> "b2", which cannot be
+    // applied against tip.
+    submitWithConflict(change3.getChangeId());
+
+    // change4 is a clean merge, so should succeed in the same run where change3
+    // failed.
+    ChangeInfo info4 = get(change4.getChangeId());
+    assertThat(info4.status).isEqualTo(ChangeStatus.MERGED);
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log.get(0).getShortMessage())
+        .isEqualTo(change4.getCommit().getShortMessage());
+    assertThat(log.get(1).getShortMessage())
+        .isEqualTo(change2.getCommit().getShortMessage());
+  }
 }

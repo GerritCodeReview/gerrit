@@ -16,13 +16,15 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.inject.Inject;
 
 /** Alert a user to a reply to a change, usually commentary made during review. */
-public abstract class ReplyToChangeSender extends ChangeEmail {
+public class ReplyToChangeSender extends ChangeEmail {
   public static interface Factory<T extends ReplyToChangeSender> {
     public T create(Change change);
   }
 
+  @Inject
   protected ReplyToChangeSender(EmailArguments ea, Change c, String mc) {
     super(ea, c, mc);
   }
@@ -36,5 +38,9 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
     setHeader("References", threadId);
 
     rcptToAuthors(RecipientType.TO);
+  }
+
+  @Override
+  protected void formatChange() throws EmailException {
   }
 }

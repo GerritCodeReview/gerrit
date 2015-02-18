@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.CacheControl;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -40,7 +39,7 @@ public class GetCommit implements RestReadView<RevisionResource> {
 
   @Override
   public Response<CommitInfo> apply(RevisionResource resource)
-      throws ResourceNotFoundException, OrmException {
+      throws OrmException {
     try {
       Response<CommitInfo> r =
           Response.ok(json.toCommit(resource.getPatchSet(), resource
@@ -50,7 +49,7 @@ public class GetCommit implements RestReadView<RevisionResource> {
       }
       return r;
     } catch (PatchSetInfoNotAvailableException e) {
-      throw new ResourceNotFoundException(e.getMessage());
+      throw new OrmException(e);
     }
   }
 }

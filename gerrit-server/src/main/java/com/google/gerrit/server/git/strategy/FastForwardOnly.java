@@ -36,7 +36,7 @@ public class FastForwardOnly extends SubmitStrategy {
         args.mergeSorter, toMerge);
     final CodeReviewCommit newMergeTipCommit =
         args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
-    mergeTip.moveTipTo(newMergeTipCommit, newMergeTipCommit.getName());
+    mergeTip.moveTipTo(newMergeTipCommit, newMergeTipCommit);
 
     while (!sorted.isEmpty()) {
       final CodeReviewCommit n = sorted.remove(0);

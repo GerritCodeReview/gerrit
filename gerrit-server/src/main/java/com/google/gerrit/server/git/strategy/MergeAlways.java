@@ -46,7 +46,7 @@ public class MergeAlways extends SubmitStrategy {
           args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo, args.rw,
               args.inserter, args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),
               mergedFrom);
-      mergeTip.moveTipTo(newTip, mergedFrom.getName());
+      mergeTip.moveTipTo(newTip, mergedFrom);
     }
 
     final PatchSetApproval submitApproval =

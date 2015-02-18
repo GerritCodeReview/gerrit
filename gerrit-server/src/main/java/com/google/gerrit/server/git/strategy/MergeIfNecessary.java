@@ -43,7 +43,7 @@ public class MergeIfNecessary extends SubmitStrategy {
       branchTip =
           args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
     }
-    mergeTip.moveTipTo(branchTip, branchTip.getName());
+    mergeTip.moveTipTo(branchTip, branchTip);
 
     // For every other commit do a pair-wise merge.
     while (!sorted.isEmpty()) {
@@ -52,7 +52,7 @@ public class MergeIfNecessary extends SubmitStrategy {
           args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo,
               args.rw, args.inserter, args.canMergeFlag, args.destBranch,
               branchTip, mergedFrom);
-      mergeTip.moveTipTo(branchTip, mergedFrom.getName());
+      mergeTip.moveTipTo(branchTip, mergedFrom);
     }
 
     final PatchSetApproval submitApproval =

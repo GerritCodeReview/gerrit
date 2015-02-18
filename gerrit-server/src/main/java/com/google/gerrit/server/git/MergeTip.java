@@ -19,6 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.util.Collection;
 import java.util.Map;
 
@@ -32,7 +34,7 @@ import java.util.Map;
  */
 public class MergeTip {
   private CodeReviewCommit branchTip;
-  private Map<String,String> mergeResults;
+  private Map<ObjectId, ObjectId> mergeResults;
 
   /**
    * @param initial Tip before the merge operation; may be null, indicating an
@@ -48,7 +50,7 @@ public class MergeTip {
     this.branchTip = initial;
     // Assume fast-forward merge until opposite is proven.
     for (CodeReviewCommit commit : toMerge) {
-      mergeResults.put(commit.getName(), commit.getName());
+      mergeResults.put(commit.copy(), commit.copy());
     }
   }
 
@@ -56,12 +58,12 @@ public class MergeTip {
    * Moves this MergeTip to newTip and appends mergeResult.
    *
    * @param newTip The new tip; may not be null.
-   * @param mergedFrom The result of the merge of newTip.
+   * @param mergedFrom The result of the merge of {@code newTip}.
    */
-  public void moveTipTo(CodeReviewCommit newTip, String mergedFrom) {
+  public void moveTipTo(CodeReviewCommit newTip, ObjectId mergedFrom) {
     checkArgument(newTip != null);
     branchTip = newTip;
-    mergeResults.put(mergedFrom, newTip.getName());
+    mergeResults.put(mergedFrom, newTip.copy());
   }
 
   /**
@@ -70,7 +72,7 @@ public class MergeTip {
    * @return The merge results of the merge operation as a map of SHA-1 to be
    *     merged to SHA-1 of the merge result.
    */
-  public Map<String, String> getMergeResults() {
+  public Map<ObjectId, ObjectId> getMergeResults() {
     return mergeResults;
   }
 

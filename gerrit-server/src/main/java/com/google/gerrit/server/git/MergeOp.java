@@ -980,7 +980,7 @@ public class MergeOp {
     update.commit();
     sendMergedEmail(c, submitter);
     indexer.index(db, c);
-    if (submitter != null) {
+    if (submitter != null && mergeResultRev != null) {
       try {
         hooks.doChangeMergedHook(c,
             accountCache.get(submitter.getAccountId()).getAccount(),

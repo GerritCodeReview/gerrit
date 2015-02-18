@@ -15,9 +15,14 @@
 
 from __future__ import print_function
 from optparse import OptionParser
-from os import chdir, makedirs, path, symlink
+from os import chdir, makedirs, path
 from subprocess import check_call, check_output
 import sys
+
+if sys.platform == 'win32':
+  import shutil
+else:
+  import symlink
 
 opts = OptionParser()
 opts.add_option('-o', help='path to write WAR to')
@@ -35,18 +40,28 @@ def link_jars(libs, directory):
   makedirs(directory)
   while not path.isfile('.buckconfig'):
     chdir('..')
+  buck = 'buck'
+  if sys.platform == 'win32':
+    buck += '.cmd'
   try:
-    cp = check_output(['buck', 'audit', 'classpath'] + libs)
+    cp = check_output([buck, 'audit', 'classpath'] + libs)
   except Exception as e:
     print('call to buck audit failed: %s' % e, file=sys.stderr)
     exit(1)
   for j in cp.strip().splitlines():
+    if sys.platform == 'win32':
+      j = j.replace('\\', '/')
     if j not in jars:
       jars.add(j)
       n = path.basename(j)
       if j.startswith('buck-out/gen/gerrit-'):
         n = j.split('/')[2] + '-' + n
-      symlink(path.join(root, j), path.join(directory, n))
+      src = path.join(root, j)
+      dst = path.join(directory, n)
+      if sys.platform == 'win32':
+        shutil.copy(src, dst)
+      else:
+        symlink(src, dst)
 
 if args.lib:
   link_jars(args.lib, path.join(war, 'WEB-INF', 'lib'))

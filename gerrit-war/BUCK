@@ -36,6 +36,7 @@ java_library(
 genrule(
   name = 'webapp_assets',
   cmd = 'cd src/main/webapp; zip -qr $OUT .',
+  cmd_exe = 'cd %SRCDIR% && zip -qr %OUT% .',
   srcs = glob(['src/main/webapp/**/*']),
   deps = [],
   out = 'webapp_assets.zip',
@@ -45,6 +46,7 @@ genrule(
 genrule(
   name = 'log4j-config__jar',
   cmd = 'jar cf $OUT -C src/main/resources .',
+  cmd_exe = 'cd %SRCDIR% && zip -qr %OUT% log4j.properties',
   srcs = ['src/main/resources/log4j.properties'],
   out = 'log4j-config.jar',
 )
@@ -71,6 +73,12 @@ genrule(
     'mkdir -p com/google/gerrit/common',
     'echo "%s" >com/google/gerrit/common/Version' % git_describe(),
     'zip -9Dqr $OUT .',
+  ]),
+  cmd_exe = '&&'.join([
+    'cd %TMP%',
+    'mkdir com\\google\\gerrit\\common',
+    'echo %s >com\\google\\gerrit\\common\\Version' % git_describe(),
+    'zip -9Dqr %OUT% .',
   ]),
   out = 'version.jar',
 )

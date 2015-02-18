@@ -17,10 +17,10 @@ from __future__ import print_function
 
 from hashlib import sha1
 from optparse import OptionParser
-from os import link, makedirs, path, remove
+from os import makedirs, path, remove
 import shutil
 from subprocess import check_call, CalledProcessError
-from sys import stderr
+from sys import stderr, platform
 from util import resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
@@ -176,7 +176,13 @@ if exclude:
     exit(1)
 else:
   try:
-    link(cache_ent, args.o)
+    if platform != 'win32':
+      from os import link
+      link(cache_ent, args.o)
+    else:
+      shutil.copyfile(cache_ent, args.o)
+      # cygwin command line seems to work, but Java doesn't "see" the links
+      # check_call(['ln', '-s', cache_ent, args.o])
   except OSError as err:
     try:
       shutil.copyfile(cache_ent, args.o)

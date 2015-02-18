@@ -79,5 +79,9 @@ genrule(
     'org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
+  cmd_exe = 'unzip -qd %TMP% $(location :jgit_src) ' +
+    'org/eclipse/jgit/diff/Edit.java && ' +
+    'cd %TMP% && ' +
+    'zip -Dq %OUT% org/eclipse/jgit/diff/Edit.java',
   out = 'edit-src.jar',
 )

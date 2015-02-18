@@ -11,9 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import sys
 
 def git_describe():
   import subprocess
+  import sys
+  if sys.platform == 'win32':
+    return "N/A"
   cmd = ['git', 'describe', '--match', 'v[0-9].*', '--dirty']
   p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
   v = p.communicate()[0].strip()

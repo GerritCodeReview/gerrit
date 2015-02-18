@@ -22,6 +22,9 @@ def prolog_cafe_library(
     cmd = '$(exe //lib/prolog:compiler)' +
       ' $TMP $OUT ' +
       ' '.join(srcs),
+    cmd_exe = '$(exe //lib/prolog:compiler)' +
+      ' %TMP% %OUT% ' +
+      ' '.join(srcs),
     srcs = srcs,
     out = name + '.src.zip',
   )
@@ -33,6 +36,7 @@ def prolog_cafe_library(
   genrule(
     name = name + '__ln',
     cmd = 'ln -s $(location :%s__lib) $OUT' % name,
+    cmd_exe = 'cp $(location :%s__lib) %%OUT%%' % name,
     deps = [':%s__lib' % name],
     out = name + '.jar',
   )

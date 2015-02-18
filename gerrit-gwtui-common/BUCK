@@ -44,6 +44,7 @@ prebuilt_jar(
 genrule(
   name = 'diffy_image_files_ln',
   cmd = 'ln -s $(location :diffy_image_files) $OUT',
+  cmd_exe = 'cp $(location :diffy_image_files) %OUT%',
   deps = [':diffy_image_files'],
   out = 'diffy_images.jar',
 )

@@ -39,6 +39,7 @@ genrule(
   name = 'buck.properties',
   cmd = 'echo buck=`which buck`>$OUT;' +
     ("echo PATH=\''%s'\' >>$OUT;" % shquote(os_path())),
+  cmd_exe = 'echo no buck properties >%OUT%',
   deps = [],
   out = 'buck.properties',
   visibility = ['PUBLIC'],

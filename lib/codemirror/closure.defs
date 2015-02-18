@@ -5,14 +5,18 @@ def js_minify(
     srcs = [],
     generated = []):
   cmd = ['$(exe :js_minifier) --js_output_file $OUT'] + compiler_args
+  cmd_exe = ['$(exe :js_minifier) --js_output_file %OUT%'] + compiler_args
   if srcs:
     cmd.append('$SRCS')
+    cmd_exe.append('$SRCS')
   if generated:
     cmd.extend(['$(location %s)' % n for n in generated])
+    cmd_exe.extend(['$(location %s)' % n for n in generated])
 
   genrule(
     name = name,
-    cmd = ' '.join(cmd),
+    cmd =  ' '.join(cmd),
+    cmd_exe = ' '.join(cmd_exe),
     srcs = srcs,
     out = out,
   )

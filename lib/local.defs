@@ -14,6 +14,7 @@ def local_jar(
     genrule(
       name = '%s__local_src' % name,
       cmd = 'ln -s %s $OUT' % src,
+      cmd_exe = 'cp %s %%OUT%%' % src,
       out = srcjar)
     prebuilt_jar(
       name = '%s_src' % name,

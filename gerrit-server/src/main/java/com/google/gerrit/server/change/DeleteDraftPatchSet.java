@@ -149,13 +149,13 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   }
 
   private PatchSetInfo previousPatchSetInfo(PatchSet.Id patchSetId)
-      throws ResourceNotFoundException {
+      throws OrmException {
     try {
       return patchSetInfoFactory.get(dbProvider.get(),
           new PatchSet.Id(patchSetId.getParentKey(),
               patchSetId.get() - 1));
     } catch (PatchSetInfoNotAvailableException e) {
-        throw new ResourceNotFoundException(e.getMessage());
+        throw new OrmException(e);
     }
   }
 

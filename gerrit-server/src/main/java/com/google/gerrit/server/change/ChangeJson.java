@@ -870,7 +870,7 @@ public class ChangeJson {
       try {
         out.commit = toCommit(in, cd.change().getProject(), has(WEB_LINKS));
       } catch (PatchSetInfoNotAvailableException e) {
-        log.warn("Cannot load PatchSetInfo " + in.getId(), e);
+        throw new OrmException(e);
       }
     }
 
@@ -879,7 +879,7 @@ public class ChangeJson {
         out.files = fileInfoJson.toFileInfoMap(cd.change(), in);
         out.files.remove(Patch.COMMIT_MSG);
       } catch (PatchListNotAvailableException e) {
-        log.warn("Cannot load PatchList " + in.getId(), e);
+        throw new OrmException(e);
       }
     }
 

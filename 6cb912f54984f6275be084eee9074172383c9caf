@@ -22,6 +22,30 @@
       "revId": "6cb912f54984f6275be084eee9074172383c9caf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bffe0b9_a5be7edd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-18T22:44:12Z",
+      "side": 1,
+      "message": "It would require wrapping there, so it\u0027s a wash.",
+      "parentUuid": "2bffe0b9_e5b47601",
+      "range": {
+        "startLine": 870,
+        "startChar": 0,
+        "endLine": 874,
+        "endChar": 7
+      },
+      "revId": "6cb912f54984f6275be084eee9074172383c9caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

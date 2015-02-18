@@ -31,7 +31,7 @@ import java.util.Collection;
 
 /** Implementation of GroupBackend for the internal group system. */
 @Singleton
-public class InternalGroupBackend extends AbstractGroupBackend {
+public class InternalGroupBackend implements GroupBackend {
   private static final Function<AccountGroup, GroupReference> ACT_GROUP_TO_GROUP_REF =
       new Function<AccountGroup, GroupReference>() {
         @Override

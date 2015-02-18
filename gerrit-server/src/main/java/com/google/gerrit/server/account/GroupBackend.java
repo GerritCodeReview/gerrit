@@ -52,14 +52,6 @@ public interface GroupBackend {
   GroupMembership membershipsOf(IdentifiedUser user);
 
   /**
-   * Check if the user is member of any of the given groups.
-   *
-   * @return {@code true} if the user is a member of at least one of the
-   *         given groups, {@code false} otherwise
-   */
-  boolean memberOfAny(IdentifiedUser user, Iterable<AccountGroup.UUID> ids);
-
-  /**
    * @return {@code true} if the group with the given UUID is visible to all
    *         registered users.
    */

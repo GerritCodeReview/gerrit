@@ -20,7 +20,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.StarredChange;
@@ -323,11 +322,6 @@ public class IdentifiedUser extends CurrentUser {
       }
     }
     return effectiveGroups;
-  }
-
-  @Override
-  public boolean memberOfAny(Iterable<UUID> ids) {
-    return groupBackend.memberOfAny(this, ids);
   }
 
   @Override

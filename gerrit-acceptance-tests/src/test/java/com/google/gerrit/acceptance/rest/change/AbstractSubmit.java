@@ -150,6 +150,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     change2.assertChange(Change.Status.MERGED, "test-topic", admin);
   }
 
+  @Test
+  public void submitEmptyChange() throws Exception {
+    Git git = createProject();
+    PushOneCommit.Result change1 =
+        createChange(git, "Change 1", "a.txt", "content", "test-topic");
+    PushOneCommit.Result change2 = createChange(git);
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    submit(change2.getChangeId());
+  }
+
   protected Git createProject() throws JSchException, IOException,
       GitAPIException {
     return createProject(true);

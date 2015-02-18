@@ -39,7 +39,7 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -59,7 +59,7 @@ import java.util.Set;
 
 public class ChangeInserter {
   public static interface Factory {
-    ChangeInserter create(RefControl ctl, Change c, RevCommit rc);
+    ChangeInserter create(ProjectControl ctl, Change c, RevCommit rc);
   }
 
   private static final Logger log =
@@ -77,7 +77,7 @@ public class ChangeInserter {
   private final AccountCache accountCache;
   private final WorkQueue workQueue;
 
-  private final RefControl refControl;
+  private final ProjectControl projectControl;
   private final Change change;
   private final PatchSet patchSet;
   private final RevCommit commit;
@@ -105,7 +105,7 @@ public class ChangeInserter {
       HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
       WorkQueue workQueue,
-      @Assisted RefControl refControl,
+      @Assisted ProjectControl projectControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
     this.dbProvider = dbProvider;
@@ -119,7 +119,7 @@ public class ChangeInserter {
     this.hashtagsUtil = hashtagsUtil;
     this.accountCache = accountCache;
     this.workQueue = workQueue;
-    this.refControl = refControl;
+    this.projectControl = projectControl;
     this.change = change;
     this.commit = commit;
     this.reviewers = Collections.emptySet();
@@ -198,7 +198,7 @@ public class ChangeInserter {
 
   public Change insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
-    ChangeControl ctl = refControl.getProjectControl().controlFor(change);
+    ChangeControl ctl = projectControl.controlFor(change);
     ChangeUpdate update = updateFactory.create(
         ctl,
         change.getCreatedOn());
@@ -207,7 +207,7 @@ public class ChangeInserter {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
       db.patchSets().insert(Collections.singleton(patchSet));
       db.changes().insert(Collections.singleton(change));
-      LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
+      LabelTypes labelTypes = projectControl.getLabelTypes();
       approvalsUtil.addReviewers(db, update, labelTypes, change,
           patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
       approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
@@ -291,8 +291,7 @@ public class ChangeInserter {
           db.changes().get(changeMessage.getPatchSetId().getParentKey());
       ChangeUtil.bumpRowVersionNotLastUpdatedOn(
           changeMessage.getKey().getParentKey(), db);
-      ChangeControl otherControl =
-          refControl.getProjectControl().controlFor(otherChange);
+      ChangeControl otherControl = projectControl.controlFor(otherChange);
       ChangeUpdate updateForOtherChange =
           updateFactory.create(otherControl, change.getLastUpdatedOn());
       cmUtil.addChangeMessage(db, updateForOtherChange, changeMessage);

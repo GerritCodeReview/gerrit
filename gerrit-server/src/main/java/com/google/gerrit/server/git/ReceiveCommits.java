@@ -1654,7 +1654,7 @@ public class ReceiveCommits {
           magicBranch.dest,
           TimeUtil.nowTs());
       change.setTopic(magicBranch.topic);
-      ins = changeInserterFactory.create(ctl, change, c)
+      ins = changeInserterFactory.create(ctl.getProjectControl(), change, c)
           .setDraft(magicBranch.draft);
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());

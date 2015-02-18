@@ -1121,8 +1121,7 @@ public abstract class AbstractQueryChangesTest {
     Change change = new Change(new Change.Key(key), id, ownerId,
         new Branch.NameKey(project, branch), TimeUtil.nowTs());
     return changeFactory.create(
-        projectControlFactory.controlFor(project,
-          userFactory.create(ownerId)).controlFor(change).getRefControl(),
+        projectControlFactory.controlFor(project, userFactory.create(ownerId)),
         change,
         commit);
   }

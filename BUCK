@@ -25,6 +25,10 @@ genrule(
     ['cd $TMP'] +
     ['ln -s $(location %s) .' % n for n in API_DEPS] +
     ['zip -q0 $OUT *']),
+  cmd_exe = ' && '.join(
+    ['cd %TMP%'] +
+    ['cp $(location %s) .' % n for n in API_DEPS] +
+    ['zip -q0 %OUT% *']),
   deps = API_DEPS,
   out = 'api.zip',
 )
@@ -32,6 +36,7 @@ genrule(
 genrule(
   name = 'all',
   cmd = 'echo done >$OUT',
+  cmd_exe = 'echo done >%OUT%',
   deps = [
     ':api',
     ':release',

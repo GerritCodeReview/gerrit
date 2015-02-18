@@ -13,12 +13,12 @@
 # limitations under the License.
 
 # Rule definitions loaded by default into every BUCK file.
-
 include_defs('//lib/auto/auto_value.defs')
 include_defs('//tools/gwt-constants.defs')
 include_defs('//tools/java_doc.defs')
 include_defs('//tools/java_sources.defs')
 import copy
+from sys import platform
 
 # Add AutoValue support to java_library.
 _buck_java_library = java_library
@@ -57,6 +57,9 @@ def genantlr(
     cmd = '$(exe //lib/antlr:antlr-tool) -o $TMP $SRCS;' +
       'cd $TMP;' +
       'zip -qr $OUT .',
+    cmd_exe = '$(exe //lib/antlr:antlr-tool) -o %TMP% %SRCS% && ' +
+      'cd %TMP% && ' +
+      'zip -qr %OUT% .',
     out = out,
   )
 
@@ -65,10 +68,12 @@ def gwt_module(gwt_xml=None, **kwargs):
   if 'resources' not in kw:
     kw['resources'] = []
   if gwt_xml:
+    if platform == 'win32':
+      # normalize path on other platform
+      gwt_xml = gwt_xml.replace('/', '\\')
     kw['resources'] += [gwt_xml]
   if 'srcs' in kw:
     kw['resources'] += kw['srcs']
-
   # Buck does not accept duplicate resources. Callers may have
   # included gwt_xml or srcs as part of resources, so de-dupe.
   kw['resources'] = list(set(kw['resources']))

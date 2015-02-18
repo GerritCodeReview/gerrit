@@ -1,4 +1,7 @@
+from sys import platform
+
 SRC = 'src/main/java/com/google/gerrit/'
+SRC_WIN = SRC.replace('/', '\\')
 
 ANNOTATIONS = [
   SRC + 'common/Nullable.java',
@@ -14,15 +17,28 @@ EXCLUDES = [
   SRC + 'common/TimeUtil.java',
 ]
 
+EXCLUDES_WIN = [
+  SRC_WIN + 'common\\SiteLibraryLoaderUtil.java',
+  SRC_WIN + 'common\\PluginData.java',
+  SRC_WIN + 'common\\FileUtil.java',
+  SRC_WIN + 'common\\IoUtil.java',
+  SRC_WIN + 'common\\TimeUtil.java',
+]
+
 java_library(
   name = 'annotations',
   srcs = ANNOTATIONS,
   visibility = ['PUBLIC'],
 )
 
+if platform == 'win32':
+   excludes = EXCLUDES_WIN
+else:
+   excludes = EXCLUDES
+
 gwt_module(
   name = 'client',
-  srcs = glob([SRC + 'common/**/*.java'], excludes = EXCLUDES),
+  srcs = glob([SRC + 'common/**/*.java'], excludes = excludes),
   gwt_xml = SRC + 'Common.gwt.xml',
   deps = [
     ':annotations',

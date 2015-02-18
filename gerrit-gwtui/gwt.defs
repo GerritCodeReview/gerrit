@@ -59,6 +59,10 @@ def gwt_user_agent_permutations(
         ('mkdir -p \$(dirname %s);' % gwt) +
         ('echo "%s">%s;' % (xml, gwt)) +
         'zip -qr $OUT .',
+      cmd_exe = 'cd %TMP% && ' +
+        ('mkdir -p \$(dirname %s) && ' % gwt) +
+        ('echo "%s">%s && ' % (xml, gwt)) +
+        'zip -qr %OUT% .',
       out = jar,
     )
     prebuilt_jar(

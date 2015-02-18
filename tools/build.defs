@@ -40,7 +40,7 @@ def war(
     visibility = [],
     docs = False
     ):
-  cmd = ['$(exe //tools:pack_war)', '-o', '$OUT', '--tmp', '$TMP']
+  cmd = []
   for l in libs:
     cmd.extend(['--lib', l])
   for l in pgmlibs:
@@ -57,7 +57,10 @@ def war(
 
   genrule(
     name = name,
-    cmd = ' '.join(cmd),
+    cmd = '$(exe //tools:pack_war) -o $OUT --tmp $TMP ' +
+      ' '.join(cmd),
+    cmd_exe = '$(exe //tools:pack_war) -o %OUT% --tmp %TMP% ' +
+      ' '.join(cmd),
     deps = libs + pgmlibs + dep,
     out = name + '.war',
     visibility = visibility,

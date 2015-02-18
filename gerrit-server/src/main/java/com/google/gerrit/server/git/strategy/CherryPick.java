@@ -72,11 +72,11 @@ public class CherryPick extends SubmitStrategy {
       CodeReviewCommit n = sorted.remove(0);
       try {
         if (mergeTip.getCurrentTip() == null) {
-          mergeTip = cherryPickUnbornRoot(n);
+          cherryPickUnbornRoot(n, mergeTip);
         } else if (n.getParentCount() == 0) {
           cherryPickRootOntoBranch(n);
         } else if (n.getParentCount() == 1) {
-          mergeTip = cherryPickOne(n, mergeTip);
+          cherryPickOne(n, mergeTip);
         } else {
           cherryPickMultipleParents(n, mergeTip);
         }
@@ -87,11 +87,10 @@ public class CherryPick extends SubmitStrategy {
     return mergeTip;
   }
 
-  private MergeTip cherryPickUnbornRoot(CodeReviewCommit n) {
+  private void cherryPickUnbornRoot(CodeReviewCommit n, MergeTip mergeTip) {
     // The branch is unborn. Take fast-forward resolution to create the branch.
-    MergeTip mergeTip = new MergeTip(n, Lists.newArrayList(n));
+    mergeTip.moveTipTo(n, n);
     n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-    return mergeTip;
   }
 
   private void cherryPickRootOntoBranch(CodeReviewCommit n) {
@@ -100,24 +99,24 @@ public class CherryPick extends SubmitStrategy {
     n.setStatusCode(CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT);
   }
 
-  private MergeTip cherryPickOne(CodeReviewCommit n, MergeTip mergeTip)
+  private void cherryPickOne(CodeReviewCommit n, MergeTip mergeTip)
       throws NoSuchChangeException, OrmException, IOException {
-    // If there is only one parent, a cherry-pick can be done by
-    // taking the delta relative to that one parent and redoing
-    // that on the current merge tip.
+    // If there is only one parent, a cherry-pick can be done by taking the
+    // delta relative to that one parent and redoing that on the current merge
+    // tip.
+    //
+    // Keep going in the case of a single merge failure; the goal is to
+    // cherry-pick as many commits as possible.
     try {
       CodeReviewCommit merge =
           writeCherryPickCommit(mergeTip.getCurrentTip(), n);
       mergeTip.moveTipTo(merge, merge);
       newCommits.put(mergeTip.getCurrentTip().getPatchsetId()
           .getParentKey(), mergeTip.getCurrentTip());
-      return mergeTip;
     } catch (MergeConflictException mce) {
       n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
-      return null;
     } catch (MergeIdenticalTreeException mie) {
       n.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
-      return null;
     }
   }
 

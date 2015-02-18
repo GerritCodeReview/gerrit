@@ -71,7 +71,7 @@ public class CherryPick extends SubmitStrategy {
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
       try {
-        if (mergeTip.getCurrentTip() == null) {
+        if (mergeTip == null || mergeTip.getCurrentTip() == null) {
           mergeTip = cherryPickUnbornRoot(n);
         } else if (n.getParentCount() == 0) {
           cherryPickRootOntoBranch(n);

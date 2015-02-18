@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7669c173_c7387e70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-18T01:27:51Z",
+      "side": 1,
+      "message": "Missing copyright and license header.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 3
+      },
+      "revId": "4a26a6b55cfbff7edc67e31a1bad8b103f305376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

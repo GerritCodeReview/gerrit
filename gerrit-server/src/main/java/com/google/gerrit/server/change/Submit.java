@@ -206,17 +206,19 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    change = submit(rsrc, caller, false);
-    if (change == null) {
-      throw new ResourceConflictException("change is "
-          + status(dbProvider.get().changes().get(rsrc.getChange().getId())));
-    }
+    List<Change> submittedChanges = submit(rsrc, caller, false);
 
     if (input.waitForMerge) {
-      mergeQueue.merge(change.getDest());
+      for (Change c : submittedChanges) {
+        // TODO(sbeller): We should make schedule return a Future, then we
+        // could do these all in parallel and still block until they're done.
+        mergeQueue.merge(c.getDest());
+      }
       change = dbProvider.get().changes().get(change.getId());
     } else {
-      mergeQueue.schedule(change.getDest());
+      for (Change c : submittedChanges) {
+        mergeQueue.schedule(c.getDest());
+      }
     }
 
     if (change == null) {
@@ -345,9 +347,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .orNull();
   }
 
-  private Change submitToDatabase(ReviewDb db, Change.Id changeId,
-      final Timestamp timestamp) throws OrmException {
-    return db.changes().atomicUpdate(changeId,
+  private Change submitToDatabase(final ReviewDb db, final Change.Id changeId,
+      final Timestamp timestamp) throws OrmException,
+      ResourceConflictException {
+    Change ret = db.changes().atomicUpdate(changeId,
       new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
@@ -359,6 +362,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           return null;
         }
       });
+    if (ret != null) {
+      return ret;
+    } else {
+      throw new ResourceConflictException("change " + changeId + " is "
+          + status(db.changes().get(changeId)));
+    }
   }
 
   private Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
@@ -380,9 +389,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
       change = submitToDatabase(db, change.getId(), timestamp);
-      if (change == null) {
-        return null;
-      }
       db.commit();
     } finally {
       db.rollback();
@@ -391,7 +397,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return change;
   }
 
-  private Change submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
+  private List<Change> submitWholeTopic(RevisionResource rsrc, IdentifiedUser caller,
       boolean force, String topic) throws ResourceConflictException, OrmException,
       IOException {
     Preconditions.checkNotNull(topic);
@@ -420,30 +426,31 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       batch.write(update, new CommitBuilder());
 
       for (ChangeData c : changesByTopic) {
-        if (submitToDatabase(db, c.getId(), timestamp) == null) {
-          return null;
-        }
+        submitToDatabase(db, c.getId(), timestamp);
       }
       db.commit();
     } finally {
       db.rollback();
     }
     List<Change.Id> ids = new ArrayList<>(changesByTopic.size());
+    List<Change> ret = new ArrayList<>(changesByTopic.size());
     for (ChangeData c : changesByTopic) {
       ids.add(c.getId());
+      ret.add(c.change());
     }
     indexer.indexAsync(ids).checkedGet();
-    return change;
+
+    return ret;
   }
 
-  public Change submit(RevisionResource rsrc, IdentifiedUser caller,
+  public List<Change> submit(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
     String topic = rsrc.getChange().getTopic();
     if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
       return submitWholeTopic(rsrc, caller, force, topic);
     } else {
-      return submitThisChange(rsrc, caller, force);
+      return Arrays.asList(submitThisChange(rsrc, caller, force));
     }
   }
 

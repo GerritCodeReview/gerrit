@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "2bffe0b9_6562c6f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-18T22:06:59Z",
+      "side": 1,
+      "message": "Right, if it\u0027s not in a catch clause the whole statement throws. If the whole statement throws but the method doesn\u0027t throw, then it\u0027s a compilation error.\n\nThis method already throws ResourceConflictException which is why it\u0027s not a compliation error.",
+      "parentUuid": "0bfcdcc3_245cd235",
+      "revId": "74ebe70d06a5f49b7c2d8b81e0a247714f7b636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bfcdcc3_6462caf0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 4

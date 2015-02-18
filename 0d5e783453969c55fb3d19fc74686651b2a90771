@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b169c00_f4cc78c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-18T07:12:34Z",
+      "side": 1,
+      "message": "Assuming it really is the submit button with no text which is shown then this can be easily verified by executing the REST API call and check for the return. Though what I find suspicious here in the context of buttons still being shown is the move of `actions.reloadRevisionActions(actionMap);` outside of the `if (current)` which then previously set `actions.setSubmitEnabled();`. I\u0027ll need to think about that again tomorrow.",
+      "range": {
+        "startLine": 1117,
+        "startChar": 4,
+        "endLine": 1123,
+        "endChar": 5
+      },
+      "revId": "0d5e783453969c55fb3d19fc74686651b2a90771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

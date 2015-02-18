@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7669c173_e754a297",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-18T00:40:43Z",
+      "side": 1,
+      "message": "All these changes in this file (and similar changes in this change) shouldn\u0027t be here. This is just to demonstrate, that current Buck version is failing to support file pattern in platform independent way: [1].\n\n* [1] https://github.com/facebook/buck/issues/248",
+      "revId": "925239f0d7d57fe9e1c0d1541b9c43808dcb0471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

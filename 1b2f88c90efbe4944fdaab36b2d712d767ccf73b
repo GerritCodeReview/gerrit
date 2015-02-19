@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b0718cc_5759ec44",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T12:14:21Z",
+      "side": 1,
+      "message": "unneeded change",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 41
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b0718cc_b7b4c800",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T12:14:21Z",
+      "side": 1,
+      "message": "nit: wrap this like this:\n\n  return null !\u003d scheme\n      ? getExternalId().substring(scheme.length() + 1)\n      : null;",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 15
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b0718cc_d7c33c5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T12:14:21Z",
+      "side": 1,
+      "message": "This exception is only thrown in line 392 when we try to create the link, but before we may have already deleted the existing external IDs in line 389, is this OK or should the check happen before?",
+      "range": {
+        "startLine": 375,
+        "startChar": 2,
+        "endLine": 376,
+        "endChar": 43
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b19a030_155f742d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T12:14:21Z",
+      "side": 1,
+      "message": "new ArrayList\u003c\u003e()",
+      "range": {
+        "startLine": 400,
+        "startChar": 54,
+        "endLine": 400,
+        "endChar": 75
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

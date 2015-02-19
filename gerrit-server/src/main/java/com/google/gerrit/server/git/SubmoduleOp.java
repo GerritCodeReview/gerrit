@@ -227,8 +227,13 @@ public class SubmoduleOp {
                 && (c.getStatusCode() == CommitMergeStatus.CLEAN_MERGE
                     || c.getStatusCode() == CommitMergeStatus.CLEAN_PICK
                     || c.getStatusCode() == CommitMergeStatus.CLEAN_REBASE)) {
-              sb.append("\n")
-                .append(c.getFullMessage());
+              try {
+                sb.append("\n")
+                  .append(c.getFullMessage());
+              } catch (NullPointerException e) {
+                sb.append("\n")
+                .append("NPE");
+              }
             }
           }
         }

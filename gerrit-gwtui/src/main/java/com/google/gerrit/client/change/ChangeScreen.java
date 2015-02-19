@@ -218,6 +218,8 @@ public class ChangeScreen extends Screen {
     return changeId;
   }
 
+  private static native final void log(String m) /*-{ console.log(m) }-*/;
+
   @Override
   protected void onLoad() {
     super.onLoad();
@@ -246,6 +248,7 @@ public class ChangeScreen extends Screen {
   }
 
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
+    log("loadChangeInfo");
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CHANGE_ACTIONS,
@@ -257,6 +260,7 @@ public class ChangeScreen extends Screen {
   }
 
   void loadRevisionInfo() {
+    log("loadRevisionInfo");
     RestApi call = ChangeApi.actions(changeId.get(), revision);
     call.background();
     call.get(new GerritCallback<NativeMap<ActionInfo>>() {
@@ -752,6 +756,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadConfigInfo(final ChangeInfo info, final String base) {
+    log("loadConfigInfo");
     info.revisions().copyKeysIntoChildren("name");
     if (edit != null) {
       edit.set_name(edit.commit().commit());
@@ -1049,6 +1054,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void renderChangeInfo(ChangeInfo info) {
+    log("renderChangeInfo");
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
 
@@ -1089,11 +1095,13 @@ public class ChangeScreen extends Screen {
 
     // Properly render revision actions initially while waiting for
     // the callback to populate them correctly.
+    log("calling renderRevisionInfo with empty for init below");
     renderRevisionInfo(changeInfo, NativeMap.<ActionInfo> create());
   }
 
   private void renderRevisionInfo(ChangeInfo info,
       NativeMap<ActionInfo> actionMap) {
+    log("renderRevisionInfo " + actionMap.size());
     RevisionInfo revisionInfo = info.revision(revision);
     boolean current = info.status().isOpen()
         && revision.equals(info.current_revision())

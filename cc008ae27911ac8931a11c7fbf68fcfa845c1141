@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b19a030_d5c33c5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T18:55:22Z",
+      "side": 1,
+      "message": "If a commit fixes an issue, we note this as \u0027Bug\u0027 footer in the commit message:\n\n  Bug: issue 3192\n\nSee [1] for an example.\n\n[1] https://gerrit-review.googlesource.com/63932",
+      "range": {
+        "startLine": 19,
+        "startChar": 43,
+        "endLine": 19,
+        "endChar": 72
+      },
+      "revId": "cc008ae27911ac8931a11c7fbf68fcfa845c1141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

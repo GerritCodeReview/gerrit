@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6b0718cc_17a654d1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-19T14:37:05Z",
+      "side": 1,
+      "message": "Done, restored to the original version.",
+      "parentUuid": "6b0718cc_5759ec44",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 41
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b0718cc_b7b4c800",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
         "patchSetId": 31
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-19T12:14:21Z",
       "side": 1,
       "message": "nit: wrap this like this:\n\n  return null !\u003d scheme\n      ? getExternalId().substring(scheme.length() + 1)\n      : null;",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 15
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b0718cc_77b35013",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-19T14:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b0718cc_b7b4c800",
       "range": {
         "startLine": 138,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6b0718cc_57b0cc04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-19T14:37:05Z",
+      "side": 1,
+      "message": "AccountException should never be thrown in theory ... but I see that happening for:\n- temporary problems with the DB when doing the link\n- association of external-id that was already assigned to another user and thus did not get removed by db.accountExternalIds().deleteKeys(filteredKeysByScheme).\n\nThe filteredKeysByScheme just gets the keys associated to the account \"to\" ... and thus wouldn\u0027t delete the key should that have been used by another account.\n\nIt is not a normal condition anyway ;-) and happens only if two different users get the same external id by mistake.\n\nDoes this make sense?",
+      "parentUuid": "6b0718cc_d7c33c5e",
+      "range": {
+        "startLine": 375,
+        "startChar": 2,
+        "endLine": 376,
+        "endChar": 43
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b19a030_155f742d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 31
@@ -82,6 +154,30 @@
       "writtenOn": "2015-02-19T12:14:21Z",
       "side": 1,
       "message": "new ArrayList\u003c\u003e()",
+      "range": {
+        "startLine": 400,
+        "startChar": 54,
+        "endLine": 400,
+        "endChar": 75
+      },
+      "revId": "1b2f88c90efbe4944fdaab36b2d712d767ccf73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b19a030_755ce836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-19T14:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b19a030_155f742d",
       "range": {
         "startLine": 400,
         "startChar": 54,

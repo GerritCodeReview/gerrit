@@ -46,6 +46,30 @@
       "revId": "0bc4ec34f72fd0ffc1c1e88f938cdb7e4be22943",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b0718cc_b74de888",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/webui/AbstractWebUiTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-19T11:14:29Z",
+      "side": 1,
+      "message": "Strange. Adjust it to always compare against suffix: \"Code Review\", to always pass?",
+      "parentUuid": "ebf948ff_bb9b078d",
+      "range": {
+        "startLine": 52,
+        "startChar": 33,
+        "endLine": 52,
+        "endChar": 51
+      },
+      "revId": "0bc4ec34f72fd0ffc1c1e88f938cdb7e4be22943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

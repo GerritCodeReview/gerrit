@@ -24,7 +24,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 
 /** Provides a list of all configured {@link TrackingFooter}s. */
@@ -43,8 +47,11 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
     for (String name : cfg.getSubsections(TRACKING_ID_TAG)) {
       boolean configValid = true;
 
-      String footer = cfg.getString(TRACKING_ID_TAG, name, FOOTER_TAG);
-      if (footer == null || footer.isEmpty()) {
+      Set<String> footers = new HashSet<>(
+          Arrays.asList(cfg.getStringList(TRACKING_ID_TAG, name, FOOTER_TAG)));
+      footers.removeAll(Collections.singleton(null));
+
+      if (footers.isEmpty()) {
         configValid = false;
         log.error("Missing " + TRACKING_ID_TAG + "." + name + "." + FOOTER_TAG
             + " in gerrit.config");
@@ -71,7 +78,9 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
 
       if (configValid) {
         try {
-          trackingFooters.add(new TrackingFooter(footer, match, system));
+          for (String footer : footers) {
+            trackingFooters.add(new TrackingFooter(footer, match, system));
+          }
         } catch (PatternSyntaxException e) {
           log.error("Invalid pattern \"" + match + "\" in gerrit.config "
               + TRACKING_ID_TAG + "." + name + "." + REGEX_TAG + ": "

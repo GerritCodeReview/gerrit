@@ -3363,6 +3363,7 @@ bug:<tracking id>.
 ----
 [trackingid "jira-bug"]
   footer = Bugfix:
+  footer = Bug:
   match = JRA\\d{2,8}
   system = JIRA
 
@@ -3374,11 +3375,15 @@ bug:<tracking id>.
 
 [[trackingid.name.footer]]trackingid.<name>.footer::
 +
-A prefix tag that identify the footer line to parse for tracking ids.
-Several trackingid entries can have the same footer tag. A single
-trackingid entry can have multiple footer tags. If multiple footer
-tags are specified, each tag will be parsed separately.
-(the trailing ":" is optional)
+A prefix tag that identifies the footer line to parse for tracking ids.
++
+Several trackingid entries can have the same footer tag, and a single trackingid
+entry can have multiple footer tags.
++
+If multiple footer tags are specified, each tag will be parsed separately and
+duplicates will be ignored.
++
+The trailing ":" is optional.
 
 [[trackingid.name.match]]trackingid.<name>.match::
 +

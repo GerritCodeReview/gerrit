@@ -4039,6 +4039,12 @@ link:#list-changes[Query Changes].
 set has one or more draft comments by the calling user. Only set if
 link:#draft_comments[DRAFT_COMMENTS] option is requested.
 |`_number`     ||The patch set number.
+|`created`     ||
+The link:rest-api.html#timestamp[timestamp] of when the patch set was
+created.
+|`uploader`    ||
+The uploader of the patch set as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
 |`ref`         ||The Git reference for the patch set.
 |`fetch`       ||
 Information about how to fetch this patch set. The fetch information is

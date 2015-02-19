@@ -16,6 +16,8 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.inject.AbstractModule;
 
 import org.eclipse.jgit.lib.Config;
@@ -28,5 +30,6 @@ public class GerritServerConfigModule extends AbstractModule {
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON) ;
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
+    bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);
   }
 }

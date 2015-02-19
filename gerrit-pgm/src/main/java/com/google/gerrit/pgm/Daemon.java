@@ -67,7 +67,9 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -355,6 +357,8 @@ public class Daemon extends SiteProgram {
       protected void configure() {
         bind(GerritOptions.class).toInstance(new GerritOptions(headless, slave));
         if (test) {
+          bind(String.class).annotatedWith(SecureStoreClassName.class)
+              .toInstance(DefaultSecureStore.class.getName());
           bind(SecureStore.class).toProvider(SecureStoreProvider.class);
         }
       }

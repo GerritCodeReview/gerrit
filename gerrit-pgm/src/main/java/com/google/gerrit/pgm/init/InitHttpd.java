@@ -154,10 +154,10 @@ class InitHttpd implements InitStep {
       return;
     }
 
-    String ssl_pass = flags.sec.getString("http", null, "sslKeyPassword");
+    String ssl_pass = flags.sec.get("http", null, "sslKeyPassword");
     if (ssl_pass == null || ssl_pass.isEmpty()) {
       ssl_pass = SignedToken.generateRandomKey();
-      flags.sec.setString("httpd", null, "sslKeyPassword", ssl_pass);
+      flags.sec.set("httpd", null, "sslKeyPassword", ssl_pass);
     }
 
     hostname = ui.readString(hostname, "Certificate server name");

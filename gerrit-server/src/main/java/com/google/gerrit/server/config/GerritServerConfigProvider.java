@@ -37,7 +37,7 @@ class GerritServerConfigProvider implements Provider<Config> {
   private final SecureStore secureStore;
 
   @Inject
-  GerritServerConfigProvider(final SitePaths site, final SecureStore secureStore) {
+  GerritServerConfigProvider(SitePaths site, SecureStore secureStore) {
     this.site = site;
     this.secureStore = secureStore;
   }

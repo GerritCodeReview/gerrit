@@ -16,6 +16,24 @@
       "revId": "7b7794e9556651cac8ab563d0c632061e135240d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b169c00_b437a00b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-19T00:19:59Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think it\u0027s possible or intended for this to work as written\n\nI initially wrote a similar test case to this, and came to the same conclusion.  I think if we want to test the empty change case, it\u0027ll need to be done in specific test cases in the derived classes for each submit type.\n\n\u003e This doesn\u0027t fire a ChangeMergedEvent \n\nIt was trying to, and failing with NPE, until I fixed it in [1].\n\n\n[1] https://gerrit-review.googlesource.com/#/c/64810/",
+      "parentUuid": "0bfcdcc3_a470c2c2",
+      "revId": "7b7794e9556651cac8ab563d0c632061e135240d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

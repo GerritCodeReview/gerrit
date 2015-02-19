@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b169c00_b44de088",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 3904,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-19T02:53:06Z",
+      "side": 1,
+      "message": "Put these on their own lines?",
+      "range": {
+        "startLine": 3904,
+        "startChar": 76,
+        "endLine": 3904,
+        "endChar": 78
+      },
+      "revId": "a4842d98f8da45be320f7a59b59a88a6fe36c5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebf948ff_9b528b26",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextAreaActionDialog.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-19T02:53:06Z",
+      "side": 1,
+      "message": "2015",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a4842d98f8da45be320f7a59b59a88a6fe36c5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

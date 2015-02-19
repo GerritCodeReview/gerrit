@@ -45,6 +45,30 @@
       "revId": "a4842d98f8da45be320f7a59b59a88a6fe36c5c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b169c00_f4475862",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextAreaActionDialog.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-19T02:56:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebf948ff_9b528b26",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a4842d98f8da45be320f7a59b59a88a6fe36c5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

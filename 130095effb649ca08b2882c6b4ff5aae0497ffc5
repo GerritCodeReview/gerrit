@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b19a030_357b90a7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T08:34:19Z",
+      "side": 1,
+      "message": "Good to know, then it\u0027s done wrong in CreateChange too :(\n\nDone",
+      "parentUuid": "0b169c00_94154471",
+      "revId": "130095effb649ca08b2882c6b4ff5aae0497ffc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b169c00_d41fbc8c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "2b19a030_157814a7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T08:34:19Z",
+      "side": 1,
+      "message": "Yes, I only did it, because I thought that I would need the tree...\n\nDone",
+      "parentUuid": "0b169c00_d41fbc8c",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 3
+      },
+      "revId": "130095effb649ca08b2882c6b4ff5aae0497ffc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b169c00_f41ab89e",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2015-02-18T23:00:41Z",
       "side": 1,
       "message": "This is not empty. Calling it emptyCommit isn\u0027t a good name here.",
+      "range": {
+        "startLine": 170,
+        "startChar": 63,
+        "endLine": 170,
+        "endChar": 74
+      },
+      "revId": "130095effb649ca08b2882c6b4ff5aae0497ffc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b19a030_75850837",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-19T08:34:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b169c00_f41ab89e",
       "range": {
         "startLine": 170,
         "startChar": 63,

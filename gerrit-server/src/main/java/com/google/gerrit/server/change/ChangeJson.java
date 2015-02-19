@@ -863,6 +863,8 @@ public class ChangeJson {
     out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
     out._number = in.getId().get();
     out.ref = in.getRefName();
+    out.created = in.getCreatedOn();
+    out.uploader = accountLoader.get(in.getUploader());
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
 

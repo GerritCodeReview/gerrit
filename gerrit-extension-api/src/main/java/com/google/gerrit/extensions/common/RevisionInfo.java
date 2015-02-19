@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 public class RevisionInfo {
@@ -21,6 +22,8 @@ public class RevisionInfo {
   public Boolean draft;
   public Boolean hasDraftComments;
   public int _number;
+  public Timestamp created;
+  public AccountInfo uploader;
   public String ref;
   public Map<String, FetchInfo> fetch;
   public CommitInfo commit;

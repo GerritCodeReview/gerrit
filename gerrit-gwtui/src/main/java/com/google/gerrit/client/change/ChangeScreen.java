@@ -243,7 +243,6 @@ public class ChangeScreen extends Screen {
             // Revision loading may be slower than the rest, so do it
             // asynchronous to have the rest fast.
             loadConfigInfo(info, base);
-            loadRevisionInfo();
           }
         }));
   }
@@ -817,6 +816,7 @@ public class ChangeScreen extends Screen {
           commentLinkProcessor = result.getCommentLinkProcessor();
           setTheme(result.getTheme());
           renderChangeInfo(info);
+          loadRevisionInfo();
         }
       }));
   }

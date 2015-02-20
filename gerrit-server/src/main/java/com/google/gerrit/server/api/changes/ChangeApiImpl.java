@@ -220,7 +220,7 @@ class ChangeApiImpl implements ChangeApi {
     in.topic = topic;
     try {
       putTopic.apply(change, in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | UpdateException e) {
       throw new RestApiException("Cannot set topic", e);
     }
   }

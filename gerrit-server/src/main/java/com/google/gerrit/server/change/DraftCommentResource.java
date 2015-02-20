@@ -31,7 +31,7 @@ public class DraftCommentResource implements RestResource {
   private final RevisionResource rev;
   private final PatchLineComment comment;
 
-  DraftCommentResource(RevisionResource rev, PatchLineComment c) {
+  public DraftCommentResource(RevisionResource rev, PatchLineComment c) {
     this.rev = rev;
     this.comment = c;
   }

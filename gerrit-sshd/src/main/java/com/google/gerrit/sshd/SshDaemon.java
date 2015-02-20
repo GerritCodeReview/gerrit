@@ -45,6 +45,7 @@ import org.apache.sshd.common.ForwardingFilter;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.Random;
 import org.apache.sshd.common.Session;
 import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.SshdSocketAddress;
@@ -94,6 +95,8 @@ import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.session.SessionFactory;
+import org.bouncycastle.crypto.prng.RandomGenerator;
+import org.bouncycastle.crypto.prng.VMPCRandomGenerator;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -197,7 +200,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         MinaServiceFactory.class.getName());
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
-      initProviderBouncyCastle();
+      initProviderBouncyCastle(cfg);
     } else {
       initProviderJce();
     }
@@ -366,11 +369,42 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return r.toString();
   }
 
-  private void initProviderBouncyCastle() {
+  private void initProviderBouncyCastle(Config cfg) {
     setKeyExchangeFactories(Arrays.<NamedFactory<KeyExchange>> asList(
         new DHG14.Factory(), new DHG1.Factory()));
-    setRandomFactory(new SingletonRandomFactory(
-        new BouncyCastleRandom.Factory()));
+    NamedFactory<Random> factory;
+    if (cfg.getBoolean("sshd", null, "testUseInsecureRandom", false)) {
+      factory = new InsecureBouncyCastleRandom.Factory();
+    } else {
+      factory = new BouncyCastleRandom.Factory();
+    }
+    setRandomFactory(new SingletonRandomFactory(factory));
+  }
+
+  private static class InsecureBouncyCastleRandom implements Random {
+    private static class Factory implements NamedFactory<Random> {
+      @Override
+      public String getName() {
+        return "INSECURE_bouncycastle";
+      }
+
+      @Override
+      public Random create() {
+        return new InsecureBouncyCastleRandom();
+      }
+    }
+
+    private final RandomGenerator random;
+
+    private InsecureBouncyCastleRandom() {
+      random = new VMPCRandomGenerator();
+      random.addSeedMaterial(1234);
+    }
+
+    @Override
+    public void fill(byte[] bytes, int start, int len) {
+      random.nextBytes(bytes, start, len);
+    }
   }
 
   private void initProviderJce() {

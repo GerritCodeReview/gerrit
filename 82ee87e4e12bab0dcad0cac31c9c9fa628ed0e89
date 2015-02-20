@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f78e97_abfe89ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-20T08:40:15Z",
+      "side": 1,
+      "message": "Is there any specific reason to add these fields?  If so please mention in the commit message.",
+      "revId": "82ee87e4e12bab0dcad0cac31c9c9fa628ed0e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f78e97_4bea85f8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-20T08:40:15Z",
+      "side": 1,
+      "message": "`is` is consistent with existing assertions on _accountId in this file, but in other files we\u0027re using `isEqualTo`.\n\nWhich one is correct?  I think we should make it consistent, but that can be done in a separate change.",
+      "range": {
+        "startLine": 258,
+        "startChar": 40,
+        "endLine": 258,
+        "endChar": 42
+      },
+      "revId": "82ee87e4e12bab0dcad0cac31c9c9fa628ed0e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

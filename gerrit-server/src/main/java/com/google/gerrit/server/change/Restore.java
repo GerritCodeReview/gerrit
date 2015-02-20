@@ -95,7 +95,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
 
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), TimeUtil.nowTs())) {
-      u.addChangeOp(new ChangeOp(req.getControl()) {
+      u.addChangeOp(req.getControl(), new ChangeOp() {
         @Override
         public void call(ReviewDb db, ChangeUpdate update) throws Exception {
           Change c = db.changes().get(id);

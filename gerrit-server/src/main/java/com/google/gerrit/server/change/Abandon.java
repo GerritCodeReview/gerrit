@@ -92,7 +92,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), TimeUtil.nowTs())) {
-      u.addChangeOp(new ChangeOp(req.getControl()) {
+      u.addChangeOp(req.getControl(), new ChangeOp() {
         @Override
         public void call(ReviewDb db, ChangeUpdate update) throws OrmException,
             ResourceConflictException {

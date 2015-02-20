@@ -269,7 +269,7 @@ public class PatchSetInserter {
     try {
       bu.getBatchRefUpdate().addCommand(new ReceiveCommand(ObjectId.zeroId(),
           commit, patchSet.getRefName(), ReceiveCommand.Type.CREATE));
-      bu.addChangeOp(new ChangeOp(ctl) {
+      bu.addChangeOp(ctl, new ChangeOp() {
         @Override
         public void call(ReviewDb db, ChangeUpdate update)
             throws Exception {
@@ -372,8 +372,8 @@ public class PatchSetInserter {
     if (changeMessage == null) {
       return;
     }
-    bu.addChangeOp(new ChangeOp(ctlFactory.controlFor(
-        changeMessage.getPatchSetId().getParentKey(), user)) {
+    bu.addChangeOp(ctlFactory.controlFor(
+        changeMessage.getPatchSetId().getParentKey(), user), new ChangeOp() {
       @Override
       public void call(ReviewDb db, ChangeUpdate update) throws OrmException {
         cmUtil.addChangeMessage(db, update, changeMessage);

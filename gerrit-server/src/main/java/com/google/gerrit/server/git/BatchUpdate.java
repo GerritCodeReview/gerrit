@@ -77,16 +77,27 @@ public class BatchUpdate implements AutoCloseable {
         Timestamp when);
   }
 
-  public abstract static class ChangeOp {
-    private final ChangeControl ctl;
+  public abstract interface ChangeOp {
+    // TODO(dborowitz): Document that update contains the old change info.
+    public void call(ReviewDb db, ChangeUpdate update) throws Exception;
+  }
 
-    public ChangeOp(ChangeControl ctl) {
-      this.ctl = ctl;
+  public abstract static class CombinedOp implements ChangeOp, Callable<Void> {
+    @Override
+    public final void call(ReviewDb db, ChangeUpdate update) throws Exception {
+      callChangeOp(db, update);
     }
 
-    // TODO(dborowitz): Document that update contains the old change info.
-    public abstract void call(ReviewDb db, ChangeUpdate update)
+    @Override
+    public final Void call() throws Exception {
+      callPostOp();
+      return null;
+    }
+
+    public abstract void callChangeOp(ReviewDb db, ChangeUpdate update)
         throws Exception;
+
+    public abstract void callPostOp() throws Exception;
   }
 
   private final ReviewDb db;
@@ -183,20 +194,26 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  public BatchUpdate addChangeOp(ChangeOp op) {
-    Change.Id id = op.ctl.getChange().getId();
+  public BatchUpdate addChangeOp(ChangeControl ctl, ChangeOp op) {
+    Change.Id id = ctl.getChange().getId();
     ChangeControl old = changeControls.get(id);
     // TODO(dborowitz): Not sure this is guaranteed in general.
-    checkArgument(old == null || old == op.ctl,
+    checkArgument(old == null || old == ctl,
         "mismatched ChangeControls for change %s", id);
     changeOps.put(id, op);
-    changeControls.put(id, op.ctl);
+    changeControls.put(id, ctl);
     return this;
   }
 
   // TODO(dborowitz): Support async operations?
   public BatchUpdate addPostOp(Callable<?> update) {
     postOps.add(update);
+    return this;
+  }
+
+  public BatchUpdate addCombinedOp(ChangeControl ctl, CombinedOp op) {
+    addChangeOp(ctl, op);
+    addPostOp(op);
     return this;
   }
 

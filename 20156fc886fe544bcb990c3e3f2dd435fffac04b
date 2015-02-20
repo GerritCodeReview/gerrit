@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f78e97_cbdcb56f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-20T08:31:21Z",
+      "side": 1,
+      "message": "This is unused.",
+      "range": {
+        "startLine": 708,
+        "startChar": 20,
+        "endLine": 708,
+        "endChar": 40
+      },
+      "revId": "20156fc886fe544bcb990c3e3f2dd435fffac04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f78e97_2bebb9ff",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-20T08:31:21Z",
+      "side": 1,
+      "message": "If I add these lines before schema.close() the test passes.\n\n    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);\n    final ResultSet\u003cSubmoduleSubscription\u003e emptySubscriptions \u003d\n        new ListResultSet\u003c\u003e(new ArrayList\u003cSubmoduleSubscription\u003e());\n    expect(subscriptions.bySubmodule(sourceBranchNameKey)).andReturn(\n        emptySubscriptions);",
+      "revId": "20156fc886fe544bcb990c3e3f2dd435fffac04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

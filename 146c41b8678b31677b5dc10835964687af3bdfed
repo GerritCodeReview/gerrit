@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e8f78e97_8bd2ad5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-20T07:31:42Z",
+      "side": 1,
+      "message": "I suspect that all the failures are caused by the analyser / tokenization of the fields not being set properly.",
+      "parentUuid": "c8264af8_6ae5b728",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 62
+      },
+      "revId": "146c41b8678b31677b5dc10835964687af3bdfed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8875628_09eb49ff",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchIndexModule.java",
         "patchSetId": 27

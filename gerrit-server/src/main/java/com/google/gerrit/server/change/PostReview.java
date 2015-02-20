@@ -133,6 +133,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   public Output apply(RevisionResource revision, ReviewInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
       UnprocessableEntityException, OrmException, IOException {
+    return apply(revision, input, TimeUtil.nowTs());
+  }
+
+  public Output apply(RevisionResource revision, ReviewInput input,
+      Timestamp ts) throws AuthException, BadRequestException,
+      ResourceConflictException, UnprocessableEntityException, OrmException,
+      IOException {
+    this.timestamp = ts;
     if (revision.getEdit().isPresent()) {
       throw new ResourceConflictException("cannot post review on edit");
     }
@@ -154,8 +162,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     boolean dirty = false;
     try {
       change = db.get().changes().get(revision.getChange().getId());
-      ChangeUtil.updated(change);
-      timestamp = change.getLastUpdatedOn();
+      change.setLastUpdatedOn(timestamp);
 
       ChangeUpdate update = updateFactory.create(revision.getControl(), timestamp);
       update.setPatchSetId(revision.getPatchSet().getId());

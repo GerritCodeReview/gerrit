@@ -32,11 +32,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeOp;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -48,8 +48,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
@@ -90,65 +88,90 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   }
 
   public Change abandon(ChangeControl control,
-      final String msgTxt, final Account acc) throws ResourceConflictException,
-      OrmException, IOException {
-    final Change.Id id = req.getChange().getId();
-    final AtomicReference<Change> change = new AtomicReference<>();
-    final AtomicReference<PatchSet> patchSet = new AtomicReference<>();
-    final AtomicReference<ChangeMessage> message = new AtomicReference<>();
+      final String msgTxt, final Account account)
+      throws ResourceConflictException, OrmException, IOException {
 
+    Op op = new Op(msgText, account);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), TimeUtil.nowTs())) {
-      u.addChangeOp(new ChangeOp(req.getControl()) {
-        @Override
-        public void call(ReviewDb db, ChangeUpdate update) throws OrmException,
-            ResourceConflictException {
-          Change c = db.changes().get(id);
-          if (c == null || !c.getStatus().isOpen()) {
-            throw new ResourceConflictException("change is " + status(c));
-          } else if (c.getStatus() == Change.Status.DRAFT) {
-            throw new ResourceConflictException(
-                "draft changes cannot be abandoned");
-          }
-          c.setStatus(Change.Status.ABANDONED);
-          ChangeUtil.updated(c);
-          db.changes().update(Collections.singleton(c));
-
-          message = newMessage(msgTxt, acc != null ? acc.getId() : null, change);
-          ChangeMessage m = newMessage(input, update.getUser(), c);
-          cmUtil.addChangeMessage(db, update, m);
-
-          change.set(c);
-          message.set(m);
-          patchSet.set(db.patchSets().get(c.currentPatchSetId()));
-        }
-      });
-      u.addPostOp(new Callable<Void>() {
-        @Override
-        public Void call() throws OrmException {
-          // TODO(dborowitz): send email while indexing.
-          Change c = change.get();
-          try {
-            ReplyToChangeSender cm = abandonedSenderFactory.create(c);
-            if (acc != null) {
-              cm.setFrom(acc.getAccountId());
-            }
-            cm.setChangeMessage(message.get());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot email update for change " + id, e);
-          }
-          hooks.doChangeAbandonedHook(c,
-              acc,
-              patchSet.get(),
-              Strings.emptyToNull(msgText),
-              dbProvider.get());
-          return null;
-        }
-      });
-      u.execute();
+      u.addOp(req.getControl(), op).execute();
     }
-    return change.get();
+    return json.format(op.change);
+  }
+
+  private class Op extends BatchUpdate.Op {
+    private final Account account;
+    private final String msgText;
+
+    private Change change;
+    private PatchSet patchSet;
+    private ChangeMessage message;
+    private IdentifiedUser caller;
+
+    private Op(String msgTxt, Account account) {
+      this.account = account;
+      this.msgText = msgText;
+    }
+
+    @Override
+    public void updateChange(ChangeContext ctx) throws OrmException,
+        ResourceConflictException {
+      // TODO(dborowitz): What about null user in background context?
+      change = ctx.readChange();
+      if (change == null || !change.getStatus().isOpen()) {
+        throw new ResourceConflictException("change is " + status(change));
+      } else if (change.getStatus() == Change.Status.DRAFT) {
+        throw new ResourceConflictException(
+            "draft changes cannot be abandoned");
+      }
+      patchSet = ctx.getDb().patchSets().get(change.currentPatchSetId());
+      change.setStatus(Change.Status.ABANDONED);
+      change.setLastUpdatedOn(ctx.getWhen());
+      ctx.getDb().changes().update(Collections.singleton(change));
+
+      message = newMessage(ctx.getDb());
+      cmUtil.addChangeMessage(ctx.getDb(), ctx.getChangeUpdate(), message);
+    }
+
+    private ChangeMessage newMessage(ReviewDb db) throws OrmException {
+      StringBuilder msg = new StringBuilder();
+      msg.append("Abandoned");
+      if (!Strings.nullToEmpty(msgText).trim().isEmpty()) {
+        msg.append("\n\n");
+        msg.append(msgText.trim());
+      }
+
+      ChangeMessage message = new ChangeMessage(
+          new ChangeMessage.Key(
+              change.getId(),
+              ChangeUtil.messageUUID(db)),
+          account != null ? account.getId() : null,
+          change.getLastUpdatedOn(),
+          change.currentPatchSetId());
+      message.setMessage(msg.toString());
+      return message;
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws OrmException {
+      // TODO(dborowitz): send email while indexing.
+      try {
+        ReplyToChangeSender cm = abandonedSenderFactory.create(change);
+        if (account != null) {
+          cm.setFrom(account.getId());
+        }
+        cm.setChangeMessage(message);
+        cm.send();
+      } catch (Exception e) {
+        log.error("Cannot email update for change " + change.getId(), e);
+      }
+      hooks.doChangeAbandonedHook(change,
+          caller.getAccount(),
+          patchSet,
+          Strings.emptyToNull(input.message),
+          ctx.getDb());
+    }
+>>>>>>> RFC: BatchUpdate: Add a combined operation spanning all phases
   }
 
   @Override
@@ -159,26 +182,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       .setVisible(resource.getChange().getStatus().isOpen()
           && resource.getChange().getStatus() != Change.Status.DRAFT
           && resource.getControl().canAbandon());
-  }
-
-  private ChangeMessage newMessage(String msgTxt, Account.Id accId,
-      Change change) throws OrmException {
-    StringBuilder msg = new StringBuilder();
-    msg.append("Abandoned");
-    if (!Strings.nullToEmpty(msgTxt).trim().isEmpty()) {
-      msg.append("\n\n");
-      msg.append(msgTxt.trim());
-    }
-
-    ChangeMessage message = new ChangeMessage(
-        new ChangeMessage.Key(
-            change.getId(),
-            ChangeUtil.messageUUID(dbProvider.get())),
-        accId,
-        change.getLastUpdatedOn(),
-        change.currentPatchSetId());
-    message.setMessage(msg.toString());
-    return message;
   }
 
   private static String status(Change change) {

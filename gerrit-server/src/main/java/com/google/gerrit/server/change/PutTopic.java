@@ -19,7 +19,9 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,25 +31,28 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PutTopic.Input;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeOp;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Singleton
 public class PutTopic implements RestModifyView<ChangeResource, Input>,
     UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeIndexer indexer;
   private final ChangeHooks hooks;
-  private final ChangeUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
+  private final BatchUpdate.Factory batchUpdateFactory;
 
   public static class Input {
     @DefaultInput
@@ -55,80 +60,88 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
   }
 
   @Inject
-  PutTopic(Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
-      ChangeHooks hooks, ChangeUpdate.Factory updateFactory,
-      ChangeMessagesUtil cmUtil) {
+  PutTopic(Provider<ReviewDb> dbProvider,
+      ChangeHooks hooks,
+      ChangeMessagesUtil cmUtil,
+      BatchUpdate.Factory batchUpdateFactory) {
     this.dbProvider = dbProvider;
-    this.indexer = indexer;
     this.hooks = hooks;
-    this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
+    this.batchUpdateFactory = batchUpdateFactory;
   }
 
   @Override
   public Response<String> apply(ChangeResource req, Input input)
-      throws AuthException, OrmException, IOException {
+      throws AuthException, UpdateException, RestApiException, OrmException,
+      IOException {
     if (input == null) {
       input = new Input();
     }
+    final String inputTopic = input.topic;
 
     ChangeControl control = req.getControl();
-    Change change = req.getChange();
     if (!control.canEditTopicName()) {
       throw new AuthException("changing topic not permitted");
     }
 
-    ReviewDb db = dbProvider.get();
-    final String newTopicName = Strings.nullToEmpty(input.topic);
-    String oldTopicName = Strings.nullToEmpty(change.getTopic());
-    if (!oldTopicName.equals(newTopicName)) {
-      String summary;
-      if (oldTopicName.isEmpty()) {
-        summary = "Topic set to " + newTopicName;
-      } else if (newTopicName.isEmpty()) {
-        summary = "Topic " + oldTopicName + " removed";
-      } else {
-        summary = String.format(
-            "Topic changed from %s to %s",
-            oldTopicName, newTopicName);
-      }
+    final Change.Id id = req.getChange().getId();
+    final IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
+    final AtomicReference<Change> change = new AtomicReference<>();
+    final AtomicReference<String> oldTopicName = new AtomicReference<>();
+    final AtomicReference<String> newTopicName = new AtomicReference<>();
 
-      IdentifiedUser currentUser = ((IdentifiedUser) control.getCurrentUser());
-      ChangeMessage cmsg = new ChangeMessage(
-          new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
-          currentUser.getAccountId(), TimeUtil.nowTs(),
-          change.currentPatchSetId());
-      cmsg.setMessage(summary);
-      ChangeUpdate update;
+    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
+        req.getChange().getProject(), TimeUtil.nowTs())) {
+      u.addChangeOp(new ChangeOp(req.getControl()) {
+        @Override
+        public void call(ReviewDb db, ChangeUpdate update) throws OrmException,
+            ResourceConflictException {
+          Change c = db.changes().get(id);
+          String n = Strings.nullToEmpty(inputTopic);
+          String o = Strings.nullToEmpty(c.getTopic());
+          if (o.equals(n)) {
+            return;
+          }
+          String summary;
+          if (o.isEmpty()) {
+            summary = "Topic set to " + n;
+          } else if (n.isEmpty()) {
+            summary = "Topic " + o + " removed";
+          } else {
+            summary = String.format("Topic changed from %s to %s", o, n);
+          }
+          c.setTopic(Strings.emptyToNull(n));
+          ChangeUtil.updated(c);
+          db.changes().update(Collections.singleton(c));
 
-      db.changes().beginTransaction(change.getId());
-      try {
-        change = db.changes().atomicUpdate(change.getId(),
-          new AtomicUpdate<Change>() {
-            @Override
-            public Change update(Change change) {
-              change.setTopic(Strings.emptyToNull(newTopicName));
-              ChangeUtil.updated(change);
-              return change;
-            }
-          });
+          ChangeMessage cmsg = new ChangeMessage(
+              new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
+              // TODO(dborowitz): Use time from batch.
+              caller.getAccountId(), TimeUtil.nowTs(),
+              c.currentPatchSetId());
+          cmsg.setMessage(summary);
+          cmUtil.addChangeMessage(db, update, cmsg);
 
-        //TODO(yyonas): atomic update was not propagated
-        update = updateFactory.create(control);
-        cmUtil.addChangeMessage(db, update, cmsg);
-
-        db.commit();
-      } finally {
-        db.rollback();
-      }
-      update.commit();
-      indexer.index(db, change);
-      hooks.doTopicChangedHook(change, currentUser.getAccount(),
-          oldTopicName, db);
+          change.set(c);
+          oldTopicName.set(o);
+          newTopicName.set(n);
+        }
+      });
+      u.addPostOp(new Callable<Void>() {
+        @Override
+        public Void call() throws OrmException {
+          Change c = change.get();
+          if (c != null) {
+            hooks.doTopicChangedHook(change.get(), caller.getAccount(),
+                oldTopicName.get(), dbProvider.get());
+          }
+          return null;
+        }
+      });
+      u.execute();
     }
-    return Strings.isNullOrEmpty(newTopicName)
-        ? Response.<String>none()
-        : Response.ok(newTopicName);
+    String n = newTopicName.get();
+    return Strings.isNullOrEmpty(n) ? Response.<String> none() : Response.ok(n);
   }
 
   @Override

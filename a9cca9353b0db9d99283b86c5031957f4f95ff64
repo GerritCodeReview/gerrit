@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8875628_c9f851d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-20T20:11:48Z",
+      "side": 1,
+      "message": "That\u0027s wrong place for this kind of filtering. That\u0027s because the question if an action should be visible or not for non current revisions depends on action itself and is not global for all actions that GET actions endpoint provides and are rendered here.\n\nThe right place for this filtering is Action.getDescription() method (per Action class) where the setVisible() and setEnabled() must be set on action description for particular revision.\n\nThis change broke DeleteDraftPatchSet action in core: it dropped this action for non-current patch sets, even though it should be offered.\n\nAnd this change also broke all plugins, that relies on the fact that exposed revision actions are offered for non-current revisions.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 5
+      },
+      "revId": "a9cca9353b0db9d99283b86c5031957f4f95ff64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

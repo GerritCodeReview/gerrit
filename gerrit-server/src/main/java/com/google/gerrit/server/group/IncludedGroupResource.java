@@ -25,7 +25,8 @@ public class IncludedGroupResource extends GroupResource {
 
   private final GroupDescription.Basic member;
 
-  IncludedGroupResource(GroupResource group, GroupDescription.Basic member) {
+  public IncludedGroupResource(GroupResource group,
+      GroupDescription.Basic member) {
     super(group);
     this.member = member;
   }

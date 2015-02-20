@@ -28,7 +28,7 @@ public class CommentResource implements RestResource {
   private final RevisionResource rev;
   private final PatchLineComment comment;
 
-  CommentResource(RevisionResource rev, PatchLineComment c) {
+  public CommentResource(RevisionResource rev, PatchLineComment c) {
     this.rev = rev;
     this.comment = c;
   }

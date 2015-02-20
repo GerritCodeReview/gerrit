@@ -271,6 +271,13 @@ Get Tag] endpoint.
 Configuration
 ~~~~~~~~~~~~~
 
+* Add support for
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#auth.httpExternalIdHeader[
+HTTP external ID header].
++
+This can be used when authenticating with a federated identity token from
+an external system, e.g. GitHub's OAuth 2.0 authentication.
+
 * Add
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-labels.html#label_copyAllScoresIfNoChange[
 `copyAllScoresIfNoChange`] setting for labels.
@@ -534,6 +541,12 @@ users' http passwords via the REST or SSH interface.
 +
 It is encouraged to clean up your `project.config` settings after upgrading.
 
+* Fix support for multiple `footer` tokens in tracking ID config.
++
+Contrary to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#trackingid[
+the documentation], if more than one `footer` token was specified in the
+`trackingid` section, only the first was used.
 
 Web UI
 ~~~~~~

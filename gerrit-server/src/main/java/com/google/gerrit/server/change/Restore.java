@@ -33,11 +33,11 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeOp;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -49,8 +49,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Singleton
 public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
@@ -87,57 +85,80 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     if (!ctl.canRestore()) {
       throw new AuthException("restore not permitted");
     }
-    final Change.Id id = req.getChange().getId();
-    final IdentifiedUser caller = (IdentifiedUser) ctl.getCurrentUser();
-    final AtomicReference<Change> change = new AtomicReference<>();
-    final AtomicReference<PatchSet> patchSet = new AtomicReference<>();
-    final AtomicReference<ChangeMessage> message = new AtomicReference<>();
 
+    Op op = new Op(input);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), TimeUtil.nowTs())) {
-      u.addChangeOp(new ChangeOp(req.getControl()) {
-        @Override
-        public void call(ReviewDb db, ChangeUpdate update) throws Exception {
-          Change c = db.changes().get(id);
-          if (c == null || c.getStatus() != Status.ABANDONED) {
-            throw new ResourceConflictException("change is " + status(c));
-          }
-          c.setStatus(Status.NEW);
-          ChangeUtil.updated(c);
-          db.changes().update(Collections.singleton(c));
-
-          ChangeMessage m = newMessage(input, caller, c);
-          cmUtil.addChangeMessage(db, update, m);
-
-          change.set(c);
-          message.set(m);
-          patchSet.set(db.patchSets().get(c.currentPatchSetId()));
-        }
-      });
-      u.addPostOp(new Callable<Void>() {
-        @Override
-        public Void call() throws OrmException {
-          // TODO(dborowitz): send email while indexing.
-          Change c = change.get();
-          try {
-            ReplyToChangeSender cm = restoredSenderFactory.create(c);
-            cm.setFrom(caller.getAccountId());
-            cm.setChangeMessage(message.get());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot email update for change " + id, e);
-          }
-          hooks.doChangeRestoredHook(c,
-              caller.getAccount(),
-              patchSet.get(),
-              Strings.emptyToNull(input.message),
-              dbProvider.get());
-          return null;
-        }
-      });
-      u.execute();
+      u.addOp(ctl, op).execute();
     }
-    return json.format(change.get());
+    return json.format(op.change);
+  }
+
+  private class Op extends BatchUpdate.Op {
+    private final RestoreInput input;
+
+    private Change change;
+    private PatchSet patchSet;
+    private ChangeMessage message;
+    private IdentifiedUser caller;
+
+    private Op(RestoreInput input) {
+      this.input = input;
+    }
+
+    @Override
+    public void updateChange(ChangeContext ctx) throws OrmException,
+        ResourceConflictException {
+      caller = (IdentifiedUser) ctx.getUser();
+      change = ctx.readChange();
+      if (change == null || change.getStatus() != Status.ABANDONED) {
+        throw new ResourceConflictException("change is " + status(change));
+      }
+      patchSet = ctx.getDb().patchSets().get(change.currentPatchSetId());
+      change.setStatus(Status.NEW);
+      change.setLastUpdatedOn(ctx.getWhen());
+      ctx.getDb().changes().update(Collections.singleton(change));
+
+      message = newMessage(ctx.getDb());
+      cmUtil.addChangeMessage(ctx.getDb(), ctx.getChangeUpdate(), message);
+    }
+
+    private ChangeMessage newMessage(ReviewDb db) throws OrmException {
+      StringBuilder msg = new StringBuilder();
+      msg.append("Restored");
+      if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {
+        msg.append("\n\n");
+        msg.append(input.message.trim());
+      }
+
+      ChangeMessage message = new ChangeMessage(
+          new ChangeMessage.Key(
+              change.getId(),
+              ChangeUtil.messageUUID(db)),
+          caller.getAccountId(),
+          change.getLastUpdatedOn(),
+          change.currentPatchSetId());
+      message.setMessage(msg.toString());
+      return message;
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws OrmException {
+      // TODO(dborowitz): send email while indexing.
+      try {
+        ReplyToChangeSender cm = restoredSenderFactory.create(change);
+        cm.setFrom(caller.getAccountId());
+        cm.setChangeMessage(message);
+        cm.send();
+      } catch (Exception e) {
+        log.error("Cannot email update for change " + change.getId(), e);
+      }
+      hooks.doChangeRestoredHook(change,
+          caller.getAccount(),
+          patchSet,
+          Strings.emptyToNull(input.message),
+          ctx.getDb());
+    }
   }
 
   @Override
@@ -147,26 +168,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       .setTitle("Restore the change")
       .setVisible(resource.getChange().getStatus() == Status.ABANDONED
           && resource.getControl().canRestore());
-  }
-
-  private ChangeMessage newMessage(RestoreInput input, IdentifiedUser caller,
-      Change change) throws OrmException {
-    StringBuilder msg = new StringBuilder();
-    msg.append("Restored");
-    if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {
-      msg.append("\n\n");
-      msg.append(input.message.trim());
-    }
-
-    ChangeMessage message = new ChangeMessage(
-        new ChangeMessage.Key(
-            change.getId(),
-            ChangeUtil.messageUUID(dbProvider.get())),
-        caller.getAccountId(),
-        change.getLastUpdatedOn(),
-        change.currentPatchSetId());
-    message.setMessage(msg.toString());
-    return message;
   }
 
   private static String status(Change change) {

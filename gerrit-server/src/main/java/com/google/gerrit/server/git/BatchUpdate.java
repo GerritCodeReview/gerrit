@@ -26,10 +26,12 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -47,7 +49,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * Context for a set of updates that should be applied for a site.
@@ -77,16 +78,71 @@ public class BatchUpdate implements AutoCloseable {
         Timestamp when);
   }
 
-  public abstract static class ChangeOp {
-    private final ChangeControl ctl;
-
-    public ChangeOp(ChangeControl ctl) {
-      this.ctl = ctl;
+  public class Context {
+    public Timestamp getWhen() {
+      return when;
     }
 
-    // TODO(dborowitz): Document that update contains the old change info.
-    public abstract void call(ReviewDb db, ChangeUpdate update)
-        throws Exception;
+    public ReviewDb getDb() {
+      return db;
+    }
+  }
+
+  public class RepoContext extends Context {
+    public Repository getRepository() throws IOException {
+      initRepository();
+      return repo;
+    }
+
+    public RevWalk getRevWalk() throws IOException {
+      initRepository();
+      return revWalk;
+    }
+
+    public ObjectInserter getInserter() throws IOException {
+      initRepository();
+      return inserter;
+    }
+
+    public BatchRefUpdate getBatchRefUpdate() throws IOException {
+      initRepository();
+      return batchRefUpdate;
+    }
+  }
+
+  public class ChangeContext extends Context {
+    private final ChangeUpdate update;
+
+    private ChangeContext(ChangeUpdate update) {
+      this.update = update;
+    }
+
+    public ChangeUpdate getChangeUpdate() {
+      return update;
+    }
+
+    public Change readChange() throws OrmException {
+      return db.changes().get(update.getChange().getId());
+    }
+
+    public CurrentUser getUser() {
+      return update.getUser();
+    }
+  }
+
+  public static class Op {
+    @SuppressWarnings("unused")
+    public void updateRepo(RepoContext ctx) throws Exception {
+    }
+
+    @SuppressWarnings("unused")
+    public void updateChange(ChangeContext ctx) throws Exception {
+    }
+
+    // TODO(dborowitz): Support async operations?
+    @SuppressWarnings("unused")
+    public void postUpdate(Context ctx) throws Exception {
+    }
   }
 
   private final ReviewDb db;
@@ -98,10 +154,8 @@ public class BatchUpdate implements AutoCloseable {
   private final Project.NameKey project;
   private final Timestamp when;
 
-  private final ListMultimap<Change.Id, ChangeOp> changeOps =
-      ArrayListMultimap.create();
+  private final ListMultimap<Change.Id, Op> ops = ArrayListMultimap.create();
   private final Map<Change.Id, ChangeControl> changeControls = new HashMap<>();
-  private final List<Callable<?>> postOps = new ArrayList<>();
   private final List<CheckedFuture<?, IOException>> indexFutures =
       new ArrayList<>();
 
@@ -147,35 +201,28 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  public Repository getRepository() throws IOException {
+  private void initRepository() throws IOException {
     if (repo == null) {
       this.repo = repoManager.openRepository(project);
       inserter = repo.newObjectInserter();
       revWalk = new RevWalk(inserter.newReader());
       batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
     }
+  }
+
+  public Repository getRepository() throws IOException {
+    initRepository();
     return repo;
   }
 
   public RevWalk getRevWalk() throws IOException {
-    if (revWalk == null) {
-      getRepository();
-    }
+    initRepository();
     return revWalk;
   }
 
   public ObjectInserter getObjectInserter() throws IOException {
-    if (inserter == null) {
-      getRepository();
-    }
+    initRepository();
     return inserter;
-  }
-
-  public BatchRefUpdate getBatchRefUpdate() throws IOException {
-    if (batchRefUpdate == null) {
-      getRepository();
-    }
-    return batchRefUpdate;
   }
 
   public BatchUpdate addRefUpdate(ReceiveCommand cmd) {
@@ -183,20 +230,14 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  public BatchUpdate addChangeOp(ChangeOp op) {
-    Change.Id id = op.ctl.getChange().getId();
+  public BatchUpdate addOp(ChangeControl ctl, Op op) {
+    Change.Id id = ctl.getChange().getId();
     ChangeControl old = changeControls.get(id);
     // TODO(dborowitz): Not sure this is guaranteed in general.
-    checkArgument(old == null || old == op.ctl,
+    checkArgument(old == null || old == ctl,
         "mismatched ChangeControls for change %s", id);
-    changeOps.put(id, op);
-    changeControls.put(id, op.ctl);
-    return this;
-  }
-
-  // TODO(dborowitz): Support async operations?
-  public BatchUpdate addPostOp(Callable<?> update) {
-    postOps.add(update);
+    ops.put(id, op);
+    changeControls.put(id, ctl);
     return this;
   }
 
@@ -220,6 +261,15 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executeRefUpdates() throws IOException, UpdateException {
+    RepoContext ctx = new RepoContext();
+    try {
+      for (Op op : ops.values()) {
+        op.updateRepo(ctx);
+      }
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw new UpdateException(e);
+    }
     if (repo == null || batchRefUpdate.getCommands().isEmpty()) {
       return;
     }
@@ -240,15 +290,14 @@ public class BatchUpdate implements AutoCloseable {
 
   private void executeChangeOps() throws UpdateException {
     try {
-      for (Map.Entry<Change.Id, Collection<ChangeOp>> e
-          : changeOps.asMap().entrySet()) {
+      for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
         Change.Id id = e.getKey();
         ChangeUpdate update =
             changeUpdateFactory.create(changeControls.get(id), when);
         db.changes().beginTransaction(id);
         try {
-          for (ChangeOp op : e.getValue()) {
-            op.call(db, update);
+          for (Op op : e.getValue()) {
+            op.updateChange(new ChangeContext(update));
           }
           db.commit();
         } finally {
@@ -267,8 +316,9 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executePostOps() throws Exception {
-    for (Callable<?> op : postOps) {
-      op.call();
+    Context ctx = new Context();
+    for (Op op : ops.values()) {
+      op.postUpdate(ctx);
     }
   }
 }

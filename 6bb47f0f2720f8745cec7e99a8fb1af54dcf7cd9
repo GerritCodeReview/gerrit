@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f78e97_4bd1e558",
+        "filename": "lib/selenium/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-20T03:33:46Z",
+      "side": 1,
+      "message": "The problem goes away if this is removed, but then the DefaultIT tests fail with:\n\n java.lang.NoClassDefFoundError: org/apache/xml/utils/PrefixResolver",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 13
+      },
+      "revId": "6bb47f0f2720f8745cec7e99a8fb1af54dcf7cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

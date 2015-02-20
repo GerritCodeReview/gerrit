@@ -81,12 +81,19 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void restore() throws Exception {
     PushOneCommit.Result r = createChange();
+    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes()
         .id(r.getChangeId())
         .abandon();
+    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.ABANDONED);
+
     gApi.changes()
         .id(r.getChangeId())
         .restore();
+    ChangeInfo info = get(r.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("restored");
   }
 
   @Test

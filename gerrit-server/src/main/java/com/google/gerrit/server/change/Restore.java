@@ -15,27 +15,30 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeOp;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +48,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Singleton
 public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
@@ -55,91 +61,83 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
-  private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeUpdate.Factory updateFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
   Restore(ChangeHooks hooks,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson json,
-      ChangeIndexer indexer,
       ChangeMessagesUtil cmUtil,
-      ChangeUpdate.Factory updateFactory) {
+      BatchUpdate.Factory batchUpdateFactory) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
-    this.indexer = indexer;
     this.cmUtil = cmUtil;
-    this.updateFactory = updateFactory;
+    this.batchUpdateFactory = batchUpdateFactory;
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, RestoreInput input)
-      throws AuthException, ResourceConflictException, OrmException,
+  public ChangeInfo apply(ChangeResource req, final RestoreInput input)
+      throws AuthException, RestApiException, UpdateException, OrmException,
       IOException {
-    ChangeControl control = req.getControl();
-    IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
-    Change change = req.getChange();
-    if (!control.canRestore()) {
+    ChangeControl ctl = req.getControl();
+    if (!ctl.canRestore()) {
       throw new AuthException("restore not permitted");
-    } else if (change.getStatus() != Status.ABANDONED) {
-      throw new ResourceConflictException("change is " + status(change));
     }
+    final Change.Id id = req.getChange().getId();
+    final IdentifiedUser caller = (IdentifiedUser) ctl.getCurrentUser();
+    final AtomicReference<Change> change = new AtomicReference<>();
+    final AtomicReference<PatchSet> patchSet = new AtomicReference<>();
+    final AtomicReference<ChangeMessage> message = new AtomicReference<>();
 
-    ChangeMessage message;
-    ChangeUpdate update;
-    ReviewDb db = dbProvider.get();
-    db.changes().beginTransaction(change.getId());
-    try {
-      change = db.changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus() == Status.ABANDONED) {
-              change.setStatus(Status.NEW);
-              ChangeUtil.updated(change);
-              return change;
-            }
-            return null;
+    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
+        req.getChange().getProject(), TimeUtil.nowTs())) {
+      u.addChangeOp(new ChangeOp(req.getControl()) {
+        @Override
+        public void call(ReviewDb db, ChangeUpdate update) throws Exception {
+          Change c = db.changes().get(id);
+          if (c == null || c.getStatus() != Status.ABANDONED) {
+            throw new ResourceConflictException("change is " + status(c));
           }
-        });
-      if (change == null) {
-        throw new ResourceConflictException("change is "
-            + status(db.changes().get(req.getChange().getId())));
-      }
+          c.setStatus(Status.NEW);
+          ChangeUtil.updated(c);
+          db.changes().update(Collections.singleton(c));
 
-      //TODO(yyonas): atomic update was not propagated
-      update = updateFactory.create(control);
-      message = newMessage(input, caller, change);
-      cmUtil.addChangeMessage(db, update, message);
-      db.commit();
-    } finally {
-      db.rollback();
+          ChangeMessage m = newMessage(input, caller, c);
+          cmUtil.addChangeMessage(db, update, m);
+
+          change.set(c);
+          message.set(m);
+          patchSet.set(db.patchSets().get(c.currentPatchSetId()));
+        }
+      });
+      u.addPostOp(new Callable<Void>() {
+        @Override
+        public Void call() throws OrmException {
+          // TODO(dborowitz): send email while indexing.
+          Change c = change.get();
+          try {
+            ReplyToChangeSender cm = restoredSenderFactory.create(c);
+            cm.setFrom(caller.getAccountId());
+            cm.setChangeMessage(message.get());
+            cm.send();
+          } catch (Exception e) {
+            log.error("Cannot email update for change " + id, e);
+          }
+          hooks.doChangeRestoredHook(c,
+              caller.getAccount(),
+              patchSet.get(),
+              Strings.emptyToNull(input.message),
+              dbProvider.get());
+          return null;
+        }
+      });
+      u.execute();
     }
-    update.commit();
-
-    CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
-
-    try {
-      ReplyToChangeSender cm = restoredSenderFactory.create(change);
-      cm.setFrom(caller.getAccountId());
-      cm.setChangeMessage(message);
-      cm.send();
-    } catch (Exception e) {
-      log.error("Cannot email update for change " + change.getChangeId(), e);
-    }
-    f.checkedGet();
-    hooks.doChangeRestoredHook(change,
-        caller.getAccount(),
-        db.patchSets().get(change.currentPatchSetId()),
-        Strings.emptyToNull(input.message),
-        dbProvider.get());
-    ChangeInfo result = json.format(change);
-    return result;
+    return json.format(change.get());
   }
 
   @Override

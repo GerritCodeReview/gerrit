@@ -162,7 +162,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | UpdateException e) {
       throw new RestApiException("Cannot restore change", e);
     }
   }

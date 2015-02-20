@@ -22,6 +22,30 @@
       "revId": "0f599336481ecd7297888881d9530e9ee21725d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28c5265d_55e5cc27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-20T17:17:45Z",
+      "side": 1,
+      "message": "Would have, but \"new\" is a reserved keyword.",
+      "parentUuid": "28c5265d_15eb54ff",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 101,
+        "endChar": 55
+      },
+      "revId": "0f599336481ecd7297888881d9530e9ee21725d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

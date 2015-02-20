@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c8264af8_6ae5b728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-20T07:27:43Z",
+      "side": 1,
+      "message": "Looks like we have an issue with empty values: [1].\n\n* [1] http://stackoverflow.com/questions/25561981/find-documents-with-empty-string-value-on-elasticsearch",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 62
+      },
+      "revId": "146c41b8678b31677b5dc10835964687af3bdfed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8875628_09eb49ff",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchIndexModule.java",
         "patchSetId": 27

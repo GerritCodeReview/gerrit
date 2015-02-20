@@ -39,6 +39,24 @@
       "revId": "20156fc886fe544bcb990c3e3f2dd435fffac04b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28c5265d_b5d2a05a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-20T16:30:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8f78e97_2bebb9ff",
+      "revId": "20156fc886fe544bcb990c3e3f2dd435fffac04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

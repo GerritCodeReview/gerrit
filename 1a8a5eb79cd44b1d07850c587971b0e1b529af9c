@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "48c89a75_96fe8cbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-20T17:57:42Z",
+      "side": 1,
+      "message": "Here, we use a field to communicate between the op and the caller.",
+      "range": {
+        "startLine": 84,
+        "startChar": 33,
+        "endLine": 84,
+        "endChar": 48
+      },
+      "revId": "1a8a5eb79cd44b1d07850c587971b0e1b529af9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48c89a75_b6fb88ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-20T17:57:42Z",
+      "side": 1,
+      "message": "Here, we use a field to communicate between phases of the combined op.",
+      "range": {
+        "startLine": 137,
+        "startChar": 33,
+        "endLine": 137,
+        "endChar": 39
+      },
+      "revId": "1a8a5eb79cd44b1d07850c587971b0e1b529af9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48c89a75_76ead0f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1

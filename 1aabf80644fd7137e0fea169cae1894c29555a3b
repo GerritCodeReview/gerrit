@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f78e97_0bf07dea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-20T08:32:24Z",
+      "side": 1,
+      "message": "This seems like a hack.  We should rather try to find out why the NPE is occurring.",
+      "range": {
+        "startLine": 230,
+        "startChar": 14,
+        "endLine": 236,
+        "endChar": 15
+      },
+      "revId": "1aabf80644fd7137e0fea169cae1894c29555a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

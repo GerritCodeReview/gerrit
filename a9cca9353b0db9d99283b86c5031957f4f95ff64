@@ -22,6 +22,30 @@
       "revId": "a9cca9353b0db9d99283b86c5031957f4f95ff64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08fce2c3_c4c61ea2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-20T21:07:45Z",
+      "side": 1,
+      "message": "So I redid the patch as you said for cherry-pick and rebase.\n\nApart from these two classes no other class is affected from what I can tell.",
+      "parentUuid": "a8875628_c9f851d0",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 5
+      },
+      "revId": "a9cca9353b0db9d99283b86c5031957f4f95ff64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

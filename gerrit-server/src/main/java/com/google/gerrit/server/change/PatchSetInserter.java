@@ -100,13 +100,13 @@ public class PatchSetInserter {
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
 
-  private final Repository git;
-  private final RevWalk revWalk;
   private final RevCommit commit;
   private final ChangeControl ctl;
   private final IdentifiedUser user;
   private final BatchUpdate batchUpdate;
 
+  private Repository git;
+  private RevWalk revWalk;
   private PatchSet patchSet;
   private ChangeMessage changeMessage;
   private SshInfo sshInfo;
@@ -141,8 +141,6 @@ public class PatchSetInserter {
     this.replacePatchSetFactory = replacePatchSetFactory;
 
     this.batchUpdate = batchUpdate;
-    this.git = batchUpdate.getRepository();
-    this.revWalk = batchUpdate.getRevWalk();
     this.commit = commit;
     this.ctl = ctl;
     this.user = checkUser(ctl);
@@ -384,6 +382,10 @@ public class PatchSetInserter {
   }
 
   private void init() throws IOException {
+    if (git == null) {
+      git = batchUpdate.getRepository();
+      revWalk = batchUpdate.getRevWalk();
+    }
     if (sshInfo == null) {
       sshInfo = new NoSshInfo();
     }

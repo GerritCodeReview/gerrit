@@ -42,6 +42,7 @@ import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.group.GroupModule;
@@ -103,6 +104,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(ReplacePatchSetSender.Factory.class).toProvider(
         Providers.<ReplacePatchSetSender.Factory>of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
+    factory(BatchUpdate.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
 

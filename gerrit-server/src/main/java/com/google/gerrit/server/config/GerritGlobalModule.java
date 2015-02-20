@@ -73,6 +73,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitModule;
@@ -188,6 +189,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(AddReviewerSender.Factory.class);
+    factory(BatchUpdate.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(CreateChangeSender.Factory.class);

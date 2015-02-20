@@ -15,6 +15,8 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
@@ -28,8 +30,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -70,6 +72,11 @@ import java.util.concurrent.Callable;
  * next phase.
  */
 public class BatchUpdate implements AutoCloseable {
+  public interface Factory {
+    public BatchUpdate create(ReviewDb db, Project.NameKey project,
+        Timestamp when);
+  }
+
   public abstract static class ChangeOp {
     private final ChangeControl ctl;
 
@@ -77,39 +84,13 @@ public class BatchUpdate implements AutoCloseable {
       this.ctl = ctl;
     }
 
+    // TODO(dborowitz): Document that update contains the old change info.
     public abstract void call(ReviewDb db, ChangeUpdate update)
         throws Exception;
   }
 
-  // TODO(dborowitz): Manual injection so we can throw IOException from the
-  // create method. Let's hope this doesn't get too unwieldy; at the upper
-  // bound, it shouldn't be uglier than SubmitStrategy.Arguments.
-  @Singleton
-  public static class Factory {
-    private final GitRepositoryManager repoManager;
-    private final ChangeIndexer indexer;
-    private final ChangeUpdate.Factory changeUpdateFactory;
-    private final GitReferenceUpdated gitRefUpdated;
-
-    @Inject
-    Factory(GitRepositoryManager repoManager,
-        ChangeIndexer indexer,
-        ChangeUpdate.Factory changeUpdateFactory,
-        GitReferenceUpdated gitRefUpdated) {
-      this.repoManager = repoManager;
-      this.indexer = indexer;
-      this.changeUpdateFactory = changeUpdateFactory;
-      this.gitRefUpdated = gitRefUpdated;
-    }
-
-    public BatchUpdate create(ReviewDb db, Project.NameKey project,
-        Timestamp when) throws IOException {
-      return new BatchUpdate(db, repoManager, indexer, changeUpdateFactory,
-          gitRefUpdated, project, when);
-    }
-  }
-
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final ChangeIndexer indexer;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
@@ -117,56 +98,83 @@ public class BatchUpdate implements AutoCloseable {
   private final Project.NameKey project;
   private final Timestamp when;
 
-  private final Repository repo;
-  private final ObjectInserter inserter;
-  private final RevWalk revWalk;
-  private final BatchRefUpdate batchRefUpdate;
+  private final ListMultimap<Change.Id, ChangeOp> changeOps =
+      ArrayListMultimap.create();
+  private final Map<Change.Id, ChangeControl> changeControls = new HashMap<>();
+  private final List<Callable<?>> postOps = new ArrayList<>();
+  private final List<CheckedFuture<?, IOException>> indexFutures =
+      new ArrayList<>();
 
-  private final ListMultimap<Change.Id, ChangeOp> changeOps;
-  private final Map<Change.Id, ChangeControl> changeControls;
-  private final List<Callable<?>> postOps;
-  private final List<CheckedFuture<?, IOException>> indexFutures;
+  private Repository repo;
+  private ObjectInserter inserter;
+  private RevWalk revWalk;
+  private BatchRefUpdate batchRefUpdate;
+  private boolean closeRepo;
 
-  private BatchUpdate(ReviewDb db, GitRepositoryManager repoManager,
-      ChangeIndexer indexer, ChangeUpdate.Factory changeUpdateFactory,
-      GitReferenceUpdated gitRefUpdated, Project.NameKey project,
-      Timestamp when) throws IOException {
+  @AssistedInject
+  BatchUpdate(GitRepositoryManager repoManager,
+      ChangeIndexer indexer,
+      ChangeUpdate.Factory changeUpdateFactory,
+      GitReferenceUpdated gitRefUpdated,
+      @Assisted ReviewDb db,
+      @Assisted Project.NameKey project,
+      @Assisted Timestamp when) {
     this.db = db;
+    this.repoManager = repoManager;
     this.indexer = indexer;
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.project = project;
     this.when = when;
-    repo = repoManager.openRepository(project);
-    inserter = repo.newObjectInserter();
-    revWalk = new RevWalk(inserter.newReader());
-    batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
-    changeOps = ArrayListMultimap.create();
-    postOps = new ArrayList<>();
-    changeControls = new HashMap<>();
-    indexFutures = new ArrayList<>();
   }
 
   @Override
   public void close() {
-    revWalk.release();
-    inserter.release();
-    repo.close();
+    if (closeRepo) {
+      revWalk.release();
+      inserter.release();
+      repo.close();
+    }
   }
 
-  public RevWalk getRevWalk() {
-    return revWalk;
+  public BatchUpdate setRepository(Repository repo, RevWalk revWalk,
+      ObjectInserter inserter) {
+    checkState(this.repo == null, "repo already set");
+    closeRepo = false;
+    this.repo = checkNotNull(repo, "repo");
+    this.revWalk = checkNotNull(revWalk, "revWalk");
+    this.inserter = checkNotNull(inserter, "inserter");
+    return this;
   }
 
-  public Repository getRepository() {
+  public Repository getRepository() throws IOException {
+    if (repo == null) {
+      this.repo = repoManager.openRepository(project);
+      inserter = repo.newObjectInserter();
+      revWalk = new RevWalk(inserter.newReader());
+      batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
+    }
     return repo;
   }
 
-  public ObjectInserter getObjectInserter() {
+  public RevWalk getRevWalk() throws IOException {
+    if (revWalk == null) {
+      getRepository();
+    }
+    return revWalk;
+  }
+
+  public ObjectInserter getObjectInserter() throws IOException {
+    if (inserter == null) {
+      getRepository();
+    }
     return inserter;
   }
 
-  public BatchRefUpdate getBatchRefUpdate() {
+  public BatchRefUpdate getBatchRefUpdate() throws IOException {
+    if (batchRefUpdate == null) {
+      getRepository();
+    }
     return batchRefUpdate;
   }
 
@@ -212,7 +220,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executeRefUpdates() throws IOException, UpdateException {
-    if (batchRefUpdate.getCommands().isEmpty()) {
+    if (repo == null || batchRefUpdate.getCommands().isEmpty()) {
       return;
     }
     inserter.flush();

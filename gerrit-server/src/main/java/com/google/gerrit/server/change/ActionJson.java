@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.project.ChangeControl;
@@ -86,13 +87,19 @@ public class ActionJson {
 
   private Map<String, ActionInfo> toActionMap(RevisionResource rsrc) {
     Map<String, ActionInfo> out = new LinkedHashMap<>();
-    if (rsrc.getControl().getCurrentUser().isIdentifiedUser()) {
-      Provider<CurrentUser> userProvider = Providers.of(
-          rsrc.getControl().getCurrentUser());
-      for (UiAction.Description d : UiActions.from(
-          revisions, rsrc, userProvider)) {
-        out.put(d.getId(), new ActionInfo(d));
-      }
+    if (!rsrc.getControl().getCurrentUser().isIdentifiedUser()) {
+      return out;
+    }
+    if (!rsrc.getPatchSet().getId().equals(
+        rsrc.getChange().currentPatchSetId())) {
+      return out;
+    }
+
+    Provider<CurrentUser> userProvider = Providers.of(
+        rsrc.getControl().getCurrentUser());
+    for (UiAction.Description d : UiActions.from(
+        revisions, rsrc, userProvider)) {
+      out.put(d.getId(), new ActionInfo(d));
     }
     return out;
   }

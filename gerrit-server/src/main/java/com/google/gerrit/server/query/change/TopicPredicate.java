@@ -21,7 +21,7 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-class TopicPredicate extends IndexPredicate<ChangeData> {
+public class TopicPredicate extends IndexPredicate<ChangeData> {
   TopicPredicate(String topic) {
     super(ChangeField.TOPIC, topic);
   }

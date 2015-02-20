@@ -40,6 +40,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.TopicPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -61,8 +62,9 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.BaseQueryBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -174,6 +176,9 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
         builder.array(name, values.getValues());
       } else {
         for (Object value : values.getValues()) {
+          if (value == null || ((String)value).isEmpty()) {
+            continue;
+          }
           builder.field(name, value);
         }
       }
@@ -288,8 +293,13 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
   private class QuerySource implements ChangeDataSource {
     private final Search search;
 
-    private QueryStringQueryBuilder buildQuery(Predicate<ChangeData> p)
+    private BaseQueryBuilder buildQuery(Predicate<ChangeData> p)
         throws QueryParseException {
+
+      if (p instanceof TopicPredicate && ((TopicPredicate)p).getValue().isEmpty()) {
+        return QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+          FilterBuilders.missingFilter("topic2"));
+      }
       String q = queryBuilder.toQuery(p).toString();
       return QueryBuilders.queryString(q);
     }

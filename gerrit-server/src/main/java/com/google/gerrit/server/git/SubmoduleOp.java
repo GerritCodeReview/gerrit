@@ -199,7 +199,17 @@ public class SubmoduleOp {
           e);
     }
   }
-
+  private void checkNullPointerException() {
+    for (Change.Id id: commits.keySet()) {
+      CodeReviewCommit c = commits.get(id);
+      String s;
+      try {
+      s = c.getFullMessage();
+      } catch (NullPointerException e){
+        log.debug(s);
+      }
+    }
+  }
   private void updateSuperProjects(final Branch.NameKey updatedBranch, RevWalk myRw,
       final ObjectId mergedCommit, final String msg) throws SubmoduleException {
     try {
@@ -220,7 +230,7 @@ public class SubmoduleOp {
           // when updateSuperProjects is called having as updatedBranch
           // the super(master) value.
           updatedSubscribers.add(updatedBranch);
-
+          checkNullPointerException();
           for (final Change chg : submitted) {
             final CodeReviewCommit c = commits.get(chg.getId());
             if (c != null

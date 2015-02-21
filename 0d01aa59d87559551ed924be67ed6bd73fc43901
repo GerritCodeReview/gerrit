@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "481c1a1f_d6d06458",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-02-21T21:36:11Z",
+      "side": 1,
+      "message": "It is correct. David Pursehouse found this bug while testing tha change.",
+      "parentUuid": "2819a630_95c6e4a0",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 60
+      },
+      "revId": "0d01aa59d87559551ed924be67ed6bd73fc43901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08fdc2e8_9cc605a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
         "patchSetId": 4

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08fdc2e8_9cc605a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-21T14:23:02Z",
+      "side": 1,
+      "message": "move this logic into RevisionResource as a method named something like `isCurrent` ?",
+      "range": {
+        "startLine": 106,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 54
+      },
+      "revId": "0d01aa59d87559551ed924be67ed6bd73fc43901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

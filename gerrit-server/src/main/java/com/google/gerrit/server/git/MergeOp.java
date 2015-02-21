@@ -262,10 +262,12 @@ public class MergeOp {
 
       ListMultimap<SubmitType, Change> toSubmit =
           validateChangeList(queryProvider.get().submitted(destBranch));
+      checkNullPointerException();
       ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
           ArrayListMultimap.create();
       List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
           new ArrayList<>();
+      checkNullPointerException();
       while (!toMerge.isEmpty()) {
         logDebug("Beginning merge iteration with {} left to merge",
             toMerge.size());
@@ -281,7 +283,9 @@ public class MergeOp {
           RefUpdate update = updateBranch(strategy, branchUpdate);
           reopen = true;
 
+          checkNullPointerException();
           updateChangeStatus(toSubmit.get(submitType), mergeTip);
+          checkNullPointerException();
           updateSubscriptions(toSubmit.get(submitType));
           if (update != null) {
             fireRefUpdated(update);
@@ -823,6 +827,18 @@ public class MergeOp {
         logWarn("Error updating change status for " + c.getId(), err);
       } catch (IOException err) {
         logWarn("Error updating change status for " + c.getId(), err);
+      }
+    }
+  }
+
+  private void checkNullPointerException() {
+    for (Change.Id id: commits.keySet()) {
+      CodeReviewCommit c = commits.get(id);
+      String s;
+      try {
+      s = c.getFullMessage();
+      } catch (NullPointerException e){
+        log.debug(s);
       }
     }
   }

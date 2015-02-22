@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "481c1a1f_b6ea08f9",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-22T09:56:16Z",
+      "side": 1,
+      "message": "Is unused and wrong here. Is a left over, as i first implemented it in gerrit-httpd before moved it in its own sub-project.\n\nDone.",
+      "parentUuid": "481c1a1f_76e0701d",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 23
+      },
+      "revId": "315027a3557c91af1d24521f0ef817a9cec1c455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2819a630_55dd6c67",
         "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/AuthenticatedHttpRequest.java",
         "patchSetId": 2
@@ -53,6 +77,30 @@
       "writtenOn": "2015-02-22T09:38:45Z",
       "side": 1,
       "message": "s/Info/name/g",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "315027a3557c91af1d24521f0ef817a9cec1c455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2819a630_f5e4782e",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-22T09:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "481c1a1f_56dd7467",
       "range": {
         "startLine": 44,
         "startChar": 16,

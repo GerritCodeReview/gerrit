@@ -145,6 +145,18 @@ request is the exact string supplied in the dialog by the user.
 The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
 +
+* OAUTH
++
+OAuth2 is a protocol that lets external apps request authorization to private
+details in a user's account without getting their password. This is
+preferred over Basic Authentication because tokens can be limited to specific
+types of data, and can be revoked by users at any time.
++
+Site owners have to register their application before getting started. Note
+that provider specific plugins must be used with this authentication scheme.
++
++ `auth.httpHeader` must be set for this authentication method.
++
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +
 *DO NOT USE*.  Only for use in a development environment.
@@ -253,7 +265,8 @@ The "Sign In" link will send users directly to this URL.
 [[auth.httpHeader]]auth.httpHeader::
 +
 HTTP header to trust the username from, or unset to select HTTP basic
-or digest authentication.  Only used if `auth.type` is set to `HTTP`.
+or digest authentication.  Only used if `auth.type` is set to `HTTP`
+or `OAUTH`.
 
 [[auth.httpDisplaynameHeader]]auth.httpDisplaynameHeader::
 +

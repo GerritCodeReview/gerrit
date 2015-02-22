@@ -63,6 +63,7 @@ class InitAuth implements InitStep {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case LDAP:
       case LDAP_BIND:
+      case OAUTH:
       case OPENID:
       case OPENID_SSO:
         break;
@@ -97,6 +98,7 @@ class InitAuth implements InitStep {
       case CUSTOM_EXTENSION:
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
+      case OAUTH:
       case OPENID:
       case OPENID_SSO:
         break;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "481c1a1f_16d3fc61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-02-22T07:10:50Z",
+      "side": 1,
+      "message": "Why do you want to revert this? Please add a reason to the commit message.",
+      "revId": "99dc01f52b9a6a501b9a6660d4a5eeef3345335e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

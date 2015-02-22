@@ -98,6 +98,7 @@ java_library(
     ':init',
     ':init-api',
     ':util',
+    '//gerrit-oauth:oauth',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-lucene:lucene',
     '//gerrit-openid:openid',

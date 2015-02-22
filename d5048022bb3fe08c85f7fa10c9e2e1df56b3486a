@@ -22,6 +22,30 @@
       "revId": "d5048022bb3fe08c85f7fa10c9e2e1df56b3486a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2819a630_15fc94c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-22T10:22:11Z",
+      "side": 1,
+      "message": "See my last comment. The more interesting problem to solve and is more relevant for Gerrit users that internal way to say that user is identified is to solve multiple oauth providers.\n\nEven more serious problem we are faicing is failing to cope with hybrid authentication schemes. And that\u0027s exactly the problem that gerrit sites are currently dealing with: Heterogenous user base: with say 50% users base registered with Google OpenID and other 50% with other OpenID providers. \n\nAfter shuts down of Google\u0027s OpenID service all theses sites are stucked. Ideally there would be an easy was to say:\n\nAUTH_TYPE \u003d OAUTH_OPENID_HYBRID\n\nAnd this would provide login page with installed oauth providers + custom OpenID list.\n\nIdeally OpenID template page could be customized with preselected list of OpenID providers, *without* need to patch gerrit for that. It turns out that users are failing to enter/remember/discover custom OpenID providers URLs and just expect that their OpenID povider foo is listed on gerrit OpenID LoginForm.",
+      "parentUuid": "481c1a1f_d6e98404",
+      "range": {
+        "startLine": 158,
+        "startChar": 3,
+        "endLine": 158,
+        "endChar": 18
+      },
+      "revId": "d5048022bb3fe08c85f7fa10c9e2e1df56b3486a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

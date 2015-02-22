@@ -145,6 +145,16 @@ request is the exact string supplied in the dialog by the user.
 The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
 +
+* OAUTH
++
+OAuth2 is a protocol that lets external apps request authorization to private
+details in a user's account without getting their password. This is
+preferred over Basic Authentication because tokens can be limited to specific
+types of data, and can be revoked by users at any time.
++
+Site owners have to register their application before getting started. Note
+that proiders specific plugin smust be used with this authentocation scheme.
++
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +
 *DO NOT USE*.  Only for use in a development environment.

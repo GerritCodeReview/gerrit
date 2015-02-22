@@ -28,6 +28,8 @@ import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
+import com.google.gerrit.httpd.auth.container.HttpAuthModule;
+import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -437,6 +439,9 @@ public class Daemon extends SiteProgram {
     if (authConfig.getAuthType() == AuthType.OPENID ||
         authConfig.getAuthType() == AuthType.OPENID_SSO) {
       modules.add(new OpenIdModule());
+    } else if (authConfig.getAuthType() == AuthType.OAUTH) {
+      modules.add(new OAuthModule());
+      modules.add(new HttpAuthModule(authConfig));
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 

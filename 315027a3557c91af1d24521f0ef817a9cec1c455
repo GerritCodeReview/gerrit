@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2819a630_d5e97c04",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/AuthenticatedHttpRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-22T10:10:42Z",
+      "side": 1,
+      "message": "Good point. Another problem to solve with extension point in core + oauth providers supplied by plugins is to support the use case when multiple oauth service providers are deployed simultaneously on Gerrit site. The plan is to present the user with provider selection screen and let her select the provider she likes to use.\n\nHaving said that with this approach i was able to create plugin for google-oauth2-provider and preparing to upload it to my GitHub account. It just works and there wouldn\u0027t be any issues to provide another dozens of gerrit-foo-oauth-providers: [2]. With scribe library this s a matter of 5 configuration lines in plugin + client registration issue (client_id + client_secret).\n\n* [2] https://github.com/fernandezpablo85/scribe-java/tree/master/src/main/java/org/scribe/builder/api",
+      "parentUuid": "2819a630_55dd6c67",
+      "revId": "315027a3557c91af1d24521f0ef817a9cec1c455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "481c1a1f_56dd7467",
         "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthServiceProvider.java",
         "patchSetId": 2

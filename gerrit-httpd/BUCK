@@ -26,6 +26,7 @@ java_library(
     '//lib:gwtorm',
     '//lib:jsch',
     '//lib:mime-util',
+    '//lib:scribe-oauth',
     '//lib/auto:auto-value',
     '//lib/commons:codec',
     '//lib/guice:guice',

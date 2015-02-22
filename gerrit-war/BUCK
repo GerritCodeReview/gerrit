@@ -4,6 +4,7 @@ java_library(
   name = 'init',
   srcs = glob(['src/main/java/**/*.java']),
   deps = [
+    '//gerrit-oauth:oauth',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-extension-api:api',
     '//gerrit-httpd:httpd',

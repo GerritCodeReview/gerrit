@@ -58,6 +58,7 @@ class InitAuth implements InitStep {
         break;
       }
 
+      case OAUTH:
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
@@ -93,6 +94,7 @@ class InitAuth implements InitStep {
         break;
       }
 
+      case OAUTH:
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -345,6 +346,8 @@ public class WebAppInitializer extends GuiceServletContextListener
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {
       modules.add(new OpenIdModule());
+    } else if (authConfig.getAuthType() == AuthType.OAUTH) {
+      modules.add(new OAuthModule());
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 

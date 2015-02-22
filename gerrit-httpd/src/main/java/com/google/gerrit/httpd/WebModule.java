@@ -101,6 +101,8 @@ public class WebModule extends LifecycleModule {
         install(new BecomeAnyAccountModule());
         break;
 
+      case OAUTH:
+        // OAuth support is bound in WebAppInitializer and Daemon.
       case OPENID:
       case OPENID_SSO:
         // OpenID support is bound in WebAppInitializer and Daemon.
@@ -110,7 +112,7 @@ public class WebModule extends LifecycleModule {
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
 
-    install(new UrlModule(urlConfig, uiOptions));
+    install(new UrlModule(urlConfig, uiOptions, authConfig));
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module());

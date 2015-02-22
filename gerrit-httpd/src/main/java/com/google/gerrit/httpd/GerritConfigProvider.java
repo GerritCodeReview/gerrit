@@ -112,6 +112,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
       case CLIENT_SSL_CERT_LDAP:
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case OAUTH:
       case OPENID:
       case OPENID_SSO:
         break;

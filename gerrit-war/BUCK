@@ -8,6 +8,7 @@ java_library(
     '//gerrit-extension-api:api',
     '//gerrit-httpd:httpd',
     '//gerrit-lucene:lucene',
+    '//gerrit-oauth:oauth',
     '//gerrit-openid:openid',
     '//gerrit-pgm:init-api',
     '//gerrit-pgm:init-base',

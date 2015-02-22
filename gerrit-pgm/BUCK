@@ -99,6 +99,7 @@ java_library(
     '//gerrit-gwtexpui:server',
     '//gerrit-httpd:httpd',
     '//gerrit-lucene:lucene',
+    '//gerrit-oauth:oauth',
     '//gerrit-openid:openid',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',

@@ -20,6 +20,7 @@ define_license(name = 'ow2')
 define_license(name = 'postgresql')
 define_license(name = 'prologcafe')
 define_license(name = 'protobuf')
+define_license(name = 'scribe')
 define_license(name = 'slf4j')
 define_license(name = 'xz')
 define_license(name = 'DO_NOT_DISTRIBUTE')
@@ -212,5 +213,12 @@ maven_jar(
   id = 'org.javassist:javassist:3.17.1-GA',
   sha1 = '30c30512115866b6e0123f1913bc7735b9f76d08',
   license = 'DO_NOT_DISTRIBUTE',
+)
+
+maven_jar(
+  name = 'scribe-oauth',
+  id = 'org.scribe:scribe:1.3.7',
+  sha1 = '583921bed46635d9f529ef5f14f7c9e83367bc6e',
+  license = 'scribe',
 )
 

@@ -27,7 +27,7 @@ public class FileResource implements RestResource {
   private final RevisionResource rev;
   private final Patch.Key key;
 
-  public FileResource(RevisionResource rev, String name) {
+  FileResource(RevisionResource rev, String name) {
     this.rev = rev;
     this.key = new Patch.Key(rev.getPatchSet().getId(), name);
   }

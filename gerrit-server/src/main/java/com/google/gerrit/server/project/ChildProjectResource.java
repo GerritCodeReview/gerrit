@@ -24,7 +24,7 @@ public class ChildProjectResource extends ProjectResource {
 
   private final ProjectControl child;
 
-  public ChildProjectResource(ProjectResource project, ProjectControl child) {
+  ChildProjectResource(ProjectResource project, ProjectControl child) {
     super(project);
     this.child = child;
   }

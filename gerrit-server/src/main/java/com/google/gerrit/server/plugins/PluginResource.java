@@ -25,12 +25,12 @@ public class PluginResource implements RestResource {
   private final Plugin plugin;
   private final String name;
 
-  public PluginResource(Plugin plugin) {
+  PluginResource(Plugin plugin) {
     this.plugin = plugin;
     this.name = plugin.getName();
   }
 
-  public PluginResource(String name) {
+  PluginResource(String name) {
     this.plugin = null;
     this.name = name;
   }

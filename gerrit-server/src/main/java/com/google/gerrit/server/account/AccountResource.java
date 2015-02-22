@@ -48,11 +48,11 @@ public class AccountResource implements RestResource {
     return user;
   }
 
-  public static class Capability implements RestResource {
+  static class Capability implements RestResource {
     private final IdentifiedUser user;
     private final String capability;
 
-    public Capability(IdentifiedUser user, String capability) {
+    Capability(IdentifiedUser user, String capability) {
       this.user = user;
       this.capability = capability;
     }

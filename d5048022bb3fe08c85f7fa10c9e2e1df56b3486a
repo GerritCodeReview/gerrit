@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "481c1a1f_d6e98404",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-22T10:10:10Z",
+      "side": 1,
+      "message": "That\u0027s the \"configuration mess\" Shawn was talking about: let\u0027s have his say about this before going further with this approach.",
+      "range": {
+        "startLine": 158,
+        "startChar": 3,
+        "endLine": 158,
+        "endChar": 18
+      },
+      "revId": "d5048022bb3fe08c85f7fa10c9e2e1df56b3486a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

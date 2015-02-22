@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "481c1a1f_b60fa85d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-02-22T12:16:38Z",
+      "side": 1,
+      "message": "I think this comment is not true (anymore). This filter is also used for the REST API; see: GitOverHttpModule#configureServlets: filter(\"/a/*\").through(authFilter);",
+      "range": {
+        "startLine": 56,
+        "startChar": 49,
+        "endLine": 58,
+        "endChar": 31
+      },
+      "revId": "ed55f93e37947b4a5ba86d4b6f923b7cae4a2cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "481c1a1f_56f614e3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-02-22T12:16:38Z",
+      "side": 1,
+      "message": "Is this check really required? I think it could also make sense for AuthType.HTTP_LDAP. I think we should remove this check and honor the loginHttpHeader setting in any case.",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 54
+      },
+      "revId": "ed55f93e37947b4a5ba86d4b6f923b7cae4a2cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

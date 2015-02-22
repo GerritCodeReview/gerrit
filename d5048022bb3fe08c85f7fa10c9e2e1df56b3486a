@@ -46,6 +46,75 @@
       "revId": "d5048022bb3fe08c85f7fa10c9e2e1df56b3486a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2819a630_95142475",
+        "filename": "gerrit-oauth/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-22T20:54:23Z",
+      "side": 1,
+      "message": "Do we *really* need Scribe? Why don\u0027t we leave the interface clean and without extrenal dependencies and leave the plugins to implement Scribe and pull the dependency?",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "d5048022bb3fe08c85f7fa10c9e2e1df56b3486a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2819a630_f51918ab",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-22T20:54:23Z",
+      "side": 1,
+      "message": "This should be a clean bean \u003d\u003e can we just pull it into our project?",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 29
+      },
+      "revId": "d5048022bb3fe08c85f7fa10c9e2e1df56b3486a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "481c1a1f_d61ea490",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-22T20:54:23Z",
+      "side": 1,
+      "message": "Can we abstract this Verifier and leave the plugin to pull the actual implementation?",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "d5048022bb3fe08c85f7fa10c9e2e1df56b3486a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

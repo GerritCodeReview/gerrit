@@ -18,6 +18,8 @@ import static com.google.gerrit.common.FileUtil.chmod;
 import static com.google.gerrit.pgm.init.api.InitUtil.die;
 import static com.google.gerrit.pgm.init.api.InitUtil.hostname;
 
+import static java.nio.file.Files.exists;
+
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
@@ -29,9 +31,10 @@ import com.google.inject.Singleton;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /** Initialize the {@code sshd} configuration section. */
 @Singleton
@@ -74,9 +77,9 @@ class InitSshd implements InitStep {
     port = ui.readInt(port, "Listen on port");
     sshd.set("listenAddress", SocketUtil.format(hostname, port));
 
-    if (site.ssh_rsa.exists() || site.ssh_dsa.exists()) {
+    if (exists(site.ssh_rsa) || exists(site.ssh_dsa)) {
       libraries.bouncyCastleSSL.downloadRequired();
-    } else if (!site.ssh_key.exists()) {
+    } else if (!exists(site.ssh_key)) {
       libraries.bouncyCastleSSL.downloadOptional();
     }
 
@@ -90,9 +93,9 @@ class InitSshd implements InitStep {
   }
 
   private void generateSshHostKeys() throws InterruptedException, IOException {
-    if (!site.ssh_key.exists() //
-        && !site.ssh_rsa.exists() //
-        && !site.ssh_dsa.exists()) {
+    if (!exists(site.ssh_key) //
+        && !exists(site.ssh_rsa) //
+        && !exists(site.ssh_dsa)) {
       System.err.print("Generating SSH host key ...");
       System.err.flush();
 
@@ -108,7 +111,7 @@ class InitSshd implements InitStep {
             "-t", "rsa", //
             "-P", "", //
             "-C", comment, //
-            "-f", site.ssh_rsa.getAbsolutePath() //
+            "-f", site.ssh_rsa.toAbsolutePath().toString() //
             }).waitFor();
 
         System.err.print(" dsa...");
@@ -118,7 +121,7 @@ class InitSshd implements InitStep {
             "-t", "dsa", //
             "-P", "", //
             "-C", comment, //
-            "-f", site.ssh_dsa.getAbsolutePath() //
+            "-f", site.ssh_dsa.toAbsolutePath().toString() //
             }).waitFor();
 
       } else {
@@ -128,28 +131,34 @@ class InitSshd implements InitStep {
         // short period of time. We try to reduce that risk by creating
         // the key within a temporary directory.
         //
-        final File tmpdir = new File(site.etc_dir, "tmp.sshkeygen");
-        if (!tmpdir.mkdir()) {
-          throw die("Cannot create directory " + tmpdir);
+        Path tmpdir = site.etc_dir.toPath().resolve("tmp.sshkeygen");
+        try {
+          Files.createDirectory(tmpdir);
+        } catch (IOException e) {
+          throw die("Cannot create directory " + tmpdir, e);
         }
         chmod(0600, tmpdir);
 
-        final File tmpkey = new File(tmpdir, site.ssh_key.getName());
-        final SimpleGeneratorHostKeyProvider p;
+        Path tmpkey = tmpdir.resolve(site.ssh_key.getFileName().toString());
+        SimpleGeneratorHostKeyProvider p;
 
         System.err.print(" rsa(simple)...");
         System.err.flush();
         p = new SimpleGeneratorHostKeyProvider();
-        p.setPath(tmpkey.getAbsolutePath());
+        p.setPath(tmpkey.toAbsolutePath().toString());
         p.setAlgorithm("RSA");
         p.loadKeys(); // forces the key to generate.
         chmod(0600, tmpkey);
 
-        if (!tmpkey.renameTo(site.ssh_key)) {
-          throw die("Cannot rename " + tmpkey + " to " + site.ssh_key);
+        try {
+          Files.move(tmpkey, site.ssh_key);
+        } catch (IOException e) {
+          throw die("Cannot rename " + tmpkey + " to " + site.ssh_key, e);
         }
-        if (!tmpdir.delete()) {
-          throw die("Cannot delete " + tmpdir);
+        try {
+          Files.delete(tmpdir);
+        } catch (IOException e) {
+          throw die("Cannot delete " + tmpdir, e);
         }
       }
       System.err.println(" done");

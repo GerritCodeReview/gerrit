@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -33,10 +35,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.Collection;
@@ -66,7 +69,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
       final IdentifiedUser.GenericFactory uf, final PeerDaemonUser.Factory pf,
       final SitePaths site, final KeyPairProvider hostKeyProvider,
-      final @GerritServerConfig Config cfg, final SshScope s) {
+      final @GerritServerConfig Config cfg, final SshScope s)
+      throws IOException {
     sshKeyCache = skc;
     sshLog = l;
     userFactory = uf;
@@ -98,14 +102,19 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     final SshSession sd = session.getAttribute(SshSession.KEY);
 
     if (PeerDaemonUser.USER_NAME.equals(username)) {
-      if (myHostKeys.contains(suppliedKey)
-          || getPeerKeys().contains(suppliedKey)) {
-        PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
-        return SshUtil.success(username, session, sshScope, sshLog, sd, user);
+      try {
+        if (myHostKeys.contains(suppliedKey)
+            || getPeerKeys().contains(suppliedKey)) {
+          PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
+          return SshUtil.success(username, session, sshScope, sshLog, sd, user);
 
-      } else {
-        sd.authenticationError(username, "no-matching-key");
-        return false;
+        } else {
+          sd.authenticationError(username, "no-matching-key");
+          return false;
+        }
+      } catch (IOException e) {
+        log.warn("Error reading keys", e);
+        sd.authenticationError(username, "error-reading-keys");
       }
     }
 
@@ -150,7 +159,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return SshUtil.success(username, session, sshScope, sshLog, sd, cu);
   }
 
-  private Set<PublicKey> getPeerKeys() {
+  private Set<PublicKey> getPeerKeys() throws IOException {
     PeerKeyCache p = peerKeyCache;
     if (!p.isCurrent()) {
       p = p.reload();
@@ -170,59 +179,53 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   }
 
   private static class PeerKeyCache {
-    private final File path;
-    private final long modified;
+    private final Path path;
+    private final FileTime modified;
     final Set<PublicKey> keys;
 
-    PeerKeyCache(final File path) {
+    PeerKeyCache(Path path) throws IOException {
       this.path = path;
-      this.modified = path.lastModified();
+      this.modified = Files.getLastModifiedTime(path);
       this.keys = read(path);
     }
 
-    private static Set<PublicKey> read(File path) {
-      try {
-        final BufferedReader br = new BufferedReader(new FileReader(path));
-        try {
-          final Set<PublicKey> keys = new HashSet<>();
-          String line;
-          while ((line = br.readLine()) != null) {
-            line = line.trim();
-            if (line.startsWith("#") || line.isEmpty()) {
-              continue;
-            }
-
-            try {
-              byte[] bin = Base64.decodeBase64(line.getBytes("ISO-8859-1"));
-              keys.add(new Buffer(bin).getRawPublicKey());
-            } catch (RuntimeException e) {
-              logBadKey(path, line, e);
-            } catch (SshException e) {
-              logBadKey(path, line, e);
-            }
+    private static Set<PublicKey> read(Path path) {
+      try (BufferedReader br = Files.newBufferedReader(path, UTF_8)) {
+        final Set<PublicKey> keys = new HashSet<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+          line = line.trim();
+          if (line.startsWith("#") || line.isEmpty()) {
+            continue;
           }
-          return Collections.unmodifiableSet(keys);
-        } finally {
-          br.close();
+
+          try {
+            byte[] bin = Base64.decodeBase64(line.getBytes("ISO-8859-1"));
+            keys.add(new Buffer(bin).getRawPublicKey());
+          } catch (RuntimeException e) {
+            logBadKey(path, line, e);
+          } catch (SshException e) {
+            logBadKey(path, line, e);
+          }
         }
+        return Collections.unmodifiableSet(keys);
       } catch (FileNotFoundException noFile) {
         return Collections.emptySet();
-
       } catch (IOException err) {
         log.error("Cannot read " + path, err);
         return Collections.emptySet();
       }
     }
 
-    private static void logBadKey(File path, String line, Exception e) {
+    private static void logBadKey(Path path, String line, Exception e) {
       log.warn("Invalid key in " + path + ":\n  " + line, e);
     }
 
-    boolean isCurrent() {
-      return path.lastModified() == modified;
+    boolean isCurrent() throws IOException {
+      return modified.equals(Files.getLastModifiedTime(path));
     }
 
-    PeerKeyCache reload() {
+    PeerKeyCache reload() throws IOException {
       return new PeerKeyCache(path);
     }
   }

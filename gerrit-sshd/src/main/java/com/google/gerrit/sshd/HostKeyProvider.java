@@ -24,7 +24,8 @@ import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,29 +39,29 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
 
   @Override
   public KeyPairProvider get() {
-    final File objKey = site.ssh_key;
-    final File rsaKey = site.ssh_rsa;
-    final File dsaKey = site.ssh_dsa;
+    Path objKey = site.ssh_key;
+    Path rsaKey = site.ssh_rsa;
+    Path dsaKey = site.ssh_dsa;
 
     final List<String> stdKeys = new ArrayList<>(2);
-    if (rsaKey.exists()) {
-      stdKeys.add(rsaKey.getAbsolutePath());
+    if (Files.exists(rsaKey)) {
+      stdKeys.add(rsaKey.toAbsolutePath().toString());
     }
-    if (dsaKey.exists()) {
-      stdKeys.add(dsaKey.getAbsolutePath());
+    if (Files.exists(dsaKey)) {
+      stdKeys.add(dsaKey.toAbsolutePath().toString());
     }
 
-    if (objKey.exists()) {
+    if (Files.exists(objKey)) {
       if (stdKeys.isEmpty()) {
         SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
-        p.setPath(objKey.getAbsolutePath());
+        p.setPath(objKey.toAbsolutePath().toString());
         return p;
 
       } else {
         // Both formats of host key exist, we don't know which format
         // should be authoritative. Complain and abort.
         //
-        stdKeys.add(objKey.getAbsolutePath());
+        stdKeys.add(objKey.toAbsolutePath().toString());
         throw new ProvisionException("Multiple host keys exist: " + stdKeys);
       }
 

@@ -27,8 +27,10 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 
 @Singleton
 public class SiteHeaderFooter {
@@ -43,13 +45,13 @@ public class SiteHeaderFooter {
     this.refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
     this.sitePaths = sitePaths;
 
-    Template t = new Template(sitePaths);
     try {
+      Template t = new Template(sitePaths);
       t.load();
+      template = t;
     } catch (IOException e) {
       log.warn("Cannot load site header or footer", e);
     }
-    template = t;
   }
 
   public Document parse(Class<?> clazz, String name) throws IOException {
@@ -110,7 +112,7 @@ public class SiteHeaderFooter {
     Element header;
     Element footer;
 
-    Template(SitePaths site) {
+    Template(SitePaths site) throws IOException {
       cssFile = new FileInfo(site.site_css);
       headerFile = new FileInfo(site.site_header);
       footerFile = new FileInfo(site.site_footer);
@@ -118,13 +120,13 @@ public class SiteHeaderFooter {
 
     void load() throws IOException {
       css = HtmlDomUtil.readFile(
-          cssFile.path.getParentFile(),
-          cssFile.path.getName());
+          cssFile.path.getParent(),
+          cssFile.path.getFileName().toString());
       header = readXml(headerFile);
       footer = readXml(footerFile);
     }
 
-    boolean isStale() {
+    boolean isStale() throws IOException {
       return cssFile.isStale() || headerFile.isStale() || footerFile.isStale();
     }
 
@@ -135,16 +137,16 @@ public class SiteHeaderFooter {
   }
 
   private static class FileInfo {
-    final File path;
-    final long time;
+    final Path path;
+    final FileTime time;
 
-    FileInfo(File p) {
+    FileInfo(Path p) throws IOException {
       path = p;
-      time = path.lastModified();
+      time = Files.getLastModifiedTime(path);
     }
 
-    boolean isStale() {
-      return time != path.lastModified();
+    boolean isStale() throws IOException {
+      return !time.equals(Files.getLastModifiedTime(path));
     }
   }
 }

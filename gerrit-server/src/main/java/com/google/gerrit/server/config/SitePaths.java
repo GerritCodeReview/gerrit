@@ -56,10 +56,10 @@ public final class SitePaths {
   public final File ssh_dsa;
   public final File peer_keys;
 
-  public final File site_css;
-  public final File site_header;
-  public final File site_footer;
-  public final File site_gitweb;
+  public final Path site_css;
+  public final Path site_header;
+  public final Path site_footer;
+  public final Path site_gitweb;
 
   /** {@code true} if {@link #site_path} has not been initialized. */
   public final boolean isNew;
@@ -96,10 +96,11 @@ public final class SitePaths {
     ssh_dsa = new File(etc_dir, "ssh_host_dsa_key");
     peer_keys = new File(etc_dir, "peer_keys");
 
-    site_css = new File(etc_dir, CSS_FILENAME);
-    site_header = new File(etc_dir, HEADER_FILENAME);
-    site_footer = new File(etc_dir, FOOTER_FILENAME);
-    site_gitweb = new File(etc_dir, "gitweb_config.perl");
+    Path etcDirPath = etc_dir.toPath();
+    site_css = etcDirPath.resolve(CSS_FILENAME);
+    site_header = etcDirPath.resolve(HEADER_FILENAME);
+    site_footer = etcDirPath.resolve(FOOTER_FILENAME);
+    site_gitweb = etcDirPath.resolve("gitweb_config.perl");
 
     if (site_path.exists()) {
       final String[] contents = site_path.list();

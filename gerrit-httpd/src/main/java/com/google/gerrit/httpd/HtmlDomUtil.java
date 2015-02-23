@@ -23,14 +23,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.zip.GZIPOutputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -187,8 +187,8 @@ public class HtmlDomUtil {
   }
 
   /** Parse an XHTML file from the local drive and return the instance. */
-  public static Document parseFile(File path) throws IOException {
-    try (InputStream in = new FileInputStream(path)) {
+  public static Document parseFile(Path path) throws IOException {
+    try (InputStream in = Files.newInputStream(path)) {
       Document doc = newBuilder().parse(in);
       compact(doc);
       return doc;
@@ -200,13 +200,13 @@ public class HtmlDomUtil {
   }
 
   /** Read a UTF-8 text file from the local drive. */
-  public static String readFile(File parentDir, String name)
+  public static String readFile(Path parentDir, String name)
       throws IOException {
     if (parentDir == null) {
       return null;
     }
-    File path = new File(parentDir, name);
-    try (FileInputStream in = new FileInputStream(path)) {
+    Path path = parentDir.resolve(name);
+    try (InputStream in = Files.newInputStream(path)) {
       return new String(ByteStreams.toByteArray(in), ENC);
     } catch (FileNotFoundException e) {
       return null;

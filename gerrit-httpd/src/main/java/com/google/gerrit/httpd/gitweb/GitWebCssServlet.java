@@ -22,8 +22,9 @@ import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletOutputStream;
@@ -55,14 +56,14 @@ abstract class GitWebCssServlet extends HttpServlet {
   private final byte[] raw_css;
   private final byte[] gz_css;
 
-  GitWebCssServlet(final File src)
+  GitWebCssServlet(final Path src)
       throws IOException {
     if (src != null) {
-      final File dir = src.getParentFile();
-      final String name = src.getName();
+      final Path dir = src.getParent();
+      final String name = src.getFileName().toString();
       final String raw = HtmlDomUtil.readFile(dir, name);
       if (raw != null) {
-        modified = src.lastModified();
+        modified = Files.getLastModifiedTime(src).toMillis();
         raw_css = raw.getBytes(ENC);
         gz_css = HtmlDomUtil.compress(raw_css);
       } else {

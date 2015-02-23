@@ -33,7 +33,7 @@ public final class SitePaths {
   public final File bin_dir;
   public final File etc_dir;
   public final File lib_dir;
-  public final File tmp_dir;
+  public final Path tmp_dir;
   public final File logs_dir;
   public final File plugins_dir;
   public final File data_dir;
@@ -68,11 +68,12 @@ public final class SitePaths {
   public SitePaths(final @SitePath Path sitePath) throws FileNotFoundException {
     // TODO(dborowitz): Convert all of these to Paths.
     site_path = sitePath.toFile();
+    Path p = sitePath;
 
     bin_dir = new File(site_path, "bin");
     etc_dir = new File(site_path, "etc");
     lib_dir = new File(site_path, "lib");
-    tmp_dir = new File(site_path, "tmp");
+    tmp_dir = p.resolve("tmp");
     plugins_dir = new File(site_path, "plugins");
     data_dir = new File(site_path, "data");
     logs_dir = new File(site_path, "logs");

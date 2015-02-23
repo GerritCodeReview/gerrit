@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +48,8 @@ public class JarPluginProvider implements ServerPluginProvider {
 
   @Inject
   JarPluginProvider(SitePaths sitePaths) {
-    tmpDir = sitePaths.tmp_dir;
+    // TODO(dborowitz): Convert to NIO.
+    tmpDir = sitePaths.tmp_dir.toFile();
   }
 
   @Override
@@ -111,10 +113,11 @@ public class JarPluginProvider implements ServerPluginProvider {
 
   public static File storeInTemp(String pluginName, InputStream in,
       SitePaths sitePaths) throws IOException {
-    if (!sitePaths.tmp_dir.exists()) {
-      sitePaths.tmp_dir.mkdirs();
+    if (!Files.exists(sitePaths.tmp_dir)) {
+      Files.createDirectories(sitePaths.tmp_dir);
     }
-    return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
+    return asTemp(in, tempNameFor(pluginName), ".jar",
+        sitePaths.tmp_dir.toFile());
   }
 
   private ServerPlugin loadJarPlugin(String name, File srcJar,

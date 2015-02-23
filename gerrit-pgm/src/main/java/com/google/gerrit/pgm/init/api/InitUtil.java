@@ -34,6 +34,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /** Utility functions to help initialize a site. */
 public class InitUtil {
@@ -51,9 +53,18 @@ public class InitUtil {
     }
   }
 
-  public static void mkdir(final File path) {
-    if (!path.isDirectory() && !path.mkdir()) {
-      throw die("Cannot make directory " + path);
+  public static void mkdir(File file) {
+    mkdir(file.toPath());
+  }
+
+  public static void mkdir(Path path) {
+    if (Files.isDirectory(path)) {
+      return;
+    }
+    try {
+      Files.createDirectory(path);
+    } catch (IOException e) {
+      throw die("Cannot make directory " + path, e);
     }
   }
 

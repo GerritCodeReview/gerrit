@@ -21,6 +21,7 @@ import org.eclipse.jgit.util.IO;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class FileUtil {
@@ -40,6 +41,11 @@ public class FileUtil {
     if (!path.isDirectory() && !path.mkdir()) {
       throw new Die("Cannot make directory " + path);
     }
+  }
+
+  public static void chmod(final int mode, final Path path) {
+    // TODO(dborowitz): Is there a portable way to do this with NIO?
+    chmod(mode, path.toFile());
   }
 
   public static void chmod(final int mode, final File path) {

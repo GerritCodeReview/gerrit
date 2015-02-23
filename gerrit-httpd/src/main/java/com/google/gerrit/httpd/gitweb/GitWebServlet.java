@@ -62,6 +62,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -143,10 +144,11 @@ class GitWebServlet extends HttpServlet {
 
   private void makeSiteConfig(final SitePaths site,
       final GerritConfig gerritConfig) throws IOException {
-    if (!site.tmp_dir.exists()) {
-      site.tmp_dir.mkdirs();
+    if (!Files.exists(site.tmp_dir)) {
+      Files.createDirectories(site.tmp_dir);
     }
-    File myconf = File.createTempFile("gitweb_config", ".perl", site.tmp_dir);
+    File myconf = Files.createTempFile(site.tmp_dir, "gitweb_config", ".perl")
+        .toFile();
 
     // To make our configuration file only readable or writable by us;
     // this reduces the chances of someone tampering with the file.

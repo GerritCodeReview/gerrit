@@ -53,15 +53,9 @@ public class ActionsIT extends AbstractDaemonTest {
     approve(changeId);
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
-    if (isSubmitWholeTopicEnabled()) {
-      ActionInfo info = actions.get("submit");
-      assertThat(info.enabled).isTrue();
-      assertThat(info.label).isEqualTo("Submit whole topic");
-      assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Submit all 1 changes of the same topic");
-    } else {
-      noSubmitWholeTopicAssertions(actions);
-    }
+    // We want to treat a single change in a topic not as a whole topic,
+    // so regardless of how submitWholeTopic is configured:
+    noSubmitWholeTopicAssertions(actions);
   }
 
   @Test

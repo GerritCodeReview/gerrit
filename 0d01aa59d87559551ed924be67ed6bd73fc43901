@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "08fce2c3_841ee68f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-23T17:42:09Z",
+      "side": 1,
+      "message": "Yes, as Zalán pointed out it was found during testing that change before merge.",
+      "parentUuid": "2819a630_95c6e4a0",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 60
+      },
+      "revId": "0d01aa59d87559551ed924be67ed6bd73fc43901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08fdc2e8_9cc605a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "writtenOn": "2015-02-21T14:23:02Z",
       "side": 1,
       "message": "move this logic into RevisionResource as a method named something like `isCurrent` ?",
+      "range": {
+        "startLine": 106,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 54
+      },
+      "revId": "0d01aa59d87559551ed924be67ed6bd73fc43901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08fce2c3_a419e2ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-23T17:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08fdc2e8_9cc605a1",
       "range": {
         "startLine": 106,
         "startChar": 13,

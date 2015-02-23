@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -161,21 +160,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = pushTo("refs/for/master%draft");
     r.assertOkStatus();
     r.assertChange(Change.Status.DRAFT, null);
-  }
-
-  @Test
-  public void testPushForMasterAsEdit() throws GitAPIException,
-      IOException, RestApiException {
-    PushOneCommit.Result r = pushTo("refs/for/master");
-    r.assertOkStatus();
-    EditInfo edit = getEdit(r.getChangeId());
-    assertThat(edit).isNull();
-
-    // specify edit as option
-    r = amendChange(r.getChangeId(), "refs/for/master%edit");
-    r.assertOkStatus();
-    edit = getEdit(r.getChangeId());
-    assertThat(edit).isNotNull();
   }
 
   @Test

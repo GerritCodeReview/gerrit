@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -223,16 +222,11 @@ public abstract class AbstractDaemonTest {
       Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
   protected PushOneCommit.Result amendChange(String changeId)
       throws GitAPIException, IOException {
-    return amendChange(changeId, "refs/for/master");
-  }
-
-  protected PushOneCommit.Result amendChange(String changeId, String ref)
-      throws GitAPIException, IOException {
     Collections.shuffle(RANDOM);
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, new String(Chars.toArray(RANDOM)), changeId);
-    return push.to(git, ref);
+    return push.to(git, "refs/for/master");
   }
 
   protected ChangeInfo getChange(String changeId, ListChangesOption... options)
@@ -256,11 +250,6 @@ public abstract class AbstractDaemonTest {
   protected ChangeInfo get(String id)
       throws RestApiException {
     return gApi.changes().id(id).get();
-  }
-
-  protected EditInfo getEdit(String id)
-      throws RestApiException {
-    return gApi.changes().id(id).getEdit();
   }
 
   protected ChangeInfo get(String id, ListChangesOption... options)

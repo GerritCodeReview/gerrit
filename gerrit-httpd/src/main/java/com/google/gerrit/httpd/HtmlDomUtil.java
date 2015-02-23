@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.io.ByteStreams;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,9 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPOutputStream;
@@ -38,7 +38,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -58,14 +57,14 @@ public class HtmlDomUtil {
       "-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd";
 
   /** Convert a document to a UTF-8 byte sequence. */
-  public static byte[] toUTF8(final Document hostDoc) throws IOException {
+  public static byte[] toUTF8(Document hostDoc) throws IOException {
     return toString(hostDoc).getBytes(ENC);
   }
 
   /** Compress the document. */
-  public static byte[] compress(final byte[] raw) throws IOException {
-    final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    final GZIPOutputStream gz = new GZIPOutputStream(out);
+  public static byte[] compress(byte[] raw) throws IOException {
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    GZIPOutputStream gz = new GZIPOutputStream(out);
     gz.write(raw);
     gz.finish();
     gz.flush();
@@ -73,13 +72,13 @@ public class HtmlDomUtil {
   }
 
   /** Convert a document to a String, assuming later encoding to UTF-8. */
-  public static String toString(final Document hostDoc) throws IOException {
+  public static String toString(Document hostDoc) throws IOException {
     try {
-      final StringWriter out = new StringWriter();
-      final DOMSource domSource = new DOMSource(hostDoc);
-      final StreamResult streamResult = new StreamResult(out);
-      final TransformerFactory tf = TransformerFactory.newInstance();
-      final Transformer serializer = tf.newTransformer();
+      StringWriter out = new StringWriter();
+      DOMSource domSource = new DOMSource(hostDoc);
+      StreamResult streamResult = new StreamResult(out);
+      TransformerFactory tf = TransformerFactory.newInstance();
+      Transformer serializer = tf.newTransformer();
       serializer.setOutputProperty(OutputKeys.ENCODING, ENC.name());
       serializer.setOutputProperty(OutputKeys.METHOD, "html");
       serializer.setOutputProperty(OutputKeys.INDENT, "no");
@@ -87,29 +86,25 @@ public class HtmlDomUtil {
           HtmlDomUtil.HTML_STRICT);
       serializer.transform(domSource, streamResult);
       return out.toString();
-    } catch (TransformerConfigurationException e) {
-      final IOException r = new IOException("Error transforming page");
-      r.initCause(e);
-      throw r;
     } catch (TransformerException e) {
-      final IOException r = new IOException("Error transforming page");
+      IOException r = new IOException("Error transforming page");
       r.initCause(e);
       throw r;
     }
   }
 
   /** Find an element by its "id" attribute; null if no element is found. */
-  public static Element find(final Node parent, final String name) {
-    final NodeList list = parent.getChildNodes();
+  public static Element find(Node parent, String name) {
+    NodeList list = parent.getChildNodes();
     for (int i = 0; i < list.getLength(); i++) {
-      final Node n = list.item(i);
+      Node n = list.item(i);
       if (n instanceof Element) {
-        final Element e = (Element) n;
+        Element e = (Element) n;
         if (name.equals(e.getAttribute("id"))) {
           return e;
         }
       }
-      final Element r = find(n, name);
+      Element r = find(n, name);
       if (r != null) {
         return r;
       }
@@ -118,9 +113,8 @@ public class HtmlDomUtil {
   }
 
   /** Append an HTML &lt;input type="hidden"&gt; to the form. */
-  public static void addHidden(final Element form, final String name,
-      final String value) {
-    final Element in = form.getOwnerDocument().createElement("input");
+  public static void addHidden(Element form, String name, String value) {
+    Element in = form.getOwnerDocument().createElement("input");
     in.setAttribute("type", "hidden");
     in.setAttribute("name", name);
     in.setAttribute("value", value);
@@ -137,51 +131,38 @@ public class HtmlDomUtil {
   }
 
   /** Clone a document so it can be safely modified on a per-request basis. */
-  public static Document clone(final Document doc) throws IOException {
-    final Document d;
+  public static Document clone(Document doc) throws IOException {
+    Document d;
     try {
       d = newBuilder().newDocument();
     } catch (ParserConfigurationException e) {
       throw new IOException("Cannot clone document");
     }
-    final Node n = d.importNode(doc.getDocumentElement(), true);
+    Node n = d.importNode(doc.getDocumentElement(), true);
     d.appendChild(n);
     return d;
   }
 
   /** Parse an XHTML file from our CLASSPATH and return the instance. */
-  public static Document parseFile(final Class<?> context, final String name)
+  public static Document parseFile(Class<?> context, String name)
       throws IOException {
-    final InputStream in;
-
-    in = context.getResourceAsStream(name);
-    if (in == null) {
-      return null;
-    }
-    try {
-      try {
-        try {
-          final Document doc = newBuilder().parse(in);
-          compact(doc);
-          return doc;
-        } catch (SAXException e) {
-          throw new IOException("Error reading " + name, e);
-        } catch (ParserConfigurationException e) {
-          throw new IOException("Error reading " + name, e);
-        }
-      } finally {
-        in.close();
+    try (InputStream in = context.getResourceAsStream(name)) {
+      if (in == null) {
+        return null;
       }
-    } catch (IOException e) {
+      Document doc = newBuilder().parse(in);
+      compact(doc);
+      return doc;
+    } catch (SAXException | ParserConfigurationException | IOException e) {
       throw new IOException("Error reading " + name, e);
     }
   }
 
-  private static void compact(final Document doc) {
+  private static void compact(Document doc) {
     try {
-      final String expr = "//text()[normalize-space(.) = '']";
-      final XPathFactory xp = XPathFactory.newInstance();
-      final XPathExpression e = xp.newXPath().compile(expr);
+      String expr = "//text()[normalize-space(.) = '']";
+      XPathFactory xp = XPathFactory.newInstance();
+      XPathExpression e = xp.newXPath().compile(expr);
       NodeList empty = (NodeList) e.evaluate(doc, XPathConstants.NODESET);
       for (int i = 0; i < empty.getLength(); i++) {
         Node node = empty.item(i);
@@ -193,52 +174,40 @@ public class HtmlDomUtil {
   }
 
   /** Read a Read a UTF-8 text file from our CLASSPATH and return it. */
-  public static String readFile(final Class<?> context, final String name)
+  public static String readFile(Class<?> context, String name)
       throws IOException {
-    final InputStream in = context.getResourceAsStream(name);
-    if (in == null) {
-      return null;
-    }
-    try {
-      return asString(in);
+    try (InputStream in = context.getResourceAsStream(name)) {
+      if (in == null) {
+        return null;
+      }
+      return new String(ByteStreams.toByteArray(in), ENC);
     } catch (IOException e) {
       throw new IOException("Error reading " + name, e);
     }
   }
 
   /** Parse an XHTML file from the local drive and return the instance. */
-  public static Document parseFile(final File path) throws IOException {
-    try {
-      final InputStream in = new FileInputStream(path);
-      try {
-        try {
-          final Document doc = newBuilder().parse(in);
-          compact(doc);
-          return doc;
-        } catch (SAXException e) {
-          throw new IOException("Error reading " + path, e);
-        } catch (ParserConfigurationException e) {
-          throw new IOException("Error reading " + path, e);
-        }
-      } finally {
-        in.close();
-      }
+  public static Document parseFile(File path) throws IOException {
+    try (InputStream in = new FileInputStream(path)) {
+      Document doc = newBuilder().parse(in);
+      compact(doc);
+      return doc;
     } catch (FileNotFoundException e) {
       return null;
-    } catch (IOException e) {
+    } catch (SAXException | ParserConfigurationException | IOException e) {
       throw new IOException("Error reading " + path, e);
     }
   }
 
   /** Read a UTF-8 text file from the local drive. */
-  public static String readFile(final File parentDir, final String name)
+  public static String readFile(File parentDir, String name)
       throws IOException {
     if (parentDir == null) {
       return null;
     }
-    final File path = new File(parentDir, name);
-    try {
-      return asString(new FileInputStream(path));
+    File path = new File(parentDir, name);
+    try (FileInputStream in = new FileInputStream(path)) {
+      return new String(ByteStreams.toByteArray(in), ENC);
     } catch (FileNotFoundException e) {
       return null;
     } catch (IOException e) {
@@ -246,25 +215,9 @@ public class HtmlDomUtil {
     }
   }
 
-  private static String asString(final InputStream in)
-      throws UnsupportedEncodingException, IOException {
-    try {
-      final StringBuilder w = new StringBuilder();
-      final InputStreamReader r = new InputStreamReader(in, ENC);
-      final char[] buf = new char[512];
-      int n;
-      while ((n = r.read(buf)) > 0) {
-        w.append(buf, 0, n);
-      }
-      return w.toString();
-    } finally {
-      in.close();
-    }
-  }
-
   private static DocumentBuilder newBuilder()
       throws ParserConfigurationException {
-    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setValidating(false);
     factory.setExpandEntityReferences(false);
     factory.setIgnoringComments(true);

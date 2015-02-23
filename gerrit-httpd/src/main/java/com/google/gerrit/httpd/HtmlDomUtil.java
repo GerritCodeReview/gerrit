@@ -29,6 +29,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPOutputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -49,7 +51,7 @@ import javax.xml.xpath.XPathFactory;
 /** Utility functions to deal with HTML using W3C DOM operations. */
 public class HtmlDomUtil {
   /** Standard character encoding we prefer (UTF-8). */
-  public static final String ENC = "UTF-8";
+  public static final Charset ENC = StandardCharsets.UTF_8;
 
   /** DOCTYPE for a standards mode HTML document. */
   public static final String HTML_STRICT =
@@ -78,7 +80,7 @@ public class HtmlDomUtil {
       final StreamResult streamResult = new StreamResult(out);
       final TransformerFactory tf = TransformerFactory.newInstance();
       final Transformer serializer = tf.newTransformer();
-      serializer.setOutputProperty(OutputKeys.ENCODING, ENC);
+      serializer.setOutputProperty(OutputKeys.ENCODING, ENC.name());
       serializer.setOutputProperty(OutputKeys.METHOD, "html");
       serializer.setOutputProperty(OutputKeys.INDENT, "no");
       serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,

@@ -110,7 +110,7 @@ class HttpAuthFilter implements Filter {
 
       CacheHeaders.setNotCacheable(rsp);
       rsp.setContentType("text/html");
-      rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+      rsp.setCharacterEncoding(HtmlDomUtil.ENC.name());
       rsp.setContentLength(tosend.length);
       final OutputStream out = rsp.getOutputStream();
       try {

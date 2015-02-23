@@ -1089,7 +1089,11 @@ public class ChangeScreen extends Screen {
 
     // Properly render revision actions initially while waiting for
     // the callback to populate them correctly.
-    renderRevisionInfo(changeInfo, NativeMap.<ActionInfo> create());
+    NativeMap<ActionInfo> emptyMap = NativeMap.<ActionInfo> create();
+    initRevisionsAction(info, revision, emptyMap);
+    quickApprove.setVisible(false);
+    setVisible(strategy, false);
+    actions.reloadRevisionActions(emptyMap);
   }
 
   private void renderRevisionInfo(ChangeInfo info,

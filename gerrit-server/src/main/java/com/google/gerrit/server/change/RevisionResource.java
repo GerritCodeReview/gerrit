@@ -104,4 +104,8 @@ public class RevisionResource implements RestResource, HasETag {
     }
     return s;
   }
+
+  public boolean isCurrent() {
+    return ps.getId().equals(getChange().currentPatchSetId());
+  }
 }

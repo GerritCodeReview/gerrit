@@ -184,6 +184,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       .setLabel("Rebase")
       .setTitle("Rebase onto tip of branch or parent change")
       .setVisible(resource.getChange().getStatus().isOpen()
+          && resource.isCurrent()
           && resource.getControl().canRebase()
           && hasOneParent(resource.getPatchSet().getId()));
   }

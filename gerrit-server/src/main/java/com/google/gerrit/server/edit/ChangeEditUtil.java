@@ -215,7 +215,7 @@ public class ChangeEditUtil {
    * @param psId patch set number
    * @return reference for this change edit
    */
-  public static String editRefName(Account.Id accountId, Change.Id changeId,
+  static String editRefName(Account.Id accountId, Change.Id changeId,
       PatchSet.Id psId) {
     return editRefPrefix(accountId, changeId) + psId.get();
   }

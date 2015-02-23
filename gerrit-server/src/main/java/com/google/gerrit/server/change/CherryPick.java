@@ -102,6 +102,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
     return new UiAction.Description()
       .setLabel("Cherry Pick")
       .setTitle("Cherry pick change to a different branch")
-      .setVisible(resource.getControl().getProjectControl().canUpload());
+      .setVisible(resource.getControl().getProjectControl().canUpload()
+          && resource.isCurrent());
   }
 }

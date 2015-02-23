@@ -25,13 +25,13 @@ import com.google.inject.Provider;
 
 import org.junit.Test;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 
 public class LibrariesTest {
   @Test
   public void testCreate() throws FileNotFoundException {
-    final SitePaths site = new SitePaths(new File("."));
+    final SitePaths site = new SitePaths(Paths.get("."));
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
 
     replay(ui);

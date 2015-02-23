@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -64,8 +65,9 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
-  public SitePaths(final @SitePath File sitePath) throws FileNotFoundException {
-    site_path = sitePath;
+  public SitePaths(final @SitePath Path sitePath) throws FileNotFoundException {
+    // TODO(dborowitz): Convert all of these to Paths.
+    site_path = sitePath.toFile();
 
     bin_dir = new File(site_path, "bin");
     etc_dir = new File(site_path, "etc");

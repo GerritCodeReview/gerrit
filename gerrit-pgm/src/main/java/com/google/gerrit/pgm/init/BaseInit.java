@@ -59,6 +59,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -86,12 +91,12 @@ public class BaseInit extends SiteProgram {
     this.pluginsToInstall = pluginsToInstall;
   }
 
-  public BaseInit(File sitePath, boolean standalone, boolean initDb,
+  public BaseInit(Path sitePath, boolean standalone, boolean initDb,
       PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
     this(sitePath, null, standalone, initDb, pluginsDistribution, pluginsToInstall);
   }
 
-  public BaseInit(File sitePath, final Provider<DataSource> dsProvider,
+  public BaseInit(Path sitePath, final Provider<DataSource> dsProvider,
       boolean standalone, boolean initDb,
       PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
     super(sitePath, dsProvider);
@@ -132,7 +137,7 @@ public class BaseInit extends SiteProgram {
       throw failure;
     }
 
-    System.err.println("Initialized " + getSitePath().getCanonicalPath());
+    System.err.println("Initialized " + getSitePath().toRealPath().normalize());
     afterInit(run);
     return 0;
   }
@@ -208,7 +213,7 @@ public class BaseInit extends SiteProgram {
 
   private SiteInit createSiteInit() {
     final ConsoleUI ui = getConsoleUI();
-    final File sitePath = getSitePath();
+    final Path sitePath = getSitePath();
     final List<Module> m = new ArrayList<>();
     final SecureStoreInitData secureStoreInitData = discoverSecureStoreClass();
     final String currentSecureStoreClassName = getConfiguredSecureStoreClass();
@@ -227,7 +232,7 @@ public class BaseInit extends SiteProgram {
       @Override
       protected void configure() {
         bind(ConsoleUI.class).toInstance(ui);
-        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
         List<String> plugins =
             MoreObjects.firstNonNull(
                 getInstallPlugins(), Lists.<String> newArrayList());
@@ -407,15 +412,41 @@ public class BaseInit extends SiteProgram {
     return sysInjector;
   }
 
-  private static void recursiveDelete(File path) {
-    File[] entries = path.listFiles();
-    if (entries != null) {
-      for (File e : entries) {
-        recursiveDelete(e);
-      }
-    }
-    if (!path.delete() && path.exists()) {
-      System.err.println("warn: Cannot remove " + path);
+  private static void recursiveDelete(Path path) {
+    final String msg = "warn: Cannot remove ";
+    try {
+      Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+        @Override
+        public FileVisitResult visitFile(Path f, BasicFileAttributes attrs)
+            throws IOException {
+          try {
+            Files.delete(f);
+          } catch (IOException e) {
+            System.err.println(msg + f);
+          }
+          return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path dir, IOException err) {
+          try {
+            // Previously warned if err was not null; if dir is not empty as a
+            // result, will cause an error that will be logged below.
+            Files.delete(dir);
+          } catch (IOException e) {
+            System.err.println(msg + dir);
+          }
+          return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFileFailed(Path f, IOException e) {
+          System.err.println(msg + f);
+          return FileVisitResult.CONTINUE;
+        }
+      });
+    } catch (IOException e) {
+      System.err.println(msg + path);
     }
   }
 }

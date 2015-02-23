@@ -32,14 +32,14 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collections;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
   private final @SitePath
-  File site_path;
+  Path site_path;
 
   private final AllProjectsCreator allProjectsCreator;
   private final AllUsersCreator allUsersCreator;
@@ -55,10 +55,10 @@ public class SchemaCreator {
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst) {
-    this(site.site_path, ap, auc, au, dst);
+    this(site.site_path.toPath(), ap, auc, au, dst);
   }
 
-  public SchemaCreator(@SitePath File site,
+  public SchemaCreator(@SitePath Path site,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
@@ -117,9 +117,9 @@ public class SchemaCreator {
 
     final SystemConfig s = SystemConfig.create();
     try {
-      s.sitePath = site_path.getCanonicalPath();
+      s.sitePath = site_path.toRealPath().normalize().toString();
     } catch (IOException e) {
-      s.sitePath = site_path.getAbsolutePath();
+      s.sitePath = site_path.toAbsolutePath().normalize().toString();
     }
     c.systemConfig().insert(Collections.singleton(s));
     return s;

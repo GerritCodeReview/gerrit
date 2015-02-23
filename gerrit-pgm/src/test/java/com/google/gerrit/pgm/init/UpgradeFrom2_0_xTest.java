@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.init;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -38,9 +40,9 @@ import org.eclipse.jgit.util.IO;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,23 +51,18 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
 
   @Test
   public void testUpgrade() throws IOException, ConfigInvalidException {
-    final File p = newSitePath();
+    final Path p = newSitePath();
     final SitePaths site = new SitePaths(p);
     assertTrue(site.isNew);
     assertTrue(site.site_path.mkdir());
     assertTrue(site.etc_dir.mkdir());
 
     for (String n : UpgradeFrom2_0_x.etcFiles) {
-      Writer w = new FileWriter(new File(p, n));
-      try {
-        w.write("# " + n + "\n");
-      } finally {
-        w.close();
-      }
+      Files.write(p.resolve(n), ("# " + n + "\n").getBytes(UTF_8));
     }
 
     FileBasedConfig old =
-        new FileBasedConfig(new File(p, "gerrit.config"), FS.DETECTED);
+        new FileBasedConfig(p.resolve("gerrit.config").toFile(), FS.DETECTED);
 
     old.setString("ldap", null, "username", "ldap.user");
     old.setString("ldap", null, "password", "ldap.s3kr3t");
@@ -85,8 +82,11 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
       }
     };
 
-    expect(ui.yesno(eq(true), eq("Upgrade '%s'"), eq(p.getCanonicalPath())))
-        .andReturn(true);
+    expect(ui.yesno(
+        eq(true),
+        eq("Upgrade '%s'"),
+        eq(p.toRealPath().normalize().toString())))
+      .andReturn(true);
     replay(ui);
 
     UpgradeFrom2_0_x u = new UpgradeFrom2_0_x(site, flags, ui, sections);

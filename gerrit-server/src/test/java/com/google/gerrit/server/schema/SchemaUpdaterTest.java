@@ -43,9 +43,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,7 +68,7 @@ public class SchemaUpdaterTest {
       IOException {
     db.create();
 
-    final File site = new File(UUID.randomUUID().toString());
+    final Path site = Paths.get(UUID.randomUUID().toString());
     final SitePaths paths = new SitePaths(site);
     SchemaUpdater u = Guice.createInjector(new FactoryModule() {
       @Override

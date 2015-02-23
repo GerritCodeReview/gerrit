@@ -78,8 +78,9 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -101,7 +102,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   private static final Logger log =
       LoggerFactory.getLogger(WebAppInitializer.class);
 
-  private File sitePath;
+  private Path sitePath;
   private Injector dbInjector;
   private Injector cfgInjector;
   private Injector sysInjector;
@@ -122,7 +123,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     if (manager == null) {
       final String path = System.getProperty("gerrit.site_path");
       if (path != null) {
-        sitePath = new File(path);
+        sitePath = Paths.get(path);
       }
 
       if (System.getProperty("gerrit.init") != null) {
@@ -209,7 +210,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       Module sitePathModule = new AbstractModule() {
         @Override
         protected void configure() {
-          bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+          bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
         }
       };
       modules.add(sitePathModule);
@@ -261,7 +262,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       modules.add(new AbstractModule() {
         @Override
         protected void configure() {
-          bind(File.class).annotatedWith(SitePath.class).toProvider(
+          bind(Path.class).annotatedWith(SitePath.class).toProvider(
               SitePathFromSystemConfigProvider.class).in(SINGLETON);
         }
       });

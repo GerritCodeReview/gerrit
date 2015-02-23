@@ -43,7 +43,8 @@ import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.eclipse.jgit.lib.Config;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
@@ -58,9 +59,10 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
       .annotatedWith(GerritServerConfig.class)
       .toInstance(cfg);
 
-    bind(File.class)
+    // TODO(dborowitz): Use jimfs.
+    bind(Path.class)
       .annotatedWith(SitePath.class)
-      .toInstance(new File("UNIT_TEST_GERRIT_SITE"));
+      .toInstance(Paths.get("UNIT_TEST_GERRIT_SITE"));
 
     bind(GitRepositoryManager.class)
       .toInstance(new InMemoryRepositoryManager());

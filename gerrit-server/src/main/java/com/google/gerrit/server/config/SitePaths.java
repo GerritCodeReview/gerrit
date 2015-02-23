@@ -50,11 +50,11 @@ public final class SitePaths {
   public final File secure_config;
   public final File contact_information_pub;
 
-  public final File ssl_keystore;
-  public final File ssh_key;
-  public final File ssh_rsa;
-  public final File ssh_dsa;
-  public final File peer_keys;
+  public final Path ssl_keystore;
+  public final Path ssh_key;
+  public final Path ssh_rsa;
+  public final Path ssh_dsa;
+  public final Path peer_keys;
 
   public final Path site_css;
   public final Path site_header;
@@ -90,13 +90,13 @@ public final class SitePaths {
     secure_config = new File(etc_dir, "secure.config");
     contact_information_pub = new File(etc_dir, "contact_information.pub");
 
-    ssl_keystore = new File(etc_dir, "keystore");
-    ssh_key = new File(etc_dir, "ssh_host_key");
-    ssh_rsa = new File(etc_dir, "ssh_host_rsa_key");
-    ssh_dsa = new File(etc_dir, "ssh_host_dsa_key");
-    peer_keys = new File(etc_dir, "peer_keys");
-
     Path etcDirPath = etc_dir.toPath();
+    ssl_keystore = etcDirPath.resolve("keystore");
+    ssh_key = etcDirPath.resolve("ssh_host_key");
+    ssh_rsa = etcDirPath.resolve("ssh_host_rsa_key");
+    ssh_dsa = etcDirPath.resolve("ssh_host_dsa_key");
+    peer_keys = etcDirPath.resolve("peer_keys");
+
     site_css = etcDirPath.resolve(CSS_FILENAME);
     site_header = etcDirPath.resolve(HEADER_FILENAME);
     site_footer = etcDirPath.resolve(FOOTER_FILENAME);

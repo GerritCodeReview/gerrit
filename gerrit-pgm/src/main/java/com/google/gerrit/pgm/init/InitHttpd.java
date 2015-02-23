@@ -29,10 +29,11 @@ import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /** Initialize the {@code httpd} configuration section. */
 @Singleton
@@ -149,8 +150,9 @@ class InitHttpd implements InitStep {
       return;
     }
 
-    final File store = site.ssl_keystore;
-    if (!ui.yesno(!store.exists(), "Create new self-signed SSL certificate")) {
+    Path store = site.ssl_keystore;
+    if (!ui.yesno(!Files.exists(store),
+        "Create new self-signed SSL certificate")) {
       return;
     }
 
@@ -167,15 +169,17 @@ class InitHttpd implements InitStep {
     final String dname =
         "CN=" + hostname + ",OU=Gerrit Code Review,O=" + domainOf(hostname);
 
-    final File tmpdir = new File(site.etc_dir, "tmp.sslcertgen");
-    if (!tmpdir.mkdir()) {
-      throw die("Cannot create directory " + tmpdir);
+    Path tmpdir = site.etc_dir.toPath().resolve("tmp.sslcertgen");
+    try {
+      Files.createDirectory(tmpdir);
+    } catch (IOException e) {
+      throw die("Cannot create directory " + tmpdir, e);
     }
     chmod(0600, tmpdir);
 
-    final File tmpstore = new File(tmpdir, "keystore");
+    Path tmpstore = tmpdir.resolve("keystore");
     Runtime.getRuntime().exec(new String[] {"keytool", //
-        "-keystore", tmpstore.getAbsolutePath(), //
+        "-keystore", tmpstore.toAbsolutePath().toString(), //
         "-storepass", ssl_pass, //
         "-genkeypair", //
         "-alias", hostname, //
@@ -186,11 +190,15 @@ class InitHttpd implements InitStep {
     }).waitFor();
     chmod(0600, tmpstore);
 
-    if (!tmpstore.renameTo(store)) {
-      throw die("Cannot rename " + tmpstore + " to " + store);
+    try {
+      Files.move(tmpstore, store);
+    } catch (IOException e) {
+      throw die("Cannot rename " + tmpstore + " to " + store, e);
     }
-    if (!tmpdir.delete()) {
-      throw die("Cannot delete " + tmpdir);
+    try {
+      Files.delete(tmpdir);
+    } catch (IOException e) {
+      throw die("Cannot delete " + tmpdir, e);
     }
   }
 

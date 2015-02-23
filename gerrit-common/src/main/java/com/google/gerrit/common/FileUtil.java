@@ -21,6 +21,7 @@ import org.eclipse.jgit.util.IO;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
@@ -64,6 +65,15 @@ public class FileUtil {
     }
     if ((mode & 0011) == 0011) {
       path.setExecutable(true, false /* all */);
+    }
+  }
+
+  public static long lastModified(Path p) {
+    // Replicate File#lastModified() behavior of returning 0 on errors.
+    try {
+      return Files.getLastModifiedTime(p).toMillis();
+    } catch (IOException e) {
+      return 0;
     }
   }
 

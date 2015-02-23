@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "082a2214_5463ccf3",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1019017
+      },
+      "writtenOn": "2015-02-23T21:44:09Z",
+      "side": 1,
+      "message": "I wrote this because gerrit.sh expects to be in `bin`.  When it\u0027s moved into /etc/init.d it finds the gerrit project root directory by looking in /etc/default/gerritcodereview",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 52
+      },
+      "revId": "30fd3dbe86fd581d1cb8f9c32a1100dccdcd1dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08fce2c3_a46fa2df",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1019017
+      },
+      "writtenOn": "2015-02-23T21:44:09Z",
+      "side": 1,
+      "message": "You could use chkconfig here instead....:\nsudo chkconfig --add gerrit",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 54
+      },
+      "revId": "30fd3dbe86fd581d1cb8f9c32a1100dccdcd1dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

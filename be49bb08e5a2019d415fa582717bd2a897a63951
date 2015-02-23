@@ -22,6 +22,30 @@
       "revId": "be49bb08e5a2019d415fa582717bd2a897a63951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08fce2c3_e4659a03",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1019017
+      },
+      "writtenOn": "2015-02-23T21:44:09Z",
+      "side": 0,
+      "message": "They are necessary as comments if you want to use chkconfig to manage how gerrit starts and stops on linux boot and shutdown:\nhttp://linux.die.net/man/8/chkconfig\n\"Each service which should be manageable by chkconfig needs two or more commented lines added to its init.d script.\"",
+      "parentUuid": "ebf948ff_9b6babd6",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "be49bb08e5a2019d415fa582717bd2a897a63951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -290,13 +290,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setTitle("")
         .setVisible(false);
     }
+    List<ChangeData> changesByTopic = null;
     if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
-      List<ChangeData> changesByTopic = null;
-      try {
-        changesByTopic = queryProvider.get().byTopicOpen(topic);
-      } catch (OrmException e) {
-        throw new OrmRuntimeException(e);
-      }
+      changesByTopic = getChangesByTopic(topic);
+    }
+    if (submitWholeTopic
+        && !Strings.isNullOrEmpty(topic)
+        && changesByTopic.size() > 1) {
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(changesByTopic.size()));
       String topicProblems = problemsForSubmittingChanges(changesByTopic,
@@ -663,6 +663,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   static boolean wholeTopicEnabled(Config config) {
     return config.getBoolean("change", null, "submitWholeTopic" , false);
+  }
+
+  private List<ChangeData> getChangesByTopic(String topic) {
+    try {
+      return queryProvider.get().byTopicOpen(topic);
+    } catch (OrmException e) {
+      throw new OrmRuntimeException(e);
+    }
   }
 
   public static class CurrentRevision implements

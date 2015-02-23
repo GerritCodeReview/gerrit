@@ -95,13 +95,6 @@ public class ChangeApi {
     return call(id, "detail");
   }
 
-  public static RestApi actions(int id, String revision) {
-    if (revision == null || revision.equals("")) {
-      revision = "current";
-    }
-    return call(id, revision, "actions");
-  }
-
   public static void edit(int id, AsyncCallback<EditInfo> cb) {
     edit(id).get(cb);
   }

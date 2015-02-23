@@ -1726,15 +1726,18 @@ public class ReceiveCommits {
       throws OrmException, IOException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
-    List<Change> changes;
+    Change c;
     try {
       // Force submit even if submit rule evaluation fails.
-      changes = submit.submit(rsrc, currentUser, true);
+      c = submit.submit(rsrc, currentUser, true);
     } catch (ResourceConflictException e) {
       throw new IOException(e);
     }
-    addMessage("");
-    for (Change c : changes) {
+    if (c == null) {
+      addError("Submitting change " + changeCtl.getChange().getChangeId()
+          + " failed.");
+    } else {
+      addMessage("");
       mergeQueue.merge(c.getDest());
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {

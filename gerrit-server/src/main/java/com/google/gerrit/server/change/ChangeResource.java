@@ -57,15 +57,17 @@ public class ChangeResource implements RestResource, HasETag {
     return getControl().getNotes();
   }
 
-
-  // This includes all information relevant for ETag computation
-  // unrelated to the UI.
-  public void prepareETag(Hasher h, CurrentUser user) {
-    h.putLong(getChange().getLastUpdatedOn().getTime())
+  @Override
+  public String getETag() {
+    CurrentUser user = control.getCurrentUser();
+    Hasher h = Hashing.md5().newHasher()
+      .putLong(getChange().getLastUpdatedOn().getTime())
       .putInt(getChange().getRowVersion())
+      .putBoolean(user.getStarredChanges().contains(getChange().getId()))
       .putInt(user.isIdentifiedUser()
           ? ((IdentifiedUser) user).getAccountId().get()
           : 0);
+
     byte[] buf = new byte[20];
     ObjectId noteId;
     try {
@@ -80,14 +82,6 @@ public class ChangeResource implements RestResource, HasETag {
     for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
       hashObjectId(h, p.getConfig().getRevision(), buf);
     }
-  }
-
-  @Override
-  public String getETag() {
-    CurrentUser user = control.getCurrentUser();
-    Hasher h = Hashing.md5().newHasher()
-        .putBoolean(user.getStarredChanges().contains(getChange().getId()));
-    prepareETag(h, user);
     return h.hash().toString();
   }
 

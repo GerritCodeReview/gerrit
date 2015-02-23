@@ -844,30 +844,6 @@ abbreviated commit SHA-1 (`c9c0edb`).
 +
 Default is "Submit patch set ${patchSet} into ${branch}".
 
-[[change.submitWholeTopic]]change.submitWholeTopic::
-+
-Determines if the submit button submits the whole topic instead of
-just the current change.
-+
-Default is false.
-
-[[change.submitTopicLabel]]change.submitTopicLabel::
-+
-If `change.submitWholeTopic` is set and a change has a topic,
-the label name for the submit button is given here instead of
-the configuration `change.submitLabel`.
-+
-Defaults to "Submit whole topic"
-
-[[change.submitTopicTooltip]]change.submitTopicTooltip::
-+
-If `change.submitWholeTopic` is configuerd to true and a change has a
-topic, this configuration determines the tooltip for the submit button
-instead of `change.submitTooltip`. The variable `${topicSize}` is available
-for the number of changes to be submitted.
-+
-Defaults to "Submit all ${topicSize} changes within the topic".
-
 [[change.replyLabel]]change.replyLabel::
 +
 Label name for the reply button. In the user interface an ellipsis (…)

@@ -65,6 +65,7 @@ class Actions extends Composite {
   private String message;
   private String branch;
   private String key;
+  private boolean canSubmit;
 
   Actions() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -86,12 +87,7 @@ class Actions extends Composite {
     changeInfo = info;
 
     initChangeActions(info, hasUser);
-
-    NativeMap<ActionInfo> actionMap = revInfo.has_actions()
-        ? revInfo.actions()
-        : NativeMap.<ActionInfo> create();
-    actionMap.copyKeysIntoChildren("id");
-    reloadRevisionActions(actionMap);
+    initRevisionActions(info, revInfo, hasUser);
   }
 
   private void initChangeActions(ChangeInfo info, boolean hasUser) {
@@ -111,29 +107,30 @@ class Actions extends Composite {
     }
   }
 
-  void reloadRevisionActions(NativeMap<ActionInfo> actions) {
-    if (!Gerrit.isSignedIn()) {
-      return;
-    }
-    boolean canSubmit = actions.containsKey("submit");
-    if (canSubmit) {
-      ActionInfo action = actions.get("submit");
-      submit.setTitle(action.title());
-      submit.setEnabled(action.enabled());
-      submit.setHTML(new SafeHtmlBuilder()
-          .openDiv()
-          .append(action.label())
-          .closeDiv());
-      submit.setEnabled(action.enabled());
-    }
-    submit.setVisible(canSubmit);
+  private void initRevisionActions(ChangeInfo info, RevisionInfo revInfo,
+      boolean hasUser) {
+    NativeMap<ActionInfo> actions = revInfo.has_actions()
+        ? revInfo.actions()
+        : NativeMap.<ActionInfo> create();
+    actions.copyKeysIntoChildren("id");
 
-    a2b(actions, "cherrypick", cherrypick);
-    a2b(actions, "rebase", rebase);
-
-    RevisionInfo revInfo = changeInfo.revision(revision);
-    for (String id : filterNonCore(actions)) {
-      add(new ActionButton(changeInfo, revInfo, actions.get(id)));
+    canSubmit = false;
+    if (hasUser) {
+      canSubmit = actions.containsKey("submit");
+      if (canSubmit) {
+        ActionInfo action = actions.get("submit");
+        submit.setTitle(action.title());
+        submit.setEnabled(action.enabled());
+        submit.setHTML(new SafeHtmlBuilder()
+            .openDiv()
+            .append(action.label())
+            .closeDiv());
+      }
+      a2b(actions, "cherrypick", cherrypick);
+      a2b(actions, "rebase", rebase);
+      for (String id : filterNonCore(actions)) {
+        add(new ActionButton(info, revInfo, actions.get(id)));
+      }
     }
   }
 
@@ -147,6 +144,10 @@ class Actions extends Composite {
       ids.remove(id);
     }
     return ids;
+  }
+
+  void setSubmitEnabled() {
+    submit.setVisible(canSubmit);
   }
 
   @UiHandler("followUp")

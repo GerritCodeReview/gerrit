@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08fdc2e8_5cf63de3",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-23T08:13:17Z",
+      "side": 1,
+      "message": "--no-results-cache",
+      "range": {
+        "startLine": 341,
+        "startChar": 65,
+        "endLine": 341,
+        "endChar": 75
+      },
+      "revId": "906085c5058b3a73a393de4cdeb0c13edcd0263f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

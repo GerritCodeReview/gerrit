@@ -30,7 +30,7 @@ public final class SitePaths {
   public static final String FOOTER_FILENAME = "GerritSiteFooter.html";
 
   public final File site_path;
-  public final File bin_dir;
+  public final Path bin_dir;
   public final File etc_dir;
   public final File lib_dir;
   public final Path tmp_dir;
@@ -43,8 +43,8 @@ public final class SitePaths {
   public final File themes_dir;
   public final File index_dir;
 
-  public final File gerrit_sh;
-  public final File gerrit_war;
+  public final Path gerrit_sh;
+  public final Path gerrit_war;
 
   public final File gerrit_config;
   public final File secure_config;
@@ -70,7 +70,7 @@ public final class SitePaths {
     site_path = sitePath.toFile();
     Path p = sitePath;
 
-    bin_dir = new File(site_path, "bin");
+    bin_dir = p.resolve("bin");
     etc_dir = new File(site_path, "etc");
     lib_dir = new File(site_path, "lib");
     tmp_dir = p.resolve("tmp");
@@ -83,8 +83,8 @@ public final class SitePaths {
     themes_dir = new File(site_path, "themes");
     index_dir = new File(site_path, "index");
 
-    gerrit_sh = new File(bin_dir, "gerrit.sh");
-    gerrit_war = new File(bin_dir, "gerrit.war");
+    gerrit_sh = bin_dir.resolve("gerrit.sh");
+    gerrit_war = bin_dir.resolve("gerrit.war");
 
     gerrit_config = new File(etc_dir, "gerrit.config");
     secure_config = new File(etc_dir, "secure.config");

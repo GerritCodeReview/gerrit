@@ -157,8 +157,8 @@ public class Init extends BaseInit {
   }
 
   void startDaemon(SiteRun run) {
-    final String[] argv = {run.site.gerrit_sh.getAbsolutePath(), "start"};
-    final Process proc;
+    String[] argv = {run.site.gerrit_sh.toAbsolutePath().toString(), "start"};
+    Process proc;
     try {
       System.err.println("Executing " + argv[0] + " " + argv[1]);
       proc = Runtime.getRuntime().exec(argv);
@@ -177,7 +177,7 @@ public class Init extends BaseInit {
 
     for (;;) {
       try {
-        final int rc = proc.waitFor();
+        int rc = proc.waitFor();
         if (rc != 0) {
           System.err.println("error: cannot start Gerrit: exit status " + rc);
         }

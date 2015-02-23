@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.pgm.init.api.InitUtil.die;
 import static com.google.gerrit.pgm.init.api.InitUtil.username;
 
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -28,11 +29,12 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.util.FS;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /** Initialize the {@code container} configuration section. */
 @Singleton
@@ -56,9 +58,9 @@ class InitContainer implements InitStep {
     container.string("Run as", "user", username());
     container.string("Java runtime", "javaHome", javaHome());
 
-    File myWar;
+    Path myWar;
     try {
-      myWar = GerritLauncher.getDistributionArchive();
+      myWar = GerritLauncher.getDistributionArchive().toPath();
     } catch (FileNotFoundException e) {
       System.err.println("warn: Cannot find distribution archive (e.g. gerrit.war)");
       myWar = null;
@@ -66,62 +68,47 @@ class InitContainer implements InitStep {
 
     String path = container.get("war");
     if (path != null) {
-      path = container.string("Gerrit runtime", "war", //
-          myWar != null ? myWar.getAbsolutePath() : null);
+      path = container.string("Gerrit runtime", "war",
+          myWar != null ? myWar.toAbsolutePath().toString() : null);
       if (path == null || path.isEmpty()) {
         throw die("container.war is required");
       }
 
     } else if (myWar != null) {
       final boolean copy;
-      final File siteWar = site.gerrit_war;
-      if (siteWar.exists()) {
-        copy = ui.yesno(true, "Upgrade %s", siteWar.getPath());
+      final Path siteWar = site.gerrit_war;
+      if (Files.exists(siteWar)) {
+        copy = ui.yesno(true, "Upgrade %s", siteWar);
       } else {
-        copy = ui.yesno(true, "Copy %s to %s", myWar.getName(), siteWar.getPath());
+        copy = ui.yesno(true, "Copy %s to %s", myWar.getFileName(), siteWar);
         if (copy) {
           container.unset("war");
         } else {
-          container.set("war", myWar.getAbsolutePath());
+          container.set("war", myWar.toAbsolutePath().toString());
         }
       }
       if (copy) {
         if (!ui.isBatch()) {
-          System.err.format("Copying %s to %s", myWar.getName(), siteWar.getPath());
+          System.err.format("Copying %s to %s", myWar.getFileName(), siteWar);
           System.err.println();
         }
 
-        FileInputStream in = new FileInputStream(myWar);
-        try {
-          siteWar.getParentFile().mkdirs();
+        try (InputStream in = Files.newInputStream(myWar)) {
+          Files.createDirectories(siteWar.getParent());
 
-          LockFile lf = new LockFile(siteWar, FS.DETECTED);
+          LockFile lf = new LockFile(siteWar.toFile(), FS.DETECTED);
           if (!lf.lock()) {
             throw new IOException("Cannot lock " + siteWar);
           }
 
-          try {
-            final OutputStream out = lf.getOutputStream();
-            try {
-              final byte[] tmp = new byte[4096];
-              for (;;) {
-                int n = in.read(tmp);
-                if (n < 0) {
-                  break;
-                }
-                out.write(tmp, 0, n);
-              }
-            } finally {
-              out.close();
-            }
+          try (OutputStream out = lf.getOutputStream()) {
+            ByteStreams.copy(in, out);
             if (!lf.commit()) {
               throw new IOException("Cannot commit " + siteWar);
             }
           } finally {
             lf.unlock();
           }
-        } finally {
-          in.close();
         }
       }
     }

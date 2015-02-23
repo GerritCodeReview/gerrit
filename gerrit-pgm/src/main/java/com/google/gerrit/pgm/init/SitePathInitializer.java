@@ -141,7 +141,7 @@ public class SitePathInitializer {
 
   private void extractMailExample(String orig) throws Exception {
     File ex = new File(site.mail_dir, orig + ".example");
-    extract(ex, OutgoingEmail.class, orig);
+    extract(ex.toPath(), OutgoingEmail.class, orig);
     chmod(0444, ex);
   }
 

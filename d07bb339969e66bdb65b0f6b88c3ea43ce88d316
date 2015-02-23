@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "082a2214_b41ee08f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2044,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-23T16:57:20Z",
+      "side": 1,
+      "message": "This can cause an NPE.",
+      "revId": "d07bb339969e66bdb65b0f6b88c3ea43ce88d316",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

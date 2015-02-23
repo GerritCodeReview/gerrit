@@ -37,7 +37,9 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -51,7 +53,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   private final DefaultCacheFactory defaultFactory;
   private final Config config;
-  private final File cacheDir;
+  private final Path cacheDir;
   private final List<H2CacheImpl<?, ?>> caches;
   private final DynamicMap<Cache<?, ?>> cacheMap;
   private final ExecutorService executor;
@@ -65,23 +67,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       DynamicMap<Cache<?, ?>> cacheMap) {
     defaultFactory = defaultCacheFactory;
     config = cfg;
-
-    File loc = site.resolve(cfg.getString("cache", null, "directory"));
-    if (loc == null) {
-      cacheDir = null;
-    } else if (loc.exists() || loc.mkdirs()) {
-      if (loc.canWrite()) {
-        log.info("Enabling disk cache " + loc.getAbsolutePath());
-        cacheDir = loc;
-      } else {
-        log.warn("Can't write to disk cache: " + loc.getAbsolutePath());
-        cacheDir = null;
-      }
-    } else {
-      log.warn("Can't create disk cache: " + loc.getAbsolutePath());
-      cacheDir = null;
-    }
-
+    cacheDir = getCacheDir(site, cfg.getString("cache", null, "directory"));
     caches = Lists.newLinkedList();
     this.cacheMap = cacheMap;
 
@@ -101,6 +87,27 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       executor = null;
       cleanup = null;
     }
+  }
+
+  private static Path getCacheDir(SitePaths site, String name) {
+    if (name == null) {
+      return null;
+    }
+    Path loc = site.resolve(name).toPath();
+    if (!Files.exists(loc)) {
+      try {
+        Files.createDirectories(loc);
+      } catch (IOException e) {
+        log.warn("Can't create disk cache: " + loc.toAbsolutePath());
+        return null;
+      }
+    }
+    if (!Files.isWritable(loc)) {
+      log.warn("Can't write to disk cache: " + loc.toAbsolutePath());
+      return null;
+    }
+    log.info("Enabling disk cache " + loc.toAbsolutePath());
+    return loc;
   }
 
   @Override
@@ -213,8 +220,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       TypeLiteral<K> keyType,
       long maxSize,
       Long expireAfterWrite) {
-    File db = new File(cacheDir, name).getAbsoluteFile();
-    String url = "jdbc:h2:" + db.toURI().toString();
+    String url = "jdbc:h2:" + cacheDir.resolve(name).toUri();
     return new SqlStore<>(url, keyType, maxSize,
         expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
   }

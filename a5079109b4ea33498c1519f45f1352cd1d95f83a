@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08fdc2e8_fce4692e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-23T04:59:22Z",
+      "side": 1,
+      "message": "Do we need to cast this to String?\n\nAnd can it ever be null?",
+      "range": {
+        "startLine": 179,
+        "startChar": 14,
+        "endLine": 179,
+        "endChar": 31
+      },
+      "revId": "a5079109b4ea33498c1519f45f1352cd1d95f83a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68d55e78_67e0d21d",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-23T04:59:22Z",
+      "side": 1,
+      "message": "nit: wrap these lines",
+      "range": {
+        "startLine": 299,
+        "startChar": 6,
+        "endLine": 301,
+        "endChar": 7
+      },
+      "revId": "a5079109b4ea33498c1519f45f1352cd1d95f83a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

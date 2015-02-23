@@ -38,6 +38,8 @@ link:https://code.google.com/p/gerrit/wiki/SqlMergeUserAccounts[merge it].
 link:https://gerrit-review.googlesource.com/Documentation/2.10/rest-api-changes.html#message[
 Edit Commit Message] REST API endpoint is removed
 
+*WARNING:* The deprecated '/query' URL is removed and will now return `Not Found`.
+
 Release Highlights
 ------------------
 
@@ -46,9 +48,9 @@ Release Highlights
 Changes can be created and edited directly in the browser. See the
 link:#inline-editing[Inline editing] section for more details.
 
-* The old change screen is removed.
+* Many improvements in the new change screen.
 
-* The deprecated '/query' URL is removed and will now return `Not Found`.
+* The old change screen is removed.
 
 
 New Features
@@ -95,6 +97,12 @@ Change Screen
 * Remove the 'Edit Message' button from the change screen.
 +
 The commit message is now edited using the inline edit feature.
+
+* Add support for changing parent revision with the 'Rebase' button.
++
+Using the 'Rebase' button it is now possible to rebase a change onto a
+different change (on the same destination branch), rather than only onto the
+head of the destination branch or the latest patch set of the predecessor change.
 
 * Show the parent commit's subject as a tooltip.
 

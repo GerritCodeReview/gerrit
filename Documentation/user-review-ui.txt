@@ -239,9 +239,9 @@ onto the tip of the destination branch.
 If the change depends on another open change, it is rebased onto the
 current patch set of that other change.
 +
-The `Rebase` button is only available if the change can be rebased and
-the link:access-control.html#category_rebase[Rebase] access right is
-assigned. Rebasing merge commits is not supported.
+The `Rebase` button is only available if the change can be rebased.
++
+Rebasing merge commits is not supported.
 
 ** [[cherry-pick]]`Cherry-Pick`:
 +

@@ -25,7 +25,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 
 public class ErrorLogFile {
@@ -48,7 +48,7 @@ public class ErrorLogFile {
   }
 
   public static LifecycleListener start(final Path sitePath)
-      throws FileNotFoundException {
+      throws IOException {
     Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
         "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {

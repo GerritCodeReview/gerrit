@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class AllProjectsConfig extends VersionedMetaData {
 
@@ -68,11 +69,11 @@ public class AllProjectsConfig extends VersionedMetaData {
   }
 
   private File getPath() {
-    File basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
+    Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
-    return FileKey.resolve(new File(basePath, project), FS.DETECTED);
+    return FileKey.resolve(basePath.resolve(project).toFile(), FS.DETECTED);
   }
 
   public AllProjectsConfig load() throws IOException, ConfigInvalidException {

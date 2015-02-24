@@ -124,6 +124,7 @@ java_test(
     ':init',
     ':init-api',
     ':pgm',
+    '//gerrit-common:server',
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:junit',

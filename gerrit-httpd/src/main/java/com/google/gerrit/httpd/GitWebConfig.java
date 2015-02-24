@@ -130,7 +130,7 @@ public class GitWebConfig {
       // Use the CGI script configured by the administrator, failing if it
       // cannot be used as specified.
       //
-      cgi = sitePaths.resolve(cfgCgi).toPath();
+      cgi = sitePaths.resolve(cfgCgi);
       if (!isRegularFile(cgi)) {
         throw new IllegalStateException("Cannot find gitweb.cgi: " + cgi);
       }

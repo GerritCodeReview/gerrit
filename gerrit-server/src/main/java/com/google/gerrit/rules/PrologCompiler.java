@@ -14,6 +14,8 @@
 
 package com.google.gerrit.rules;
 
+import static java.nio.file.StandardOpenOption.DELETE_ON_CLOSE;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -35,8 +37,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -67,14 +72,14 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     NO_RULES, COMPILED
   }
 
-  private final File ruleDir;
+  private final Path ruleDir;
   private final Repository git;
 
   @Inject
   PrologCompiler(@GerritServerConfig Config config, SitePaths site,
       @Assisted Repository gitRepository) {
-    File cacheDir = site.resolve(config.getString("cache", null, "directory"));
-    ruleDir = cacheDir != null ? new File(cacheDir, "rules") : null;
+    Path cacheDir = site.resolve(config.getString("cache", null, "directory"));
+    ruleDir = cacheDir != null ? cacheDir.resolve("rules") : null;
     git = gitRepository;
   }
 
@@ -93,7 +98,9 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     if (ruleDir == null) {
       throw new CompileException("Caching not enabled");
     }
-    if (!ruleDir.isDirectory() && !ruleDir.mkdir()) {
+    try {
+      Files.createDirectory(ruleDir);
+    } catch (IOException e) {
       throw new IOException("Cannot create " + ruleDir);
     }
 
@@ -111,9 +118,9 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
       compileProlog(rulesId, tempDir);
       compileJava(tempDir);
 
-      File jarFile = new File(ruleDir, "rules-" + rulesId.getName() + ".jar");
+      Path jarPath = ruleDir.resolve("rules-" + rulesId.getName() + ".jar");
       List<String> classFiles = getRelativePaths(tempDir, ".class");
-      createJar(jarFile, classFiles, tempDir, metaConfig, rulesId);
+      createJar(jarPath, classFiles, tempDir, metaConfig, rulesId);
 
       return Status.COMPILED;
     } finally {
@@ -222,51 +229,51 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   /** Takes compiled prolog .class files, puts them into the jar file. */
-  private void createJar(File archiveFile, List<String> toBeJared,
+  private void createJar(Path archiveFile, List<String> toBeJared,
       File tempDir, ObjectId metaConfig, ObjectId rulesId) throws IOException {
     long now = TimeUtil.nowMs();
-    File tmpjar = File.createTempFile(".rulec_", ".jar", archiveFile.getParentFile());
-    try {
-      Manifest mf = new Manifest();
-      mf.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
-      mf.getMainAttributes().putValue("Built-by", "Gerrit Code Review " + Version.getVersion());
-      if (git.getDirectory() != null) {
-        mf.getMainAttributes().putValue("Source-Repository", git.getDirectory().getPath());
-      }
-      mf.getMainAttributes().putValue("Source-Commit", metaConfig.name());
-      mf.getMainAttributes().putValue("Source-Blob", rulesId.name());
+    Manifest mf = new Manifest();
+    mf.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
+    mf.getMainAttributes().putValue("Built-by", "Gerrit Code Review " + Version.getVersion());
+    if (git.getDirectory() != null) {
+      mf.getMainAttributes().putValue("Source-Repository", git.getDirectory().getPath());
+    }
+    mf.getMainAttributes().putValue("Source-Commit", metaConfig.name());
+    mf.getMainAttributes().putValue("Source-Blob", rulesId.name());
 
-      try (FileOutputStream stream = new FileOutputStream(tmpjar);
-          JarOutputStream out = new JarOutputStream(stream, mf)) {
-        byte buffer[] = new byte[10240];
-        for (String path : toBeJared) {
-          JarEntry jarAdd = new JarEntry(path);
-          File f = new File(tempDir, path);
-          jarAdd.setTime(now);
-          out.putNextEntry(jarAdd);
-          if (f.isFile()) {
-            FileInputStream in = new FileInputStream(f);
-            try {
-              while (true) {
-                int nRead = in.read(buffer, 0, buffer.length);
-                if (nRead <= 0) {
-                  break;
-                }
-                out.write(buffer, 0, nRead);
+    Path tmpjar =
+        Files.createTempFile(archiveFile.getParent(), ".rulec_", ".jar");
+    try (OutputStream stream = Files.newOutputStream(tmpjar, DELETE_ON_CLOSE);
+        JarOutputStream out = new JarOutputStream(stream, mf)) {
+      byte buffer[] = new byte[10240];
+      // TODO: fixify this loop
+      for (String path : toBeJared) {
+        JarEntry jarAdd = new JarEntry(path);
+        File f = new File(tempDir, path);
+        jarAdd.setTime(now);
+        out.putNextEntry(jarAdd);
+        if (f.isFile()) {
+          FileInputStream in = new FileInputStream(f);
+          try {
+            while (true) {
+              int nRead = in.read(buffer, 0, buffer.length);
+              if (nRead <= 0) {
+                break;
               }
-            } finally {
-              in.close();
+              out.write(buffer, 0, nRead);
             }
+          } finally {
+            in.close();
           }
-          out.closeEntry();
         }
+        out.closeEntry();
       }
+    }
 
-      if (!tmpjar.renameTo(archiveFile)) {
-        throw new IOException("Cannot replace " + archiveFile);
-      }
-    } finally {
-      tmpjar.delete();
+    try {
+      Files.move(tmpjar, archiveFile);
+    } catch (IOException e) {
+      throw new IOException("Cannot replace " + archiveFile, e);
     }
   }
 

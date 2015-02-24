@@ -101,6 +101,7 @@ class QuickApprove extends Button implements ClickHandler {
       input.label(qName, qValue);
       replyAction = action;
       setText(qName + qValueStr);
+      setVisible(true);
     } else {
       setVisible(false);
     }

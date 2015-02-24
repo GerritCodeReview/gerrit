@@ -58,14 +58,14 @@ public class SchemaVersionCheck implements LifecycleListener {
           throw new ProvisionException("Schema not yet initialized."
               + "  Run init to initialize the schema:\n"
               + "$ java -jar gerrit.war init -d "
-              + site.site_path.getAbsolutePath());
+              + site.site_path.toAbsolutePath());
         }
         if (currentVer.versionNbr < expectedVer) {
           throw new ProvisionException("Unsupported schema version "
               + currentVer.versionNbr + "; expected schema version " + expectedVer
               + ".  Run init to upgrade:\n"
               + "$ java -jar " + site.gerrit_war.toAbsolutePath() + " init -d "
-              + site.site_path.getAbsolutePath());
+              + site.site_path.toAbsolutePath());
         } else if (currentVer.versionNbr > expectedVer) {
           throw new ProvisionException("Unsupported schema version "
               + currentVer.versionNbr + "; expected schema version " + expectedVer

@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
 /** Important paths within a {@link SitePath}. */
@@ -29,7 +31,7 @@ public final class SitePaths {
   public static final String HEADER_FILENAME = "GerritSiteHeader.html";
   public static final String FOOTER_FILENAME = "GerritSiteFooter.html";
 
-  public final File site_path;
+  public final Path site_path;
   public final Path bin_dir;
   public final Path etc_dir;
   public final Path lib_dir;
@@ -65,9 +67,8 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
-  public SitePaths(final @SitePath Path sitePath) throws FileNotFoundException {
-    // TODO(dborowitz): Convert all of these to Paths.
-    site_path = sitePath.toFile();
+  public SitePaths(@SitePath Path sitePath) throws IOException {
+    site_path = sitePath;
     Path p = sitePath;
 
     bin_dir = p.resolve("bin");
@@ -101,18 +102,13 @@ public final class SitePaths {
     site_footer = etc_dir.resolve(FOOTER_FILENAME);
     site_gitweb = etc_dir.resolve("gitweb_config.perl");
 
-    if (site_path.exists()) {
-      final String[] contents = site_path.list();
-      if (contents != null) {
-        isNew = contents.length == 0;
-      } else if (site_path.isDirectory()) {
-        throw new FileNotFoundException("Cannot access " + site_path);
-      } else {
-        throw new FileNotFoundException("Not a directory: " + site_path);
-      }
-    } else {
+    boolean isNew;
+    try (DirectoryStream<Path> files = Files.newDirectoryStream(site_path)) {
+      isNew = Iterables.isEmpty(files);
+    } catch (NoSuchFileException e) {
       isNew = true;
     }
+    this.isNew = isNew;
   }
 
   /**
@@ -123,16 +119,13 @@ public final class SitePaths {
    * @param path the path string to resolve. May be null.
    * @return the resolved path; null if {@code path} was null or empty.
    */
-  public File resolve(final String path) {
+  public Path resolve(String path) {
     if (path != null && !path.isEmpty()) {
-      File loc = new File(path);
-      if (!loc.isAbsolute()) {
-        loc = new File(site_path, path);
-      }
+      Path loc = site_path.resolve(path).normalize();
       try {
-        return loc.getCanonicalFile();
+        return loc.toRealPath();
       } catch (IOException e) {
-        return loc.getAbsoluteFile();
+        return loc.toAbsolutePath();
       }
     }
     return null;

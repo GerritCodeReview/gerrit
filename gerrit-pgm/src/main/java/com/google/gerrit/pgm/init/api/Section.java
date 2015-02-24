@@ -20,7 +20,7 @@ import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -106,7 +106,7 @@ public class Section {
     return nv;
   }
 
-  public File path(final String title, final String name, final String defValue) {
+  public Path path(final String title, final String name, final String defValue) {
     return site.resolve(string(title, name, defValue));
   }
 

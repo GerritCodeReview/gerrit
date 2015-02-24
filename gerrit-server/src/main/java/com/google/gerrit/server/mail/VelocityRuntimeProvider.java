@@ -26,6 +26,7 @@ import org.apache.velocity.runtime.log.LogChute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Files;
 import java.util.Properties;
 
 /** Configures Velocity template engine for sending email. */
@@ -49,10 +50,11 @@ public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
     p.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
     p.setProperty("runtime.log.logsystem.log4j.category", "velocity");
 
-    if (site.mail_dir.isDirectory()) {
+    if (Files.isDirectory(site.mail_dir)) {
       p.setProperty(rl, "file, class");
       p.setProperty("file." + rl + ".class", pkg + ".FileResourceLoader");
-      p.setProperty("file." + rl + ".path", site.mail_dir.getAbsolutePath());
+      p.setProperty("file." + rl + ".path",
+          site.mail_dir.toAbsolutePath().toString());
       p.setProperty("class." + rl + ".class", pkg + ".ClasspathResourceLoader");
     } else {
       p.setProperty(rl, "class");

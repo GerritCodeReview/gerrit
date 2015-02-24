@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_38c1498c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2044,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T06:16:57Z",
+      "side": 1,
+      "message": "Why unit tests weren\u0027t failing?",
+      "revId": "fff9cd2dfd8014b28f4c080284b0de9cd0062d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

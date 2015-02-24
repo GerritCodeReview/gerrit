@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "2517118d_e510b679",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-24T19:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2517118d_051872a4",
+      "range": {
+        "startLine": 425,
+        "startChar": 25,
+        "endLine": 425,
+        "endChar": 33
+      },
+      "revId": "57da2cc24dd1a19e4815dfa721f2b262449ba979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_8503c236",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-24T19:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_6634ce04",
+      "range": {
+        "startLine": 425,
+        "startChar": 36,
+        "endLine": 425,
+        "endChar": 56
+      },
+      "revId": "57da2cc24dd1a19e4815dfa721f2b262449ba979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_651de694",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-02-24T19:07:28Z",
       "side": 1,
       "message": "Is caller ever different from (IdentifiedUser) rsrc.getControl().getCurrentUser()? If not, can you just drop this argument?",
+      "range": {
+        "startLine": 459,
+        "startChar": 27,
+        "endLine": 459,
+        "endChar": 48
+      },
+      "revId": "57da2cc24dd1a19e4815dfa721f2b262449ba979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_e6827e31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-24T19:32:47Z",
+      "side": 1,
+      "message": "In ReceiveCommits.java we pass in this.currentUser  which equals (IdentifiedUser) projectControl.getCurrentUser();\n\nI\u0027ll look into changing this in a follow up.",
+      "parentUuid": "2517118d_651de694",
       "range": {
         "startLine": 459,
         "startChar": 27,

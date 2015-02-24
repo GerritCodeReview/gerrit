@@ -52,6 +52,24 @@
       "revId": "57b821e2673922df0f041c1a7e9fd9713961621b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_c5565a13",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-24T22:30:03Z",
+      "side": 1,
+      "message": "Done in a follow up commit, which focuses on moving code around. This is just the bugfix.",
+      "parentUuid": "2517118d_056a32d4",
+      "revId": "57b821e2673922df0f041c1a7e9fd9713961621b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

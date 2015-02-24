@@ -33,6 +33,24 @@
       "revId": "9e158756e51480dcf145bddedb2286d2c4218850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_857582af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-24T21:40:47Z",
+      "side": 1,
+      "message": "I\u0027m going to pull this whole module out in a followup, then it can just have @Provides methods.",
+      "parentUuid": "451a45b5_86a74acf",
+      "revId": "9e158756e51480dcf145bddedb2286d2c4218850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

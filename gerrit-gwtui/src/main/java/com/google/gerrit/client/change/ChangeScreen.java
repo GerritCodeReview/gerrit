@@ -134,8 +134,6 @@ public class ChangeScreen extends Screen {
   private CommentLinkProcessor commentLinkProcessor;
   private EditInfo edit;
 
-  private KeyCommandSet keysNavigation;
-  private KeyCommandSet keysAction;
   private List<HandlerRegistration> handlers = new ArrayList<>(4);
   private UpdateCheckTimer updateCheck;
   private Timestamp lastDisplayedUpdate;
@@ -293,69 +291,6 @@ public class ChangeScreen extends Screen {
     labels.init(style);
     reviewers.init(style, ccText);
     hashtags.init(style);
-
-    keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
-      @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.displayLastChangeList();
-      }
-    });
-    keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
-      @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.toChange(changeId));
-      }
-    });
-    keysNavigation.add(new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          gotoSibling(1);
-        }
-      }, new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          gotoSibling(-1);
-        }
-      });
-
-    keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
-    keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (Gerrit.isSignedIn()) {
-          onReply(null);
-        } else {
-          Gerrit.doSignIn(getToken());
-        }
-      }
-    });
-    keysAction.add(new KeyCommand(0, 'x', Util.C.keyExpandAllMessages()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        onExpandAll(null);
-      }
-    });
-    keysAction.add(new KeyCommand(0, 'z', Util.C.keyCollapseAllMessages()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        onCollapseAll(null);
-      }
-    });
-    if (Gerrit.isSignedIn()) {
-      keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          star.setValue(!star.getValue(), true);
-        }
-      });
-      keysAction.add(new KeyCommand(0, 'c', Util.C.keyAddReviewers()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          reviewers.onOpenForm();
-        }
-      });
-    }
   }
 
   private void initReplyButton(ChangeInfo info, String revision) {
@@ -574,7 +509,88 @@ public class ChangeScreen extends Screen {
   @Override
   public void registerKeys() {
     super.registerKeys();
+
+    KeyCommandSet keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
+    keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        Gerrit.displayLastChangeList();
+      }
+    });
+    keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        Gerrit.display(PageLinks.toChange(changeId));
+      }
+    });
+    keysNavigation.add(new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          gotoSibling(1);
+        }
+      }, new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          gotoSibling(-1);
+        }
+      });
     handlers.add(GlobalKey.add(this, keysNavigation));
+
+    KeyCommandSet keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+    keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
+          onReply(null);
+        } else {
+          Gerrit.doSignIn(getToken());
+        }
+      }
+    });
+    keysAction.add(new KeyCommand(0, 'x', Util.C.keyExpandAllMessages()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        onExpandAll(null);
+      }
+    });
+    keysAction.add(new KeyCommand(0, 'z', Util.C.keyCollapseAllMessages()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        onCollapseAll(null);
+      }
+    });
+    keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
+          star.setValue(!star.getValue(), true);
+        } else {
+          Gerrit.doSignIn(getToken());
+        }
+      }
+    });
+    keysAction.add(new KeyCommand(0, 'c', Util.C.keyAddReviewers()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
+          reviewers.onOpenForm();
+        } else {
+          Gerrit.doSignIn(getToken());
+        }
+      }
+    });
+    keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
+          if (topic.canEdit()) {
+            topic.onEdit();
+          }
+        } else {
+          Gerrit.doSignIn(getToken());
+        }
+      }
+    });
     handlers.add(GlobalKey.add(this, keysAction));
     files.registerKeys();
   }
@@ -1117,14 +1133,6 @@ public class ChangeScreen extends Screen {
     if (Gerrit.isSignedIn()) {
       replyAction = new ReplyAction(info, revision,
           style, commentLinkProcessor, reply, quickApprove);
-      if (topic.canEdit()) {
-        keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
-          @Override
-          public void onKeyPress(KeyPressEvent event) {
-            topic.onEdit();
-          }
-        });
-      }
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
 

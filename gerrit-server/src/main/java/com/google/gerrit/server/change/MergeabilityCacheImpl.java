@@ -47,6 +47,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -224,7 +225,9 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
         return true; // Assume yes on new branch.
       }
       try {
-        Map<String, Ref> refs = key.load.repo.getAllRefs();
+        RefDatabase refDatabase = key.load.repo.getRefDatabase();
+        Map<String, Ref> refs = refDatabase.getRefs(Constants.R_HEADS);
+        refs.putAll(refDatabase.getRefs(Constants.R_TAGS));
         RevWalk rw = CodeReviewCommit.newRevWalk(key.load.repo);
         try {
           RevFlag canMerge = rw.newFlag("CAN_MERGE");

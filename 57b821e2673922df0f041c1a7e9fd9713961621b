@@ -16,6 +16,24 @@
       "revId": "57b821e2673922df0f041c1a7e9fd9713961621b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_e52716d5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-24T20:52:02Z",
+      "side": 1,
+      "message": "The method onInitUI() is the only place in ChangeScreen dealing with keysAction after this change, which I\u0027d find very consistent.\n\nWould you rather suggest to move other key action callback registering moved here as well? (They also have a condition inside the callback, such as checking for sign-in)",
+      "parentUuid": "2517118d_053fd2e3",
+      "revId": "57b821e2673922df0f041c1a7e9fd9713961621b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

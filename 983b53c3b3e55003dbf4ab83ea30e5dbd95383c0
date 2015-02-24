@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_65c16659",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T22:34:50Z",
+      "side": 1,
+      "message": "nit: 2 spaces deeper than \"public void\", you have 4 spaces here.",
+      "revId": "983b53c3b3e55003dbf4ab83ea30e5dbd95383c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

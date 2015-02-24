@@ -34,6 +34,24 @@
       "revId": "07798ccb36c76301aadf6c53af8f69922b695d8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_45e70a32",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T17:38:57Z",
+      "side": 1,
+      "message": "Ack, just reviewed that.",
+      "parentUuid": "2517118d_25e80e04",
+      "revId": "07798ccb36c76301aadf6c53af8f69922b695d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

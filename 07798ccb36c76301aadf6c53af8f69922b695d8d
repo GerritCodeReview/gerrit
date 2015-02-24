@@ -16,6 +16,24 @@
       "revId": "07798ccb36c76301aadf6c53af8f69922b695d8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_25e80e04",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-24T17:35:45Z",
+      "side": 1,
+      "message": "Yes, https://gerrit-review.googlesource.com/65250\n\n(Looking forward to testing submit-whole-topic across projects :)",
+      "parentUuid": "2517118d_e5def664",
+      "revId": "07798ccb36c76301aadf6c53af8f69922b695d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

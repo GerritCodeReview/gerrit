@@ -14,6 +14,9 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static java.nio.file.Files.exists;
+import static java.nio.file.Files.isReadable;
+
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -24,11 +27,11 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,13 +61,13 @@ public class RobotsServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(RobotsServlet.class);
 
-  private final File robotsFile;
+  private final Path robotsFile;
 
   @Inject
   RobotsServlet(@GerritServerConfig final Config config, final SitePaths sitePaths) {
-    File file = sitePaths.resolve(
+    Path file = sitePaths.resolve(
       config.getString("httpd", null, "robotsFile"));
-    if (file != null && (!file.exists() || !file.canRead())) {
+    if (file != null && (!exists(file) || !isReadable(file))) {
       log.warn("Cannot read httpd.robotsFile, using default");
       file = null;
     }
@@ -75,23 +78,16 @@ public class RobotsServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException {
     rsp.setContentType("text/plain");
-    InputStream in = openRobotsFile();
-    try {
-      OutputStream out = rsp.getOutputStream();
-      try {
-        ByteStreams.copy(in, out);
-      } finally {
-        out.close();
-      }
-    } finally {
-      in.close();
+    try (InputStream in = openRobotsFile();
+        OutputStream out = rsp.getOutputStream()) {
+      ByteStreams.copy(in, out);
     }
   }
 
   private InputStream openRobotsFile() {
     if (robotsFile != null) {
       try {
-        return new FileInputStream(robotsFile);
+        return Files.newInputStream(robotsFile);
       } catch (IOException e) {
         log.warn("Cannot read " + robotsFile + "; using default", e);
       }

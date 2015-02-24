@@ -303,7 +303,7 @@ class GitWebServlet extends HttpServlet {
         p.print("}\n");
       }
 
-      Path root = repoManager.getBasePath().toPath();
+      Path root = repoManager.getBasePath();
       p.print("$projectroot = " + quoteForPerl(root) + ";\n");
 
       // Permit exporting only the project we were started for.

@@ -81,6 +81,8 @@ import java.lang.management.ManagementFactory;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -220,22 +222,22 @@ public class JettyServer {
 
       } else if ("https".equals(u.getScheme())) {
         SslContextFactory ssl = new SslContextFactory();
-        final File keystore = getFile(cfg, "sslkeystore", "etc/keystore");
+        final Path keystore = getFile(cfg, "sslkeystore", "etc/keystore");
         String password = cfg.getString("httpd", null, "sslkeypassword");
         if (password == null) {
           password = "gerrit";
         }
-        ssl.setKeyStorePath(keystore.getAbsolutePath());
-        ssl.setTrustStorePath(keystore.getAbsolutePath());
+        ssl.setKeyStorePath(keystore.toAbsolutePath().toString());
+        ssl.setTrustStorePath(keystore.toAbsolutePath().toString());
         ssl.setKeyStorePassword(password);
         ssl.setTrustStorePassword(password);
 
         if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType)) {
           ssl.setNeedClientAuth(true);
 
-          File crl = getFile(cfg, "sslcrl", "etc/crl.pem");
-          if (crl.exists()) {
-            ssl.setCrlPath(crl.getAbsolutePath());
+          Path crl = getFile(cfg, "sslcrl", "etc/crl.pem");
+          if (Files.exists(crl)) {
+            ssl.setCrlPath(crl.toAbsolutePath().toString());
             ssl.setValidatePeerCerts(true);
           }
         }
@@ -340,7 +342,7 @@ public class JettyServer {
     return r;
   }
 
-  private File getFile(final Config cfg, final String name, final String def) {
+  private Path getFile(Config cfg, String name, String def) {
     String path = cfg.getString("httpd", null, name);
     if (path == null || path.length() == 0) {
       path = def;

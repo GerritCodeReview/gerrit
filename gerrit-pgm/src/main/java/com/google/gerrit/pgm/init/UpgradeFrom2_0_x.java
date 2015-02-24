@@ -30,8 +30,6 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -39,6 +37,7 @@ import java.net.InetSocketAddress;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
@@ -66,7 +65,7 @@ class UpgradeFrom2_0_x implements InitStep {
 
   private final FileBasedConfig cfg;
   private final SecureStore sec;
-  private final File site_path;
+  private final Path site_path;
   private final Path etc_dir;
   private final Section.Factory sections;
 
@@ -84,7 +83,7 @@ class UpgradeFrom2_0_x implements InitStep {
 
   boolean isNeedUpgrade() {
     for (String name : etcFiles) {
-      if (new File(site_path, name).exists()) {
+      if (Files.exists(site_path.resolve(name))) {
         return true;
       }
     }
@@ -97,12 +96,12 @@ class UpgradeFrom2_0_x implements InitStep {
       return;
     }
 
-    if (!ui.yesno(true, "Upgrade '%s'", site_path.getCanonicalPath())) {
+    if (!ui.yesno(true, "Upgrade '%s'", site_path.toAbsolutePath())) {
       throw die("aborted by user");
     }
 
     for (String name : etcFiles) {
-      Path src = site_path.toPath().resolve(name);
+      Path src = site_path.resolve(name);
       Path dst = etc_dir.resolve(name);
       if (Files.exists(src)) {
         if (Files.exists(dst)) {
@@ -260,23 +259,18 @@ class UpgradeFrom2_0_x implements InitStep {
   private Properties readGerritServerProperties() throws IOException {
     final Properties srvprop = new Properties();
     final String name = System.getProperty("GerritServer");
-    File path;
+    Path path;
     if (name != null) {
-      path = new File(name);
+      path = Paths.get(name);
     } else {
-      path = new File(site_path, "GerritServer.properties");
-      if (!path.exists()) {
-        path = new File("GerritServer.properties");
+      path = site_path.resolve("GerritServer.properties");
+      if (!Files.exists(path)) {
+        path = Paths.get("GerritServer.properties");
       }
     }
-    if (path.exists()) {
-      try {
-        final InputStream in = new FileInputStream(path);
-        try {
-          srvprop.load(in);
-        } finally {
-          in.close();
-        }
+    if (Files.exists(path)) {
+      try (InputStream in = Files.newInputStream(path)) {
+        srvprop.load(in);
       } catch (IOException e) {
         throw new IOException("Cannot read " + name, e);
       }

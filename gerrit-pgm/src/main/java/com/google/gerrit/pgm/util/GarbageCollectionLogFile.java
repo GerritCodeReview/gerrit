@@ -24,12 +24,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 
 public class GarbageCollectionLogFile {
-  public static LifecycleListener start(Path sitePath)
-      throws FileNotFoundException {
+  public static LifecycleListener start(Path sitePath) throws IOException {
     Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
         "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {

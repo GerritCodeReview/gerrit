@@ -75,6 +75,6 @@ class IndexVersionCheck implements LifecycleListener {
   private final String upgrade() {
     return "\nRun reindex to rebuild the index:\n"
         + "$ java -jar gerrit.war reindex -d "
-        + sitePaths.site_path.getAbsolutePath();
+        + sitePaths.site_path.toAbsolutePath();
   }
 }

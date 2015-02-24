@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c58395c3_a2de1e64",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-24T00:38:54Z",
+      "side": 1,
+      "message": "Why do we need a nested try here?",
+      "range": {
+        "startLine": 212,
+        "startChar": 12,
+        "endLine": 216,
+        "endChar": 13
+      },
+      "revId": "8e481f3c3383dcd4c47335c180d9a64c5b92acad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

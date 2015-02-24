@@ -20,9 +20,6 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.io.File;
-import java.io.IOException;
-
 class H2 extends BaseDataSourceType {
 
   protected final Config cfg;
@@ -41,12 +38,6 @@ class H2 extends BaseDataSourceType {
     if (database == null || database.isEmpty()) {
       database = "db/ReviewDB";
     }
-    File db = site.resolve(database);
-    try {
-      db = db.getCanonicalFile();
-    } catch (IOException e) {
-      db = db.getAbsoluteFile();
-    }
-    return "jdbc:h2:" + db.toURI().toString();
+    return "jdbc:h2:" + site.resolve(database).toUri().toString();
   }
 }

@@ -885,7 +885,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         }
 
         final Map<String, String> env = pb.environment();
-        env.put("GERRIT_SITE", sitePaths.site_path.getAbsolutePath());
+        env.put("GERRIT_SITE", sitePaths.site_path.toAbsolutePath().toString());
 
         if (repo != null) {
           pb.directory(repo.getDirectory());

@@ -25,11 +25,11 @@ import com.google.gerrit.server.util.HostPlatform;
 
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class SitePathsTest {
   @Test
@@ -37,7 +37,7 @@ public class SitePathsTest {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
     assertTrue(site.isNew);
-    assertEquals(root.toFile(), site.site_path);
+    assertEquals(root, site.site_path);
     assertEquals(root.resolve("etc"), site.etc_dir);
   }
 
@@ -49,7 +49,7 @@ public class SitePathsTest {
 
       final SitePaths site = new SitePaths(root);
       assertTrue(site.isNew);
-      assertEquals(root.toFile(), site.site_path);
+      assertEquals(root, site.site_path);
     } finally {
       Files.delete(root);
     }
@@ -65,7 +65,7 @@ public class SitePathsTest {
 
       final SitePaths site = new SitePaths(root);
       assertFalse(site.isNew);
-      assertEquals(root.toFile(), site.site_path);
+      assertEquals(root, site.site_path);
     } finally {
       Files.delete(txt);
       Files.delete(root);
@@ -80,8 +80,8 @@ public class SitePathsTest {
       try {
         new SitePaths(root);
         fail("Did not throw exception");
-      } catch (FileNotFoundException e) {
-        assertEquals("Not a directory: " + root, e.getMessage());
+      } catch (NotDirectoryException e) {
+        // Expected.
       }
     } finally {
       Files.delete(root);
@@ -97,12 +97,12 @@ public class SitePathsTest {
     assertNull(site.resolve(""));
 
     assertNotNull(site.resolve("a"));
-    assertEquals(root.resolve("a").toAbsolutePath().normalize().toFile(),
+    assertEquals(root.resolve("a").toAbsolutePath().normalize(),
         site.resolve("a"));
 
     final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
     assertNotNull(site.resolve(pfx + "a"));
-    assertEquals(new File(pfx + "a").getCanonicalFile(), site.resolve(pfx + "a"));
+    assertEquals(Paths.get(pfx + "a"), site.resolve(pfx + "a"));
   }
 
   private static Path random() throws IOException {

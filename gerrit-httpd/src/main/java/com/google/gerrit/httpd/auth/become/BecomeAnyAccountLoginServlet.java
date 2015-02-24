@@ -104,7 +104,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         throw new ServletException(e);
       }
       rsp.setContentType("text/html");
-      rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+      rsp.setCharacterEncoding(HtmlDomUtil.ENC.name());
       rsp.setContentLength(raw.length);
       final OutputStream out = rsp.getOutputStream();
       try {
@@ -138,7 +138,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     } else {
       rsp.setContentType("text/html");
-      rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+      rsp.setCharacterEncoding(HtmlDomUtil.ENC.name());
       final Writer out = rsp.getWriter();
       out.write("<html>");
       out.write("<body>");

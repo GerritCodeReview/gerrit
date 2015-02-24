@@ -23,13 +23,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.zip.GZIPOutputStream;
 
@@ -192,7 +192,7 @@ public class HtmlDomUtil {
       Document doc = newBuilder().parse(in);
       compact(doc);
       return doc;
-    } catch (FileNotFoundException e) {
+    } catch (NoSuchFileException e) {
       return null;
     } catch (SAXException | ParserConfigurationException | IOException e) {
       throw new IOException("Error reading " + path, e);
@@ -208,7 +208,7 @@ public class HtmlDomUtil {
     Path path = parentDir.resolve(name);
     try (InputStream in = Files.newInputStream(path)) {
       return new String(ByteStreams.toByteArray(in), ENC);
-    } catch (FileNotFoundException e) {
+    } catch (NoSuchFileException e) {
       return null;
     } catch (IOException e) {
       throw new IOException("Error reading " + path, e);

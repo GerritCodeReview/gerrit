@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
-import static java.nio.file.Files.getLastModifiedTime;
+import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -55,7 +55,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -289,15 +288,15 @@ public class HostPageServlet extends HttpServlet {
 
   private static class FileInfo {
     private final Path path;
-    private final FileTime time;
+    private final long time;
 
-    FileInfo(Path p) throws IOException {
+    FileInfo(Path p) {
       path = p;
-      time = getLastModifiedTime(path);
+      time = lastModified(path);
     }
 
-    boolean isStale() throws IOException {
-      return !time.equals(getLastModifiedTime(path));
+    boolean isStale() {
+      return time != lastModified(path);
     }
   }
 
@@ -340,7 +339,7 @@ public class HostPageServlet extends HttpServlet {
       debug = new Content(hostDoc);
     }
 
-    boolean isStale() throws IOException {
+    boolean isStale() {
       return css.isStale() || header.isStale() || footer.isStale();
     }
 

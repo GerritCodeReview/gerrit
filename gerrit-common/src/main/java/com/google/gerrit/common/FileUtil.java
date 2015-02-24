@@ -68,8 +68,17 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Get the last modified time of a path.
+   * <p>
+   * Equivalent to {@code File#lastModified()}, returning 0 on errors, including
+   * file not found. Callers that prefer exceptions can use {@link
+   * Files#getLastModifiedTime(Path, java.nio.file.LinkOption...)}.
+   *
+   * @param p path.
+   * @return last modified time, in milliseconds since epoch.
+   */
   public static long lastModified(Path p) {
-    // Replicate File#lastModified() behavior of returning 0 on errors.
     try {
       return Files.getLastModifiedTime(p).toMillis();
     } catch (IOException e) {

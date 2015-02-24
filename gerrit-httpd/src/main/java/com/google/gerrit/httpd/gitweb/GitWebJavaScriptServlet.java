@@ -14,16 +14,18 @@
 
 package com.google.gerrit.httpd.gitweb;
 
+import static com.google.gerrit.common.FileUtil.lastModified;
+
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -45,10 +47,10 @@ class GitWebJavaScriptServlet extends HttpServlet {
     if (src != null) {
       try (InputStream in = Files.newInputStream(src)) {
         png = ByteStreams.toByteArray(in);
-      } catch (FileNotFoundException e) {
+      } catch (NoSuchFileException e) {
         png = null;
       }
-      modified = Files.getLastModifiedTime(src).toMillis();
+      modified = lastModified(src);
     } else {
       modified = -1;
       png = null;

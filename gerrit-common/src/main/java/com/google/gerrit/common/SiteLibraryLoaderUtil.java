@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common;
 
+import static com.google.gerrit.common.FileUtil.lastModified;
+
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 
@@ -35,14 +37,6 @@ public final class SiteLibraryLoaderUtil {
       IoUtil.loadJARs(listJars(libdir));
     } catch (IOException e) {
       log.error("Error scanning lib directory " + libdir, e);
-    }
-  }
-
-  private static long lastModified(Path p) {
-    try {
-      return Files.getLastModifiedTime(p).toMillis();
-    } catch (IOException e) {
-      return 0;
     }
   }
 

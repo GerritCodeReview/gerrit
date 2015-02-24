@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.template;
 
+import static com.google.gerrit.common.FileUtil.lastModified;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -28,9 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileTime;
 
 @Singleton
 public class SiteHeaderFooter {
@@ -112,7 +112,7 @@ public class SiteHeaderFooter {
     Element header;
     Element footer;
 
-    Template(SitePaths site) throws IOException {
+    Template(SitePaths site) {
       cssFile = new FileInfo(site.site_css);
       headerFile = new FileInfo(site.site_header);
       footerFile = new FileInfo(site.site_footer);
@@ -126,7 +126,7 @@ public class SiteHeaderFooter {
       footer = readXml(footerFile);
     }
 
-    boolean isStale() throws IOException {
+    boolean isStale() {
       return cssFile.isStale() || headerFile.isStale() || footerFile.isStale();
     }
 
@@ -138,15 +138,15 @@ public class SiteHeaderFooter {
 
   private static class FileInfo {
     final Path path;
-    final FileTime time;
+    final long time;
 
-    FileInfo(Path p) throws IOException {
+    FileInfo(Path p) {
       path = p;
-      time = Files.getLastModifiedTime(path);
+      time = lastModified(p);
     }
 
-    boolean isStale() throws IOException {
-      return !time.equals(Files.getLastModifiedTime(path));
+    boolean isStale() {
+      return time != lastModified(path);
     }
   }
 }

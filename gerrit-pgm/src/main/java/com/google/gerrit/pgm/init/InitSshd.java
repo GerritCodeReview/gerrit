@@ -17,7 +17,6 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.common.FileUtil.chmod;
 import static com.google.gerrit.pgm.init.api.InitUtil.die;
 import static com.google.gerrit.pgm.init.api.InitUtil.hostname;
-
 import static java.nio.file.Files.exists;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;

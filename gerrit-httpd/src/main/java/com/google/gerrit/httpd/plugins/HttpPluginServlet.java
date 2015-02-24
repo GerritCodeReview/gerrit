@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import static com.google.gerrit.common.FileUtil.lastModified;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODING;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;
 
@@ -304,8 +305,7 @@ class HttpPluginServlet extends HttpServlet
       }
       if (!entry.isPresent() && file.endsWith("/index.html")) {
         String pfx = file.substring(0, file.length() - "index.html".length());
-        long pluginLastModified =
-            Files.getLastModifiedTime(holder.plugin.getSrcFile()).toMillis();
+        long pluginLastModified = lastModified(holder.plugin.getSrcFile());
         if (hasUpToDateCachedResource(rsc, pluginLastModified)) {
           rsc.send(req, res);
         } else {

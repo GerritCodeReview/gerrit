@@ -36,9 +36,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -203,7 +203,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
           }
         }
         return Collections.unmodifiableSet(keys);
-      } catch (FileNotFoundException noFile) {
+      } catch (NoSuchFileException noFile) {
         return Collections.emptySet();
       } catch (IOException err) {
         log.error("Cannot read " + path, err);

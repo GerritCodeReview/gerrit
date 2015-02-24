@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.gitweb;
 
+import static com.google.gerrit.common.FileUtil.lastModified;
+
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.SitePaths;
@@ -23,7 +25,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -63,7 +64,7 @@ abstract class GitWebCssServlet extends HttpServlet {
       final String name = src.getFileName().toString();
       final String raw = HtmlDomUtil.readFile(dir, name);
       if (raw != null) {
-        modified = Files.getLastModifiedTime(src).toMillis();
+        modified = lastModified(src);
         raw_css = raw.getBytes(ENC);
         gz_css = HtmlDomUtil.compress(raw_css);
       } else {

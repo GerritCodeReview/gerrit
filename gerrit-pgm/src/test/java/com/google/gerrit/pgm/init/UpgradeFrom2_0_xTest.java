@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;

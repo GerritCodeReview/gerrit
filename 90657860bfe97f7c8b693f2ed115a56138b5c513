@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a58861e3_e1fbc6c9",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T00:37:55Z",
+      "side": 1,
+      "message": "IIRC name can be null here. resolve(null) probably fails here.\n\nMaybe we need:\n\n  if (Strings.isNullOrEmpty(name)) {\n    return null;\n  }",
+      "revId": "90657860bfe97f7c8b693f2ed115a56138b5c513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

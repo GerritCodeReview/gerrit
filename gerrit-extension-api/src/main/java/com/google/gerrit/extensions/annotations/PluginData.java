@@ -18,9 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 
 /**
  * Local path where a plugin can store its own private data.
@@ -39,7 +37,6 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  */
-@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RUNTIME)
 @BindingAnnotation
 public @interface PluginData {

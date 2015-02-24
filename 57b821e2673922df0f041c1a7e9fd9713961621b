@@ -34,6 +34,24 @@
       "revId": "57b821e2673922df0f041c1a7e9fd9713961621b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_056a32d4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T21:18:06Z",
+      "side": 1,
+      "message": "Yes, I think we might be OK to move the other key setup into this method.",
+      "parentUuid": "2517118d_e52716d5",
+      "revId": "57b821e2673922df0f041c1a7e9fd9713961621b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

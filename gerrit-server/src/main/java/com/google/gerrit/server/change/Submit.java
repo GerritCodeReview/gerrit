@@ -421,11 +421,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     db.changes().beginTransaction(change.getId());
     try {
-      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
-      // Write update commit after all normalized label commits.
-      batch.write(update, new CommitBuilder());
-
       for (ChangeData c : changesByTopic) {
+        RevisionResource resource = new RevisionResource(new ChangeResource(
+            c.changeControl()), c.currentPatchSet());
+        BatchMetaDataUpdate batch = approve(resource, update, caller, timestamp);
+        // Write update commit after all normalized label commits.
+        batch.write(update, new CommitBuilder());
         submitToDatabase(db, c.getId(), timestamp);
       }
       db.commit();

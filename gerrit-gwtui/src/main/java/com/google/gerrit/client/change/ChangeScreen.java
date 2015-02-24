@@ -559,28 +559,38 @@ public class ChangeScreen extends Screen {
         onCollapseAll(null);
       }
     });
-    if (Gerrit.isSignedIn()) {
-      keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
+    keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
           star.setValue(!star.getValue(), true);
+        } else {
+          Gerrit.doSignIn(getToken());
         }
-      });
-      keysAction.add(new KeyCommand(0, 'c', Util.C.keyAddReviewers()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          reviewers.onOpenForm();
-        }
-      });
-      if (topic.canEdit()) {
-        keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
-          @Override
-          public void onKeyPress(KeyPressEvent event) {
-              topic.onEdit();
-          }
-        });
       }
-    }
+    });
+    keysAction.add(new KeyCommand(0, 'c', Util.C.keyAddReviewers()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
+          reviewers.onOpenForm();
+        } else {
+          Gerrit.doSignIn(getToken());
+        }
+      }
+    });
+    keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
+          if (topic.canEdit()) {
+            topic.onEdit();
+          }
+        } else {
+          Gerrit.doSignIn(getToken());
+        }
+      }
+    });
     handlers.add(GlobalKey.add(this, keysAction));
     files.registerKeys();
   }

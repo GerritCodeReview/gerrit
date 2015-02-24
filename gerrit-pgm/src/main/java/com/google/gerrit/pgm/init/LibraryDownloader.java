@@ -216,28 +216,27 @@ class LibraryDownloader {
 
   private void removeStaleVersions() {
     if (!Strings.isNullOrEmpty(remove)) {
-      Iterable<Path> paths;
-      try {
-        paths = Files.newDirectoryStream(lib_dir,
-            new DirectoryStream.Filter<Path>() {
-              @Override
-              public boolean accept(Path entry) {
-                return entry.getFileName().toString()
-                    .matches("^" + remove + "$");
-              }
-            });
+      DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
+        @Override
+        public boolean accept(Path entry) {
+          return entry.getFileName().toString()
+              .matches("^" + remove + "$");
+        }
+      };
+      try (DirectoryStream<Path> paths =
+          Files.newDirectoryStream(lib_dir, filter)) {
+        for (Path p : paths) {
+          String old = p.getFileName().toString();
+          String bak = "." + old + ".backup";
+          ui.message("Renaming %s to %s", old, bak);
+          try {
+            Files.move(p, p.resolveSibling(bak));
+          } catch (IOException e) {
+            throw new Die("cannot rename " + old, e);
+          }
+        }
       } catch (IOException e) {
         throw new Die("cannot remove stale library versions", e);
-      }
-      for (Path p : paths) {
-        String old = p.getFileName().toString();
-        String bak = "." + old + ".backup";
-        ui.message("Renaming %s to %s", old, bak);
-        try {
-          Files.move(p, p.resolveSibling(bak));
-        } catch (IOException e) {
-          throw new Die("cannot rename " + old, e);
-        }
       }
     }
   }

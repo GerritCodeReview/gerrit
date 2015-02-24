@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "85db5d05_30d02852",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthWebFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T06:50:39Z",
+      "side": 1,
+      "message": "Done. This method was borrowed from LoginForm.sendHtml(). Extract it in some common place and use from both places?",
+      "parentUuid": "45c5e522_4ee8b304",
+      "range": {
+        "startLine": 200,
+        "startChar": 29,
+        "endLine": 200,
+        "endChar": 36
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65e029b0_6fed7113",
         "filename": "gerrit-oauth/src/main/resources/com/google/gerrit/httpd/auth/oauth/LoginForm.html",
         "patchSetId": 12
@@ -82,6 +106,30 @@
       "writtenOn": "2015-02-24T03:20:18Z",
       "side": 1,
       "message": "Change this to just \"Available OAuth providers\"?",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 50
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_18c605a4",
+        "filename": "gerrit-oauth/src/main/resources/com/google/gerrit/httpd/auth/oauth/LoginForm.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T06:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65e029b0_6fed7113",
       "range": {
         "startLine": 42,
         "startChar": 13,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_78cbc1ab",
+        "filename": "gerrit-oauth/src/main/resources/com/google/gerrit/httpd/auth/oauth/LoginForm.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T06:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_eed15f55",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65e029b0_0fe2a522",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 12
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_58d07d52",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T06:50:39Z",
+      "side": 1,
+      "message": "Somehow i was confused with \"a\" as second letter and sorted it coerrespondingly wrong ;-)",
+      "parentUuid": "65e029b0_0fe2a522",
+      "range": {
+        "startLine": 101,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 19
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_8ede9b64",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 12
@@ -151,6 +247,30 @@
       "writtenOn": "2015-02-24T03:20:18Z",
       "side": 1,
       "message": "nit: The existing entries are in alphabetical order.",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85db5d05_d0d43c48",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T06:50:39Z",
+      "side": 1,
+      "message": "Same here.",
+      "parentUuid": "45c5e522_8ede9b64",
       "range": {
         "startLine": 61,
         "startChar": 11,

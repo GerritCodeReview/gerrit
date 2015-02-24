@@ -41,7 +41,7 @@ public final class SitePaths {
   public final File hooks_dir;
   public final File static_dir;
   public final File themes_dir;
-  public final File index_dir;
+  public final Path index_dir;
 
   public final Path gerrit_sh;
   public final Path gerrit_war;
@@ -81,7 +81,7 @@ public final class SitePaths {
     hooks_dir = new File(site_path, "hooks");
     static_dir = new File(site_path, "static");
     themes_dir = new File(site_path, "themes");
-    index_dir = new File(site_path, "index");
+    index_dir = p.resolve("index");
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");
     gerrit_war = bin_dir.resolve("gerrit.war");

@@ -89,8 +89,9 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
@@ -223,7 +224,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final ListeningExecutorService executor;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
-  private final File dir;
   private final Schema<ChangeData> schema;
   private final QueryBuilder queryBuilder;
   private final SubIndex openIndex;
@@ -246,11 +246,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
 
-    if (base == null) {
-      dir = LuceneVersionManager.getDir(sitePaths, schema);
-    } else {
-      dir = new File(base);
-    }
     Version luceneVersion = checkNotNull(
         LUCENE_VERSIONS.get(schema),
         "unknown Lucene version for index schema: %s", schema);
@@ -271,8 +266,10 @@ public class LuceneChangeIndex implements ChangeIndex {
       openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig);
       closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig);
     } else {
-      openIndex = new SubIndex(new File(dir, CHANGES_OPEN), openConfig);
-      closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED), closedConfig);
+      Path dir = base != null ? Paths.get(base)
+          : LuceneVersionManager.getDir(sitePaths, schema);
+      openIndex = new SubIndex(dir.resolve(CHANGES_OPEN), openConfig);
+      closedIndex = new SubIndex(dir.resolve(CHANGES_CLOSED), closedConfig);
     }
   }
 

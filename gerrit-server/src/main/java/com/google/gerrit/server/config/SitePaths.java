@@ -38,7 +38,7 @@ public final class SitePaths {
   public final Path plugins_dir;
   public final Path data_dir;
   public final Path mail_dir;
-  public final File hooks_dir;
+  public final Path hooks_dir;
   public final Path static_dir;
   public final Path themes_dir;
   public final Path index_dir;
@@ -78,7 +78,7 @@ public final class SitePaths {
     data_dir = p.resolve("data");
     logs_dir = p.resolve("logs");
     mail_dir = etc_dir.resolve("mail");
-    hooks_dir = new File(site_path, "hooks");
+    hooks_dir = p.resolve("hooks");
     static_dir = p.resolve("static");
     themes_dir = p.resolve("themes");
     index_dir = p.resolve("index");

@@ -66,12 +66,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -169,44 +171,44 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     /** Listeners to receive all changes as they happen. */
     private final DynamicSet<EventListener> unrestrictedListeners;
 
-    /** Filename of the new patchset hook. */
-    private final File patchsetCreatedHook;
+    /** Path of the new patchset hook. */
+    private final Path patchsetCreatedHook;
 
-    /** Filename of the draft published hook. */
-    private final File draftPublishedHook;
+    /** Path of the draft published hook. */
+    private final Path draftPublishedHook;
 
-    /** Filename of the new comments hook. */
-    private final File commentAddedHook;
+    /** Path of the new comments hook. */
+    private final Path commentAddedHook;
 
-    /** Filename of the change merged hook. */
-    private final File changeMergedHook;
+    /** Path of the change merged hook. */
+    private final Path changeMergedHook;
 
-    /** Filename of the merge failed hook. */
-    private final File mergeFailedHook;
+    /** Path of the merge failed hook. */
+    private final Path mergeFailedHook;
 
-    /** Filename of the change abandoned hook. */
-    private final File changeAbandonedHook;
+    /** Path of the change abandoned hook. */
+    private final Path changeAbandonedHook;
 
-    /** Filename of the change restored hook. */
-    private final File changeRestoredHook;
+    /** Path of the change restored hook. */
+    private final Path changeRestoredHook;
 
-    /** Filename of the ref updated hook. */
-    private final File refUpdatedHook;
+    /** Path of the ref updated hook. */
+    private final Path refUpdatedHook;
 
-    /** Filename of the reviewer added hook. */
-    private final File reviewerAddedHook;
+    /** Path of the reviewer added hook. */
+    private final Path reviewerAddedHook;
 
-    /** Filename of the topic changed hook. */
-    private final File topicChangedHook;
+    /** Path of the topic changed hook. */
+    private final Path topicChangedHook;
 
-    /** Filename of the cla signed hook. */
-    private final File claSignedHook;
+    /** Path of the cla signed hook. */
+    private final Path claSignedHook;
 
-    /** Filename of the update hook. */
-    private final File refUpdateHook;
+    /** Path of the update hook. */
+    private final Path refUpdateHook;
 
-    /** Filename of the hashtags changed hook */
-    private final File hashtagsChangedHook;
+    /** Path of the hashtags changed hook */
+    private final Path hashtagsChangedHook;
 
     private final String anonymousCowardName;
 
@@ -258,26 +260,41 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         this.sitePaths = sitePath;
         this.unrestrictedListeners = unrestrictedListeners;
 
-        final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
+        Path hooksPath;
+        String hooksPathConfig = config.getString("hooks", null, "path");
+        if (hooksPathConfig != null) {
+          hooksPath = Paths.get(hooksPathConfig);
+        } else {
+          hooksPath = sitePath.hooks_dir;
+        }
 
-        patchsetCreatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "patchsetCreatedHook", "patchset-created")).getPath());
-        draftPublishedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "draftPublishedHook", "draft-published")).getPath());
-        commentAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "commentAddedHook", "comment-added")).getPath());
-        changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
-        mergeFailedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "mergeFailedHook", "merge-failed")).getPath());
-        changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
-        changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
-        refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
-        reviewerAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "reviewerAddedHook", "reviewer-added")).getPath());
-        topicChangedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "topicChangedHook", "topic-changed")).getPath());
-        claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
-        refUpdateHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdateHook", "ref-update")).getPath());
-        hashtagsChangedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "hashtagsChangedHook", "hashtags-changed")).getPath());
+        // When adding a new hook, make sure to check that the setting name
+        // canonicalizes correctly in hook() below.
+        patchsetCreatedHook = hook(config, hooksPath, "patchset-created");
+        draftPublishedHook = hook(config, hooksPath, "draft-published");
+        commentAddedHook = hook(config, hooksPath, "comment-added");
+        changeMergedHook = hook(config, hooksPath, "change-merged");
+        mergeFailedHook = hook(config, hooksPath, "merge-failed");
+        changeAbandonedHook = hook(config, hooksPath, "change-abandoned");
+        changeRestoredHook = hook(config, hooksPath, "change-restored");
+        refUpdatedHook = hook(config, hooksPath, "ref-updated");
+        reviewerAddedHook = hook(config, hooksPath, "reviewer-added");
+        topicChangedHook = hook(config, hooksPath, "topic-changed");
+        claSignedHook = hook(config, hooksPath, "cla-signed");
+        refUpdateHook = hook(config, hooksPath, "ref-update");
+        hashtagsChangedHook = hook(config, hooksPath, "hashtags-changed");
+
         syncHookTimeout = config.getInt("hooks", "syncHookTimeout", 30);
         syncHookThreadPool = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()
               .setNameFormat("SyncHook-%d")
               .build());
+    }
+
+    private static Path hook(Config config, Path path, String name) {
+      String setting = name.replace("-", "") + "hook";
+      String value = config.getString("hooks", null, setting);
+      return path.resolve(value != null ? value : name);
     }
 
     @Override
@@ -288,20 +305,6 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void removeEventListener(EventListener listener) {
         listeners.remove(listener);
-    }
-
-    /**
-     * Helper Method for getting values from the config.
-     *
-     * @param config Config file to get value from.
-     * @param section Section to look in.
-     * @param setting Setting to get.
-     * @param fallback Fallback value.
-     * @return Setting value if found, else fallback.
-     */
-    private String getValue(final Config config, final String section, final String setting, final String fallback) {
-        final String result = config.getString(section, null, setting);
-        return Strings.isNullOrEmpty(result) ? fallback : result;
     }
 
     /**
@@ -788,23 +791,23 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
    * @param hook the hook to execute.
    * @param args Arguments to use to run the hook.
    */
-  private synchronized void runHook(Project.NameKey project, File hook,
+  private synchronized void runHook(Project.NameKey project, Path hook,
       List<String> args) {
-    if (project != null && hook.exists()) {
+    if (project != null && Files.exists(hook)) {
       hookQueue.execute(new AsyncHookTask(project, hook, args));
     }
   }
 
-  private synchronized void runHook(File hook, List<String> args) {
-    if (hook.exists()) {
+  private synchronized void runHook(Path hook, List<String> args) {
+    if (Files.exists(hook)) {
       hookQueue.execute(new AsyncHookTask(null, hook, args));
     }
   }
 
   private HookResult runSyncHook(Project.NameKey project,
-      File hook, List<String> args) {
+      Path hook, List<String> args) {
 
-    if (!hook.exists()) {
+    if (!Files.exists(hook)) {
       return null;
     }
 
@@ -818,10 +821,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     try {
       return task.get(syncHookTimeout, TimeUnit.SECONDS);
     } catch (TimeoutException e) {
-      message = "Synchronous hook timed out "  + hook.getAbsolutePath();
+      message = "Synchronous hook timed out "  + hook.toAbsolutePath();
       log.error(message);
     } catch (Exception e) {
-      message = "Error running hook " + hook.getAbsolutePath();
+      message = "Error running hook " + hook.toAbsolutePath();
       log.error(message, e);
     }
 
@@ -849,12 +852,12 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
   private class HookTask {
     private final Project.NameKey project;
-    private final File hook;
+    private final Path hook;
     private final List<String> args;
     private StringWriter output;
     private Process ps;
 
-    protected HookTask(Project.NameKey project, File hook, List<String> args) {
+    protected HookTask(Project.NameKey project, Path hook, List<String> args) {
       this.project = project;
       this.hook = hook;
       this.args = args;
@@ -870,7 +873,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       try {
 
         final List<String> argv = new ArrayList<>(1 + args.size());
-        argv.add(hook.getAbsolutePath());
+        argv.add(hook.toAbsolutePath().toString());
         argv.addAll(args);
 
         final ProcessBuilder pb = new ProcessBuilder(argv);
@@ -906,7 +909,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       } catch (InterruptedException iex) {
         // InterruptedExeception - timeout or cancel
       } catch (Throwable err) {
-        log.error("Error running hook " + hook.getAbsolutePath(), err);
+        log.error("Error running hook " + hook.toAbsolutePath(), err);
       } finally {
         if (repo != null) {
           repo.close();
@@ -949,12 +952,12 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     protected String getName() {
-      return hook.getName();
+      return hook.getFileName().toString();
     }
 
     @Override
     public String toString() {
-      return "hook " + hook.getName();
+      return "hook " + hook.getFileName();
     }
 
     public void cancel() {
@@ -966,7 +969,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
   private final class SyncHookTask extends HookTask
       implements Callable<HookResult> {
 
-    private SyncHookTask(Project.NameKey project, File hook, List<String> args) {
+    private SyncHookTask(Project.NameKey project, Path hook, List<String> args) {
       super(project, hook, args);
     }
 
@@ -979,7 +982,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
   /** Runnable type used to run asynchronous hooks */
   private final class AsyncHookTask extends HookTask implements Runnable {
 
-    private AsyncHookTask(Project.NameKey project, File hook, List<String> args) {
+    private AsyncHookTask(Project.NameKey project, Path hook, List<String> args) {
       super(project, hook, args);
     }
 

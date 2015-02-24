@@ -88,6 +88,24 @@
       "revId": "fff9cd2dfd8014b28f4c080284b0de9cd0062d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_26c1368c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2044,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-24T16:16:14Z",
+      "side": 1,
+      "message": "Thanks for catching this. I didn\u0027t read the user error report close enough; they were indeed trying to push to refs/changes/X instead of refs/for/X. If I had noticed I wouldn\u0027t have been so quick to revert, sorry.",
+      "parentUuid": "08fdc2e8_1c01552e",
+      "revId": "fff9cd2dfd8014b28f4c080284b0de9cd0062d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

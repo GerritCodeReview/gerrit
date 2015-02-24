@@ -2041,7 +2041,7 @@ public class ReceiveCommits {
         @Override
         public PatchSet.Id call() throws OrmException, IOException, NoSuchChangeException {
           try {
-            if (magicBranch.edit) {
+            if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
             } else if (caller == Thread.currentThread()) {
               return insertPatchSet(db);

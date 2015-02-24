@@ -14,12 +14,14 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.gerrit.pgm.init.api.InitUtil;
+import static com.google.gerrit.pgm.init.api.InitUtil.die;
+
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
-import java.io.File;
+import java.nio.file.Path;
 
 class H2Initializer implements DatabaseConfigInitializer {
 
@@ -33,18 +35,17 @@ class H2Initializer implements DatabaseConfigInitializer {
   @Override
   public void initConfig(Section databaseSection) {
     String path = databaseSection.get("database");
+    Path db;
     if (path == null) {
-      path = "db/ReviewDB";
-      databaseSection.set("database", path);
+      db = site.resolve("db").resolve("ReviewDB");
+      databaseSection.set("database", db.toString());
+    } else {
+      db = site.resolve(path);
     }
-    File db = site.resolve(path);
     if (db == null) {
-      throw InitUtil.die("database.database must be supplied for H2");
+      throw die("database.database must be supplied for H2");
     }
-    db = db.getParentFile();
-    if (!db.exists() && !db.mkdirs()) {
-      throw InitUtil.die("cannot create database.database "
-          + db.getAbsolutePath());
-    }
+    db = db.getParent();
+    FileUtil.mkdirsOrDie(db, "cannot create database.database");
   }
 }

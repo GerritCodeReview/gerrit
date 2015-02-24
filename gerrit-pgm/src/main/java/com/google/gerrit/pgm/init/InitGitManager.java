@@ -16,13 +16,14 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.api.InitUtil.die;
 
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.File;
+import java.nio.file.Path;
 
 /** Initialize the GitRepositoryManager configuration section. */
 @Singleton
@@ -40,13 +41,11 @@ class InitGitManager implements InitStep {
   public void run() {
     ui.header("Git Repositories");
 
-    File d = gerrit.path("Location of Git repositories", "basePath", "git");
+    Path d = gerrit.path("Location of Git repositories", "basePath", "git");
     if (d == null) {
       throw die("gerrit.basePath is required");
     }
-    if (!d.exists() && !d.mkdirs()) {
-      throw die("Cannot create " + d);
-    }
+    FileUtil.mkdirsOrDie(d, "Cannot create");
   }
 
   @Override

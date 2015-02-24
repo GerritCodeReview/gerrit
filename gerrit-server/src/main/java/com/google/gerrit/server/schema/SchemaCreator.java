@@ -55,7 +55,7 @@ public class SchemaCreator {
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst) {
-    this(site.site_path.toPath(), ap, auc, au, dst);
+    this(site.site_path, ap, auc, au, dst);
   }
 
   public SchemaCreator(@SitePath Path site,

@@ -34,7 +34,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -142,8 +141,8 @@ public class SitePathInitializer {
   }
 
   private void extractMailExample(String orig) throws Exception {
-    File ex = new File(site.mail_dir, orig + ".example");
-    extract(ex.toPath(), OutgoingEmail.class, orig);
+    Path ex = site.mail_dir.resolve(orig + ".example");
+    extract(ex, OutgoingEmail.class, orig);
     chmod(0444, ex);
   }
 

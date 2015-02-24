@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_053fd2e3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T20:30:18Z",
+      "side": 1,
+      "message": "Move it into this method instead?\n\nThis is invoked by onShowView() after all data is present but before the screen is made visible. You should have accurate information at this point to setup the binding only if the user is signed in and can edit the topic.",
+      "revId": "57b821e2673922df0f041c1a7e9fd9713961621b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

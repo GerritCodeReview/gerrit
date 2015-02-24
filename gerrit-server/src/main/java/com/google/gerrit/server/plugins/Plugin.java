@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.gerrit.common.FileUtil.lastModified;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
@@ -25,7 +27,6 @@ import com.google.inject.Injector;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
@@ -81,18 +82,17 @@ public abstract class Plugin {
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public Plugin(String name,
-      Path srcFile,
+      Path srcPath,
       PluginUser pluginUser,
       FileSnapshot snapshot,
       ApiType apiType) {
     this.name = name;
-    // TODO(dborowitz): Rename to srcPath or something.
-    this.srcFile = srcFile;
+    this.srcFile = srcPath;
     this.apiType = apiType;
     this.snapshot = snapshot;
     this.pluginUser = pluginUser;
     this.cacheKey = new Plugin.CacheKey(name);
-    this.disabled = srcFile.getFileName().toString().endsWith(".disabled");
+    this.disabled = srcPath.getFileName().toString().endsWith(".disabled");
   }
 
   public CleanupHandle getCleanupHandle() {
@@ -170,7 +170,7 @@ public abstract class Plugin {
 
   abstract boolean canReload();
 
-  boolean isModified(File jar) {
-    return snapshot.lastModified() != jar.lastModified();
+  boolean isModified(Path jar) {
+    return snapshot.lastModified() != lastModified(jar);
   }
 }

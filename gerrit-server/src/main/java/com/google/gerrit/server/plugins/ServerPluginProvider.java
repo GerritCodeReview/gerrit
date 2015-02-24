@@ -19,7 +19,7 @@ import com.google.gerrit.server.PluginUser;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
-import java.io.File;
+import java.nio.file.Path;
 
 /**
  * Provider of one Server plugin from one external file
@@ -31,7 +31,6 @@ import java.io.File;
  * group them into a directory tree and then load the directory
  * root as a single plugin.
  */
-// TODO(dborowitz): Convert to NIO; ensure clients can migrate.
 @ExtensionPoint
 public interface ServerPluginProvider {
 
@@ -41,7 +40,7 @@ public interface ServerPluginProvider {
   public class PluginDescription {
     public final PluginUser user;
     public final String canonicalUrl;
-    public final File dataDir;
+    public final Path dataDir;
 
     /**
      * Creates a new PluginDescription for ServerPluginProvider.
@@ -50,7 +49,7 @@ public interface ServerPluginProvider {
      * @param canonicalUrl plugin root Web URL
      * @param dataDir directory for plugin data
      */
-    public PluginDescription(PluginUser user, String canonicalUrl, File dataDir) {
+    public PluginDescription(PluginUser user, String canonicalUrl, Path dataDir) {
       this.user = user;
       this.canonicalUrl = canonicalUrl;
       this.dataDir = dataDir;
@@ -60,39 +59,39 @@ public interface ServerPluginProvider {
   /**
    * Declares the availability to manage an external file or directory
    *
-   * @param srcFile the external file or directory
+   * @param srcPath the external file or directory
    * @return true if file or directory can be loaded into a Server Plugin
    */
-  boolean handles(File srcFile);
+  boolean handles(Path srcPath);
 
   /**
    * Returns the plugin name of an external file or directory
    *
-   * Should be called only if {@link #handles(File) handles(srcFile)}
+   * Should be called only if {@link #handles(Path) handles(srcFile)}
    * returns true and thus srcFile is a supported plugin format.
    * An IllegalArgumentException is thrown otherwise as srcFile
    * is not a valid file format for extracting its plugin name.
    *
-   * @param srcFile external file or directory
+   * @param srcPath external file or directory
    * @return plugin name
    */
-  String getPluginName(File srcFile);
+  String getPluginName(Path srcPath);
 
   /**
    * Loads an external file or directory into a Server plugin.
    *
-   * Should be called only if {@link #handles(File) handles(srcFile)}
+   * Should be called only if {@link #handles(Path) handles(srcFile)}
    * returns true and thus srcFile is a supported plugin format.
    * An IllegalArgumentException is thrown otherwise as srcFile
    * is not a valid file format for extracting its plugin name.
    *
-   * @param srcFile external file or directory
+   * @param srcPath external file or directory
    * @param snapshot snapshot of the external file
    * @param pluginDescriptor descriptor of the ServerPlugin to load
    * @throws InvalidPluginException if plugin is supposed to be handled
    *         but cannot be loaded for any other reason
    */
-  ServerPlugin get(File srcFile, FileSnapshot snapshot,
+  ServerPlugin get(Path srcPath, FileSnapshot snapshot,
       PluginDescription pluginDescriptor) throws InvalidPluginException;
 
   /**

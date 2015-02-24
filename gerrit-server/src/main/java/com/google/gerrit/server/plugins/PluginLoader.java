@@ -18,6 +18,8 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -25,6 +27,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -45,15 +48,15 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -72,13 +75,13 @@ public class PluginLoader implements LifecycleListener {
   static final String PLUGIN_TMP_PREFIX = "plugin_";
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
-  public String getPluginName(File srcFile) {
-    return MoreObjects.firstNonNull(getGerritPluginName(srcFile),
-        nameOf(srcFile));
+  public String getPluginName(Path srcPath) {
+    return MoreObjects.firstNonNull(getGerritPluginName(srcPath),
+        nameOf(srcPath));
   }
 
-  private final File pluginsDir;
-  private final File dataDir;
+  private final Path pluginsDir;
+  private final Path dataDir;
   private final PluginGuiceEnvironment env;
   private final ServerInformationImpl srvInfoImpl;
   private final PluginUser.Factory pluginUserFactory;
@@ -159,7 +162,7 @@ public class PluginLoader implements LifecycleListener {
     checkRemoteInstall();
 
     String fileName = originalName;
-    File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
+    Path tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
     String name = MoreObjects.firstNonNull(getGerritPluginName(tmp),
         nameOf(fileName));
     if (!originalName.equals(name)) {
@@ -169,26 +172,26 @@ public class PluginLoader implements LifecycleListener {
     }
 
     String fileExtension = getExtension(fileName);
-    File dst = new File(pluginsDir, name + fileExtension);
+    Path dst = pluginsDir.resolve(name + fileExtension);
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
         fileName = active.getSrcFile().getFileName().toString();
         log.info(String.format("Replacing plugin %s", active.getName()));
-        File old = new File(pluginsDir, ".last_" + fileName);
-        old.delete();
-        active.getSrcFile().toFile().renameTo(old);
+        Path old = pluginsDir.resolve(".last_" + fileName);
+        Files.deleteIfExists(old);
+        Files.move(active.getSrcFile(), old);
       }
 
-      new File(pluginsDir, fileName + ".disabled").delete();
-      tmp.renameTo(dst);
+      Files.deleteIfExists(pluginsDir.resolve(fileName + ".disabled"));
+      Files.move(tmp, dst);
       try {
         Plugin plugin = runPlugin(name, dst, active);
         if (active == null) {
           log.info(String.format("Installed plugin %s", plugin.getName()));
         }
       } catch (PluginInstallException e) {
-        dst.delete();
+        Files.deleteIfExists(dst);
         throw e;
       }
 
@@ -196,21 +199,17 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  static File asTemp(InputStream in, String prefix, String suffix, File dir)
+  static Path asTemp(InputStream in, String prefix, String suffix, Path dir)
       throws IOException {
-    File tmp = File.createTempFile(prefix, suffix, dir);
+    Path tmp = Files.createTempFile(dir, prefix, suffix);
     boolean keep = false;
-    try (FileOutputStream out = new FileOutputStream(tmp)) {
-      byte[] data = new byte[8192];
-      int n;
-      while ((n = in.read(data)) > 0) {
-        out.write(data, 0, n);
-      }
+    try (OutputStream out = Files.newOutputStream(tmp)) {
+      ByteStreams.copy(in, out);
       keep = true;
       return tmp;
     } finally {
       if (!keep) {
-        tmp.delete();
+        Files.delete(tmp);
       }
     }
   }
@@ -241,12 +240,21 @@ public class PluginLoader implements LifecycleListener {
         }
 
         log.info(String.format("Disabling plugin %s", active.getName()));
-        File off = new File(active.getSrcFile() + ".disabled");
-        active.getSrcFile().toFile().renameTo(off);
+        Path off = active.getSrcFile().resolveSibling(
+            active.getSrcFile().getFileName() + ".disabled");
+        try {
+          Files.move(active.getSrcFile(), off);
+        } catch (IOException e) {
+          log.error("Failed to disable plugin", e);
+          // In theory we could still unload the plugin even if the rename
+          // failed. However, it would be reloaded on the next server startup,
+          // which is probably not what the user expects.
+          continue;
+        }
 
         unloadPlugin(active);
         try {
-          FileSnapshot snapshot = FileSnapshot.save(off);
+          FileSnapshot snapshot = FileSnapshot.save(off.toFile());
           Plugin offPlugin = loadPlugin(name, off, snapshot);
           disabled.put(name, offPlugin);
         } catch (Throwable e) {
@@ -279,9 +287,13 @@ public class PluginLoader implements LifecycleListener {
         if (n.endsWith(".disabled")) {
           n = n.substring(0, n.lastIndexOf('.'));
         }
-        File on = new File(pluginsDir, n);
-        off.getSrcFile().toFile().renameTo(on);
-
+        Path on = pluginsDir.resolve(n);
+        try {
+          Files.move(off.getSrcFile(), on);
+        } catch (IOException e) {
+          log.error("Failed to move plugin " + name + " into place", e);
+          continue;
+        }
         disabled.remove(name);
         runPlugin(name, on, null);
       }
@@ -291,7 +303,7 @@ public class PluginLoader implements LifecycleListener {
 
   @Override
   public synchronized void start() {
-    log.info("Loading plugins from " + pluginsDir.getAbsolutePath());
+    log.info("Loading plugins from " + pluginsDir.toAbsolutePath());
     srvInfoImpl.state = ServerInformation.State.STARTUP;
     rescan();
     srvInfoImpl.state = ServerInformation.State.RUNNING;
@@ -343,7 +355,7 @@ public class PluginLoader implements LifecycleListener {
         String name = active.getName();
         try {
           log.info(String.format("Reloading plugin %s", name));
-          runPlugin(name, active.getSrcFile().toFile(), active);
+          runPlugin(name, active.getSrcFile(), active);
         } catch (PluginInstallException e) {
           log.warn(String.format("Cannot reload plugin %s", name), e.getCause());
           throw e;
@@ -355,30 +367,30 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public synchronized void rescan() {
-    Multimap<String, File> pluginsFiles = prunePlugins(pluginsDir);
+    Multimap<String, Path> pluginsFiles = prunePlugins(pluginsDir);
     if (pluginsFiles.isEmpty()) {
       return;
     }
 
     syncDisabledPlugins(pluginsFiles);
 
-    Map<String, File> activePlugins = filterDisabled(pluginsFiles);
-    for (Map.Entry<String, File> entry : jarsFirstSortedPluginsSet(activePlugins)) {
+    Map<String, Path> activePlugins = filterDisabled(pluginsFiles);
+    for (Map.Entry<String, Path> entry : jarsFirstSortedPluginsSet(activePlugins)) {
       String name = entry.getKey();
-      File file = entry.getValue();
-      String fileName = file.getName();
-      if (!isJsPlugin(fileName) && !serverPluginFactory.handles(file)) {
+      Path path = entry.getValue();
+      String fileName = path.getFileName().toString();
+      if (!isJsPlugin(fileName) && !serverPluginFactory.handles(path)) {
         log.warn("No Plugin provider was found that handles this file format: {}", fileName);
         continue;
       }
 
       FileSnapshot brokenTime = broken.get(name);
-      if (brokenTime != null && !brokenTime.isModified(file)) {
+      if (brokenTime != null && !brokenTime.isModified(path.toFile())) {
         continue;
       }
 
       Plugin active = running.get(name);
-      if (active != null && !active.isModified(file)) {
+      if (active != null && !active.isModified(path)) {
         continue;
       }
 
@@ -388,7 +400,7 @@ public class PluginLoader implements LifecycleListener {
       }
 
       try {
-        Plugin loadedPlugin = runPlugin(name, file, active);
+        Plugin loadedPlugin = runPlugin(name, path, active);
         if (active == null && !loadedPlugin.isDisabled()) {
           log.info(String.format("Loaded plugin %s, version %s",
               loadedPlugin.getName(), loadedPlugin.getVersion()));
@@ -401,31 +413,28 @@ public class PluginLoader implements LifecycleListener {
     cleanInBackground();
   }
 
-  private void addAllEntries(Map<String, File> from,
-      TreeSet<Entry<String, File>> to) {
-    Iterator<Entry<String, File>> it = from.entrySet().iterator();
+  private void addAllEntries(Map<String, Path> from,
+      TreeSet<Entry<String, Path>> to) {
+    Iterator<Entry<String, Path>> it = from.entrySet().iterator();
     while (it.hasNext()) {
-      Entry<String,File> entry = it.next();
+      Entry<String,Path> entry = it.next();
       to.add(new AbstractMap.SimpleImmutableEntry<>(
           entry.getKey(), entry.getValue()));
     }
   }
 
-  private TreeSet<Entry<String, File>> jarsFirstSortedPluginsSet(
-      Map<String, File> activePlugins) {
-    TreeSet<Entry<String, File>> sortedPlugins =
-        Sets.newTreeSet(new Comparator<Entry<String, File>>() {
+  private TreeSet<Entry<String, Path>> jarsFirstSortedPluginsSet(
+      Map<String, Path> activePlugins) {
+    TreeSet<Entry<String, Path>> sortedPlugins =
+        Sets.newTreeSet(new Comparator<Entry<String, Path>>() {
           @Override
-          public int compare(Entry<String, File> entry1,
-              Entry<String, File> entry2) {
-            String file1 = entry1.getValue().getName();
-            String file2 = entry2.getValue().getName();
-            int cmp = file1.compareTo(file2);
-            if (file1.endsWith(".jar")) {
-              return (file2.endsWith(".jar") ? cmp : -1);
-            } else {
-              return (file2.endsWith(".jar") ? +1 : cmp);
-            }
+          public int compare(Entry<String, Path> e1, Entry<String, Path> e2) {
+            Path n1 = e1.getValue().getFileName();
+            Path n2 = e2.getValue().getFileName();
+            return ComparisonChain.start()
+                .compareTrueFirst(n1.endsWith(".jar"), n2.endsWith(".jar"))
+                .compare(n1, n2)
+                .result();
           }
         });
 
@@ -433,14 +442,14 @@ public class PluginLoader implements LifecycleListener {
     return sortedPlugins;
   }
 
-  private void syncDisabledPlugins(Multimap<String, File> jars) {
+  private void syncDisabledPlugins(Multimap<String, Path> jars) {
     stopRemovedPlugins(jars);
     dropRemovedDisabledPlugins(jars);
   }
 
-  private Plugin runPlugin(String name, File plugin, Plugin oldPlugin)
+  private Plugin runPlugin(String name, Path plugin, Plugin oldPlugin)
       throws PluginInstallException {
-    FileSnapshot snapshot = FileSnapshot.save(plugin);
+    FileSnapshot snapshot = FileSnapshot.save(plugin.toFile());
     try {
       Plugin newPlugin = loadPlugin(name, plugin, snapshot);
       if (newPlugin.getCleanupHandle() != null) {
@@ -480,11 +489,11 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private void stopRemovedPlugins(Multimap<String, File> jars) {
+  private void stopRemovedPlugins(Multimap<String, Path> jars) {
     Set<String> unload = Sets.newHashSet(running.keySet());
-    for (Map.Entry<String, Collection<File>> entry : jars.asMap().entrySet()) {
-      for (File file : entry.getValue()) {
-        if (!file.getName().endsWith(".disabled")) {
+    for (Map.Entry<String, Collection<Path>> entry : jars.asMap().entrySet()) {
+      for (Path path : entry.getValue()) {
+        if (!path.getFileName().toString().endsWith(".disabled")) {
           unload.remove(entry.getKey());
         }
       }
@@ -494,11 +503,11 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private void dropRemovedDisabledPlugins(Multimap<String, File> jars) {
+  private void dropRemovedDisabledPlugins(Multimap<String, Path> jars) {
     Set<String> unload = Sets.newHashSet(disabled.keySet());
-    for (Map.Entry<String, Collection<File>> entry : jars.asMap().entrySet()) {
-      for (File file : entry.getValue()) {
-        if (file.getName().endsWith(".disabled")) {
+    for (Map.Entry<String, Collection<Path>> entry : jars.asMap().entrySet()) {
+      for (Path path : entry.getValue()) {
+        if (path.getFileName().toString().endsWith(".disabled")) {
           unload.remove(entry.getKey());
         }
       }
@@ -529,8 +538,8 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public static String nameOf(File plugin) {
-    return nameOf(plugin.getName());
+  public static String nameOf(Path plugin) {
+    return nameOf(plugin.getFileName().toString());
   }
 
   private static String nameOf(String name) {
@@ -546,21 +555,21 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(ext) : "";
   }
 
-  private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
+  private Plugin loadPlugin(String name, Path srcPlugin, FileSnapshot snapshot)
       throws InvalidPluginException {
-    String pluginName = srcPlugin.getName();
+    String pluginName = srcPlugin.getFileName().toString();
     if (isJsPlugin(pluginName)) {
-      return loadJsPlugin(name, srcPlugin.toPath(), snapshot);
+      return loadJsPlugin(name, srcPlugin, snapshot);
     } else if (serverPluginFactory.handles(srcPlugin)) {
       return loadServerPlugin(srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
-          "Unsupported plugin type: %s", srcPlugin.getName()));
+          "Unsupported plugin type: %s", srcPlugin.getFileName()));
     }
   }
 
-  private File getPluginDataDir(String name) {
-    return new File(dataDir, name);
+  private Path getPluginDataDir(String name) {
+    return dataDir.resolve(name);
   }
 
   private String getPluginCanonicalWebUrl(String name) {
@@ -574,7 +583,7 @@ public class PluginLoader implements LifecycleListener {
     return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
   }
 
-  private ServerPlugin loadServerPlugin(File scriptFile,
+  private ServerPlugin loadServerPlugin(Path scriptFile,
       FileSnapshot snapshot) throws InvalidPluginException {
     String name = serverPluginFactory.getPluginName(scriptFile);
     return serverPluginFactory.get(scriptFile, snapshot, new PluginDescription(
@@ -598,15 +607,15 @@ public class PluginLoader implements LifecycleListener {
 
   // Only one active plugin per plugin name can exist for each plugin name.
   // Filter out disabled plugins and transform the multimap to a map
-  private static Map<String, File> filterDisabled(
-      Multimap<String, File> pluginFiles) {
-    Map<String, File> activePlugins = Maps.newHashMapWithExpectedSize(
-        pluginFiles.keys().size());
-    for (String name : pluginFiles.keys()) {
-      for (File pluginFile : pluginFiles.asMap().get(name)) {
-        if (!pluginFile.getName().endsWith(".disabled")) {
+  private static Map<String, Path> filterDisabled(
+      Multimap<String, Path> pluginPaths) {
+    Map<String, Path> activePlugins = Maps.newHashMapWithExpectedSize(
+        pluginPaths.keys().size());
+    for (String name : pluginPaths.keys()) {
+      for (Path pluginPath : pluginPaths.asMap().get(name)) {
+        if (!pluginPath.getFileName().toString().endsWith(".disabled")) {
           assert(!activePlugins.containsKey(name));
-          activePlugins.put(name, pluginFile);
+          activePlugins.put(name, pluginPath);
         }
       }
     }
@@ -622,37 +631,40 @@ public class PluginLoader implements LifecycleListener {
   //
   // NOTE: Bear in mind that the plugin name can be reassigned after load by the
   //       Server plugin provider.
-  public Multimap<String, File> prunePlugins(File pluginsDir) {
-    List<File> pluginFiles = scanFilesInPluginsDirectory(pluginsDir);
-    Multimap<String, File> map;
-    map = asMultimap(pluginFiles);
+  public Multimap<String, Path> prunePlugins(Path pluginsDir) {
+    List<Path> pluginPaths = scanPathsInPluginsDirectory(pluginsDir);
+    Multimap<String, Path> map;
+    map = asMultimap(pluginPaths);
     for (String plugin : map.keySet()) {
-      Collection<File> files = map.asMap().get(plugin);
+      Collection<Path> files = map.asMap().get(plugin);
       if (files.size() == 1) {
         continue;
       }
       // retrieve enabled plugins
-      Iterable<File> enabled = filterDisabledPlugins(
-          files);
+      Iterable<Path> enabled = filterDisabledPlugins(files);
       // If we have only one (the winner) plugin, nothing to do
       if (!Iterables.skip(enabled, 1).iterator().hasNext()) {
         continue;
       }
-      File winner = Iterables.getFirst(enabled, null);
+      Path winner = Iterables.getFirst(enabled, null);
       assert(winner != null);
       // Disable all loser plugins by renaming their file names to
       // "file.disabled" and replace the disabled files in the multimap.
-      Collection<File> elementsToRemove = Lists.newArrayList();
-      Collection<File> elementsToAdd = Lists.newArrayList();
-      for (File loser : Iterables.skip(enabled, 1)) {
+      Collection<Path> elementsToRemove = Lists.newArrayList();
+      Collection<Path> elementsToAdd = Lists.newArrayList();
+      for (Path loser : Iterables.skip(enabled, 1)) {
         log.warn(String.format("Plugin <%s> was disabled, because"
              + " another plugin <%s>"
              + " with the same name <%s> already exists",
              loser, winner, plugin));
-        File disabledPlugin = new File(loser + ".disabled");
+        Path disabledPlugin = Paths.get(loser + ".disabled");
         elementsToAdd.add(disabledPlugin);
         elementsToRemove.add(loser);
-        loser.renameTo(disabledPlugin);
+        try {
+          Files.move(loser, disabledPlugin);
+        } catch (IOException e) {
+          log.warn("Failed to fully disable plugin " + loser, e);
+        }
       }
       Iterables.removeAll(files, elementsToRemove);
       Iterables.addAll(files, elementsToAdd);
@@ -660,50 +672,52 @@ public class PluginLoader implements LifecycleListener {
     return map;
   }
 
-  private List<File> scanFilesInPluginsDirectory(File pluginsDir) {
-    if (pluginsDir == null || !pluginsDir.exists()) {
+  private List<Path> scanPathsInPluginsDirectory(Path pluginsDir) {
+    if (pluginsDir == null || !Files.exists(pluginsDir)) {
       return Collections.emptyList();
     }
-    File[] matches = pluginsDir.listFiles(new FileFilter() {
+    DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
       @Override
-      public boolean accept(File pathname) {
-        String n = pathname.getName();
+      public boolean accept(Path entry) throws IOException {
+        String n = entry.getFileName().toString();
         return !n.startsWith(".last_")
             && !n.startsWith(".next_");
       }
-    });
-    if (matches == null) {
-      log.error("Cannot list " + pluginsDir.getAbsolutePath());
-      return Collections.emptyList();
+    };
+    try (DirectoryStream<Path> files
+        = Files.newDirectoryStream(pluginsDir, filter)) {
+      return ImmutableList.copyOf(files);
+    } catch (IOException e) {
+      log.error("Cannot list " + pluginsDir.toAbsolutePath(), e);
+      return ImmutableList.of();
     }
-    return Arrays.asList(matches);
   }
 
-  private static Iterable<File> filterDisabledPlugins(
-      Collection<File> files) {
-    return Iterables.filter(files, new Predicate<File>() {
+  private static Iterable<Path> filterDisabledPlugins(
+      Collection<Path> paths) {
+    return Iterables.filter(paths, new Predicate<Path>() {
       @Override
-      public boolean apply(File file) {
-        return !file.getName().endsWith(".disabled");
+      public boolean apply(Path p) {
+        return !p.getFileName().toString().endsWith(".disabled");
       }
     });
   }
 
-  public String getGerritPluginName(File srcFile) {
-    String fileName = srcFile.getName();
+  public String getGerritPluginName(Path srcPath) {
+    String fileName = srcPath.getFileName().toString();
     if (isJsPlugin(fileName)) {
       return fileName.substring(0, fileName.length() - 3);
     }
-    if (serverPluginFactory.handles(srcFile)) {
-      return serverPluginFactory.getPluginName(srcFile);
+    if (serverPluginFactory.handles(srcPath)) {
+      return serverPluginFactory.getPluginName(srcPath);
     }
     return null;
   }
 
-  private Multimap<String, File> asMultimap(List<File> plugins) {
-    Multimap<String, File> map = LinkedHashMultimap.create();
-    for (File srcFile : plugins) {
-      map.put(getPluginName(srcFile), srcFile);
+  private Multimap<String, Path> asMultimap(List<Path> plugins) {
+    Multimap<String, Path> map = LinkedHashMultimap.create();
+    for (Path srcPath : plugins) {
+      map.put(getPluginName(srcPath), srcPath);
     }
     return map;
   }

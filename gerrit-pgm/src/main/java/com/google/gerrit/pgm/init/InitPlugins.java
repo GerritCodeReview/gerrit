@@ -25,9 +25,10 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -55,10 +56,10 @@ public class InitPlugins implements InitStep {
     pluginsDistribution.foreach(new PluginsDistribution.Processor() {
       @Override
       public void process(String pluginName, InputStream in) throws IOException {
-        File tmpPlugin = JarPluginProvider.storeInTemp(pluginName, in, site);
+        Path tmpPlugin = JarPluginProvider.storeInTemp(pluginName, in, site);
         String pluginVersion = getVersion(tmpPlugin);
         if (deleteTempPluginFile) {
-          tmpPlugin.delete();
+          Files.delete(tmpPlugin);
         }
         result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
       }
@@ -108,37 +109,39 @@ public class InitPlugins implements InitStep {
     for (PluginData plugin : plugins) {
       String pluginName = plugin.name;
       try {
-        final File tmpPlugin = plugin.pluginFile;
+        final Path tmpPlugin = plugin.pluginPath;
 
         if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(false,
             "Install plugin %s version %s", pluginName, plugin.version))) {
-          tmpPlugin.delete();
+          Files.deleteIfExists(tmpPlugin);
           continue;
         }
 
-        final File p = new File(site.plugins_dir, plugin.name + ".jar");
-        if (p.exists()) {
+        final Path p = site.plugins_dir.resolve(plugin.name + ".jar");
+        if (Files.exists(p)) {
           final String installedPluginVersion = getVersion(p);
           if (!ui.yesno(false,
               "version %s is already installed, overwrite it",
               installedPluginVersion)) {
-            tmpPlugin.delete();
+            Files.deleteIfExists(tmpPlugin);
             continue;
           }
-          if (!p.delete()) {
+          try {
+            Files.delete(p);
+          } catch (IOException e) {
             throw new IOException("Failed to delete plugin " + pluginName
-                + ": " + p.getAbsolutePath());
+                + ": " + p.toAbsolutePath(), e);
           }
         }
-        if (!tmpPlugin.renameTo(p)) {
+        try {
+          Files.move(tmpPlugin, p);
+        } catch (IOException e) {
           throw new IOException("Failed to install plugin " + pluginName
-              + ": " + tmpPlugin.getAbsolutePath() + " -> "
-              + p.getAbsolutePath());
+              + ": " + tmpPlugin.toAbsolutePath() + " -> "
+              + p.toAbsolutePath(), e);
         }
       } finally {
-        if (plugin.pluginFile.exists()) {
-          plugin.pluginFile.delete();
-        }
+        Files.deleteIfExists(plugin.pluginPath);
       }
     }
     if (plugins.isEmpty()) {
@@ -159,11 +162,11 @@ public class InitPlugins implements InitStep {
     }
   }
 
-  private static String getVersion(final File plugin) throws IOException {
-    final JarFile jarFile = new JarFile(plugin);
+  private static String getVersion(Path plugin) throws IOException {
+    JarFile jarFile = new JarFile(plugin.toFile());
     try {
-      final Manifest manifest = jarFile.getManifest();
-      final Attributes main = manifest.getMainAttributes();
+      Manifest manifest = jarFile.getManifest();
+      Attributes main = manifest.getMainAttributes();
       return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
     } finally {
       jarFile.close();

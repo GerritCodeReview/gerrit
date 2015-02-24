@@ -36,6 +36,8 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -59,7 +61,7 @@ public class ServerPlugin extends Plugin {
 
   private final Manifest manifest;
   private final PluginContentScanner scanner;
-  private final File dataDir;
+  private final Path dataDir;
   private final String pluginCanonicalWebUrl;
   private final ClassLoader classLoader;
   private Class<? extends Module> sysModule;
@@ -75,12 +77,12 @@ public class ServerPlugin extends Plugin {
   public ServerPlugin(String name,
       String pluginCanonicalWebUrl,
       PluginUser pluginUser,
-      File srcJar,
+      Path srcJar,
       FileSnapshot snapshot,
       PluginContentScanner scanner,
-      File dataDir,
+      Path dataDir,
       ClassLoader classLoader) throws InvalidPluginException {
-    super(name, srcJar.toPath(), pluginUser, snapshot,
+    super(name, srcJar, pluginUser, snapshot,
         Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.scanner = scanner;
@@ -128,8 +130,8 @@ public class ServerPlugin extends Plugin {
     return (Class<? extends Module>) clazz;
   }
 
-  File getSrcJar() {
-    return getSrcFile().toFile();
+  Path getSrcJar() {
+    return getSrcFile();
   }
 
   private static Manifest getPluginManifest(PluginContentScanner scanner)
@@ -245,20 +247,22 @@ public class ServerPlugin extends Plugin {
           .annotatedWith(PluginCanonicalWebUrl.class)
           .toInstance(pluginCanonicalWebUrl);
 
-        bind(File.class)
+        bind(Path.class)
           .annotatedWith(PluginData.class)
-          .toProvider(new Provider<File>() {
+          .toProvider(new Provider<Path>() {
             private volatile boolean ready;
 
             @Override
-            public File get() {
+            public Path get() {
               if (!ready) {
                 synchronized (dataDir) {
                   if (!ready) {
-                    if (!dataDir.exists() && !dataDir.mkdirs()) {
+                    try {
+                      Files.createDirectories(dataDir);
+                    } catch (IOException e) {
                       throw new ProvisionException(String.format(
                           "Cannot create %s for plugin %s",
-                          dataDir.getAbsolutePath(), getName()));
+                          dataDir.toAbsolutePath(), getName()), e);
                     }
                     ready = true;
                   }
@@ -267,6 +271,8 @@ public class ServerPlugin extends Plugin {
               return dataDir;
             }
           });
+        bind(File.class).annotatedWith(PluginData.class)
+            .toProvider(PluginDataAsFileProvider.class);
       }
     });
     return Guice.createInjector(modules);

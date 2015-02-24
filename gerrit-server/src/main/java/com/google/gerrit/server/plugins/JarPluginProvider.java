@@ -24,8 +24,6 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -33,6 +31,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,52 +44,50 @@ public class JarPluginProvider implements ServerPluginProvider {
   static final String JAR_EXTENSION = ".jar";
   static final Logger log = LoggerFactory.getLogger(JarPluginProvider.class);
 
-  private final File tmpDir;
+  private final Path tmpDir;
 
   @Inject
   JarPluginProvider(SitePaths sitePaths) {
-    // TODO(dborowitz): Convert to NIO.
-    tmpDir = sitePaths.tmp_dir.toFile();
+    tmpDir = sitePaths.tmp_dir;
   }
 
   @Override
-  public boolean handles(File srcFile) {
-    String fileName = srcFile.getName();
+  public boolean handles(Path srcPath) {
+    String fileName = srcPath.getFileName().toString();
     return fileName.endsWith(JAR_EXTENSION)
         || fileName.endsWith(JAR_EXTENSION + ".disabled");
   }
 
   @Override
-  public String getPluginName(File srcFile) {
+  public String getPluginName(Path srcPath) {
     try {
-      return MoreObjects.firstNonNull(getJarPluginName(srcFile),
-          PluginLoader.nameOf(srcFile));
+      return MoreObjects.firstNonNull(getJarPluginName(srcPath),
+          PluginLoader.nameOf(srcPath));
     } catch (IOException e) {
-      throw new IllegalArgumentException("Invalid plugin file " + srcFile
+      throw new IllegalArgumentException("Invalid plugin file " + srcPath
           + ": cannot get plugin name", e);
     }
   }
 
-  public static String getJarPluginName(File srcFile) throws IOException {
-    try (JarFile jarFile = new JarFile(srcFile)) {
+  public static String getJarPluginName(Path srcPath) throws IOException {
+    try (JarFile jarFile = new JarFile(srcPath.toFile())) {
       return jarFile.getManifest().getMainAttributes()
           .getValue("Gerrit-PluginName");
     }
   }
 
   @Override
-  public ServerPlugin get(File srcFile, FileSnapshot snapshot,
+  public ServerPlugin get(Path srcPath, FileSnapshot snapshot,
       PluginDescription description) throws InvalidPluginException {
     try {
-      String name = getPluginName(srcFile);
-      String extension = getExtension(srcFile);
-      try (FileInputStream in = new FileInputStream(srcFile)) {
-        File tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
-        return loadJarPlugin(name, srcFile.toPath(), snapshot, tmp,
-            description);
+      String name = getPluginName(srcPath);
+      String extension = getExtension(srcPath);
+      try (InputStream in = Files.newInputStream(srcPath)) {
+        Path tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
+        return loadJarPlugin(name, srcPath, snapshot, tmp, description);
       }
     } catch (IOException e) {
-      throw new InvalidPluginException("Cannot load Jar plugin " + srcFile, e);
+      throw new InvalidPluginException("Cannot load Jar plugin " + srcPath, e);
     }
   }
 
@@ -99,8 +96,8 @@ public class JarPluginProvider implements ServerPluginProvider {
     return "gerrit";
   }
 
-  private static String getExtension(File file) {
-    return getExtension(file.getName());
+  private static String getExtension(Path path) {
+    return getExtension(path.getFileName().toString());
   }
 
   private static String getExtension(String name) {
@@ -113,19 +110,18 @@ public class JarPluginProvider implements ServerPluginProvider {
     return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
   }
 
-  public static File storeInTemp(String pluginName, InputStream in,
+  public static Path storeInTemp(String pluginName, InputStream in,
       SitePaths sitePaths) throws IOException {
     if (!Files.exists(sitePaths.tmp_dir)) {
       Files.createDirectories(sitePaths.tmp_dir);
     }
-    return asTemp(in, tempNameFor(pluginName), ".jar",
-        sitePaths.tmp_dir.toFile());
+    return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
   }
 
   private ServerPlugin loadJarPlugin(String name, Path srcJar,
-      FileSnapshot snapshot, File tmp, PluginDescription description)
+      FileSnapshot snapshot, Path tmp, PluginDescription description)
       throws IOException, InvalidPluginException, MalformedURLException {
-    JarFile jarFile = new JarFile(tmp);
+    JarFile jarFile = new JarFile(tmp.toFile());
     boolean keep = false;
     try {
       Manifest manifest = jarFile.getManifest();
@@ -134,14 +130,13 @@ public class JarPluginProvider implements ServerPluginProvider {
       List<URL> urls = new ArrayList<>(2);
       String overlay = System.getProperty("gerrit.plugin-classes");
       if (overlay != null) {
-        File classes = new File(new File(new File(overlay), name), "main");
-        if (classes.isDirectory()) {
-          log.info(String.format("plugin %s: including %s", name,
-              classes.getPath()));
-          urls.add(classes.toURI().toURL());
+        Path classes = Paths.get(overlay).resolve(name).resolve("main");
+        if (Files.isDirectory(classes)) {
+          log.info(String.format("plugin %s: including %s", name, classes));
+          urls.add(classes.toUri().toURL());
         }
       }
-      urls.add(tmp.toURI().toURL());
+      urls.add(tmp.toUri().toURL());
 
       ClassLoader pluginLoader =
           new URLClassLoader(urls.toArray(new URL[urls.size()]),
@@ -149,7 +144,7 @@ public class JarPluginProvider implements ServerPluginProvider {
 
       JarScanner jarScanner = createJarScanner(srcJar);
       ServerPlugin plugin = new ServerPlugin(name, description.canonicalUrl,
-          description.user, srcJar.toFile(), snapshot, jarScanner,
+          description.user, srcJar, snapshot, jarScanner,
           description.dataDir, pluginLoader);
       plugin.setCleanupHandle(new CleanupHandle(tmp, jarFile));
       keep = true;

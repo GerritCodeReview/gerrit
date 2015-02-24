@@ -14,18 +14,18 @@
 
 package com.google.gerrit.common;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Objects;
 
 public class PluginData {
   public final String name;
   public final String version;
-  public final File pluginFile;
+  public final Path pluginPath;
 
-  public PluginData(String name, String version, File pluginFile) {
+  public PluginData(String name, String version, Path pluginPath) {
     this.name = name;
     this.version = version;
-    this.pluginFile = pluginFile;
+    this.pluginPath = pluginPath;
   }
 
   @Override
@@ -33,13 +33,13 @@ public class PluginData {
     if (obj instanceof PluginData) {
       PluginData o = (PluginData) obj;
       return Objects.equals(name, o.name) && Objects.equals(version, o.version)
-          && Objects.equals(pluginFile, o.pluginFile);
+          && Objects.equals(pluginPath, o.pluginPath);
     }
     return super.equals(obj);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, version, pluginFile);
+    return Objects.hash(name, version, pluginPath);
   }
 }

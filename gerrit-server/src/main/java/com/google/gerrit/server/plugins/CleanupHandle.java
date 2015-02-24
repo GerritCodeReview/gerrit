@@ -14,17 +14,17 @@
 
 package com.google.gerrit.server.plugins;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.jar.JarFile;
 
 class CleanupHandle {
-  private final File tmpFile;
+  private final Path tmp;
   private final JarFile jarFile;
 
-  CleanupHandle(File tmpFile,
-      JarFile jarFile) {
-    this.tmpFile = tmpFile;
+  CleanupHandle(Path tmp, JarFile jarFile) {
+    this.tmp = tmp;
     this.jarFile = jarFile;
   }
 
@@ -34,12 +34,13 @@ class CleanupHandle {
     } catch (IOException err) {
       PluginLoader.log.error("Cannot close " + jarFile.getName(), err);
     }
-    if (!tmpFile.delete() && tmpFile.exists()) {
-      PluginLoader.log.warn("Cannot delete " + tmpFile.getAbsolutePath()
-          + ", retrying to delete it on termination of the virtual machine");
-      tmpFile.deleteOnExit();
-    } else {
-      PluginLoader.log.info("Cleaned plugin " + tmpFile.getName());
+    try {
+      Files.deleteIfExists(tmp);
+      PluginLoader.log.info("Cleaned plugin " + tmp.getFileName());
+    } catch (IOException e) {
+      PluginLoader.log.warn("Cannot delete " + tmp.toAbsolutePath()
+          + ", retrying to delete it on termination of the virtual machine", e);
+      tmp.toFile().deleteOnExit();
     }
   }
 }

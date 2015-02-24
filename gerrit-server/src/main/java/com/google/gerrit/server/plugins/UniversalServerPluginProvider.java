@@ -22,7 +22,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,27 +38,26 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
   }
 
   @Override
-  public ServerPlugin get(File srcFile, FileSnapshot snapshot,
+  public ServerPlugin get(Path srcPath, FileSnapshot snapshot,
       PluginDescription pluginDescription) throws InvalidPluginException {
-    return providerOf(srcFile).get(srcFile, snapshot, pluginDescription);
+    return providerOf(srcPath).get(srcPath, snapshot, pluginDescription);
   }
 
   @Override
-  public String getPluginName(File srcFile) {
-    return providerOf(srcFile).getPluginName(srcFile);
+  public String getPluginName(Path srcPath) {
+    return providerOf(srcPath).getPluginName(srcPath);
   }
 
   @Override
-  public boolean handles(File srcFile) {
-    List<ServerPluginProvider> providers =
-        providersForHandlingPlugin(srcFile);
+  public boolean handles(Path srcPath) {
+    List<ServerPluginProvider> providers = providersForHandlingPlugin(srcPath);
     switch (providers.size()) {
       case 1:
         return true;
       case 0:
         return false;
       default:
-        throw new MultipleProvidersForPluginException(srcFile, providers);
+        throw new MultipleProvidersForPluginException(srcPath, providers);
     }
   }
 
@@ -67,27 +66,27 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
     return "gerrit";
   }
 
-  private ServerPluginProvider providerOf(File srcFile) {
+  private ServerPluginProvider providerOf(Path srcPath) {
     List<ServerPluginProvider> providers =
-        providersForHandlingPlugin(srcFile);
+        providersForHandlingPlugin(srcPath);
     switch (providers.size()) {
       case 1:
         return providers.get(0);
       case 0:
         throw new IllegalArgumentException(
             "No ServerPluginProvider found/loaded to handle plugin file "
-                + srcFile.getAbsolutePath());
+                + srcPath.toAbsolutePath());
       default:
-        throw new MultipleProvidersForPluginException(srcFile, providers);
+        throw new MultipleProvidersForPluginException(srcPath, providers);
     }
   }
 
   private List<ServerPluginProvider> providersForHandlingPlugin(
-      final File srcFile) {
+      final Path srcPath) {
     List<ServerPluginProvider> providers = new ArrayList<>();
     for (ServerPluginProvider serverPluginProvider : serverPluginProviders) {
-      boolean handles = serverPluginProvider.handles(srcFile);
-      log.debug("File {} handled by {} ? => {}", srcFile,
+      boolean handles = serverPluginProvider.handles(srcPath);
+      log.debug("File {} handled by {} ? => {}", srcPath,
           serverPluginProvider.getProviderPluginName(), handles);
       if (handles) {
         providers.add(serverPluginProvider);

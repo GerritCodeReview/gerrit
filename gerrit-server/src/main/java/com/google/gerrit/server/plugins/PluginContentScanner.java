@@ -11,14 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Optional;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.nio.file.NoSuchFileException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
@@ -57,7 +58,7 @@ public interface PluginContentScanner {
 
     @Override
     public InputStream getInputStream(PluginEntry entry) throws IOException {
-      throw new FileNotFoundException("Empty plugin");
+      throw new NoSuchFileException("Empty plugin");
     }
 
     @Override

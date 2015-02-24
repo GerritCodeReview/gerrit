@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -26,23 +27,22 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 @Singleton
 public class InitPluginStepsLoader {
-  private final File pluginsDir;
+  private final Path pluginsDir;
   private final Injector initInjector;
   final ConsoleUI ui;
 
@@ -55,10 +55,10 @@ public class InitPluginStepsLoader {
   }
 
   public Collection<InitStep> getInitSteps() {
-    List<File> jars = scanJarsInPluginsDirectory();
+    List<Path> jars = scanJarsInPluginsDirectory();
     ArrayList<InitStep> pluginsInitSteps = new ArrayList<>();
 
-    for (File jar : jars) {
+    for (Path jar : jars) {
       InitStep init = loadInitStep(jar);
       if (init != null) {
         pluginsInitSteps.add(init);
@@ -68,12 +68,12 @@ public class InitPluginStepsLoader {
   }
 
   @SuppressWarnings("resource")
-  private InitStep loadInitStep(File jar) {
+  private InitStep loadInitStep(Path jar) {
     try {
       URLClassLoader pluginLoader =
-          new URLClassLoader(new URL[] {jar.toURI().toURL()},
+          new URLClassLoader(new URL[] {jar.toUri().toURL()},
              InitPluginStepsLoader.class.getClassLoader());
-      try (JarFile jarFile = new JarFile(jar)) {
+      try (JarFile jarFile = new JarFile(jar.toFile())) {
         Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
         String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
         if (initClassName == null) {
@@ -86,7 +86,7 @@ public class InitPluginStepsLoader {
       } catch (ClassCastException e) {
         ui.message(
             "WARN: InitStep from plugin %s does not implement %s (Exception: %s)",
-            jar.getName(), InitStep.class.getName(), e.getMessage());
+            jar.getFileName(), InitStep.class.getName(), e.getMessage());
         return null;
       }
     } catch (Exception e) {
@@ -97,11 +97,10 @@ public class InitPluginStepsLoader {
     }
   }
 
-  private Injector getPluginInjector(final File jarFile) throws IOException {
-    final String pluginName =
-        MoreObjects.firstNonNull(
-            JarPluginProvider.getJarPluginName(jarFile),
-            PluginLoader.nameOf(jarFile));
+  private Injector getPluginInjector(Path jarPath) throws IOException {
+    final String pluginName = MoreObjects.firstNonNull(
+        JarPluginProvider.getJarPluginName(jarPath),
+        PluginLoader.nameOf(jarPath));
     return initInjector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
@@ -111,27 +110,24 @@ public class InitPluginStepsLoader {
     });
   }
 
-  private List<File> scanJarsInPluginsDirectory() {
-    if (pluginsDir == null || !pluginsDir.exists()) {
+  private List<Path> scanJarsInPluginsDirectory() {
+    if (pluginsDir == null || !Files.isDirectory(pluginsDir)) {
       return Collections.emptyList();
     }
-    File[] matches = pluginsDir.listFiles(new FileFilter() {
+    DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
       @Override
-      public boolean accept(File pathname) {
-        String n = pathname.getName();
-        return (n.endsWith(".jar") && pathname.isFile());
+      public boolean accept(Path entry) throws IOException {
+        return entry.getFileName().toString().endsWith(".jar")
+            && Files.isRegularFile(entry);
       }
-    });
-    if (matches == null) {
-      ui.message("WARN: Cannot list %s", pluginsDir.getAbsolutePath());
+    };
+    try (DirectoryStream<Path> paths =
+        Files.newDirectoryStream(pluginsDir, filter)) {
+      return Ordering.natural().sortedCopy(paths);
+    } catch (IOException e) {
+      ui.message("WARN: Cannot list %s: %s", pluginsDir.toAbsolutePath(),
+          e.getMessage());
       return Collections.emptyList();
     }
-    Arrays.sort(matches, new Comparator<File>() {
-      @Override
-      public int compare(File o1, File o2) {
-        return o1.getName().compareTo(o2.getName());
-      }
-    });
-    return Arrays.asList(matches);
   }
 }

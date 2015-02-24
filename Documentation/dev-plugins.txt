@@ -1717,17 +1717,18 @@ $ curl http://review.example.com/plugins/helloworld/print
 [[data-directory]]
 == Data Directory
 
-Plugins can request a data directory with a `@PluginData` File
-dependency. A data directory will be created automatically by the
-server in `$site_path/data/$plugin_name` and passed to the plugin.
+Plugins can request a data directory with a `@PluginData` Path (or File,
+deprecated) dependency. A data directory will be created automatically
+by the server in `$site_path/data/$plugin_name` and passed to the
+plugin.
 
 Plugins can use this to store any data they want.
 
 [source,java]
 ----
 @Inject
-MyType(@PluginData java.io.File myDir) {
-  new FileInputStream(new File(myDir, "my.config"));
+MyType(@PluginData java.nio.file.Path myDir) {
+  this.in = Files.newInputStream(myDir.resolve("my.config"));
 }
 ----
 

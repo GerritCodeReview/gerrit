@@ -355,6 +355,14 @@ public class ChangeScreen extends Screen {
           reviewers.onOpenForm();
         }
       });
+      keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          if (topic.canEdit()) {
+            topic.onEdit();
+          }
+        }
+      });
     }
   }
 
@@ -1117,14 +1125,6 @@ public class ChangeScreen extends Screen {
     if (Gerrit.isSignedIn()) {
       replyAction = new ReplyAction(info, revision,
           style, commentLinkProcessor, reply, quickApprove);
-      if (topic.canEdit()) {
-        keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
-          @Override
-          public void onKeyPress(KeyPressEvent event) {
-            topic.onEdit();
-          }
-        });
-      }
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
 

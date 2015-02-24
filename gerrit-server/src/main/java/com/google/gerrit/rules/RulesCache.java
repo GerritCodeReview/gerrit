@@ -44,7 +44,6 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,6 +56,8 @@ import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -96,8 +97,8 @@ public class RulesCache {
   }
 
   private final boolean enableProjectRules;
-  private final File cacheDir;
-  private final File rulesDir;
+  private final Path cacheDir;
+  private final Path rulesDir;
   private final GitRepositoryManager gitMgr;
   private final DynamicSet<PredicateProvider> predicateProviders;
   private final ClassLoader systemLoader;
@@ -108,7 +109,7 @@ public class RulesCache {
       GitRepositoryManager gm, DynamicSet<PredicateProvider> predicateProviders) {
     enableProjectRules = config.getBoolean("rules", null, "enable", true);
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
-    rulesDir = cacheDir != null ? new File(cacheDir, "rules") : null;
+    rulesDir = cacheDir != null ? cacheDir.resolve("rules") : null;
     gitMgr = gm;
     this.predicateProviders = predicateProviders;
 
@@ -178,9 +179,9 @@ public class RulesCache {
     // that over dynamic consult as the bytecode will be faster.
     //
     if (rulesDir != null) {
-      File jarFile = new File(rulesDir, "rules-" + rulesId.getName() + ".jar");
-      if (jarFile.isFile()) {
-        URL[] cp = new URL[] {toURL(jarFile)};
+      Path jarPath = rulesDir.resolve("rules-" + rulesId.getName() + ".jar");
+      if (Files.isRegularFile(jarPath)) {
+        URL[] cp = new URL[] {toURL(jarPath)};
         return save(newEmptyMachine(new URLClassLoader(cp, systemLoader)));
       }
     }
@@ -254,11 +255,11 @@ public class RulesCache {
     return ctl;
   }
 
-  private static URL toURL(File jarFile) throws CompileException {
+  private static URL toURL(Path jarPath) throws CompileException {
     try {
-      return jarFile.toURI().toURL();
+      return jarPath.toUri().toURL();
     } catch (MalformedURLException e) {
-      throw new CompileException("Cannot create URL for " + jarFile, e);
+      throw new CompileException("Cannot create URL for " + jarPath, e);
     }
   }
 }

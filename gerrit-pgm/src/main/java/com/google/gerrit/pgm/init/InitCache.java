@@ -14,15 +14,14 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.api.InitUtil.die;
-
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.File;
+import java.nio.file.Path;
 
 /** Initialize the {@code cache} configuration section. */
 @Singleton
@@ -52,10 +51,8 @@ class InitCache implements InitStep {
       cache.set("directory", path);
     }
 
-    final File loc = site.resolve(path);
-    if (!loc.exists() && !loc.mkdirs()) {
-      throw die("cannot create cache.directory " + loc.getAbsolutePath());
-    }
+    Path loc = site.resolve(path);
+    FileUtil.mkdirsOrDie(loc, "cannot create cache.directory");
   }
 
   @Override

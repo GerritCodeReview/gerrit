@@ -130,6 +130,6 @@ public class SchemaUpdaterTest {
 
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();
-    assertEquals(paths.site_path.getCanonicalPath(), sc.sitePath);
+    assertEquals(paths.site_path.toAbsolutePath().toString(), sc.sitePath);
   }
 }

@@ -51,7 +51,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
@@ -128,8 +135,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private final File basePath;
-  private final File noteDbPath;
+  private final Path basePath;
+  private final Path noteDbPath;
   private final Lock namesUpdateLock;
   private volatile SortedSet<Project.NameKey> names;
 
@@ -153,7 +160,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   /** @return base directory under which all projects are stored. */
-  public File getBasePath() {
+  public Path getBasePath() {
     return basePath;
   }
 
@@ -163,12 +170,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return openRepository(basePath, name);
   }
 
-  private Repository openRepository(File path, Project.NameKey name)
+  private Repository openRepository(Path path, Project.NameKey name)
       throws RepositoryNotFoundException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    File gitDir = new File(path, name.get());
+    File gitDir = path.resolve(name.get()).toFile();
     if (!names.contains(name)) {
       // The this.names list does not hold the project-name but it can still exist
       // on disk; for instance when the project has been created directly on the
@@ -214,13 +221,13 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return repo;
   }
 
-  private Repository createRepository(File path, Project.NameKey name)
+  private Repository createRepository(Path path, Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
 
-    File dir = FileKey.resolve(new File(path, name.get()), FS.DETECTED);
+    File dir = FileKey.resolve(path.resolve(name.get()).toFile(), FS.DETECTED);
     FileKey loc;
     if (dir != null) {
       // Already exists on disk, use the repository we found.
@@ -235,7 +242,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       // of the repository name, so prefer the standard bare name.
       //
       String n = name.get() + Constants.DOT_GIT_EXT;
-      loc = FileKey.exact(new File(path, n), FS.DETECTED);
+      loc = FileKey.exact(path.resolve(n).toFile(), FS.DETECTED);
     }
 
     try {
@@ -397,51 +404,68 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     // scanning the filesystem. Don't rely on the cached names collection.
     namesUpdateLock.lock();
     try {
-      SortedSet<Project.NameKey> n = new TreeSet<>();
-      scanProjects(basePath, "", n);
-      names = Collections.unmodifiableSortedSet(n);
-      return n;
+      ProjectVisitor visitor = new ProjectVisitor();
+      try {
+        Files.walkFileTree(basePath, EnumSet.of(FileVisitOption.FOLLOW_LINKS),
+            Integer.MAX_VALUE, visitor);
+      } catch (IOException e) {
+        log.error("Error walking repository tree " + basePath.toAbsolutePath(),
+            e);
+      }
+      return Collections.unmodifiableSortedSet(visitor.found);
     } finally {
       namesUpdateLock.unlock();
     }
   }
 
-  private void scanProjects(final File dir, final String prefix,
-      final SortedSet<Project.NameKey> names) {
-    final File[] ls = dir.listFiles();
-    if (ls == null) {
-      return;
+  private class ProjectVisitor extends SimpleFileVisitor<Path> {
+    private final SortedSet<Project.NameKey> found = new TreeSet<>();
+
+    @Override
+    public FileVisitResult preVisitDirectory(Path dir,
+        BasicFileAttributes attrs) throws IOException {
+      if (!dir.equals(basePath) && isRepo(dir)) {
+        addProject(dir);
+        return FileVisitResult.SKIP_SUBTREE;
+      }
+      return FileVisitResult.CONTINUE;
     }
 
-    for (File f : ls) {
-      String fileName = f.getName();
-      if (fileName.equals(Constants.DOT_GIT)) {
-        // Skip repositories named only `.git`
-      } else if (FileKey.isGitRepository(f, FS.DETECTED)) {
-        Project.NameKey nameKey = getProjectName(prefix, fileName);
-        if (isUnreasonableName(nameKey)) {
-          log.warn("Ignoring unreasonably named repository " + f.getAbsolutePath());
-        } else {
-          names.add(nameKey);
-        }
+    @Override
+    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+        throws IOException {
+      // Skip repositories named only `.git`
+      if (isRepo(file)) {
+        addProject(file);
+      }
+      return FileVisitResult.CONTINUE;
+    }
 
-      } else if (f.isDirectory()) {
-        scanProjects(f, prefix + f.getName() + "/", names);
+    private boolean isRepo(Path p) {
+      return !p.getFileName().toString().equals(Constants.DOT_GIT)
+          && FileKey.isGitRepository(p.toFile(), FS.DETECTED);
+    }
+
+    private void addProject(Path p) {
+      Project.NameKey nameKey = getProjectName(p);
+      if (isUnreasonableName(nameKey)) {
+        log.warn(
+            "Ignoring unreasonably named repository " + p.toAbsolutePath());
+      } else {
+        found.add(nameKey);
       }
     }
-  }
 
-  private Project.NameKey getProjectName(final String prefix,
-      final String fileName) {
-    final String projectName;
-    if (fileName.endsWith(Constants.DOT_GIT_EXT)) {
-      int newLen = fileName.length() - Constants.DOT_GIT_EXT.length();
-      projectName = prefix + fileName.substring(0, newLen);
-
-    } else {
-      projectName = prefix + fileName;
+    private Project.NameKey getProjectName(Path p) {
+      String projectName = basePath.relativize(p).toString();
+      if (File.separatorChar != '/') {
+        projectName = projectName.replace(File.separatorChar, '/');
+      }
+      if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
+        int newLen = projectName.length() - Constants.DOT_GIT_EXT.length();
+        projectName = projectName.substring(0, newLen);
+      }
+      return new Project.NameKey(projectName);
     }
-
-    return new Project.NameKey(projectName);
   }
 }

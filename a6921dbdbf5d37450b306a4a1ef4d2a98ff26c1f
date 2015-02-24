@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "08fdc2e8_3c04113e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-24T07:17:45Z",
+      "side": 1,
+      "message": "OK, in that case maybe it\u0027s better to say \u0027OAuth\u0027 here instead of \u0027OAuth2\u0027.",
+      "parentUuid": "85527d4f_98d17557",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 6
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_4ee8b304",
         "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthWebFilter.java",
         "patchSetId": 12

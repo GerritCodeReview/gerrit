@@ -37,8 +37,8 @@ import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -56,8 +56,9 @@ class SubIndex {
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
 
-  SubIndex(File file, GerritIndexWriterConfig writerConfig) throws IOException {
-    this(FSDirectory.open(file), file.getName(), writerConfig);
+  SubIndex(Path path, GerritIndexWriterConfig writerConfig) throws IOException {
+    this(FSDirectory.open(path.toFile()), path.getFileName().toString(),
+        writerConfig);
   }
 
   SubIndex(Directory dir, final String dirName,

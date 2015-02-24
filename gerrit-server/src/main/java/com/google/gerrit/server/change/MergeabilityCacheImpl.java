@@ -28,6 +28,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -47,6 +48,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -59,8 +61,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -224,13 +224,16 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
         return true; // Assume yes on new branch.
       }
       try {
-        Map<String, Ref> refs = key.load.repo.getAllRefs();
+        RefDatabase refDatabase = key.load.repo.getRefDatabase();
+        Iterable<Ref> refs = Iterables.concat(
+            refDatabase.getRefs(Constants.R_HEADS).values(),
+            refDatabase.getRefs(Constants.R_TAGS).values());
         try (RevWalk rw = CodeReviewCommit.newRevWalk(key.load.repo)) {
           RevFlag canMerge = rw.newFlag("CAN_MERGE");
           CodeReviewCommit rev = parse(rw, key.commit);
           rev.add(canMerge);
           CodeReviewCommit tip = parse(rw, key.into);
-          Set<RevCommit> accepted = alreadyAccepted(rw, refs.values());
+          Set<RevCommit> accepted = alreadyAccepted(rw, refs);
           accepted.add(tip);
           accepted.addAll(Arrays.asList(rev.getParents()));
           return submitStrategyFactory.create(
@@ -248,17 +251,14 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       }
     }
 
-    private static Set<RevCommit> alreadyAccepted(RevWalk rw,
-        Collection<Ref> refs) throws MissingObjectException, IOException {
+    private static Set<RevCommit> alreadyAccepted(RevWalk rw, Iterable<Ref> refs)
+        throws MissingObjectException, IOException {
       Set<RevCommit> accepted = Sets.newHashSet();
       for (Ref r : refs) {
-        if (r.getName().startsWith(Constants.R_HEADS)
-            || r.getName().startsWith(Constants.R_TAGS)) {
-          try {
-            accepted.add(rw.parseCommit(r.getObjectId()));
-          } catch (IncorrectObjectTypeException nonCommit) {
-            // Not a commit? Skip over it.
-          }
+        try {
+          accepted.add(rw.parseCommit(r.getObjectId()));
+        } catch (IncorrectObjectTypeException nonCommit) {
+          // Not a commit? Skip over it.
         }
       }
       return accepted;

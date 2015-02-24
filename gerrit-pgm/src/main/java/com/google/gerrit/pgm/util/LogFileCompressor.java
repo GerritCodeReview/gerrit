@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.util;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
@@ -25,12 +26,12 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.zip.GZIPOutputStream;
 
 /** Compresses the old error logs. */
@@ -65,76 +66,78 @@ public class LogFileCompressor implements Runnable {
     }
   }
 
-  private final File logs_dir;
+  private final Path logs_dir;
 
   @Inject
   LogFileCompressor(final SitePaths site) {
     logs_dir = resolve(site.logs_dir);
   }
 
-  private static File resolve(final File logs_dir) {
+  private static Path resolve(Path p) {
     try {
-      return logs_dir.getCanonicalFile();
+      return p.toRealPath().normalize();
     } catch (IOException e) {
-      return logs_dir.getAbsoluteFile();
+      return p.toAbsolutePath().normalize();
     }
   }
 
   @Override
   public void run() {
-    final File[] list = logs_dir.listFiles();
-    if (list == null) {
+    if (!Files.isDirectory(logs_dir)) {
       return;
     }
-
-    for (final File entry : list) {
-      if (!isLive(entry) && !isCompressed(entry) && isLogFile(entry)) {
-        compress(entry);
+    try (DirectoryStream<Path> list = Files.newDirectoryStream(logs_dir)) {
+      for (Path entry : list) {
+        if (!isLive(entry) && !isCompressed(entry) && isLogFile(entry)) {
+          compress(entry);
+        }
       }
+    } catch (IOException e) {
+      log.error("Error listing logs to compress in " + logs_dir, e);
     }
   }
 
-  private boolean isLive(final File entry) {
-    final String name = entry.getName();
+  private boolean isLive(Path entry) {
+    String name = entry.getFileName().toString();
     return name.endsWith("_log")
         || name.endsWith(".log")
         || name.endsWith(".run")
         || name.endsWith(".pid");
   }
 
-  private boolean isCompressed(final File entry) {
-    final String name = entry.getName();
+  private boolean isCompressed(Path entry) {
+    String name = entry.getFileName().toString();
     return name.endsWith(".gz") //
         || name.endsWith(".zip") //
         || name.endsWith(".bz2");
   }
 
-  private boolean isLogFile(final File entry) {
-    return entry.isFile();
+  private boolean isLogFile(Path entry) {
+    return Files.isRegularFile(entry);
   }
 
-  private void compress(final File src) {
-    final File dir = src.getParentFile();
-    final File dst = new File(dir, src.getName() + ".gz");
-    final File tmp = new File(dir, ".tmp." + src.getName());
+  private void compress(Path src) {
+    Path dst = src.resolveSibling(src.getFileName() + ".gz");
+    Path tmp = src.resolveSibling(".tmp." + src.getFileName());
     try {
-      try (InputStream in = new FileInputStream(src);
-          FileOutputStream fo = new FileOutputStream(tmp);
-          OutputStream out = new GZIPOutputStream(fo)) {
-        final byte[] buf = new byte[2048];
-        int n;
-        while (0 < (n = in.read(buf))) {
-          out.write(buf, 0, n);
-        }
-        tmp.setReadOnly();
+      try (InputStream in = Files.newInputStream(src);
+          OutputStream out = new GZIPOutputStream(Files.newOutputStream(tmp))) {
+        ByteStreams.copy(in, out);
       }
-      if (!tmp.renameTo(dst)) {
-        throw new IOException("Cannot rename " + tmp + " to " + dst);
+      tmp.toFile().setReadOnly();
+      try {
+        Files.move(tmp, dst);
+      } catch (IOException e) {
+        throw new IOException("Cannot rename " + tmp + " to " + dst, e);
       }
-      src.delete();
+      Files.delete(src);
     } catch (IOException e) {
       log.error("Cannot compress " + src, e);
-      tmp.delete();
+      try {
+        Files.deleteIfExists(tmp);
+      } catch (IOException e2) {
+        log.warn("Failed to delete temporary log file " + tmp, e2);
+      }
     }
   }
 

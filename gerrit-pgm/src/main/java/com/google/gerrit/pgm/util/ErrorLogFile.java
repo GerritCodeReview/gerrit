@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.gerrit.common.Die;
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
@@ -25,7 +25,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
@@ -50,10 +49,8 @@ public class ErrorLogFile {
 
   public static LifecycleListener start(final Path sitePath)
       throws FileNotFoundException {
-    final File logdir = new SitePaths(sitePath).logs_dir;
-    if (!logdir.exists() && !logdir.mkdirs()) {
-      throw new Die("Cannot create log directory: " + logdir);
-    }
+    Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
+        "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {
       initLogSystem(logdir);
     }
@@ -70,7 +67,7 @@ public class ErrorLogFile {
     };
   }
 
-  private static void initLogSystem(final File logdir) {
+  private static void initLogSystem(Path logdir) {
     final Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();
     root.addAppender(SystemLog.createAppender(logdir, LOG_NAME,

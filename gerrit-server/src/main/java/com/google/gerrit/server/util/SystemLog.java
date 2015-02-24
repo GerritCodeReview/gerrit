@@ -33,8 +33,8 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 @Singleton
 public class SystemLog {
@@ -55,12 +55,12 @@ public class SystemLog {
     return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
   }
 
-  public static Appender createAppender(File logdir, String name, Layout layout) {
+  public static Appender createAppender(Path logdir, String name, Layout layout) {
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(name);
     dst.setLayout(layout);
     dst.setEncoding("UTF-8");
-    dst.setFile(new File(resolve(logdir), name).getPath());
+    dst.setFile(resolve(logdir).resolve(name).toString());
     dst.setImmediateFlush(true);
     dst.setAppend(true);
     dst.setErrorHandler(new DieErrorHandler());
@@ -90,11 +90,11 @@ public class SystemLog {
     return async;
   }
 
-  private static File resolve(final File logs_dir) {
+  private static Path resolve(Path p) {
     try {
-      return logs_dir.getCanonicalFile();
+      return p.toRealPath().normalize();
     } catch (IOException e) {
-      return logs_dir.getAbsoluteFile();
+      return p.toAbsolutePath().normalize();
     }
   }
 

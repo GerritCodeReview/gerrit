@@ -26,10 +26,11 @@ import org.apache.log4j.PatternLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 
 public class GarbageCollectionLogFile {
 
-  public static LifecycleListener start(File sitePath)
+  public static LifecycleListener start(Path sitePath)
       throws FileNotFoundException {
     File logdir = new SitePaths(sitePath).logs_dir;
     if (!logdir.exists() && !logdir.mkdirs()) {

@@ -27,6 +27,7 @@ import org.apache.log4j.PatternLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
@@ -47,7 +48,7 @@ public class ErrorLogFile {
     root.addAppender(dst);
   }
 
-  public static LifecycleListener start(final File sitePath)
+  public static LifecycleListener start(final Path sitePath)
       throws FileNotFoundException {
     final File logdir = new SitePaths(sitePath).logs_dir;
     if (!logdir.exists() && !logdir.mkdirs()) {

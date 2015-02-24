@@ -20,7 +20,8 @@ import com.google.gerrit.pgm.init.PluginsDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,21 +48,19 @@ public final class SiteInitializer {
   public void init() {
     try {
       if (sitePath != null) {
-        File site = new File(sitePath);
-        LOG.info(String.format("Initializing site at %s",
-            site.getAbsolutePath()));
+        Path site = Paths.get(sitePath);
+        LOG.info("Initializing site at " + site.toRealPath().normalize());
         new BaseInit(site, false, true, pluginsDistribution, pluginsToInstall).run();
         return;
       }
 
       try (Connection conn = connectToDb()) {
-        File site = getSiteFromReviewDb(conn);
+        Path site = getSiteFromReviewDb(conn);
         if (site == null && initPath != null) {
-          site = new File(initPath);
+          site = Paths.get(initPath);
         }
         if (site != null) {
-          LOG.info(String.format("Initializing site at %s",
-              site.getAbsolutePath()));
+          LOG.info("Initializing site at " + site.toRealPath().normalize());
           new BaseInit(site, new ReviewDbDataSourceProvider(), false, false,
               pluginsDistribution, pluginsToInstall).run();
         }
@@ -76,12 +75,12 @@ public final class SiteInitializer {
     return new ReviewDbDataSourceProvider().get().getConnection();
   }
 
-  private File getSiteFromReviewDb(Connection conn) {
+  private Path getSiteFromReviewDb(Connection conn) {
     try (Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(
           "SELECT site_path FROM system_config")) {
       if (rs.next()) {
-        return new File(rs.getString(1));
+        return Paths.get(rs.getString(1));
       }
     } catch (SQLException e) {
       return null;

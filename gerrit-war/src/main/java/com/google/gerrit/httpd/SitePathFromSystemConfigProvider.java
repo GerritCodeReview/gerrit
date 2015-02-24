@@ -22,12 +22,13 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
-/** Provides {@link java.io.File} annotated with {@link SitePath}. */
-class SitePathFromSystemConfigProvider implements Provider<File> {
-  private final File path;
+/** Provides {@link Path} annotated with {@link SitePath}. */
+class SitePathFromSystemConfigProvider implements Provider<Path> {
+  private final Path path;
 
   @Inject
   SitePathFromSystemConfigProvider(SchemaFactory<ReviewDb> schemaFactory)
@@ -36,18 +37,18 @@ class SitePathFromSystemConfigProvider implements Provider<File> {
   }
 
   @Override
-  public File get() {
+  public Path get() {
     return path;
   }
 
-  private static File read(SchemaFactory<ReviewDb> schemaFactory)
+  private static Path read(SchemaFactory<ReviewDb> schemaFactory)
       throws OrmException {
     ReviewDb db = schemaFactory.open();
     try {
       List<SystemConfig> all = db.systemConfig().all().toList();
       switch (all.size()) {
         case 1:
-          return new File(all.get(0).sitePath);
+          return Paths.get(all.get(0).sitePath);
         case 0:
           throw new OrmException("system_config table is empty");
         default:

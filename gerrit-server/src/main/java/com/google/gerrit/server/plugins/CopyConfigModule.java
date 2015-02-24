@@ -33,7 +33,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.io.File;
+import java.nio.file.Path;
 
 /**
  * Copies critical objects from the {@code dbInjector} into a plugin.
@@ -47,11 +47,11 @@ import java.io.File;
 class CopyConfigModule extends AbstractModule {
   @Inject
   @SitePath
-  private File sitePath;
+  private Path sitePath;
 
   @Provides
   @SitePath
-  File getSitePath() {
+  Path getSitePath() {
     return sitePath;
   }
 

@@ -14,16 +14,17 @@
 
 package com.google.gerrit.httpd.gitweb;
 
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.util.IO;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletOutputStream;
@@ -38,16 +39,16 @@ class GitLogoServlet extends HttpServlet {
   private final byte[] raw;
 
   @Inject
-  GitLogoServlet(final GitWebConfig gitWebConfig) throws IOException {
+  GitLogoServlet(GitWebConfig gitWebConfig) throws IOException {
     byte[] png;
-    final File src = gitWebConfig.getGitLogoPNG();
+    Path src = gitWebConfig.getGitLogoPNG();
     if (src != null) {
-      try {
-        png = IO.readFully(src);
+      try (InputStream in = Files.newInputStream(src)) {
+        png = ByteStreams.toByteArray(in);
       } catch (FileNotFoundException e) {
         png = null;
       }
-      modified = src.lastModified();
+      modified = Files.getLastModifiedTime(src).toMillis();
     } else {
       modified = -1;
       png = null;

@@ -16,6 +16,8 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHookRunner;
@@ -92,10 +94,10 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,7 +149,7 @@ public class Daemon extends SiteProgram {
   private Injector sshInjector;
   private Injector webInjector;
   private Injector httpdInjector;
-  private File runFile;
+  private Path runFile;
   private boolean test;
   private AbstractModule luceneModule;
 
@@ -183,7 +185,7 @@ public class Daemon extends SiteProgram {
     });
 
     if (runId != null) {
-      runFile = new File(new File(getSitePath(), "logs"), "gerrit.run");
+      runFile = getSitePath().resolve("logs").resolve("gerrit.run");
     }
 
     if (httpd == null) {
@@ -207,7 +209,11 @@ public class Daemon extends SiteProgram {
         public void run() {
           log.info("caught shutdown, cleaning up");
           if (runId != null) {
-            runFile.delete();
+            try {
+              Files.delete(runFile);
+            } catch (IOException err) {
+              log.warn("failed to delete " + runFile, err);
+            }
           }
           manager.stop();
         }
@@ -216,15 +222,8 @@ public class Daemon extends SiteProgram {
       log.info("Gerrit Code Review " + myVersion() + " ready");
       if (runId != null) {
         try {
-          runFile.createNewFile();
-          runFile.setReadable(true, false);
-
-          FileOutputStream out = new FileOutputStream(runFile);
-          try {
-            out.write((runId + "\n").getBytes("UTF-8"));
-          } finally {
-            out.close();
-          }
+          Files.write(runFile, (runId + "\n").getBytes(UTF_8));
+          runFile.toFile().setReadable(true, false);
         } catch (IOException err) {
           log.warn("Cannot write --run-id to " + runFile, err);
         }

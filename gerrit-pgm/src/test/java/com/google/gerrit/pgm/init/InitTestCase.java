@@ -16,11 +16,11 @@ package com.google.gerrit.pgm.init;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public abstract class InitTestCase extends LocalDiskRepositoryTestCase {
-  protected File newSitePath() throws IOException {
-    return new File(createWorkRepository().getWorkTree(), "test_site");
+  protected Path newSitePath() throws IOException {
+    return createWorkRepository().getWorkTree().toPath().resolve("test_site");
   }
 }

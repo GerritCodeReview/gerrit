@@ -37,8 +37,8 @@ import com.google.inject.util.Providers;
 
 import org.kohsuke.args4j.Option;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class Init extends BaseInit {
     super(new WarDistribution(), null);
   }
 
-  public Init(File sitePath) {
+  public Init(Path sitePath) {
     super(sitePath, true, true, new WarDistribution(), null);
     batchMode = true;
     noAutoStart = true;
@@ -106,7 +106,7 @@ public class Init extends BaseInit {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(File.class).annotatedWith(SitePath.class).toInstance(getSitePath());
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
         bind(Browser.class);
         bind(String.class).annotatedWith(SecureStoreClassName.class)
             .toProvider(Providers.of(getConfiguredSecureStoreClass()));

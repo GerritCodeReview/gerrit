@@ -69,11 +69,12 @@ import com.google.inject.servlet.RequestScoped;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class InMemoryModule extends FactoryModule {
   public static Config newDefaultConfig() {
@@ -125,7 +126,8 @@ public class InMemoryModule extends FactoryModule {
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 
-    bind(File.class).annotatedWith(SitePath.class).toInstance(new File("."));
+    // TODO(dborowitz): Use jimfs.
+    bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toInstance(
         new InetSocketAddress(InetAddresses.forString("127.0.0.1"), 1234));

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.httpd;
 
+import static java.nio.file.Files.isExecutable;
+import static java.nio.file.Files.isRegularFile;
+
 import com.google.gerrit.common.data.GitWebType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -23,16 +26,17 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class GitWebConfig {
   private static final Logger log = LoggerFactory.getLogger(GitWebConfig.class);
 
   private final String url;
-  private final File gitweb_cgi;
-  private final File gitweb_css;
-  private final File gitweb_js;
-  private final File git_logo_png;
+  private final Path gitweb_cgi;
+  private final Path gitweb_css;
+  private final Path gitweb_js;
+  private final Path git_logo_png;
   private GitWebType type;
 
   @Inject
@@ -117,20 +121,20 @@ public class GitWebConfig {
       return;
     }
 
-    final File pkgCgi = new File("/usr/lib/cgi-bin/gitweb.cgi");
+    final Path pkgCgi = Paths.get("/usr/lib/cgi-bin/gitweb.cgi");
     String[] resourcePaths = {"/usr/share/gitweb/static", "/usr/share/gitweb",
         "/var/www/static", "/var/www"};
-    File cgi;
+    Path cgi;
 
     if (cfgCgi != null) {
       // Use the CGI script configured by the administrator, failing if it
       // cannot be used as specified.
       //
-      cgi = sitePaths.resolve(cfgCgi);
-      if (!cgi.isFile()) {
+      cgi = sitePaths.resolve(cfgCgi).toPath();
+      if (!isRegularFile(cgi)) {
         throw new IllegalStateException("Cannot find gitweb.cgi: " + cgi);
       }
-      if (!cgi.canExecute()) {
+      if (!isExecutable(cgi)) {
         throw new IllegalStateException("Cannot execute gitweb.cgi: " + cgi);
       }
 
@@ -138,11 +142,11 @@ public class GitWebConfig {
         // Assume the administrator pointed us to the distribution,
         // which also has the corresponding CSS and logo file.
         //
-        String absPath = cgi.getParentFile().getAbsolutePath();
+        String absPath = cgi.getParent().toAbsolutePath().toString();
         resourcePaths = new String[] {absPath + "/static", absPath};
       }
 
-    } else if (pkgCgi.isFile() && pkgCgi.canExecute()) {
+    } else if (isRegularFile(pkgCgi) && isExecutable(pkgCgi)) {
       // Use the OS packaged CGI.
       //
       log.debug("Assuming gitweb at " + pkgCgi);
@@ -154,13 +158,13 @@ public class GitWebConfig {
       resourcePaths = new String[] {};
     }
 
-    File css = null, js = null, logo = null;
+    Path css = null, js = null, logo = null;
     for (String path : resourcePaths) {
-      File dir = new File(path);
-      css = new File(dir, "gitweb.css");
-      js = new File(dir, "gitweb.js");
-      logo = new File(dir, "git-logo.png");
-      if (css.isFile() && logo.isFile()) {
+      Path dir = Paths.get(path);
+      css = dir.resolve("gitweb.css");
+      js = dir.resolve("gitweb.js");
+      logo = dir.resolve("git-logo.png");
+      if (isRegularFile(css) && isRegularFile(logo)) {
         break;
       }
     }
@@ -191,22 +195,22 @@ public class GitWebConfig {
   }
 
   /** @return local path to the CGI executable; null if we shouldn't execute. */
-  public File getGitwebCGI() {
+  public Path getGitwebCGI() {
     return gitweb_cgi;
   }
 
   /** @return local path of the {@code gitweb.css} matching the CGI. */
-  public File getGitwebCSS() {
+  public Path getGitwebCSS() {
     return gitweb_css;
   }
 
   /** @return local path of the {@code gitweb.js} for the CGI. */
-  public File getGitwebJS() {
+  public Path getGitwebJS() {
     return gitweb_js;
   }
 
   /** @return local path of the {@code git-logo.png} for the CGI. */
-  public File getGitLogoPNG() {
+  public Path getGitLogoPNG() {
     return git_logo_png;
   }
 

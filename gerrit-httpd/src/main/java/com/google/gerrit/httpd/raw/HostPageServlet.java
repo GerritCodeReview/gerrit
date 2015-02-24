@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static java.nio.file.Files.getLastModifiedTime;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hasher;
@@ -47,12 +49,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,16 +163,13 @@ public class HostPageServlet extends HttpServlet {
 
   private Page get() {
     Page p = page;
-    if (refreshHeaderFooter && p.isStale()) {
-      final Page newPage;
-      try {
-        newPage = new Page();
-      } catch (IOException e) {
-        log.error("Cannot refresh site header/footer", e);
-        return p;
+    try {
+      if (refreshHeaderFooter && p.isStale()) {
+        p = new Page();
+        page = p;
       }
-      p = newPage;
-      page = p;
+    } catch (IOException e) {
+      log.error("Cannot refresh site header/footer", e);
     }
     return p;
   }
@@ -288,16 +288,16 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private static class FileInfo {
-    private final File path;
-    private final long time;
+    private final Path path;
+    private final FileTime time;
 
-    FileInfo(final File p) {
+    FileInfo(Path p) throws IOException {
       path = p;
-      time = path.lastModified();
+      time = getLastModifiedTime(path);
     }
 
-    boolean isStale() {
-      return time != path.lastModified();
+    boolean isStale() throws IOException {
+      return !time.equals(getLastModifiedTime(path));
     }
   }
 
@@ -340,7 +340,7 @@ public class HostPageServlet extends HttpServlet {
       debug = new Content(hostDoc);
     }
 
-    boolean isStale() {
+    boolean isStale() throws IOException {
       return css.isStale() || header.isStale() || footer.isStale();
     }
 
@@ -364,8 +364,8 @@ public class HostPageServlet extends HttpServlet {
       }
     }
 
-    private FileInfo injectCssFile(final Document hostDoc, final String id,
-        final File src) throws IOException {
+    private FileInfo injectCssFile(Document hostDoc, String id, Path src)
+        throws IOException {
       final FileInfo info = new FileInfo(src);
       final Element banner = HtmlDomUtil.find(hostDoc, id);
       if (banner == null) {
@@ -376,7 +376,8 @@ public class HostPageServlet extends HttpServlet {
         banner.removeChild(banner.getFirstChild());
       }
 
-      String css = HtmlDomUtil.readFile(src.getParentFile(), src.getName());
+      String css =
+          HtmlDomUtil.readFile(src.getParent(), src.getFileName().toString());
       if (css == null) {
         return info;
       }
@@ -385,8 +386,8 @@ public class HostPageServlet extends HttpServlet {
       return info;
     }
 
-    private FileInfo injectXmlFile(final Document hostDoc, final String id,
-        final File src) throws IOException {
+    private FileInfo injectXmlFile(Document hostDoc, String id, Path src)
+        throws IOException {
       final FileInfo info = new FileInfo(src);
       final Element banner = HtmlDomUtil.find(hostDoc, id);
       if (banner == null) {

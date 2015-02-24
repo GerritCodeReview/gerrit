@@ -54,9 +54,11 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,30 +68,30 @@ import javax.sql.DataSource;
 
 public abstract class SiteProgram extends AbstractProgram {
   @Option(name = "--site-path", aliases = {"-d"}, usage = "Local directory containing site data")
-  private File sitePath = new File(".");
+  private void setSitePath(String path) {
+    sitePath = Paths.get(path);
+  }
 
   protected Provider<DataSource> dsProvider;
+
+  private Path sitePath;
 
   protected SiteProgram() {
   }
 
-  protected SiteProgram(File sitePath, final Provider<DataSource> dsProvider) {
+  protected SiteProgram(Path sitePath, final Provider<DataSource> dsProvider) {
     this.sitePath = sitePath;
     this.dsProvider = dsProvider;
   }
 
   /** @return the site path specified on the command line. */
-  protected File getSitePath() {
-    File path = sitePath.getAbsoluteFile();
-    if (".".equals(path.getName())) {
-      path = path.getParentFile();
-    }
-    return path;
+  protected Path getSitePath() {
+    return sitePath;
   }
 
   /** Ensures we are running inside of a valid site, otherwise throws a Die. */
   protected void mustHaveValidSite() throws Die {
-    if (!new File(new File(getSitePath(), "etc"), "gerrit.config").exists()) {
+    if (!Files.exists(sitePath.resolve("etc").resolve("gerrit.config"))) {
       throw die("not a Gerrit site: '" + getSitePath() + "'\n"
           + "Perhaps you need to run init first?");
     }
@@ -97,13 +99,13 @@ public abstract class SiteProgram extends AbstractProgram {
 
   /** @return provides database connectivity and site path. */
   protected Injector createDbInjector(final DataSourceProvider.Context context) {
-    final File sitePath = getSitePath();
+    final Path sitePath = getSitePath();
     final List<Module> modules = new ArrayList<>();
 
     Module sitePathModule = new AbstractModule() {
       @Override
       protected void configure() {
-        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
         bind(String.class).annotatedWith(SecureStoreClassName.class)
             .toProvider(Providers.of(getConfiguredSecureStoreClass()));
       }
@@ -191,7 +193,7 @@ public abstract class SiteProgram extends AbstractProgram {
     Module m = new AbstractModule() {
       @Override
       protected void configure() {
-        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
         bind(SitePaths.class);
       }
     };
@@ -222,7 +224,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
       }
     });
     modules.add(new GerritServerConfigModule());

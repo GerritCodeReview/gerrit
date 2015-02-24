@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -32,7 +33,7 @@ public final class SitePaths {
   public final File bin_dir;
   public final File etc_dir;
   public final File lib_dir;
-  public final File tmp_dir;
+  public final Path tmp_dir;
   public final File logs_dir;
   public final File plugins_dir;
   public final File data_dir;
@@ -55,22 +56,24 @@ public final class SitePaths {
   public final File ssh_dsa;
   public final File peer_keys;
 
-  public final File site_css;
-  public final File site_header;
-  public final File site_footer;
-  public final File site_gitweb;
+  public final Path site_css;
+  public final Path site_header;
+  public final Path site_footer;
+  public final Path site_gitweb;
 
   /** {@code true} if {@link #site_path} has not been initialized. */
   public final boolean isNew;
 
   @Inject
-  public SitePaths(final @SitePath File sitePath) throws FileNotFoundException {
-    site_path = sitePath;
+  public SitePaths(final @SitePath Path sitePath) throws FileNotFoundException {
+    // TODO(dborowitz): Convert all of these to Paths.
+    site_path = sitePath.toFile();
+    Path p = sitePath;
 
     bin_dir = new File(site_path, "bin");
     etc_dir = new File(site_path, "etc");
     lib_dir = new File(site_path, "lib");
-    tmp_dir = new File(site_path, "tmp");
+    tmp_dir = p.resolve("tmp");
     plugins_dir = new File(site_path, "plugins");
     data_dir = new File(site_path, "data");
     logs_dir = new File(site_path, "logs");
@@ -93,10 +96,11 @@ public final class SitePaths {
     ssh_dsa = new File(etc_dir, "ssh_host_dsa_key");
     peer_keys = new File(etc_dir, "peer_keys");
 
-    site_css = new File(etc_dir, CSS_FILENAME);
-    site_header = new File(etc_dir, HEADER_FILENAME);
-    site_footer = new File(etc_dir, FOOTER_FILENAME);
-    site_gitweb = new File(etc_dir, "gitweb_config.perl");
+    Path etcDirPath = etc_dir.toPath();
+    site_css = etcDirPath.resolve(CSS_FILENAME);
+    site_header = etcDirPath.resolve(HEADER_FILENAME);
+    site_footer = etcDirPath.resolve(FOOTER_FILENAME);
+    site_gitweb = etcDirPath.resolve("gitweb_config.perl");
 
     if (site_path.exists()) {
       final String[] contents = site_path.list();

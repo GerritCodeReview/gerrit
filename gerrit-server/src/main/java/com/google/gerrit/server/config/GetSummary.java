@@ -24,7 +24,6 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 import org.kohsuke.args4j.Option;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -33,6 +32,8 @@ import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -43,7 +44,7 @@ import java.util.Map;
 public class GetSummary implements RestReadView<ConfigResource> {
 
   private final WorkQueue workQueue;
-  private final File sitePath;
+  private final Path sitePath;
 
   @Option(name = "--gc", usage = "perform Java GC before retrieving memory stats")
   private boolean gc;
@@ -62,7 +63,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
   }
 
   @Inject
-  public GetSummary(WorkQueue workQueue, @SitePath File sitePath) {
+  public GetSummary(WorkQueue workQueue, @SitePath Path sitePath) {
     this.workQueue = workQueue;
     this.sitePath = sitePath;
   }
@@ -186,7 +187,8 @@ public class GetSummary implements RestReadView<ConfigResource> {
     } catch (UnknownHostException e) {
     }
 
-    jvmSummary.currentWorkingDirectory = path(new File(".").getAbsoluteFile().getParentFile());
+    jvmSummary.currentWorkingDirectory =
+        path(Paths.get(".").toAbsolutePath().getParent());
     jvmSummary.site = path(sitePath);
     return jvmSummary;
   }
@@ -210,11 +212,11 @@ public class GetSummary implements RestReadView<ConfigResource> {
     return String.format("%1$6.2f%2$s", value, suffix).trim();
   }
 
-  private static String path(File file) {
+  private static String path(Path path) {
     try {
-      return file.getCanonicalPath();
+      return path.toRealPath().normalize().toString();
     } catch (IOException err) {
-      return file.getAbsolutePath();
+      return path.toAbsolutePath().normalize().toString();
     }
   }
 

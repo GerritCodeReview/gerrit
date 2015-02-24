@@ -16,6 +16,24 @@
       "revId": "90657860bfe97f7c8b693f2ed115a56138b5c513",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a58861e3_6113368b",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T00:39:47Z",
+      "side": 1,
+      "message": "Oh. site.resolve(String) is still returning File. It can return null if name is null. You can\u0027t call toPath() on null.\n\nYou need to grab the File return value here and check its null-ness before attempting .toPath().",
+      "parentUuid": "a58861e3_e1fbc6c9",
+      "revId": "90657860bfe97f7c8b693f2ed115a56138b5c513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

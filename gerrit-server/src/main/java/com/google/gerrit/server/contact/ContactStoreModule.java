@@ -28,11 +28,12 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.StringUtils;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.Security;
 
 /** Creates the {@link ContactStore} based on the configuration. */
@@ -46,7 +47,7 @@ public class ContactStoreModule extends AbstractModule {
   public ContactStore provideContactStore(@GerritServerConfig final Config config,
       final SitePaths site, final SchemaFactory<ReviewDb> schema,
       final ContactStoreConnection.Factory connFactory) {
-    final String url = config.getString("contactstore", null, "url");
+    String url = config.getString("contactstore", null, "url");
     if (StringUtils.isEmptyOrNull(url)) {
       return new NoContactStore();
     }
@@ -56,18 +57,18 @@ public class ContactStoreModule extends AbstractModule {
           + " needed to encrypt contact information");
     }
 
-    final URL storeUrl;
+    URL storeUrl;
     try {
       storeUrl = new URL(url);
     } catch (MalformedURLException e) {
       throw new ProvisionException("Invalid contactstore.url: " + url, e);
     }
 
-    final String storeAPPSEC = config.getString("contactstore", null, "appsec");
-    final File pubkey = site.contact_information_pub;
-    if (!pubkey.exists()) {
+    String storeAPPSEC = config.getString("contactstore", null, "appsec");
+    Path pubkey = site.contact_information_pub;
+    if (!Files.exists(pubkey)) {
       throw new ProvisionException("PGP public key file \""
-          + pubkey.getAbsolutePath() + "\" not found");
+          + pubkey.toAbsolutePath() + "\" not found");
     }
     return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema,
         connFactory);

@@ -25,6 +25,8 @@ import com.google.gerrit.server.mail.SmtpEmailSender.Encryption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.nio.file.Files;
+
 /** Initialize the {@code sendemail} configuration section. */
 @Singleton
 class InitSendEmail implements InitStep {
@@ -54,7 +56,7 @@ class InitSendEmail implements InitStep {
             true);
 
     String username = null;
-    if (site.gerrit_config.exists()) {
+    if (Files.exists(site.gerrit_config)) {
       username = sendemail.get("smtpUser");
     } else if ((enc != null && enc != Encryption.NONE) || !isLocal(hostname)) {
       username = username();

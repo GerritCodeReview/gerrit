@@ -169,7 +169,7 @@ class InitHttpd implements InitStep {
     final String dname =
         "CN=" + hostname + ",OU=Gerrit Code Review,O=" + domainOf(hostname);
 
-    Path tmpdir = site.etc_dir.toPath().resolve("tmp.sslcertgen");
+    Path tmpdir = site.etc_dir.resolve("tmp.sslcertgen");
     try {
       Files.createDirectory(tmpdir);
     } catch (IOException e) {

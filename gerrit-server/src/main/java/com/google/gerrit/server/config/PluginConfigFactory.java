@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
 @Singleton
@@ -61,7 +62,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
     this.projectStateFactory = projectStateFactory;
     this.pluginConfigs = Maps.newHashMap();
 
-    this.cfgSnapshot = FileSnapshot.save(site.gerrit_config);
+    this.cfgSnapshot = FileSnapshot.save(site.gerrit_config.toFile());
     this.cfg = cfgProvider.get();
   }
 
@@ -103,8 +104,9 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'gerrit.config' file
    */
   public PluginConfig getFromGerritConfig(String pluginName, boolean refresh) {
-    if (refresh && cfgSnapshot.isModified(site.gerrit_config)) {
-      cfgSnapshot = FileSnapshot.save(site.gerrit_config);
+    File configFile = site.gerrit_config.toFile();
+    if (refresh && cfgSnapshot.isModified(configFile)) {
+      cfgSnapshot = FileSnapshot.save(configFile);
       cfg = cfgProvider.get();
     }
     return new PluginConfig(pluginName, cfg);
@@ -250,20 +252,21 @@ public class PluginConfigFactory implements ReloadPluginListener {
       return pluginConfigs.get(pluginName);
     }
 
-    File pluginConfigFile = new File(site.etc_dir, pluginName + ".config");
-    FileBasedConfig cfg = new FileBasedConfig(pluginConfigFile, FS.DETECTED);
+    Path pluginConfigFile = site.etc_dir.resolve(pluginName + ".config");
+    FileBasedConfig cfg =
+        new FileBasedConfig(pluginConfigFile.toFile(), FS.DETECTED);
     pluginConfigs.put(pluginName, cfg);
     if (!cfg.getFile().exists()) {
-      log.info("No " + pluginConfigFile.getAbsolutePath() + "; assuming defaults");
+      log.info("No " + pluginConfigFile.toAbsolutePath() + "; assuming defaults");
       return cfg;
     }
 
     try {
       cfg.load();
     } catch (IOException e) {
-      log.warn("Failed to load " + pluginConfigFile.getAbsolutePath(), e);
+      log.warn("Failed to load " + pluginConfigFile.toAbsolutePath(), e);
     } catch (ConfigInvalidException e) {
-      log.warn("Failed to load " + pluginConfigFile.getAbsolutePath(), e);
+      log.warn("Failed to load " + pluginConfigFile.toAbsolutePath(), e);
     }
 
     return cfg;

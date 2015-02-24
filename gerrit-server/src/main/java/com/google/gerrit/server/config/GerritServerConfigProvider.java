@@ -44,10 +44,11 @@ class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    FileBasedConfig cfg =
+        new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
 
     if (!cfg.getFile().exists()) {
-      log.info("No " + site.gerrit_config.getAbsolutePath()
+      log.info("No " + site.gerrit_config.toAbsolutePath()
           + "; assuming defaults");
       return new GerritConfig(cfg, secureStore);
     }

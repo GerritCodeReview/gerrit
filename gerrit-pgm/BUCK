@@ -125,6 +125,7 @@ java_test(
     ':init-api',
     ':pgm',
     '//gerrit-server:server',
+    '//lib:guava',
     '//lib:junit',
     '//lib/easymock:easymock',
     '//lib/guice:guice',

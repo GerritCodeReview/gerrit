@@ -199,7 +199,8 @@ public abstract class SiteProgram extends AbstractProgram {
     };
     Injector i = Guice.createInjector(m);
     SitePaths site = i.getInstance(SitePaths.class);
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    FileBasedConfig cfg =
+        new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
     if (!cfg.getFile().exists()) {
       return null;
     }

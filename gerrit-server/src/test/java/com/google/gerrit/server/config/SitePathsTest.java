@@ -38,7 +38,7 @@ public class SitePathsTest {
     final SitePaths site = new SitePaths(root);
     assertTrue(site.isNew);
     assertEquals(root.toFile(), site.site_path);
-    assertEquals(root.resolve("etc").toFile(), site.etc_dir);
+    assertEquals(root.resolve("etc"), site.etc_dir);
   }
 
   @Test

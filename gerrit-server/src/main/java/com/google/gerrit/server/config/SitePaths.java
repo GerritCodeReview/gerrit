@@ -31,7 +31,7 @@ public final class SitePaths {
 
   public final File site_path;
   public final Path bin_dir;
-  public final File etc_dir;
+  public final Path etc_dir;
   public final File lib_dir;
   public final Path tmp_dir;
   public final File logs_dir;
@@ -46,9 +46,9 @@ public final class SitePaths {
   public final Path gerrit_sh;
   public final Path gerrit_war;
 
-  public final File gerrit_config;
-  public final File secure_config;
-  public final File contact_information_pub;
+  public final Path gerrit_config;
+  public final Path secure_config;
+  public final Path contact_information_pub;
 
   public final Path ssl_keystore;
   public final Path ssh_key;
@@ -71,13 +71,13 @@ public final class SitePaths {
     Path p = sitePath;
 
     bin_dir = p.resolve("bin");
-    etc_dir = new File(site_path, "etc");
+    etc_dir = p.resolve("etc");
     lib_dir = new File(site_path, "lib");
     tmp_dir = p.resolve("tmp");
     plugins_dir = new File(site_path, "plugins");
     data_dir = new File(site_path, "data");
     logs_dir = new File(site_path, "logs");
-    mail_dir = new File(etc_dir, "mail");
+    mail_dir = etc_dir.resolve("mail").toFile();
     hooks_dir = new File(site_path, "hooks");
     static_dir = new File(site_path, "static");
     themes_dir = new File(site_path, "themes");
@@ -86,21 +86,20 @@ public final class SitePaths {
     gerrit_sh = bin_dir.resolve("gerrit.sh");
     gerrit_war = bin_dir.resolve("gerrit.war");
 
-    gerrit_config = new File(etc_dir, "gerrit.config");
-    secure_config = new File(etc_dir, "secure.config");
-    contact_information_pub = new File(etc_dir, "contact_information.pub");
+    gerrit_config = etc_dir.resolve("gerrit.config");
+    secure_config = etc_dir.resolve("secure.config");
+    contact_information_pub = etc_dir.resolve("contact_information.pub");
 
-    Path etcDirPath = etc_dir.toPath();
-    ssl_keystore = etcDirPath.resolve("keystore");
-    ssh_key = etcDirPath.resolve("ssh_host_key");
-    ssh_rsa = etcDirPath.resolve("ssh_host_rsa_key");
-    ssh_dsa = etcDirPath.resolve("ssh_host_dsa_key");
-    peer_keys = etcDirPath.resolve("peer_keys");
+    ssl_keystore = etc_dir.resolve("keystore");
+    ssh_key = etc_dir.resolve("ssh_host_key");
+    ssh_rsa = etc_dir.resolve("ssh_host_rsa_key");
+    ssh_dsa = etc_dir.resolve("ssh_host_dsa_key");
+    peer_keys = etc_dir.resolve("peer_keys");
 
-    site_css = etcDirPath.resolve(CSS_FILENAME);
-    site_header = etcDirPath.resolve(HEADER_FILENAME);
-    site_footer = etcDirPath.resolve(FOOTER_FILENAME);
-    site_gitweb = etcDirPath.resolve("gitweb_config.perl");
+    site_css = etc_dir.resolve(CSS_FILENAME);
+    site_header = etc_dir.resolve(HEADER_FILENAME);
+    site_footer = etc_dir.resolve(FOOTER_FILENAME);
+    site_gitweb = etc_dir.resolve("gitweb_config.perl");
 
     if (site_path.exists()) {
       final String[] contents = site_path.list();

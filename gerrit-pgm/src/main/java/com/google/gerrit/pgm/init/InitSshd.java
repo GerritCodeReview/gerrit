@@ -131,7 +131,7 @@ class InitSshd implements InitStep {
         // short period of time. We try to reduce that risk by creating
         // the key within a temporary directory.
         //
-        Path tmpdir = site.etc_dir.toPath().resolve("tmp.sshkeygen");
+        Path tmpdir = site.etc_dir.resolve("tmp.sshkeygen");
         try {
           Files.createDirectory(tmpdir);
         } catch (IOException e) {

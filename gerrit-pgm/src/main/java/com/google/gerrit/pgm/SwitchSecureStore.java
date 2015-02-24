@@ -47,7 +47,7 @@ import java.util.zip.ZipEntry;
 public class SwitchSecureStore extends SiteProgram {
   private static String getSecureStoreClassFromGerritConfig(SitePaths sitePaths) {
     FileBasedConfig cfg =
-        new FileBasedConfig(sitePaths.gerrit_config, FS.DETECTED);
+        new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
     try {
       cfg.load();
     } catch (IOException | ConfigInvalidException e) {
@@ -151,7 +151,7 @@ public class SwitchSecureStore extends SiteProgram {
     log.info("Set gerrit.secureStoreClass property of gerrit.config to {}",
         newSecureStore);
     FileBasedConfig config =
-        new FileBasedConfig(sitePaths.gerrit_config, FS.DETECTED);
+        new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
     config.load();
     config.setString("gerrit", null, "secureStoreClass", newSecureStore);
     config.save();

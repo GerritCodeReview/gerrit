@@ -51,7 +51,7 @@ public class InitFlags {
       ConfigInvalidException {
     sec = secureStore;
     this.installPlugins = installPlugins;
-    cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
 
     cfg.load();
   }

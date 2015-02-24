@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
@@ -36,11 +37,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.IO;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -55,7 +55,7 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     final SitePaths site = new SitePaths(p);
     assertTrue(site.isNew);
     assertTrue(site.site_path.mkdir());
-    assertTrue(site.etc_dir.mkdir());
+    Files.createDirectory(site.etc_dir);
 
     for (String n : UpgradeFrom2_0_x.etcFiles) {
       Files.write(p.resolve(n), ("# " + n + "\n").getBytes(UTF_8));
@@ -98,11 +98,14 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     for (String n : UpgradeFrom2_0_x.etcFiles) {
       if ("gerrit.config".equals(n)) continue;
       if ("secure.config".equals(n)) continue;
-      assertEquals("# " + n + "\n",//
-          new String(IO.readFully(new File(site.etc_dir, n)), "UTF-8"));
+      try (InputStream in = Files.newInputStream(site.etc_dir.resolve(n))) {
+        assertEquals("# " + n + "\n",
+            new String(ByteStreams.toByteArray(in), UTF_8));
+      }
     }
 
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    FileBasedConfig cfg =
+        new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
     cfg.load();
 
     assertEquals("email.user", cfg.getString("sendemail", null, "smtpUser"));

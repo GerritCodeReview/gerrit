@@ -37,6 +37,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
@@ -65,7 +67,7 @@ class UpgradeFrom2_0_x implements InitStep {
   private final FileBasedConfig cfg;
   private final SecureStore sec;
   private final File site_path;
-  private final File etc_dir;
+  private final Path etc_dir;
   private final Section.Factory sections;
 
   @Inject
@@ -100,14 +102,16 @@ class UpgradeFrom2_0_x implements InitStep {
     }
 
     for (String name : etcFiles) {
-      final File src = new File(site_path, name);
-      final File dst = new File(etc_dir, name);
-      if (src.exists()) {
-        if (dst.exists()) {
+      Path src = site_path.toPath().resolve(name);
+      Path dst = etc_dir.resolve(name);
+      if (Files.exists(src)) {
+        if (Files.exists(dst)) {
           throw die("File " + src + " would overwrite " + dst);
         }
-        if (!src.renameTo(dst)) {
-          throw die("Cannot rename " + src + " to " + dst);
+        try {
+          Files.move(src, dst);
+        } catch (IOException e) {
+          throw die("Cannot rename " + src + " to " + dst, e);
         }
       }
     }

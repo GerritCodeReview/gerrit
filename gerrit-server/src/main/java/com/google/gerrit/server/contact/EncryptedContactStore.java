@@ -42,12 +42,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
@@ -72,7 +72,7 @@ class EncryptedContactStore implements ContactStore {
   private final ContactStoreConnection.Factory connFactory;
 
   EncryptedContactStore(final URL storeUrl, final String storeAPPSEC,
-      final File pubKey, final SchemaFactory<ReviewDb> schema,
+      final Path pubKey, final SchemaFactory<ReviewDb> schema,
       final ContactStoreConnection.Factory connFactory) {
     this.storeUrl = storeUrl;
     this.storeAPPSEC = storeAPPSEC;
@@ -104,8 +104,8 @@ class EncryptedContactStore implements ContactStore {
     return true;
   }
 
-  private static PGPPublicKeyRingCollection readPubRing(final File pub) {
-    try (InputStream fin = new FileInputStream(pub);
+  private static PGPPublicKeyRingCollection readPubRing(Path pub) {
+    try (InputStream fin = Files.newInputStream(pub);
         InputStream in = PGPUtil.getDecoderStream(fin)) {
         return new PGPPublicKeyRingCollection(in);
     } catch (IOException | PGPException e) {

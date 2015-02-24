@@ -25,8 +25,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
 class IndexVersionCheck implements LifecycleListener {
@@ -34,8 +34,8 @@ class IndexVersionCheck implements LifecycleListener {
       SolrChangeIndex.CHANGES_OPEN, ChangeSchemas.getLatest().getVersion(),
       SolrChangeIndex.CHANGES_CLOSED, ChangeSchemas.getLatest().getVersion());
 
-  public static File solrIndexConfig(SitePaths sitePaths) {
-    return new File(sitePaths.index_dir, "gerrit_index.config");
+  public static Path solrIndexConfig(SitePaths sitePaths) {
+    return sitePaths.index_dir.resolve("gerrit_index.config");
   }
 
   private final SitePaths sitePaths;
@@ -48,9 +48,9 @@ class IndexVersionCheck implements LifecycleListener {
   @Override
   public void start() {
     // TODO Query schema version from a special meta-document
-    File file = solrIndexConfig(sitePaths);
+    Path path = solrIndexConfig(sitePaths);
     try {
-      FileBasedConfig cfg = new FileBasedConfig(file, FS.detect());
+      FileBasedConfig cfg = new FileBasedConfig(path.toFile(), FS.detect());
       cfg.load();
       for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
         int schemaVersion = cfg.getInt("index", e.getKey(), "schemaVersion", 0);
@@ -61,9 +61,9 @@ class IndexVersionCheck implements LifecycleListener {
         }
       }
     } catch (IOException e) {
-      throw new ProvisionException("unable to read " + file);
+      throw new ProvisionException("unable to read " + path);
     } catch (ConfigInvalidException e) {
-      throw new ProvisionException("invalid config file " + file);
+      throw new ProvisionException("invalid config file " + path);
     }
   }
 

@@ -36,8 +36,10 @@ import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
@@ -65,15 +67,16 @@ class LuceneVersionManager implements LifecycleListener {
     }
   }
 
-  static File getDir(SitePaths sitePaths, Schema<ChangeData> schema) {
-    return new File(sitePaths.index_dir, String.format("%s%04d",
+  static Path getDir(SitePaths sitePaths, Schema<ChangeData> schema) {
+    return sitePaths.index_dir.resolve(String.format("%s%04d",
         CHANGES_PREFIX, schema.getVersion()));
   }
 
   static FileBasedConfig loadGerritIndexConfig(SitePaths sitePaths)
       throws ConfigInvalidException, IOException {
     FileBasedConfig cfg = new FileBasedConfig(
-        new File(sitePaths.index_dir, "gerrit_index.config"), FS.detect());
+        sitePaths.index_dir.resolve("gerrit_index.config").toFile(),
+        FS.detect());
     cfg.load();
     return cfg;
   }
@@ -114,10 +117,10 @@ class LuceneVersionManager implements LifecycleListener {
       throw fail(e);
     }
 
-    if (!sitePaths.index_dir.exists()) {
+    if (!Files.exists(sitePaths.index_dir)) {
       throw new ProvisionException("No index versions ready; run Reindex");
-    } else if (!sitePaths.index_dir.isDirectory()) {
-      log.warn("Not a directory: %s", sitePaths.index_dir.getAbsolutePath());
+    } else if (!Files.exists(sitePaths.index_dir)) {
+      log.warn("Not a directory: %s", sitePaths.index_dir.toAbsolutePath());
       throw new ProvisionException("No index versions ready; run Reindex");
     }
 
@@ -167,29 +170,35 @@ class LuceneVersionManager implements LifecycleListener {
   private TreeMap<Integer, Version> scanVersions(Config cfg) {
     TreeMap<Integer, Version> versions = Maps.newTreeMap();
     for (Schema<ChangeData> schema : ChangeSchemas.ALL.values()) {
-      File f = getDir(sitePaths, schema);
-      boolean exists = f.exists() && f.isDirectory();
-      if (f.exists() && !f.isDirectory()) {
-        log.warn("Not a directory: %s", f.getAbsolutePath());
+      Path p = getDir(sitePaths, schema);
+      boolean isDir = Files.isDirectory(p);
+      if (Files.exists(p) && !isDir) {
+        log.warn("Not a directory: %s", p.toAbsolutePath());
       }
       int v = schema.getVersion();
-      versions.put(v, new Version(schema, v, exists, getReady(cfg, v)));
+      versions.put(v, new Version(schema, v, isDir, getReady(cfg, v)));
     }
 
-    for (File f : sitePaths.index_dir.listFiles()) {
-      if (!f.getName().startsWith(CHANGES_PREFIX)) {
-        continue;
+    try (DirectoryStream<Path> paths =
+        Files.newDirectoryStream(sitePaths.index_dir)) {
+      for (Path p : paths) {
+        String n = p.getFileName().toString();
+        if (!n.startsWith(CHANGES_PREFIX)) {
+          continue;
+        }
+        String versionStr = n.substring(CHANGES_PREFIX.length());
+        Integer v = Ints.tryParse(versionStr);
+        if (v == null || versionStr.length() != 4) {
+          log.warn("Unrecognized version in index directory: {}",
+              p.toAbsolutePath());
+          continue;
+        }
+        if (!versions.containsKey(v)) {
+          versions.put(v, new Version(null, v, true, getReady(cfg, v)));
+        }
       }
-      String versionStr = f.getName().substring(CHANGES_PREFIX.length());
-      Integer v = Ints.tryParse(versionStr);
-      if (v == null || versionStr.length() != 4) {
-        log.warn("Unrecognized version in index directory: {}",
-            f.getAbsolutePath());
-        continue;
-      }
-      if (!versions.containsKey(v)) {
-        versions.put(v, new Version(null, v, true, getReady(cfg, v)));
-      }
+    } catch (IOException e) {
+      log.error("Error scanning index directory: " + sitePaths.index_dir, e);
     }
     return versions;
   }

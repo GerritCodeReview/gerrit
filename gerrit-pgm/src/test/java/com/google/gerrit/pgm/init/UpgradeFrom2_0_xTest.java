@@ -26,6 +26,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
@@ -53,8 +54,7 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     final Path p = newSitePath();
     final SitePaths site = new SitePaths(p);
     assertTrue(site.isNew);
-    assertTrue(site.site_path.mkdir());
-    Files.createDirectory(site.etc_dir);
+    FileUtil.mkdirsOrDie(site.etc_dir, "Failed to create");
 
     for (String n : UpgradeFrom2_0_x.etcFiles) {
       Files.write(p.resolve(n), ("# " + n + "\n").getBytes(UTF_8));

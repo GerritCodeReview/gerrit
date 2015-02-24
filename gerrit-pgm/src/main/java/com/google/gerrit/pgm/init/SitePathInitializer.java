@@ -21,6 +21,7 @@ import static com.google.gerrit.pgm.init.api.InitUtil.mkdir;
 import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
 import static com.google.gerrit.pgm.init.api.InitUtil.version;
 
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -66,12 +67,10 @@ public class SitePathInitializer {
     ui.header("Gerrit Code Review %s", version());
 
     if (site.isNew) {
-      if (!ui.yesno(true, "Create '%s'", site.site_path.getCanonicalPath())) {
+      if (!ui.yesno(true, "Create '%s'", site.site_path.toAbsolutePath())) {
         throw die("aborted by user");
       }
-      if (!site.site_path.isDirectory() && !site.site_path.mkdirs()) {
-        throw die("Cannot make directory " + site.site_path);
-      }
+      FileUtil.mkdirsOrDie(site.site_path, "Cannot make directory");
       flags.deleteOnFailure = true;
     }
 

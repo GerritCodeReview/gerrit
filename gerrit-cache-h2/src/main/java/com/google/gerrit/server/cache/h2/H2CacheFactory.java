@@ -93,7 +93,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (name == null) {
       return null;
     }
-    Path loc = site.resolve(name).toPath();
+    Path loc = site.resolve(name);
     if (!Files.exists(loc)) {
       try {
         Files.createDirectories(loc);

@@ -131,9 +131,9 @@ public class SchemaUpdater {
       throw new OrmException("No record in system_config table");
     }
     try {
-      sc.sitePath = site.site_path.getCanonicalPath();
+      sc.sitePath = site.site_path.toRealPath().normalize().toString();
     } catch (IOException e) {
-      sc.sitePath = site.site_path.getAbsolutePath();
+      sc.sitePath = site.site_path.toAbsolutePath().normalize().toString();
     }
     db.systemConfig().update(Collections.singleton(sc));
   }

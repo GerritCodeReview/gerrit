@@ -28,6 +28,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -47,6 +48,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -60,6 +62,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -224,14 +227,16 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
         return true; // Assume yes on new branch.
       }
       try {
-        Map<String, Ref> refs = key.load.repo.getAllRefs();
+        RefDatabase refDatabase = key.load.repo.getRefDatabase();
+        Map<String, Ref> heads = refDatabase.getRefs(Constants.R_HEADS);
+        Map<String, Ref> tags = refDatabase.getRefs(Constants.R_TAGS);
         RevWalk rw = CodeReviewCommit.newRevWalk(key.load.repo);
         try {
           RevFlag canMerge = rw.newFlag("CAN_MERGE");
           CodeReviewCommit rev = parse(rw, key.commit);
           rev.add(canMerge);
           CodeReviewCommit tip = parse(rw, key.into);
-          Set<RevCommit> accepted = alreadyAccepted(rw, refs.values());
+          Set<RevCommit> accepted = alreadyAccepted(rw, heads.values(), tags.values());
           accepted.add(tip);
           accepted.addAll(Arrays.asList(rev.getParents()));
           return submitStrategyFactory.create(
@@ -252,19 +257,22 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
 
     private static Set<RevCommit> alreadyAccepted(RevWalk rw,
-        Collection<Ref> refs) throws MissingObjectException, IOException {
+        Collection<Ref> heads, Collection<Ref> tags) throws MissingObjectException, IOException {
       Set<RevCommit> accepted = Sets.newHashSet();
+      addAlreadyAccepted(rw, heads, accepted);
+      addAlreadyAccepted(rw, tags, accepted);
+      return accepted;
+    }
+
+    private static void addAlreadyAccepted(RevWalk rw, Collection<Ref> refs,
+        Set<RevCommit> accepted) throws MissingObjectException, IOException {
       for (Ref r : refs) {
-        if (r.getName().startsWith(Constants.R_HEADS)
-            || r.getName().startsWith(Constants.R_TAGS)) {
-          try {
-            accepted.add(rw.parseCommit(r.getObjectId()));
-          } catch (IncorrectObjectTypeException nonCommit) {
-            // Not a commit? Skip over it.
-          }
+        try {
+          accepted.add(rw.parseCommit(r.getObjectId()));
+        } catch (IncorrectObjectTypeException nonCommit) {
+          // Not a commit? Skip over it.
         }
       }
-      return accepted;
     }
 
     private static CodeReviewCommit parse(RevWalk rw, ObjectId id)

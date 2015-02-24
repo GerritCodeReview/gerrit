@@ -39,8 +39,8 @@ public final class SitePaths {
   public final Path data_dir;
   public final Path mail_dir;
   public final File hooks_dir;
-  public final File static_dir;
-  public final File themes_dir;
+  public final Path static_dir;
+  public final Path themes_dir;
   public final Path index_dir;
 
   public final Path gerrit_sh;
@@ -79,8 +79,8 @@ public final class SitePaths {
     logs_dir = p.resolve("logs");
     mail_dir = etc_dir.resolve("mail");
     hooks_dir = new File(site_path, "hooks");
-    static_dir = new File(site_path, "static");
-    themes_dir = new File(site_path, "themes");
+    static_dir = p.resolve("static");
+    themes_dir = p.resolve("themes");
     index_dir = p.resolve("index");
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");

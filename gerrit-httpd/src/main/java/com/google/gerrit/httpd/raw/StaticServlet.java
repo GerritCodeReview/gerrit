@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.net.HttpHeaders.CONTENT_ENCODING;
 import static com.google.common.net.HttpHeaders.ETAG;
 import static com.google.common.net.HttpHeaders.IF_NONE_MATCH;
+import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -44,11 +45,12 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -89,21 +91,19 @@ public class StaticServlet extends HttpServlet {
     return type != null ? type : "application/octet-stream";
   }
 
-  private final File staticBase;
-  private final String staticBasePath;
+  private final Path staticBase;
   private final boolean refresh;
   private final LoadingCache<String, Resource> cache;
 
   @Inject
   StaticServlet(@GerritServerConfig Config cfg, SitePaths site) {
-    File f;
+    Path p;
     try {
-      f = site.static_dir.getCanonicalFile();
+      p = site.static_dir.toRealPath().normalize();
     } catch (IOException e) {
-      f = site.static_dir.getAbsoluteFile();
+      p = site.static_dir.toAbsolutePath().normalize();
     }
-    staticBase = f;
-    staticBasePath = staticBase.getPath() + File.separator;
+    staticBase = p;
     refresh = cfg.getBoolean("site", "refreshHeaderFooter", true);
     cache = CacheBuilder.newBuilder()
         .maximumWeight(1 << 20)
@@ -131,7 +131,8 @@ public class StaticServlet extends HttpServlet {
     }
   }
 
-  private Resource getResource(HttpServletRequest req) throws ExecutionException {
+  private Resource getResource(HttpServletRequest req)
+      throws ExecutionException {
     String name = CharMatcher.is('/').trimFrom(req.getPathInfo());
     if (isUnreasonableName(name)) {
       return Resource.NOT_FOUND;
@@ -209,29 +210,22 @@ public class StaticServlet extends HttpServlet {
   }
 
   private Resource loadResource(String name) throws IOException {
-    File p = new File(staticBase, name);
+    Path p = staticBase.resolve(name);
     try {
-      p = p.getCanonicalFile();
+      p = p.toRealPath().normalize();
     } catch (IOException e) {
       return Resource.NOT_FOUND;
     }
-    if (!p.getPath().startsWith(staticBasePath)) {
+    if (!p.startsWith(staticBase)) {
       return Resource.NOT_FOUND;
     }
 
-    long ts = p.lastModified();
-    FileInputStream in;
-    try {
-      in = new FileInputStream(p);
+    long ts = Files.getLastModifiedTime(p).toMillis();
+    byte[] raw;
+    try (InputStream in = Files.newInputStream(p)) {
+      raw = ByteStreams.toByteArray(in);
     } catch (FileNotFoundException e) {
       return Resource.NOT_FOUND;
-    }
-
-    byte[] raw;
-    try {
-      raw = ByteStreams.toByteArray(in);
-    } finally {
-      in.close();
     }
     return new Resource(p, ts, contentType(name), raw);
   }
@@ -239,13 +233,13 @@ public class StaticServlet extends HttpServlet {
   static class Resource {
     static final Resource NOT_FOUND = new Resource(null, -1, "", new byte[] {});
 
-    final File src;
+    final Path src;
     final long lastModified;
     final String contentType;
     final String etag;
     final byte[] raw;
 
-    Resource(File src, long lastModified, String contentType, byte[] raw) {
+    Resource(Path src, long lastModified, String contentType, byte[] raw) {
       this.src = src;
       this.lastModified = lastModified;
       this.contentType = contentType;
@@ -254,7 +248,7 @@ public class StaticServlet extends HttpServlet {
     }
 
     boolean isStale() {
-      return lastModified != src.lastModified();
+      return lastModified != lastModified(src);
     }
   }
 }

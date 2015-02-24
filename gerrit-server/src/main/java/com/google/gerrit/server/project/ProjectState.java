@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.io.Files;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
@@ -55,9 +54,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -488,25 +488,25 @@ public class ProjectState {
 
   private ThemeInfo loadTheme() {
     String name = getConfig().getProject().getName();
-    File dir = new File(sitePaths.themes_dir, name);
-    if (!dir.exists()) {
+    Path dir = sitePaths.themes_dir.resolve(name);
+    if (!Files.exists(dir)) {
       return ThemeInfo.INHERIT;
-    } else if (!dir.isDirectory()) {
+    } else if (!Files.isDirectory(dir)) {
       log.warn("Bad theme for {}: not a directory", name);
       return ThemeInfo.INHERIT;
     }
     try {
-      return new ThemeInfo(readFile(new File(dir, SitePaths.CSS_FILENAME)),
-          readFile(new File(dir, SitePaths.HEADER_FILENAME)),
-          readFile(new File(dir, SitePaths.FOOTER_FILENAME)));
+      return new ThemeInfo(readFile(dir.resolve(SitePaths.CSS_FILENAME)),
+          readFile(dir.resolve(SitePaths.HEADER_FILENAME)),
+          readFile(dir.resolve(SitePaths.FOOTER_FILENAME)));
     } catch (IOException e) {
       log.error("Error reading theme for " + name, e);
       return ThemeInfo.INHERIT;
     }
   }
 
-  private String readFile(File f) throws IOException {
-    return f.exists() ? Files.toString(f, UTF_8) : null;
+  private String readFile(Path p) throws IOException {
+    return Files.exists(p) ? new String(Files.readAllBytes(p), UTF_8) : null;
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {

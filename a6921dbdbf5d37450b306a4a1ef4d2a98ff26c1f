@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_38e82904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T07:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_ced4a348",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_aedb5773",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 12
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "OK, in that case maybe it\u0027s better to say \u0027OAuth\u0027 here instead of \u0027OAuth2\u0027.",
       "parentUuid": "85527d4f_98d17557",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 6
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_18ed6514",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T07:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08fdc2e8_3c04113e",
       "range": {
         "startLine": 150,
         "startChar": 0,
@@ -284,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "85db5d05_90deb464",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T07:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65e029b0_0fe2a522",
+      "range": {
+        "startLine": 101,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 19
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_8ede9b64",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 12
@@ -331,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "85db5d05_b0dbb873",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T07:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_8ede9b64",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65e029b0_2fe76933",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 12
@@ -354,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "85db5d05_50e84c04",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T07:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65e029b0_2fe76933",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65e029b0_cffb3dca",
         "filename": "gerrit-war/BUCK",
         "patchSetId": 12
@@ -365,6 +485,30 @@
       "writtenOn": "2015-02-24T03:20:18Z",
       "side": 1,
       "message": "move after \u0027lucene\u0027",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_f8deb164",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T07:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65e029b0_cffb3dca",
       "range": {
         "startLine": 7,
         "startChar": 14,

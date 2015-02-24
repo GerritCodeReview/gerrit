@@ -17,26 +17,18 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.annotations.PluginCanonicalWebUrl;
-import com.google.gerrit.extensions.annotations.PluginData;
-import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.util.RequestContext;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -132,6 +124,14 @@ public class ServerPlugin extends Plugin {
 
   Path getSrcJar() {
     return getSrcFile();
+  }
+
+  Path getDataDir() {
+    return dataDir;
+  }
+
+  String getPluginCanonicalWebUrl() {
+    return pluginCanonicalWebUrl;
   }
 
   private static Manifest getPluginManifest(PluginContentScanner scanner)
@@ -232,49 +232,11 @@ public class ServerPlugin extends Plugin {
   }
 
   private Injector newRootInjector(final PluginGuiceEnvironment env) {
-    List<Module> modules = Lists.newArrayListWithCapacity(4);
+    List<Module> modules = Lists.newArrayListWithCapacity(2);
     if (getApiType() == ApiType.PLUGIN) {
       modules.add(env.getSysModule());
     }
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(PluginUser.class).toInstance(getPluginUser());
-        bind(String.class)
-          .annotatedWith(PluginName.class)
-          .toInstance(getName());
-        bind(String.class)
-          .annotatedWith(PluginCanonicalWebUrl.class)
-          .toInstance(pluginCanonicalWebUrl);
-
-        bind(Path.class)
-          .annotatedWith(PluginData.class)
-          .toProvider(new Provider<Path>() {
-            private volatile boolean ready;
-
-            @Override
-            public Path get() {
-              if (!ready) {
-                synchronized (dataDir) {
-                  if (!ready) {
-                    try {
-                      Files.createDirectories(dataDir);
-                    } catch (IOException e) {
-                      throw new ProvisionException(String.format(
-                          "Cannot create %s for plugin %s",
-                          dataDir.toAbsolutePath(), getName()), e);
-                    }
-                    ready = true;
-                  }
-                }
-              }
-              return dataDir;
-            }
-          });
-        bind(File.class).annotatedWith(PluginData.class)
-            .toProvider(PluginDataAsFileProvider.class);
-      }
-    });
+    modules.add(new ServerPluginInfoModule(this));
     return Guice.createInjector(modules);
   }
 

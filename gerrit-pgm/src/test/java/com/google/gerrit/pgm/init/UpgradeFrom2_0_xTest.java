@@ -116,22 +116,12 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     u.run();
   }
 
-  private static class InMemorySecureStore implements SecureStore {
+  private static class InMemorySecureStore extends SecureStore {
     private final Config cfg = new Config();
-
-    @Override
-    public String get(String section, String subsection, String name) {
-      return cfg.getString(section, subsection, name);
-    }
 
     @Override
     public String[] getList(String section, String subsection, String name) {
       return cfg.getStringList(section, subsection, name);
-    }
-
-    @Override
-    public void set(String section, String subsection, String name, String value) {
-      cfg.setString(section, subsection, name, value);
     }
 
     @Override
@@ -143,6 +133,11 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     @Override
     public void unset(String section, String subsection, String name) {
       cfg.unset(section, subsection, name);
+    }
+
+    @Override
+    public Iterable<EntryKey> list() {
+      throw new UnsupportedOperationException("not used by tests");
     }
   }
 }

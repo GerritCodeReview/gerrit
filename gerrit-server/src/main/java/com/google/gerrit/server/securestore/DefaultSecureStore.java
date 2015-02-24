@@ -26,10 +26,11 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class DefaultSecureStore implements SecureStore {
+public class DefaultSecureStore extends SecureStore {
   private final FileBasedConfig sec;
 
   @Inject
@@ -44,23 +45,8 @@ public class DefaultSecureStore implements SecureStore {
   }
 
   @Override
-  public String get(String section, String subsection, String name) {
-    return sec.getString(section, subsection, name);
-  }
-
-  @Override
   public String[] getList(String section, String subsection, String name) {
     return sec.getStringList(section, subsection, name);
-  }
-
-  @Override
-  public void set(String section, String subsection, String name, String value) {
-    if (value != null) {
-      sec.setString(section, subsection, name, value);
-    } else {
-      sec.unset(section, subsection, name);
-    }
-    save();
   }
 
   @Override
@@ -78,6 +64,22 @@ public class DefaultSecureStore implements SecureStore {
   public void unset(String section, String subsection, String name) {
     sec.unset(section, subsection, name);
     save();
+  }
+
+  @Override
+  public Iterable<EntryKey> list() {
+    List<EntryKey> result = new ArrayList<>();
+    for (String section : sec.getSections()) {
+      for (String subsection : sec.getSubsections(section)) {
+        for (String name : sec.getNames(section, subsection)) {
+          result.add(new EntryKey(section, subsection, name));
+        }
+      }
+      for (String name : sec.getNames(section)) {
+        result.add(new EntryKey(section, null, name));
+      }
+    }
+    return result;
   }
 
   private void save() {

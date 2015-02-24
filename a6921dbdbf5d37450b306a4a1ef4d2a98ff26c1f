@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_98d17557",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-24T06:53:35Z",
+      "side": 1,
+      "message": "Not really. We should support both. The actual provider implementation are behind the plugin abstaction layer. That way we should be able to support OAUTH 3,4, ... protocol version. Also note, that one plugin can offer multiple different providers or different protocol versions of the same provider.",
+      "parentUuid": "45c5e522_aedb5773",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 6
+      },
+      "revId": "a6921dbdbf5d37450b306a4a1ef4d2a98ff26c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_4ee8b304",
         "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthWebFilter.java",
         "patchSetId": 12

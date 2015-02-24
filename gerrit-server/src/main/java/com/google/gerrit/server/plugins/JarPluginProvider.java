@@ -32,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,7 +86,8 @@ public class JarPluginProvider implements ServerPluginProvider {
       String extension = getExtension(srcFile);
       try (FileInputStream in = new FileInputStream(srcFile)) {
         File tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
-        return loadJarPlugin(name, srcFile, snapshot, tmp, description);
+        return loadJarPlugin(name, srcFile.toPath(), snapshot, tmp,
+            description);
       }
     } catch (IOException e) {
       throw new InvalidPluginException("Cannot load Jar plugin " + srcFile, e);
@@ -120,7 +122,7 @@ public class JarPluginProvider implements ServerPluginProvider {
         sitePaths.tmp_dir.toFile());
   }
 
-  private ServerPlugin loadJarPlugin(String name, File srcJar,
+  private ServerPlugin loadJarPlugin(String name, Path srcJar,
       FileSnapshot snapshot, File tmp, PluginDescription description)
       throws IOException, InvalidPluginException, MalformedURLException {
     JarFile jarFile = new JarFile(tmp);
@@ -146,10 +148,9 @@ public class JarPluginProvider implements ServerPluginProvider {
               PluginLoader.parentFor(type));
 
       JarScanner jarScanner = createJarScanner(srcJar);
-      ServerPlugin plugin =
-          new ServerPlugin(name, description.canonicalUrl, description.user,
-              srcJar, snapshot, jarScanner, description.dataDir,
-              pluginLoader);
+      ServerPlugin plugin = new ServerPlugin(name, description.canonicalUrl,
+          description.user, srcJar.toFile(), snapshot, jarScanner,
+          description.dataDir, pluginLoader);
       plugin.setCleanupHandle(new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;
@@ -160,7 +161,7 @@ public class JarPluginProvider implements ServerPluginProvider {
     }
   }
 
-  private JarScanner createJarScanner(File srcJar)
+  private JarScanner createJarScanner(Path srcJar)
       throws InvalidPluginException {
     try {
       return new JarScanner(srcJar);

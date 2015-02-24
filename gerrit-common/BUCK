@@ -51,6 +51,7 @@ java_library(
     '//lib:guava',
     '//lib/jgit:jgit',
     '//lib/joda:joda-time',
+    '//lib/log:api',
   ],
   visibility = ['PUBLIC'],
 )

@@ -26,14 +26,14 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.nio.file.Path;
 
 @Singleton
 public class SecureStoreProvider implements Provider<SecureStore> {
   private static final Logger log = LoggerFactory
       .getLogger(SecureStoreProvider.class);
 
-  private final File libdir;
+  private final Path libdir;
   private final Injector injector;
   private final String className;
 

@@ -39,10 +39,10 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -69,8 +69,8 @@ public class JarScanner implements PluginContentScanner {
 
   private final JarFile jarFile;
 
-  public JarScanner(File srcFile) throws IOException {
-    this.jarFile = new JarFile(srcFile);
+  public JarScanner(Path src) throws IOException {
+    this.jarFile = new JarFile(src.toFile());
   }
 
   @Override

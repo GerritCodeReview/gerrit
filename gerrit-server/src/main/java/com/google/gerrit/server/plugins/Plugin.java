@@ -26,6 +26,7 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -67,7 +68,7 @@ public abstract class Plugin {
   }
 
   private final String name;
-  private final File srcFile;
+  private final Path srcFile;
   private final ApiType apiType;
   private final boolean disabled;
   private final CacheKey cacheKey;
@@ -80,17 +81,18 @@ public abstract class Plugin {
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public Plugin(String name,
-      File srcFile,
+      Path srcFile,
       PluginUser pluginUser,
       FileSnapshot snapshot,
       ApiType apiType) {
     this.name = name;
+    // TODO(dborowitz): Rename to srcPath or something.
     this.srcFile = srcFile;
     this.apiType = apiType;
     this.snapshot = snapshot;
     this.pluginUser = pluginUser;
     this.cacheKey = new Plugin.CacheKey(name);
-    this.disabled = srcFile.getName().endsWith(".disabled");
+    this.disabled = srcFile.getFileName().toString().endsWith(".disabled");
   }
 
   public CleanupHandle getCleanupHandle() {
@@ -105,7 +107,7 @@ public abstract class Plugin {
     return pluginUser;
   }
 
-  public File getSrcFile() {
+  public Path getSrcFile() {
     return srcFile;
   }
 

@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.resources.Resource;
@@ -55,14 +56,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -303,7 +304,8 @@ class HttpPluginServlet extends HttpServlet
       }
       if (!entry.isPresent() && file.endsWith("/index.html")) {
         String pfx = file.substring(0, file.length() - "index.html".length());
-        long pluginLastModified = holder.plugin.getSrcFile().lastModified();
+        long pluginLastModified =
+            Files.getLastModifiedTime(holder.plugin.getSrcFile()).toMillis();
         if (hasUpToDateCachedResource(rsc, pluginLastModified)) {
           rsc.send(req, res);
         } else {
@@ -608,12 +610,12 @@ class HttpPluginServlet extends HttpServlet
 
   private void sendJsPlugin(Plugin plugin, PluginResourceKey key,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
-    File pluginFile = plugin.getSrcFile();
+    Path path = plugin.getSrcFile();
     if (req.getRequestURI().endsWith(getJsPluginPath(plugin))
-        && pluginFile.exists()) {
-      res.setHeader("Content-Length", Long.toString(pluginFile.length()));
+        && Files.exists(path)) {
+      res.setHeader("Content-Length", Long.toString(Files.size(path)));
       res.setContentType("application/javascript");
-      writeToResponse(res, new FileInputStream(pluginFile));
+      writeToResponse(res, Files.newInputStream(path));
     } else {
       resourceCache.put(key, Resource.NOT_FOUND);
       Resource.NOT_FOUND.send(req, res);
@@ -621,25 +623,15 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private static String getJsPluginPath(Plugin plugin) {
-    return String.format("/plugins/%s/static/%s", plugin.getName(), plugin.getSrcFile()
-        .getName());
+    return String.format("/plugins/%s/static/%s", plugin.getName(),
+        plugin.getSrcFile().getFileName());
   }
 
-  private void writeToResponse(HttpServletResponse res, InputStream in)
+  private void writeToResponse(HttpServletResponse res, InputStream inputStream)
       throws IOException {
-    try {
-      OutputStream out = res.getOutputStream();
-      try {
-        byte[] tmp = new byte[1024];
-        int n;
-        while ((n = in.read(tmp)) > 0) {
-          out.write(tmp, 0, n);
-        }
-      } finally {
-        out.close();
-      }
-    } finally {
-      in.close();
+    try (OutputStream out = res.getOutputStream();
+        InputStream in = inputStream) {
+      ByteStreams.copy(in, out);
     }
   }
 
@@ -671,9 +663,9 @@ class HttpPluginServlet extends HttpServlet
     }
 
     private static String getPrefix(Plugin plugin, String attr, String def) {
-      File srcFile = plugin.getSrcFile();
+      Path path = plugin.getSrcFile();
       PluginContentScanner scanner = plugin.getContentScanner();
-      if (srcFile == null || scanner == PluginContentScanner.EMPTY) {
+      if (path == null || scanner == PluginContentScanner.EMPTY) {
         return def;
       }
       try {

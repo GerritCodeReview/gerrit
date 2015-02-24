@@ -50,6 +50,7 @@ import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -172,11 +173,11 @@ public class PluginLoader implements LifecycleListener {
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
-        fileName = active.getSrcFile().getName();
+        fileName = active.getSrcFile().getFileName().toString();
         log.info(String.format("Replacing plugin %s", active.getName()));
         File old = new File(pluginsDir, ".last_" + fileName);
         old.delete();
-        active.getSrcFile().renameTo(old);
+        active.getSrcFile().toFile().renameTo(old);
       }
 
       new File(pluginsDir, fileName + ".disabled").delete();
@@ -241,7 +242,7 @@ public class PluginLoader implements LifecycleListener {
 
         log.info(String.format("Disabling plugin %s", active.getName()));
         File off = new File(active.getSrcFile() + ".disabled");
-        active.getSrcFile().renameTo(off);
+        active.getSrcFile().toFile().renameTo(off);
 
         unloadPlugin(active);
         try {
@@ -274,12 +275,12 @@ public class PluginLoader implements LifecycleListener {
         }
 
         log.info(String.format("Enabling plugin %s", name));
-        String n = off.getSrcFile().getName();
+        String n = off.getSrcFile().toFile().getName();
         if (n.endsWith(".disabled")) {
           n = n.substring(0, n.lastIndexOf('.'));
         }
         File on = new File(pluginsDir, n);
-        off.getSrcFile().renameTo(on);
+        off.getSrcFile().toFile().renameTo(on);
 
         disabled.remove(name);
         runPlugin(name, on, null);
@@ -342,7 +343,7 @@ public class PluginLoader implements LifecycleListener {
         String name = active.getName();
         try {
           log.info(String.format("Reloading plugin %s", name));
-          runPlugin(name, active.getSrcFile(), active);
+          runPlugin(name, active.getSrcFile().toFile(), active);
         } catch (PluginInstallException e) {
           log.warn(String.format("Cannot reload plugin %s", name), e.getCause());
           throw e;
@@ -549,7 +550,7 @@ public class PluginLoader implements LifecycleListener {
       throws InvalidPluginException {
     String pluginName = srcPlugin.getName();
     if (isJsPlugin(pluginName)) {
-      return loadJsPlugin(name, srcPlugin, snapshot);
+      return loadJsPlugin(name, srcPlugin.toPath(), snapshot);
     } else if (serverPluginFactory.handles(srcPlugin)) {
       return loadServerPlugin(srcPlugin, snapshot);
     } else {
@@ -569,7 +570,7 @@ public class PluginLoader implements LifecycleListener {
     return url;
   }
 
-  private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
+  private Plugin loadJsPlugin(String name, Path srcJar, FileSnapshot snapshot) {
     return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
   }
 

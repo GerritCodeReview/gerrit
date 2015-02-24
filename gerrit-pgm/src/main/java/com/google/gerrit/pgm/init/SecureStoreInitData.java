@@ -14,13 +14,13 @@
 
 package com.google.gerrit.pgm.init;
 
-import java.io.File;
+import java.nio.file.Path;
 
 class SecureStoreInitData {
-  final File jarFile;
+  final Path jarFile;
   final String className;
 
-  SecureStoreInitData(File jar, String className) {
+  SecureStoreInitData(Path jar, String className) {
     this.className = className;
     this.jarFile = jar;
   }

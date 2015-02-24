@@ -32,7 +32,7 @@ public final class SitePaths {
   public final File site_path;
   public final Path bin_dir;
   public final Path etc_dir;
-  public final File lib_dir;
+  public final Path lib_dir;
   public final Path tmp_dir;
   public final File logs_dir;
   public final File plugins_dir;
@@ -72,7 +72,7 @@ public final class SitePaths {
 
     bin_dir = p.resolve("bin");
     etc_dir = p.resolve("etc");
-    lib_dir = new File(site_path, "lib");
+    lib_dir = p.resolve("lib");
     tmp_dir = p.resolve("tmp");
     plugins_dir = new File(site_path, "plugins");
     data_dir = new File(site_path, "data");

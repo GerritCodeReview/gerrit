@@ -80,7 +80,8 @@ public class ServerPlugin extends Plugin {
       PluginContentScanner scanner,
       File dataDir,
       ClassLoader classLoader) throws InvalidPluginException {
-    super(name, srcJar, pluginUser, snapshot, Plugin.getApiType(getPluginManifest(scanner)));
+    super(name, srcJar.toPath(), pluginUser, snapshot,
+        Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.scanner = scanner;
     this.dataDir = dataDir;
@@ -128,7 +129,7 @@ public class ServerPlugin extends Plugin {
   }
 
   File getSrcJar() {
-    return getSrcFile();
+    return getSrcFile().toFile();
   }
 
   private static Manifest getPluginManifest(PluginContentScanner scanner)

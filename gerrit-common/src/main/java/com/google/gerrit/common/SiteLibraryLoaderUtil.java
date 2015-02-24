@@ -14,41 +14,59 @@
 
 package com.google.gerrit.common;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Arrays;
-import java.util.Comparator;
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 public final class SiteLibraryLoaderUtil {
+  private static final Logger log =
+      LoggerFactory.getLogger(SiteLibraryLoaderUtil.class);
 
-  public static void loadSiteLib(File libdir) {
-    File[] jars = listJars(libdir);
-    if (jars != null && 0 < jars.length) {
-      Arrays.sort(jars, new Comparator<File>() {
-        @Override
-        public int compare(File a, File b) {
-          // Sort by reverse last-modified time so newer JARs are first.
-          int cmp = Long.compare(b.lastModified(), a.lastModified());
-          if (cmp != 0) {
-            return cmp;
-          }
-          return a.getName().compareTo(b.getName());
-        }
-      });
-      IoUtil.loadJARs(jars);
+  public static void loadSiteLib(Path libdir) {
+    try {
+      IoUtil.loadJARs(listJars(libdir));
+    } catch (IOException e) {
+      log.error("Error scanning lib directory " + libdir, e);
     }
   }
 
-  public static File[] listJars(File libdir) {
-    File[] jars = libdir.listFiles(new FileFilter() {
+  private static long lastModified(Path p) {
+    try {
+      return Files.getLastModifiedTime(p).toMillis();
+    } catch (IOException e) {
+      return 0;
+    }
+  }
+
+  public static List<Path> listJars(Path dir) throws IOException {
+    DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
       @Override
-      public boolean accept(File path) {
-        String name = path.getName();
-        return (name.endsWith(".jar") || name.endsWith(".zip"))
-            && path.isFile();
+      public boolean accept(Path entry) throws IOException {
+          String name = entry.getFileName().toString();
+          return (name.endsWith(".jar") || name.endsWith(".zip"))
+              && Files.isRegularFile(entry);
       }
-    });
-    return jars;
+    };
+    try (DirectoryStream<Path> jars = Files.newDirectoryStream(dir, filter)) {
+      return new Ordering<Path>() {
+        @Override
+        public int compare(Path a, Path b) {
+          // Sort by reverse last-modified time so newer JARs are first.
+          return ComparisonChain.start()
+              .compare(lastModified(b), lastModified(a))
+              .compare(a, b)
+              .result();
+        }
+      }.sortedCopy(jars);
+    }
   }
 
   private SiteLibraryLoaderUtil() {

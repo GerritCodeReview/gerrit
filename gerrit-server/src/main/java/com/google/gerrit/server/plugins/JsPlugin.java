@@ -27,12 +27,12 @@ import com.google.inject.Injector;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
-import java.io.File;
+import java.nio.file.Path;
 
 class JsPlugin extends Plugin {
   private Injector httpInjector;
 
-  JsPlugin(String name, File srcFile, PluginUser pluginUser,
+  JsPlugin(String name, Path srcFile, PluginUser pluginUser,
       FileSnapshot snapshot) {
     super(name, srcFile, pluginUser, snapshot, ApiType.JS);
   }
@@ -40,7 +40,7 @@ class JsPlugin extends Plugin {
   @Override
   @Nullable
   public String getVersion() {
-    String fileName = getSrcFile().getName();
+    String fileName = getSrcFile().getFileName().toString();
     int firstDash = fileName.indexOf("-");
     if (firstDash > 0) {
       return fileName.substring(firstDash + 1, fileName.lastIndexOf(".js"));
@@ -51,7 +51,7 @@ class JsPlugin extends Plugin {
   @Override
   public void start(PluginGuiceEnvironment env) throws Exception {
     manager = new LifecycleManager();
-    String fileName = getSrcFile().getName();
+    String fileName = getSrcFile().getFileName().toString();
     httpInjector =
         Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
     manager.start();

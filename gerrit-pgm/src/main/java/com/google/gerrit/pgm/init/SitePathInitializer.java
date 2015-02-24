@@ -21,7 +21,6 @@ import static com.google.gerrit.pgm.init.api.InitUtil.mkdir;
 import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
 import static com.google.gerrit.pgm.init.api.InitUtil.version;
 
-import com.google.common.io.Files;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -37,6 +36,8 @@ import com.google.inject.TypeLiteral;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +133,8 @@ public class SitePathInitializer {
 
   private void saveSecureStore() throws IOException {
     if (secureStoreInitData != null) {
-      File dst = new File(site.lib_dir, secureStoreInitData.jarFile.getName());
+      Path dst =
+          site.lib_dir.resolve(secureStoreInitData.jarFile.getFileName());
       Files.copy(secureStoreInitData.jarFile, dst);
       Section gerritSection = sectionFactory.get("gerrit", null);
       gerritSection.set("secureStoreClass", secureStoreInitData.className);

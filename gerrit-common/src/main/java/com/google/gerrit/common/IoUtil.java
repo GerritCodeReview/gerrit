@@ -16,7 +16,6 @@ package com.google.gerrit.common;
 
 import com.google.common.collect.Sets;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,6 +24,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -53,7 +53,7 @@ public final class IoUtil {
     }.start();
   }
 
-  public static void loadJARs(File... jars) {
+  public static void loadJARs(Iterable<Path> jars) {
     ClassLoader cl = IoUtil.class.getClassLoader();
     if (!(cl instanceof URLClassLoader)) {
       throw noAddURL("Not loaded by URLClassLoader", null);
@@ -71,9 +71,9 @@ public final class IoUtil {
     }
 
     Set<URL> have = Sets.newHashSet(Arrays.asList(urlClassLoader.getURLs()));
-    for (File path : jars) {
+    for (Path path : jars) {
       try {
-        URL url = path.toURI().toURL();
+        URL url = path.toUri().toURL();
         if (have.add(url)) {
           addURL.invoke(cl, url);
         }
@@ -84,6 +84,10 @@ public final class IoUtil {
         throw noAddURL("addURL " + path + " failed", e.getCause());
       }
     }
+  }
+
+  public static void loadJARs(Path... jars) {
+    loadJARs(Arrays.asList(jars));
   }
 
   private static UnsupportedOperationException noAddURL(String m, Throwable why) {

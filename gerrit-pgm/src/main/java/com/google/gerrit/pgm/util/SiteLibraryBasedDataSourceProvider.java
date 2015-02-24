@@ -24,14 +24,14 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import javax.sql.DataSource;
 
 /** Loads the site library if not yet loaded. */
 @Singleton
 public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
-  private final File libdir;
+  private final Path libdir;
   private boolean init;
 
   @Inject

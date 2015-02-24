@@ -15,21 +15,19 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.base.Strings;
-import com.google.common.io.Files;
+import com.google.common.hash.Funnels;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.HttpSupport;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,15 +36,17 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */
 class LibraryDownloader {
   private final ConsoleUI ui;
-  private final File lib_dir;
+  private final Path lib_dir;
 
   private boolean required;
   private String name;
@@ -55,7 +55,7 @@ class LibraryDownloader {
   private String remove;
   private List<LibraryDownloader> needs;
   private LibraryDownloader neededBy;
-  private File dst;
+  private Path dst;
   private boolean download; // download or copy
   private boolean exists;
 
@@ -118,8 +118,8 @@ class LibraryDownloader {
       name = jarName;
     }
 
-    dst = new File(lib_dir, jarName);
-    if (dst.exists()) {
+    dst = lib_dir.resolve(jarName);
+    if (Files.exists(dst)) {
       exists = true;
     } else if (shouldGet()) {
       doGet();
@@ -158,8 +158,12 @@ class LibraryDownloader {
   }
 
   private void doGet() {
-    if (!lib_dir.exists() && !lib_dir.mkdirs()) {
-      throw new Die("Cannot create " + lib_dir);
+    if (!Files.exists(lib_dir)) {
+      try {
+        Files.createDirectories(lib_dir);
+      } catch (IOException e) {
+        throw new Die("Cannot create " + lib_dir, e);
+      }
     }
 
     try {
@@ -171,7 +175,11 @@ class LibraryDownloader {
       }
       verifyFileChecksum();
     } catch (IOException err) {
-      dst.delete();
+      try {
+        Files.delete(dst);
+      } catch (IOException e) {
+        // Delete failed; leave alone.
+      }
 
       if (ui.isBatch()) {
         throw new Die("error: Cannot get " + jarUrl, err);
@@ -186,13 +194,13 @@ class LibraryDownloader {
       System.err.println();
       System.err.println("and save as:");
       System.err.println();
-      System.err.println("  " + dst.getAbsolutePath());
+      System.err.println("  " + dst.toAbsolutePath());
       System.err.println();
       System.err.flush();
 
       ui.waitForUser();
 
-      if (dst.exists()) {
+      if (Files.exists(dst)) {
         verifyFileChecksum();
 
       } else if (!ui.yesno(!required, "Continue without this library")) {
@@ -200,7 +208,7 @@ class LibraryDownloader {
       }
     }
 
-    if (dst.exists()) {
+    if (Files.exists(dst)) {
       exists = true;
       IoUtil.loadJARs(dst);
     }
@@ -208,19 +216,27 @@ class LibraryDownloader {
 
   private void removeStaleVersions() {
     if (!Strings.isNullOrEmpty(remove)) {
-      String[] names = lib_dir.list(new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-          return name.matches("^" + remove + "$");
-        }
-      });
-      if (names != null) {
-        for (String old : names) {
-          String bak = "." + old + ".backup";
-          ui.message("Renaming %s to %s", old, bak);
-          if (!new File(lib_dir, old).renameTo(new File(lib_dir, bak))) {
-            throw new Die("cannot rename " + old);
-          }
+      Iterable<Path> paths;
+      try {
+        paths = Files.newDirectoryStream(lib_dir,
+            new DirectoryStream.Filter<Path>() {
+              @Override
+              public boolean accept(Path entry) {
+                return entry.getFileName().toString()
+                    .matches("^" + remove + "$");
+              }
+            });
+      } catch (IOException e) {
+        throw new Die("cannot remove stale library versions", e);
+      }
+      for (Path p : paths) {
+        String old = p.getFileName().toString();
+        String bak = "." + old + ".backup";
+        ui.message("Renaming %s to %s", old, bak);
+        try {
+          Files.move(p, p.resolveSibling(bak));
+        } catch (IOException e) {
+          throw new Die("cannot rename " + old, e);
         }
       }
     }
@@ -228,111 +244,93 @@ class LibraryDownloader {
 
   private void doGetByLocalCopy() throws IOException {
     System.err.print("Copying " + jarUrl + " ...");
-    File f = url2file(jarUrl);
-    if (!f.exists()) {
+    Path p = url2file(jarUrl);
+    if (!Files.exists(p)) {
       StringBuilder msg = new StringBuilder()
           .append("\n")
           .append("Can not find the %s at this location: %s\n")
           .append("Please provide alternative URL");
-      f = url2file(ui.readString(null, msg.toString(), name, jarUrl));
+      p = url2file(ui.readString(null, msg.toString(), name, jarUrl));
     }
-    Files.copy(f, dst);
+    Files.copy(p, dst);
   }
 
-  private static File url2file(final String urlString) throws IOException {
+  private static Path url2file(final String urlString) throws IOException {
     final URL url = new URL(urlString);
     try {
-      return new File(url.toURI());
+      return Paths.get(url.toURI());
     } catch (URISyntaxException e) {
-      return new File(url.getPath());
+      return Paths.get(url.getPath());
     }
   }
 
   private void doGetByHttp() throws IOException {
     System.err.print("Downloading " + jarUrl + " ...");
     System.err.flush();
-    try {
-      final ProxySelector proxySelector = ProxySelector.getDefault();
-      final URL url = new URL(jarUrl);
-      final Proxy proxy = HttpSupport.proxyFor(proxySelector, url);
-      final HttpURLConnection c = (HttpURLConnection) url.openConnection(proxy);
-      final InputStream in;
-
-      switch (HttpSupport.response(c)) {
-        case HttpURLConnection.HTTP_OK:
-          in = c.getInputStream();
-          break;
-
-        case HttpURLConnection.HTTP_NOT_FOUND:
-          throw new FileNotFoundException(url.toString());
-
-        default:
-          throw new IOException(url.toString() + ": " + HttpSupport.response(c)
-              + " " + c.getResponseMessage());
-      }
-
-      try {
-        final OutputStream out = new FileOutputStream(dst);
-        try {
-          final byte[] buf = new byte[8192];
-          int n;
-          while ((n = in.read(buf)) > 0) {
-            out.write(buf, 0, n);
-          }
-        } finally {
-          out.close();
-        }
-      } finally {
-        in.close();
-      }
+    try (InputStream in = openHttpStream(jarUrl);
+        OutputStream out = Files.newOutputStream(dst)) {
+      ByteStreams.copy(in, out);
       System.err.println(" OK");
       System.err.flush();
     } catch (IOException err) {
-      dst.delete();
+      deleteDst();
       System.err.println(" !! FAIL !!");
       System.err.flush();
       throw err;
     }
   }
 
+  private static InputStream openHttpStream(String urlStr) throws IOException {
+    ProxySelector proxySelector = ProxySelector.getDefault();
+    URL url = new URL(urlStr);
+    Proxy proxy = HttpSupport.proxyFor(proxySelector, url);
+    HttpURLConnection c = (HttpURLConnection) url.openConnection(proxy);
+
+    switch (HttpSupport.response(c)) {
+      case HttpURLConnection.HTTP_OK:
+        return c.getInputStream();
+
+      case HttpURLConnection.HTTP_NOT_FOUND:
+        throw new FileNotFoundException(url.toString());
+
+      default:
+        throw new IOException(url.toString() + ": " + HttpSupport.response(c)
+            + " " + c.getResponseMessage());
+    }
+  }
+
   private void verifyFileChecksum() {
-    if (sha1 != null) {
-      try {
-        final MessageDigest md = MessageDigest.getInstance("SHA-1");
-        final FileInputStream in = new FileInputStream(dst);
-        try {
-          final byte[] buf = new byte[8192];
-          int n;
-          while ((n = in.read(buf)) > 0) {
-            md.update(buf, 0, n);
-          }
-        } finally {
-          in.close();
-        }
+    if (sha1 == null) {
+      return;
+    }
+    Hasher h = Hashing.sha1().newHasher();
+    try (InputStream in = Files.newInputStream(dst);
+        OutputStream out = Funnels.asOutputStream(h)) {
+      ByteStreams.copy(in, out);
+    } catch (IOException e) {
+      deleteDst();
+      throw new Die("cannot checksum " + dst, e);
+    }
+    if (sha1.equals(h.hash().toString())) {
+      System.err.println("Checksum " + dst.getFileName() + " OK");
+      System.err.flush();
+    } else if (ui.isBatch()) {
+      deleteDst();
+      throw new Die(dst + " SHA-1 checksum does not match");
 
-        if (sha1.equals(ObjectId.fromRaw(md.digest()).name())) {
-          System.err.println("Checksum " + dst.getName() + " OK");
-          System.err.flush();
+    } else if (!ui.yesno(null /* force an answer */,
+        "error: SHA-1 checksum does not match\n" + "Use %s anyway",//
+        dst.getFileName())) {
+      deleteDst();
+      throw new Die("aborted by user");
+    }
+  }
 
-        } else if (ui.isBatch()) {
-          dst.delete();
-          throw new Die(dst + " SHA-1 checksum does not match");
-
-        } else if (!ui.yesno(null /* force an answer */,
-            "error: SHA-1 checksum does not match\n" + "Use %s anyway",//
-            dst.getName())) {
-          dst.delete();
-          throw new Die("aborted by user");
-        }
-
-      } catch (IOException checksumError) {
-        dst.delete();
-        throw new Die("cannot checksum " + dst, checksumError);
-
-      } catch (NoSuchAlgorithmException checksumError) {
-        dst.delete();
-        throw new Die("cannot checksum " + dst, checksumError);
-      }
+  private void deleteDst() {
+    try {
+      Files.delete(dst);
+    } catch (IOException e) {
+      System.err.println(" Failed to clean up lib: " + dst);
     }
   }
 }

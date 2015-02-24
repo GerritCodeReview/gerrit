@@ -31,6 +31,7 @@ import java.io.File;
  * group them into a directory tree and then load the directory
  * root as a single plugin.
  */
+// TODO(dborowitz): Convert to NIO; ensure clients can migrate.
 @ExtensionPoint
 public interface ServerPluginProvider {
 

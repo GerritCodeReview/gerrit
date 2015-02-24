@@ -90,7 +90,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
         stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
             Strings.nullToEmpty(info.version),
             p.isDisabled() ? "DISABLED" : "ENABLED",
-            p.getSrcFile().getName());
+            p.getSrcFile().getFileName());
       }
     }
 

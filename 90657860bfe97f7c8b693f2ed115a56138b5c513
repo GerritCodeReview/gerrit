@@ -34,6 +34,24 @@
       "revId": "90657860bfe97f7c8b693f2ed115a56138b5c513",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_86d10a57",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-24T17:19:36Z",
+      "side": 1,
+      "message": "I think you\u0027re overthinking it. Changed to just short-circuit when name is null.",
+      "parentUuid": "a58861e3_6113368b",
+      "revId": "90657860bfe97f7c8b693f2ed115a56138b5c513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

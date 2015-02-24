@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451a45b5_a6aa4697",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginDataAsFileProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T21:34:01Z",
+      "side": 1,
+      "message": "This is overkill. The provider doesn\u0027t need to be a singleton.",
+      "revId": "9e158756e51480dcf145bddedb2286d2c4218850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_86a74acf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-24T21:34:01Z",
+      "side": 1,
+      "message": "Hilariously you pull the simple provider into its own new class while the complicated one above is inlined. Cute.",
+      "revId": "9e158756e51480dcf145bddedb2286d2c4218850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

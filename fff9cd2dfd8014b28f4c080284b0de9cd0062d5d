@@ -16,6 +16,24 @@
       "revId": "fff9cd2dfd8014b28f4c080284b0de9cd0062d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08fdc2e8_dc1ecd90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2044,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-24T07:08:08Z",
+      "side": 1,
+      "message": "Tracked it down.  NPE happens when pushing to refs/changes/123, and we didn\u0027t have a test case for that.",
+      "parentUuid": "85527d4f_38c1498c",
+      "revId": "fff9cd2dfd8014b28f4c080284b0de9cd0062d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

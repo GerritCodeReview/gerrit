@@ -685,7 +685,8 @@ public class Dispatcher {
           return new MyIdentitiesScreen();
         }
 
-        if (matchExact(SETTINGS_HTTP_PASSWORD, token)) {
+        if (Gerrit.getConfig().isHttpPasswordSettingsEnabled()
+            && matchExact(SETTINGS_HTTP_PASSWORD, token)) {
           return new MyPasswordScreen();
         }
 

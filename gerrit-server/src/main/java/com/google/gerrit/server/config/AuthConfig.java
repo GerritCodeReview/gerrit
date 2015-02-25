@@ -65,6 +65,7 @@ public class AuthConfig {
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
+  private final boolean httpPasswordSettingsEnabled;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -95,6 +96,7 @@ public class AuthConfig {
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    httpPasswordSettingsEnabled = cfg.getBoolean("auth", "httpPasswordSettingsEnabled", true);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -309,6 +311,10 @@ public class AuthConfig {
       }
     }
     return false;
+  }
+
+  public boolean isHttpPasswordSettingsEnabled() {
+    return httpPasswordSettingsEnabled;
   }
 
   public String getRegisterPageUrl() {

@@ -17,10 +17,11 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.account.PutHttpPassword.Input;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -61,23 +63,29 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdate;
+  private final boolean enabled;
 
   @Inject
   PutHttpPassword(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
-      ExternalIdsUpdate.User externalIdsUpdate) {
+      ExternalIdsUpdate.User externalIdsUpdate,
+      AuthConfig authConfig) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.externalIdsUpdate = externalIdsUpdate;
+    this.enabled = authConfig.isHttpPasswordSettingsEnabled();
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
-          IOException, ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
+    if (!enabled) {
+      throw new MethodNotAllowedException("HTTP password not enabled");
+    }
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }

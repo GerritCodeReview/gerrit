@@ -191,11 +191,13 @@ import org.eclipse.jgit.transport.PreUploadHook;
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
   private final Config cfg;
+  private final AuthConfig authCfg;
   private final AuthModule authModule;
 
   @Inject
-  GerritGlobalModule(@GerritServerConfig Config cfg, AuthModule authModule) {
+  GerritGlobalModule(@GerritServerConfig Config cfg, AuthConfig authCfg, AuthModule authModule) {
     this.cfg = cfg;
+    this.authCfg = authCfg;
     this.authModule = authModule;
   }
 
@@ -284,7 +286,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(UiActions.class);
     install(new com.google.gerrit.server.access.Module());
-    install(new com.google.gerrit.server.account.Module());
+    install(new com.google.gerrit.server.account.Module(authCfg.isHttpPasswordSettingsEnabled()));
     install(new com.google.gerrit.server.api.Module());
     install(new com.google.gerrit.server.change.Module());
     install(new com.google.gerrit.server.config.Module());

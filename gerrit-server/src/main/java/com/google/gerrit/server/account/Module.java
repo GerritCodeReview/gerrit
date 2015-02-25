@@ -25,6 +25,12 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
 public class Module extends RestApiModule {
+  private final boolean httpPasswordEnabled;
+
+  public Module(boolean httpPasswordEnabled) {
+    this.httpPasswordEnabled = httpPasswordEnabled;
+  }
+
   @Override
   protected void configure() {
     bind(AccountsCollection.class);
@@ -56,8 +62,10 @@ public class Module extends RestApiModule {
     put(EMAIL_KIND).to(PutEmail.class);
     delete(EMAIL_KIND).to(DeleteEmail.class);
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
-    put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
-    delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+    if (httpPasswordEnabled) {
+      put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+      delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+    }
     child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
     post(ACCOUNT_KIND, "sshkeys").to(AddSshKey.class);
     get(ACCOUNT_KIND, "watched.projects").to(GetWatchedProjects.class);

@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -1965,6 +1966,23 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("username");
     gApi.accounts().id(userId).generateHttpPassword();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.httpPasswordSettingsEnabled", value = "false")
+  public void cannotGenerateHttpPasswordWhenDisabled() throws Exception {
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("not enabled");
+    gApi.accounts().self().generateHttpPassword();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.httpPasswordSettingsEnabled", value = "false")
+  public void cannotSetHttpPasswordWhenDisabled() throws Exception {
+    setApiUser(admin);
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("not enabled");
+    gApi.accounts().id(user.username).setHttpPassword("new-password");
   }
 
   private void assertGroups(String user, List<String> expected) throws Exception {

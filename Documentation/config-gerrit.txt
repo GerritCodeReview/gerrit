@@ -648,6 +648,15 @@ link:#accountDeactivation[accountDeactivation] section appropriately.
 +
 By default, false.
 
+[[auth.httpPasswordSettingsEnabled]]auth.httpPasswordSettingsEnabled::
++
+Whether to allow usage of the HTTP password. If set to false, the HTTP password
+cannot be (re)generated or removed either by the REST API or the internal Java
+API, any existing HTTP password cannot be used for authentication, and the 'HTTP
+Password' section is not displayed in the UI.
++
+By default, true, meaning the HTTP password may be used.
+
 [[cache]]
 === Section cache
 

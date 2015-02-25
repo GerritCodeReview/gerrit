@@ -70,6 +70,30 @@
       "revId": "8cf6940057aed6477020633fff8ec171b7a1d705",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_0607da00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-25T14:45:13Z",
+      "side": 0,
+      "message": "I will make this fix and the one Shawn suggested in a separate change on stable-2.11. I think the general idea is simple, easy-to-merge bugfixes can go on an unreleased stable branch.",
+      "parentUuid": "451a45b5_a6436637",
+      "range": {
+        "startLine": 266,
+        "startChar": 89,
+        "endLine": 266,
+        "endChar": 102
+      },
+      "revId": "8cf6940057aed6477020633fff8ec171b7a1d705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

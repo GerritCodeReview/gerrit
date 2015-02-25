@@ -168,6 +168,29 @@
     },
     {
       "key": {
+        "uuid": "85db5d05_303908fc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-25T23:18:29Z",
+      "side": 1,
+      "message": "Is this method get actually called? I\u0027m trying to implement anonymous browsing with new approach but having trouble with logout, because OAuthSession isn\u0027t invalidated, and the user and token are still valid even though the HttpLogoutServlet.doLogout() was properly called and\n\n  webSession.get().logout()\n\nwas called as well. So now OAuth stuff is located in dedicated project and OAuthSession.logout() cannot be called form HttpLogoutServlet class.",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 3
+      },
+      "revId": "094d6909f8504ef05e43808c687802be8fb7adec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7669c173_a7146aec",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 57

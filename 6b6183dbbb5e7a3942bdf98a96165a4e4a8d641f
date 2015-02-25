@@ -52,6 +52,24 @@
       "revId": "6b6183dbbb5e7a3942bdf98a96165a4e4a8d641f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_45ea6ab3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-25T07:00:14Z",
+      "side": 1,
+      "message": "Hmm.  I still prefer to keep the prefix as it makes it clearer what has happened particularly when someone looks at git blame.",
+      "parentUuid": "85527d4f_98033537",
+      "revId": "6b6183dbbb5e7a3942bdf98a96165a4e4a8d641f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

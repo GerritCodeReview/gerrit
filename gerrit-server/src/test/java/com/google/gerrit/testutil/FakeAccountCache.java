@@ -75,6 +75,6 @@ public class FakeAccountCache implements AccountCache {
   private static AccountState newState(Account account) {
     return new AccountState(
         account, ImmutableSet.<AccountGroup.UUID> of(),
-        ImmutableSet.<AccountExternalId> of());
+        ImmutableSet.<AccountExternalId> of(), true);
   }
 }

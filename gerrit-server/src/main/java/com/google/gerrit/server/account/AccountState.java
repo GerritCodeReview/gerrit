@@ -26,15 +26,19 @@ import java.util.Set;
 
 public class AccountState {
   private final Account account;
+  private final boolean isPasswordEnabled;
   private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<AccountExternalId> externalIds;
 
-  public AccountState(final Account account,
-      final Set<AccountGroup.UUID> actualGroups,
-      final Collection<AccountExternalId> externalIds) {
+  public AccountState(
+      Account account,
+      Set<AccountGroup.UUID> actualGroups,
+      Collection<AccountExternalId> externalIds,
+      boolean isPasswordEnabled) {
     this.account = account;
     this.internalGroups = actualGroups;
     this.externalIds = externalIds;
+    this.isPasswordEnabled = isPasswordEnabled;
     this.account.setUserName(getUserName(externalIds));
   }
 
@@ -55,10 +59,12 @@ public class AccountState {
 
   /** @return the password matching the requested username; or null. */
   public String getPassword(String username) {
-    for (AccountExternalId id : getExternalIds()) {
-      if (id.isScheme(AccountExternalId.SCHEME_USERNAME)
-          && username.equals(id.getSchemeRest())) {
-        return id.getPassword();
+    if (isPasswordEnabled) {
+      for (AccountExternalId id : getExternalIds()) {
+        if (id.isScheme(AccountExternalId.SCHEME_USERNAME)
+            && username.equals(id.getSchemeRest())) {
+          return id.getPassword();
+        }
       }
     }
     return null;

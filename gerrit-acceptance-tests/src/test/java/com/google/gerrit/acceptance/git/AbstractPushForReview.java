@@ -202,6 +202,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void testPushNewPatchsetToRefsChanges() throws GitAPIException,
+    IOException, OrmException {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent", r.getChangeId());
+    r = push.to(git, "refs/changes/" + r.getChange().change().getId().get());
+    r.assertOkStatus();
+  }
+
+  @Test
   public void testPushForMasterWithApprovals_MissingLabel() throws GitAPIException,
       IOException {
       PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");

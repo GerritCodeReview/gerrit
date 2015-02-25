@@ -46,6 +46,52 @@
       "revId": "83550eda28c84a7a27aa2642866f0b5199358a12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_c6d5c2f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-25T13:43:15Z",
+      "side": 1,
+      "message": "user?",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "83550eda28c84a7a27aa2642866f0b5199358a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_c5d5baf0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-25T13:43:15Z",
+      "side": 1,
+      "message": "At line 698-699 there is a similar check, but the conditions are the other way around: The token match first, and then the config check.\n\nMake  this one consistent?",
+      "range": {
+        "startLine": 688,
+        "startChar": 12,
+        "endLine": 689,
+        "endChar": 58
+      },
+      "revId": "83550eda28c84a7a27aa2642866f0b5199358a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

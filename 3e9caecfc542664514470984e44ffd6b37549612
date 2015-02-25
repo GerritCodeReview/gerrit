@@ -22,6 +22,29 @@
       "revId": "3e9caecfc542664514470984e44ffd6b37549612",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_c53adabb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-25T06:53:53Z",
+      "side": 1,
+      "message": "!Strings.isNullOrEmpty() ?\n\nI think the old code had a bug where setting a hook to the empty string in your config file would try to execute the hooks directory. Not what you want.",
+      "range": {
+        "startLine": 296,
+        "startChar": 26,
+        "endLine": 296,
+        "endChar": 39
+      },
+      "revId": "3e9caecfc542664514470984e44ffd6b37549612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

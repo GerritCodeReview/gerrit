@@ -22,6 +22,30 @@
       "revId": "f11c1f72690c7625cd7bf6a9246cc4a5e43236c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_e63d5eb6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-02-25T06:37:08Z",
+      "side": 1,
+      "message": "dir is only used in the constructor, and its only used below to setup the disk based indexes. When index.lucene.testInmemory is true in the config we use RAMDirectory here which doesn\u0027t need dir.\n\nLooks like we could make dir a variable in the else part of this block and avoid the the field and avoid the need to set it null.",
+      "parentUuid": "451a45b5_263016e1",
+      "range": {
+        "startLine": 267,
+        "startChar": 6,
+        "endLine": 267,
+        "endChar": 17
+      },
+      "revId": "f11c1f72690c7625cd7bf6a9246cc4a5e43236c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

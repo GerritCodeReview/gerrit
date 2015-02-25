@@ -485,6 +485,17 @@ Replication
 Bug Fixes
 ---------
 
+* Treat empty link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html[
+`hooks.*`] values as missing, rather than trying to execute the hooks
+directory.
+
+* Despite the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#hooks[
+documentation], the changed-merged hook configuration value was being
+read from `hooks.changeMerged`. Fix to use `hooks.changeMergedHook` as
+documented.
+
+
 Daemon
 ~~~~~~
 

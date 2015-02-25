@@ -94,7 +94,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
         config.setRegisterText(cfg.getString("auth", null, "registertext"));
         config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
-        config.setHttpPasswordSettingsEnabled(!authConfig.isGitBasicAuth());
+        config.setHttpPasswordSettingsEnabled(authConfig.isHttpPasswordSettingsEnabled());
         break;
 
       case CUSTOM_EXTENSION:

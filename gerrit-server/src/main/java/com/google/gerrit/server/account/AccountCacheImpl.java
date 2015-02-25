@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -69,14 +70,18 @@ public class AccountCacheImpl implements AccountCache {
     };
   }
 
+  private final boolean isPasswordEnabled;
   private final LoadingCache<Account.Id, AccountState> byId;
   private final LoadingCache<String, Optional<Account.Id>> byName;
 
   @Inject
-  AccountCacheImpl(@Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
+  AccountCacheImpl(
+      AuthConfig authConfig,
+      @Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
       @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername) {
     this.byId = byId;
     this.byName = byUsername;
+    this.isPasswordEnabled = authConfig.isHttpPasswordSettingsEnabled();
   }
 
   @Override
@@ -85,7 +90,7 @@ public class AccountCacheImpl implements AccountCache {
       return byId.get(accountId);
     } catch (ExecutionException e) {
       log.warn("Cannot load AccountState for " + accountId, e);
-      return missing(accountId);
+      return missing(accountId, isPasswordEnabled);
     }
   }
 
@@ -119,25 +124,30 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
-  private static AccountState missing(Account.Id accountId) {
+  private static AccountState missing(Account.Id accountId,
+      boolean isPasswordEnabled) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
     Collection<AccountExternalId> ids = Collections.emptySet();
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
-    return new AccountState(account, anon, ids);
+    return new AccountState(account, anon, ids, isPasswordEnabled);
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
     private final SchemaFactory<ReviewDb> schema;
     private final GroupCache groupCache;
+    private final boolean isPasswordEnabled;
     private final LoadingCache<String, Optional<Account.Id>> byName;
 
     @Inject
-    ByIdLoader(SchemaFactory<ReviewDb> sf, GroupCache groupCache,
+    ByIdLoader(
+        AuthConfig authConfig,
+        SchemaFactory<ReviewDb> sf, GroupCache groupCache,
         @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername) {
       this.schema = sf;
       this.groupCache = groupCache;
       this.byName = byUsername;
+      this.isPasswordEnabled = authConfig.isHttpPasswordSettingsEnabled();
     }
 
     @Override
@@ -161,7 +171,7 @@ public class AccountCacheImpl implements AccountCache {
       if (account == null) {
         // Account no longer exists? They are anonymous.
         //
-        return missing(who);
+        return missing(who, isPasswordEnabled);
       }
 
       final Collection<AccountExternalId> externalIds =
@@ -178,7 +188,8 @@ public class AccountCacheImpl implements AccountCache {
       }
       internalGroups = Collections.unmodifiableSet(internalGroups);
 
-      return new AccountState(account, internalGroups, externalIds);
+      return new AccountState(account, internalGroups, externalIds,
+          isPasswordEnabled);
     }
   }
 

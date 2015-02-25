@@ -194,6 +194,10 @@ public class AuthConfig {
     return gitBasicAuth;
   }
 
+  public boolean isHttpPasswordSettingsEnabled() {
+    return !gitBasicAuth;
+  }
+
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
     switch (getAuthType()) {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

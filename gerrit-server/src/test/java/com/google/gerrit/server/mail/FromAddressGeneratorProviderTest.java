@@ -300,6 +300,6 @@ public class FromAddressGeneratorProviderTest {
     account.setFullName(name);
     account.setPreferredEmail(email);
     return new AccountState(account, Collections.<AccountGroup.UUID> emptySet(),
-          Collections.<AccountExternalId> emptySet());
+          Collections.<AccountExternalId> emptySet(), true);
   }
 }

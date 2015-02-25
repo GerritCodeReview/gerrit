@@ -169,6 +169,23 @@ apply multiple review labels.
 The value is optional.  If not specified, it defaults to +1 (if
 the label range allows it).
 
+[[change_edit]]
+A change edit can be pushed by specifying the `edit` (or `e`) option on
+the reference:
+
+====
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%edit
+====
+
+There is at most one change edit per user and change. In order to push
+a change edit the change must already exist.
+
+[NOTE]
+When a change edit already exists for a change then pushing with
+`%edit` replaces the existing change edit. This option is useful to
+rebase a change edit on the newest patch set when the rebase of the
+change edit in the web UI fails due to conflicts.
+
 If you are frequently uploading changes to the same Gerrit server,
 consider adding an SSH host block in `~/.ssh/config` to remember
 your username, hostname and port number.  This permits the use of

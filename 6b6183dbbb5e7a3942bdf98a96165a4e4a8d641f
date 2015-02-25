@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_58223dd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-25T05:48:56Z",
+      "side": 1,
+      "message": "Last time we reverted a revert commit, the default commit message was changed and revert revert was dropped. Do it here too?",
+      "revId": "6b6183dbbb5e7a3942bdf98a96165a4e4a8d641f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

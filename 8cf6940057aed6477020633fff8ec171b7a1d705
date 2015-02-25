@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_a51cfe67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-25T03:23:21Z",
+      "side": 0,
+      "message": "Here is Hook missing at the end so you cannot use the new hook method if you want to have strict backwards compatibility behavior?",
+      "range": {
+        "startLine": 266,
+        "startChar": 89,
+        "endLine": 266,
+        "endChar": 102
+      },
+      "revId": "8cf6940057aed6477020633fff8ec171b7a1d705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

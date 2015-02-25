@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_65132659",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-25T03:23:21Z",
+      "side": 1,
+      "message": "Assuming sitePath.hooks_dir.getAbsolutePath() was the default before, when that config was not set, I guess a toRealPath() would be missing then to make it absolute?",
+      "range": {
+        "startLine": 267,
+        "startChar": 10,
+        "endLine": 267,
+        "endChar": 41
+      },
+      "revId": "3e9caecfc542664514470984e44ffd6b37549612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

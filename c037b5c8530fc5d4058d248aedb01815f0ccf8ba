@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_a5723e74",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-26T00:07:40Z",
+      "side": 1,
+      "message": "This should be added under one of the subsections (the ones underlined with ~~~ below).\n\nAlso it would probably be better to update the release notes in a separate commit.",
+      "range": {
+        "startLine": 488,
+        "startChar": 1,
+        "endLine": 497,
+        "endChar": 0
+      },
+      "revId": "c037b5c8530fc5d4058d248aedb01815f0ccf8ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

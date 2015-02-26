@@ -14,7 +14,7 @@ Important Notes
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
-  java -jar gerrit.war reindex --recheck-mergeable -d site_path
+  java -jar gerrit.war reindex -d site_path
 ----
 
 *WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.8 (or
@@ -555,6 +555,19 @@ Contrary to
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#trackingid[
 the documentation], if more than one `footer` token was specified in the
 `trackingid` section, only the first was used.
+
+* Treat empty
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#hooks[
+`hooks.*`] values as missing, rather than trying to execute the hooks
+directory.
+
+* Fix `changed-merged` hook configuration.
++
+Contrary to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#hooks[
+documentation], the changed-merged hook configuration value was being
+read from `hooks.changeMerged`. Fix to use `hooks.changeMergedHook` as
+documented.
 
 Web UI
 ~~~~~~

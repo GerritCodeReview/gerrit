@@ -596,7 +596,7 @@ public class ChangeData {
   public List<ChangeMessage> messages()
       throws OrmException {
     if (messages == null) {
-      messages = cmUtil.byChange(db, notes);
+      messages = cmUtil.byChange(db, notes());
     }
     return messages;
   }

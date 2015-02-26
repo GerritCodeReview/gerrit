@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -263,7 +264,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         draftPublishedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "draftPublishedHook", "draft-published")).getPath());
         commentAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "commentAddedHook", "comment-added")).getPath());
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
-        mergeFailedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "mergeFailed", "merge-failed")).getPath());
+        mergeFailedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "mergeFailedHook", "merge-failed")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
         refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
@@ -300,7 +301,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      */
     private String getValue(final Config config, final String section, final String setting, final String fallback) {
         final String result = config.getString(section, null, setting);
-        return (result == null) ? fallback : result;
+        return Strings.isNullOrEmpty(result) ? fallback : result;
     }
 
     /**

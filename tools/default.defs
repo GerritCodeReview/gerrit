@@ -20,17 +20,37 @@ include_defs('//tools/java_doc.defs')
 include_defs('//tools/java_sources.defs')
 import copy
 
-# Add AutoValue support to java_library.
+# Set defaults on java rules:
+#  - Add AutoValue annotation processing support.
+#  - Treat source files as UTF-8.
+
 _buck_java_library = java_library
 def java_library(*args, **kwargs):
-  _set_auto_value(kwargs)
+  _munge_args(kwargs)
   _buck_java_library(*args, **kwargs)
 
-# Add AutoValue support to java_test.
 _buck_java_test = java_test
 def java_test(*args, **kwargs):
-  _set_auto_value(kwargs)
+  _munge_args(kwargs)
   _buck_java_test(*args, **kwargs)
+
+
+# Munge kwargs to set Gerrit-specific defaults.
+def _munge_args(kwargs):
+  _set_auto_value(kwargs)
+  _set_extra_arguments(kwargs)
+
+def _set_extra_arguments(kwargs):
+  ext = 'extra_arguments'
+  if ext not in kwargs:
+    kwargs[ext] = []
+  extra_args = kwargs[ext]
+
+  for arg in extra_args:
+    if arg.startswith('-encoding'):
+      return
+
+  extra_args.extend(['-encoding', 'UTF-8'])
 
 def _set_auto_value(kwargs):
   apk = 'annotation_processors'
@@ -46,6 +66,7 @@ def _set_auto_value(kwargs):
   if AUTO_VALUE_DEP in kwargs.get('deps', []):
     aps.extend(AUTO_VALUE_PROCESSORS)
     apds.extend(AUTO_VALUE_PROCESSOR_DEPS)
+
 
 def genantlr(
     name,

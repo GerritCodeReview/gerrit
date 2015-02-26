@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2517118d_252ace25",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-02-26T14:05:06Z",
+      "side": 1,
+      "message": "Perhaps you need to add a mapping for the label and repo otherbranch",
+      "revId": "281896e24f7469e9a1e7f3533011024947721849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_26d816f6",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchQueryBuilder.java",
         "patchSetId": 6

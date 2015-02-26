@@ -22,6 +22,30 @@
       "revId": "926d6146a3d35ae3ebd7c47c08cd0e290cb0c0ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85db5d05_106f24e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-02-26T08:50:16Z",
+      "side": 1,
+      "message": "I think this method name is kind of misleading. The password here is a property, since it is not mandatory for user to have HTTP generated password.\n\nThis concept of having a regular password to authenticate in WEB UI and one that is generated do not fit into \"regular\" authentication flow where (in 99% of cases) user always have one password. In case of Gerrit he could have three (or more) \"passwords\":\n * WEB UI pass that comes eg. from LDAP\n * many SSH keys\n * HTTP generated pass\n\nHere we have we are facing bigger design flaw that IMO shouldn\u0027t be fixed in patch release. Because the \"proper\" (TM) solution here would be to have some kind of mediator/provider that could choose from one of enabled authentication mechanism.\n\nTo sum it up, yes this fix is kind a workaround, but IMO proper solution shouldn\u0027t be done on a patch release. It should be tackled as part of OAuth/AuthBackend implementation in \u003e2.11",
+      "parentUuid": "85527d4f_384ca98c",
+      "range": {
+        "startLine": 60,
+        "startChar": 16,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "926d6146a3d35ae3ebd7c47c08cd0e290cb0c0ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

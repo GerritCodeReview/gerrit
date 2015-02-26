@@ -68,7 +68,7 @@ public class AccountIT extends AbstractDaemonTest {
     List<AccountInfo> result = gApi.accounts()
         .suggestAccounts().withQuery(adminUsername).get();
     assertThat(result.size()).is(1);
-    assertThat(result.get(0).username.equals(adminUsername));
+    assertThat(result.get(0).username).isEqualTo(adminUsername);
 
     List<AccountInfo> resultShortcutApi = gApi.accounts()
         .suggestAccounts(adminUsername).get();

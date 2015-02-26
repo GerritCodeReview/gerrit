@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451a45b5_e6a1de82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-26T00:09:27Z",
+      "side": 1,
+      "message": "I don\u0027t know the plans for any 2.10.x releases, so for now I\u0027ll set this issue to fixed in 2.11 after merging up to stable-2.11",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "2bb0f3a4da70458ca1f68f44b32d0a7a0d649168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

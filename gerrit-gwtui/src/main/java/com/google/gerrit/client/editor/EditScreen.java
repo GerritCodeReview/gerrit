@@ -442,6 +442,7 @@ public class EditScreen extends Screen {
 
   private void setClean(boolean clean) {
     save.setEnabled(!clean);
+    close.setEnabled(true);
     dirty.getStyle().setVisibility(!clean ? VISIBLE : HIDDEN);
   }
 
@@ -450,6 +451,7 @@ public class EditScreen extends Screen {
       @Override
       public void run() {
         if (!cm.isClean(generation)) {
+          close.setEnabled(false);
           String text = cm.getValue();
           final int g = cm.changeGeneration(false);
           ChangeEditApi.put(revision.getParentKey().get(), path, text,
@@ -458,6 +460,10 @@ public class EditScreen extends Screen {
                 public void onSuccess(VoidResult result) {
                   generation = g;
                   setClean(cm.isClean(g));
+                }
+                @Override
+                public void onFailure(final Throwable caught) {
+                  close.setEnabled(true);
                 }
               });
         }

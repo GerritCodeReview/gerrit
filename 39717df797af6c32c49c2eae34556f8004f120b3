@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451a45b5_2603f6bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-26T05:44:08Z",
+      "side": 1,
+      "message": "do we need this line, when we have @return below?",
+      "range": {
+        "startLine": 311,
+        "startChar": 7,
+        "endLine": 311,
+        "endChar": 23
+      },
+      "revId": "39717df797af6c32c49c2eae34556f8004f120b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

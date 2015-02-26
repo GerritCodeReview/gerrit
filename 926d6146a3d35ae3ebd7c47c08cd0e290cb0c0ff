@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_384ca98c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-26T08:36:57Z",
+      "side": 1,
+      "message": "I think the real problem is *this* method! The password should be a property to be managed within an authentication realm and *NOT* associated to the AccountState!\nDariusz is basically trying to put a patch on it by ignoring at least a password that shouldn\u0027t be used ... but my point is that shouldn\u0027t be stored in this object at all, that\u0027s the origin of the problem.\n\nCan we fix the source of the illness instead of a pill? (if possible of course :-) )",
+      "range": {
+        "startLine": 60,
+        "startChar": 16,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "926d6146a3d35ae3ebd7c47c08cd0e290cb0c0ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

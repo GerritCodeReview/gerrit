@@ -46,6 +46,30 @@
       "revId": "926d6146a3d35ae3ebd7c47c08cd0e290cb0c0ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85db5d05_d078bca8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-26T09:21:35Z",
+      "side": 1,
+      "message": "Agreed, why don\u0027t we then:\n- do a proper fix on master\n- keep the workaround (with a disclaimer?) on the branch\n\nI would avoid however having the workaround on master ... patches on patches on problems are not a good dev stream :-(\n\nThe \"proper fix\" could simply remove this method and use it in the correct Realm.",
+      "parentUuid": "85db5d05_106f24e5",
+      "range": {
+        "startLine": 60,
+        "startChar": 16,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "926d6146a3d35ae3ebd7c47c08cd0e290cb0c0ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

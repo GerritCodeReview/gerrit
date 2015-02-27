@@ -75,6 +75,8 @@ public class GerritServerConfigModule extends AbstractModule {
   protected void configure() {
     bind(SitePaths.class);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON) ;
+    bind(TrackingValueExtractor.class).toProvider(
+        TrackingValueExtractorProvider.class).in(SINGLETON) ;
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
     bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);

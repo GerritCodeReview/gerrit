@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451a45b5_86974ae1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-27T09:13:20Z",
+      "side": 1,
+      "message": "Should this also be inside the if-block?",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 54
+      },
+      "revId": "a9c89366a4cc2f831601101dda3fabe3e5248e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

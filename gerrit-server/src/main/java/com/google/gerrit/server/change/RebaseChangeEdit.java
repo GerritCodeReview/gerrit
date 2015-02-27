@@ -75,9 +75,6 @@ public class RebaseChangeEdit implements
 
   @Singleton
   public static class Rebase implements RestModifyView<ChangeResource, PublishDraftPatchSet.Input> {
-    public static class Input {
-    }
-
     private final ChangeEditModifier editModifier;
     private final ChangeEditUtil editUtil;
     private final Provider<ReviewDb> db;

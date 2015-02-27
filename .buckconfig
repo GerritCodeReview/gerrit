@@ -9,6 +9,7 @@
   docs = //Documentation:searchfree
   firefox = //:firefox
   gerrit = //:gerrit
+  headless = //:headless
   release = //:release
   safari = //:safari
   soyc = //gerrit-gwtui:ui_soyc

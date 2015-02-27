@@ -15,8 +15,10 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.base.Preconditions;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.config.TrackingValueExtractor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -62,11 +64,14 @@ public abstract class FieldDef<I, T> {
   public static class FillArgs {
     final TrackingFooters trackingFooters;
     final boolean allowsDrafts;
+    final DynamicSet<TrackingValueExtractor> trackingValueExtractors;
 
     @Inject
     FillArgs(TrackingFooters trackingFooters,
+        DynamicSet<TrackingValueExtractor> trackingValueExtractors,
         @GerritServerConfig Config cfg) {
       this.trackingFooters = trackingFooters;
+      this.trackingValueExtractors = trackingValueExtractors;
       this.allowsDrafts = cfg == null
           ? true
           : cfg.getBoolean("change", "allowDrafts", true);

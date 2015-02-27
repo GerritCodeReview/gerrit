@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.config.TrackingValueExtractor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -44,6 +45,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -291,12 +293,15 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           try {
+            HashSet<String> values = new HashSet<>();
             List<FooterLine> footers = input.commitFooters();
-            if (footers == null) {
-              return null;
+            if (footers != null) {
+              values.addAll(args.trackingFooters.extract(footers).values());
             }
-            return Sets.newHashSet(
-                args.trackingFooters.extract(footers).values());
+            for (TrackingValueExtractor extractor : args.trackingValueExtractors) {
+              values.addAll(extractor.getValues(input.commitMessage()));
+            }
+            return values.isEmpty() ? null : values;
           } catch (IOException e) {
             throw new OrmException(e);
           }

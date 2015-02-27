@@ -1816,6 +1816,16 @@ ProjectWebLinks will appear in the project list in the
 
 BranchWebLinks will appear in the branch list in the last column.
 
+[[tracking-ids]]
+== Tracking IDs
+
+Gerrit allows to configure link:config-gerrit.html#trackingid[tracking IDs]
+that can be extracted from commit message footers.
+
+To support tracking IDs that are not in the format expected by Gerrit, plugins
+can implement the `com.google.gerrit.server.config.TrackingValueExtractor`
+interface.
+
 [[documentation]]
 == Documentation
 

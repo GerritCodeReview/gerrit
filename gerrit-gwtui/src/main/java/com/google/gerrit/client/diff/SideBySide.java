@@ -894,12 +894,27 @@ public class SideBySide extends Screen {
     };
   }
 
+  private int adjustCommitMessageLine(int line) {
+    int offset = 6;
+    if (diff.text_b().startsWith("Merge")) {
+      offset += 1;
+    }
+    if (line <= offset) {
+      return 1;
+    } else {
+      return line - offset;
+    }
+  }
+
   private Runnable modifyInEditScreen(final CodeMirror cm) {
     return new Runnable() {
       @Override
       public void run() {
         LineHandle handle = cm.extras().activeLine();
         int line = cm.getLineNumber(handle) + 1;
+        if (Patch.COMMIT_MSG.equals(path)) {
+          line = adjustCommitMessageLine(line);
+        }
         String token = Dispatcher.toEditScreen(revision, path, line);
         if (!Gerrit.isSignedIn()) {
           Gerrit.doSignIn(token);

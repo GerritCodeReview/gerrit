@@ -448,10 +448,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (ent.getValue() == null || ent.getValue() == 0) {
         // User requested delete of this label.
         if (c != null) {
-          if (c.getValue() != 0) {
-            addLabelDelta(normName, (short) 0);
-          }
           del.add(c);
+          addLabelDelta(normName, (short) 0);
+          categories.put(normName, (short) 0);
           update.putApproval(ent.getKey(), (short) 0);
         }
       } else if (c != null && c.getValue() != ent.getValue()) {
@@ -463,6 +462,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         update.putApproval(ent.getKey(), ent.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(normName, c);
+        addLabelDelta(normName, c.getValue());
+        categories.put(normName, c.getValue());
+        update.putApproval(ent.getKey(), ent.getValue());
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_f826b1b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-27T12:42:44Z",
+      "side": 1,
+      "message": "If Fix button is clicked to address a comment, then the line number should be also adjusted. Is this change already handles this? If yes, may be extend the commit message? It only describes one use case: pressing \u0027m\u0027 key.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 7
+      },
+      "revId": "a988fefb4a0680a8a9aa67abfd1ca8e13a7a2907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

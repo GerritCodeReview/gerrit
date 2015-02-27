@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_e5a4364c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-27T20:15:30Z",
+      "side": 1,
+      "message": "Why do you do a static import here and not in say \ngerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java\n\nI cannot see the benefit yet (readability, maintainability, magic?). To me it seems arbitrary to include it here and not in that file as well.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_26201613",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-27T20:15:30Z",
+      "side": 1,
+      "message": "(FYI, just my thoughts): This is a general cleanup, which is not mentioned in the commit message, so the review is harder. Apparently this is the gerrit workflow which doesn\u0027t have super fine grained commits like gits workflow. (Each logical separate change is in another commit)",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_06251a23",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-27T20:15:30Z",
+      "side": 1,
+      "message": "So why do we need to change this exception?\n\nAs far as I can tell this change doesn\u0027t touch the functions involved inside of this function?",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_c5a13a3a",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/LibrariesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-02-27T20:15:30Z",
+      "side": 1,
+      "message": "IOException or generic exception here?",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

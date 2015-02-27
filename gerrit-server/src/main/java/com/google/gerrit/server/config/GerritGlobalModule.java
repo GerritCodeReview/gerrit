@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.config.TrackingValuesParser;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
@@ -289,6 +290,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), DiffWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
     DynamicSet.setOf(binder(), BranchWebLink.class);
+    DynamicSet.setOf(binder(), TrackingValuesParser.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

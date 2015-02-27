@@ -74,7 +74,7 @@ public class RebaseChangeEdit implements
   }
 
   @Singleton
-  public static class Rebase implements RestModifyView<ChangeResource, PublishDraftPatchSet.Input> {
+  public static class Rebase implements RestModifyView<ChangeResource, Rebase.Input> {
     public static class Input {
     }
 
@@ -92,7 +92,7 @@ public class RebaseChangeEdit implements
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, PublishDraftPatchSet.Input in)
+    public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
         throws AuthException, ResourceConflictException, IOException,
         InvalidChangeOperationException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());

@@ -372,12 +372,14 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           try {
+            HashSet<String> values = new HashSet<>();
             List<FooterLine> footers = input.commitFooters();
-            if (footers == null) {
-              return ImmutableSet.of();
+            if (footers != null) {
+              values.addAll(args.trackingFooters.extract(footers).values());
             }
-            return Sets.newHashSet(
-                args.trackingFooters.extract(footers).values());
+            values.addAll(
+                args.trackingValueExtractor.getValues(input.commitMessage()));
+            return values;
           } catch (IOException e) {
             throw new OrmException(e);
           }

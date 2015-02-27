@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "451a45b5_461f12d5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-27T20:19:41Z",
+      "side": 1,
+      "message": "It makes line 70 easier to read IMO, since that\u0027s a more complex conditional than the typical \"if (Files.exists(p))\".\n\nYes it\u0027s arbitrary.",
+      "parentUuid": "2517118d_e5a4364c",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_26201613",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-27T20:15:30Z",
       "side": 1,
       "message": "(FYI, just my thoughts): This is a general cleanup, which is not mentioned in the commit message, so the review is harder. Apparently this is the gerrit workflow which doesn\u0027t have super fine grained commits like gits workflow. (Each logical separate change is in another commit)",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_658846bf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-27T20:19:41Z",
+      "side": 1,
+      "message": "It would have been harder on my end to split it up.\n\nHonestly, I don\u0027t buy your argument that this makes the review harder. Unrelated cleanup does in some cases, sure, but in this case, not so much.\n\nObviously there is a limit but I don\u0027t see the point of having such a hard-and-fast rule.",
+      "parentUuid": "451a45b5_26201613",
       "range": {
         "startLine": 81,
         "startChar": 4,

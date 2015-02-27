@@ -116,6 +116,20 @@ The output executable WAR will be placed in:
 ----
 
 
+=== Headless Mode
+
+To build Gerrit in headless mode, i.e. without the GWT Web UI:
+
+----
+  buck build headless
+----
+
+The output executable WAR will be placed in:
+
+----
+  buck-out/gen/headless.war
+----
+
 === Extension and Plugin API JAR Files
 
 To build the extension, plugin and GWT API JAR files:

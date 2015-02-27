@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "65e029b0_aff279e9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-27T20:22:15Z",
+      "side": 1,
+      "message": "new SitePaths() now throws IOException.",
+      "parentUuid": "451a45b5_06251a23",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_c5a13a3a",
         "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/LibrariesTest.java",
         "patchSetId": 5
@@ -130,6 +154,30 @@
       "writtenOn": "2015-02-27T20:15:30Z",
       "side": 1,
       "message": "IOException or generic exception here?",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "730d622dabd4a58db2b41e58f4b6b6408a237205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_0ee2ab22",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/LibrariesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-02-27T20:22:15Z",
+      "side": 1,
+      "message": "There is zero benefit to having a test method throw a specific exception type instead of Exception. There is a cost, which is churn if the exception types of the methods called from within the test method change. That is what happened here.\n\nThis change both fixes the compile error in this case and prevents future churn.",
+      "parentUuid": "2517118d_c5a13a3a",
       "range": {
         "startLine": 32,
         "startChar": 32,

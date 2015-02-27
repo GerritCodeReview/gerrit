@@ -17,6 +17,7 @@ package com.google.gerrit.common;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -60,6 +62,8 @@ public final class SiteLibraryLoaderUtil {
               .result();
         }
       }.sortedCopy(jars);
+    } catch (NoSuchFileException nsfe) {
+      return ImmutableList.of();
     }
   }
 

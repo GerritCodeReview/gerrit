@@ -22,6 +22,30 @@
       "revId": "23a203e18ce83fb2bf1c96456cdbccfc2ca5667e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85db5d05_50304ce1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeEdit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-02-27T15:14:19Z",
+      "side": 1,
+      "message": "You are right.",
+      "parentUuid": "85db5d05_9026b4b1",
+      "range": {
+        "startLine": 77,
+        "startChar": 71,
+        "endLine": 77,
+        "endChar": 97
+      },
+      "revId": "23a203e18ce83fb2bf1c96456cdbccfc2ca5667e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

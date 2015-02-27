@@ -1,6 +1,7 @@
 include_defs('//tools/build.defs')
 
 gerrit_war(name = 'gerrit')
+gerrit_war(name = 'headless', ui = 'no')
 gerrit_war(name = 'chrome',   ui = 'ui_chrome')
 gerrit_war(name = 'firefox',  ui = 'ui_firefox')
 gerrit_war(name = 'safari',   ui = 'ui_safari')

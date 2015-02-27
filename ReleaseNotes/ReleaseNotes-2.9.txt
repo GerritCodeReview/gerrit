@@ -30,6 +30,17 @@ Important Notes
   java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
+*WARNING:* Upgrading to 2.9.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.9.x.  If you are upgrading from 2.2.x.x or
+later, you may ignore this warning and upgrade directly to 2.9.x.
+
+*WARNING:* When upgrading from version 2.8.4 or older with a site that uses
+Bouncy Castle Crypto, new versions of the libraries will be downloaded. The old
+libraries should be manually removed from site's `lib` folder to prevent the
+startup failure described in
+link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
+
+
 *WARNING:* Support for query via the SQL index is removed. The usage of
 a secondary index is now mandatory.
 
@@ -85,10 +96,6 @@ The interactive init asks whether the plugin should be upgraded:
 +
 The plugin can be upgraded manually by copying the new plugin jar into
 the site's `plugins` folder.
-
-*WARNING:* Upgrading to 2.9.x requires the server be first upgraded to 2.1.7 (or
-a later 2.1.x version), and then to 2.9.x.  If you are upgrading from 2.2.x.x or
-later, you may ignore this warning and upgrade directly to 2.9.x.
 
 
 Release Highlights

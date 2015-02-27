@@ -3366,7 +3366,7 @@ As example, here is the theme configuration to have the old green look:
 
 Tagged footer lines containing references to external
 tracking systems, parsed out of the commit message and
-saved in Gerrit's database.
+saved in Gerrit's secondary index.
 
 After making changes to this section, existing changes
 must be reindexed with link:pgm-reindex.html[reindex].

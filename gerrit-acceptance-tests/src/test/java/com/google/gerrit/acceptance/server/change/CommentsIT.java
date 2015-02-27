@@ -25,9 +25,18 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.PostReview;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
@@ -35,6 +44,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +54,15 @@ public class CommentsIT extends AbstractDaemonTest {
   public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
+
+  @Inject
+  private Provider<ChangesCollection> changes;
+
+  @Inject
+  private Provider<Revisions> revisions;
+
+  @Inject
+  private Provider<PostReview> postReview;
 
   private final Integer lines[] = {0, 1};
 
@@ -133,6 +152,37 @@ public class CommentsIT extends AbstractDaemonTest {
       deleteDraft(changeId, revId, returned.id);
       Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
       assertThat(drafts).isEmpty();
+    }
+  }
+
+  @Test
+  public void insertCommentsWithHistoricTimestamp() throws Exception {
+    Timestamp timestamp = new Timestamp(0);
+    for (Integer line : lines) {
+      String file = "file";
+      String contents = "contents " + line;
+      PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+          "first subject", file, contents);
+      PushOneCommit.Result r = push.to(git, "refs/for/master");
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput input = new ReviewInput();
+      ReviewInput.CommentInput comment = newCommentInfo(
+          file, Side.REVISION, line, "comment 1");
+      comment.updated = timestamp;
+      input.comments = new HashMap<>();
+      input.comments.put(comment.path, Lists.newArrayList(comment));
+      ChangeResource changeRsrc =
+          changes.get().parse(TopLevelResource.INSTANCE,
+              IdString.fromDecoded(changeId));
+      RevisionResource revRsrc =
+          revisions.get().parse(changeRsrc, IdString.fromDecoded(revId));
+      postReview.get().apply(revRsrc, input, timestamp);
+      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      assertThat(result).isNotEmpty();
+      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      assertCommentInfo(comment, actual);
+      assertThat(comment.updated).isEqualTo(timestamp);
     }
   }
 

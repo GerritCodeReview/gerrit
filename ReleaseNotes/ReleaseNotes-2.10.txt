@@ -37,6 +37,12 @@ later, you may ignore this warning and upgrade directly to 2.10.x.
 
 *WARNING:* The `auth.allowGoogleAccountUpgrade` setting is no longer supported.
 
+*WARNING:* When upgrading from version 2.8.4 or older with a site that uses
+Bouncy Castle Crypto, new versions of the libraries will be downloaded. The old
+libraries should be manually removed from site's `lib` folder to prevent the
+startup failure described in
+link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
+
 
 Release Highlights
 ------------------

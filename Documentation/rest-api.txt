@@ -91,6 +91,12 @@ nanoseconds.
 All IDs that appear in the URL of a REST call (e.g. project name, group name)
 must be URL encoded.
 
+[[headers]]
+=== Headers
+==== X-Gerrit-Version
+Any REST response contains the header `X-Gerrit-Version` denoting
+the Gerrit server version.
+
 [[response-codes]]
 === Response Codes
 The Gerrit REST endpoints use HTTP status codes as described

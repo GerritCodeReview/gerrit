@@ -22,6 +22,7 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.config.AuthConfig;
@@ -29,8 +30,6 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.util.Base64;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -137,47 +136,7 @@ class HttpAuthFilter implements Filter {
   }
 
   String getRemoteUser(HttpServletRequest req) {
-    if (AUTHORIZATION.equals(loginHeader)) {
-      String user = emptyToNull(req.getRemoteUser());
-      if (user != null) {
-        // The container performed the authentication, and has the user
-        // identity already decoded for us. Honor that as we have been
-        // configured to honor HTTP authentication.
-        return user;
-      }
-
-      // If the container didn't do the authentication we might
-      // have done it in the front-end web server. Try to split
-      // the identity out of the Authorization header and honor it.
-      //
-      String auth = emptyToNull(req.getHeader(AUTHORIZATION));
-      if (auth == null) {
-        return null;
-
-      } else if (auth.startsWith("Basic ")) {
-        auth = auth.substring("Basic ".length());
-        auth = new String(Base64.decode(auth));
-        final int c = auth.indexOf(':');
-        return c > 0 ? auth.substring(0, c) : null;
-
-      } else if (auth.startsWith("Digest ")) {
-        final int u = auth.indexOf("username=\"");
-        if (u <= 0) {
-          return null;
-        }
-        auth = auth.substring(u + 10);
-        final int e = auth.indexOf('"');
-        return e > 0 ? auth.substring(0, e) : null;
-
-      } else {
-        return null;
-      }
-    } else {
-      // Nonstandard HTTP header. We have been told to trust this
-      // header blindly as-is.
-      //
-      return emptyToNull(req.getHeader(loginHeader));
-    }
+    return RemoteUserUtil.getRemoteUser(req, loginHeader);
   }
 
   String getRemoteDisplayname(HttpServletRequest req) {

@@ -61,6 +61,7 @@ java_test(
     '//lib:gwtorm',
     '//lib:guava',
     '//lib:servlet-api-3_1',
+    '//lib:truth',
     '//lib/easymock:easymock',
     '//lib/guice:guice',
     '//lib/jgit:jgit',

@@ -48,6 +48,7 @@ import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.HttpAuditEvent;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
@@ -196,6 +197,7 @@ public class RestApiServlet extends HttpServlet {
     long auditStartTs = TimeUtil.nowMs();
     res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("X-Gerrit-Version", Version.getVersion());
     int status = SC_OK;
     Object result = null;
     Multimap<String, String> params = LinkedHashMultimap.create();

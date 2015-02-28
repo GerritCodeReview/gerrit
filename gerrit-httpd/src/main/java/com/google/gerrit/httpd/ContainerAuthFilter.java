@@ -14,13 +14,18 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -46,24 +51,29 @@ import javax.servlet.http.HttpServletResponse;
  * lookup the account and set the account ID in our current session.
  * <p>
  * This filter should only be configured to run, when authentication is
- * configured to trust container authentication. This filter is intended only to
+ * configured to trust container authentication. This filter is intended to
  * protect the {@link GitOverHttpServlet} and its handled URLs, which provide remote
- * repository access over HTTP.
+ * repository access over HTTP. It also protects {@link RestApiServlet}.
  */
 @Singleton
 class ContainerAuthFilter implements Filter {
-  public static final String REALM_NAME = "Gerrit Code Review";
-
   private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
   private final Config config;
+  private final String loginHttpHeader;
 
   @Inject
-  ContainerAuthFilter(DynamicItem<WebSession> session, AccountCache accountCache,
+  ContainerAuthFilter(DynamicItem<WebSession> session,
+      AccountCache accountCache,
+      AuthConfig authConfig,
       @GerritServerConfig Config config) {
     this.session = session;
     this.accountCache = accountCache;
     this.config = config;
+
+    loginHttpHeader = firstNonNull(
+        emptyToNull(authConfig.getLoginHttpHeader()),
+        AUTHORIZATION);
   }
 
   @Override
@@ -87,7 +97,7 @@ class ContainerAuthFilter implements Filter {
 
   private boolean verify(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
-    String username = req.getRemoteUser();
+    String username = RemoteUserUtil.getRemoteUser(req, loginHttpHeader);
     if (username == null) {
       rsp.sendError(SC_FORBIDDEN);
       return false;

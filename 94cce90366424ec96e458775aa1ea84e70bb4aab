@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72a1d25d_5cbffdf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-01T22:20:48Z",
+      "side": 1,
+      "message": "The stable 2.10 line is the most recent released version. Even when 2.11 is going to be released untill the deadline mentioned in this change, the probability is very high, that most sites would still use 2.10 and rely on updated login form that doesn\u0027t offer the service that was shut down and the follow up change, that added Launchpad/UbuntuOne instead.",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "94cce90366424ec96e458775aa1ea84e70bb4aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

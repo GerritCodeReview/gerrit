@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_d8c76d38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-02T20:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_66a7ae23",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "61abb1a70a1329fa3c440d5a2bcec383e64485de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_e516f6c3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-02T08:17:11Z",
       "side": 1,
       "message": "Bug?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 7
+      },
+      "revId": "61abb1a70a1329fa3c440d5a2bcec383e64485de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_5c34dd13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-02T20:26:09Z",
+      "side": 1,
+      "message": "Done. I\u0027m still not sure if it is a clear bug, but it also not a feature. So bug probably fits better here. ;)",
+      "parentUuid": "2517118d_e516f6c3",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_7c39990a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-02T20:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_06a23a13",
+      "range": {
+        "startLine": 26,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "61abb1a70a1329fa3c440d5a2bcec383e64485de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_850902aa",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RemoteUserUtil.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-03-02T08:17:11Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 62,
+        "startChar": 28,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "61abb1a70a1329fa3c440d5a2bcec383e64485de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_3894a929",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-02T20:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2517118d_850902aa",
       "range": {
         "startLine": 62,
         "startChar": 28,

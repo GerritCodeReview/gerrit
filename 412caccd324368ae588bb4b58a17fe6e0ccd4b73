@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_788e211d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-02T20:48:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a1d25d_dcd22d50",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "412caccd324368ae588bb4b58a17fe6e0ccd4b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_269db6d7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-02T08:09:28Z",
       "side": 1,
       "message": "I\u0027m not sure if this is needed here.\n\nMaybe enough just to mention that the X-Gerrit-Version header is added.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "412caccd324368ae588bb4b58a17fe6e0ccd4b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_58935d3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-02T20:48:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_269db6d7",
       "range": {
         "startLine": 11,
         "startChar": 0,

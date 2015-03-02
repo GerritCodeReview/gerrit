@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "72a1d25d_dcd22d50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-02T08:27:54Z",
+      "side": 1,
+      "message": "Would be good to document this new header in \u0027rest-api.txt\u0027, somehwere in the \u0027Protocal Details\u0027 section.",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "412caccd324368ae588bb4b58a17fe6e0ccd4b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_269db6d7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

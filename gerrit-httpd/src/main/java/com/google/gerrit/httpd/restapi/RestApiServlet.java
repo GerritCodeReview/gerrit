@@ -25,6 +25,7 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -61,6 +62,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -375,6 +377,9 @@ public class RestApiServlet extends HttpServlet {
     } catch (UnprocessableEntityException e) {
       replyError(req, res, status = 422, messageOr(e, "Unprocessable Entity"),
           e.caching(), e);
+    } catch (NotImplementedException e) {
+      replyError(req, res, status = SC_NOT_IMPLEMENTED,
+          messageOr(e, "Not Implemented"), e);
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);

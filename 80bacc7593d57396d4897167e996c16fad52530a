@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_18072501",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-02T08:46:15Z",
+      "side": 1,
+      "message": "Is it worth to be mentioned in\n  https://gerrit-review.googlesource.com/Documentation/rest-api.html#response-codes\n?",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "80bacc7593d57396d4897167e996c16fad52530a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

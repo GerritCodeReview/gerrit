@@ -113,6 +113,7 @@ public class PushOneCommit {
   private final String content;
   private String changeId;
   private Tag tag;
+  private boolean force;
 
   @AssistedInject
   PushOneCommit(ChangeNotes.Factory notesFactory,
@@ -189,11 +190,15 @@ public class PushOneCommit {
       }
       tagCommand.call();
     }
-    return new Result(ref, pushHead(git, ref, tag != null), c, subject);
+    return new Result(ref, pushHead(git, ref, tag != null, force), c, subject);
   }
 
   public void setTag(final Tag tag) {
     this.tag = tag;
+  }
+
+  public void setForce(boolean force) {
+    this.force = force;
   }
 
   public class Result {
@@ -275,7 +280,7 @@ public class PushOneCommit {
       assertStatus(Status.REJECTED_OTHER_REASON, expectedMessage);
     }
 
-    private void assertStatus(Status expectedStatus, String expectedMessage) {
+    public void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertThat(expectedStatus)
         .named(message(refUpdate))

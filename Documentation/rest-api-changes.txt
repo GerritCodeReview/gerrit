@@ -295,7 +295,8 @@ default. Optional fields are:
 [[reviewed]]
 --
 * `REVIEWED`: include the `reviewed` field if the caller is
-  authenticated and has commented on the current revision.
+  authenticated and has commented on the current revision
+  by setting a non-zero value for a label.
 --
 
 [[web-links]]

@@ -327,13 +327,20 @@ public abstract class AbstractDaemonTest {
 
   protected void grant(String permission, Project.NameKey project, String ref)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    grant(permission, project, ref, false);
+  }
+
+  protected void grant(String permission, Project.NameKey project, String ref, boolean force)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.create(project);
     md.setMessage(String.format("Grant %s on %s", permission, ref));
     ProjectConfig config = ProjectConfig.read(md);
     AccessSection s = config.getAccessSection(ref, true);
     Permission p = s.getPermission(permission, true);
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-    p.add(new PermissionRule(config.resolve(adminGroup)));
+    PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
+    rule.setForce(force);
+    p.add(rule);
     config.commit(md);
     projectCache.evict(config.getProject());
   }

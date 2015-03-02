@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -53,18 +53,17 @@ public class RebaseChangeEdit implements
 
   @Override
   public DynamicMap<RestView<ChangeEditResource>> views() {
-    throw new IllegalStateException("not yet implemented");
+    throw new NotImplementedException();
   }
 
   @Override
   public RestView<ChangeResource> list() {
-    throw new IllegalStateException("not yet implemented");
+    throw new NotImplementedException();
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource parent, IdString id)
-      throws ResourceNotFoundException, Exception {
-    throw new IllegalStateException("not yet implemented");
+  public ChangeEditResource parse(ChangeResource parent, IdString id) {
+    throw new NotImplementedException();
   }
 
   @SuppressWarnings("unchecked")

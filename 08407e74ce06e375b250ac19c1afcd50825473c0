@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65e029b0_6f3fb1e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "Be nice if upstream Buck can find a way to allow us to not have to modify a tracked file on \"other platform\".",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_0f34e502",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "This isn\u0027t your fault, but it makes me sad we have to duplicate so much in each genrule.\n\nWe could use \u0026\u0026 on *NIX platforms to separate commands instead of ;. And then the major difference is $OUT vs. %OUT%. Which could be handled inside Buck with a simple search and replace.\n\nOk then there is `ln -s` vs. `cp`. That could be a $(LN_S) or some magic variable that is defined per-platform and replaced by Buck before execution.\n\nOr maybe that is too much hand waving.\n\nMaybe we could polyfill genrule() with our own override that does that sort of thing if cmd_exe is missing?\n\n  _buck_genrule \u003d genrule\n\n  def genrule(...):\n    if cmd_exe is None:\n      cmd_exe \u003d cmd.replace(\u0027$OUT\u0027, \u0027%OUT%\u0027)\n\nIts possible to break it with a bad genrule that isn\u0027t cross platform, but so is the current cmd/cmd_exe system. You can write a working rule on *NIX and think you have a working update on \"other platform\", but without a test build running on other platform you can\u0027t be sure it works.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 25
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_2e2207d2",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "I think this is unrelated to the \"other platform\" support and is probably a straight out bug fix to the BUCK file that can be applied as-is to master.",
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_ce06e348",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "Huh. I had trouble in older versions of Buck getting it to correctly package the file unless I did cd src/main/webapp. cd $SRCDIR gave me the wrong results in the ZIP file. IIRC the files in the ZIP were prefixed with src/main/webapp which we do not want in the resulting ZIP.\n\nAre you sure these are producing the same files on the different platforms?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 45
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_ee039f35",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "Same issue as above.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 60
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_8e10db78",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "Doesn\u0027t \"other platform\" accept /? Its cleaner to write in these sorts of strings.",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 38
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_2f39a9fb",
+        "filename": "lib/codemirror/closure.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "%SRCS%?",
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_cf2d7dba",
+        "filename": "tools/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "Its worth documenting in the commit message that the automatic buck build from the debug server doesn\u0027t work.",
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_8f2775d6",
+        "filename": "tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "Move this just before the shutil.copyfile()? Its a useful documentation hint about why we have to do copyfile.",
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_ef2ac19f",
+        "filename": "tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "Drop this line?",
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_af24b9d1",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-02T23:56:57Z",
+      "side": 1,
+      "message": "subprocess.Popen for git describe doesn\u0027t work on other platform?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 16
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

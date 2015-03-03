@@ -370,7 +370,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     velocityContext.put("change", change);
     velocityContext.put("changeId", change.getKey());
     velocityContext.put("coverLetter", getCoverLetter());
-    velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
   }

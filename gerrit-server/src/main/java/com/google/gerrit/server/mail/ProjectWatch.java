@@ -194,7 +194,7 @@ public class ProjectWatch {
     return false;
   }
 
-  private boolean filterMatch(CurrentUser user, String filter)
+  protected boolean filterMatch(CurrentUser user, String filter)
       throws OrmException, QueryParseException {
     ChangeQueryBuilder qb;
     Predicate<ChangeData> p = null;

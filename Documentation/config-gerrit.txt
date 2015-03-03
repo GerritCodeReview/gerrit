@@ -1443,6 +1443,17 @@ This section allows to configure the git garbage collection and schedules it
 to run periodically. It will be triggered and executed sequentially for all
 projects.
 
+[[gc.aggressive]]gc.aggressive::
++
+Determines if scheduled garbage collection should run in aggressive mode or not.
+Aggressive garbage collections are more expensive but may lead to significantly
+smaller repositories. This configuration influences only scheduled garbage
+collection runs. Explicit garbage collections through ssh, REST and Web-UI are
+always aggressive.
++
+Valid values are "true" and "false," default is "false".
+
+
 [[gc.startTime]]gc.startTime::
 +
 Start time to define the first execution of the git garbage collection.

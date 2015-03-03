@@ -23,14 +23,20 @@ import org.eclipse.jgit.lib.ConfigConstants;
 @Singleton
 public class GcConfig {
   private final ScheduleConfig scheduleConfig;
+  private final boolean aggressive;
 
   @Inject
   GcConfig(@GerritServerConfig Config cfg) {
     scheduleConfig = new ScheduleConfig(cfg, ConfigConstants.CONFIG_GC_SECTION);
+    aggressive = cfg.getBoolean(ConfigConstants.CONFIG_GC_SECTION, "aggressive", false);
   }
 
   public ScheduleConfig getScheduleConfig() {
     return scheduleConfig;
+  }
+
+  public boolean getAggressive() {
+    return aggressive;
   }
 
 }

@@ -24,7 +24,7 @@ import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
+public class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   private static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
       return ((IdentifiedUser) user).getAccountId().toString();

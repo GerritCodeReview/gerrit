@@ -379,6 +379,7 @@ public abstract class OutgoingEmail {
     velocityContext = new VelocityContext();
 
     velocityContext.put("email", this);
+    velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("messageClass", messageClass);
     velocityContext.put("StringUtils", StringUtils.class);
   }

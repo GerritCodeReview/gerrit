@@ -1,4 +1,4 @@
-## Copyright (C) 2010 The Android Open Source Project
+## Copyright (C) 2015 The Android Open Source Project
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -28,19 +28,21 @@
 ##
 ## This Template:
 ## --------------
-## The ChangeSubject.vm template will determine the contents of the email
-## subject line for ALL emails related to changes.
+## The DirectPush.vm template will determine the contents of the email for
+## pushing directly into the repository.
 ##
-## Optionally $change.originalSubject can be used for the first subject
-## in a change. This allows subject based email clients such as GMail
-## to thread comments together even if subsequent patch sets change the
-## first line of the commit message.
-##
-#macro(ellipsis $length $str)
-#if($str.length() > $length)#set($length = $length - 3)${str.substring(0,$length)}...#else$str#end
+$fromName has pushed a new change directly into the repository.
+
+Change subject: $email.subject
+......................................................................
+
+$email.fullMessage
+--
+
+#if$(email.sshHost)
+  git pull ssh://$email.sshHost/$projectName $email.commitId
 #end
-#if($messageClass != "direct-push")
-Change in ${projectName.replaceAll('/.*/', '...')}[$branch.shortName]: #ellipsis(63, $change.subject)
-#else
-Change in ${projectName.replaceAll('/.*/', '...')}[$branch.shortName]: #ellipsis(63, $email.subject)(Direct Push)
-#end
+--
+Gerrit-MessageType: $messageClass
+Gerrit-Project: $projectName
+Gerrit-Branch: $branch.shortName

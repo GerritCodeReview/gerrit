@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.GcConfig;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
@@ -46,15 +47,17 @@ public class GarbageCollection {
 
   private final GitRepositoryManager repoManager;
   private final GarbageCollectionQueue gcQueue;
+  private final GcConfig gcConfig;
 
   public interface Factory {
     GarbageCollection create();
   }
 
   @Inject
-  GarbageCollection(GitRepositoryManager repoManager, GarbageCollectionQueue gcQueue) {
+  GarbageCollection(GitRepositoryManager repoManager, GarbageCollectionQueue gcQueue, GcConfig config) {
     this.repoManager = repoManager;
     this.gcQueue = gcQueue;
+    this.gcConfig = config;
   }
 
   public GarbageCollectionResult run(List<Project.NameKey> projectNames) {
@@ -62,6 +65,11 @@ public class GarbageCollection {
   }
 
   public GarbageCollectionResult run(List<Project.NameKey> projectNames,
+      PrintWriter writer) {
+    return run(projectNames, gcConfig.getAggressive(), writer);
+  }
+
+  public GarbageCollectionResult run(List<Project.NameKey> projectNames, boolean aggressive,
       PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
@@ -74,9 +82,10 @@ public class GarbageCollection {
       Repository repo = null;
       try {
         repo = repoManager.openRepository(p);
-        logGcConfiguration(p, repo);
+        logGcConfiguration(p, repo, aggressive);
         print(writer, "collecting garbage for \"" + p + "\":\n");
         GarbageCollectCommand gc = Git.wrap(repo).gc();
+        gc.setAggressive(aggressive);
         logGcInfo(p, "before:", gc.getStatistics());
         gc.setProgressMonitor(writer != null ? new TextProgressMonitor(writer)
             : NullProgressMonitor.INSTANCE);
@@ -123,9 +132,10 @@ public class GarbageCollection {
   }
 
   private static void logGcConfiguration(Project.NameKey projectName,
-      Repository repo) {
+      Repository repo, boolean aggressive) {
     StringBuilder b = new StringBuilder();
     Config cfg = repo.getConfig();
+    b.append("gc.aggressive="+aggressive+"; ");
     b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION, null));
     for (String subsection : cfg.getSubsections(ConfigConstants.CONFIG_GC_SECTION)) {
       b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION,

@@ -69,7 +69,7 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
         };
         try {
           GarbageCollectionResult result = garbageCollectionFactory.create().run(
-              Collections.singletonList(rsrc.getNameKey()), input.showProgress ? writer : null);
+              Collections.singletonList(rsrc.getNameKey()), true, input.showProgress ? writer : null);
           String msg = "Garbage collection completed successfully.";
           if (result.hasErrors()) {
             for (GarbageCollectionResult.Error e : result.getErrors()) {

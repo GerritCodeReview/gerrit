@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451a45b5_492285d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-03T10:34:10Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_a9069946",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-03T10:34:10Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_8903dd36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-03T10:34:10Z",
+      "side": 1,
+      "message": "nit: add spaces around operators\n\nactually, would it not be better to add a couple more calls to `.append` rather than doing a string concat?",
+      "range": {
+        "startLine": 138,
+        "startChar": 29,
+        "endLine": 138,
+        "endChar": 30
+      },
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_a5499eaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-03T10:34:10Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

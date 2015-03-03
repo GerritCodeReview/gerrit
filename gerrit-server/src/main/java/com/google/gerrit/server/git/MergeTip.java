@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
@@ -44,8 +45,8 @@ public class MergeTip {
    */
   public MergeTip(@Nullable CodeReviewCommit initial,
       Collection<CodeReviewCommit> toMerge) {
-    checkArgument(toMerge != null && !toMerge.isEmpty(),
-        "toMerge may not be null or empty: %s", toMerge);
+    checkNotNull(toMerge, "toMerge may not be null");
+    checkArgument(!toMerge.isEmpty(), "toMerge may not be empty");
     this.mergeResults = Maps.newHashMap();
     this.branchTip = initial;
     // Assume fast-forward merge until opposite is proven.

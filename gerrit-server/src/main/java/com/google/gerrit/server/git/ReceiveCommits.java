@@ -101,6 +101,7 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.mail.DirectPushSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -281,6 +282,7 @@ public class ReceiveCommits {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
   private final CmdLineParser.Factory optionParserFactory;
+  private final DirectPushSender.Factory directPushSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final GitReferenceUpdated gitRefUpdated;
@@ -350,6 +352,7 @@ public class ReceiveCommits {
       final CmdLineParser.Factory optionParserFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
+      final DirectPushSender.factory directPushSenderFactory,
       final GitReferenceUpdated gitRefUpdated,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
@@ -391,6 +394,7 @@ public class ReceiveCommits {
     this.optionParserFactory = optionParserFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.directPushSenderFactory = directPushSenderFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
@@ -645,6 +649,10 @@ public class ReceiveCommits {
                 c.getOldId(),
                 c.getNewId(),
                 currentUser.getAccount());
+          }
+
+          if (isHead(c)) {
+            processDirectPushEmail(c);
           }
         }
     }
@@ -2612,6 +2620,51 @@ public class ReceiveCommits {
         return "send-email merged";
       }
     }));
+  }
+
+  private void processDirectPushEmail(final ReceiveCommand cmd) {
+    final RevWalk rw = rp.getRevWalk();
+    List<RevCommit> pushedCommits = new ArrayList<RevCommit>();
+    try {
+      rw.reset();
+      rw.markStart(rw.parseCommit(cmd.getNewId()));
+      if (!ObjectId.zeroId().equals(cmd.getOldId())) {
+        rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
+      }
+      RevCommit c;
+      while ((c = rw.next()) != null) {
+        rw.parseBody(c);
+        pushedCommits.add(c);
+        for (int i = pushedCommits.size() - 1; i >= 0; i--) {
+          sendDirectPushEmail(cmd, pushedCommits.get(i));
+        }
+      }
+    } catch (IOException e) {
+      log.error("Can't find commit to send direct push email", e);
+    }
+  }
+
+  private void sendDirectPushEmail(final ReceiveCommand cmd,
+      final RevCommit c) {
+    workQueue.getDefaultQueue()
+      .submit(requestScopePropagator.wrap(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            final DirectPushSender mail =
+              directPushSenderFactory.create(project, cmd, c);
+            mail.setFrom(currentUser.getAccountId());
+            mail.send();
+          } catch (Exception e) {
+            log.error("Cannot send email for direct push", e);
+          }
+        }
+
+        @Override
+        publich String toString() {
+          return "send-email directly pushed";
+        }
+      }));
   }
 
   private static RevId toRevId(final RevCommit src) {

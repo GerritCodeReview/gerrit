@@ -19,7 +19,7 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-class RefPredicate extends IndexPredicate<ChangeData> {
+public class RefPredicate extends IndexPredicate<ChangeData> {
   RefPredicate(String ref) {
     super(ChangeField.REF, ref);
   }

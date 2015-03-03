@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "451a45b5_a697e6a9",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-03T00:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_2e39a7fb",
+      "range": {
+        "startLine": 4,
+        "startChar": 36,
+        "endLine": 4,
+        "endChar": 38
+      },
+      "revId": "f7afd6744571992535d9fc0dac32b3ac3ca82ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_ce2d83ba",
         "filename": "tools/build.defs",
         "patchSetId": 1
@@ -77,6 +101,30 @@
       "writtenOn": "2015-03-03T00:07:17Z",
       "side": 1,
       "message": "If you use ui \u003d None in the top level this can be:\n\n  [\u0027//gerrit-gwtui:\u0027 + ui] if ui else []",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 54
+      },
+      "revId": "f7afd6744571992535d9fc0dac32b3ac3ca82ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_85bbc249",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-03T00:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_ce2d83ba",
       "range": {
         "startLine": 74,
         "startChar": 7,

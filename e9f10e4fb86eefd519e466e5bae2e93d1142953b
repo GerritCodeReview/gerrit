@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45c5e522_0e34eb02",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-03T00:03:30Z",
+      "side": 1,
+      "message": "I think you need to URL encode the pf value before you cram it into the redirect.",
+      "range": {
+        "startLine": 370,
+        "startChar": 23,
+        "endLine": 370,
+        "endChar": 39
+      },
+      "revId": "e9f10e4fb86eefd519e466e5bae2e93d1142953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

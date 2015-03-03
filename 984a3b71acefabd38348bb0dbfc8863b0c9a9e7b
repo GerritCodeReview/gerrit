@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65e029b0_4f650d03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-03T00:01:18Z",
+      "side": 1,
+      "message": "Why is this optimization necessary?\n\nIs a client firing one command and terminating with no stateful knowledge of the server it is communicating with?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "984a3b71acefabd38348bb0dbfc8863b0c9a9e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_4e3af3f4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-03T00:01:18Z",
+      "side": 1,
+      "message": "Why isn\u0027t this in the server header?\n\n  res.setHeader(\"Server\", \"Gerrit/\" + Version.getVersion());\n\nServers like Apache in reverse proxy mode would then combine this in with its own data:\n\n  Server: Apache/2.2 Gerrit/2.11",
+      "revId": "984a3b71acefabd38348bb0dbfc8863b0c9a9e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

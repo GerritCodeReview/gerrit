@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_18b605b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-03T10:43:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_492285d2",
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_a9069946",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-03T10:34:10Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_78bbc19d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-03T10:43:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_a9069946",
       "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_58c07d04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-03T10:43:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_8903dd36",
+      "range": {
+        "startLine": 138,
+        "startChar": 29,
+        "endLine": 138,
+        "endChar": 30
+      },
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_a5499eaa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2015-03-03T10:34:10Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_7c47597a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-03T10:43:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2517118d_a5499eaa",
       "revId": "49f142d1c5fd1a7497e1fc9c5c83c9de74cfbb99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

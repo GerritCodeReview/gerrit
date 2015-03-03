@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "65e029b0_0f6f05e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-03T00:07:17Z",
+      "side": 1,
+      "message": "Good idea for those that want server only, such as if they are working on a new non-GWT UI. I like it.",
+      "revId": "f7afd6744571992535d9fc0dac32b3ac3ca82ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_46da72a5",
         "filename": "BUCK",
         "patchSetId": 1
@@ -18,6 +35,53 @@
         "startChar": 36,
         "endLine": 4,
         "endChar": 38
+      },
+      "revId": "f7afd6744571992535d9fc0dac32b3ac3ca82ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_2e39a7fb",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-03T00:07:17Z",
+      "side": 1,
+      "message": "I would use ui \u003d None; the real None object in Python.",
+      "parentUuid": "451a45b5_46da72a5",
+      "range": {
+        "startLine": 4,
+        "startChar": 36,
+        "endLine": 4,
+        "endChar": 38
+      },
+      "revId": "f7afd6744571992535d9fc0dac32b3ac3ca82ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_ce2d83ba",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-03T00:07:17Z",
+      "side": 1,
+      "message": "If you use ui \u003d None in the top level this can be:\n\n  [\u0027//gerrit-gwtui:\u0027 + ui] if ui else []",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 54
       },
       "revId": "f7afd6744571992535d9fc0dac32b3ac3ca82ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

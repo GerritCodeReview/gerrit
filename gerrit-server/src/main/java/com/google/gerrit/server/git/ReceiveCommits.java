@@ -606,6 +606,17 @@ public class ReceiveCommits {
                   c.getNewId());
           }
 
+          if (c.getType() == ReceiveCommand.Type.UPDATE_NONFASTFORWARD) {
+            StringBuilder builder = new StringBuilder();
+            builder.append("force push : ")
+                .append(currentUser.getUserName()).append("; ")
+                .append(repo.toString()).append("; ")
+                .append("Project[").append(project.getName()).append("]; ")
+                .append(ObjectId.toString(c.getOldId())).append(" : ")
+                .append(ObjectId.toString(c.getNewId()));
+            log.warn(builder.toString());
+          }
+
           if (isHead(c) || isConfig(c)) {
             switch (c.getType()) {
               case CREATE:

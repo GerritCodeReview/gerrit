@@ -85,7 +85,8 @@ public class GarbageCollectionCommand extends SshCommand {
     }
 
     GarbageCollectionResult result =
-        garbageCollectionFactory.create().run(projectNames, showProgress ? stdout : null);
+        garbageCollectionFactory.create().run(projectNames, true,
+            showProgress ? stdout : null);
     if (result.hasErrors()) {
       for (GarbageCollectionResult.Error e : result.getErrors()) {
         String msg;

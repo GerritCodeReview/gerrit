@@ -43,9 +43,9 @@ will match any OpenID provider on the Internet:
 * `http://` -- trust all OpenID providers using the HTTP protocol
 * `https://` -- trust all OpenID providers using the HTTPS protocol
 
-To trust only Google Accounts:
+To trust only Yahoo!:
 ====
-  git config --file $site_path/etc/gerrit.config auth.trustedOpenID 'https://www.google.com/accounts/o8/id?id='
+  git config --file $site_path/etc/gerrit.config auth.trustedOpenID https://me.yahoo.com
 ====
 
 === Database Schema

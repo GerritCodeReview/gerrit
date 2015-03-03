@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_fc24c9de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-03T07:05:07Z",
+      "side": 1,
+      "message": "Filed issue upstream: [1].\n\n* [1] https://github.com/facebook/buck/issues/266",
+      "parentUuid": "65e029b0_6f3fb1e3",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65e029b0_0f34e502",
         "filename": "BUCK",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-02T23:56:57Z",
       "side": 1,
       "message": "This isn\u0027t your fault, but it makes me sad we have to duplicate so much in each genrule.\n\nWe could use \u0026\u0026 on *NIX platforms to separate commands instead of ;. And then the major difference is $OUT vs. %OUT%. Which could be handled inside Buck with a simple search and replace.\n\nOk then there is `ln -s` vs. `cp`. That could be a $(LN_S) or some magic variable that is defined per-platform and replaced by Buck before execution.\n\nOr maybe that is too much hand waving.\n\nMaybe we could polyfill genrule() with our own override that does that sort of thing if cmd_exe is missing?\n\n  _buck_genrule \u003d genrule\n\n  def genrule(...):\n    if cmd_exe is None:\n      cmd_exe \u003d cmd.replace(\u0027$OUT\u0027, \u0027%OUT%\u0027)\n\nIts possible to break it with a bad genrule that isn\u0027t cross platform, but so is the current cmd/cmd_exe system. You can write a working rule on *NIX and think you have a working update on \"other platform\", but without a test build running on other platform you can\u0027t be sure it works.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 25
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_387f8945",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-03T07:05:07Z",
+      "side": 1,
+      "message": "Filed issue upstream: [1].\n\n* [1] https://github.com/facebook/buck/issues/267",
+      "parentUuid": "65e029b0_0f34e502",
       "range": {
         "startLine": 28,
         "startChar": 0,

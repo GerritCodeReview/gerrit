@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_98a4d594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-03T07:03:07Z",
+      "side": 1,
+      "message": "Let\u0027s try to explain it with a usecase: In Gerrit 2.10 the endpoint \u0027/config/server/tasks/{task-id}\u0027 got added. If the client requests this from a server \u003c 2.10 a 404 is returned. If a client requests this from a server \u003e\u003d 2.10 with an invalid task-id he also gets a 404 status code. Though the cause of this errors are completely different. A cleanly implemented REST client would return a NotImplementedException in the first case in order to inform the user that this operation is not supported. In the second case, he should inform the user that the task with the provided id is not available. Without this version header, an additional call is required in the error handling code (even when the response is cached, there is at least one call necessary).",
+      "parentUuid": "65e029b0_4f650d03",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "984a3b71acefabd38348bb0dbfc8863b0c9a9e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_4e3af3f4",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-03-03T00:01:18Z",
       "side": 1,
       "message": "Why isn\u0027t this in the server header?\n\n  res.setHeader(\"Server\", \"Gerrit/\" + Version.getVersion());\n\nServers like Apache in reverse proxy mode would then combine this in with its own data:\n\n  Server: Apache/2.2 Gerrit/2.11",
+      "revId": "984a3b71acefabd38348bb0dbfc8863b0c9a9e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_f8a19182",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-03T07:03:07Z",
+      "side": 1,
+      "message": "There was a note about the \u0027Server\u0027-header in the first patchset: \"Instead of the custom \u0027X-Gerrit-Version: x.x.x\u0027 header, a \u0027Server: Gerrit x.x.x\u0027 header could be added. That would require clients to parse the version out of the value.\"\n\nAlso, misconfigured reverse proxies could just overwrite or modify this header (I\u0027m not absolutely sure if this is a real world case).",
+      "parentUuid": "45c5e522_4e3af3f4",
       "revId": "984a3b71acefabd38348bb0dbfc8863b0c9a9e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

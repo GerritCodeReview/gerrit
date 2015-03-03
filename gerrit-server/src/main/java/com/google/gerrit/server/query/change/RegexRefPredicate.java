@@ -22,7 +22,7 @@ import com.google.gwtorm.server.OrmException;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-class RegexRefPredicate extends RegexPredicate<ChangeData> {
+public class RegexRefPredicate extends RegexPredicate<ChangeData> {
   private final RunAutomaton pattern;
 
   RegexRefPredicate(String re) {

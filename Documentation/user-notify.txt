@@ -104,6 +104,7 @@ are sent.
 * `all_comments`: Only comments on existing changes.
 * `submitted_changes`: Only changes that have been submitted.
 * `abandoned_changes`: Only changes that have been abandoned.
+* `direct_pushes`: Only changes that were pushed directly.
 * `all`: All notifications.
 
 +

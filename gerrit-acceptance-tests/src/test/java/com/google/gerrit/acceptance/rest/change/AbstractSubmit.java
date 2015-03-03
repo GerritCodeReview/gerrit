@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -143,11 +145,26 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         createChange(git, "Change 1", "a.txt", "content", "test-topic");
     PushOneCommit.Result change2 =
         createChange(git, "Change 2", "b.txt", "content", "test-topic");
+    PushOneCommit.Result change3 =
+        createChange(git, "Change 3", "c.txt", "content", "test-topic");
     approve(change1.getChangeId());
     approve(change2.getChangeId());
-    submit(change2.getChangeId());
+    approve(change3.getChangeId());
+    submit(change3.getChangeId());
     change1.assertChange(Change.Status.MERGED, "test-topic", admin);
     change2.assertChange(Change.Status.MERGED, "test-topic", admin);
+    change3.assertChange(Change.Status.MERGED, "test-topic", admin);
+    assertSubmitter(change1);
+    assertSubmitter(change2);
+    assertSubmitter(change3);
+  }
+
+  private void assertSubmitter(PushOneCommit.Result change) throws Exception {
+    ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
+    assertThat((Iterable<?>)info.messages).isNotNull();
+    assertThat((Iterable<?>)info.messages).hasSize(3);
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo(
+        "Change has been successfully merged into the git repository by Administrator");
   }
 
   protected Git createProject() throws JSchException, IOException,

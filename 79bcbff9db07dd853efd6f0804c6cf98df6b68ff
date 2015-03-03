@@ -22,6 +22,30 @@
       "revId": "79bcbff9db07dd853efd6f0804c6cf98df6b68ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_b8c43919",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-03T10:49:38Z",
+      "side": 1,
+      "message": "yes, that looks much nicer. done",
+      "parentUuid": "2517118d_85462296",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 12
+      },
+      "revId": "79bcbff9db07dd853efd6f0804c6cf98df6b68ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -116,6 +116,8 @@ public interface AccountConstants extends Constants {
   String watchedProjectColumnAllComments();
   String watchedProjectColumnSubmittedChanges();
   String watchedProjectColumnAbandonedChanges();
+  String watchedProjectColumnRefUpdates();
+  String watchedProjectColumnDirectPushChanges();
 
   String contactFieldFullName();
   String contactFieldEmail();

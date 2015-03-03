@@ -49,17 +49,21 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     fmt.setRowSpan(0, 2, 2);
     fmt.getElement(0, 3).setPropertyString("align", "center");
 
-    fmt.setColSpan(0, 3, 5);
+    fmt.setColSpan(0, 3, 7);
     table.setText(1, 0, Util.C.watchedProjectColumnNewChanges());
     table.setText(1, 1, Util.C.watchedProjectColumnNewPatchSets());
     table.setText(1, 2, Util.C.watchedProjectColumnAllComments());
     table.setText(1, 3, Util.C.watchedProjectColumnSubmittedChanges());
     table.setText(1, 4, Util.C.watchedProjectColumnAbandonedChanges());
+    table.setText(1, 5, Util.C.watchedProjectColumnRefUpdates());
+    table.setText(1, 6, Util.C.watchedProjectColumnDirectPushChanges());
     fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(1, 1, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(1, 2, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(1, 3, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(1, 4, Gerrit.RESOURCES.css().dataHeader());
+    fmt.addStyleName(1, 5, Gerrit.RESOURCES.css().dataHeader());
+    fmt.addStyleName(1, 6, Gerrit.RESOURCES.css().dataHeader());
   }
 
   public void deleteChecked() {
@@ -142,6 +146,8 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     addNotifyButton(AccountProjectWatch.NotifyType.ALL_COMMENTS, info, row, 5);
     addNotifyButton(AccountProjectWatch.NotifyType.SUBMITTED_CHANGES, info, row, 6);
     addNotifyButton(AccountProjectWatch.NotifyType.ABANDONED_CHANGES, info, row, 7);
+    addNotifyButton(AccountProjectWatch.NotifyType.REF_UPDATES, info, row, 9);
+    addNotifyButton(AccountProjectWatch.NotifyType.DIRECT_PUSH_CHANGES, info, row, 9);
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
@@ -151,6 +157,8 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 6, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 7, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, 8, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, 9, Gerrit.RESOURCES.css().dataCell());
 
     setRowItem(row, info);
   }

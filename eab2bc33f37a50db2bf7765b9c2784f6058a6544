@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "451a45b5_69c14159",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T09:41:13Z",
+      "side": 1,
+      "message": "Since it\u0027s almost the same I think it would be better to upload as a new patch set on the original change, keeping the original author name intact but adding the Signed-off-by line.\n\nI\u0027ve restored the other one, so it\u0027s now possible to upload a new PS to it.",
+      "parentUuid": "2517118d_e8108b79",
+      "range": {
+        "startLine": 19,
+        "startChar": 52,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "eab2bc33f37a50db2bf7765b9c2784f6058a6544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_08c6c7a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

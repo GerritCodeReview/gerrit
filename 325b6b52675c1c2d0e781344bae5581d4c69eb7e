@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_882ab79e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T10:27:17Z",
+      "side": 1,
+      "message": "note: similar construct is used here, but this seems to be working.  Or, we don\u0027t have a test that covers it properly...",
+      "range": {
+        "startLine": 426,
+        "startChar": 44,
+        "endLine": 426,
+        "endChar": 71
+      },
+      "revId": "325b6b52675c1c2d0e781344bae5581d4c69eb7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

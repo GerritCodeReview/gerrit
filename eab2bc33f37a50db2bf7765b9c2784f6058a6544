@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "451a45b5_093fede3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T00:32:08Z",
+      "side": 1,
+      "message": "nit: it was abandoned by me, and I am not the original author.",
+      "range": {
+        "startLine": 19,
+        "startChar": 52,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "eab2bc33f37a50db2bf7765b9c2784f6058a6544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_08c6c7a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T00:32:08Z",
+      "side": 1,
+      "message": "Is it intentional that this email address is not used as the author/committer?",
+      "revId": "eab2bc33f37a50db2bf7765b9c2784f6058a6544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

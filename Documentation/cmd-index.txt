@@ -150,6 +150,9 @@ link:cmd-plugin-remove.html[gerrit plugin rm]::
 link:cmd-set-account.html[gerrit set-account]::
 	Change an account's settings.
 
+link:cmd-set-head.html[gerrit set-head]::
+  Change the project HEAD reference.
+
 link:cmd-set-members.html[gerrit set-members]::
 	Set group members.
 

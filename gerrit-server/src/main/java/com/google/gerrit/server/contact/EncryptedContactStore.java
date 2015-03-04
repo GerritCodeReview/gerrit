@@ -38,6 +38,9 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
+import org.bouncycastle.openpgp.bc.BcPGPPublicKeyRingCollection;
+import org.bouncycastle.openpgp.operator.bc.BcPGPDataEncryptorBuilder;
+import org.bouncycastle.openpgp.operator.bc.BcPublicKeyKeyEncryptionMethodGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -167,12 +170,16 @@ class EncryptedContactStore implements ContactStore {
     }
   }
 
-  @SuppressWarnings("deprecation")
   private final PGPEncryptedDataGenerator cpk()
       throws NoSuchProviderException, PGPException {
+    final BcPGPDataEncryptorBuilder builder =
+        new BcPGPDataEncryptorBuilder(PGPEncryptedData.CAST5)
+            .setSecureRandom(prng);
     PGPEncryptedDataGenerator cpk =
-        new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, true, prng, "BC");
-    cpk.addMethod(dest);
+        new PGPEncryptedDataGenerator(builder, true);
+    final BcPublicKeyKeyEncryptionMethodGenerator methodGenerator =
+        new BcPublicKeyKeyEncryptionMethodGenerator(dest);
+    cpk.addMethod(methodGenerator);
     return cpk;
   }
 

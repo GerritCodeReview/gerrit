@@ -158,6 +158,9 @@ link:cmd-set-project.html[gerrit set-project]::
 
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
 	Change the project permissions are inherited from.
+	
+link:cmd-set-head.html[gerrit set-head]::
+  Change the project HEAD reference.
 
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.

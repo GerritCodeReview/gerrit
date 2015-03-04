@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72a1d25d_dcdf8d00",
+        "filename": "Documentation/cmd-set-head.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-04T16:04:34Z",
+      "side": 1,
+      "message": "The placeholders should match the metaVar defined in the command class.\n\n  --project \u003cNAME\u003e | -p \u003cNAME\u003e\n  --new-head \u003cREF\u003e",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_583b5d64",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetHeadCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-04T16:04:34Z",
+      "side": 1,
+      "message": "Actually I was prosing \u0027NAME\u0027, and not \u0027PROJECT\u0027. At least \u0027NAME\u0027 is used in all other commands that require a project name.",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

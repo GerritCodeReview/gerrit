@@ -567,7 +567,10 @@ public class ReceiveCommits {
 
     if (!batch.getCommands().isEmpty()) {
       try {
-        batch.setAllowNonFastForwards(magicBranch != null && magicBranch.edit);
+        if (!batch.isAllowNonFastForwards() && magicBranch != null
+            && magicBranch.edit) {
+          batch.setAllowNonFastForwards(true);
+        }
         batch.execute(rp.getRevWalk(), commandProgress);
       } catch (IOException err) {
         int cnt = 0;

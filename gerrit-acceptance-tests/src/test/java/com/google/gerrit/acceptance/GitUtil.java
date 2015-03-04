@@ -193,7 +193,13 @@ public class GitUtil {
 
   public static PushResult pushHead(Git git, String ref, boolean pushTags)
       throws GitAPIException {
+    return pushHead(git, ref, pushTags, false);
+  }
+
+  public static PushResult pushHead(Git git, String ref, boolean pushTags,
+      boolean force) throws GitAPIException {
     PushCommand pushCmd = git.push();
+    pushCmd.setForce(force);
     pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
     if (pushTags) {
       pushCmd.setPushTags();

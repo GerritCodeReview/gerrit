@@ -16,6 +16,24 @@
       "revId": "ebab92aabd2b730e446ff22aca3b7b9ae94dcf0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_1c8ad519",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T08:15:50Z",
+      "side": 1,
+      "message": "Yes you are right, secure store is a jar file in $site_path/lib with class name set in gerrit.secureStoreClass of gerrit.config\n\nFor sure it is not a \"plugin\" but there is no good section for such kind of extensions.\n\nI don\u0027t have a good name for such new documentation section, maybe something like \u0027Library extensions\u0027? What do you think?\n\nbtw. such section should also include information about http-filter extension point",
+      "parentUuid": "2517118d_081887a4",
+      "revId": "ebab92aabd2b730e446ff22aca3b7b9ae94dcf0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

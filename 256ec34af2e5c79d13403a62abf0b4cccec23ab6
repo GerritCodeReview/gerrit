@@ -16,6 +16,24 @@
       "revId": "256ec34af2e5c79d13403a62abf0b4cccec23ab6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_9865f581",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:52:25Z",
+      "side": 1,
+      "message": "You are right, I was assuming that -d is required for the site init program.\n\nThis is strange that same error is not occurring in line 225.\n\nWill look into this.",
+      "parentUuid": "72a1d25d_fc2e098e",
+      "revId": "256ec34af2e5c79d13403a62abf0b4cccec23ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

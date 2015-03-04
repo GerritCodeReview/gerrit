@@ -48,6 +48,7 @@ import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.Session;
 import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.SshdSocketAddress;
+import org.apache.sshd.common.RequestHandler;
 import org.apache.sshd.common.cipher.AES128CBC;
 import org.apache.sshd.common.cipher.AES128CTR;
 import org.apache.sshd.common.cipher.AES192CBC;
@@ -60,17 +61,16 @@ import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
 import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.file.FileSystemFactory;
-import org.apache.sshd.common.file.FileSystemView;
-import org.apache.sshd.common.file.SshFile;
 import org.apache.sshd.common.forward.DefaultTcpipForwarderFactory;
 import org.apache.sshd.common.forward.TcpipServerChannel;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoAcceptor;
-import org.apache.sshd.common.io.IoServiceFactory;
+import org.apache.sshd.common.io.IoServiceFactoryFactory;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.io.mina.MinaServiceFactory;
+import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
@@ -79,6 +79,7 @@ import org.apache.sshd.common.random.BouncyCastleRandom;
 import org.apache.sshd.common.random.JceRandom;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.AbstractSession;
+import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.Buffer;
@@ -91,6 +92,10 @@ import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
 import org.apache.sshd.server.channel.ChannelSession;
+import org.apache.sshd.server.global.CancelTcpipForwardHandler;
+import org.apache.sshd.server.global.KeepAliveHandler;
+import org.apache.sshd.server.global.NoMoreSessionsHandler;
+import org.apache.sshd.server.global.TcpipForwardHandler;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.session.SessionFactory;
@@ -104,6 +109,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -193,8 +200,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final String kerberosPrincipal = cfg.getString(
         "sshd", null, "kerberosPrincipal");
 
-    System.setProperty(IoServiceFactory.class.getName(),
-        MinaServiceFactory.class.getName());
+    SshSessionBackend backend = cfg.getEnum(
+        "sshd", null, "backend", SshSessionBackend.MINA);
+
+    System.setProperty(IoServiceFactoryFactory.class.getName(),
+        backend == SshSessionBackend.MINA
+            ? MinaServiceFactoryFactory.class.getName()
+            : Nio2ServiceFactoryFactory.class.getName());
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();
@@ -251,6 +263,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         return new GerritServerSession(server, ioSession);
       }
     });
+    setGlobalRequestHandlers(Arrays.<RequestHandler<ConnectionService>> asList(
+          new KeepAliveHandler(),
+          new NoMoreSessionsHandler(),
+          new TcpipForwardHandler(),
+          new CancelTcpipForwardHandler()
+        ));
 
     hostKeys = computeHostKeys();
   }
@@ -576,18 +594,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initFileSystemFactory() {
     setFileSystemFactory(new FileSystemFactory() {
       @Override
-      public FileSystemView createFileSystemView(Session session)
+      public FileSystem createFileSystem(Session session)
           throws IOException {
-        return new FileSystemView() {
-          @Override
-          public SshFile getFile(SshFile baseDir, String file) {
-            return null;
-          }
-
-          @Override
-          public SshFile getFile(String file) {
-            return null;
-          }};
+        return  FileSystems.getDefault();
       }
     });
   }

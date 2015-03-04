@@ -439,7 +439,7 @@ Plugins
 General
 ^^^^^^^
 
-* Plugins can listen to account group membership changes
+* Plugins can listen to account group membership changes.
 +
 The audit log service allows to register listeners to group member added and
 group member deleted events. A default listener logs these events to the database
@@ -470,6 +470,11 @@ and modify outgoing emails before they are sent.
 
 * Plugins that provide initialization steps may now use functionality
 from InitUtil in core Gerrit.
+
+* Plugins can post change reviews with historic timestamps.
++
+This allows, for example, to write a plugin that can import a project including
+review information from another Gerrit server.
 
 * New extensions in the Java Plugin API:
 
@@ -518,6 +523,12 @@ Improve warning messages when `Change-Id` is missing in the commit message.
 If a user uploaded a change while `allowDrafts` was enabled, and then it was
 disabled by the administrator, the uploaded change could not be published and
 was stuck in the draft state.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3211[Issue 3211]:
+Fix crash in the `show-queues` command.
++
+Running the `show-queues` command while an `ls-projects` command was executing
+would cause a crash.
 
 
 Authentication
@@ -800,6 +811,13 @@ Replication
 * Create missing repositories on the remote when replicating with the git
 protocol.
 
+* Make `createMissingRepositories = false` take effect on `project-created` event.
++
+Previously `createMissingRepositories = false` would prevent the replication
+plugin from trying to create a new project when a `ref-updated` event was fired,
+but when a `project-created` event was fired the replication plugin would try to
+create a project on the remote.
+
 
 Upgrades
 --------
@@ -820,7 +838,7 @@ Upgrades
 
 * Update gwtorm to 1.14-14-gf54f1f1.
 
-* Update Jetty to 9.2.6.
+* Update Jetty to 9.2.9.v20150224.
 
 * Update JGit to 3.6.2.201501210735-r.40-g23ad3a3.
 

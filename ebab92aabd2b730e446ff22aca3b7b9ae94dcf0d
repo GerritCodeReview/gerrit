@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2517118d_081887a4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T07:41:21Z",
+      "side": 1,
+      "message": "I was going to link this section from the release notes, but now I\u0027m wondering why this was added in dev-plugins.\n\nAs far as I understand the SecureStore implementation does not need to be implemented in a plugin, as such.  It can just be in any JAR file that includes a class that implements the interface.\n\nIf that is the correct understanding, would it be better to move this documentation somewhere else?",
+      "revId": "ebab92aabd2b730e446ff22aca3b7b9ae94dcf0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,7 +81,7 @@ public class SshModule extends LifecycleModule {
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
 
     bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
-    bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
+    bind(PublickeyAuthenticator.class).to(CachingPublicKeyAuthenticator.class);
 
     bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
     bind(SshPluginStarterCallback.class);

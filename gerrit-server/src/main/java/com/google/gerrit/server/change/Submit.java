@@ -385,8 +385,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     db.changes().beginTransaction(change.getId());
     try {
-      BatchMetaDataUpdate batch = approve(change.currentPatchSetId(),
-          cd.changeControl(), update, caller, timestamp);
+      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
       change = submitToDatabase(db, change.getId(), timestamp);
@@ -422,11 +421,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     db.changes().beginTransaction(change.getId());
     try {
+      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
+      // Write update commit after all normalized label commits.
+      batch.write(update, new CommitBuilder());
+
       for (ChangeData c : changesByTopic) {
-        BatchMetaDataUpdate batch = approve(c.currentPatchSet().getId(),
-            c.changeControl(), update, caller, timestamp);
-        // Write update commit after all normalized label commits.
-        batch.write(update, new CommitBuilder());
         submitToDatabase(db, c.getId(), timestamp);
       }
       db.commit();
@@ -455,12 +454,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  private BatchMetaDataUpdate approve(PatchSet.Id psId, ChangeControl control,
+  private BatchMetaDataUpdate approve(RevisionResource rsrc,
       ChangeUpdate update, IdentifiedUser caller, Timestamp timestamp)
       throws OrmException {
+    PatchSet.Id psId = rsrc.getPatchSet().getId();
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = Maps.newHashMap();
     for (PatchSetApproval psa :
-        approvalsUtil.byPatchSet(dbProvider.get(), control, psId)) {
+        approvalsUtil.byPatchSet(dbProvider.get(), rsrc.getControl(), psId)) {
       if (!byKey.containsKey(psa.getKey())) {
         byKey.put(psa.getKey(), psa);
       }
@@ -471,7 +471,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         || !submit.getAccountId().equals(caller.getAccountId())) {
       submit = new PatchSetApproval(
           new PatchSetApproval.Key(
-              psId,
+              rsrc.getPatchSet().getId(),
               caller.getAccountId(),
               LabelId.SUBMIT),
           (short) 1, TimeUtil.nowTs());
@@ -486,7 +486,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     // was added. So we need to make sure votes are accurate now. This way if
     // permissions get modified in the future, historical records stay accurate.
     LabelNormalizer.Result normalized =
-        labelNormalizer.normalize(control, byKey.values());
+        labelNormalizer.normalize(rsrc.getControl(), byKey.values());
 
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.
@@ -496,13 +496,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     dbProvider.get().patchSetApprovals().delete(normalized.deleted());
 
     try {
-      return saveToBatch(control, update, normalized, timestamp);
+      return saveToBatch(rsrc, update, normalized, timestamp);
     } catch (IOException e) {
       throw new OrmException(e);
     }
   }
 
-  private BatchMetaDataUpdate saveToBatch(ChangeControl ctl,
+  private BatchMetaDataUpdate saveToBatch(RevisionResource rsrc,
       ChangeUpdate callerUpdate, LabelNormalizer.Result normalized,
       Timestamp timestamp) throws IOException {
     Table<Account.Id, String, Optional<Short>> byUser = HashBasedTable.create();
@@ -514,6 +514,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       byUser.put(psa.getAccountId(), psa.getLabel(), Optional.<Short> absent());
     }
 
+    ChangeControl ctl = rsrc.getControl();
     BatchMetaDataUpdate batch = callerUpdate.openUpdate();
     for (Account.Id accountId : byUser.rowKeySet()) {
       if (!accountId.equals(callerUpdate.getUser().getAccountId())) {

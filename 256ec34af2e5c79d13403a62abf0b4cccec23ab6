@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72a1d25d_fc2e098e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2015-03-04T15:28:43Z",
+      "side": 1,
+      "message": "This seems to file if site-path is not specified explicitly using -d flag. See #3212.",
+      "revId": "256ec34af2e5c79d13403a62abf0b4cccec23ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

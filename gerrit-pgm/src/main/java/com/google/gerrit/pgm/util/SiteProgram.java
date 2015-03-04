@@ -74,7 +74,7 @@ public abstract class SiteProgram extends AbstractProgram {
 
   protected Provider<DataSource> dsProvider;
 
-  private Path sitePath;
+  private Path sitePath = Paths.get(".");
 
   protected SiteProgram() {
   }
@@ -193,7 +193,7 @@ public abstract class SiteProgram extends AbstractProgram {
     Module m = new AbstractModule() {
       @Override
       protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
         bind(SitePaths.class);
       }
     };
@@ -225,7 +225,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
       }
     });
     modules.add(new GerritServerConfigModule());

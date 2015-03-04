@@ -3052,6 +3052,24 @@ programmatic configuration.
 +
 By default, true.
 
+[[sshd.rekeyBytesLimit]]sshd.rekeyBytesLimit::
++
+Sshd Mina will issue a rekeying after a certain amount of data.
+This configuration option allows you to tweak that setting.
++
+By default, 1073741824 (bytes, 1GB).
++
+The rekeyBytesLimit cannot be set to lower than 32.
+
+[[sshd.rekeyTimeLimit]]sshd.rekeyTimeLimit::
++
+Sshd Mina will issue a rekeying after a certain amount of time.
+This configuration option allows you to tweak that setting.
++
+By default, 1h.
++
+Set to 0 to disable this check.
+
 [[suggest]]
 === Section suggest
 

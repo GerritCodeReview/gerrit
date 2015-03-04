@@ -43,9 +43,9 @@ import java.io.IOException;
 public class SetHead implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(SetHead.class);
 
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String ref;
+    public String ref;
   }
 
   private final GitRepositoryManager repoManager;

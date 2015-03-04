@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_dcb8edbe",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_ee5cff37",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 1
+      },
+      "revId": "9b9fa8401d39d245b263c46fb1e8cc033365bca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_ce5fc32a",
         "filename": "Documentation/cmd-index.txt",
         "patchSetId": 1
@@ -53,6 +77,30 @@
       "writtenOn": "2015-03-04T15:44:08Z",
       "side": 1,
       "message": "Can you move those lines between set-account and set-members to respect alphabetical order",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 36
+      },
+      "revId": "9b9fa8401d39d245b263c46fb1e8cc033365bca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_383ca95e",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_ce5fc32a",
       "range": {
         "startLine": 162,
         "startChar": 0,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_fcb5a9c3",
+        "filename": "Documentation/cmd-set-head.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a1d25d_7ccaf94b",
+      "range": {
+        "startLine": 20,
+        "startChar": 26,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "9b9fa8401d39d245b263c46fb1e8cc033365bca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85527d4f_b868b959",
         "filename": "Documentation/cmd-set-head.txt",
         "patchSetId": 1
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_bcbf21a2",
+        "filename": "Documentation/cmd-set-head.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85527d4f_b868b959",
+      "revId": "9b9fa8401d39d245b263c46fb1e8cc033365bca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72a1d25d_1ccf355b",
         "filename": "Documentation/cmd-set-head.txt",
         "patchSetId": 1
@@ -116,6 +206,30 @@
       "writtenOn": "2015-03-04T15:46:29Z",
       "side": 1,
       "message": "Change HEAD of project `example`",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 25
+      },
+      "revId": "9b9fa8401d39d245b263c46fb1e8cc033365bca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_9cc2652b",
+        "filename": "Documentation/cmd-set-head.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a1d25d_1ccf355b",
       "range": {
         "startLine": 34,
         "startChar": 0,
@@ -151,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_5cecddc2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetHeadCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85527d4f_f8723143",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 63
+      },
+      "revId": "9b9fa8401d39d245b263c46fb1e8cc033365bca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85527d4f_d86f6d5d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetHeadCommand.java",
         "patchSetId": 1
@@ -162,6 +300,30 @@
       "writtenOn": "2015-03-04T15:46:29Z",
       "side": 1,
       "message": "maybe just REF",
+      "range": {
+        "startLine": 35,
+        "startChar": 59,
+        "endLine": 35,
+        "endChar": 67
+      },
+      "revId": "9b9fa8401d39d245b263c46fb1e8cc033365bca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_7cf19999",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetHeadCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T15:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85527d4f_d86f6d5d",
       "range": {
         "startLine": 35,
         "startChar": 59,

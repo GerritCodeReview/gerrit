@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "451a45b5_89759daf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ForcePushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T01:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_497445b3",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "4f207267c7726a129a6eaabf4426433cbd7da0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_096a4dd4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ForcePushIT.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-04T01:13:03Z",
       "side": 1,
       "message": "nit: only throw Exception.\n\nIn new tests we started to do it this way. Some of the older ones still have explicit exception types though.\n\nI\u0027ll upload a new PS.",
+      "range": {
+        "startLine": 36,
+        "startChar": 43,
+        "endLine": 36,
+        "endChar": 71
+      },
+      "revId": "4f207267c7726a129a6eaabf4426433cbd7da0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_e9825131",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ForcePushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T01:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_096a4dd4",
       "range": {
         "startLine": 36,
         "startChar": 43,

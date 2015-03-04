@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_5c937d30",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T16:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_8e59bb46",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 36
+      },
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_ae56f711",
         "filename": "Documentation/cmd-index.txt",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-03-04T16:25:19Z",
       "side": 1,
       "message": "I just noticed that this command is the the Administrator command section but it is not restricted to the admin currently.\n\nEither move this in the user commands section or restrict it to admins.",
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_9897b5e1",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T16:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45c5e522_ae56f711",
       "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_7c98b94b",
+        "filename": "Documentation/cmd-set-head.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T16:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a1d25d_dcdf8d00",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85527d4f_583b5d64",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetHeadCommand.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2015-03-04T16:04:34Z",
       "side": 1,
       "message": "Actually I was prosing \u0027NAME\u0027, and not \u0027PROJECT\u0027. At least \u0027NAME\u0027 is used in all other commands that require a project name.",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_1c9df53a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetHeadCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-04T16:34:41Z",
+      "side": 1,
+      "message": "Sorry for this, I was simply to fast while applying the changes. Right now it should be \"NAME\" ;)",
+      "parentUuid": "85527d4f_583b5d64",
       "range": {
         "startLine": 32,
         "startChar": 51,

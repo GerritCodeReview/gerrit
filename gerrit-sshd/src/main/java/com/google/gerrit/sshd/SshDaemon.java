@@ -83,6 +83,7 @@ import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.signature.SignatureDSA;
+import org.apache.sshd.common.signature.SignatureECDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
@@ -510,7 +511,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private void initSignatures() {
     setSignatureFactories(Arrays.<NamedFactory<Signature>> asList(
-        new SignatureDSA.Factory(), new SignatureRSA.Factory()));
+        new SignatureDSA.Factory(),
+        new SignatureRSA.Factory(),
+        new SignatureECDSA.NISTP256Factory(),
+        new SignatureECDSA.NISTP384Factory(),
+        new SignatureECDSA.NISTP521Factory()));
   }
 
   private void initCompression() {

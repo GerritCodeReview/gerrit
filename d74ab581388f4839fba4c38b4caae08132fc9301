@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "45c5e522_8e59bb46",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-04T16:25:19Z",
+      "side": 1,
+      "message": "Tabulation is use everywhere else in this file, we should use it here too.",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 36
+      },
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_ae56f711",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-04T16:25:19Z",
+      "side": 1,
+      "message": "I just noticed that this command is the the Administrator command section but it is not restricted to the admin currently.\n\nEither move this in the user commands section or restrict it to admins.",
+      "revId": "d74ab581388f4839fba4c38b4caae08132fc9301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72a1d25d_dcdf8d00",
         "filename": "Documentation/cmd-set-head.txt",
         "patchSetId": 2

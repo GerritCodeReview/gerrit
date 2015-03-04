@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "451a45b5_497445b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ForcePushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-04T01:20:54Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "4f207267c7726a129a6eaabf4426433cbd7da0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_096a4dd4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ForcePushIT.java",
         "patchSetId": 4

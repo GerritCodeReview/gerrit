@@ -2843,6 +2843,14 @@ namespace. To alias `replication start` to `gerrit replicate`:
 [[sshd]]
 === Section sshd
 
+[[sshd.backend]]sshd.backend::
++
+Starting from version 0.9.0 Apache SSHD project added support for NIO2
+IoSession. To use the new NIO2 session the `backend` option must be set
+to `NIO2`.
++
+By default, `MINA`.
+
 [[sshd.listenAddress]]sshd.listenAddress::
 +
 Specifies the local addresses the internal SSHD should listen

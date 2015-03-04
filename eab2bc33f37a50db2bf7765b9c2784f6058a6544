@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2517118d_e8108b79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-03-04T09:38:25Z",
+      "side": 1,
+      "message": "Honestly, I wasn\u0027t sure which would be better. I assumed that since the old patch was many months old that it would be better to make a new one. I don\u0027t mind resubmitting this with the old change ID and abandoning this one, however.",
+      "parentUuid": "451a45b5_093fede3",
+      "range": {
+        "startLine": 19,
+        "startChar": 52,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "eab2bc33f37a50db2bf7765b9c2784f6058a6544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_08c6c7a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-03-04T00:32:08Z",
       "side": 1,
       "message": "Is it intentional that this email address is not used as the author/committer?",
+      "revId": "eab2bc33f37a50db2bf7765b9c2784f6058a6544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_c80dcf63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-03-04T09:38:25Z",
+      "side": 1,
+      "message": "Fixed. I accidentally sent with my work sign-off when I did not intend to.",
+      "parentUuid": "2517118d_08c6c7a3",
       "revId": "eab2bc33f37a50db2bf7765b9c2784f6058a6544",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -54,6 +54,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.nio.file.Files;
@@ -74,7 +75,7 @@ public abstract class SiteProgram extends AbstractProgram {
 
   protected Provider<DataSource> dsProvider;
 
-  private Path sitePath;
+  private Path sitePath = Paths.get(".");
 
   protected SiteProgram() {
   }
@@ -193,7 +194,7 @@ public abstract class SiteProgram extends AbstractProgram {
     Module m = new AbstractModule() {
       @Override
       protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
         bind(SitePaths.class);
       }
     };
@@ -225,7 +226,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
       }
     });
     modules.add(new GerritServerConfigModule());

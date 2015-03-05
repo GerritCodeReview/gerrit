@@ -42,7 +42,8 @@ def maven_jar(
     repository = MAVEN_CENTRAL,
     attach_source = True,
     visibility = ['PUBLIC'],
-    local_license = False):
+    local_license = False,
+    version_suffix = None):
   from os import path
 
   parts = id.split(':')
@@ -61,6 +62,9 @@ def maven_jar(
     version = version.split('-SNAPSHOT')[0] + '-SNAPSHOT'
   else:
     file_version = version
+
+  if version_suffix is not None:
+    file_version += version_suffix
 
   jar = path.join(name, artifact.lower() + '-' + file_version)
   url = '/'.join([

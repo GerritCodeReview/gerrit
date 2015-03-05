@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.elasticsearch.ProjectListIndex;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -177,6 +178,21 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.groupUuid = groupUuid;
   }
 
+  @Option(name = "--index", usage = "index list of project")
+  public void setIndex(boolean index) {
+    this.index = index;
+    showBranch.clear();
+    this.showTree = false;
+    this.type = FilterType.CODE;
+    this.showDescription = false;
+    this.start = 0;
+    this.limit = 0;
+    this.matchPrefix = null;
+    this.matchSubstring = null;
+    this.matchRegex = null;
+    this.groupUuid = null;
+  }
+
   private final List<String> showBranch = Lists.newArrayList();
   private boolean showTree;
   private FilterType type = FilterType.CODE;
@@ -188,12 +204,14 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private String matchSubstring;
   private String matchRegex;
   private AccountGroup.UUID groupUuid;
+  private boolean index;
+  private ProjectListIndex projectListIndex;
 
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GroupCache groupCache, GroupControl.Factory groupControlFactory,
       GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory,
-      WebLinks webLinks) {
+      WebLinks webLinks, ProjectListIndex projectListIndex) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
@@ -201,6 +219,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.repoManager = repoManager;
     this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
+    this.projectListIndex = projectListIndex;
   }
 
   public List<String> getShowBranch() {
@@ -260,6 +279,19 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     Set<String> rejected = new HashSet<>();
 
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
+    List<String> projects = projectListIndex.getAll();
+    if (projects !=null && !projects.isEmpty()) {
+      for (String project : projects) {
+        stdout.println(project);
+      }
+      stdout.flush();
+      return null;
+    }
+
+    if (index) {
+      projectListIndex.reCreateIndex();
+    }
+
     try {
       for (final Project.NameKey projectName : scan()) {
         final ProjectState e = projectCache.get(projectName);
@@ -413,6 +445,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           }
         }
         stdout.print(info.name);
+        if (index) {
+          projectListIndex.insert(info.name);
+        }
 
         if (info.description != null) {
           // We still want to list every project as one-liners, hence escaping \n.

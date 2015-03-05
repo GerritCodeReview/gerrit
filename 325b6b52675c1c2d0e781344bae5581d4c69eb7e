@@ -70,6 +70,30 @@
       "revId": "325b6b52675c1c2d0e781344bae5581d4c69eb7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_4f30ade1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-05T00:33:37Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand it yet. By `it` I mean the whole (Change|Revision)(Control|Resource)* classes and their lifetime expectancy.\n\nSo the problem you are seeing seems to be that the change in question is not updated to have the latest revision when accessing it in the `submitThisChange` method.\n\nThat said, I\u0027ll need to run the test suite more often (always) before sending patches.",
+      "parentUuid": "2517118d_887597af",
+      "range": {
+        "startLine": 426,
+        "startChar": 44,
+        "endLine": 426,
+        "endChar": 71
+      },
+      "revId": "325b6b52675c1c2d0e781344bae5581d4c69eb7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

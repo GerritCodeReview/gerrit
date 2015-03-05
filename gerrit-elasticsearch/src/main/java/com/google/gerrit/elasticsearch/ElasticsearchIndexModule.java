@@ -47,6 +47,8 @@ public class ElasticsearchIndexModule extends LifecycleModule {
     install(new IndexModule(threads));
     bind(ChangeIndex.class).to(ElasticsearchChangeIndex.class);
     listener().to(ElasticsearchChangeIndex.class);
+    bind(ProjectListIndex.class).to(ElasticsearchProjectListIndex.class);
+    listener().to(ElasticsearchChangeIndex.class);
   }
 
   @Provides
@@ -58,5 +60,12 @@ public class ElasticsearchIndexModule extends LifecycleModule {
       FillArgs fillArgs) {
     return new ElasticsearchChangeIndex(cfg, db, changeDataFactory, fillArgs,
         indexes, ChangeSchemas.getLatest());
+  }
+
+  @Provides
+  @Singleton
+  public ElasticsearchProjectListIndex getProjectListIndex(
+      @GerritServerConfig Config cfg) {
+    return new ElasticsearchProjectListIndex(cfg);
   }
 }

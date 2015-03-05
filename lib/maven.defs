@@ -46,9 +46,14 @@ def maven_jar(
   from os import path
 
   parts = id.split(':')
-  if len(parts) != 3:
-    raise NameError('expected id="groupId:artifactId:version"')
-  group, artifact, version = parts
+  if len(parts) not in [3, 4]:
+    raise NameError('%s:\nexpected id="groupId:artifactId:version[:classifier]"'
+                    % id)
+  if len(parts) == 4:
+    group, artifact, version, classifier = parts
+  else:
+    group, artifact, version = parts
+    classifier = None
 
   # SNAPSHOT artifacts are handled differently on Google storage bucket:
   # 'SNAPSHOT' is discarded from the directory name. However on other
@@ -62,7 +67,11 @@ def maven_jar(
   else:
     file_version = version
 
+  if classifier is not None:
+    file_version += '-' + classifier
+
   jar = path.join(name, artifact.lower() + '-' + file_version)
+
   url = '/'.join([
     repository,
     group.replace('.', '/'), artifact, version,

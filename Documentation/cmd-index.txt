@@ -75,6 +75,9 @@ link:cmd-rename-group.html[gerrit rename-group]::
 link:cmd-review.html[gerrit review]::
 	Verify, approve and/or submit a patch set from the command line.
 
+link:cmd-set-head.html[gerrit set-head]::
+	Change the HEAD reference of a project.
+
 link:cmd-set-reviewers.html[gerrit set-reviewers]::
 	Add or remove reviewers on a change.
 

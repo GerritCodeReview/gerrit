@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_38202913",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-03-05T09:02:32Z",
+      "side": 1,
+      "message": "What\u0027s this needed for?",
+      "revId": "2d5feec1ad7362effe7efb5fd0e80b4949cc7e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_bc5ba109",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-03-05T09:02:32Z",
+      "side": 1,
+      "message": "What\u0027s this needed for?",
+      "revId": "2d5feec1ad7362effe7efb5fd0e80b4949cc7e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72a1d25d_bc8401d8",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-05T08:12:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2517118d_a85fb32a",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "ac08dd236462aebfb0725c0720f02aa8a20e6f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_885c7737",
         "filename": "Documentation/cmd-set-head.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-05T01:35:44Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 16
+      },
+      "revId": "ac08dd236462aebfb0725c0720f02aa8a20e6f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_38f9491f",
+        "filename": "Documentation/cmd-set-head.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-05T08:12:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2517118d_885c7737",
       "range": {
         "startLine": 20,
         "startChar": 15,

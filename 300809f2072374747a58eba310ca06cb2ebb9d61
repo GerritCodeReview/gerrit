@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72a1d25d_7cd439bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-03-05T10:10:34Z",
+      "side": 1,
+      "message": "previously a",
+      "range": {
+        "startLine": 11,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_9c3585ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-03-05T10:10:34Z",
+      "side": 1,
+      "message": "REST, ssh or Web-UI",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_58da3da5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-03-05T10:10:34Z",
+      "side": 1,
+      "message": "So this can\u0027t be configured per project?!",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_78d58173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-03-05T10:10:34Z",
+      "side": 1,
+      "message": "Why isn\u0027t this done in a separate change?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_3cdeb1df",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-03-05T10:10:34Z",
+      "side": 1,
+      "message": "Two empty lines. Intended?",
+      "range": {
+        "startLine": 1455,
+        "startChar": 0,
+        "endLine": 1455,
+        "endChar": 0
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_98bb354a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GcConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-03-05T10:10:34Z",
+      "side": 1,
+      "message": "isAggressive ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_f8c871dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-03-05T10:10:34Z",
+      "side": 1,
+      "message": "Couldn\u0027t we set the mode VIA REST?",
+      "range": {
+        "startLine": 73,
+        "startChar": 64,
+        "endLine": 73,
+        "endChar": 68
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

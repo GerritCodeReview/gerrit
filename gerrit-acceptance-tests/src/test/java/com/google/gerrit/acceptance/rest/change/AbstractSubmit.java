@@ -163,8 +163,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
     assertThat((Iterable<?>)info.messages).isNotNull();
     assertThat((Iterable<?>)info.messages).hasSize(3);
-    assertThat(Iterables.getLast(info.messages).message).isEqualTo(
-        "Change has been successfully merged into the git repository by Administrator");
+    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+      assertThat(Iterables.getLast(info.messages).message).startsWith(
+          "Change has been successfully cherry-picked as ");
+    } else {
+      assertThat(Iterables.getLast(info.messages).message).isEqualTo(
+          "Change has been successfully merged into the git repository by Administrator");
+    }
   }
 
   protected Git createProject() throws JSchException, IOException,

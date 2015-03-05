@@ -46,6 +46,30 @@
       "revId": "325b6b52675c1c2d0e781344bae5581d4c69eb7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_887597af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-05T00:20:16Z",
+      "side": 1,
+      "message": "Well, it\u0027s actually more my fault for merging it before fully verifying it.\n\nOn this line it\u0027s probably working for now because there is no test case that uploads a series of changes to a topic, and then pushes a new patch set on the top change using the %submit option.\n\nAt line 388, I don\u0027t fully understand why rsrc has the correct patch set ID, but change does not.  Could this be a symptom of another problem somewhere else?  Or is it actually the correct behavior?",
+      "parentUuid": "65e029b0_cf1c9d69",
+      "range": {
+        "startLine": 426,
+        "startChar": 44,
+        "endLine": 426,
+        "endChar": 71
+      },
+      "revId": "325b6b52675c1c2d0e781344bae5581d4c69eb7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

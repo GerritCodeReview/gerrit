@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72a1d25d_bcade169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-05T06:09:26Z",
+      "side": 1,
+      "message": "Add here an example of maven_jar() invocation?",
+      "revId": "3642ccbd6759e2062bb52ce903197b34cdf817ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

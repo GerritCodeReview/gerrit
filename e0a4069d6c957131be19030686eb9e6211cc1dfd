@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45c5e522_eea71fce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-05T18:51:26Z",
+      "side": 1,
+      "message": "optional: Would it make sense to rename it to AbandonOperation?",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "e0a4069d6c957131be19030686eb9e6211cc1dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_ef40812c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-05T18:51:26Z",
+      "side": 1,
+      "message": "This comment should go to a previous patch:\nMove this down into the finally block?",
+      "range": {
+        "startLine": 272,
+        "startChar": 8,
+        "endLine": 272,
+        "endChar": 21
+      },
+      "revId": "e0a4069d6c957131be19030686eb9e6211cc1dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e029b0_cf433d37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-05T18:51:26Z",
+      "side": 1,
+      "message": "Would it make sense to rename this to BatchOperation ?\nI was slightly confused when looking at Abandon.java and seeing an `Op` instantiated without any hint what it is.\nThough the Op is an internal class to BatchUpdate, so the prefixing with Batch doesn\u0027t make sense as well.",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 26
+      },
+      "revId": "e0a4069d6c957131be19030686eb9e6211cc1dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

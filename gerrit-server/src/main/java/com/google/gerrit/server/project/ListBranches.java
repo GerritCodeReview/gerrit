@@ -32,10 +32,10 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -72,30 +72,34 @@ public class ListBranches implements RestReadView<ProjectResource> {
     }
 
     try {
-      final Map<String, Ref> all = db.getRefDatabase().getRefs(RefDatabase.ALL);
+      List<Ref> refs =
+          new ArrayList<>(db.getRefDatabase().getRefs(Constants.R_HEADS)
+              .values());
 
-      if (!all.containsKey(Constants.HEAD)) {
-        // The branch pointed to by HEAD doesn't exist yet, so getAllRefs
-        // filtered it out. If we ask for it individually we can find the
-        // underlying target and put it into the map anyway.
-        //
         try {
           Ref head = db.getRef(Constants.HEAD);
           if (head != null) {
-            all.put(Constants.HEAD, head);
+            refs.add(head);
           }
         } catch (IOException e) {
           // Ignore the failure reading HEAD.
         }
-      }
+        try {
+          Ref config = db.getRef(RefNames.REFS_CONFIG);
+          if (config != null) {
+            refs.add(config);
+          }
+        } catch (IOException e) {
+          // Ignore the failure reading refs/meta/config.
+        }
 
-      for (final Ref ref : all.values()) {
+      for (Ref ref : refs) {
         if (ref.isSymbolic()) {
           targets.add(ref.getTarget().getName());
         }
       }
 
-      for (final Ref ref : all.values()) {
+      for (Ref ref : refs) {
         if (ref.isSymbolic()) {
           // A symbolic reference to another branch, instead of
           // showing the resolved value, show the name it references.
@@ -122,10 +126,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
         final RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
         if (refControl.isVisible()) {
-          if (ref.getName().startsWith(Constants.R_HEADS)) {
-            branches.add(createBranchInfo(ref, refControl, targets));
-          } else if (RefNames.REFS_CONFIG.equals(ref.getName())) {
+          if (RefNames.REFS_CONFIG.equals(ref.getName())) {
             configBranch = createBranchInfo(ref, refControl, targets);
+          } else {
+            branches.add(createBranchInfo(ref, refControl, targets));
           }
         }
       }

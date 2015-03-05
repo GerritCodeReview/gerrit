@@ -16,6 +16,24 @@
       "revId": "3642ccbd6759e2062bb52ce903197b34cdf817ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2517118d_c8b14f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-05T06:14:33Z",
+      "side": 1,
+      "message": "Done, but I was probably going to abandon this change.",
+      "parentUuid": "72a1d25d_bcade169",
+      "revId": "3642ccbd6759e2062bb52ce903197b34cdf817ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

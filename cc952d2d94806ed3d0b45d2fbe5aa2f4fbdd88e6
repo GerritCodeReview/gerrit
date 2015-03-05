@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_787901dc",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-05T23:04:55Z",
+      "side": 1,
+      "message": "Username is not set here:\n\n  areq.setUserName(user.getUserName());\n\nSo the account can\u0027t be accessed per SSH, without manual database manipulation.",
+      "revId": "cc952d2d94806ed3d0b45d2fbe5aa2f4fbdd88e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

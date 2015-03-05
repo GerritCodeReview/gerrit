@@ -5,8 +5,7 @@ gerrit set-head - Change a project's HEAD.
 
 == SYNOPSIS
 --
-'ssh' -p <port> <host> 'gerrit set-head'
-  --project <NAME> | -p <NAME>
+'ssh' -p <port> <host> 'gerrit set-head' <NAME>
   --new-head <REF>
 --
 
@@ -23,7 +22,7 @@ Caller must be an owner of the given project.
 This command is intended to be used in scripts.
 
 == OPTIONS
-<PROJECT_NAME>::
+<NAME>::
     Required; name of the project to change the HEAD. If name ends
     with `.git` the suffix will be automatically removed.
 

@@ -18,9 +18,9 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.rules.StoredValues;
 
+import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.Term;
 
 public class PRED_commit_author_3 extends AbstractCommitUserIdentityPredicate {

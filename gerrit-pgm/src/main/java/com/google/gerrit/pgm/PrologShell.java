@@ -16,19 +16,18 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.pgm.util.AbstractProgram;
 
+import com.googlecode.prolog_cafe.exceptions.HaltException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
-import com.googlecode.prolog_cafe.lang.HaltException;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologClassLoader;
-import com.googlecode.prolog_cafe.lang.PrologMain;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
+import com.googlecode.prolog_cafe.repl.PrologMain;
 
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 public class PrologShell extends AbstractProgram {
@@ -41,14 +40,10 @@ public class PrologShell extends AbstractProgram {
 
     BufferingPrologControl pcl = new BufferingPrologControl();
     pcl.setPrologClassLoader(new PrologClassLoader(getClass().getClassLoader()));
-    pcl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
     pcl.setEnabled(Prolog.Feature.IO, true);
-    pcl.setEnabled(Prolog.Feature.STATISTICS_RUNTIME, true);
-
+    pcl.setEnabled(Prolog.Feature.STATISTICS, true);
+    pcl.configureUserIO(System.in, System.out, System.err);
     pcl.initialize(Prolog.BUILTIN);
-    pcl.execute(Prolog.BUILTIN, "set_prolog_flag",
-        SymbolTerm.intern("print_stack_trace"),
-        SymbolTerm.intern("on"));
 
     for (String file : fileName) {
       String path;

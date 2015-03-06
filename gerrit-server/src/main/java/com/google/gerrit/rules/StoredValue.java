@@ -14,8 +14,8 @@
 
 package com.google.gerrit.rules;
 
+import com.googlecode.prolog_cafe.exceptions.SystemException;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.SystemException;
 
 /**
  * Defines a value cached in a {@link PrologEnvironment}.

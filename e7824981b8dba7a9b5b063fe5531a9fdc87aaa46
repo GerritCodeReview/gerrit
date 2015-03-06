@@ -16,6 +16,24 @@
       "revId": "e7824981b8dba7a9b5b063fe5531a9fdc87aaa46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_69e5c1e1",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-06T01:22:48Z",
+      "side": 1,
+      "message": "I\u0027ve tested the side-by-side page but not extensively.  I also didn\u0027t check the editor.\n\nI can do some more testing later.",
+      "parentUuid": "45c5e522_ee8e3f48",
+      "revId": "e7824981b8dba7a9b5b063fe5531a9fdc87aaa46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

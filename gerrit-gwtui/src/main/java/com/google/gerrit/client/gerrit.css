@@ -297,13 +297,22 @@ a:hover {
   white-space: nowrap;
   display: inline;
 }
-.searchPanel .gwt-TextBox {
+.searchPanel .searchTextBox {
   font-size: 9pt;
+  margin: 5.286px 3px 0 0;
 }
-.searchPanel .gwt-Button {
-  font-size: 9pt;
-  margin-left: 2px;
-  padding: 3px 6px;
+.searchPanel .searchButton {
+  text-align: center;
+  font-size: 8pt;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid;
+  color: #FFF;
+  border-color: rgba(0, 0, 0, 0.15);
+  height: 14px;
+  background-color: #20CA60;
+  -webkit-border-radius: 2px;
+  -webkit-box-sizing: content-box;
 }
 .suggestBoxPopup {
   z-index: 200;

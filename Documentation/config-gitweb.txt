@@ -268,7 +268,7 @@ It is also possible to define custom patterns.
 === SEE ALSO
 
 * link:config-gerrit.html#gitweb[Section gitweb]
-* link:http://hjemli.net/git/cgit/[cgit]
+* link:http://git.zx2c4.com/cgit/about/[cgit]
 
 GERRIT
 ------

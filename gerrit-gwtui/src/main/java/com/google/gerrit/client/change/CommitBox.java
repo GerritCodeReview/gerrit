@@ -30,7 +30,6 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -39,16 +38,22 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class CommitBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, CommitBox> {}
+  interface Binder extends UiBinder<HTMLPanel, CommitBox> {
+  }
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
@@ -56,25 +61,22 @@ class CommitBox extends Composite {
     String expanded();
     String clippy();
     String parentWebLink();
+    String tableHeader();
+    String userPanel();
+    String date();
+    String header();
+    String commit();
+    String webLinkPanel();
+    String mergeCommitIcon();
   }
 
   @UiField Style style;
-  @UiField FlowPanel authorPanel;
-  @UiField FlowPanel committerPanel;
-  @UiField Image mergeCommit;
-  @UiField CopyableLabel commitName;
-  @UiField FlowPanel webLinkPanel;
-  @UiField Element parents;
-  @UiField FlowPanel parentCommits;
-  @UiField FlowPanel parentWebLinks;
-  @UiField InlineHyperlink authorNameEmail;
-  @UiField Element authorDate;
-  @UiField InlineHyperlink committerNameEmail;
-  @UiField Element committerDate;
-  @UiField CopyableLabel idText;
   @UiField HTML text;
   @UiField ScrollPanel scroll;
   @UiField Button more;
+  @UiField FlexTable commitTable;
+
+  private String project;
   private boolean expanded;
 
   CommitBox() {
@@ -99,78 +101,125 @@ class CommitBox extends Composite {
   }
 
   void set(CommentLinkProcessor commentLinkProcessor,
-      ChangeInfo change,
-      String revision) {
+      ChangeInfo change, String revision) {
+    this.project = change.project();
+    commitTable.addStyleName(style.header());
     RevisionInfo revInfo = change.revision(revision);
     CommitInfo commit = revInfo.commit();
-
-    commitName.setText(revision);
-    idText.setText("Change-Id: " + change.change_id());
-    idText.setPreviewText(change.change_id());
-
-    formatLink(commit.author(), authorPanel, authorNameEmail, authorDate,
-        change);
-    formatLink(commit.committer(), committerPanel, committerNameEmail,
-        committerDate, change);
     text.setHTML(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
-    setWebLinks(change, revision, revInfo);
-
-    if (revInfo.commit().parents().length() > 1) {
-      mergeCommit.setVisible(true);
-    }
-    setParents(change.project(), revInfo.commit().parents());
+    addGitPersonRow(change, commit.author(), "Author");
+    addGitPersonRow(change, commit.committer(), "Committer");
+    addCurrentCommitRow(revInfo);
+    addParentsRows(commit.parents());
+    addChangeIdRow(change.change_id());
   }
 
-  private void setWebLinks(ChangeInfo change, String revision,
-      RevisionInfo revInfo) {
-    GitwebLink gw = Gerrit.getGitwebLink();
-    if (gw != null && gw.canLink(revInfo)) {
-      toAnchor(gw.toRevision(change.project(), revision),
-          gw.getLinkName());
+  private void addParentsRows(JsArray<CommitInfo> parents) {
+    Label parentsHeader = new Label("Parent(s)");
+    for (CommitInfo commit : Natives.asList(parents)) {
+      addCommitRow(parentsHeader, commit, true);
+      // Only header for the first parent-row
+      parentsHeader = null;
     }
 
-    JsArray<WebLinkInfo> links = revInfo.commit().web_links();
+  }
+
+  private void addChangeIdRow(String changeId) {
+    CopyableLabel changeIdLabel = new CopyableLabel();
+    changeIdLabel.setText("Change-Id: " + changeId);
+    changeIdLabel.setPreviewText(changeId);
+    changeIdLabel.setStyleName(style.clippy());
+    Label header = new Label("Change-Id");
+    addRow(header, changeIdLabel, null, null, null);
+  }
+
+  private void addCurrentCommitRow(RevisionInfo revInfo) {
+    CommitInfo commit = revInfo.commit();
+    FlowPanel headerPanel = new FlowPanel();
+    Label header = new Label("Commit");
+    header.addStyleName(style.commit());
+    headerPanel.add(header);
+    Image mergeCommitIcon = new Image(Gerrit.RESOURCES.merge());
+    mergeCommitIcon.setStyleName(style.mergeCommitIcon());
+    mergeCommitIcon.setTitle("Merge Commit");
+    if (revInfo.commit().parents().length() > 1) {
+      mergeCommitIcon.setVisible(true);
+    } else {
+      mergeCommitIcon.setVisible(false);
+    }
+    headerPanel.add(mergeCommitIcon);
+    headerPanel.addStyleName(style.commit());
+    GitwebLink gw = Gerrit.getGitwebLink();
+    boolean canLink = gw != null ? gw.canLink(revInfo) : true;
+    addCommitRow(headerPanel, commit, canLink);
+  }
+
+  private void addCommitRow(Widget headerWidget, CommitInfo commit, boolean canLink) {
+    CopyableLabel commitLabel = new CopyableLabel(commit.commit());
+    commitLabel.setTitle(commit.subject());
+    commitLabel.setStyleName(style.clippy());
+    commitLabel.setText(commit.commit());
+    Widget links = getLinksFlowPanel(commit,canLink);
+    addRow(headerWidget, commitLabel, null, links, style.webLinkPanel());
+  }
+
+  private void addGitPersonRow(ChangeInfo change, GitPerson gitPerson, String header) {
+    Label committerDate = new Label();
+    FlowPanel panel = new FlowPanel();
+    formatLink(gitPerson, panel,
+        committerDate, change);
+    addRow(new Label(header), panel, style.userPanel(), committerDate,
+        style.date());
+  }
+
+  private Widget getLinksFlowPanel(CommitInfo commit, boolean canLink) {
+    FlowPanel linksPanel = new FlowPanel();
+    GitwebLink gw = Gerrit.getGitwebLink();
+    if (gw != null && canLink) {
+      Anchor a =
+          new Anchor(gw.getLinkName(), gw.toRevision(project, commit.commit()));
+      linksPanel.add(a);
+    }
+    JsArray<WebLinkInfo> links = commit.web_links();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        webLinkPanel.add(link.toAnchor());
+        Anchor wl = link.toAnchor();
+        linksPanel.add(wl);
       }
     }
+    linksPanel.addStyleName(style.webLinkPanel());
+    return linksPanel;
   }
 
-  private void toAnchor(String href, String name) {
-    Anchor a = new Anchor();
-    a.setHref(href);
-    a.setText(name);
-    webLinkPanel.add(a);
-  }
-
-  private void setParents(String project, JsArray<CommitInfo> commits) {
-    setVisible(parents, true);
-    for (CommitInfo c : Natives.asList(commits)) {
-      CopyableLabel copyLabel = new CopyableLabel(c.commit());
-      copyLabel.setTitle(c.subject());
-      copyLabel.setStyleName(style.clippy());
-      parentCommits.add(copyLabel);
-
-      GitwebLink gw = Gerrit.getGitwebLink();
-      if (gw != null) {
-        Anchor a =
-            new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));
-        a.setStyleName(style.parentWebLink());
-        parentWebLinks.add(a);
-      }
-      JsArray<WebLinkInfo> links = c.web_links();
-      if (links != null) {
-        for (WebLinkInfo link : Natives.asList(links)) {
-          parentWebLinks.add(link.toAnchor());
-        }
+  private void addRow(Widget header, Widget col1, String col1Style,
+      Widget col2, String col2Style) {
+    int row = commitTable.getRowCount();
+    CellFormatter cellFormatter = commitTable.getCellFormatter();
+    if (header != null) {
+      commitTable.setWidget(row, 0, header);
+      cellFormatter.addStyleName(row, 0, style.tableHeader());
+    }
+    commitTable.setWidget(row, 1, col1);
+    if (col1Style != null) {
+      cellFormatter.addStyleName(row, 1, col1Style);
+    }
+    if (col2 != null) {
+      commitTable.setWidget(row, 2, col2);
+      if (col2Style != null) {
+        cellFormatter.addStyleName(row, 2, col2Style);
       }
     }
   }
 
   private static void formatLink(GitPerson person, FlowPanel p,
-      InlineHyperlink name, Element date, ChangeInfo change) {
+      Label date, ChangeInfo change) {
+    InlineHyperlink name = new InlineHyperlink();
+    name.setText(renderName(person));
+    name.setTargetHistoryToken(PageLinks.toAccountQuery(owner(person),
+        change.status()));
+    date.setText(FormatUtil.mediumFormat(person.date()));
+    p.insert(name, 0);
     // only try to fetch the avatar image for author and committer if an avatar
     // plugin is installed, if the change owner has no avatar info assume that
     // no avatar plugin is installed
@@ -179,16 +228,12 @@ class CommitBox extends Composite {
       if (change.owner().email().equals(person.email())) {
         avatar = new AvatarImage(change.owner());
       } else {
-        avatar = new AvatarImage(
-            AccountInfo.create(0, person.name(), person.email(), null));
+        avatar =
+            new AvatarImage(
+                AccountInfo.create(0, person.name(), person.email(), null));
       }
       p.insert(avatar, 0);
     }
-
-    name.setText(renderName(person));
-    name.setTargetHistoryToken(PageLinks
-        .toAccountQuery(owner(person), change.status()));
-    date.setInnerText(FormatUtil.mediumFormat(person.date()));
   }
 
   private static String renderName(GitPerson person) {

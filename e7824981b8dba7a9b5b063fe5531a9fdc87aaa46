@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45c5e522_ee8e3f48",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-06T01:21:06Z",
+      "side": 1,
+      "message": "Have we monkey tested the upgrade to 5.0 extensively?\n\n4.x-\u003e5.x may have API breakage. In JavaScript. Yes that is fun. You have no idea if it works by just building it.\n\nI also don\u0027t yet have codemirror5 ready for our gerrit-review build. We can prioritize that if we are really confident the 4.x-\u003e5.x API changes are non-issues for Gerrit.",
+      "revId": "e7824981b8dba7a9b5b063fe5531a9fdc87aaa46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

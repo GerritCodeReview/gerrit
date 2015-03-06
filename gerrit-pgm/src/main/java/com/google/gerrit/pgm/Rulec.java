@@ -17,15 +17,15 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.pgm.rules.PrologCompiler;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.rules.PrologCompiler;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
 
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;

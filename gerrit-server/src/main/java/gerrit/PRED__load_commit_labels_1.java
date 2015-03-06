@@ -9,13 +9,13 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
+import com.googlecode.prolog_cafe.exceptions.JavaException;
+import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
-import com.googlecode.prolog_cafe.lang.JavaException;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;

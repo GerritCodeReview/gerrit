@@ -24,14 +24,14 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.util.Providers;
 
-import com.googlecode.prolog_cafe.lang.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
+import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
-import com.googlecode.prolog_cafe.lang.PInstantiationException;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;

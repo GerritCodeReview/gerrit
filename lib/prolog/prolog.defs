@@ -19,7 +19,7 @@ def prolog_cafe_library(
     visibility = []):
   genrule(
     name = name + '__pl2j',
-    cmd = '$(exe //lib/prolog:compiler)' +
+    cmd = '$(exe //lib/prolog:compiler_bin)' +
       ' $TMP $OUT ' +
       ' '.join(srcs),
     srcs = srcs,
@@ -28,7 +28,7 @@ def prolog_cafe_library(
   java_library(
     name = name + '__lib',
     srcs = [':' + name + '__pl2j'],
-    deps = ['//lib/prolog:prolog-cafe'] + deps,
+    deps = ['//lib/prolog:runtime'] + deps,
   )
   genrule(
     name = name + '__ln',

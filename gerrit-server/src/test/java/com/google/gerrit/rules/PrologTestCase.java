@@ -22,7 +22,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Module;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;

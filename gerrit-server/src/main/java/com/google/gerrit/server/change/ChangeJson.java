@@ -914,6 +914,7 @@ public class ChangeJson {
     commit.committer = toGitPerson(info.getCommitter());
     commit.subject = info.getSubject();
     commit.message = info.getMessage();
+    commit.commit = info.getRevId();
 
     if (addLinks) {
       FluentIterable<WebLinkInfo> links =

@@ -22,6 +22,30 @@
       "revId": "3d8867c9b5b8461645112594fb65a076f22a2ae9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_ae88373a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-03-06T14:08:36Z",
+      "side": 1,
+      "message": "I am not with ericsson anymore and I will not work on gerrit full time, however, I am planning to continue contributing the code when I have the availability. I hope it is not a problem.",
+      "parentUuid": "2517118d_88cbd757",
+      "range": {
+        "startLine": 4,
+        "startChar": 27,
+        "endLine": 4,
+        "endChar": 50
+      },
+      "revId": "3d8867c9b5b8461645112594fb65a076f22a2ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
@@ -47,6 +48,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -668,6 +670,118 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     RefUpdate ru = ruCapture.getValue();
     assertEquals(ru.getName(), targetBranchNameKey.get());
   }
+
+  /**
+   * This tests SubmoduleOp.update not touching the .gitmodules file
+   * when having more than one commit to be merged and updated in the target
+   * project.
+   * <p>
+   * It expects to update the git link called "todo" to contain both commits
+   * in target repository.
+   * </p>
+   *
+   * @throws Exception If an exception occurs.
+   */
+  @Test
+  public void testThreeSubscriberToUpdate() throws Exception {
+    expect(schemaFactory.open()).andReturn(schema);
+
+    // create target repository
+    final Repository targetRepository = createWorkRepository();
+    final Git targetGit = new Git(targetRepository);
+
+    // create source repository
+    final Repository sourceRepository = createWorkRepository();
+    final Git sourceGit = new Git(sourceRepository);
+    final RevCommit sourceMergeTip =
+        sourceGit.commit().setMessage("initial commit").call();
+
+    // link source to target repository:
+    String name = "SourceSubmodule";
+    String path = "sub";
+    String url = "http://localhost:8080/SourceSubmodule";
+    expect(urlProvider.get()).andReturn("http://localhost:8080");
+    String branch = "master";
+
+    addRegularFileToIndex(".gitmodules", buildSubmoduleSection(
+        name, path, url, branch).toString(), targetRepository);
+    addGitLinkToIndex("sub", sourceMergeTip.copy(), targetRepository);
+
+    final RevCommit sourceMergeTipTarget =
+        targetGit.commit().setMessage("initial commit with subscription").call();
+    final ObjectId targetHead = targetGit.getRepository().getRef("HEAD").getObjectId();
+
+    // create commits in the source repository:
+    addRegularFileToIndex("file1.txt", "test content", sourceRepository);
+    final RevCommit sourceMergeTip1 =
+        sourceGit.commit().setMessage("test1").call();
+    sourceGit.reset().setRef("HEAD^").call();
+
+    sourceGit.commit().setMessage("test2a").call();
+    final RevCommit sourceMergeTip2 =
+        sourceGit.commit().setMessage("test2b").call();
+
+    // TODO(sbeller) submit commits?
+
+    final Branch.NameKey sourceBranchNameKey =
+        new Branch.NameKey(new Project.NameKey("source-project"),
+            "refs/heads/master");
+
+    // create a change for the first commit
+    final CodeReviewCommit codeReviewCommit1 =
+        new CodeReviewCommit(sourceMergeTip1.toObjectId());
+    final Change submittedChange1 = new Change(
+        new Change.Key(sourceMergeTip1.toObjectId().getName()), new Change.Id(1),
+        new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
+    submittedChange1.setTopic("foo");
+
+    // create a change for the second commit
+    final CodeReviewCommit codeReviewCommit2 =
+        new CodeReviewCommit(sourceMergeTip2.toObjectId());
+    final Change submittedChange2 = new Change(
+        new Change.Key(sourceMergeTip2.toObjectId().getName()), new Change.Id(2),
+        new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
+    submittedChange2.setTopic("foo");
+
+    // create a list of change ids
+    final Map<Change.Id, CodeReviewCommit> mergedCommits = new HashMap<>();
+    mergedCommits.put(submittedChange1.getId(), codeReviewCommit1);
+    mergedCommits.put(submittedChange2.getId(), codeReviewCommit2);
+
+    final List<Change> submitted = new ArrayList<>();
+    submitted.add(submittedChange1);
+    submitted.add(submittedChange2);
+
+    final PersonIdent myIdent =
+        new PersonIdent("test-user", "test-user@email.com");
+
+    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+    final ResultSet<SubmoduleSubscription> emptySubscriptions =
+        new ListResultSet<>(new ArrayList<SubmoduleSubscription>());
+    expect(subscriptions.bySubmodule(sourceBranchNameKey)).andReturn(
+        emptySubscriptions);
+
+    schema.close();
+
+    doReplay();
+
+    final SubmoduleOp submoduleOp =
+        new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
+            sourceRepository), urlProvider, schemaFactory, sourceRepository,
+            new Project(sourceBranchNameKey.getParentKey()), submitted,
+            mergedCommits, myIdent, repoManager, gitRefUpdated, null,
+            changeHooks);
+
+    submoduleOp.update();
+    doVerify();
+
+    // check we have merged the commits from the source repository, just
+    // checking for one more commit should be sufficient
+    ObjectId targetHeadAfterSubmoduleUpdate = targetGit.getRepository().
+        getRef("HEAD").getObjectId();
+    assertThat(targetHeadAfterSubmoduleUpdate).isNotEqualTo(targetHead);
+  }
+
 
   /**
    * It tests SubmoduleOp.update in a scenario considering established circular

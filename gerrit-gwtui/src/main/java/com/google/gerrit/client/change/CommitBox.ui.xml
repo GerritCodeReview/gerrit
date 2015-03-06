@@ -68,7 +68,7 @@ limitations under the License.
       padding: 0;
       width: 560px;
     }
-    .header th { width: 70px; }
+    .tableHeader { width: 70px; }
     .header td { white-space: nowrap; }
     .date { width: 132px; }
 
@@ -81,16 +81,21 @@ limitations under the License.
       right: -16px;
     }
     <!-- To make room for the copyableLabel from the adjacent column -->
+    .webLinkPanel {
+      vertical-align: top;
+    }
     .webLinkPanel a:first-child {
       margin-left:16px;
     }
     .webLinkPanel>a {
       margin-left:2px;
     }
-
-    .parentWebLink a:first-child {
-      margin-left:16px;
+    
+    .webLinkPanel img {
+      width: 14px;
+      height: 14px;      
     }
+
     .parentWebLink>a {
       margin-left:2px;
     }
@@ -100,6 +105,10 @@ limitations under the License.
       float: left;
     }
 
+    .mergeCommitIcon {
+      width: 14px;
+      height: 14px;
+    }
     .userPanel img {
       margin: 0 2px 0 0;
       width: 16px;
@@ -119,62 +128,6 @@ limitations under the License.
         <div class='{style.toggle}'/>
       </g:Button>
     </div>
-    <table class='{style.header}'>
-      <tr>
-        <th><ui:msg>Author</ui:msg></th>
-        <td>
-          <g:FlowPanel ui:field='authorPanel' styleName='{style.userPanel}'>
-            <x:InlineHyperlink ui:field='authorNameEmail'
-              title='Search for changes by this user'>
-              <ui:attribute name='title'/>
-            </x:InlineHyperlink>
-          </g:FlowPanel>
-        </td>
-        <td ui:field='authorDate' class='{style.date}' colspan="2"/>
-      </tr>
-      <tr>
-        <th><ui:msg>Committer</ui:msg></th>
-        <td>
-          <g:FlowPanel ui:field='committerPanel' styleName='{style.userPanel}'>
-            <x:InlineHyperlink ui:field='committerNameEmail'
-              title='Search for changes by this user'>
-              <ui:attribute name='title'/>
-            </x:InlineHyperlink>
-          </g:FlowPanel>
-        </td>
-        <td ui:field='committerDate' class='{style.date}' colspan="2"/>
-      </tr>
-      <tr>
-        <th>
-          <div class='{style.commit}'>
-            <ui:msg>Commit</ui:msg>
-          </div>
-          <g:Image
-              ui:field='mergeCommit'
-              resource='{ico.merge}'
-              visible='false'
-              title='Merge Commit'>
-            <ui:attribute name='title'/>
-          </g:Image>
-        </th>
-        <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
-        <td>
-            <g:FlowPanel ui:field='webLinkPanel' styleName='{style.webLinkPanel}'/>
-        </td>
-      </tr>
-      <tr ui:field='firstParent' style='display: none'>
-        <th><ui:msg>Parent(s)</ui:msg></th>
-        <td>
-          <g:FlowPanel ui:field='parentCommits'/>
-        </td>
-        <td>
-          <g:FlowPanel ui:field='parentWebLinks' styleName='{style.parentWebLink}'/>
-        </td>
-      </tr>
-      <tr>
-        <th><ui:msg>Change-Id</ui:msg></th>
-        <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='idText'/></td>
-      </tr>
-    </table>
+    <g:FlexTable ui:field='commitTable'/>
   </g:HTMLPanel>
 </ui:UiBinder>

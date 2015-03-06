@@ -1807,6 +1807,8 @@ dashboard of a project.
 === \{project-name\}
 The name of the project.
 
+If name ends with `.git` the suffix will be automatically removed.
+
 
 [[json-entities]]
 == JSON Entities

@@ -78,9 +78,13 @@ final class DispatchCommand extends BaseCommand {
 
       final CommandProvider p = commands.get(commandName);
       if (p == null) {
-        String msg =
-            (getName().isEmpty() ? "Gerrit Code Review" : getName()) + ": "
-                + commandName + ": not found";
+        String msg = (getName().isEmpty()
+            ? "Gerrit Code Review"
+            : getName()) + ": ";
+
+        msg += commandName.equals("git-receive-pack")
+            ? "Push operation is not supported on slave"
+            : commandName + ": not found";
         throw new UnloggedFailure(1, msg);
       }
 

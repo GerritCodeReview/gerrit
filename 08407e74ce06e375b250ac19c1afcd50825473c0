@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "85527d4f_58d7ddc3",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-06T20:06:37Z",
+      "side": 1,
+      "message": "Yes. You\u0027ve fixed already resource set duplication in gwt_module() itself. It wasn\u0027t working because of glob() bug [1]. This was an attempt to fix it here, but this was failing on all other gwt_module() invocations as well. Upstream Buck fixed glob() issues, so that this is not needed any more and can be removed.\n\n* [1] https://github.com/facebook/buck/issues/248",
+      "parentUuid": "45c5e522_2e2207d2",
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_ce06e348",
         "filename": "gerrit-war/BUCK",
         "patchSetId": 1
@@ -124,6 +142,30 @@
       "writtenOn": "2015-03-02T23:56:57Z",
       "side": 1,
       "message": "Huh. I had trouble in older versions of Buck getting it to correctly package the file unless I did cd src/main/webapp. cd $SRCDIR gave me the wrong results in the ZIP file. IIRC the files in the ZIP were prefixed with src/main/webapp which we do not want in the resulting ZIP.\n\nAre you sure these are producing the same files on the different platforms?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 45
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_fc9049c8",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-06T20:06:37Z",
+      "side": 1,
+      "message": "Looks like this is a bug in Buck on other platform. It took me some time to understand what going on: [1]. But the command deviation from the correct *NIX command hasn\u0027t fixed the bug either, because the directory structure is flattened, and this is not what we want to achieve here.\n\n* [1] https://github.com/facebook/buck/issues/270",
+      "parentUuid": "45c5e522_ce06e348",
       "range": {
         "startLine": 38,
         "startChar": 0,
@@ -170,6 +212,30 @@
       "writtenOn": "2015-03-02T23:56:57Z",
       "side": 1,
       "message": "Doesn\u0027t \"other platform\" accept /? Its cleaner to write in these sorts of strings.",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 38
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_9c8d85af",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-06T20:06:37Z",
+      "side": 1,
+      "message": "So, the standard behavior of Buck on other platform is to spawn `cmd.exe`. As explained in the commit message this patch heavily relies on the Cygwin emulation layer to be on the PATH. However, some commands are eclipsed from the cmd.exe, e.g mkdir. So /usr/bin/mkdir.exe from Cygwin doesn\u0027t have any issue to deal with \u0027/\u0027 path separator and with `-p` argument:\n\n  C:\\Users\\david\\projects\\buck_test\u003eC:/cygwin64/bin/mkdir.exe -p foo/bar/baz\n  C:\\Users\\david\\projects\\buck_test\u003els -all foo\\bar\\baz\n  total 0\n  drwxr-xr-x 1 david None 0 Mar  6 19:57 .\n  drwxr-xr-x 1 david None 0 Mar  6 19:57 ..\n\nBut mkdir doesn\u0027t work:\n\n  C:\\Users\\david\\projects\\buck_test\u003emkdir ./b\n  Syntax error.",
+      "parentUuid": "45c5e522_8e10db78",
       "range": {
         "startLine": 79,
         "startChar": 11,
@@ -261,6 +327,30 @@
       "writtenOn": "2015-03-02T23:56:57Z",
       "side": 1,
       "message": "subprocess.Popen for git describe doesn\u0027t work on other platform?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 16
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a1d25d_bc8ac192",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-06T20:06:37Z",
+      "side": 1,
+      "message": "I don\u0027t use the other platform, and not really sure, what is the best way to install (MSYS) git there. What i did is only installed Cygwin 64 bit with git. For some reasons it doesn\u0027t work when invoked form cmd.exe. But this can only be issue in setup on the machine that i have access to. So i could remove this fix and maintain (local) in tree patch of this command.",
+      "parentUuid": "65e029b0_af24b9d1",
       "range": {
         "startLine": 18,
         "startChar": 0,

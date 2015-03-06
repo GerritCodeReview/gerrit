@@ -33,7 +33,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;

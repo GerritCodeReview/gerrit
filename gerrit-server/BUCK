@@ -66,7 +66,7 @@ java_library(
     '//lib/ow2:ow2-asm',
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-util',
-    '//lib/prolog:prolog-cafe',
+    '//lib/prolog:runtime',
   ],
   provided_deps = [
     '//lib:servlet-api-3_1',
@@ -134,7 +134,7 @@ java_library(
     '//gerrit-common:server',
     '//lib:junit',
     '//lib/guice:guice',
-    '//lib/prolog:prolog-cafe',
+    '//lib/prolog:runtime',
   ],
 )
 
@@ -155,7 +155,7 @@ java_test(
     '//lib:truth',
     '//lib/jgit:jgit',
     '//lib/guice:guice',
-    '//lib/prolog:prolog-cafe',
+    '//lib/prolog:runtime',
   ],
 )
 
@@ -217,7 +217,7 @@ java_test(
     '//lib/joda:joda-time',
     '//lib:parboiled-core',
     '//lib:parboiled-java',
-    '//lib/prolog:prolog-cafe',
+    '//lib/prolog:runtime',
   ],
   source_under_test = [':server'],
   visibility = ['//tools/eclipse:classpath'],

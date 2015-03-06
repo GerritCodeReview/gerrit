@@ -33,7 +33,7 @@ import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.CompileException;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;

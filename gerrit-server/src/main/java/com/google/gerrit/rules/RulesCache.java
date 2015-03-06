@@ -27,8 +27,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
+import com.googlecode.prolog_cafe.lang.CompileException;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologClassLoader;

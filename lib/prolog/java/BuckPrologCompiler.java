@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.compiler.Compiler;
+import com.googlecode.prolog_cafe.lang.CompileException;
 
 import java.io.File;
 import java.io.FileInputStream;

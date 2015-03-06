@@ -1,0 +1,41 @@
+Release notes for Gerrit 2.12
+=============================
+
+
+Gerrit 2.12 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.12.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.12.war]
+
+Important Notes
+---------------
+
+
+*WARNING:* Upgrading to 2.12.x requires the server be first upgraded to 2.8 (or
+2.9) and then to 2.12.x. If you are upgrading from 2.8.x or later, you may ignore
+this warning and upgrade directly to 2.12.x.
+
+*WARNING:* When upgrading from version 2.8.4 or older with a site that uses
+Bouncy Castle Crypto, new versions of the libraries will be downloaded. The old
+libraries should be manually removed from site's `lib` folder to prevent the
+startup failure described in
+link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
+
+
+Release Highlights
+------------------
+
+* TODO
+
+
+New Features
+------------
+
+* TODO
+
+
+Upgrades
+--------
+
+* Upgrade gson to 2.3.1
+

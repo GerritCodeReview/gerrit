@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65e029b0_0fe5c5e1",
+        "filename": "lib/maven.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-06T01:05:25Z",
+      "side": 1,
+      "message": "IIRC Maven calls this a \"classifier\".\n\nhttp://maven.apache.org/plugins/maven-deploy-plugin/examples/deploying-with-classifiers.html",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 18
+      },
+      "revId": "87d94a372311f7592769b1209cb0f6023f440e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

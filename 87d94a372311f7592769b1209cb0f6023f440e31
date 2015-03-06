@@ -22,6 +22,30 @@
       "revId": "87d94a372311f7592769b1209cb0f6023f440e31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_29dbc92c",
+        "filename": "lib/maven.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-06T01:09:50Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware of that.  Thanks.\n\nIf you\u0027re OK with this change in general, I\u0027ll rework it to use \"classifier\" instead of \"version_suffix\".",
+      "parentUuid": "65e029b0_0fe5c5e1",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 18
+      },
+      "revId": "87d94a372311f7592769b1209cb0f6023f440e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

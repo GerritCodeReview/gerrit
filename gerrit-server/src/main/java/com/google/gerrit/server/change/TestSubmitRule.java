@@ -106,7 +106,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     Map<String, None> need;
     Map<String, AccountInfo> may;
     Map<String, None> impossible;
-    Integer prologReductionCount;
+    Long prologReductionCount;
 
     Record(SubmitRecord r, AccountLoader accounts) {
       this.status = r.status;

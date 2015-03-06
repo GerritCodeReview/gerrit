@@ -91,7 +91,7 @@ java_library(
 
 java_library(
   name = 'pgm',
-  srcs = glob([SRCS + '*.java']),
+  srcs = glob([SRCS + '*.java', SRCS + 'rules/*.java']),
   resources = glob([RSRCS + '*']),
   deps = DEPS + [
     ':http',
@@ -105,7 +105,9 @@ java_library(
     '//lib:args4j',
     '//lib:gwtorm',
     '//lib:servlet-api-3_1',
-    '//lib/prolog:prolog-cafe',
+    '//lib/prolog:cafeteria',
+    '//lib/prolog:compiler',
+    '//lib/prolog:runtime',
   ],
   provided_deps = ['//gerrit-launcher:launcher'],
   visibility = [

@@ -33,7 +33,8 @@ import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
+import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
@@ -112,7 +113,6 @@ public class GerritCommonTest extends PrologTestCase {
   public void testReductionLimit() throws CompileException {
     PrologEnvironment env = envFactory.create(machine);
     setUpEnvironment(env);
-    env.setEnabled(Prolog.Feature.IO, true);
 
     String script = "loopy :- b(5).\n"
         + "b(N) :- N > 0, !, S = N - 1, b(S).\n"

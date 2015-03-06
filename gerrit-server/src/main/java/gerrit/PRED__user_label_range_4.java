@@ -20,15 +20,17 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChangeControl;
 
-import com.googlecode.prolog_cafe.lang.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
+import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
-import com.googlecode.prolog_cafe.lang.PInstantiationException;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
+import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 /**
  * Resolves the valid range for a label on a CurrentUser.
@@ -54,18 +56,18 @@ class PRED__user_label_range_4 extends Predicate.P4 {
     Term a3 = arg3.dereference();
     Term a4 = arg4.dereference();
 
-    if (a1.isVariable()) {
+    if (a1 instanceof VariableTerm) {
       throw new PInstantiationException(this, 1);
     }
-    if (!a1.isSymbol()) {
+    if (!(a1 instanceof SymbolTerm)) {
       throw new IllegalTypeException(this, 1, "atom", a1);
     }
     String label = a1.name();
 
-    if (a2.isVariable()) {
+    if (a2 instanceof VariableTerm) {
       throw new PInstantiationException(this, 2);
     }
-    if (!a2.isJavaObject() || !a2.convertible(CurrentUser.class)) {
+    if (!(a2 instanceof JavaObjectTerm) || !a2.convertible(CurrentUser.class)) {
       throw new IllegalTypeException(this, 2, "CurrentUser)", a2);
     }
     CurrentUser user = (CurrentUser) ((JavaObjectTerm) a2).object();

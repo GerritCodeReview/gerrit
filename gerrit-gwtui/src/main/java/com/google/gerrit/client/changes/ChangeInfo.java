@@ -318,6 +318,8 @@ public class ChangeInfo extends JavaScriptObject {
 
   public static class CommitInfo extends JavaScriptObject {
     public final native String commit() /*-{ return this.commit; }-*/;
+    public final native void set_commit(String r) /*-{this.commit = r}-*/;
+    public final native boolean is_mergecommit() /*-{ return this.parents.length > 1; }-*/;
     public final native JsArray<CommitInfo> parents() /*-{ return this.parents; }-*/;
     public final native GitPerson author() /*-{ return this.author; }-*/;
     public final native GitPerson committer() /*-{ return this.committer; }-*/;

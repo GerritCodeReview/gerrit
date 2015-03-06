@@ -19,15 +19,16 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 
-import com.googlecode.prolog_cafe.lang.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
+import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
-import com.googlecode.prolog_cafe.lang.PInstantiationException;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
+import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import java.util.Iterator;
 import java.util.regex.Pattern;
@@ -66,22 +67,22 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     engine.setB0();
 
     Term a1 = arg1.dereference();
-    if (a1.isVariable()) {
+    if (a1 instanceof VariableTerm) {
       throw new PInstantiationException(this, 1);
     }
-    if (!a1.isSymbol()) {
+    if (!(a1 instanceof SymbolTerm)) {
       throw new IllegalTypeException(this, 1, "symbol", a1);
     }
     Pattern regex = Pattern.compile(a1.name());
-    engine.areg1 = new JavaObjectTerm(regex);
-    engine.areg2 = arg2;
-    engine.areg3 = arg3;
-    engine.areg4 = arg4;
+    engine.r1 = new JavaObjectTerm(regex);
+    engine.r2 = arg2;
+    engine.r3 = arg3;
+    engine.r4 = arg4;
 
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
     Iterator<PatchListEntry> iter = pl.getPatches().iterator();
 
-    engine.areg5 = new JavaObjectTerm(iter);
+    engine.r5 = new JavaObjectTerm(iter);
 
     return engine.jtry5(commit_delta_check, commit_delta_next);
   }
@@ -89,11 +90,11 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
   private static final class PRED_commit_delta_check extends Operation {
     @Override
     public Operation exec(Prolog engine) {
-      Term a1 = engine.areg1;
-      Term a2 = engine.areg2;
-      Term a3 = engine.areg3;
-      Term a4 = engine.areg4;
-      Term a5 = engine.areg5;
+      Term a1 = engine.r1;
+      Term a2 = engine.r2;
+      Term a3 = engine.r3;
+      Term a4 = engine.r4;
+      Term a5 = engine.r5;
 
       Pattern regex = (Pattern)((JavaObjectTerm)a1).object();
       @SuppressWarnings("unchecked")
@@ -144,7 +145,7 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
   private static final class PRED_commit_delta_empty extends Operation {
     @Override
     public Operation exec(Prolog engine) {
-      Term a5 = engine.areg5;
+      Term a5 = engine.r5;
 
       @SuppressWarnings("unchecked")
       Iterator<PatchListEntry> iter =

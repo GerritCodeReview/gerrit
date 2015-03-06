@@ -27,13 +27,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.rules.ReductionLimitException;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
+import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
@@ -107,7 +107,7 @@ public class SubmitRuleEvaluator {
   private boolean skipFilters;
   private String rule;
   private boolean logErrors = true;
-  private int reductionsConsumed;
+  private long reductionsConsumed;
 
   private Term submitRule;
 
@@ -185,7 +185,7 @@ public class SubmitRuleEvaluator {
   }
 
   /** @return Prolog reductions consumed during evaluation. */
-  public int getReductionsConsumed() {
+  public long getReductionsConsumed() {
     return reductionsConsumed;
   }
 
@@ -266,7 +266,7 @@ public class SubmitRuleEvaluator {
       SubmitRecord rec = new SubmitRecord();
       out.add(rec);
 
-      if (!submitRecord.isStructure() || 1 != submitRecord.arity()) {
+      if (!(submitRecord instanceof StructureTerm) || 1 != submitRecord.arity()) {
         return invalidResult(submitRule, submitRecord);
       }
 
@@ -285,14 +285,16 @@ public class SubmitRuleEvaluator {
       //
       submitRecord = submitRecord.arg(0);
 
-      if (!submitRecord.isStructure()) {
+      if (!(submitRecord instanceof StructureTerm)) {
         return invalidResult(submitRule, submitRecord);
       }
 
       rec.labels = new ArrayList<>(submitRecord.arity());
 
       for (Term state : ((StructureTerm) submitRecord).args()) {
-        if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
+        if (!(state instanceof StructureTerm)
+            || 2 != state.arity()
+            || !"label".equals(state.name())) {
           return invalidResult(submitRule, submitRecord);
         }
 
@@ -410,7 +412,7 @@ public class SubmitRuleEvaluator {
     }
 
     Term typeTerm = results.get(0);
-    if (!typeTerm.isSymbol()) {
+    if (!(typeTerm instanceof SymbolTerm)) {
       return typeError("Submit rule '" + getSubmitRule() + "' for change "
           + cd.getId() + " of " + getProjectName()
           + " did not return a symbol.");
@@ -481,9 +483,9 @@ public class SubmitRuleEvaluator {
             resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
       }
       List<Term> r;
-      if (resultsTerm.isList()) {
+      if (resultsTerm instanceof ListTerm) {
         r = Lists.newArrayList();
-        for (Term t = resultsTerm; t.isList();) {
+        for (Term t = resultsTerm; t instanceof ListTerm;) {
           ListTerm l = (ListTerm) t;
           r.add(l.car().dereference());
           t = l.cdr().dereference();
@@ -577,7 +579,7 @@ public class SubmitRuleEvaluator {
 
   private void appliedBy(SubmitRecord.Label label, Term status)
       throws UserTermExpected {
-    if (status.isStructure() && status.arity() == 1) {
+    if (status instanceof StructureTerm && status.arity() == 1) {
       Term who = status.arg(0);
       if (isUser(who)) {
         label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
@@ -588,10 +590,10 @@ public class SubmitRuleEvaluator {
   }
 
   private static boolean isUser(Term who) {
-    return who.isStructure()
+    return who instanceof StructureTerm
         && who.arity() == 1
         && who.name().equals("user")
-        && who.arg(0).isInteger();
+        && who.arg(0) instanceof IntegerTerm;
   }
 
   public Term getSubmitRule() {

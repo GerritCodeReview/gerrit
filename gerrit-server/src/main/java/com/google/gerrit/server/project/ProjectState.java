@@ -45,7 +45,7 @@ import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;

@@ -24,17 +24,18 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.util.Providers;
 
-import com.googlecode.prolog_cafe.lang.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
+import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
-import com.googlecode.prolog_cafe.lang.PInstantiationException;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
+import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import java.util.Map;
 
@@ -64,7 +65,7 @@ class PRED_current_user_2 extends Predicate.P2 {
     Term a1 = arg1.dereference();
     Term a2 = arg2.dereference();
 
-    if (a1.isVariable()) {
+    if (a1 instanceof VariableTerm) {
       throw new PInstantiationException(this, 1);
     }
 
@@ -76,7 +77,7 @@ class PRED_current_user_2 extends Predicate.P2 {
   }
 
   public Term createUser(Prolog engine, Term key) {
-    if (!key.isStructure()
+    if (!(key instanceof StructureTerm)
         || key.arity() != 1
         || !((StructureTerm) key).functor().equals(user)) {
       throw new IllegalTypeException(this, 1, "user(int)", key);
@@ -84,7 +85,7 @@ class PRED_current_user_2 extends Predicate.P2 {
 
     Term idTerm = key.arg(0);
     CurrentUser user;
-    if (idTerm.isInteger()) {
+    if (idTerm instanceof IntegerTerm) {
       Map<Account.Id, IdentifiedUser> cache = StoredValues.USERS.get(engine);
       Account.Id accountId = new Account.Id(((IntegerTerm) idTerm).intValue());
       user = cache.get(accountId);

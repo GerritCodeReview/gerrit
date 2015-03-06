@@ -22,7 +22,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Module;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
@@ -185,8 +185,8 @@ public abstract class PrologTestCase {
 
   private Term removePackage(Term test) {
     Term name = test;
-    if (name.isStructure() && ":".equals(((StructureTerm) name).name())) {
-      name = ((StructureTerm) name).args()[1];
+    if (name instanceof StructureTerm && ":".equals(name.name())) {
+      name = name.arg(1);
     }
     return name;
   }

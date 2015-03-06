@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.rules;
+package com.google.gerrit.pgm.rules;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
@@ -22,8 +22,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.compiler.Compiler;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;

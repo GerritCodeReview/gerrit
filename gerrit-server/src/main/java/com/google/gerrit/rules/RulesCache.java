@@ -27,7 +27,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
@@ -238,7 +238,6 @@ public class RulesCache {
 
   private BufferingPrologControl newEmptyMachine(ClassLoader cl) {
     BufferingPrologControl ctl = new BufferingPrologControl();
-    ctl.setMaxArity(PrologEnvironment.MAX_ARITY);
     ctl.setMaxDatabaseSize(DB_MAX);
     ctl.setPrologClassLoader(new PrologClassLoader(new PredicateClassLoader(
         predicateProviders, cl)));

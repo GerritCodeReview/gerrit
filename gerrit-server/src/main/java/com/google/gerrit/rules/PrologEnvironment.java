@@ -28,6 +28,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.Predicate;
+import com.googlecode.prolog_cafe.lang.PredicateEncoder;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
@@ -50,11 +51,8 @@ import java.util.Map;
  * A single copy of the Prolog interpreter, for the current thread.
  */
 public class PrologEnvironment extends BufferingPrologControl {
-
   private static final Logger log =
-    LoggerFactory.getLogger(PrologEnvironment.class);
-
-  static final int MAX_ARITY = 8;
+      LoggerFactory.getLogger(PrologEnvironment.class);
 
   public static interface Factory {
     /**
@@ -68,19 +66,14 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   private final Args args;
   private final Map<StoredValue<Object>, Object> storedValues;
-  private int reductionLimit;
-  private int reductionsRemaining;
   private List<Runnable> cleanup;
 
   @Inject
   PrologEnvironment(Args a, @Assisted PrologMachineCopy src) {
     super(src);
-    setMaxArity(MAX_ARITY);
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
     args = a;
     storedValues = new HashMap<>();
-    reductionLimit = a.reductionLimit;
-    reductionsRemaining = reductionLimit;
     cleanup = new LinkedList<>();
   }
 
@@ -89,25 +82,9 @@ public class PrologEnvironment extends BufferingPrologControl {
   }
 
   @Override
-  public boolean isEngineStopped() {
-    if (super.isEngineStopped()) {
-      return true;
-    } else if (--reductionsRemaining <= 0) {
-      throw new ReductionLimitException(reductionLimit);
-    }
-    return false;
-  }
-
-  @Override
   public void setPredicate(Predicate goal) {
     super.setPredicate(goal);
-    reductionLimit = args.reductionLimit(goal);
-    reductionsRemaining = reductionLimit;
-  }
-
-  /** @return number of reductions during execution. */
-  public int getReductions() {
-    return reductionLimit - reductionsRemaining;
+    setReductionLimit(args.reductionLimit(goal));
   }
 
   /**
@@ -177,6 +154,19 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   @Singleton
   public static class Args {
+    private static final Class<Predicate> CONSULT_STREAM_2;
+    static {
+      try {
+        @SuppressWarnings("unchecked")
+        Class<Predicate> c = (Class<Predicate>) Class.forName(
+            PredicateEncoder.encode(Prolog.BUILTIN, "consult_stream", 2),
+            false, RulesCache.class.getClassLoader());
+        CONSULT_STREAM_2 = c;
+      } catch (ClassNotFoundException e) {
+        throw new LinkageError("cannot find predicate consult_stream", e);
+      }
+    }
+
     private final ProjectCache projectCache;
     private final GitRepositoryManager repositoryManager;
     private final PatchListCache patchListCache;
@@ -210,8 +200,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     }
 
     private int reductionLimit(Predicate goal) {
-      if ("com.googlecode.prolog_cafe.builtin.PRED_consult_stream_2"
-          .equals(goal.getClass().getName())) {
+      if (goal.getClass() == CONSULT_STREAM_2) {
         return compileLimit;
       }
       return reductionLimit;

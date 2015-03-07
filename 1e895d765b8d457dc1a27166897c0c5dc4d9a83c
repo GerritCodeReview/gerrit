@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85527d4f_fbf50bd5",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-07T11:23:42Z",
+      "side": 1,
+      "message": "So we have now different prolog sources spreaded in different packages in pgm: in main package and in rules. During recent refactoring of gerrit-pgm/BUCK (Ie8cbab9c), we tried to allign Buck rules with package boundaries. To apply this apporach to prolog sources would mean, to move all prolog specific files under pgm/prolog package, (with or without nested pgm/prolog/rules package), and isolate new created package in its own Buck rule, e.g:\n\n  java_library(\n    name \u003d \u0027prolog-shell\u0027,\n    srcs \u003d glob([SRCS + \u0027prolog/**/*.java\u0027]),\n    deps \u003d [\n      \u0027//lib/prolog:cafeteria\u0027,\n      \u0027//lib/prolog:compiler\u0027,\n      \u0027//lib/prolog:runtime\u0027,\n    ],\n  )\n\nand include it as dependency to pgm rule, like it\u0027s already the case with http, init and util stuff:\n\n  java_library(\n    name \u003d \u0027pgm\u0027,\n    srcs \u003d glob([SRCS + \u0027*.java\u0027]),\n    resources \u003d glob([RSRCS + \u0027*\u0027]),\n    deps \u003d DEPS + [\n      \u0027:http\u0027,\n      \u0027:init\u0027,\n      \u0027:init-api\u0027,\n      \u0027:prolog-shell\u0027,\n    [...]",
+      "range": {
+        "startLine": 94,
+        "startChar": 32,
+        "endLine": 94,
+        "endChar": 54
+      },
+      "revId": "1e895d765b8d457dc1a27166897c0c5dc4d9a83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

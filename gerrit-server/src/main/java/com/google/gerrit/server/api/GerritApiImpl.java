@@ -17,6 +17,7 @@ package com.google.gerrit.server.api;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.inject.Inject;
@@ -26,16 +27,19 @@ import com.google.inject.Singleton;
 class GerritApiImpl implements GerritApi {
   private final Accounts accounts;
   private final Changes changes;
+  private final Config config;
   private final Groups groups;
   private final Projects projects;
 
   @Inject
   GerritApiImpl(Accounts accounts,
       Changes changes,
+      Config config,
       Groups groups,
       Projects projects) {
     this.accounts = accounts;
     this.changes = changes;
+    this.config = config;
     this.groups = groups;
     this.projects = projects;
   }
@@ -48,6 +52,11 @@ class GerritApiImpl implements GerritApi {
   @Override
   public Changes changes() {
     return changes;
+  }
+
+  @Override
+  public Config config() {
+    return config;
   }
 
   @Override

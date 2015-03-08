@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api;
+package com.google.gerrit.server.api.config;
 
-import com.google.gerrit.extensions.api.GerritApi;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.common.Version;
+import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.inject.Singleton;
 
-public class Module extends AbstractModule {
+@Singleton
+public class ServerImpl extends Server.NotImplemented implements Server {
   @Override
-  protected void configure() {
-    bind(GerritApi.class).to(GerritApiImpl.class);
-
-    install(new com.google.gerrit.server.api.changes.Module());
-    install(new com.google.gerrit.server.api.config.Module());
-    install(new com.google.gerrit.server.api.projects.Module());
-    install(new com.google.gerrit.server.api.accounts.Module());
+  public String getVersion() throws RestApiException {
+    return Version.getVersion();
   }
 }

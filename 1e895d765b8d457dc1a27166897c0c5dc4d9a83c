@@ -22,6 +22,29 @@
       "revId": "1e895d765b8d457dc1a27166897c0c5dc4d9a83c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_9b75efaf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/PrologShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-08T22:26:54Z",
+      "side": 1,
+      "message": "Doesn\u0027t compile:\n\n  PrologShell.java:53: error: cannot find symbol\n    pcl.getStreamManager().put(\n       ^\n\nThat\u0027s because getStreamManager() is defined as package protected in BlockingPrologControl:\n\n  /** Returns the stream manager. */\n  HashtableOfTerm getStreamManager() {\n    return engine.getStreamManager();\n  }",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 57
+      },
+      "revId": "1e895d765b8d457dc1a27166897c0c5dc4d9a83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

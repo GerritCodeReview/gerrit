@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 
 /**
  * Marker on {@link ExecutorService} used by
- * {@link IntraLineLoader}.
+ * {@link IntraLineLoader} and {@link PatchListLoader}.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

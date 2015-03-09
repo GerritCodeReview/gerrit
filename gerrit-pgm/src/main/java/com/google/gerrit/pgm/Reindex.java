@@ -70,6 +70,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkInfo;
@@ -191,6 +192,7 @@ public class Reindex extends SiteProgram {
 
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
+    modules.add(new DiffExecutorModule());
     modules.add(PatchListCacheImpl.module());
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {

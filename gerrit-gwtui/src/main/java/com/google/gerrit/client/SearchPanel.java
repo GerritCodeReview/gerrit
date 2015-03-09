@@ -58,11 +58,12 @@ class SearchPanel extends Composite {
     final SuggestBox suggestBox = new SuggestBox(
         new RemoteSuggestOracle(new SearchSuggestOracle()),
         searchBox, suggestionDisplay);
-    searchBox.setStyleName("gwt-TextBox");
+    searchBox.setStyleName("searchTextBox");
     searchBox.setVisibleLength(70);
     searchBox.setHintText(Gerrit.C.searchHint());
 
     final Button searchButton = new Button(Gerrit.C.searchButton());
+    searchButton.setStyleName("searchButton");
     searchButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {

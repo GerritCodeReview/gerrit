@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d76190bc_17fbd4c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-09T22:35:11Z",
+      "side": 1,
+      "message": "The problem is if you call rw.setRetainBody(false), then the commit will acquire the PARSED flag but the body will not be retained. Subsequent calls to rw.parseBody(c) will short circuit, so it won\u0027t work even if you temporarily call rw.setRetainBody(true) just to extract out the message.\n\nOne alternative is to have a second RevWalk that is used only for parsing the results, under the assumption that there will be very few of these.\n\nHonestly, at this point I\u0027m leaning towards just figuring out why the heck GetRelated on a kernel-ish repo has to parse hundreds of thousands of commits in the first place.",
+      "revId": "465cf80642bf49b1ca8f529a77a302e1cff08717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

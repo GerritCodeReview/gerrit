@@ -35,7 +35,7 @@ import java.util.concurrent.ExecutionException;
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
-  private static final String FILE_NAME = "diff";
+  static final String FILE_NAME = "diff";
   static final String INTRA_NAME = "diff_intraline";
 
   public static Module module() {

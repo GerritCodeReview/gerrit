@@ -129,7 +129,7 @@ public class SubmoduleOp {
 
       updateSubmoduleSubscriptions();
       updateSuperProjects(destBranch, rw, mergeTip.getId().toObjectId(), null);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new SubmoduleException("Cannot open database", e);
     } finally {
       if (schema != null) {
@@ -205,7 +205,8 @@ public class SubmoduleOp {
   }
 
   private void updateSuperProjects(final Branch.NameKey updatedBranch, RevWalk myRw,
-      final ObjectId mergedCommit, final String msg) throws SubmoduleException {
+      final ObjectId mergedCommit, final String msg) throws SubmoduleException,
+      IOException {
     try {
       final List<SubmoduleSubscription> subscribers =
           schema.submoduleSubscriptions().bySubmodule(updatedBranch).toList();
@@ -231,6 +232,7 @@ public class SubmoduleOp {
                 && (c.getStatusCode() == CommitMergeStatus.CLEAN_MERGE
                     || c.getStatusCode() == CommitMergeStatus.CLEAN_PICK
                     || c.getStatusCode() == CommitMergeStatus.CLEAN_REBASE)) {
+              myRw.parseBody(c);
               sb.append("\n")
                 .append(c.getFullMessage());
             }

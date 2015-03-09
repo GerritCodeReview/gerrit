@@ -34,6 +34,24 @@
       "revId": "465cf80642bf49b1ca8f529a77a302e1cff08717",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "177fa84d_01346a10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-09T22:53:15Z",
+      "side": 1,
+      "message": "I considered that as well but I\u0027m not sure all the callers of disposeBody are prepared to deal with the PARSED flag becoming unset.",
+      "parentUuid": "177fa84d_e12ea6bf",
+      "revId": "465cf80642bf49b1ca8f529a77a302e1cff08717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

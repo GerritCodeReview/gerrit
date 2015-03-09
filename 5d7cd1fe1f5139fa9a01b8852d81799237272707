@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65e029b0_4fb18dbc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-09T16:33:19Z",
+      "side": 1,
+      "message": "I think it would be cleaner to bind an implementation of a command that throws this UnloggedFailure when we don\u0027t bind the git-receive-pack command.\n\nSee DefaultCommandModule there is a conditional if (!slaveMode) around line 83. We should bind a throwing command implementation there instead.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 42
+      },
+      "revId": "5d7cd1fe1f5139fa9a01b8852d81799237272707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

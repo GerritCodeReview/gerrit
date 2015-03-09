@@ -62,6 +62,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.patch.DiffWorkerPool;
 import com.google.gerrit.server.patch.IntraLineWorkerPool;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
@@ -320,6 +321,7 @@ public class Daemon extends SiteProgram {
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new MergeabilityChecksExecutorModule());
     modules.add(new IntraLineWorkerPool.Module());
+    modules.add(new DiffWorkerPool.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultCacheFactory.Module());

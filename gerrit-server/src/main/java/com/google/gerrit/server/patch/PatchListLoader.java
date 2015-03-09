@@ -21,6 +21,8 @@ import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -35,6 +37,7 @@ import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -66,22 +69,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
 
   private final GitRepositoryManager repoManager;
   private final PatchListCache patchListCache;
+  private final DiffWorkerPool workerPool;
+  private final long timeoutMillis;
 
   @Inject
-  PatchListLoader(GitRepositoryManager mgr, PatchListCache plc) {
+  PatchListLoader(GitRepositoryManager mgr,
+      PatchListCache plc,
+      DiffWorkerPool plwp,
+      @GerritServerConfig Config cfg) {
     repoManager = mgr;
     patchListCache = plc;
+    workerPool = plwp;
+    timeoutMillis = ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.FILE_NAME,
+        "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
+        TimeUnit.MILLISECONDS);
   }
 
   @Override
-  public PatchList load(final PatchListKey key) throws IOException,
-      PatchListNotAvailableException {
+  public PatchList load(final PatchListKey key) throws Exception {
     final Repository repo = repoManager.openRepository(key.projectKey);
     try {
       return readPatchList(key, repo);
@@ -108,7 +120,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   }
 
   private PatchList readPatchList(final PatchListKey key, final Repository repo)
-      throws IOException, PatchListNotAvailableException {
+      throws Exception {
     final RawTextComparator cmp = comparatorFor(key.getWhitespace());
     final ObjectReader reader = repo.newObjectReader();
     try {
@@ -158,7 +170,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         DiffEntry diffEntry = diffEntries.get(i);
         if (paths == null || paths.contains(diffEntry.getNewPath())
             || paths.contains(diffEntry.getOldPath())) {
-          FileHeader fh = df.toFileHeader(diffEntry);
+          FileHeader fh = toFileHeader(key, df, diffEntry);
           entries.add(newEntry(aTree, fh));
         }
       }
@@ -167,6 +179,35 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     } finally {
       reader.release();
     }
+  }
+
+  private FileHeader toFileHeader(PatchListKey key,
+      DiffFormatter diffFormatter, DiffEntry diffEntry) throws Exception {
+    DiffWorkerPool.Worker worker = workerPool.acquire();
+
+    DiffWorkerPool.Worker.Result r;
+      r = worker.toFileHeaderWithTimeout(key, diffFormatter, diffEntry, timeoutMillis);
+
+    if (r == DiffWorkerPool.Worker.Result.TIMEOUT) {
+      // Don't keep this thread. We have to murder it unsafely, which
+      // means its unable to be reused in the future. Return a result produced
+      // by HistogramDiff without the usage of MyersDiff.
+      //
+      HistogramDiff histogramDiff = new HistogramDiff();
+      histogramDiff.setFallbackAlgorithm(null);
+      diffFormatter.setDiffAlgorithm(histogramDiff);
+      return diffFormatter.toFileHeader(diffEntry);
+    }
+    workerPool.release(worker);
+
+    if (r.error != null) {
+      // If there was an error computing the result, carry it
+      // up to the caller so the cache knows this key is invalid.
+      //
+      throw r.error;
+    }
+
+    return r.fileHeader;
   }
 
   private PatchListEntry newCommitMessage(final RawTextComparator cmp,

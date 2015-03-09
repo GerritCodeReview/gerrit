@@ -85,6 +85,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       Ref ref = git.getRef(rsrc.getChange().getDest().get());
       RevWalk rw = new RevWalk(git);
       try {
+        rw.setRetainBody(false);
         RelatedInfo info = new RelatedInfo();
         info.changes = walk(rsrc, rw, ref);
         return info;

@@ -326,6 +326,13 @@ lines.
 Valid relations are >=, >, <=, <, or no relation, which will match if the
 number of lines is exactly equal.
 
+[[commentby]]
+commentby:'USER'::
++
+Changes containing a top-level or inline comment by 'USER'. The special
+case of `commentby:self` will find changes where the caller has
+commented.
+
 
 == Argument Quoting
 

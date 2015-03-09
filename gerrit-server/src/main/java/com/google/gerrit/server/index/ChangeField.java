@@ -44,6 +44,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -493,6 +494,24 @@ public class ChangeField {
             return null;
           }
           return lines.insertions + lines.deletions;
+        }
+      };
+
+  /** Users who have commented on this change. */
+  public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
+      new FieldDef.Repeatable<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_COMMENTBY, FieldType.INTEGER, false) {
+        @Override
+        public Iterable<Integer> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<Integer> r = new HashSet<>();
+          for (ChangeMessage m : input.messages()) {
+            r.add(m.getAuthor().get());
+          }
+          for (PatchLineComment c : input.publishedComments()) {
+            r.add(c.getAuthor().get());
+          }
+          return r;
         }
       };
 

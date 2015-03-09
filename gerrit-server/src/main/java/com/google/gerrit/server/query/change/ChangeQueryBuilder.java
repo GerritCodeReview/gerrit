@@ -88,6 +88,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMENT = "comment";
+  public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DELETED = "deleted";
@@ -741,6 +742,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> delta(String value)
       throws QueryParseException {
     return new DeltaPredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> commentby(String who)
+      throws QueryParseException, OrmException {
+    Set<Account.Id> m = parseAccount(who);
+    List<OwnerPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    for (Account.Id id : m) {
+      p.add(new OwnerPredicate(id));
+    }
+    return Predicate.or(p);
   }
 
   @Override

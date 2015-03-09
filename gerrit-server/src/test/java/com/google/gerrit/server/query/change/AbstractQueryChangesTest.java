@@ -17,10 +17,12 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+
 import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
@@ -43,6 +45,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -1089,6 +1092,41 @@ public abstract class AbstractQueryChangesTest {
         .authenticate(AuthRequest.forUser("anotheruser"))
         .getAccountId();
     assertResultEquals(change1, queryOne(q + " visibleto:" + user2.get()));
+  }
+
+  @Test
+  public void byCommentBy() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    ChangeInserter ins1 = newChange(repo, null, null, null, null);
+    Change change1 = ins1.insert();
+    PatchSet ps1 = ins1.getPatchSet();
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    Change change2 = ins2.insert();
+    PatchSet ps2 = ins2.getPatchSet();
+
+    int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId().get();
+
+    ReviewInput input = new ReviewInput();
+    input.message = "toplevel";
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.line = 1;
+    comment.message = "inline";
+    input.comments = ImmutableMap.<String, List<ReviewInput.CommentInput>> of(
+        Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput> of(comment));
+    postReview.apply(new RevisionResource(changes.parse(change1.getId()), ps1),
+        input);
+
+    input = new ReviewInput();
+    input.message = "toplevel";
+    postReview.apply(new RevisionResource(changes.parse(change2.getId()), ps2),
+        input);
+
+    List<ChangeInfo> results = query("commentby:" + userId.get());
+    assertThat(results).hasSize(2);
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+    assertThat(query("commentby:" + user2)).isEmpty();
   }
 
   protected ChangeInserter newChange(

@@ -46,6 +46,30 @@
       "revId": "3d8867c9b5b8461645112594fb65a076f22a2ae9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c5e522_2e01a7e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-09T06:41:04Z",
+      "side": 1,
+      "message": "OK, I see.  I don\u0027t see any problem with it.",
+      "parentUuid": "45c5e522_ae88373a",
+      "range": {
+        "startLine": 4,
+        "startChar": 27,
+        "endLine": 4,
+        "endChar": 50
+      },
+      "revId": "3d8867c9b5b8461645112594fb65a076f22a2ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

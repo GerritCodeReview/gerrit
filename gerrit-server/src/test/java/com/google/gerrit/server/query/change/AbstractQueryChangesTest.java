@@ -1129,6 +1129,34 @@ public abstract class AbstractQueryChangesTest {
     assertThat(query("commentby:" + user2)).isEmpty();
   }
 
+  @Test
+  public void byFrom() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+
+    int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId().get();
+    ChangeInserter ins2 = newChange(repo, null, null, user2, null);
+    Change change2 = ins2.insert();
+    PatchSet ps2 = ins2.getPatchSet();
+
+    ReviewInput input = new ReviewInput();
+    input.message = "toplevel";
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.line = 1;
+    comment.message = "inline";
+    input.comments = ImmutableMap.<String, List<ReviewInput.CommentInput>> of(
+        Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput> of(comment));
+    postReview.apply(new RevisionResource(changes.parse(change2.getId()), ps2),
+        input);
+
+    List<ChangeInfo> results = query("from:" + userId.get());
+    assertThat(results).hasSize(2);
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+    assertResultEquals(change2, queryOne("from:" + user2));
+  }
+
   protected ChangeInserter newChange(
       TestRepository<InMemoryRepository> repo,
       @Nullable RevCommit commit, @Nullable String key, @Nullable Integer owner,

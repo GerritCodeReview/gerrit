@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -180,28 +181,22 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         throws RepositoryNotFoundException, IOException {
       Repository git =
           gitManager.openRepository(resource.getChange().getProject());
-      try {
-        TreeWalk tw = new TreeWalk(git);
-        try {
-          RevCommit c = new RevWalk(tw.getObjectReader())
-            .parseCommit(ObjectId.fromString(
-                resource.getPatchSet().getRevision().get()));
+      try (ObjectReader or = git.newObjectReader();
+          RevWalk rw = new RevWalk(or);
+          TreeWalk tw = new TreeWalk(or)) {
+        RevCommit c = rw.parseCommit(
+            ObjectId.fromString(resource.getPatchSet().getRevision().get()));
 
-          tw.addTree(c.getTree());
-          tw.setRecursive(true);
-          List<String> paths = new ArrayList<>();
-          while (tw.next() && paths.size() < 20) {
-            String s = tw.getPathString();
-            if (s.contains(query)) {
-              paths.add(s);
-            }
+        tw.addTree(c.getTree());
+        tw.setRecursive(true);
+        List<String> paths = new ArrayList<>();
+        while (tw.next() && paths.size() < 20) {
+          String s = tw.getPathString();
+          if (s.contains(query)) {
+            paths.add(s);
           }
-          return paths;
-        } finally {
-          tw.release();
         }
-      } finally {
-        git.close();
+        return paths;
       }
     }
 
@@ -261,76 +256,69 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     private List<String> copy(Set<String> paths, PatchSet.Id old,
         RevisionResource resource, Account.Id userId) throws IOException,
         PatchListNotAvailableException, OrmException {
-      Repository git =
-          gitManager.openRepository(resource.getChange().getProject());
-      try {
-        ObjectReader reader = git.newObjectReader();
-        try {
-          PatchList oldList = patchListCache.get(
-              resource.getChange(),
-              db.get().patchSets().get(old));
-
-          PatchList curList = patchListCache.get(
-              resource.getChange(),
-              resource.getPatchSet());
-
-          int sz = paths.size();
-          List<AccountPatchReview> inserts = Lists.newArrayListWithCapacity(sz);
-          List<String> pathList = Lists.newArrayListWithCapacity(sz);
-
+      Project.NameKey project = resource.getChange().getProject();
+      try (Repository git = gitManager.openRepository(project);
+          ObjectReader reader = git.newObjectReader();
           RevWalk rw = new RevWalk(reader);
-          TreeWalk tw = new TreeWalk(reader);
-          tw.setFilter(PathFilterGroup.createFromStrings(paths));
-          tw.setRecursive(true);
-          int o = tw.addTree(rw.parseCommit(oldList.getNewId()).getTree());
-          int c = tw.addTree(rw.parseCommit(curList.getNewId()).getTree());
+          TreeWalk tw = new TreeWalk(reader)) {
+        PatchList oldList = patchListCache.get(
+            resource.getChange(),
+            db.get().patchSets().get(old));
 
-          int op = -1;
-          if (oldList.getOldId() != null) {
-            op = tw.addTree(rw.parseTree(oldList.getOldId()));
-          }
+        PatchList curList = patchListCache.get(
+            resource.getChange(),
+            resource.getPatchSet());
 
-          int cp = -1;
-          if (curList.getOldId() != null) {
-            cp = tw.addTree(rw.parseTree(curList.getOldId()));
-          }
+        int sz = paths.size();
+        List<AccountPatchReview> inserts = Lists.newArrayListWithCapacity(sz);
+        List<String> pathList = Lists.newArrayListWithCapacity(sz);
 
-          while (tw.next()) {
-            String path = tw.getPathString();
-            if (tw.getRawMode(o) != 0 && tw.getRawMode(c) != 0
-                && tw.idEqual(o, c)
-                && paths.contains(path)) {
-              // File exists in previously reviewed oldList and in curList.
-              // File content is identical.
-              inserts.add(new AccountPatchReview(
-                  new Patch.Key(
-                      resource.getPatchSet().getId(),
-                      path),
-                    userId));
-              pathList.add(path);
-            } else if (op >= 0 && cp >= 0
-                && tw.getRawMode(o) == 0 && tw.getRawMode(c) == 0
-                && tw.getRawMode(op) != 0 && tw.getRawMode(cp) != 0
-                && tw.idEqual(op, cp)
-                && paths.contains(path)) {
-              // File was deleted in previously reviewed oldList and curList.
-              // File exists in ancestor of oldList and curList.
-              // File content is identical in ancestors.
-              inserts.add(new AccountPatchReview(
-                  new Patch.Key(
-                      resource.getPatchSet().getId(),
-                      path),
-                    userId));
-              pathList.add(path);
-            }
-          }
-          db.get().accountPatchReviews().insert(inserts);
-          return pathList;
-        } finally {
-          reader.release();
+        tw.setFilter(PathFilterGroup.createFromStrings(paths));
+        tw.setRecursive(true);
+        int o = tw.addTree(rw.parseCommit(oldList.getNewId()).getTree());
+        int c = tw.addTree(rw.parseCommit(curList.getNewId()).getTree());
+
+        int op = -1;
+        if (oldList.getOldId() != null) {
+          op = tw.addTree(rw.parseTree(oldList.getOldId()));
         }
-      } finally {
-        git.close();
+
+        int cp = -1;
+        if (curList.getOldId() != null) {
+          cp = tw.addTree(rw.parseTree(curList.getOldId()));
+        }
+
+        while (tw.next()) {
+          String path = tw.getPathString();
+          if (tw.getRawMode(o) != 0 && tw.getRawMode(c) != 0
+              && tw.idEqual(o, c)
+              && paths.contains(path)) {
+            // File exists in previously reviewed oldList and in curList.
+            // File content is identical.
+            inserts.add(new AccountPatchReview(
+                new Patch.Key(
+                    resource.getPatchSet().getId(),
+                    path),
+                  userId));
+            pathList.add(path);
+          } else if (op >= 0 && cp >= 0
+              && tw.getRawMode(o) == 0 && tw.getRawMode(c) == 0
+              && tw.getRawMode(op) != 0 && tw.getRawMode(cp) != 0
+              && tw.idEqual(op, cp)
+              && paths.contains(path)) {
+            // File was deleted in previously reviewed oldList and curList.
+            // File exists in ancestor of oldList and curList.
+            // File content is identical in ancestors.
+            inserts.add(new AccountPatchReview(
+                new Patch.Key(
+                    resource.getPatchSet().getId(),
+                    path),
+                  userId));
+            pathList.add(path);
+          }
+        }
+        db.get().accountPatchReviews().insert(inserts);
+        return pathList;
       }
     }
 

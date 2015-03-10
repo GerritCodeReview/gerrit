@@ -423,21 +423,17 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   private DirCacheEntry file(final String name) throws IOException {
-    final ObjectInserter oi = repository.newObjectInserter();
-    try {
+    try (ObjectInserter oi = repository.newObjectInserter()) {
       final DirCacheEntry e = new DirCacheEntry(name);
       e.setFileMode(FileMode.REGULAR_FILE);
       e.setObjectId(oi.insert(Constants.OBJ_BLOB, Constants.encode(name)));
       oi.flush();
       return e;
-    } finally {
-      oi.release();
     }
   }
 
   private void setHEAD() throws Exception {
-    final ObjectInserter oi = repository.newObjectInserter();
-    try {
+    try (ObjectInserter oi = repository.newObjectInserter()) {
       final CommitBuilder commit = new CommitBuilder();
       commit.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
       commit.setAuthor(author);
@@ -456,8 +452,6 @@ public class CommitMsgHookTest extends HookTestCase {
         default:
           fail(Constants.HEAD + " did not change: " + ref.getResult());
       }
-    } finally {
-      oi.release();
     }
   }
 }

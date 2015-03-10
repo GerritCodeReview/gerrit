@@ -119,7 +119,7 @@ class PatchScriptBuilder {
     try {
       return build(content, comments, history);
     } finally {
-      reader.release();
+      reader.close();
     }
   }
 
@@ -514,9 +514,10 @@ class PatchScriptBuilder {
       if (path == null || within == null) {
         return null;
       }
-      final RevWalk rw = new RevWalk(reader);
-      final RevTree tree = rw.parseTree(within);
-      return TreeWalk.forPath(reader, path, tree);
+      try (RevWalk rw = new RevWalk(reader)) {
+        final RevTree tree = rw.parseTree(within);
+        return TreeWalk.forPath(reader, path, tree);
+      }
     }
   }
 

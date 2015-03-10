@@ -200,12 +200,9 @@ public class ChangeRebuilder {
   private void writeToBatch(BatchMetaDataUpdate batch,
       AbstractChangeUpdate update, Repository repo) throws IOException,
       OrmException {
-    ObjectInserter inserter = repo.newObjectInserter();
-    try {
+    try (ObjectInserter inserter = repo.newObjectInserter()) {
       update.setInserter(inserter);
       update.writeCommit(batch);
-    } finally {
-      inserter.release();
     }
   }
 

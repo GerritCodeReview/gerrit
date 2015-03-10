@@ -44,44 +44,45 @@ public class Text extends RawText {
   public static final Text EMPTY = new Text(NO_BYTES);
 
   public static Text forCommit(ObjectReader reader, AnyObjectId commitId) throws IOException {
-    RevWalk rw = new RevWalk(reader);
-    RevCommit c;
-    if (commitId instanceof RevCommit) {
-      c = (RevCommit) commitId;
-    } else {
-      c = rw.parseCommit(commitId);
-    }
-
-    StringBuilder b = new StringBuilder();
-    switch (c.getParentCount()) {
-      case 0:
-        break;
-      case 1: {
-        RevCommit p = c.getParent(0);
-        rw.parseBody(p);
-        b.append("Parent:     ");
-        b.append(reader.abbreviate(p, 8).name());
-        b.append(" (");
-        b.append(p.getShortMessage());
-        b.append(")\n");
-        break;
+    try (RevWalk rw = new RevWalk(reader)) {
+      RevCommit c;
+      if (commitId instanceof RevCommit) {
+        c = (RevCommit) commitId;
+      } else {
+        c = rw.parseCommit(commitId);
       }
-      default:
-        for (int i = 0; i < c.getParentCount(); i++) {
-          RevCommit p = c.getParent(i);
+
+      StringBuilder b = new StringBuilder();
+      switch (c.getParentCount()) {
+        case 0:
+          break;
+        case 1: {
+          RevCommit p = c.getParent(0);
           rw.parseBody(p);
-          b.append(i == 0 ? "Merge Of:   " : "            ");
+          b.append("Parent:     ");
           b.append(reader.abbreviate(p, 8).name());
           b.append(" (");
           b.append(p.getShortMessage());
           b.append(")\n");
+          break;
         }
+        default:
+          for (int i = 0; i < c.getParentCount(); i++) {
+            RevCommit p = c.getParent(i);
+            rw.parseBody(p);
+            b.append(i == 0 ? "Merge Of:   " : "            ");
+            b.append(reader.abbreviate(p, 8).name());
+            b.append(" (");
+            b.append(p.getShortMessage());
+            b.append(")\n");
+          }
+      }
+      appendPersonIdent(b, "Author", c.getAuthorIdent());
+      appendPersonIdent(b, "Commit", c.getCommitterIdent());
+      b.append("\n");
+      b.append(c.getFullMessage());
+      return new Text(b.toString().getBytes("UTF-8"));
     }
-    appendPersonIdent(b, "Author", c.getAuthorIdent());
-    appendPersonIdent(b, "Commit", c.getCommitterIdent());
-    b.append("\n");
-    b.append(c.getFullMessage());
-    return new Text(b.toString().getBytes("UTF-8"));
   }
 
   private static void appendPersonIdent(StringBuilder b, String field,

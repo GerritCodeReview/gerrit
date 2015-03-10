@@ -80,19 +80,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
   @Override
   public RelatedInfo apply(RevisionResource rsrc)
       throws RepositoryNotFoundException, IOException, OrmException {
-    Repository git = gitMgr.openRepository(rsrc.getChange().getProject());
-    try {
+    try (Repository git = gitMgr.openRepository(rsrc.getChange().getProject());
+        RevWalk rw = new RevWalk(git)) {
       Ref ref = git.getRef(rsrc.getChange().getDest().get());
-      RevWalk rw = new RevWalk(git);
-      try {
-        RelatedInfo info = new RelatedInfo();
-        info.changes = walk(rsrc, rw, ref);
-        return info;
-      } finally {
-        rw.release();
-      }
-    } finally {
-      git.close();
+      RelatedInfo info = new RelatedInfo();
+      info.changes = walk(rsrc, rw, ref);
+      return info;
     }
   }
 

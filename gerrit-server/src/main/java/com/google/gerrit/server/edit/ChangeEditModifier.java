@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -115,26 +116,20 @@ public class ChangeEditModifier {
     }
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    Repository repo = gitManager.openRepository(change.getProject());
     String refPrefix = editRefPrefix(me.getAccountId(), change.getId());
 
-    try {
+    try (Repository repo = gitManager.openRepository(change.getProject())) {
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(refPrefix);
       if (!refs.isEmpty()) {
         throw new ResourceConflictException("edit already exists");
       }
 
-      RevWalk rw = new RevWalk(repo);
-      try {
+      try (RevWalk rw = new RevWalk(repo)) {
         ObjectId revision = ObjectId.fromString(ps.getRevision().get());
         String editRefName = editRefName(me.getAccountId(), change.getId(),
             ps.getId());
         return update(repo, me, editRefName, rw, ObjectId.zeroId(), revision);
-      } finally {
-        rw.release();
       }
-    } finally {
-      repo.close();
     }
   }
 
@@ -159,59 +154,51 @@ public class ChangeEditModifier {
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
     String refName = editRefName(me.getAccountId(), change.getId(),
         current.getId());
-    Repository repo = gitManager.openRepository(change.getProject());
-    try {
-      RevWalk rw = new RevWalk(repo);
+    try (Repository repo = gitManager.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(repo);
+        ObjectInserter inserter = repo.newObjectInserter()) {
       BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
-      ObjectInserter inserter = repo.newObjectInserter();
-      try {
-        RevCommit editCommit = edit.getEditCommit();
-        if (editCommit.getParentCount() == 0) {
-          throw new InvalidChangeOperationException(
-              "Rebase edit against root commit not supported");
-        }
-        RevCommit tip = rw.parseCommit(ObjectId.fromString(
-            current.getRevision().get()));
-        ThreeWayMerger m = MergeStrategy.RESOLVE.newMerger(repo, true);
-        m.setObjectInserter(inserter);
-        m.setBase(ObjectId.fromString(
-            edit.getBasePatchSet().getRevision().get()));
-
-        if (m.merge(tip, editCommit)) {
-          ObjectId tree = m.getResultTreeId();
-
-          CommitBuilder commit = new CommitBuilder();
-          commit.setTreeId(tree);
-          for (int i = 0; i < tip.getParentCount(); i++) {
-            commit.addParentId(tip.getParent(i));
-          }
-          commit.setAuthor(editCommit.getAuthorIdent());
-          commit.setCommitter(new PersonIdent(
-              editCommit.getCommitterIdent(), TimeUtil.nowTs()));
-          commit.setMessage(editCommit.getFullMessage());
-          ObjectId newEdit = inserter.insert(commit);
-          inserter.flush();
-
-          ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), newEdit,
-              refName));
-          ru.addCommand(new ReceiveCommand(edit.getRef().getObjectId(),
-              ObjectId.zeroId(), edit.getRefName()));
-          ru.execute(rw, NullProgressMonitor.INSTANCE);
-          for (ReceiveCommand cmd : ru.getCommands()) {
-            if (cmd.getResult() != ReceiveCommand.Result.OK) {
-              throw new IOException("failed: " + cmd);
-            }
-          }
-        } else {
-          // TODO(davido): Allow to resolve conflicts inline
-          throw new ResourceConflictException("merge conflict");
-        }
-      } finally {
-        rw.release();
-        inserter.release();
+      RevCommit editCommit = edit.getEditCommit();
+      if (editCommit.getParentCount() == 0) {
+        throw new InvalidChangeOperationException(
+            "Rebase edit against root commit not supported");
       }
-    } finally {
-      repo.close();
+      RevCommit tip = rw.parseCommit(ObjectId.fromString(
+          current.getRevision().get()));
+      ThreeWayMerger m = MergeStrategy.RESOLVE.newMerger(repo, true);
+      m.setObjectInserter(inserter);
+      m.setBase(ObjectId.fromString(
+          edit.getBasePatchSet().getRevision().get()));
+
+      if (m.merge(tip, editCommit)) {
+        ObjectId tree = m.getResultTreeId();
+
+        CommitBuilder commit = new CommitBuilder();
+        commit.setTreeId(tree);
+        for (int i = 0; i < tip.getParentCount(); i++) {
+          commit.addParentId(tip.getParent(i));
+        }
+        commit.setAuthor(editCommit.getAuthorIdent());
+        commit.setCommitter(new PersonIdent(
+            editCommit.getCommitterIdent(), TimeUtil.nowTs()));
+        commit.setMessage(editCommit.getFullMessage());
+        ObjectId newEdit = inserter.insert(commit);
+        inserter.flush();
+
+        ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), newEdit,
+            refName));
+        ru.addCommand(new ReceiveCommand(edit.getRef().getObjectId(),
+            ObjectId.zeroId(), edit.getRefName()));
+        ru.execute(rw, NullProgressMonitor.INSTANCE);
+        for (ReceiveCommand cmd : ru.getCommands()) {
+          if (cmd.getResult() != ReceiveCommand.Result.OK) {
+            throw new IOException("failed: " + cmd);
+          }
+        }
+      } else {
+        // TODO(davido): Allow to resolve conflicts inline
+        throw new ResourceConflictException("merge conflict");
+      }
     }
   }
 
@@ -240,23 +227,16 @@ public class ChangeEditModifier {
     }
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    Repository repo = gitManager.openRepository(edit.getChange().getProject());
-    try {
-      RevWalk rw = new RevWalk(repo);
-      ObjectInserter inserter = repo.newObjectInserter();
-      try {
-        String refName = edit.getRefName();
-        ObjectId commit = createCommit(me, inserter, prevEdit,
-            prevEdit.getTree(),
-            msg);
-        inserter.flush();
-        return update(repo, me, refName, rw, prevEdit, commit);
-      } finally {
-        rw.release();
-        inserter.release();
-      }
-    } finally {
-      repo.close();
+    Project.NameKey project = edit.getChange().getProject();
+    try (Repository repo = gitManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo);
+        ObjectInserter inserter = repo.newObjectInserter()) {
+      String refName = edit.getRefName();
+      ObjectId commit = createCommit(me, inserter, prevEdit,
+          prevEdit.getTree(),
+          msg);
+      inserter.flush();
+      return update(repo, me, refName, rw, prevEdit, commit);
     }
   }
 
@@ -333,36 +313,28 @@ public class ChangeEditModifier {
       throw new AuthException("Authentication required");
     }
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    Repository repo = gitManager.openRepository(edit.getChange().getProject());
-    try {
-      RevWalk rw = new RevWalk(repo);
-      ObjectInserter inserter = repo.newObjectInserter();
-      ObjectReader reader = repo.newObjectReader();
-      try {
-        String refName = edit.getRefName();
-        RevCommit prevEdit = edit.getEditCommit();
-        ObjectId newTree = writeNewTree(op,
-            rw,
-            inserter,
-            prevEdit,
-            reader,
-            file,
-            newFile,
-            toBlob(inserter, content));
-        if (ObjectId.equals(newTree, prevEdit.getTree())) {
-          throw new InvalidChangeOperationException("no changes were made");
-        }
-
-        ObjectId commit = createCommit(me, inserter, prevEdit, newTree);
-        inserter.flush();
-        return update(repo, me, refName, rw, prevEdit, commit);
-      } finally {
-        rw.release();
-        inserter.release();
-        reader.release();
+    Project.NameKey project = edit.getChange().getProject();
+    try (Repository repo = gitManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo);
+        ObjectInserter inserter = repo.newObjectInserter();
+        ObjectReader reader = repo.newObjectReader()) {
+      String refName = edit.getRefName();
+      RevCommit prevEdit = edit.getEditCommit();
+      ObjectId newTree = writeNewTree(op,
+          rw,
+          inserter,
+          prevEdit,
+          reader,
+          file,
+          newFile,
+          toBlob(inserter, content));
+      if (ObjectId.equals(newTree, prevEdit.getTree())) {
+        throw new InvalidChangeOperationException("no changes were made");
       }
-    } finally {
-      repo.close();
+
+      ObjectId commit = createCommit(me, inserter, prevEdit, newTree);
+      inserter.flush();
+      return update(repo, me, refName, rw, prevEdit, commit);
     }
   }
 

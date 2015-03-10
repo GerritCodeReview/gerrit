@@ -382,7 +382,7 @@ public class SubmoduleOp {
             + subscriber.get(), e);
     } finally {
       if (recRw != null) {
-        recRw.release();
+        recRw.close();
       }
       if (pdb != null) {
         pdb.close();
@@ -392,8 +392,7 @@ public class SubmoduleOp {
 
   private static DirCache readTree(final Repository pdb, final Ref branch)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    final RevWalk rw = new RevWalk(pdb);
-    try {
+    try (RevWalk rw = new RevWalk(pdb)) {
       final DirCache dc = DirCache.newInCore();
       final DirCacheBuilder b = dc.builder();
       b.addTree(new byte[0], // no prefix path
@@ -401,8 +400,6 @@ public class SubmoduleOp {
           pdb.newObjectReader(), rw.parseTree(branch.getObjectId()));
       b.finish();
       return dc;
-    } finally {
-      rw.release();
     }
   }
 

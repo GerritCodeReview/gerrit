@@ -202,46 +202,41 @@ public class CatServlet extends HttpServlet {
     final RevCommit fromCommit;
     final String suffix;
     final String path = patchKey.getFileName();
-    try {
-      final ObjectReader reader = repo.newObjectReader();
-      try {
-        final RevWalk rw = new RevWalk(reader);
-        final RevCommit c;
-        final TreeWalk tw;
+    try (ObjectReader reader = repo.newObjectReader();
+        RevWalk rw = new RevWalk(reader)) {
+      final RevCommit c;
+      final TreeWalk tw;
 
-        c = rw.parseCommit(ObjectId.fromString(revision));
-        if (side == 0) {
-          fromCommit = c;
-          suffix = "new";
+      c = rw.parseCommit(ObjectId.fromString(revision));
+      if (side == 0) {
+        fromCommit = c;
+        suffix = "new";
 
-        } else if (1 <= side && side - 1 < c.getParentCount()) {
-          fromCommit = rw.parseCommit(c.getParent(side - 1));
-          if (c.getParentCount() == 1) {
-            suffix = "old";
-          } else {
-            suffix = "old" + side;
-          }
-
+      } else if (1 <= side && side - 1 < c.getParentCount()) {
+        fromCommit = rw.parseCommit(c.getParent(side - 1));
+        if (c.getParentCount() == 1) {
+          suffix = "old";
         } else {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-          return;
+          suffix = "old" + side;
         }
 
-        tw = TreeWalk.forPath(reader, path, fromCommit.getTree());
-        if (tw == null) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-          return;
-        }
+      } else {
+        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        return;
+      }
 
-        if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
-          blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+      tw = TreeWalk.forPath(reader, path, fromCommit.getTree());
+      if (tw == null) {
+        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        return;
+      }
 
-        } else {
-          rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-          return;
-        }
-      } finally {
-        reader.release();
+      if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
+        blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+
+      } else {
+        rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        return;
       }
     } catch (IOException e) {
       getServletContext().log("Cannot read repository", e);

@@ -270,8 +270,7 @@ public class PerformCreateProject {
   private void createEmptyCommits(final Repository repo,
       final Project.NameKey project, final List<String> refs)
       throws IOException {
-    ObjectInserter oi = repo.newObjectInserter();
-    try {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
       cb.setAuthor(metaDataUpdateFactory.getUserPersonIdent());
@@ -300,8 +299,6 @@ public class PerformCreateProject {
           "Cannot create empty commit for "
               + createProjectArgs.getProjectName(), e);
       throw e;
-    } finally {
-      oi.release();
     }
   }
 }

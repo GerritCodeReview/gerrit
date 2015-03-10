@@ -240,9 +240,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
       throws RepositoryNotFoundException, IOException {
     Repository repo =
         repoManager.openRepository(new Project.NameKey(projectName));
-    RevWalk rw = new RevWalk(repo);
-    TreeWalk tw = new TreeWalk(repo);
-    try {
+    try (RevWalk rw = new RevWalk(repo);
+        TreeWalk tw = new TreeWalk(repo)) {
       for (String ref : refs) {
         RevCommit commit = rw.lookupCommit(repo.getRef(ref).getObjectId());
         rw.parseBody(commit);
@@ -250,9 +249,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
         assertThat(tw.next()).isFalse();
         tw.reset();
       }
-    } finally {
-      rw.release();
-      repo.close();
     }
   }
 }

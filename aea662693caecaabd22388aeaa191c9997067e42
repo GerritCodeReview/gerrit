@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7799c4f8_fce56924",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-10T08:25:43Z",
+      "side": 1,
+      "message": "I am not confident with changing author names (never did it before).",
+      "parentUuid": "177fa84d_0142aa68",
+      "revId": "aea662693caecaabd22388aeaa191c9997067e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_d72ebcbf",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
         "patchSetId": 3

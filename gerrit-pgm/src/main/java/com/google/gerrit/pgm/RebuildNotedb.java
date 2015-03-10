@@ -185,11 +185,8 @@ public class RebuildNotedb extends SiteProgram {
 
   private static void execute(BatchRefUpdate bru, Repository repo)
       throws IOException {
-    RevWalk rw = new RevWalk(repo);
-    try {
+    try (RevWalk rw = new RevWalk(repo)) {
       bru.execute(rw, NullProgressMonitor.INSTANCE);
-    } finally {
-      rw.release();
     }
   }
 

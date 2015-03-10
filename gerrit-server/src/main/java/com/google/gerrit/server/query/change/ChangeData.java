@@ -523,18 +523,11 @@ public class ChangeData {
       return false;
     }
     String sha1 = ps.getRevision().get();
-    Repository repo = repoManager.openRepository(change().getProject());
-    try {
-      RevWalk walk = new RevWalk(repo);
-      try {
-        RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
-        commitMessage = c.getFullMessage();
-        commitFooters = c.getFooterLines();
-      } finally {
-        walk.release();
-      }
-    } finally {
-      repo.close();
+    try (Repository repo = repoManager.openRepository(change().getProject());
+        RevWalk walk = new RevWalk(repo)) {
+      RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
+      commitMessage = c.getFullMessage();
+      commitFooters = c.getFooterLines();
     }
     return true;
   }

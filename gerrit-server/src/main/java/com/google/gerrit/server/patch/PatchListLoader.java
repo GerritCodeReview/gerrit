@@ -133,9 +133,9 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   private PatchList readPatchList(final PatchListKey key, final Repository repo)
       throws IOException, PatchListNotAvailableException {
     final RawTextComparator cmp = comparatorFor(key.getWhitespace());
-    final ObjectReader reader = repo.newObjectReader();
-    try {
-      final RevWalk rw = new RevWalk(reader);
+    try (ObjectReader reader = repo.newObjectReader();
+        RevWalk rw = new RevWalk(reader);
+        DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
       final RevCommit b = rw.parseCommit(key.getNewId());
       final RevObject a = aFor(key, repo, rw, b);
 
@@ -155,7 +155,6 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       RevTree aTree = rw.parseTree(a);
       RevTree bTree = b.getTree();
 
-      DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
       df.setRepository(repo);
       df.setDiffComparator(cmp);
       df.setDetectRenames(true);
@@ -187,8 +186,6 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       }
       return new PatchList(a, b, againstParent,
           entries.toArray(new PatchListEntry[entries.size()]));
-    } finally {
-      reader.release();
     }
   }
 
@@ -326,8 +323,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
 
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
-    final ObjectInserter ins = repo.newObjectInserter();
-    try {
+    try (ObjectInserter ins = repo.newObjectInserter()) {
       DirCache dc = DirCache.newInCore();
       m.setDirCache(dc);
       m.setObjectInserter(new ObjectInserter.Filter() {
@@ -452,19 +448,14 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       }
 
       return rw.lookupTree(treeId);
-    } finally {
-      ins.release();
     }
   }
 
   private static ObjectId emptyTree(final Repository repo) throws IOException {
-    ObjectInserter oi = repo.newObjectInserter();
-    try {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
       oi.flush();
       return id;
-    } finally {
-      oi.release();
     }
   }
 }

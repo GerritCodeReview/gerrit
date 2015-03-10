@@ -153,7 +153,7 @@ public class ConsistencyChecker {
       return Result.create(c, problems);
     } finally {
       if (rw != null) {
-        rw.release();
+        rw.close();
       }
       if (repo != null) {
         repo.close();

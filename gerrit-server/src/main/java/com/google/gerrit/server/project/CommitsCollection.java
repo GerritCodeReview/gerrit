@@ -65,26 +65,19 @@ public class CommitsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    Repository repo = repoManager.openRepository(parent.getNameKey());
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        RevCommit commit = rw.parseCommit(objectId);
-        rw.parseBody(commit);
-        if (!parent.getControl().canReadCommit(db.get(), rw, commit)) {
-          throw new ResourceNotFoundException(id);
-        }
-        for (int i = 0; i < commit.getParentCount(); i++) {
-          rw.parseBody(rw.parseCommit(commit.getParent(i)));
-        }
-        return new CommitResource(parent, commit);
-      } catch (MissingObjectException | IncorrectObjectTypeException e) {
+    try (Repository repo = repoManager.openRepository(parent.getNameKey());
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(objectId);
+      rw.parseBody(commit);
+      if (!parent.getControl().canReadCommit(db.get(), rw, commit)) {
         throw new ResourceNotFoundException(id);
-      } finally {
-        rw.release();
       }
-    } finally {
-      repo.close();
+      for (int i = 0; i < commit.getParentCount(); i++) {
+        rw.parseBody(rw.parseCommit(commit.getParent(i)));
+      }
+      return new CommitResource(parent, commit);
+    } catch (MissingObjectException | IncorrectObjectTypeException e) {
+      throw new ResourceNotFoundException(id);
     }
   }
 

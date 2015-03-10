@@ -58,64 +58,57 @@ public class FileContentUtil {
 
   public BinaryResult getContent(ProjectState project, ObjectId revstr,
       String path) throws ResourceNotFoundException, IOException {
-    Repository repo = openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        RevCommit commit = rw.parseCommit(revstr);
-        ObjectReader reader = rw.getObjectReader();
-        TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
-        if (tw == null) {
-          throw new ResourceNotFoundException();
-        }
-
-        org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
-        ObjectId id = tw.getObjectId(0);
-        if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
-          return BinaryResult.create(id.name())
-              .setContentType(X_GIT_GITLINK)
-              .base64();
-        }
-
-        final ObjectLoader obj = repo.open(id, OBJ_BLOB);
-        byte[] raw;
-        try {
-          raw = obj.getCachedBytes(MAX_SIZE);
-        } catch (LargeObjectException e) {
-          raw = null;
-        }
-
-        BinaryResult result;
-        if (raw != null) {
-          result = BinaryResult.create(raw);
-        } else {
-          result = asBinaryResult(obj);
-        }
-
-        String type;
-        if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
-          type = X_GIT_SYMLINK;
-        } else {
-          type = registry.getMimeType(path, raw).toString();
-          type = resolveContentType(project, path, FileMode.FILE, type);
-        }
-        return result.setContentType(type).base64();
-      } finally {
-        rw.release();
+    try (Repository repo = openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(revstr);
+      ObjectReader reader = rw.getObjectReader();
+      TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
+      if (tw == null) {
+        throw new ResourceNotFoundException();
       }
-    } finally {
-      repo.close();
+
+      org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
+      ObjectId id = tw.getObjectId(0);
+      if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
+        return BinaryResult.create(id.name())
+            .setContentType(X_GIT_GITLINK)
+            .base64();
+      }
+
+      final ObjectLoader obj = repo.open(id, OBJ_BLOB);
+      byte[] raw;
+      try {
+        raw = obj.getCachedBytes(MAX_SIZE);
+      } catch (LargeObjectException e) {
+        raw = null;
+      }
+
+      BinaryResult result;
+      if (raw != null) {
+        result = BinaryResult.create(raw);
+      } else {
+        result = asBinaryResult(obj);
+      }
+
+      String type;
+      if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
+        type = X_GIT_SYMLINK;
+      } else {
+        type = registry.getMimeType(path, raw).toString();
+        type = resolveContentType(project, path, FileMode.FILE, type);
+      }
+      return result.setContentType(type).base64();
     }
   }
 
   private static BinaryResult asBinaryResult(final ObjectLoader obj) {
-    @SuppressWarnings("resource")
     BinaryResult result = new BinaryResult() {
       @Override
       public void writeTo(OutputStream os) throws IOException {
         obj.copyTo(os);
       }
-    }.setContentLength(obj.getSize());
+    };
+    result.setContentLength(obj.getSize());
     return result;
   }
 

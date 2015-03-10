@@ -337,40 +337,23 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected RevCommit getRemoteHead() throws IOException {
-    Repository repo = repoManager.openRepository(project);
-    try {
+    try (Repository repo = repoManager.openRepository(project)) {
       return getHead(repo, "refs/heads/master");
-    } finally {
-      repo.close();
     }
   }
 
   protected List<RevCommit> getRemoteLog() throws IOException {
-    Repository repo = repoManager.openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        rw.markStart(rw.parseCommit(
-            repo.getRef("refs/heads/master").getObjectId()));
-        return Lists.newArrayList(rw);
-      } finally {
-        rw.release();
-      }
-    } finally {
-      repo.close();
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      rw.markStart(rw.parseCommit(
+          repo.getRef("refs/heads/master").getObjectId()));
+      return Lists.newArrayList(rw);
     }
   }
 
   private RevCommit getHead(Repository repo, String name) throws IOException {
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        return rw.parseCommit(repo.getRef(name).getObjectId());
-      } finally {
-        rw.release();
-      }
-    } finally {
-      repo.close();
+    try (RevWalk rw = new RevWalk(repo)) {
+      return rw.parseCommit(repo.getRef(name).getObjectId());
     }
   }
 
@@ -381,28 +364,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private String getLatestRemoteDiff() throws IOException {
-    Repository repo = repoManager.openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        ObjectId oldTreeId = repo.resolve("refs/heads/master~1^{tree}");
-        ObjectId newTreeId = repo.resolve("refs/heads/master^{tree}");
-        return getLatestDiff(repo, oldTreeId, newTreeId);
-      } finally {
-        rw.release();
-      }
-    } finally {
-      repo.close();
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      ObjectId oldTreeId = repo.resolve("refs/heads/master~1^{tree}");
+      ObjectId newTreeId = repo.resolve("refs/heads/master^{tree}");
+      return getLatestDiff(repo, oldTreeId, newTreeId);
     }
   }
 
   private String getLatestDiff(Repository repo, ObjectId oldTreeId,
       ObjectId newTreeId) throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    DiffFormatter fmt = new DiffFormatter(out);
-    fmt.setRepository(repo);
-    fmt.format(oldTreeId, newTreeId);
-    fmt.flush();
-    return out.toString();
+    try (DiffFormatter fmt = new DiffFormatter(out)) {
+      fmt.setRepository(repo);
+      fmt.format(oldTreeId, newTreeId);
+      fmt.flush();
+      return out.toString();
+    }
   }
 }

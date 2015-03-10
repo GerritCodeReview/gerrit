@@ -225,8 +225,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       }
       try {
         Map<String, Ref> refs = key.load.repo.getAllRefs();
-        RevWalk rw = CodeReviewCommit.newRevWalk(key.load.repo);
-        try {
+        try (RevWalk rw = CodeReviewCommit.newRevWalk(key.load.repo)) {
           RevFlag canMerge = rw.newFlag("CAN_MERGE");
           CodeReviewCommit rev = parse(rw, key.commit);
           rev.add(canMerge);
@@ -243,8 +242,6 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
               canMerge,
               accepted,
               key.load.dest).dryRun(tip, rev);
-        } finally {
-          rw.release();
         }
       } finally {
         key.load = null;

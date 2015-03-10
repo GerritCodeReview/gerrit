@@ -43,7 +43,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   @After
   public void tearDownTestRepo() throws Exception {
-    walk.release();
+    walk.close();
   }
 
   @Test
@@ -176,8 +176,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private RevCommit writeCommit(String body, PersonIdent author)
       throws Exception {
-    ObjectInserter ins = testRepo.getRepository().newObjectInserter();
-    try {
+    try (ObjectInserter ins = testRepo.getRepository().newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
       cb.setAuthor(author);
       cb.setCommitter(new PersonIdent(serverIdent, author.getWhen()));
@@ -188,8 +187,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
       RevCommit commit = walk.parseCommit(id);
       walk.parseBody(commit);
       return commit;
-    } finally {
-      ins.release();
     }
   }
 

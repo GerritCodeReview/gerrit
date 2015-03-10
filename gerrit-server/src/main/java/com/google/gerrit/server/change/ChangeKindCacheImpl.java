@@ -189,8 +189,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         return ChangeKind.NO_CODE_CHANGE;
       }
 
-      RevWalk walk = new RevWalk(key.repo);
-      try {
+      try (RevWalk walk = new RevWalk(key.repo)) {
         RevCommit prior = walk.parseCommit(key.prior);
         walk.parseBody(prior);
         RevCommit next = walk.parseCommit(key.next);
@@ -227,7 +226,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
       } finally {
         key.repo = null;
-        walk.release();
       }
     }
 

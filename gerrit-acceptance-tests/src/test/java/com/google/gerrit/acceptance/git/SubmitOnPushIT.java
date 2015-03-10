@@ -222,53 +222,37 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private void assertCommit(Project.NameKey project, String branch) throws IOException {
-    Repository r = repoManager.openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(r);
-      try {
-        RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
-        assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
-        assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-        assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
-            admin.email);
-      } finally {
-        rw.release();
-      }
-    } finally {
-      r.close();
+    try (Repository r = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(r)) {
+      RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
+      assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
+      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
+          admin.email);
     }
   }
 
   private void assertMergeCommit(String branch, String subject) throws IOException {
-    Repository r = repoManager.openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(r);
-      try {
-        RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
-        assertThat(c.getParentCount()).is(2);
-        assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
-        assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-        assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
-            serverIdent.getEmailAddress());
-      } finally {
-        rw.release();
-      }
-    } finally {
-      r.close();
+    try (Repository r = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(r)) {
+      RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
+      assertThat(c.getParentCount()).is(2);
+      assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
+      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
+          serverIdent.getEmailAddress());
     }
   }
 
   private void assertTag(Project.NameKey project, String branch,
       PushOneCommit.Tag tag) throws IOException {
-    Repository repo = repoManager.openRepository(project);
-    try {
+    try (Repository repo = repoManager.openRepository(project)) {
       Ref tagRef = repo.getRef(tag.name);
       assertThat(tagRef).isNotNull();
       ObjectId taggedCommit = null;
       if (tag instanceof PushOneCommit.AnnotatedTag) {
         PushOneCommit.AnnotatedTag annotatedTag = (PushOneCommit.AnnotatedTag)tag;
-        RevWalk rw = new RevWalk(repo);
-        try {
+        try (RevWalk rw = new RevWalk(repo)) {
           RevObject object = rw.parseAny(tagRef.getObjectId());
           assertThat(object).isInstanceOf(RevTag.class);
           RevTag tagObject = (RevTag) object;
@@ -276,8 +260,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
               .isEqualTo(annotatedTag.message);
           assertThat(tagObject.getTaggerIdent()).isEqualTo(annotatedTag.tagger);
           taggedCommit = tagObject.getObject();
-        } finally {
-          rw.dispose();
         }
       } else {
         taggedCommit = tagRef.getObjectId();
@@ -285,8 +267,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       ObjectId headCommit = repo.getRef(branch).getObjectId();
       assertThat(taggedCommit).isNotNull();
       assertThat(taggedCommit).isEqualTo(headCommit);
-    } finally {
-      repo.close();
     }
   }
 

@@ -99,11 +99,8 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
       for (String branch : input.branches) {
         batchUpdate.addCommand(createDeleteCommand(project, r, branch));
       }
-      RevWalk rw = new RevWalk(r);
-      try {
+      try (RevWalk rw = new RevWalk(r)) {
         batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
-      } finally {
-        rw.release();
       }
       StringBuilder errorMessages = new StringBuilder();
       for (ReceiveCommand command : batchUpdate.getCommands()) {

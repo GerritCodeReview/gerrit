@@ -49,9 +49,7 @@ public class GetHead implements RestReadView<ProjectResource> {
   @Override
   public String apply(ProjectResource rsrc) throws AuthException,
       ResourceNotFoundException, IOException {
-    Repository repo = null;
-    try {
-      repo = repoManager.openRepository(rsrc.getNameKey());
+    try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRef(Constants.HEAD);
       if (head == null) {
         throw new ResourceNotFoundException(Constants.HEAD);
@@ -62,8 +60,7 @@ public class GetHead implements RestReadView<ProjectResource> {
         }
         throw new AuthException("not allowed to see HEAD");
       } else if (head.getObjectId() != null) {
-        RevWalk rw = new RevWalk(repo);
-        try {
+        try (RevWalk rw = new RevWalk(repo)) {
           RevCommit commit = rw.parseCommit(head.getObjectId());
           if (rsrc.getControl().canReadCommit(db.get(), rw, commit)) {
             return head.getObjectId().name();
@@ -74,17 +71,11 @@ public class GetHead implements RestReadView<ProjectResource> {
             return head.getObjectId().name();
           }
           throw new AuthException("not allowed to see HEAD");
-        } finally {
-          rw.release();
         }
       }
       throw new ResourceNotFoundException(Constants.HEAD);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(rsrc.getName());
-    } finally {
-      if (repo != null) {
-        repo.close();
-      }
     }
   }
 }

@@ -85,17 +85,12 @@ public class PatchSetInfoFactory {
     } catch (IOException e) {
       throw new PatchSetInfoNotAvailableException(e);
     }
-    try {
-      final RevWalk rw = new RevWalk(repo);
-      try {
-        final RevCommit src =
-            rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
-        PatchSetInfo info = get(src, patchSet.getId());
-        info.setParents(toParentInfos(src.getParents(), rw));
-        return info;
-      } finally {
-        rw.release();
-      }
+    try (RevWalk rw = new RevWalk(repo)) {
+      final RevCommit src =
+          rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      PatchSetInfo info = get(src, patchSet.getId());
+      info.setParents(toParentInfos(src.getParents(), rw));
+      return info;
     } catch (IOException e) {
       throw new PatchSetInfoNotAvailableException(e);
     } finally {

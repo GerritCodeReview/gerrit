@@ -98,26 +98,17 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   public TagInfo get(ProjectResource resource, IdString id)
       throws ResourceNotFoundException, IOException {
-    Repository repo = getRepository(resource.getNameKey());
-
-    String tagName = id.get();
-    if (!tagName.startsWith(Constants.R_TAGS)) {
-      tagName = Constants.R_TAGS + tagName;
-    }
-
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        Ref ref = repo.getRefDatabase().getRef(tagName);
-        if (ref != null && !visibleTags(resource.getControl(), repo,
-            ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
-          return createTagInfo(ref, rw);
-        }
-      } finally {
-        rw.dispose();
+    try (Repository repo = getRepository(resource.getNameKey());
+        RevWalk rw = new RevWalk(repo)) {
+      String tagName = id.get();
+      if (!tagName.startsWith(Constants.R_TAGS)) {
+        tagName = Constants.R_TAGS + tagName;
       }
-    } finally {
-      repo.close();
+      Ref ref = repo.getRefDatabase().getRef(tagName);
+      if (ref != null && !visibleTags(resource.getControl(), repo,
+          ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
+        return createTagInfo(ref, rw);
+      }
     }
     throw new ResourceNotFoundException(id);
   }

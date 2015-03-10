@@ -118,34 +118,37 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   public void testEmptyCommit() throws Exception {
     expect(schemaFactory.open()).andReturn(schema);
 
-    final Repository realDb = createWorkRepository();
-    final Git git = new Git(realDb);
+    try (Repository realDb = createWorkRepository()) {
+      // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
+      @SuppressWarnings("resource")
+      final Git git = new Git(realDb);
 
-    final RevCommit mergeTip = git.commit().setMessage("test").call();
+      final RevCommit mergeTip = git.commit().setMessage("test").call();
 
-    final Branch.NameKey branchNameKey =
-        new Branch.NameKey(new Project.NameKey("test-project"), "test-branch");
+      final Branch.NameKey branchNameKey =
+          new Branch.NameKey(new Project.NameKey("test-project"), "test-branch");
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080");
+      expect(urlProvider.get()).andReturn("http://localhost:8080");
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    final ResultSet<SubmoduleSubscription> emptySubscriptions =
-        new ListResultSet<>(new ArrayList<SubmoduleSubscription>());
-    expect(subscriptions.bySubmodule(branchNameKey)).andReturn(
-        emptySubscriptions);
+      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      final ResultSet<SubmoduleSubscription> emptySubscriptions =
+          new ListResultSet<>(new ArrayList<SubmoduleSubscription>());
+      expect(subscriptions.bySubmodule(branchNameKey)).andReturn(
+          emptySubscriptions);
 
-    schema.close();
+      schema.close();
 
-    doReplay();
+      doReplay();
 
-    final SubmoduleOp submoduleOp =
-        new SubmoduleOp(branchNameKey, mergeTip, new RevWalk(realDb), urlProvider,
-            schemaFactory, realDb, null, new ArrayList<Change>(), null, null,
-            null, null, null, null);
+      final SubmoduleOp submoduleOp =
+          new SubmoduleOp(branchNameKey, mergeTip, new RevWalk(realDb), urlProvider,
+              schemaFactory, realDb, null, new ArrayList<Change>(), null, null,
+              null, null, null, null);
 
-    submoduleOp.update();
+      submoduleOp.update();
 
-    doVerify();
+      doVerify();
+    }
   }
 
   /**
@@ -588,85 +591,89 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   public void testOneSubscriberToUpdate() throws Exception {
     expect(schemaFactory.open()).andReturn(schema);
 
-    final Repository sourceRepository = createWorkRepository();
-    final Git sourceGit = new Git(sourceRepository);
+    try (Repository sourceRepository = createWorkRepository();
+        Repository targetRepository = createWorkRepository()) {
+      // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
+      @SuppressWarnings("resource")
+      final Git sourceGit = new Git(sourceRepository);
+      // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
+      @SuppressWarnings("resource")
+      final Git targetGit = new Git(targetRepository);
 
-    addRegularFileToIndex("file.txt", "test content", sourceRepository);
+      addRegularFileToIndex("file.txt", "test content", sourceRepository);
 
-    final RevCommit sourceMergeTip =
-        sourceGit.commit().setMessage("test").call();
+      final RevCommit sourceMergeTip =
+          sourceGit.commit().setMessage("test").call();
 
-    final Branch.NameKey sourceBranchNameKey =
-        new Branch.NameKey(new Project.NameKey("source-project"),
-            "refs/heads/master");
+      final Branch.NameKey sourceBranchNameKey =
+          new Branch.NameKey(new Project.NameKey("source-project"),
+              "refs/heads/master");
 
-    final CodeReviewCommit codeReviewCommit =
-        new CodeReviewCommit(sourceMergeTip.toObjectId());
-    final Change submittedChange = new Change(
-        new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
-        new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
+      final CodeReviewCommit codeReviewCommit =
+          new CodeReviewCommit(sourceMergeTip.toObjectId());
+      final Change submittedChange = new Change(
+          new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
+          new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
 
-    final Map<Change.Id, CodeReviewCommit> mergedCommits = new HashMap<>();
-    mergedCommits.put(submittedChange.getId(), codeReviewCommit);
+      final Map<Change.Id, CodeReviewCommit> mergedCommits = new HashMap<>();
+      mergedCommits.put(submittedChange.getId(), codeReviewCommit);
 
-    final List<Change> submitted = new ArrayList<>();
-    submitted.add(submittedChange);
+      final List<Change> submitted = new ArrayList<>();
+      submitted.add(submittedChange);
 
-    final Repository targetRepository = createWorkRepository();
-    final Git targetGit = new Git(targetRepository);
+      addGitLinkToIndex("a", sourceMergeTip.copy(), targetRepository);
 
-    addGitLinkToIndex("a", sourceMergeTip.copy(), targetRepository);
+      targetGit.commit().setMessage("test").call();
 
-    targetGit.commit().setMessage("test").call();
+      final Branch.NameKey targetBranchNameKey =
+          new Branch.NameKey(new Project.NameKey("target-project"),
+              sourceBranchNameKey.get());
 
-    final Branch.NameKey targetBranchNameKey =
-        new Branch.NameKey(new Project.NameKey("target-project"),
-            sourceBranchNameKey.get());
+      expect(urlProvider.get()).andReturn("http://localhost:8080");
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080");
+      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      final ResultSet<SubmoduleSubscription> subscribers =
+          new ListResultSet<>(Collections
+              .singletonList(new SubmoduleSubscription(targetBranchNameKey,
+                  sourceBranchNameKey, "source-project")));
+      expect(subscriptions.bySubmodule(sourceBranchNameKey)).andReturn(
+          subscribers);
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    final ResultSet<SubmoduleSubscription> subscribers =
-        new ListResultSet<>(Collections
-            .singletonList(new SubmoduleSubscription(targetBranchNameKey,
-                sourceBranchNameKey, "source-project")));
-    expect(subscriptions.bySubmodule(sourceBranchNameKey)).andReturn(
-        subscribers);
+      expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
+          .andReturn(targetRepository).anyTimes();
 
-    expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
-        .andReturn(targetRepository).anyTimes();
+      Capture<RefUpdate> ruCapture = new Capture<>();
+      gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
+          capture(ruCapture));
+      changeHooks.doRefUpdatedHook(eq(targetBranchNameKey),
+          anyObject(RefUpdate.class), EasyMock.<Account>isNull());
 
-    Capture<RefUpdate> ruCapture = new Capture<>();
-    gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
-        capture(ruCapture));
-    changeHooks.doRefUpdatedHook(eq(targetBranchNameKey),
-        anyObject(RefUpdate.class), EasyMock.<Account>isNull());
+      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      final ResultSet<SubmoduleSubscription> emptySubscriptions =
+          new ListResultSet<>(new ArrayList<SubmoduleSubscription>());
+      expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
+          emptySubscriptions);
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    final ResultSet<SubmoduleSubscription> emptySubscriptions =
-        new ListResultSet<>(new ArrayList<SubmoduleSubscription>());
-    expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
-        emptySubscriptions);
+      schema.close();
 
-    schema.close();
+      final PersonIdent myIdent =
+          new PersonIdent("test-user", "test-user@email.com");
 
-    final PersonIdent myIdent =
-        new PersonIdent("test-user", "test-user@email.com");
+      doReplay();
 
-    doReplay();
+      final SubmoduleOp submoduleOp =
+          new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
+              sourceRepository), urlProvider, schemaFactory, sourceRepository,
+              new Project(sourceBranchNameKey.getParentKey()), submitted,
+              mergedCommits, myIdent, repoManager, gitRefUpdated, null,
+              changeHooks);
 
-    final SubmoduleOp submoduleOp =
-        new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
-            sourceRepository), urlProvider, schemaFactory, sourceRepository,
-            new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, gitRefUpdated, null,
-            changeHooks);
+      submoduleOp.update();
 
-    submoduleOp.update();
-
-    doVerify();
-    RefUpdate ru = ruCapture.getValue();
-    assertEquals(ru.getName(), targetBranchNameKey.get());
+      doVerify();
+      RefUpdate ru = ruCapture.getValue();
+      assertEquals(ru.getName(), targetBranchNameKey.get());
+    }
   }
 
   /**
@@ -693,86 +700,90 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   public void testAvoidingCircularReference() throws Exception {
     expect(schemaFactory.open()).andReturn(schema);
 
-    final Repository sourceRepository = createWorkRepository();
-    final Git sourceGit = new Git(sourceRepository);
+    try (Repository sourceRepository = createWorkRepository();
+        Repository targetRepository = createWorkRepository()) {
+      // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
+      @SuppressWarnings("resource")
+      final Git sourceGit = new Git(sourceRepository);
+      // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
+      @SuppressWarnings("resource")
+      final Git targetGit = new Git(targetRepository);
 
-    addRegularFileToIndex("file.txt", "test content", sourceRepository);
+      addRegularFileToIndex("file.txt", "test content", sourceRepository);
 
-    final RevCommit sourceMergeTip =
-        sourceGit.commit().setMessage("test").call();
+      final RevCommit sourceMergeTip =
+          sourceGit.commit().setMessage("test").call();
 
-    final Branch.NameKey sourceBranchNameKey =
-        new Branch.NameKey(new Project.NameKey("source-project"),
-            "refs/heads/master");
+      final Branch.NameKey sourceBranchNameKey =
+          new Branch.NameKey(new Project.NameKey("source-project"),
+              "refs/heads/master");
 
-    final CodeReviewCommit codeReviewCommit =
-        new CodeReviewCommit(sourceMergeTip.toObjectId());
-    final Change submittedChange = new Change(
-        new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
-        new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
+      final CodeReviewCommit codeReviewCommit =
+          new CodeReviewCommit(sourceMergeTip.toObjectId());
+      final Change submittedChange = new Change(
+          new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
+          new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
 
-    final Map<Change.Id, CodeReviewCommit> mergedCommits = new HashMap<>();
-    mergedCommits.put(submittedChange.getId(), codeReviewCommit);
+      final Map<Change.Id, CodeReviewCommit> mergedCommits = new HashMap<>();
+      mergedCommits.put(submittedChange.getId(), codeReviewCommit);
 
-    final List<Change> submitted = new ArrayList<>();
-    submitted.add(submittedChange);
+      final List<Change> submitted = new ArrayList<>();
+      submitted.add(submittedChange);
 
-    final Repository targetRepository = createWorkRepository();
-    final Git targetGit = new Git(targetRepository);
+      addGitLinkToIndex("a", sourceMergeTip.copy(), targetRepository);
 
-    addGitLinkToIndex("a", sourceMergeTip.copy(), targetRepository);
+      targetGit.commit().setMessage("test").call();
 
-    targetGit.commit().setMessage("test").call();
+      final Branch.NameKey targetBranchNameKey =
+          new Branch.NameKey(new Project.NameKey("target-project"),
+              sourceBranchNameKey.get());
 
-    final Branch.NameKey targetBranchNameKey =
-        new Branch.NameKey(new Project.NameKey("target-project"),
-            sourceBranchNameKey.get());
+      expect(urlProvider.get()).andReturn("http://localhost:8080");
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080");
+      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      final ResultSet<SubmoduleSubscription> subscribers =
+          new ListResultSet<>(Collections
+              .singletonList(new SubmoduleSubscription(targetBranchNameKey,
+                  sourceBranchNameKey, "source-project")));
+      expect(subscriptions.bySubmodule(sourceBranchNameKey)).andReturn(
+          subscribers);
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    final ResultSet<SubmoduleSubscription> subscribers =
-        new ListResultSet<>(Collections
-            .singletonList(new SubmoduleSubscription(targetBranchNameKey,
-                sourceBranchNameKey, "source-project")));
-    expect(subscriptions.bySubmodule(sourceBranchNameKey)).andReturn(
-        subscribers);
+      expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
+          .andReturn(targetRepository).anyTimes();
 
-    expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
-        .andReturn(targetRepository).anyTimes();
+      Capture<RefUpdate> ruCapture = new Capture<>();
+      gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
+          capture(ruCapture));
+      changeHooks.doRefUpdatedHook(eq(targetBranchNameKey),
+            anyObject(RefUpdate.class), EasyMock.<Account>isNull());
 
-    Capture<RefUpdate> ruCapture = new Capture<>();
-    gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
-        capture(ruCapture));
-    changeHooks.doRefUpdatedHook(eq(targetBranchNameKey),
-          anyObject(RefUpdate.class), EasyMock.<Account>isNull());
+      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      final ResultSet<SubmoduleSubscription> incorrectSubscriptions =
+          new ListResultSet<>(Collections
+              .singletonList(new SubmoduleSubscription(sourceBranchNameKey,
+                  targetBranchNameKey, "target-project")));
+      expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
+          incorrectSubscriptions);
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    final ResultSet<SubmoduleSubscription> incorrectSubscriptions =
-        new ListResultSet<>(Collections
-            .singletonList(new SubmoduleSubscription(sourceBranchNameKey,
-                targetBranchNameKey, "target-project")));
-    expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
-        incorrectSubscriptions);
+      schema.close();
 
-    schema.close();
+      final PersonIdent myIdent =
+          new PersonIdent("test-user", "test-user@email.com");
 
-    final PersonIdent myIdent =
-        new PersonIdent("test-user", "test-user@email.com");
+      doReplay();
 
-    doReplay();
+      final SubmoduleOp submoduleOp =
+          new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
+              sourceRepository), urlProvider, schemaFactory, sourceRepository,
+              new Project(sourceBranchNameKey.getParentKey()), submitted,
+              mergedCommits, myIdent, repoManager, gitRefUpdated, null, changeHooks);
 
-    final SubmoduleOp submoduleOp =
-        new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
-            sourceRepository), urlProvider, schemaFactory, sourceRepository,
-            new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, gitRefUpdated, null, changeHooks);
+      submoduleOp.update();
 
-    submoduleOp.update();
-
-    doVerify();
-    RefUpdate ru = ruCapture.getValue();
-    assertEquals(ru.getName(), targetBranchNameKey.get());
+      doVerify();
+      RefUpdate ru = ruCapture.getValue();
+      assertEquals(ru.getName(), targetBranchNameKey.get());
+    }
   }
 
   /**
@@ -862,67 +873,70 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
       final List<SubmoduleSubscription> previousSubscriptions) throws Exception {
     expect(schemaFactory.open()).andReturn(schema);
 
-    final Repository realDb = createWorkRepository();
-    final Git git = new Git(realDb);
+    try (Repository realDb = createWorkRepository()) {
+      // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
+      @SuppressWarnings("resource")
+      final Git git = new Git(realDb);
 
-    addRegularFileToIndex(".gitmodules", gitModulesFileContent, realDb);
+      addRegularFileToIndex(".gitmodules", gitModulesFileContent, realDb);
 
-    final RevCommit mergeTip = git.commit().setMessage("test").call();
+      final RevCommit mergeTip = git.commit().setMessage("test").call();
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080").times(2);
+      expect(urlProvider.get()).andReturn("http://localhost:8080").times(2);
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    expect(subscriptions.bySuperProject(mergedBranch)).andReturn(
-        new ListResultSet<>(previousSubscriptions));
-
-    SortedSet<Project.NameKey> existingProjects = new TreeSet<>();
-
-    for (SubmoduleSubscription extracted : extractedSubscriptions) {
-      existingProjects.add(extracted.getSubmodule().getParentKey());
-    }
-
-    for (int index = 0; index < extractedSubscriptions.size(); index++) {
-      expect(repoManager.list()).andReturn(existingProjects);
-    }
-
-    final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
-    for (SubmoduleSubscription s : extractedSubscriptions) {
-      if (previousSubscriptions.contains(s)) {
-        alreadySubscribeds.add(s);
-      }
-    }
-
-    final Set<SubmoduleSubscription> subscriptionsToRemove =
-        new HashSet<>(previousSubscriptions);
-    final List<SubmoduleSubscription> subscriptionsToInsert =
-        new ArrayList<>(extractedSubscriptions);
-
-    subscriptionsToRemove.removeAll(subscriptionsToInsert);
-    subscriptionsToInsert.removeAll(alreadySubscribeds);
-
-    if (!subscriptionsToRemove.isEmpty()) {
       expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-      subscriptions.delete(subscriptionsToRemove);
+      expect(subscriptions.bySuperProject(mergedBranch)).andReturn(
+          new ListResultSet<>(previousSubscriptions));
+
+      SortedSet<Project.NameKey> existingProjects = new TreeSet<>();
+
+      for (SubmoduleSubscription extracted : extractedSubscriptions) {
+        existingProjects.add(extracted.getSubmodule().getParentKey());
+      }
+
+      for (int index = 0; index < extractedSubscriptions.size(); index++) {
+        expect(repoManager.list()).andReturn(existingProjects);
+      }
+
+      final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
+      for (SubmoduleSubscription s : extractedSubscriptions) {
+        if (previousSubscriptions.contains(s)) {
+          alreadySubscribeds.add(s);
+        }
+      }
+
+      final Set<SubmoduleSubscription> subscriptionsToRemove =
+          new HashSet<>(previousSubscriptions);
+      final List<SubmoduleSubscription> subscriptionsToInsert =
+          new ArrayList<>(extractedSubscriptions);
+
+      subscriptionsToRemove.removeAll(subscriptionsToInsert);
+      subscriptionsToInsert.removeAll(alreadySubscribeds);
+
+      if (!subscriptionsToRemove.isEmpty()) {
+        expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+        subscriptions.delete(subscriptionsToRemove);
+      }
+
+      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      subscriptions.insert(subscriptionsToInsert);
+
+      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      expect(subscriptions.bySubmodule(mergedBranch)).andReturn(
+          new ListResultSet<>(new ArrayList<SubmoduleSubscription>()));
+
+      schema.close();
+
+      doReplay();
+
+      final SubmoduleOp submoduleOp =
+          new SubmoduleOp(mergedBranch, mergeTip, new RevWalk(realDb),
+              urlProvider, schemaFactory, realDb, new Project(mergedBranch
+                  .getParentKey()), new ArrayList<Change>(), null, null,
+              repoManager, null, null, null);
+
+      submoduleOp.update();
     }
-
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    subscriptions.insert(subscriptionsToInsert);
-
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    expect(subscriptions.bySubmodule(mergedBranch)).andReturn(
-        new ListResultSet<>(new ArrayList<SubmoduleSubscription>()));
-
-    schema.close();
-
-    doReplay();
-
-    final SubmoduleOp submoduleOp =
-        new SubmoduleOp(mergedBranch, mergeTip, new RevWalk(realDb),
-            urlProvider, schemaFactory, realDb, new Project(mergedBranch
-                .getParentKey()), new ArrayList<Change>(), null, null,
-            repoManager, null, null, null);
-
-    submoduleOp.update();
   }
 
   /**

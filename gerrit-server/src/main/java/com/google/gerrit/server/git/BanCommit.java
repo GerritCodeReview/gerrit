@@ -101,46 +101,38 @@ public class BanCommit {
     NoteMap banCommitNotes = NoteMap.newEmptyMap();
     // Add a note for each banned commit to notes.
     final Project.NameKey project = projectControl.getProject().getNameKey();
-    final Repository repo = repoManager.openRepository(project);
-    try {
-      final RevWalk revWalk = new RevWalk(repo);
-      final ObjectInserter inserter = repo.newObjectInserter();
-      try {
-        ObjectId noteId = null;
-        for (final ObjectId commitToBan : commitsToBan) {
-          try {
-            revWalk.parseCommit(commitToBan);
-          } catch (MissingObjectException e) {
-            // Ignore exception, non-existing commits can be banned.
-          } catch (IncorrectObjectTypeException e) {
-            result.notACommit(commitToBan);
-            continue;
-          }
-          if (noteId == null) {
-            noteId = createNoteContent(reason, inserter);
-          }
-          banCommitNotes.set(commitToBan, noteId);
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk revWalk = new RevWalk(repo);
+        ObjectInserter inserter = repo.newObjectInserter()) {
+      ObjectId noteId = null;
+      for (final ObjectId commitToBan : commitsToBan) {
+        try {
+          revWalk.parseCommit(commitToBan);
+        } catch (MissingObjectException e) {
+          // Ignore exception, non-existing commits can be banned.
+        } catch (IncorrectObjectTypeException e) {
+          result.notACommit(commitToBan);
+          continue;
         }
-        NotesBranchUtil notesBranchUtil =
-            notesBranchUtilFactory.create(project, repo, inserter);
-        NoteMap newlyCreated =
-            notesBranchUtil.commitNewNotes(banCommitNotes, REFS_REJECT_COMMITS,
-                createPersonIdent(), buildCommitMessage(commitsToBan, reason));
-
-        for (Note n : banCommitNotes) {
-          if (newlyCreated.contains(n)) {
-            result.commitBanned(n);
-          } else {
-            result.commitAlreadyBanned(n);
-          }
+        if (noteId == null) {
+          noteId = createNoteContent(reason, inserter);
         }
-        return result;
-      } finally {
-        revWalk.release();
-        inserter.release();
+        banCommitNotes.set(commitToBan, noteId);
       }
-    } finally {
-      repo.close();
+      NotesBranchUtil notesBranchUtil =
+          notesBranchUtilFactory.create(project, repo, inserter);
+      NoteMap newlyCreated =
+          notesBranchUtil.commitNewNotes(banCommitNotes, REFS_REJECT_COMMITS,
+              createPersonIdent(), buildCommitMessage(commitsToBan, reason));
+
+      for (Note n : banCommitNotes) {
+        if (newlyCreated.contains(n)) {
+          result.commitBanned(n);
+        } else {
+          result.commitAlreadyBanned(n);
+        }
+      }
+      return result;
     }
   }
 

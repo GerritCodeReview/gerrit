@@ -242,13 +242,10 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     if (id instanceof RevCommit) {
       return (RevCommit) id;
     }
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(id);
       walk.parseBody(commit);
       return commit;
-    } finally {
-      walk.release();
     }
   }
 

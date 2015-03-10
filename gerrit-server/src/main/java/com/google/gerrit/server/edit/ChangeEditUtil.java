@@ -109,8 +109,7 @@ public class ChangeEditUtil {
    */
   public Optional<ChangeEdit> byChange(Change change, IdentifiedUser user)
       throws IOException {
-    Repository repo = gitManager.openRepository(change.getProject());
-    try {
+    try (Repository repo = gitManager.openRepository(change.getProject())) {
       String editRefPrefix = editRefPrefix(user.getAccountId(), change.getId());
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(editRefPrefix);
       if (refs.isEmpty()) {
@@ -121,16 +120,11 @@ public class ChangeEditUtil {
       // where there is more than one ref, we could silently delete all but the
       // current one.
       Ref ref = Iterables.getOnlyElement(refs.values());
-      RevWalk rw = new RevWalk(repo);
-      try {
+      try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
         PatchSet basePs = getBasePatchSet(change, ref);
         return Optional.of(new ChangeEdit(user, change, ref, commit, basePs));
-      } finally {
-        rw.release();
       }
-    } finally {
-      repo.close();
     }
   }
 
@@ -150,29 +144,19 @@ public class ChangeEditUtil {
       NoSuchChangeException, IOException, InvalidChangeOperationException,
       OrmException, ResourceConflictException {
     Change change = edit.getChange();
-    Repository repo = gitManager.openRepository(change.getProject());
-    try {
-      RevWalk rw = new RevWalk(repo);
-      ObjectInserter inserter = repo.newObjectInserter();
-      try {
-
-        PatchSet basePatchSet = edit.getBasePatchSet();
-        if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
-          throw new ResourceConflictException(
-              "only edit for current patch set can be published");
-        }
-
-        insertPatchSet(edit, change, repo, rw, basePatchSet,
-            squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
-      } finally {
-        inserter.release();
-        rw.release();
+    try (Repository repo = gitManager.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(repo);
+        ObjectInserter inserter = repo.newObjectInserter()) {
+      PatchSet basePatchSet = edit.getBasePatchSet();
+      if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
+        throw new ResourceConflictException(
+            "only edit for current patch set can be published");
       }
 
+      insertPatchSet(edit, change, repo, rw, basePatchSet,
+          squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
       // TODO(davido): This should happen in the same BatchRefUpdate.
       deleteRef(repo, edit);
-    } finally {
-      repo.close();
     }
   }
 

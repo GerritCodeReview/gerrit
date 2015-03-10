@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37658cc4_1afbfdc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-10T09:50:51Z",
+      "side": 1,
+      "message": "when",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "c31749fc386437bee1d4be94d1638083bd5aa95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_9c0b8556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-10T09:50:51Z",
+      "side": 1,
+      "message": "I tried hard to reproduce this problem on both 2.10 and 2.11 but I couldn\u0027t.\n\nWhen the auth.gitBasicAuth\u003dtrue and the auth.type\u003dLDAP then *only* the LDAP password is accepted. (Re)generating the http-password doesn\u0027t have any effect and the (re)generated password is not accepted.\n\nTested with git clone operation.\n\nHow do you reproduce the issue?",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "c31749fc386437bee1d4be94d1638083bd5aa95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

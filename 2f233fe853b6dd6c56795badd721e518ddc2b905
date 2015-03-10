@@ -81,6 +81,30 @@
       "revId": "2f233fe853b6dd6c56795badd721e518ddc2b905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "177fa84d_c147e278",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-10T07:29:08Z",
+      "side": 1,
+      "message": "Is TrackingIdPredicate.match() still used?  Dave mentioned in [1] that many of them are not needed any more.\n\n[1] https://gerrit-review.googlesource.com/#/c/62880/7/gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java@60",
+      "parentUuid": "177fa84d_416bd2ed",
+      "range": {
+        "startLine": 301,
+        "startChar": 12,
+        "endLine": 303,
+        "endChar": 13
+      },
+      "revId": "2f233fe853b6dd6c56795badd721e518ddc2b905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

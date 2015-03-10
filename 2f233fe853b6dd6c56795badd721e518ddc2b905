@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_f71ae0a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-10T05:13:47Z",
+      "side": 1,
+      "message": "No, it doesn\u0027t work :(\n\nLooks like the approach I\u0027m taking here is wrong.  I don\u0027t think it can be done in a plugin; plugins are not (as far as I know) loaded when running the reindex program.",
+      "parentUuid": "45c5e522_6e99ef60",
+      "revId": "2f233fe853b6dd6c56795badd721e518ddc2b905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c5e522_4e94332a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2015-03-09T15:39:19Z",
       "side": 1,
       "message": "TrackingIdPredicate.match() uses the TrackingFooters.extract() to build the set its matching against.\n\nYou may be better pushing the loop into the TrackingFooters helper object to make it work in both the ChangeField and the TrackingIdPredicate.",
+      "range": {
+        "startLine": 301,
+        "startChar": 12,
+        "endLine": 303,
+        "endChar": 13
+      },
+      "revId": "2f233fe853b6dd6c56795badd721e518ddc2b905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "177fa84d_416bd2ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-10T05:13:47Z",
+      "side": 1,
+      "message": "That would mean changing the interface to TrackingFooters to include the whole commit message.  Currently it only takes the footers that have been already extracted from the commit message.",
+      "parentUuid": "45c5e522_4e94332a",
       "range": {
         "startLine": 301,
         "startChar": 12,

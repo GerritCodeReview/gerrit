@@ -74,6 +74,24 @@
       "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37658cc4_ba39310d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-10T20:07:59Z",
+      "side": 1,
+      "message": "Hmm... do we actually already detect all other kind of inconsistencies in the LDAP configuration already? If yes, then I should do as you suggest. If not then a full consistency check of the ldap configuration should probably be done in its own change.",
+      "parentUuid": "37658cc4_5a0ad54d",
+      "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_b7ace8a1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-10T20:50:26Z",
+      "side": 1,
+      "message": "That\u0027s a reasonable explanation but it\u0027s not what our current Eclipse configuration does.\n\nThe problem is the import organizer I use in my editor doesn\u0027t match Eclipse exactly in this case.",
+      "parentUuid": "d76190bc_570aac4d",
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b7106885",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1

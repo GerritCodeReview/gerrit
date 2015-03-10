@@ -92,6 +92,24 @@
       "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_dc2eedbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-10T20:17:00Z",
+      "side": 1,
+      "message": "Agreed. And probably not on stable branch, but on master.",
+      "parentUuid": "37658cc4_ba39310d",
+      "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

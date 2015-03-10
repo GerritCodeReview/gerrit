@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "177fa84d_a159fe69",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-10T02:15:21Z",
+      "side": 1,
+      "message": "\u003e This being the first file I am reviewing, I wonder if USER is sbeller or \"Stefan Beller\" or sbeller@google.com or any of these? \n\nIt is actually more like this:\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-id\n\nThat should probably be verified and linked to from here. But really it\u0027s just the same as the USER placeholders elsewhere in this file.",
+      "parentUuid": "177fa84d_612376d6",
+      "range": {
+        "startLine": 332,
+        "startChar": 52,
+        "endLine": 332,
+        "endChar": 58
+      },
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "177fa84d_c15e024f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-10T02:15:21Z",
+      "side": 1,
+      "message": "Oops.",
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b7106885",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1
@@ -36,6 +77,30 @@
       "writtenOn": "2015-03-10T02:07:49Z",
       "side": 1,
       "message": "How do you determine the order here?",
+      "range": {
+        "startLine": 1127,
+        "startChar": 0,
+        "endLine": 1128,
+        "endChar": 48
+      },
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_d715dc73",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-10T02:15:21Z",
+      "side": 1,
+      "message": "Reverse order by last updated. In setTimeForTesting() above we use a fake clock that ticks by 1ms on each call, so this ordering is guaranteed.",
+      "parentUuid": "d76190bc_b7106885",
       "range": {
         "startLine": 1127,
         "startChar": 0,

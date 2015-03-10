@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_570aac4d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-10T06:07:36Z",
+      "side": 1,
+      "message": "I thought this was intentional as it separates different \"classes\" of imports(google, java, org)",
+      "parentUuid": "177fa84d_c15e024f",
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b7106885",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1

@@ -158,71 +158,63 @@ public class CreateChange implements
     }
 
     Project.NameKey project = rsrc.getNameKey();
-    Repository git = gitManager.openRepository(project);
-
-    try {
-      RevWalk rw = new RevWalk(git);
-      try {
-        ObjectId parentCommit;
-        if (input.baseChange != null) {
-          List<Change> changes = changeUtil.findChanges(input.baseChange);
-          if (changes.size() != 1) {
-            throw new InvalidChangeOperationException(
-                "Base change not found: " + input.baseChange);
-          }
-          Change change = Iterables.getOnlyElement(changes);
-          if (!rsrc.getControl().controlFor(change).isVisible(db.get())) {
-            throw new InvalidChangeOperationException(
-                "Base change not found: " + input.baseChange);
-          }
-          PatchSet ps = db.get().patchSets().get(
-              new PatchSet.Id(change.getId(),
-              change.currentPatchSetId().get()));
-          parentCommit = ObjectId.fromString(ps.getRevision().get());
-        } else {
-          Ref destRef = git.getRef(refName);
-          if (destRef == null) {
-            throw new UnprocessableEntityException(String.format(
-                "Branch %s does not exist.", refName));
-          }
-          parentCommit = destRef.getObjectId();
+    try (Repository git = gitManager.openRepository(project);
+        RevWalk rw = new RevWalk(git)) {
+      ObjectId parentCommit;
+      if (input.baseChange != null) {
+        List<Change> changes = changeUtil.findChanges(input.baseChange);
+        if (changes.size() != 1) {
+          throw new InvalidChangeOperationException(
+              "Base change not found: " + input.baseChange);
         }
-        RevCommit mergeTip = rw.parseCommit(parentCommit);
-
-        Timestamp now = TimeUtil.nowTs();
-        IdentifiedUser me = (IdentifiedUser) userProvider.get();
-        PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-
-        ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
-            mergeTip, author, author, input.subject);
-        String commitMessage = ChangeIdUtil.insertId(input.subject, id);
-
-        RevCommit c = newCommit(git, rw, author, mergeTip, commitMessage);
-
-        Change change = new Change(
-            getChangeId(id, c),
-            new Change.Id(db.get().nextChangeId()),
-            me.getAccountId(),
-            new Branch.NameKey(project, refName),
-            now);
-
-        ChangeInserter ins =
-            changeInserterFactory.create(refControl.getProjectControl(),
-                change, c);
-
-        validateCommit(git, refControl, c, me, ins);
-        updateRef(git, rw, c, change, ins.getPatchSet());
-
-        change.setTopic(input.topic);
-        ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
-        ins.insert();
-
-        return Response.created(json.format(change.getId()));
-      } finally {
-        rw.release();
+        Change change = Iterables.getOnlyElement(changes);
+        if (!rsrc.getControl().controlFor(change).isVisible(db.get())) {
+          throw new InvalidChangeOperationException(
+              "Base change not found: " + input.baseChange);
+        }
+        PatchSet ps = db.get().patchSets().get(
+            new PatchSet.Id(change.getId(),
+            change.currentPatchSetId().get()));
+        parentCommit = ObjectId.fromString(ps.getRevision().get());
+      } else {
+        Ref destRef = git.getRef(refName);
+        if (destRef == null) {
+          throw new UnprocessableEntityException(String.format(
+              "Branch %s does not exist.", refName));
+        }
+        parentCommit = destRef.getObjectId();
       }
-    } finally {
-      git.close();
+      RevCommit mergeTip = rw.parseCommit(parentCommit);
+
+      Timestamp now = TimeUtil.nowTs();
+      IdentifiedUser me = (IdentifiedUser) userProvider.get();
+      PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+
+      ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
+          mergeTip, author, author, input.subject);
+      String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+
+      RevCommit c = newCommit(git, rw, author, mergeTip, commitMessage);
+
+      Change change = new Change(
+          getChangeId(id, c),
+          new Change.Id(db.get().nextChangeId()),
+          me.getAccountId(),
+          new Branch.NameKey(project, refName),
+          now);
+
+      ChangeInserter ins =
+          changeInserterFactory.create(refControl.getProjectControl(),
+              change, c);
+
+      validateCommit(git, refControl, c, me, ins);
+      updateRef(git, rw, c, change, ins.getPatchSet());
+
+      change.setTopic(input.topic);
+      ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
+      ins.insert();
+
+      return Response.created(json.format(change.getId()));
     }
   }
 
@@ -275,8 +267,7 @@ public class CreateChange implements
       PersonIdent authorIdent, RevCommit mergeTip, String commitMessage)
       throws IOException {
     RevCommit emptyCommit;
-    ObjectInserter oi = git.newObjectInserter();
-    try {
+    try (ObjectInserter oi = git.newObjectInserter()) {
       CommitBuilder commit = new CommitBuilder();
       commit.setTreeId(mergeTip.getTree().getId());
       commit.setParentId(mergeTip);
@@ -284,8 +275,6 @@ public class CreateChange implements
       commit.setCommitter(authorIdent);
       commit.setMessage(commitMessage);
       emptyCommit = rw.parseCommit(insert(oi, commit));
-    } finally {
-      oi.release();
     }
     return emptyCommit;
   }

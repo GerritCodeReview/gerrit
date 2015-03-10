@@ -137,49 +137,41 @@ public class AllProjectsConfig extends VersionedMetaData {
       throw new IOException("All-Projects does not exist.");
     }
 
-    Repository repo = new FileRepository(path);
-    try {
+    try (Repository repo = new FileRepository(path)) {
       inserter = repo.newObjectInserter();
       reader = repo.newObjectReader();
-      try {
-        RevWalk rw = new RevWalk(reader);
-        try {
-          RevTree srcTree = revision != null ? rw.parseTree(revision) : null;
-          newTree = readTree(srcTree);
-          saveConfig(ProjectConfig.PROJECT_CONFIG, cfg);
-          saveGroupList();
-          ObjectId res = newTree.writeTree(inserter);
-          if (res.equals(srcTree)) {
-            // If there are no changes to the content, don't create the commit.
-            return;
-          }
-
-          CommitBuilder commit = new CommitBuilder();
-          commit.setAuthor(ident);
-          commit.setCommitter(ident);
-          commit.setMessage(msg);
-          commit.setTreeId(res);
-          if (revision != null) {
-            commit.addParentId(revision);
-          }
-          ObjectId newRevision = inserter.insert(commit);
-          updateRef(repo, ident, newRevision, "commit: " + msg);
-          revision = newRevision;
-        } finally {
-          rw.release();
+      try (RevWalk rw = new RevWalk(reader)) {
+        RevTree srcTree = revision != null ? rw.parseTree(revision) : null;
+        newTree = readTree(srcTree);
+        saveConfig(ProjectConfig.PROJECT_CONFIG, cfg);
+        saveGroupList();
+        ObjectId res = newTree.writeTree(inserter);
+        if (res.equals(srcTree)) {
+          // If there are no changes to the content, don't create the commit.
+          return;
         }
+
+        CommitBuilder commit = new CommitBuilder();
+        commit.setAuthor(ident);
+        commit.setCommitter(ident);
+        commit.setMessage(msg);
+        commit.setTreeId(res);
+        if (revision != null) {
+          commit.addParentId(revision);
+        }
+        ObjectId newRevision = inserter.insert(commit);
+        updateRef(repo, ident, newRevision, "commit: " + msg);
+        revision = newRevision;
       } finally {
         if (inserter != null) {
-          inserter.release();
+          inserter.close();
           inserter = null;
         }
         if (reader != null) {
-          reader.release();
+          reader.close();
           reader = null;
         }
       }
-    } finally {
-      repo.close();
     }
 
     // we need to invalidate the JGit cache if the group list is invalidated in

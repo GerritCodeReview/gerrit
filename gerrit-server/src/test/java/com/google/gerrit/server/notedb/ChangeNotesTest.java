@@ -348,13 +348,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     hashtags.add("tag2");
     update.setHashtags(hashtags);
     update.commit();
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertTrue(commit.getFullMessage().endsWith("Hashtags: tag1,tag2\n"));
-    } finally {
-      walk.release();
     }
   }
 
@@ -433,8 +430,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update2.putApproval("Code-Review", (short) 2);
     update2.writeCommit(batch);
 
-    RevWalk rw = new RevWalk(repo);
-    try {
+    try (RevWalk rw = new RevWalk(repo)) {
       batch.commit();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
 
@@ -464,7 +460,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       notesWithApprovals.close();
     } finally {
       batch.close();
-      rw.release();
     }
   }
 
@@ -506,11 +501,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertEquals(update1.getRefName(), cmds.get(0).getRefName());
     assertEquals(update2.getRefName(), cmds.get(1).getRefName());
 
-    RevWalk rw = new RevWalk(repo);
-    try {
+    try (RevWalk rw = new RevWalk(repo)) {
       bru.execute(rw, NullProgressMonitor.INSTANCE);
-    } finally {
-      rw.release();
     }
 
     assertEquals(ReceiveCommand.Result.OK, cmds.get(0).getResult());
@@ -712,43 +704,44 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    RevWalk walk = new RevWalk(repo);
-    ArrayList<Note> notesInTree =
-        Lists.newArrayList(notes.getNoteMap().iterator());
-    Note note = Iterables.getOnlyElement(notesInTree);
+    try (RevWalk walk = new RevWalk(repo)) {
+      ArrayList<Note> notesInTree =
+          Lists.newArrayList(notes.getNoteMap().iterator());
+      Note note = Iterables.getOnlyElement(notesInTree);
 
-    byte[] bytes =
-        walk.getObjectReader().open(
-            note.getData(), Constants.OBJ_BLOB).getBytes();
-    String noteString = new String(bytes, UTF_8);
-    assertEquals("Patch-set: 1\n"
-        + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-        + "File: file1\n"
-        + "\n"
-        + "1:1-2:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid1\n"
-        + "Bytes: 9\n"
-        + "comment 1\n"
-        + "\n"
-        + "2:1-3:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid2\n"
-        + "Bytes: 9\n"
-        + "comment 2\n"
-        + "\n"
-        + "File: file2\n"
-        + "\n"
-        + "3:1-4:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time3) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid3\n"
-        + "Bytes: 9\n"
-        + "comment 3\n"
-        + "\n",
-        noteString);
+      byte[] bytes =
+          walk.getObjectReader().open(
+              note.getData(), Constants.OBJ_BLOB).getBytes();
+      String noteString = new String(bytes, UTF_8);
+      assertEquals("Patch-set: 1\n"
+          + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "File: file1\n"
+          + "\n"
+          + "1:1-2:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid1\n"
+          + "Bytes: 9\n"
+          + "comment 1\n"
+          + "\n"
+          + "2:1-3:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid2\n"
+          + "Bytes: 9\n"
+          + "comment 2\n"
+          + "\n"
+          + "File: file2\n"
+          + "\n"
+          + "3:1-4:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time3) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid3\n"
+          + "Bytes: 9\n"
+          + "comment 3\n"
+          + "\n",
+          noteString);
+    }
   }
 
   @Test
@@ -782,34 +775,35 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    RevWalk walk = new RevWalk(repo);
-    ArrayList<Note> notesInTree =
-        Lists.newArrayList(notes.getNoteMap().iterator());
-    Note note = Iterables.getOnlyElement(notesInTree);
+    try (RevWalk walk = new RevWalk(repo)) {
+      ArrayList<Note> notesInTree =
+          Lists.newArrayList(notes.getNoteMap().iterator());
+      Note note = Iterables.getOnlyElement(notesInTree);
 
-    byte[] bytes =
-        walk.getObjectReader().open(
-            note.getData(), Constants.OBJ_BLOB).getBytes();
-    String noteString = new String(bytes, UTF_8);
-    assertEquals("Base-for-patch-set: 1\n"
-        + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-        + "File: file1\n"
-        + "\n"
-        + "1:1-2:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid1\n"
-        + "Bytes: 9\n"
-        + "comment 1\n"
-        + "\n"
-        + "2:1-3:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid2\n"
-        + "Bytes: 9\n"
-        + "comment 2\n"
-        + "\n",
-        noteString);
+      byte[] bytes =
+          walk.getObjectReader().open(
+              note.getData(), Constants.OBJ_BLOB).getBytes();
+      String noteString = new String(bytes, UTF_8);
+      assertEquals("Base-for-patch-set: 1\n"
+          + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "File: file1\n"
+          + "\n"
+          + "1:1-2:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid1\n"
+          + "Bytes: 9\n"
+          + "comment 1\n"
+          + "\n"
+          + "2:1-3:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid2\n"
+          + "Bytes: 9\n"
+          + "comment 2\n"
+          + "\n",
+          noteString);
+    }
   }
 
   @Test

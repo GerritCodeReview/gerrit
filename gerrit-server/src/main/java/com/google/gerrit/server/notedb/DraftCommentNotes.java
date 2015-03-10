@@ -132,16 +132,14 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       return;
     }
 
-    RevWalk walk = new RevWalk(reader);
-    try (DraftCommentNotesParser parser = new DraftCommentNotesParser(
-        getChangeId(), walk, rev, repoManager, draftsProject, author)) {
+    try (RevWalk walk = new RevWalk(reader);
+        DraftCommentNotesParser parser = new DraftCommentNotesParser(
+          getChangeId(), walk, rev, repoManager, draftsProject, author)) {
       parser.parseDraftComments();
 
       buildCommentTable(draftBaseComments, parser.draftBaseComments);
       buildCommentTable(draftPsComments, parser.draftPsComments);
       noteMap = parser.noteMap;
-    } finally {
-      walk.release();
     }
   }
 

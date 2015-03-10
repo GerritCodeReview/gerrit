@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37658cc4_7a079944",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-10T19:45:08Z",
+      "side": 1,
+      "message": "Bug: Issue 3201",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_7c079944",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-10T19:45:08Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37658cc4_5a0ad54d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-10T19:45:08Z",
+      "side": 1,
+      "message": "These kind of problems are very hard to track down. In the documentation it\u0027s stated:\n\n  Default is unset for RFC 2307 servers (disabled)\n  and `memberOf` for Active Directory.\n\nYet the code says:\n\n  @Override\n  String accountMemberField() {\n    return null; // Not defined in RFC 2307\n  }\n\nSo now the user can misconfigure the LDAP setting, by saying both (no matter what backend is used):\n\n  accountMemberField \u003d memberOf\n  groupMemberPattern \u003d (\u0026(objectClass\u003dgroup)(member\u003d${dn}))\n  fetchMemberOfEagerly \u003d true\n\nUser supplied invalid configuration for actual backend. The invalid configuration is either ignored or the code is failing, or we are trying the cure the symptoms, by adding obfuscated checks to detect and ignore the misconfiguration. How about to cure the disease instead: reject invalid configuration (throw configuration exception and refuse to start) that is in contradiction with the actual backend?\n\nAt very least extend LdapType class with is\u003cBackend\u003e() checks, e.g.:\n\n  abstract boolean isActiveDirectory();\n  abstract boolean isRfc2307();\n\nand implement them correspondingly, so that the check above is self-explained:\n\n  if (fetchMemberOf \u0026\u0026 schema.type.isActiveDirectory()) {\n  [...]",
+      "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

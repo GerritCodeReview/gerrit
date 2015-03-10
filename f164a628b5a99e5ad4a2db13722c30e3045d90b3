@@ -56,6 +56,24 @@
       "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_9c346516",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-10T20:04:20Z",
+      "side": 1,
+      "message": "\u003e User supplied invalid configuration for actual backend. The invalid configuration is either ignored or the code is failing, or we are trying the cure the symptoms, by adding obfuscated checks\n\nAgreed.\n\n\u003e reject invalid configuration (throw configuration exception and refuse to start) \n\nAlso agreed.\n\n\u003e At very least extend LdapType class with is\u003cBackend\u003e() checks, e.g.:\n  abstract boolean isActiveDirectory();\n  abstract boolean isRfc2307();\n\nOr have the consistency checks performed in the type itself.",
+      "parentUuid": "37658cc4_5a0ad54d",
+      "revId": "f164a628b5a99e5ad4a2db13722c30e3045d90b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

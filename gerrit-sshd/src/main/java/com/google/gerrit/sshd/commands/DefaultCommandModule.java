@@ -79,7 +79,12 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, CreateProjectCommand.class);
     command(gerrit, SetHeadCommand.class);
     command(gerrit, AdminQueryShell.class);
-    if (!slaveMode) {
+    if (slaveMode) {
+      command("git-receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
+      command("gerrit-receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
+      command(git, "receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
+      command(gerrit, "test-submit").to(NotSupportedInSlaveModeFailureCommand.class);
+    } else {
       command("git-receive-pack").to(Commands.key(git, "receive-pack"));
       command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
       command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));

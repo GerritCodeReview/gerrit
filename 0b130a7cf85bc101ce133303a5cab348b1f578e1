@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "177fa84d_612376d6",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-10T02:07:49Z",
+      "side": 1,
+      "message": "This being the first file I am reviewing, I wonder if USER is sbeller or \"Stefan Beller\" or sbeller@google.com or any of these? \n\nDo you intend to add wildcards as well (I cannot remember if you, David P{letcher, ursehouse} made the comment, so I want to search for \u0027commentby:Dav* topic:foo is:merged\u0027 maybe.",
+      "range": {
+        "startLine": 332,
+        "startChar": 52,
+        "endLine": 332,
+        "endChar": 58
+      },
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_b7106885",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-10T02:07:49Z",
+      "side": 1,
+      "message": "How do you determine the order here?",
+      "range": {
+        "startLine": 1127,
+        "startChar": 0,
+        "endLine": 1128,
+        "endChar": 48
+      },
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

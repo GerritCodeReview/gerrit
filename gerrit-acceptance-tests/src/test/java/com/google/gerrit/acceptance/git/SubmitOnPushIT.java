@@ -73,9 +73,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.CREATE, project, "refs/tags/*");
     grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
     push.setTag(tag);
-    PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
+    PushOneCommit.Result r = push.to("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
@@ -90,9 +90,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.AnnotatedTag tag =
         new PushOneCommit.AnnotatedTag("v1.0", "annotation", admin.getIdent());
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
     push.setTag(tag);
-    PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
+    PushOneCommit.Result r = push.to("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
@@ -273,15 +273,15 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private PushOneCommit.Result push(String ref, String subject,
       String fileName, String content) throws GitAPIException, IOException {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), subject, fileName, content);
-    return push.to(git, ref);
+        pushFactory.create(db, admin.getIdent(), git, subject, fileName, content);
+    return push.to(ref);
   }
 
   private PushOneCommit.Result push(String ref, String subject,
       String fileName, String content, String changeId) throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), subject,
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git, subject,
         fileName, content, changeId);
-    return push.to(git, ref);
+    return push.to(ref);
   }
 }

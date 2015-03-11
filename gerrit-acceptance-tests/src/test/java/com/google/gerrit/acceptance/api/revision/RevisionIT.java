@@ -214,9 +214,9 @@ public class RevisionIT extends AbstractDaemonTest {
     String subject = "Test change\n\n" +
         "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), subject,
+        pushFactory.create(db, admin.getIdent(), git, subject,
             "another_file.txt", "another content");
-    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+    PushOneCommit.Result r2 = push.to("refs/for/master");
 
     // Change 2's parent should be change 1
     assertThat(r2.getCommit().getParents()[0].name())
@@ -283,9 +283,9 @@ public class RevisionIT extends AbstractDaemonTest {
         .create(new BranchInput());
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, "another content");
-    push.to(git, "refs/heads/foo");
+    push.to("refs/heads/foo");
 
     ChangeApi orig = gApi.changes().id("p~master~" + r.getChangeId());
     assertThat((Iterable<?>)orig.get().messages).hasSize(1);
@@ -300,12 +300,12 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void canRebase() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    PushOneCommit.Result r1 = push.to(git, "refs/for/master");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
     merge(r1);
 
-    push = pushFactory.create(db, admin.getIdent());
-    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+    push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit.Result r2 = push.to("refs/for/master");
     boolean canRebase = gApi.changes()
         .id(r2.getChangeId())
         .revision(r2.getCommit().name())
@@ -314,8 +314,8 @@ public class RevisionIT extends AbstractDaemonTest {
     merge(r2);
 
     git.checkout().setName(r1.getCommit().name()).call();
-    push = pushFactory.create(db, admin.getIdent());
-    PushOneCommit.Result r3 = push.to(git, "refs/for/master");
+    push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit.Result r3 = push.to("refs/for/master");
 
     canRebase = gApi.changes()
         .id(r3.getChangeId())
@@ -326,8 +326,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void setUnsetReviewedFlag() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    PushOneCommit.Result r = push.to(git, "refs/for/master");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit.Result r = push.to("refs/for/master");
 
     gApi.changes()
         .id(r.getChangeId())
@@ -354,10 +354,10 @@ public class RevisionIT extends AbstractDaemonTest {
     ObjectId initial = git.getRepository().getRef(HEAD).getLeaf().getObjectId();
 
     PushOneCommit push1 =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, "push 1 content");
 
-    PushOneCommit.Result r1 = push1.to(git, "refs/for/master");
+    PushOneCommit.Result r1 = push1.to("refs/for/master");
     assertMergeable(r1.getChangeId(), true);
     merge(r1);
 
@@ -367,9 +367,9 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 
     PushOneCommit push2 =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, "push 2 content");
-    PushOneCommit.Result r2 = push2.to(git, "refs/for/master");
+    PushOneCommit.Result r2 = push2.to("refs/for/master");
     assertMergeable(r2.getChangeId(), false);
     // TODO(dborowitz): Test for other-branches.
   }
@@ -522,14 +522,14 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r,
       String content) throws GitAPIException, IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
         "test commit", "a.txt", content, r.getChangeId());
-    return push.to(git, "refs/for/master");
+    return push.to("refs/for/master");
   }
 
   private PushOneCommit.Result createDraft() throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, "refs/drafts/master");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    return push.to("refs/drafts/master");
   }
 }

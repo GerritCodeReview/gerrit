@@ -123,9 +123,9 @@ public class ActionsIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChangeWithTopic(String topic) throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
     assertThat(topic).isNotEmpty();
-    return push.to(git, "refs/for/master/" + topic);
+    return push.to("refs/for/master/" + topic);
   }
 
   private void approve(String changeId) throws IOException {

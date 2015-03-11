@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc449d2_84cb4650",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T21:26:26Z",
+      "side": 1,
+      "message": "This arg should be before the callback. By convention the callback is always the last argument.",
+      "range": {
+        "startLine": 593,
+        "startChar": 10,
+        "endLine": 593,
+        "endChar": 34
+      },
+      "revId": "f187f80ad8be2c773b1edc2cb3c3a5bb9e03ae69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_e4d03afa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T21:26:26Z",
+      "side": 1,
+      "message": "by convention, declare before the callback.",
+      "range": {
+        "startLine": 38,
+        "startChar": 41,
+        "endLine": 38,
+        "endChar": 57
+      },
+      "revId": "f187f80ad8be2c773b1edc2cb3c3a5bb9e03ae69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_c4d53ee8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T21:26:26Z",
+      "side": 1,
+      "message": "by convention, declare before the callback",
+      "range": {
+        "startLine": 61,
+        "startChar": 53,
+        "endLine": 61,
+        "endChar": 68
+      },
+      "revId": "f187f80ad8be2c773b1edc2cb3c3a5bb9e03ae69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_775b300a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T21:26:26Z",
+      "side": 1,
+      "message": "method should be static",
+      "revId": "f187f80ad8be2c773b1edc2cb3c3a5bb9e03ae69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

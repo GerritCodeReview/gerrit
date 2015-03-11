@@ -104,7 +104,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   private String createMyChange() throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, user.getIdent());
-    return push.to(git, "refs/for/master").getChangeId();
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), git);
+    return push.to("refs/for/master").getChangeId();
   }
 }

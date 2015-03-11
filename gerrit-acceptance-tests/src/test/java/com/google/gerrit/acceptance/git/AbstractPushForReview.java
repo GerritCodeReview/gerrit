@@ -190,9 +190,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all.get(0).value).is(1);
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
-    r = push.to(git, "refs/for/master/%l=Code-Review+2");
+    r = push.to("refs/for/master/%l=Code-Review+2");
 
     ci = get(r.getChangeId());
     cr = ci.labels.get("Code-Review");
@@ -207,9 +207,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
-    r = push.to(git, "refs/changes/" + r.getChange().change().getId().get());
+    r = push.to("refs/changes/" + r.getChange().change().getId().get());
     r.assertOkStatus();
   }
 
@@ -255,9 +255,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // specify a single hashtag as option in new patch set
     String hashtag2 = "tag2";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
-    r = push.to(git, "refs/for/master/%hashtag=" + hashtag2);
+    r = push.to("refs/for/master/%hashtag=" + hashtag2);
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
@@ -287,10 +287,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String hashtag3 = "tag3";
     String hashtag4 = "tag4";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
-    r = push.to(git,
-        "refs/for/master%hashtag=" + hashtag3 + ",hashtag=" + hashtag4);
+    r = push.to("refs/for/master%hashtag=" + hashtag3 + ",hashtag=" + hashtag4);
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2, hashtag3, hashtag4);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();

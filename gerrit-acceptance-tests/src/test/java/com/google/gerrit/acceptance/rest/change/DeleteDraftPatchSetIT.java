@@ -81,11 +81,11 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
 
   private String createDraftChangeWith2PS() throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    Result result = push.to(git, "refs/drafts/master");
-    push = pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    Result result = push.to("refs/drafts/master");
+    push = pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
         "b.txt", "4711", result.getChangeId());
-    return push.to(git, "refs/drafts/master").getChangeId();
+    return push.to("refs/drafts/master").getChangeId();
   }
 
   private PatchSet getCurrentPatchSet(String changeId) throws OrmException {

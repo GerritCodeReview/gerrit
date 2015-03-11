@@ -46,6 +46,9 @@ public class GarbageCollectionCommand extends SshCommand {
   @Option(name = "--show-progress", usage = "progress information is shown")
   private boolean showProgress;
 
+  @Option(name = "--aggressive", usage = "run aggressive garbage collection")
+  private boolean aggressive;
+
   @Argument(index = 0, required = false, multiValued = true, metaVar = "NAME",
       usage = "projects for which the Git garbage collection should be run")
   private List<ProjectControl> projects = new ArrayList<>();
@@ -85,7 +88,8 @@ public class GarbageCollectionCommand extends SshCommand {
     }
 
     GarbageCollectionResult result =
-        garbageCollectionFactory.create().run(projectNames, showProgress ? stdout : null);
+        garbageCollectionFactory.create().run(projectNames, aggressive,
+            showProgress ? stdout : null);
     if (result.hasErrors()) {
       for (GarbageCollectionResult.Error e : result.getErrors()) {
         String msg;

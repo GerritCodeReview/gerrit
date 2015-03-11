@@ -590,7 +590,7 @@ public class Gerrit implements EntryPoint {
             }
             display(token);
           }
-        }));
+        }), hpd.pluginsLoadTimeout);
   }
 
   private void saveDefaultTheme() {

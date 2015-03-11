@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_97f524a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-11T01:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d76190bc_d78a3c18",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 80
+      },
+      "revId": "d202683757a8477a40e8e477156798fd91610114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_17859406",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_d7ff9c7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-11T01:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d76190bc_f78f4025",
+      "range": {
+        "startLine": 22,
+        "startChar": 31,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "d202683757a8477a40e8e477156798fd91610114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_b7fa288e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-11T01:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d76190bc_17859406",
+      "range": {
+        "startLine": 22,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 58
+      },
+      "revId": "d202683757a8477a40e8e477156798fd91610114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_04f596d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-03-11T00:46:34Z",
       "side": 1,
       "message": "Direct link to that discussion:\n\nhttps://groups.google.com/d/msg/repo-discuss/ZtiCilM3wFA/LijfZ4YkLHsJ",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 105
+      },
+      "revId": "d202683757a8477a40e8e477156798fd91610114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_f704a015",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-11T01:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc449d2_04f596d0",
       "range": {
         "startLine": 29,
         "startChar": 3,

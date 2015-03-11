@@ -127,15 +127,15 @@ public class LabelTypeIT extends AbstractDaemonTest {
     String file = "a.txt";
     String contents = "contents";
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
         "first subject", file, contents);
-    PushOneCommit.Result r = push.to(git, "refs/for/master");
+    PushOneCommit.Result r = push.to("refs/for/master");
     revision(r).review(ReviewInput.recommend());
     assertApproval(r, 1);
 
-    push = pushFactory.create(db, admin.getIdent(),
+    push = pushFactory.create(db, admin.getIdent(), git,
         "second subject", file, contents, r.getChangeId());
-    r = push.to(git, "refs/for/master");
+    r = push.to("refs/for/master");
     assertApproval(r, 0);
   }
 
@@ -146,15 +146,15 @@ public class LabelTypeIT extends AbstractDaemonTest {
     codeReview.setCopyAllScoresIfNoCodeChange(true);
     saveLabelConfig();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
         "first subject", file, contents);
-    PushOneCommit.Result r = push.to(git, "refs/for/master");
+    PushOneCommit.Result r = push.to("refs/for/master");
     revision(r).review(ReviewInput.recommend());
     assertApproval(r, 1);
 
-    push = pushFactory.create(db, admin.getIdent(),
+    push = pushFactory.create(db, admin.getIdent(), git,
         "second subject", file, contents, r.getChangeId());
-    r = push.to(git, "refs/for/master");
+    r = push.to("refs/for/master");
     assertApproval(r, 1);
   }
 
@@ -164,18 +164,18 @@ public class LabelTypeIT extends AbstractDaemonTest {
     String file = "a.txt";
     String contents = "contents";
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    PushOneCommit.Result r1 = push.to(git, "refs/for/master");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
     merge(r1);
 
-    push = pushFactory.create(db, admin.getIdent(),
+    push = pushFactory.create(db, admin.getIdent(), git,
         "non-conflicting", "b.txt", "other contents");
-    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+    PushOneCommit.Result r2 = push.to("refs/for/master");
     merge(r2);
 
     git.checkout().setName(r1.getCommit().name()).call();
-    push = pushFactory.create(db, admin.getIdent(), subject, file, contents);
-    PushOneCommit.Result r3 = push.to(git, "refs/for/master");
+    push = pushFactory.create(db, admin.getIdent(), git, subject, file, contents);
+    PushOneCommit.Result r3 = push.to("refs/for/master");
     revision(r3).review(ReviewInput.recommend());
     assertApproval(r3, 1);
 
@@ -191,18 +191,18 @@ public class LabelTypeIT extends AbstractDaemonTest {
     codeReview.setCopyAllScoresOnTrivialRebase(true);
     saveLabelConfig();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    PushOneCommit.Result r1 = push.to(git, "refs/for/master");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
     merge(r1);
 
-    push = pushFactory.create(db, admin.getIdent(),
+    push = pushFactory.create(db, admin.getIdent(), git,
         "non-conflicting", "b.txt", "other contents");
-    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+    PushOneCommit.Result r2 = push.to("refs/for/master");
     merge(r2);
 
     git.checkout().setName(r1.getCommit().name()).call();
-    push = pushFactory.create(db, admin.getIdent(), subject, file, contents);
-    PushOneCommit.Result r3 = push.to(git, "refs/for/master");
+    push = pushFactory.create(db, admin.getIdent(), git, subject, file, contents);
+    PushOneCommit.Result r3 = push.to("refs/for/master");
     revision(r3).review(ReviewInput.recommend());
     assertApproval(r3, 1);
 
@@ -218,9 +218,9 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     git.checkout().setName(r1.getCommit().name()).call();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
         PushOneCommit.SUBJECT, "b.txt", "other contents");
-    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+    PushOneCommit.Result r2 = push.to("refs/for/master");
 
     revision(r2).review(ReviewInput.recommend());
 
@@ -248,9 +248,9 @@ public class LabelTypeIT extends AbstractDaemonTest {
 
     git.checkout().setName(r1.getCommit().name()).call();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
         PushOneCommit.SUBJECT, "b.txt", "other contents");
-    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+    PushOneCommit.Result r2 = push.to("refs/for/master");
 
     revision(r2).review(ReviewInput.recommend());
 

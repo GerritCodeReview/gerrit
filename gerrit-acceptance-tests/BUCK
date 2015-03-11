@@ -35,6 +35,7 @@ java_library(
     '//lib/log:log4j',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
+    '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
     '//lib/mina:sshd',

@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
 @Target({METHOD})
 @Retention(RUNTIME)
 public @interface TestProjectInput {
+  // Fields from ProjectInput for creating the project.
+
   String parent() default "";
   boolean createEmptyCommit() default true;
   String description() default "";
@@ -38,4 +40,10 @@ public @interface TestProjectInput {
   InheritableBoolean useSignedOffBy() default InheritableBoolean.INHERIT;
   InheritableBoolean useContentMerge() default InheritableBoolean.INHERIT;
   InheritableBoolean requireChangeId() default InheritableBoolean.INHERIT;
+
+
+  // Fields specific to acceptance test behavior.
+
+  /** Username to use for initial clone, passed to {@link AccountCreator}. */
+  String cloneAs() default "admin";
 }

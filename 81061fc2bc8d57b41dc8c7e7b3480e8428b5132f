@@ -197,6 +197,24 @@
       "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_17b834bb",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-11T05:44:20Z",
+      "side": 0,
+      "message": "The downside of doing it like this is that if the change on the plugin is amended, or submitting that change causes a merge commit, then a new patch set is needed on this change to get the correct revision.",
+      "parentUuid": "d76190bc_3730d8eb",
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

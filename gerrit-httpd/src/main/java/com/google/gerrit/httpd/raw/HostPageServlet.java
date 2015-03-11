@@ -32,6 +32,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -57,6 +58,7 @@ import java.io.StringWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -68,6 +70,7 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
+  private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
   private static final Logger log =
       LoggerFactory.getLogger(HostPageServlet.class);
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
@@ -86,6 +89,7 @@ public class HostPageServlet extends HttpServlet {
   private final boolean refreshHeaderFooter;
   private final StaticServlet staticServlet;
   private final boolean isNoteDbEnabled;
+  private final Integer pluginsLoadTimeout;
   private volatile Page page;
 
   @Inject
@@ -109,6 +113,7 @@ public class HostPageServlet extends HttpServlet {
     refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
     staticServlet = ss;
     isNoteDbEnabled = migration.enabled();
+    pluginsLoadTimeout = getPluginsLoadTimeout(cfg);
 
     final String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -154,6 +159,16 @@ public class HostPageServlet extends HttpServlet {
 
     noCacheName = src;
     page = new Page();
+  }
+
+  private int getPluginsLoadTimeout(final Config cfg) {
+    long cfgValue =
+        ConfigUtil.getTimeUnit(cfg, "plugins", null, "jsLoadTimeout",
+            DEFAULT_JS_LOAD_TIMEOUT, TimeUnit.MILLISECONDS);
+    if (cfgValue < 0) {
+      return 0;
+    }
+    return (int) cfgValue;
   }
 
   private void json(final Object data, final StringWriter w) {
@@ -318,6 +333,7 @@ public class HostPageServlet extends HttpServlet {
       pageData.version = Version.getVersion();
       pageData.config = config;
       pageData.isNoteDbEnabled = isNoteDbEnabled;
+      pageData.pluginsLoadTimeout = pluginsLoadTimeout;
 
       final StringWriter w = new StringWriter();
       w.write("var " + HPD_ID + "=");

@@ -49,6 +49,52 @@
     },
     {
       "key": {
+        "uuid": "7cc449d2_046ab6ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:33:15Z",
+      "side": 1,
+      "message": "\"System\" messages created by Gerrit Code Review like \"Your change cannot be merged ...\" have null authors. This would NPE on those.",
+      "range": {
+        "startLine": 509,
+        "startChar": 18,
+        "endLine": 509,
+        "endChar": 37
+      },
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_d7cddc60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/CommentByPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:33:15Z",
+      "side": 1,
+      "message": "May NPE if the message was a system message. Flip this around since the field cannot be null and you fix that bug.",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "0b130a7cf85bc101ce133303a5cab348b1f578e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "177fa84d_c15e024f",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1

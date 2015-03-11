@@ -431,16 +431,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       return FileVisitResult.CONTINUE;
     }
 
-    @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-        throws IOException {
-      // Skip repositories named only `.git`
-      if (isRepo(file)) {
-        addProject(file);
-      }
-      return FileVisitResult.CONTINUE;
-    }
-
     private boolean isRepo(Path p) {
       return !p.getFileName().toString().equals(Constants.DOT_GIT)
           && FileKey.isGitRepository(p.toFile(), FS.DETECTED);

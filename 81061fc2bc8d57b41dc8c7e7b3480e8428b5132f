@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc449d2_c41d3e99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-11T04:23:44Z",
+      "side": 0,
+      "message": "What about this?",
+      "range": {
+        "startLine": 394,
+        "startChar": 6,
+        "endLine": 396,
+        "endChar": 5
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_2403723e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-11T04:23:44Z",
+      "side": 0,
+      "message": "Here you seem to be fixing a bug as there was no try catch before.",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 428,
+        "endChar": 26
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_0400f62d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-11T04:23:44Z",
+      "side": 0,
+      "message": "Just to make sure I understand the semantics correctly. Before you released the RevWalk and closed the Repository; Afterwards you auto-close the RevWalk and the TreeWalk, but what about the Repository? (The same as the comment on the previous file, the other way round)",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 255,
+        "endChar": 19
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_971e045f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-11T04:23:44Z",
+      "side": 0,
+      "message": "So in the previous file the TreeWalker was included in the try block?",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 66
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_b72308aa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-11T04:23:44Z",
+      "side": 0,
+      "message": "This could also go into the try block?\n\nCompared to  2nd previous file.\n\nEdit: Oh, I see, we may have a null pointing objects here. Do we need the special treatment for possible nulls or is the try-autoclose logic intelligent on that as well?",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 42
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_a435a20f",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-11T04:23:44Z",
+      "side": 0,
+      "message": "This is not mentioned in the commit message. Is that intentional?",
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

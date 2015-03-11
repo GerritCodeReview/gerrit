@@ -63,10 +63,10 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
     checkout(git, "origin/master");
     String file = conflicting ? "test.txt" : "test-" + count + ".txt";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), "Change " + count, file,
+        pushFactory.create(db, admin.getIdent(), git, "Change " + count, file,
             "content " + count);
     count++;
-    return push.to(git, "refs/for/master");
+    return push.to("refs/for/master");
   }
 
   private Set<String> queryConflictingChanges(PushOneCommit.Result change)

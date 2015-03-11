@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -148,6 +150,12 @@ public class AccountCreator {
   public TestAccount user2()
       throws UnsupportedEncodingException, OrmException, JSchException {
     return create("user2", "user2@example.com", "User2");
+  }
+
+  public TestAccount get(String username) {
+    return checkNotNull(
+        accounts.get(username),
+        "No TestAccount created for %s", username);
   }
 
   private AccountExternalId.Key getEmailKey(String email) {

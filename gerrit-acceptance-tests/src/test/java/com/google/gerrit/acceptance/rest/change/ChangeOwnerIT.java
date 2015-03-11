@@ -15,16 +15,14 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.common.data.Permission.LABEL;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -49,28 +47,27 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
+    setApiUser(user);
     sessionOwner = new RestSession(server, user);
-    SshSession sshSession = new SshSession(server, user);
-    initSsh(user);
-    sshSession.open();
-    testRepo = cloneProject(project, sshSession);
-    sshSession.close();
     user2 = accounts.user2();
     sessionDev = new RestSession(server, user2);
   }
 
   @Test
+  @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_OwnerACLNotGranted() throws Exception {
     approve(sessionOwner, createMyChange(), HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
+  @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_OwnerACLGranted() throws Exception {
     grantApproveToChangeOwner();
     approve(sessionOwner, createMyChange(), HttpStatus.SC_OK);
   }
 
   @Test
+  @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_NotOwnerACLGranted() throws Exception {
     grantApproveToChangeOwner();
     approve(sessionDev, createMyChange(), HttpStatus.SC_FORBIDDEN);

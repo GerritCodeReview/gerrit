@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "37658cc4_fab649f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37658cc4_1a577d2a",
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7799c4f8_fc41e964",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "7799c4f8_7c4eb990",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:19:16Z",
+      "side": 1,
+      "message": "It\u0027s not so straight forward. \"canLink\" is actually only for GitwebLink since WebLink\u0027s are supposed to handle this internally. \nSo if gw \u003d\u003d null then \"canLink\" has no effect. But setting it to \"false\" would imply that no links would be created.\nMaybe I should rename it to \"canCreateGitwebLink\"?",
+      "parentUuid": "37658cc4_5a51f531",
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7799c4f8_3c543123",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1
@@ -70,6 +106,24 @@
       "writtenOn": "2015-03-11T12:37:24Z",
       "side": 1,
       "message": "Nit: missing space after \",\"",
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_9ca705bf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7799c4f8_3c543123",
       "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "37658cc4_1a9cdd6a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7799c4f8_5c51fd31",
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37658cc4_7a4eb990",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1
@@ -104,6 +176,24 @@
       "writtenOn": "2015-03-11T12:37:24Z",
       "side": 1,
       "message": "Not part of the bug-fix. No need to wrap.",
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_bcacc1a1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37658cc4_7a4eb990",
       "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "37658cc4_3a99a17b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37658cc4_9aa70dbf",
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37658cc4_baacd1a1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
         "patchSetId": 1
@@ -138,6 +246,24 @@
       "writtenOn": "2015-03-11T12:37:24Z",
       "side": 1,
       "message": "Indentation error.",
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_dcb18dfc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37658cc4_baacd1a1",
       "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

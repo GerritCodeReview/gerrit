@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_37a37880",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffWorkerPool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-11T15:29:20Z",
+      "side": 1,
+      "message": "Do you have a suggestion how I could do it but easier than extracting the files to pass to the worker (this would involve a lot of changes which I am not confident putting on our production to be able to upgrade to gerrit 2.10)? \n\nI think it would be easier to modify jgit MyersDiff to be interruptible, WDYT?",
+      "parentUuid": "d76190bc_97c36437",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b7c86852",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc449d2_c4b9bee1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-11T11:00:21Z",
+      "side": 1,
+      "message": "too",
+      "range": {
+        "startLine": 16,
+        "startChar": 65,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "60b724a701cb7c843c20454ee3fc717aab7ced40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_249ff260",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2653,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-11T11:00:21Z",
+      "side": 1,
+      "message": "loading",
+      "range": {
+        "startLine": 2653,
+        "startChar": 26,
+        "endLine": 2653,
+        "endChar": 30
+      },
+      "revId": "60b724a701cb7c843c20454ee3fc717aab7ced40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_37de1804",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-11T11:00:21Z",
+      "side": 1,
+      "message": "name this so it\u0027s clearer it refers to javascript plugins?",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 35
+      },
+      "revId": "60b724a701cb7c843c20454ee3fc717aab7ced40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_57db8c12",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-11T11:00:21Z",
+      "side": 1,
+      "message": "Define this as a constant?",
+      "range": {
+        "startLine": 165,
+        "startChar": 70,
+        "endLine": 165,
+        "endChar": 74
+      },
+      "revId": "60b724a701cb7c843c20454ee3fc717aab7ced40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

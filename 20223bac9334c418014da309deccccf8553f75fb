@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cc449d2_0483d604",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc449d2_64244ade",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 69
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_44214ecc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-11T05:13:45Z",
       "side": 1,
       "message": "consider: new TreeWalk(rw.getObjectReader()) here",
+      "range": {
+        "startLine": 244,
+        "startChar": 22,
+        "endLine": 244,
+        "endChar": 40
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_6480caf6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc449d2_44214ecc",
       "range": {
         "startLine": 244,
         "startChar": 22,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "7cc449d2_a4f482a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 1,
+      "message": "Sigh, my Eclipse doesn\u0027t. But I feel like we\u0027ve gone back and forth on these BinaryResults before.\n\nI made a slight change that hopefully satisfies both of our Eclipses.",
+      "parentUuid": "d76190bc_37b538c4",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 33
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_640d6a66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
         "patchSetId": 6
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_f7790082",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 1,
+      "message": "Probably one side had a trailing newline and the other didn\u0027t. Doesn\u0027t really matter.",
+      "parentUuid": "7cc449d2_640d6a66",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 84,
+        "endChar": 1
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_440aee4f",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
         "patchSetId": 6
@@ -128,6 +224,30 @@
       "writtenOn": "2015-03-11T04:23:44Z",
       "side": 1,
       "message": "This is just adding an empty line, ok.",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 1
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_84f9869c",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 1,
+      "message": "The output of \"git diff\" might be a little more informative:\n\n $ git diff HEAD~ **/PRED_commit_edits_2.java | tail -n 5\n      return new Text(reader.open(tw.getObjectId(0), Constants.OBJ_BLOB));\n    }\n -}\n \\ No newline at end of file\n +}\n\nThat newline was added by my editor. It\u0027s never seemed worth it to care about this.",
+      "parentUuid": "7cc449d2_440aee4f",
       "range": {
         "startLine": 161,
         "startChar": 0,

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_77adf065",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 0,
+      "message": "Yes, this was a bug. In assertRebase above, for example, the repo is accessed after the close.",
+      "parentUuid": "7cc449d2_242a52ae",
+      "range": {
+        "startLine": 394,
+        "startChar": 6,
+        "endLine": 396,
+        "endChar": 5
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_2403723e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 6
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_977a8477",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 0,
+      "message": "Yes, this is the general case of fixing an Eclipse warning for not closing a resource. It couldn\u0027t provide these warnings until DiffFormatter and friends became AutoCloseable.\n\nI will mention in the commit message that I fixed all such warnings.",
+      "parentUuid": "7cc449d2_042756e4",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 428,
+        "endChar": 26
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_0400f62d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 6
@@ -107,6 +155,30 @@
       "writtenOn": "2015-03-11T04:23:44Z",
       "side": 0,
       "message": "Just to make sure I understand the semantics correctly. Before you released the RevWalk and closed the Repository; Afterwards you auto-close the RevWalk and the TreeWalk, but what about the Repository? (The same as the comment on the previous file, the other way round)",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 255,
+        "endChar": 19
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_b77f8866",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 0,
+      "message": "I missed this, as Shawn notes on PS6 the repo should be closed in the same block.",
+      "parentUuid": "7cc449d2_0400f62d",
       "range": {
         "startLine": 253,
         "startChar": 2,
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_d774fc8c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 0,
+      "message": "Put this in a try/finally so it\u0027s clear.\n\nHowever, note that TreeWalk.forPath(reader) calls new TreeWalk(reader), which since https://git.eclipse.org/r/43617 does not actually close the reader. IOW if Eclipse warned about not closing this resource, it would be a false positive warning. But I\u0027m fine\n\nAlso there are certainly other cases like this that I didn\u0027t correct because I wasn\u0027t already editing the block and Eclipse wasn\u0027t producing warnings. I will mention in the commit message that for the most part I am only changing cases where warnings were produced.",
+      "parentUuid": "d76190bc_971e045f",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 66
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b72308aa",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
         "patchSetId": 6
@@ -153,6 +249,30 @@
       "writtenOn": "2015-03-11T04:23:44Z",
       "side": 0,
       "message": "This could also go into the try block?\n\nCompared to  2nd previous file.\n\nEdit: Oh, I see, we may have a null pointing objects here. Do we need the special treatment for possible nulls or is the try-autoclose logic intelligent on that as well?",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 42
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_447dce96",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 0,
+      "message": "You can only declare new variables in the header of a try-with-resources block. In this case, inserter and reader are fields on the enclosing class. Doing it this way means we don\u0027t have to pass them around to most methods, as most methods are only ever called from the body of this try block.\n\nOf course there is a tradeoff, you save some arguments but you have to reason about nulls and explicitly closing them. Maybe if this code had been written for the first time when try-with-resources blocks exists it would have been written differently.\n\nBut this is the kind of case I was talking about in the commit message when I said err on the side of existing behavior.",
+      "parentUuid": "d76190bc_b72308aa",
       "range": {
         "startLine": 142,
         "startChar": 6,
@@ -212,6 +332,24 @@
       "side": 0,
       "message": "The downside of doing it like this is that if the change on the plugin is amended, or submitting that change causes a merge commit, then a new patch set is needed on this change to get the correct revision.",
       "parentUuid": "d76190bc_3730d8eb",
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_178f54f7",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-11T16:02:46Z",
+      "side": 0,
+      "message": "\u003e Its the plugin project commit on the same topic. Seems reasonable to bump it at the same time.\n\nRight. I\u0027ll mention it.\n\n\u003e The downside of doing it like this is that if the change on the plugin is amended, or submitting that change causes a merge commit, then a new patch set is needed on this change to get the correct revision.\n\nI can probably make sure that doesn\u0027t happen.",
+      "parentUuid": "d76190bc_17b834bb",
       "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

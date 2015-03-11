@@ -158,6 +158,7 @@ public class LdapRealm extends AbstractRealm {
       return null;
 
     } else {
+      checkBackendCompliance(n, v[0], Strings.isNullOrEmpty(d));
       return v[0];
     }
   }
@@ -170,7 +171,8 @@ public class LdapRealm extends AbstractRealm {
     return v;
   }
 
-  static ParameterizedString paramString(Config c, String n, String d) {
+  static ParameterizedString paramString(Config c, String n, String d)
+      throws IllegalArgumentException {
     String expression = optdef(c, n, d);
     if (expression == null) {
       return null;
@@ -178,6 +180,16 @@ public class LdapRealm extends AbstractRealm {
       return new ParameterizedString(expression);
     } else {
       return new ParameterizedString("${" + expression + "}");
+    }
+  }
+
+  private static void checkBackendCompliance(String configOption,
+      String suppliedValue, boolean disabledByBackend) {
+    if (disabledByBackend && !Strings.isNullOrEmpty(suppliedValue)) {
+      String msg = String.format("LDAP backend doesn't support: ldap.%s",
+          configOption);
+      log.error(msg);
+      throw new IllegalStateException(msg);
     }
   }
 

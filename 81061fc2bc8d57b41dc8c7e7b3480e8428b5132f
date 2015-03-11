@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cc449d2_242a52ae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:13:45Z",
+      "side": 0,
+      "message": "Looks like this close was incorrectly placed and Dave is fixing the bug by removing it.",
+      "parentUuid": "7cc449d2_c41d3e99",
+      "range": {
+        "startLine": 394,
+        "startChar": 6,
+        "endLine": 396,
+        "endChar": 5
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_2403723e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-11T04:23:44Z",
       "side": 0,
       "message": "Here you seem to be fixing a bug as there was no try catch before.",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 428,
+        "endChar": 26
+      },
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_042756e4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:13:45Z",
+      "side": 0,
+      "message": "Yes, this was missing a close on the DiffFormatter so an ObjectReader was leaking.",
+      "parentUuid": "7cc449d2_2403723e",
       "range": {
         "startLine": 424,
         "startChar": 4,
@@ -128,6 +176,24 @@
       "writtenOn": "2015-03-11T04:23:44Z",
       "side": 0,
       "message": "This is not mentioned in the commit message. Is that intentional?",
+      "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_3730d8eb",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:13:45Z",
+      "side": 0,
+      "message": "Its the plugin project commit on the same topic. Seems reasonable to bump it at the same time.",
+      "parentUuid": "7cc449d2_a435a20f",
       "revId": "81061fc2bc8d57b41dc8c7e7b3480e8428b5132f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

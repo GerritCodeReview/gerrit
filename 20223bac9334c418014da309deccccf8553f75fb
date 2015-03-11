@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7cc449d2_64244ade",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:13:45Z",
+      "side": 1,
+      "message": "This should be in the try-with-resources as its leaking now.",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 69
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc449d2_44214ecc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:13:45Z",
+      "side": 1,
+      "message": "consider: new TreeWalk(rw.getObjectReader()) here",
+      "range": {
+        "startLine": 244,
+        "startChar": 22,
+        "endLine": 244,
+        "endChar": 40
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_d7187c74",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 6

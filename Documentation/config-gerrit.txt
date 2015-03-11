@@ -2648,6 +2648,13 @@ Enable remote installation, enable and disable of plugins over HTTP
 and SSH.  If set to true Administrators can install new plugins
 remotely, or disable existing plugins.  Defaults to false.
 
+[[plugins.jsLoadTimeout]]plugins.jsLoadTimeout::
++
+Set the timeout value for load JavaScript plugins in Gerrit UI.
+Values can be specified using standard time unit abbreviations ('ms',
+'sec', 'min', etc.).
++
+Default is 5 seconds.
 
 [[receive]]
 === Section receive

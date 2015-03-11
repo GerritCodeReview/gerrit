@@ -63,6 +63,11 @@ public class GarbageCollection {
 
   public GarbageCollectionResult run(List<Project.NameKey> projectNames,
       PrintWriter writer) {
+    return run(projectNames, false, writer);
+  }
+
+  public GarbageCollectionResult run(List<Project.NameKey> projectNames,
+      boolean aggressive, PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
     for (Project.NameKey projectName : Sets.difference(
@@ -74,9 +79,10 @@ public class GarbageCollection {
       Repository repo = null;
       try {
         repo = repoManager.openRepository(p);
-        logGcConfiguration(p, repo);
+        logGcConfiguration(p, repo, aggressive);
         print(writer, "collecting garbage for \"" + p + "\":\n");
         GarbageCollectCommand gc = Git.wrap(repo).gc();
+        gc.setAggressive(aggressive);
         logGcInfo(p, "before:", gc.getStatistics());
         gc.setProgressMonitor(writer != null ? new TextProgressMonitor(writer)
             : NullProgressMonitor.INSTANCE);
@@ -123,9 +129,10 @@ public class GarbageCollection {
   }
 
   private static void logGcConfiguration(Project.NameKey projectName,
-      Repository repo) {
+      Repository repo, boolean aggressive) {
     StringBuilder b = new StringBuilder();
     Config cfg = repo.getConfig();
+    b.append("gc.aggressive=").append(aggressive).append("; ");
     b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION, null));
     for (String subsection : cfg.getSubsections(ConfigConstants.CONFIG_GC_SECTION)) {
       b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION,

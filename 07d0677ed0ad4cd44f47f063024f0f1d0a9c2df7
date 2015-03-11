@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d76190bc_b74dc84a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T21:37:14Z",
+      "side": 1,
+      "message": "This was never in the JSON before. Why are we inserting it now?\n\nThe client usually copies map keys into the object if it really needs the key to also be a member of the object.",
+      "revId": "07d0677ed0ad4cd44f47f063024f0f1d0a9c2df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

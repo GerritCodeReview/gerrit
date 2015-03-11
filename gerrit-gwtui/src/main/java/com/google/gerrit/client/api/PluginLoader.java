@@ -32,15 +32,14 @@ import java.util.List;
 
 /** Loads JavaScript plugins with a progress meter visible. */
 public class PluginLoader extends DialogBox {
-  private static final int MAX_LOAD_TIME_MILLIS = 5000;
   private static PluginLoader self;
 
   public static void load(List<String> plugins,
-      AsyncCallback<VoidResult> callback) {
+      int loadTimeout, AsyncCallback<VoidResult> callback) {
     if (plugins == null || plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
     } else {
-      self = new PluginLoader(callback);
+      self = new PluginLoader(loadTimeout, callback);
       self.load(plugins);
       self.startTimers();
       self.center();
@@ -51,6 +50,7 @@ public class PluginLoader extends DialogBox {
     self.loadedOne();
   }
 
+  private final int loadTimeout;
   private final AsyncCallback<VoidResult> callback;
   private ProgressBar progress;
   private Timer show;
@@ -58,9 +58,10 @@ public class PluginLoader extends DialogBox {
   private Timer timeout;
   private boolean visible;
 
-  private PluginLoader(AsyncCallback<VoidResult> cb) {
+  private PluginLoader(int loadTimeout, AsyncCallback<VoidResult> cb) {
     super(/* auto hide */false, /* modal */true);
     callback = cb;
+    this.loadTimeout = loadTimeout;
     progress = new ProgressBar(Gerrit.C.loadingPlugins());
 
     setStyleName(Gerrit.RESOURCES.css().errorDialog());
@@ -98,7 +99,7 @@ public class PluginLoader extends DialogBox {
 
       @Override
       public void run() {
-        progress.setValue(100 * ++cycle * 250 / MAX_LOAD_TIME_MILLIS);
+        progress.setValue(100 * ++cycle * 250 / loadTimeout);
       }
     };
     update.scheduleRepeating(250);
@@ -109,7 +110,7 @@ public class PluginLoader extends DialogBox {
         finish();
       }
     };
-    timeout.schedule(MAX_LOAD_TIME_MILLIS);
+    timeout.schedule(loadTimeout);
   }
 
   private void loadedOne() {

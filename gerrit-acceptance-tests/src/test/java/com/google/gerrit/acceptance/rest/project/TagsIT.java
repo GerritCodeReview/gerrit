@@ -50,16 +50,16 @@ public class TagsIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
 
     PushOneCommit.Tag tag1 = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push1 = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), git);
     push1.setTag(tag1);
-    PushOneCommit.Result r1 = push1.to(git, "refs/for/master%submit");
+    PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
     r1.assertOkStatus();
 
     PushOneCommit.AnnotatedTag tag2 =
         new PushOneCommit.AnnotatedTag("v2.0", "annotation", admin.getIdent());
-    PushOneCommit push2 = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), git);
     push2.setTag(tag2);
-    PushOneCommit.Result r2 = push2.to(git, "refs/for/master%submit");
+    PushOneCommit.Result r2 = push2.to("refs/for/master%submit");
     r2.assertOkStatus();
 
     List<TagInfo> result =
@@ -86,16 +86,16 @@ public class TagsIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
 
     PushOneCommit.Tag tag1 = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push1 = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), git);
     push1.setTag(tag1);
-    PushOneCommit.Result r1 = push1.to(git, "refs/for/master%submit");
+    PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
     r1.assertOkStatus();
 
     pushTo("refs/heads/hidden");
     PushOneCommit.Tag tag2 = new PushOneCommit.Tag("v2.0");
-    PushOneCommit push2 = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), git);
     push2.setTag(tag2);
-    PushOneCommit.Result r2 = push2.to(git, "refs/for/hidden%submit");
+    PushOneCommit.Result r2 = push2.to("refs/for/hidden%submit");
     r2.assertOkStatus();
 
     List<TagInfo> result =
@@ -121,9 +121,9 @@ public class TagsIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
 
     PushOneCommit.Tag tag1 = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push1 = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), git);
     push1.setTag(tag1);
-    PushOneCommit.Result r1 = push1.to(git, "refs/for/master%submit");
+    PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
     r1.assertOkStatus();
 
     RestResponse response =

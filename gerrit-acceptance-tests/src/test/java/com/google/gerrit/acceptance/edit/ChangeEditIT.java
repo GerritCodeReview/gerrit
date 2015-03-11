@@ -244,9 +244,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
         current.getPatchSetId());
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT, FILE_NAME,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT, FILE_NAME,
             new String(CONTENT_NEW2), changeId2);
-    push.to(git, "refs/for/master").assertOkStatus();
+    push.to("refs/for/master").assertOkStatus();
     RestResponse r = adminSession.post(urlRebase());
     assertThat(r.getStatusCode()).isEqualTo(SC_CONFLICT);
   }
@@ -655,23 +655,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private String newChange(Git git, PersonIdent ident) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, ident, PushOneCommit.SUBJECT, FILE_NAME,
+        pushFactory.create(db, ident, git, PushOneCommit.SUBJECT, FILE_NAME,
             new String(CONTENT_OLD));
-    return push.to(git, "refs/for/master").getChangeId();
+    return push.to("refs/for/master").getChangeId();
   }
 
   private String amendChange(Git git, PersonIdent ident, String changeId) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, ident, PushOneCommit.SUBJECT, FILE_NAME2,
+        pushFactory.create(db, ident, git, PushOneCommit.SUBJECT, FILE_NAME2,
             new String(CONTENT_NEW2), changeId);
-    return push.to(git, "refs/for/master").getChangeId();
+    return push.to("refs/for/master").getChangeId();
   }
 
   private String newChange2(Git git, PersonIdent ident) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, ident, PushOneCommit.SUBJECT, FILE_NAME,
+        pushFactory.create(db, ident, git, PushOneCommit.SUBJECT, FILE_NAME,
             new String(CONTENT_OLD));
-    return push.rm(git, "refs/for/master").getChangeId();
+    return push.rm("refs/for/master").getChangeId();
   }
 
   private Change getChange(String changeId) throws Exception {

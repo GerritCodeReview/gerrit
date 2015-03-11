@@ -277,8 +277,8 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result createChange() throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, "refs/for/master");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    return push.to("refs/for/master");
   }
 
   private static final List<Character> RANDOM =
@@ -292,9 +292,9 @@ public abstract class AbstractDaemonTest {
       throws GitAPIException, IOException {
     Collections.shuffle(RANDOM);
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, new String(Chars.toArray(RANDOM)), changeId);
-    return push.to(git, ref);
+    return push.to(ref);
   }
 
   protected ChangeInfo getChange(String changeId, ListChangesOption... options)
@@ -416,7 +416,7 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result pushTo(String ref) throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, ref);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    return push.to(ref);
   }
 }

@@ -65,11 +65,13 @@ public class PushOneCommit {
   public interface Factory {
     PushOneCommit create(
         ReviewDb db,
-        PersonIdent i);
+        PersonIdent i,
+        Git git);
 
     PushOneCommit create(
         ReviewDb db,
         PersonIdent i,
+        Git git,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content);
@@ -77,6 +79,7 @@ public class PushOneCommit {
     PushOneCommit create(
         ReviewDb db,
         PersonIdent i,
+        Git git,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content,
@@ -107,6 +110,7 @@ public class PushOneCommit {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ReviewDb db;
   private final PersonIdent i;
+  private final Git git;
 
   private final String subject;
   private final String fileName;
@@ -120,9 +124,10 @@ public class PushOneCommit {
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
-      @Assisted PersonIdent i) {
+      @Assisted PersonIdent i,
+      @Assisted Git git) {
     this(notesFactory, approvalsUtil, queryProvider,
-        db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
+        db, i, git, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
@@ -131,11 +136,12 @@ public class PushOneCommit {
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
+      @Assisted Git git,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content) {
     this(notesFactory, approvalsUtil, queryProvider,
-        db, i, subject, fileName, content, null);
+        db, i, git, subject, fileName, content, null);
   }
 
   @AssistedInject
@@ -144,6 +150,7 @@ public class PushOneCommit {
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
+      @Assisted Git git,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content,
@@ -153,23 +160,24 @@ public class PushOneCommit {
     this.approvalsUtil = approvalsUtil;
     this.queryProvider = queryProvider;
     this.i = i;
+    this.git = git;
     this.subject = subject;
     this.fileName = fileName;
     this.content = content;
     this.changeId = changeId;
   }
 
-  public Result to(Git git, String ref) throws GitAPIException, IOException {
+  public Result to(String ref) throws GitAPIException, IOException {
     add(git, fileName, content);
-    return execute(git, ref);
+    return execute(ref);
   }
 
-  public Result rm(Git git, String ref) throws GitAPIException {
+  public Result rm(String ref) throws GitAPIException {
     GitUtil.rm(git, fileName);
-    return execute(git, ref);
+    return execute(ref);
   }
 
-  private Result execute(Git git, String ref) throws GitAPIException,
+  private Result execute(String ref) throws GitAPIException,
       ConcurrentRefUpdateException, InvalidTagNameException, NoHeadException {
     Commit c;
     if (changeId != null) {

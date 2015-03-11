@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "37658cc4_9a42ad6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-11T16:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a1d25d_7cd439bf",
+      "range": {
+        "startLine": 11,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85527d4f_58da3da5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -59,6 +83,30 @@
       "writtenOn": "2015-03-05T10:10:34Z",
       "side": 1,
       "message": "So this can\u0027t be configured per project?!",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_dc3c2dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-11T16:34:53Z",
+      "side": 1,
+      "message": "Right. Even native git currently has no configuration parameter for it. Whether you do a native git gc aggressively or not is always specified explicitly as an option to the gc command. We would have to invent a gerrit specific configuration parameter in the git config file to be able to set the default behaviour of a gc per project.",
+      "parentUuid": "85527d4f_58da3da5",
       "range": {
         "startLine": 15,
         "startChar": 35,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "37658cc4_ba477179",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-11T16:34:53Z",
+      "side": 1,
+      "message": "This changed teaches gerrit the notion of aggressive vs. non-aggressive gc. Before gerrit couldn\u0027t express whether he wants an aggressive gc or not. Consequently (I thought) I went through the current usages of gc in gerrit and decided on which flavor we want.\nI\u0027ll introduce options \u0026 extra buttons for triggering explicit garbage collection with a specific flavor as a new patch set. Then I don\u0027t have to decide on a default behavior anymore and this comment is done.",
+      "parentUuid": "85527d4f_78d58173",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72a1d25d_3cdeb1df",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -105,6 +177,30 @@
       "writtenOn": "2015-03-05T10:10:34Z",
       "side": 1,
       "message": "Two empty lines. Intended?",
+      "range": {
+        "startLine": 1455,
+        "startChar": 0,
+        "endLine": 1455,
+        "endChar": 0
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37658cc4_da3c25ec",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-11T16:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a1d25d_3cdeb1df",
       "range": {
         "startLine": 1455,
         "startChar": 0,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "37658cc4_fa41e964",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GcConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-11T16:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85527d4f_98bb354a",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85527d4f_f8c871dc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
         "patchSetId": 5
@@ -151,6 +271,30 @@
       "writtenOn": "2015-03-05T10:10:34Z",
       "side": 1,
       "message": "Couldn\u0027t we set the mode VIA REST?",
+      "range": {
+        "startLine": 73,
+        "startChar": 64,
+        "endLine": 73,
+        "endChar": 68
+      },
+      "revId": "300809f2072374747a58eba310ca06cb2ebb9d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_7ca319ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-11T16:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85527d4f_f8c871dc",
       "range": {
         "startLine": 73,
         "startChar": 64,

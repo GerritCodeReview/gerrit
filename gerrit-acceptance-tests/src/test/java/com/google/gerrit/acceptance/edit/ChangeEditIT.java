@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.edit;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -270,7 +269,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @TestProjectInput(createEmptyCommit = false)
   public void updateRootCommitMessage() throws Exception {
     // Re-clone empty repo; TestRepository doesn't let us reset to unborn head.
-    testRepo = cloneProject(project, sshSession);
+    testRepo = cloneProject(project);
     changeId = newChange(admin.getIdent());
     change = getChange(changeId);
 

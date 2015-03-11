@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
@@ -66,6 +65,8 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -74,6 +75,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -132,6 +134,9 @@ public abstract class AbstractDaemonTest {
   @Inject
   protected @GerritServerConfig Config cfg;
 
+  @Inject
+  private InProcessProtocol inProcessProtocol;
+
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
   protected TestAccount admin;
@@ -143,6 +148,7 @@ public abstract class AbstractDaemonTest {
   protected Project.NameKey project;
 
   private String resourcePrefix;
+  private List<Repository> toClose;
 
   @Rule
   public TestRule testRunner = new TestRule() {
@@ -207,6 +213,8 @@ public abstract class AbstractDaemonTest {
     }
 
     server.getTestInjector().injectMembers(this);
+    Transport.register(inProcessProtocol);
+    toClose = Collections.synchronizedList(new ArrayList<Repository>());
     admin = accounts.admin();
     user = accounts.user();
     adminSession = new RestSession(server, admin);
@@ -222,7 +230,12 @@ public abstract class AbstractDaemonTest {
         + description.getMethodName() + "_").replaceAll("");
 
     project = createProject(projectInput(description));
-    testRepo = cloneProject(project, sshSession);
+    testRepo = cloneProject(project, getCloneAsAccount(description));
+  }
+
+  private TestAccount getCloneAsAccount(Description description) {
+    TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
+    return accounts.get(ann != null ? ann.cloneAs() : "admin");
   }
 
   private ProjectInput projectInput(Description description) {
@@ -306,7 +319,26 @@ public abstract class AbstractDaemonTest {
     // Default implementation does nothing.
   }
 
+  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p)
+      throws Exception {
+    return cloneProject(p, admin);
+  }
+
+  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p,
+      TestAccount testAccount) throws Exception {
+    InProcessProtocol.Context ctx = new InProcessProtocol.Context(
+        reviewDbProvider, identifiedUserFactory, testAccount.getId(), p);
+    Repository repo = repoManager.openRepository(p);
+    toClose.add(repo);
+    return GitUtil.cloneProject(
+        p, inProcessProtocol.register(ctx, repo).toString());
+  }
+
   private void afterTest() throws Exception {
+    Transport.unregister(inProcessProtocol);
+    for (Repository repo : toClose) {
+      repo.close();
+    }
     db.close();
     sshSession.close();
     if (server != commonServer) {
@@ -334,7 +366,9 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result createChange() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    return push.to("refs/for/master");
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    return result;
   }
 
   private static final List<Character> RANDOM =

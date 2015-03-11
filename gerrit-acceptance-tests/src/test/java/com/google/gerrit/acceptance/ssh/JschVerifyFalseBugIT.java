@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -51,7 +51,7 @@ public class JschVerifyFalseBugIT extends AbstractDaemonTest {
         for (int i = 1; i < 100; i++) {
           String p = "p" + i;
           createProject(p);
-          cloneProject(new Project.NameKey(p), sshSession);
+          GitUtil.cloneProject(new Project.NameKey(p), sshSession);
         }
         return null;
       }

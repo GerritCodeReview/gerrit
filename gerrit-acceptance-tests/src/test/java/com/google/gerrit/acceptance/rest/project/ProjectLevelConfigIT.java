@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -75,7 +74,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
         .assertOkStatus();
 
     Project.NameKey childProject = createProject("child", project);
-    TestRepository<?> childTestRepo = cloneProject(childProject, sshSession);
+    TestRepository<?> childTestRepo = cloneProject(childProject);
     fetch(childTestRepo, RefNames.REFS_CONFIG + ":refs/heads/config");
     childTestRepo.reset("refs/heads/config");
 

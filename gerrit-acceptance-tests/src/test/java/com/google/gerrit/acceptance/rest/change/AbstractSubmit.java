@@ -175,23 +175,23 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected PushOneCommit.Result createChange(Git git) throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, "refs/for/master");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    return push.to("refs/for/master");
   }
 
   protected PushOneCommit.Result createChange(Git git, String subject,
       String fileName, String content) throws GitAPIException, IOException {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), subject, fileName, content);
-    return push.to(git, "refs/for/master");
+        pushFactory.create(db, admin.getIdent(), git, subject, fileName, content);
+    return push.to("refs/for/master");
   }
 
   protected PushOneCommit.Result createChange(Git git, String subject,
       String fileName, String content, String topic)
           throws GitAPIException, IOException {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), subject, fileName, content);
-    return push.to(git, "refs/for/master/" + topic);
+        pushFactory.create(db, admin.getIdent(), git, subject, fileName, content);
+    return push.to("refs/for/master/" + topic);
   }
 
   protected void submit(String changeId) throws IOException {

@@ -43,9 +43,9 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     cfg.setString("s1", null, "k1", "v1");
     cfg.setString("s2", "ss", "k2", "v2");
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), "Create Project Level Config",
+        pushFactory.create(db, admin.getIdent(), git, "Create Project Level Config",
             configName, cfg.toText());
-    push.to(git, RefNames.REFS_CONFIG);
+    push.to(RefNames.REFS_CONFIG);
 
     ProjectState state = projectCache.get(project);
     assertThat(state.getConfig(configName).get().toText()).isEqualTo(
@@ -73,16 +73,16 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     fetch(parentGit, RefNames.REFS_CONFIG + ":refs/heads/config");
     checkout(parentGit, "refs/heads/config");
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), "Create Project Level Config",
+        pushFactory.create(db, admin.getIdent(), parentGit, "Create Project Level Config",
             configName, parentCfg.toText());
-    push.to(parentGit, RefNames.REFS_CONFIG);
+    push.to(RefNames.REFS_CONFIG);
 
     Config cfg = new Config();
     cfg.setString("s1", null, "k1", "childValue1");
     cfg.setString("s2", "ss", "k3", "childValue2");
-    push = pushFactory.create(db, admin.getIdent(), "Create Project Level Config",
+    push = pushFactory.create(db, admin.getIdent(), git, "Create Project Level Config",
         configName, cfg.toText());
-    push.to(git, RefNames.REFS_CONFIG);
+    push.to(RefNames.REFS_CONFIG);
 
     ProjectState state = projectCache.get(project);
 

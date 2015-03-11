@@ -73,11 +73,10 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
     Repository repo = StoredValues.REPOSITORY.get(engine);
 
-    final ObjectReader reader = repo.newObjectReader();
-    final RevTree aTree;
-    final RevTree bTree;
-    try {
-      final RevWalk rw = new RevWalk(reader);
+    try (ObjectReader reader = repo.newObjectReader();
+        RevWalk rw = new RevWalk(reader)) {
+      final RevTree aTree;
+      final RevTree bTree;
       final RevCommit bCommit = rw.parseCommit(pl.getNewId());
 
       if (pl.getOldId() != null) {
@@ -129,8 +128,6 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
       }
     } catch (IOException err) {
       throw new JavaException(this, 1, err);
-    } finally {
-      reader.release();
     }
 
     return engine.fail();

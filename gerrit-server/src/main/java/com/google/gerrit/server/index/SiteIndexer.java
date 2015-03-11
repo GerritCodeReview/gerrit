@@ -323,41 +323,36 @@ public class SiteIndexer {
           getPathsAndIndex(id);
         }
       } finally {
-        walk.release();
+        walk.close();
       }
       return null;
     }
 
     private void getPathsAndIndex(ObjectId b) throws Exception {
       List<ChangeData> cds = Lists.newArrayList(byId.get(b));
-      try {
+      try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
         RevCommit bCommit = walk.parseCommit(b);
         RevTree bTree = bCommit.getTree();
         RevTree aTree = aFor(bCommit, walk);
-        DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-        try {
-          df.setRepository(repo);
-          if (!cds.isEmpty()) {
-            List<String> paths = (aTree != null)
-                ? getPaths(df.scan(aTree, bTree))
-                : Collections.<String>emptyList();
-            Iterator<ChangeData> cdit = cds.iterator();
-            for (ChangeData cd ; cdit.hasNext(); cdit.remove()) {
-              cd = cdit.next();
-              try {
-                cd.setCurrentFilePaths(paths);
-                indexer.index(cd);
-                done.update(1);
-                if (verboseWriter != null) {
-                  verboseWriter.println("Reindexed change " + cd.getId());
-                }
-              } catch (Exception e) {
-                fail("Failed to index change " + cd.getId(), true, e);
+        df.setRepository(repo);
+        if (!cds.isEmpty()) {
+          List<String> paths = (aTree != null)
+              ? getPaths(df.scan(aTree, bTree))
+              : Collections.<String>emptyList();
+          Iterator<ChangeData> cdit = cds.iterator();
+          for (ChangeData cd ; cdit.hasNext(); cdit.remove()) {
+            cd = cdit.next();
+            try {
+              cd.setCurrentFilePaths(paths);
+              indexer.index(cd);
+              done.update(1);
+              if (verboseWriter != null) {
+                verboseWriter.println("Reindexed change " + cd.getId());
               }
+            } catch (Exception e) {
+              fail("Failed to index change " + cd.getId(), true, e);
             }
           }
-        } finally {
-          df.release();
         }
       } catch (Exception e) {
         fail("Failed to index commit " + b.name(), false, e);
@@ -396,13 +391,10 @@ public class SiteIndexer {
     }
 
     private ObjectId emptyTree() throws IOException {
-      ObjectInserter oi = repo.newObjectInserter();
-      try {
+      try (ObjectInserter oi = repo.newObjectInserter()) {
         ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
         oi.flush();
         return id;
-      } finally {
-        oi.release();
       }
     }
 

@@ -107,37 +107,24 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           if (conflicts != null) {
             return conflicts;
           }
-          try {
-            Repository repo =
+          try (Repository repo =
                 args.repoManager.openRepository(otherChange.getProject());
-            try {
-              RevWalk rw = CodeReviewCommit.newRevWalk(repo);
-              try {
-                RevFlag canMergeFlag = rw.newFlag("CAN_MERGE");
-                CodeReviewCommit commit =
-                    (CodeReviewCommit) rw.parseCommit(changeDataCache.getTestAgainst());
-                SubmitStrategy strategy =
-                    args.submitStrategyFactory.create(submitType,
-                        db.get(), repo, rw, null, canMergeFlag,
-                        getAlreadyAccepted(repo, rw, commit),
-                        otherChange.getDest());
-                CodeReviewCommit otherCommit =
-                    (CodeReviewCommit) rw.parseCommit(other);
-                otherCommit.add(canMergeFlag);
-                conflicts = !strategy.dryRun(commit, otherCommit);
-                args.conflictsCache.put(conflictsKey, conflicts);
-                return conflicts;
-              } catch (MergeException e) {
-                throw new IllegalStateException(e);
-              } catch (NoSuchProjectException e) {
-                throw new IllegalStateException(e);
-              } finally {
-                rw.release();
-              }
-            } finally {
-              repo.close();
-            }
-          } catch (IOException e) {
+              RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+            RevFlag canMergeFlag = rw.newFlag("CAN_MERGE");
+            CodeReviewCommit commit =
+                (CodeReviewCommit) rw.parseCommit(changeDataCache.getTestAgainst());
+            SubmitStrategy strategy =
+                args.submitStrategyFactory.create(submitType,
+                    db.get(), repo, rw, null, canMergeFlag,
+                    getAlreadyAccepted(repo, rw, commit),
+                    otherChange.getDest());
+            CodeReviewCommit otherCommit =
+                (CodeReviewCommit) rw.parseCommit(other);
+            otherCommit.add(canMergeFlag);
+            conflicts = !strategy.dryRun(commit, otherCommit);
+            args.conflictsCache.put(conflictsKey, conflicts);
+            return conflicts;
+          } catch (MergeException | NoSuchProjectException | IOException e) {
             throw new IllegalStateException(e);
           }
         }

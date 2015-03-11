@@ -272,9 +272,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       loadDefaults();
       return;
     }
-    RevWalk walk = new RevWalk(reader);
-    try (ChangeNotesParser parser =
-        new ChangeNotesParser(change, rev, walk, repoManager)) {
+    try (RevWalk walk = new RevWalk(reader);
+        ChangeNotesParser parser =
+          new ChangeNotesParser(change, rev, walk, repoManager)) {
       parser.parseAll();
 
       if (parser.status != null) {
@@ -301,8 +301,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
-    } finally {
-      walk.release();
     }
   }
 

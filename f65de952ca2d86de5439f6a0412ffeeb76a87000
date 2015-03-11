@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc449d2_c467fe23",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:27:41Z",
+      "side": 1,
+      "message": "I think we should combine the two diff thread pools into a single pool. There is no reason to run 3 * CPUs of threads out of the box idling just in case a diff request is made.",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_772a5079",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:27:41Z",
+      "side": 1,
+      "message": "Any binding added here must also be in the WebAppInitializer.\n\nBut I think this should be combined with the IntralineWorkerPool.",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_97c36437",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffWorkerPool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:27:41Z",
+      "side": 1,
+      "message": "I ... am unsure you can do this safely.\n\nstop() throws ThreadDeath which nobody catches. Locks are released on the way out but the state of any object is unknown and unpredictable.\n\ntoFileHeader is going to dig deep around inside JGit to load the blobs into memory. That pack file accessing can be unsafe.\n\nNote that IntraLineWorkerPool tries harder to prevent this problem by shipping over the full file contents for either side so that no JGit locks need to be acquired during the (possibly broken) computation.",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76190bc_b7c86852",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-11T05:27:41Z",
+      "side": 1,
+      "message": "nit: indentation is wrong here.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 87
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

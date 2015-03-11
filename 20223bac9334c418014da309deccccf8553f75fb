@@ -71,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "d76190bc_37b538c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-11T05:48:02Z",
+      "side": 1,
+      "message": "Eclipse says this is unnecessary.",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 33
+      },
+      "revId": "20223bac9334c418014da309deccccf8553f75fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_640d6a66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
         "patchSetId": 6

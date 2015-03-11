@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d76190bc_b796a81e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-11T11:28:30Z",
+      "side": 1,
+      "message": "nit: IIRC the logger should be the first static final.",
+      "revId": "470926f239b8c8e471f7ef96a802cc46cc02d2a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -8,6 +8,7 @@ gerrit gc - Run the Git garbage collection
 'ssh' -p <port> <host> 'gerrit gc'
   [--all]
   [--show-progress]
+  [--aggressive]
   <NAME> ...
 --
 
@@ -43,6 +44,9 @@ This command is intended to be used in scripts.
 
 --show-progress::
 	If specified progress information is shown.
+
+--aggressive::
+	If an aggressive garbage collection should be done.
 
 == EXAMPLES
 

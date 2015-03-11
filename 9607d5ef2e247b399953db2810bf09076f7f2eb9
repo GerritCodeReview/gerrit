@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "37658cc4_7aa319ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-11T13:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7799c4f8_fc41e964",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 33
+      },
+      "revId": "9607d5ef2e247b399953db2810bf09076f7f2eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37658cc4_5a51f531",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1

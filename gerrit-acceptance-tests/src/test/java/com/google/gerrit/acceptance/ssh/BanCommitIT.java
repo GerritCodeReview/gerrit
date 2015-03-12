@@ -16,14 +16,12 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
-import static com.google.gerrit.acceptance.GitUtil.add;
-import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.NoHttpd;
 
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.junit.Test;
 
@@ -34,12 +32,12 @@ public class BanCommitIT extends AbstractDaemonTest {
 
   @Test
   public void banCommit() throws Exception {
-    add(git, "a.txt", "some content");
-    Commit c = createCommit(git, admin.getIdent(), "subject");
+    RevCommit c = commitBuilder()
+        .add("a.txt", "some content")
+        .create();
 
     String response =
-        sshSession.exec("gerrit ban-commit " + project.get() + " "
-            + c.getCommit().getName());
+        sshSession.exec("gerrit ban-commit " + project.get() + " " + c.name());
     assert_().withFailureMessage(sshSession.getError())
         .that(sshSession.hasError()).isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");

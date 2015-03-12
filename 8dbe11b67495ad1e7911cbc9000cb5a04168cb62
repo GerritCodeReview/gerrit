@@ -70,6 +70,30 @@
       "revId": "8dbe11b67495ad1e7911cbc9000cb5a04168cb62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158b6e6_04da1665",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-03-12T09:45:24Z",
+      "side": 1,
+      "message": "Will try to get rid of it anyway :-) ... let\u0027s see if that works.",
+      "parentUuid": "410f9eb1_4affd3a9",
+      "range": {
+        "startLine": 430,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 9
+      },
+      "revId": "8dbe11b67495ad1e7911cbc9000cb5a04168cb62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

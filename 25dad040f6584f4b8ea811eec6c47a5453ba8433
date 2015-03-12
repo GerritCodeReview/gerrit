@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "410f9eb1_4a28f3b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-12T14:46:23Z",
+      "side": 1,
+      "message": "Long line, either factor out the toString as locals, or add a private isJar(Path) method.",
+      "revId": "25dad040f6584f4b8ea811eec6c47a5453ba8433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

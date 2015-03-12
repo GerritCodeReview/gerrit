@@ -181,7 +181,7 @@ final class CreateProjectCommand extends SshCommand {
           input.pluginConfigValues = parsePluginConfigValues(pluginConfigValues);
         }
 
-        gApi.projects().name(projectName).create(input);
+        gApi.projects().create(input);
       } else {
         List<Project.NameKey> parentCandidates =
             suggestParentCandidates.getNameKeys();

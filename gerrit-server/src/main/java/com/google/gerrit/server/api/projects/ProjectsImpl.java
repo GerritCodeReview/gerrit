@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -30,7 +31,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Singleton
-class ProjectsImpl extends Projects.NotImplemented implements Projects {
+class ProjectsImpl implements Projects {
   private final ProjectsCollection projects;
   private final ProjectApiImpl.Factory api;
   private final Provider<ListProjects> listProvider;
@@ -53,6 +54,18 @@ class ProjectsImpl extends Projects.NotImplemented implements Projects {
     } catch (IOException e) {
       throw new RestApiException("Cannot retrieve project");
     }
+  }
+
+  @Override
+  public ProjectApi create(String name) throws RestApiException {
+    ProjectInput in = new ProjectInput();
+    in.name = name;
+    return create(in);
+  }
+
+  @Override
+  public ProjectApi create(ProjectInput in) throws RestApiException {
+    return name(in.name).create(in);
   }
 
   @Override

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1593aea_2522aed3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-12T14:20:45Z",
+      "side": 1,
+      "message": "In inline comments this works already and we get a horizontal scrollbar on the box :)\n\n  Imagine this is a very long SELECT * query or line of code. As you can see, after a while it breaks out from the cover message box and continues to grow outside the page. It would be nice if you would not have to scroll the whole page just to read it, but instead bring the scrollbar closer to the code you want to read (less mouse movements). Also, the text goes straight through the border, which looks strange. I think newer versions of Gitlab solves it in a similar way (one scrollbar per codeblock).\n\nI think it should behave the same way in summary comments.\n\nThe problem with this change is that it also changes the behaviour for inline comments. Before this change I have one horizontal scrollbar for the  whole inline comment box, but with this change I have one horizontal scrollbar per wikiPreFormat block. Having a single scrollbar looks better to me.",
+      "revId": "a744065cebd2db8267caa2069bc03f0934afbd97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

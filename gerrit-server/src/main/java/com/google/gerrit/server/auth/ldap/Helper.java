@@ -194,7 +194,7 @@ import javax.security.auth.login.LoginException;
     params.put(LdapRealm.USERNAME, username);
 
     List<LdapQuery> accountQueryList;
-    if (fetchMemberOf) {
+    if (fetchMemberOf && schema.type.accountMemberField() != null) {
       accountQueryList = schema.accountWithMemberOfQueryList;
     } else {
       accountQueryList = schema.accountQueryList;

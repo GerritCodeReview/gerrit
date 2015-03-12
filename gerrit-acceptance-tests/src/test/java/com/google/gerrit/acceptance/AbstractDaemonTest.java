@@ -59,9 +59,9 @@ import com.google.inject.util.Providers;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -123,6 +123,7 @@ public abstract class AbstractDaemonTest {
   protected @GerritServerConfig Config cfg;
 
   protected Git git;
+  protected TestRepository<?> testRepo;
   protected GerritServer server;
   protected TestAccount admin;
   protected TestAccount user;
@@ -205,7 +206,7 @@ public abstract class AbstractDaemonTest {
     project = new Project.NameKey(projectInput.name);
     createProject(projectInput);
 
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
+    setRepo(cloneProject(sshSession.getUrl() + "/" + project.get()));
   }
 
   private ProjectInput projectInput(Description description) {
@@ -229,6 +230,11 @@ public abstract class AbstractDaemonTest {
     }
     updateProjectInput(in);
     return in;
+  }
+
+  protected void setRepo(Git git) throws Exception {
+    this.git = git;
+    testRepo = new TestRepository<>(git.getRepository());
   }
 
   protected void createProject(String name) throws RestApiException {
@@ -275,24 +281,23 @@ public abstract class AbstractDaemonTest {
     TempFileUtil.cleanup();
   }
 
-  protected PushOneCommit.Result createChange() throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+  protected PushOneCommit.Result createChange() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to("refs/for/master");
   }
 
   private static final List<Character> RANDOM =
       Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
   protected PushOneCommit.Result amendChange(String changeId)
-      throws GitAPIException, IOException {
+      throws Exception {
     return amendChange(changeId, "refs/for/master");
   }
 
   protected PushOneCommit.Result amendChange(String changeId, String ref)
-      throws GitAPIException, IOException {
+      throws Exception {
     Collections.shuffle(RANDOM);
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, new String(Chars.toArray(RANDOM)), changeId);
     return push.to(ref);
   }
@@ -414,9 +419,8 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
-  protected PushOneCommit.Result pushTo(String ref) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+  protected PushOneCommit.Result pushTo(String ref) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to(ref);
   }
 }

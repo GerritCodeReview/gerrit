@@ -127,13 +127,13 @@ public class LabelTypeIT extends AbstractDaemonTest {
     String file = "a.txt";
     String contents = "contents";
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         "first subject", file, contents);
     PushOneCommit.Result r = push.to("refs/for/master");
     revision(r).review(ReviewInput.recommend());
     assertApproval(r, 1);
 
-    push = pushFactory.create(db, admin.getIdent(), git,
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
         "second subject", file, contents, r.getChangeId());
     r = push.to("refs/for/master");
     assertApproval(r, 0);
@@ -146,13 +146,13 @@ public class LabelTypeIT extends AbstractDaemonTest {
     codeReview.setCopyAllScoresIfNoCodeChange(true);
     saveLabelConfig();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         "first subject", file, contents);
     PushOneCommit.Result r = push.to("refs/for/master");
     revision(r).review(ReviewInput.recommend());
     assertApproval(r, 1);
 
-    push = pushFactory.create(db, admin.getIdent(), git,
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
         "second subject", file, contents, r.getChangeId());
     r = push.to("refs/for/master");
     assertApproval(r, 1);
@@ -164,17 +164,17 @@ public class LabelTypeIT extends AbstractDaemonTest {
     String file = "a.txt";
     String contents = "contents";
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     merge(r1);
 
-    push = pushFactory.create(db, admin.getIdent(), git,
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
         "non-conflicting", "b.txt", "other contents");
     PushOneCommit.Result r2 = push.to("refs/for/master");
     merge(r2);
 
     git.checkout().setName(r1.getCommit().name()).call();
-    push = pushFactory.create(db, admin.getIdent(), git, subject, file, contents);
+    push = pushFactory.create(db, admin.getIdent(), testRepo, subject, file, contents);
     PushOneCommit.Result r3 = push.to("refs/for/master");
     revision(r3).review(ReviewInput.recommend());
     assertApproval(r3, 1);
@@ -191,17 +191,17 @@ public class LabelTypeIT extends AbstractDaemonTest {
     codeReview.setCopyAllScoresOnTrivialRebase(true);
     saveLabelConfig();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     merge(r1);
 
-    push = pushFactory.create(db, admin.getIdent(), git,
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
         "non-conflicting", "b.txt", "other contents");
     PushOneCommit.Result r2 = push.to("refs/for/master");
     merge(r2);
 
     git.checkout().setName(r1.getCommit().name()).call();
-    push = pushFactory.create(db, admin.getIdent(), git, subject, file, contents);
+    push = pushFactory.create(db, admin.getIdent(), testRepo, subject, file, contents);
     PushOneCommit.Result r3 = push.to("refs/for/master");
     revision(r3).review(ReviewInput.recommend());
     assertApproval(r3, 1);
@@ -218,7 +218,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     git.checkout().setName(r1.getCommit().name()).call();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, "b.txt", "other contents");
     PushOneCommit.Result r2 = push.to("refs/for/master");
 
@@ -248,7 +248,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
 
     git.checkout().setName(r1.getCommit().name()).call();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, "b.txt", "other contents");
     PushOneCommit.Result r2 = push.to("refs/for/master");
 

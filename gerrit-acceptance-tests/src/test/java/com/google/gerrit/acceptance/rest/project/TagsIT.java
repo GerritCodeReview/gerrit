@@ -50,14 +50,14 @@ public class TagsIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
 
     PushOneCommit.Tag tag1 = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), testRepo);
     push1.setTag(tag1);
     PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
     r1.assertOkStatus();
 
     PushOneCommit.AnnotatedTag tag2 =
         new PushOneCommit.AnnotatedTag("v2.0", "annotation", admin.getIdent());
-    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo);
     push2.setTag(tag2);
     PushOneCommit.Result r2 = push2.to("refs/for/master%submit");
     r2.assertOkStatus();
@@ -86,14 +86,14 @@ public class TagsIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
 
     PushOneCommit.Tag tag1 = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), testRepo);
     push1.setTag(tag1);
     PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
     r1.assertOkStatus();
 
     pushTo("refs/heads/hidden");
     PushOneCommit.Tag tag2 = new PushOneCommit.Tag("v2.0");
-    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo);
     push2.setTag(tag2);
     PushOneCommit.Result r2 = push2.to("refs/for/hidden%submit");
     r2.assertOkStatus();
@@ -121,7 +121,7 @@ public class TagsIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
 
     PushOneCommit.Tag tag1 = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), testRepo);
     push1.setTag(tag1);
     PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
     r1.assertOkStatus();

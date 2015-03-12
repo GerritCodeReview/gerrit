@@ -14,10 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.add;
-import static com.google.gerrit.acceptance.GitUtil.amendCommit;
-import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.base.Function;
@@ -25,7 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.acceptance.GitUtil.Commit;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,10 +40,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidTagNameException;
-import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -53,8 +48,8 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
-import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 public class PushOneCommit {
@@ -66,12 +61,12 @@ public class PushOneCommit {
     PushOneCommit create(
         ReviewDb db,
         PersonIdent i,
-        Git git);
+        TestRepository<?> testRepo);
 
     PushOneCommit create(
         ReviewDb db,
         PersonIdent i,
-        Git git,
+        TestRepository<?> testRepo,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content);
@@ -79,7 +74,7 @@ public class PushOneCommit {
     PushOneCommit create(
         ReviewDb db,
         PersonIdent i,
-        Git git,
+        TestRepository<?> testRepo,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content,
@@ -109,8 +104,7 @@ public class PushOneCommit {
   private final ApprovalsUtil approvalsUtil;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ReviewDb db;
-  private final PersonIdent i;
-  private final Git git;
+  private final TestRepository<?> testRepo;
 
   private final String subject;
   private final String fileName;
@@ -119,15 +113,17 @@ public class PushOneCommit {
   private Tag tag;
   private boolean force;
 
+  private final TestRepository<?>.CommitBuilder commitBuilder;
+
   @AssistedInject
   PushOneCommit(ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
-      @Assisted Git git) {
+      @Assisted TestRepository<?> testRepo) throws Exception {
     this(notesFactory, approvalsUtil, queryProvider,
-        db, i, git, SUBJECT, FILE_NAME, FILE_CONTENT);
+        db, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
@@ -136,12 +132,12 @@ public class PushOneCommit {
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
-      @Assisted Git git,
+      @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
-      @Assisted("content") String content) {
+      @Assisted("content") String content) throws Exception {
     this(notesFactory, approvalsUtil, queryProvider,
-        db, i, git, subject, fileName, content, null);
+        db, i, testRepo, subject, fileName, content, null);
   }
 
   @AssistedInject
@@ -150,42 +146,49 @@ public class PushOneCommit {
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
-      @Assisted Git git,
+      @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content,
-      @Nullable @Assisted("changeId") String changeId) {
+      @Nullable @Assisted("changeId") String changeId) throws Exception {
     this.db = db;
+    this.testRepo = testRepo;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.queryProvider = queryProvider;
-    this.i = i;
-    this.git = git;
     this.subject = subject;
     this.fileName = fileName;
     this.content = content;
     this.changeId = changeId;
-  }
-
-  public Result to(String ref) throws GitAPIException, IOException {
-    add(git, fileName, content);
-    return execute(ref);
-  }
-
-  public Result rm(String ref) throws GitAPIException {
-    GitUtil.rm(git, fileName);
-    return execute(ref);
-  }
-
-  private Result execute(String ref) throws GitAPIException,
-      ConcurrentRefUpdateException, InvalidTagNameException, NoHeadException {
-    Commit c;
     if (changeId != null) {
-      c = amendCommit(git, i, subject, changeId);
+      commitBuilder = testRepo.amendRef("HEAD")
+          .insertChangeId(changeId.substring(1));
     } else {
-      c = createCommit(git, i, subject);
-      changeId = c.getChangeId();
+      commitBuilder = testRepo.branch("HEAD").commit().insertChangeId();
     }
+    commitBuilder.message(subject).ident(i);
+  }
+
+  public Result to(String ref) throws Exception {
+    commitBuilder.add(fileName, content);
+    return execute(ref);
+  }
+
+  public Result rm(String ref) throws Exception {
+    commitBuilder.rm(fileName);
+    return execute(ref);
+  }
+
+  private Result execute(String ref) throws Exception {
+    RevCommit c = commitBuilder.create();
+    testRepo.getRevWalk().parseBody(c);
+    if (changeId == null) {
+      List<String> ids = c.getFooterLines(FooterConstants.CHANGE_ID);
+      checkState(ids.size() >= 1,
+          "No Change-Id found in new commit:\n%s", c.getFullMessage());
+      changeId = ids.get(ids.size() - 1);
+    }
+    Git git = Git.wrap(testRepo.getRepository());
     if (tag != null) {
       TagCommand tagCommand = git.tag().setName(tag.name);
       if (tag instanceof AnnotatedTag) {
@@ -212,10 +215,10 @@ public class PushOneCommit {
   public class Result {
     private final String ref;
     private final PushResult result;
-    private final Commit commit;
+    private final RevCommit commit;
     private final String resSubj;
 
-    private Result(String ref, PushResult resSubj, Commit commit,
+    private Result(String ref, PushResult resSubj, RevCommit commit,
         String subject) {
       this.ref = ref;
       this.result = resSubj;
@@ -225,7 +228,7 @@ public class PushOneCommit {
 
     public ChangeData getChange() throws OrmException {
       return Iterables.getOnlyElement(
-          queryProvider.get().byKeyPrefix(commit.getChangeId()));
+          queryProvider.get().byKeyPrefix(changeId));
     }
 
     public PatchSet getPatchSet() throws OrmException {
@@ -237,15 +240,15 @@ public class PushOneCommit {
     }
 
     public String getChangeId() {
-      return commit.getChangeId();
+      return changeId;
     }
 
     public ObjectId getCommitId() {
-      return commit.getCommit().getId();
+      return commit;
     }
 
     public RevCommit getCommit() {
-      return commit.getCommit();
+      return commit;
     }
 
     public void assertChange(Change.Status expectedStatus,

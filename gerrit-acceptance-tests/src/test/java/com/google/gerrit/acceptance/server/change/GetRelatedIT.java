@@ -50,7 +50,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Test
   public void getRelatedNoResult() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PatchSet.Id ps = push.to("refs/for/master").getPatchSetId();
     List<ChangeAndCommit> related = getRelated(ps);
     assertThat(related).isEmpty();

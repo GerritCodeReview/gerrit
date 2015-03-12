@@ -25,21 +25,15 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import com.jcraft.jsch.JSchException;
-
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Set;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
@@ -62,7 +56,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     sshUrl = sshSession.getUrl();
   }
 
-  protected void selectProtocol(Protocol p) throws GitAPIException, IOException {
+  protected void selectProtocol(Protocol p) throws Exception {
     String url;
     switch (p) {
       case SSH:
@@ -74,20 +68,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       default:
         throw new IllegalArgumentException("unexpected protocol: " + p);
     }
-    git = cloneProject(url + "/" + project.get());
+    setRepo(cloneProject(url + "/" + project.get()));
   }
 
   @Test
-  public void testPushForMaster() throws GitAPIException, OrmException,
-      IOException {
+  public void testPushForMaster() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
   }
 
   @Test
-  public void testPushForMasterWithTopic() throws GitAPIException,
-      OrmException, IOException {
+  public void testPushForMasterWithTopic() throws Exception {
     // specify topic in ref
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
@@ -101,8 +93,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithCc() throws GitAPIException, OrmException,
-      IOException, JSchException {
+  public void testPushForMasterWithCc() throws Exception {
     // cc one user
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email);
@@ -125,8 +116,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithReviewer() throws GitAPIException,
-      OrmException, IOException, JSchException {
+  public void testPushForMasterWithReviewer() throws Exception {
     // add one reviewer
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email);
@@ -150,8 +140,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterAsDraft() throws GitAPIException, OrmException,
-      IOException {
+  public void testPushForMasterAsDraft() throws Exception {
     // create draft by pushing to 'refs/drafts/'
     PushOneCommit.Result r = pushTo("refs/drafts/master");
     r.assertOkStatus();
@@ -164,8 +153,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterAsEdit() throws GitAPIException,
-      IOException, RestApiException {
+  public void testPushForMasterAsEdit() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     EditInfo edit = getEdit(r.getChangeId());
@@ -179,8 +167,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithApprovals() throws GitAPIException,
-      IOException, RestApiException {
+  public void testPushForMasterWithApprovals() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review");
     r.assertOkStatus();
     ChangeInfo ci = get(r.getChangeId());
@@ -190,7 +177,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all.get(0).value).is(1);
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to("refs/for/master/%l=Code-Review+2");
 
@@ -202,42 +189,37 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushNewPatchsetToRefsChanges() throws GitAPIException,
-    IOException, OrmException {
+  public void testPushNewPatchsetToRefsChanges() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to("refs/changes/" + r.getChange().change().getId().get());
     r.assertOkStatus();
   }
 
   @Test
-  public void testPushForMasterWithApprovals_MissingLabel() throws GitAPIException,
-      IOException {
+  public void testPushForMasterWithApprovals_MissingLabel() throws Exception {
       PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");
       r.assertErrorStatus("label \"Verify\" is not a configured label");
   }
 
   @Test
-  public void testPushForMasterWithApprovals_ValueOutOfRange() throws GitAPIException,
-      IOException {
+  public void testPushForMasterWithApprovals_ValueOutOfRange() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review-3");
     r.assertErrorStatus("label \"Code-Review\": -3 is not a valid value");
   }
 
   @Test
-  public void testPushForNonExistingBranch() throws GitAPIException,
-      IOException {
+  public void testPushForNonExistingBranch() throws Exception {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);
     r.assertErrorStatus("branch " + branchName + " not found");
   }
 
   @Test
-  public void testPushForMasterWithHashtags() throws GitAPIException,
-      OrmException, IOException, RestApiException {
+  public void testPushForMasterWithHashtags() throws Exception {
 
     // Hashtags currently only work when noteDB is enabled
     assume().that(notesMigration.enabled()).isTrue();
@@ -255,7 +237,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // specify a single hashtag as option in new patch set
     String hashtag2 = "tag2";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to("refs/for/master/%hashtag=" + hashtag2);
     r.assertOkStatus();
@@ -265,8 +247,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithMultipleHashtags() throws GitAPIException,
-      OrmException, IOException, RestApiException {
+  public void testPushForMasterWithMultipleHashtags() throws Exception {
 
     // Hashtags currently only work when noteDB is enabled
     assume().that(notesMigration.enabled()).isTrue();
@@ -287,7 +268,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String hashtag3 = "tag3";
     String hashtag4 = "tag4";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to("refs/for/master%hashtag=" + hashtag3 + ",hashtag=" + hashtag4);
     r.assertOkStatus();
@@ -297,8 +278,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithHashtagsNoteDbDisabled() throws GitAPIException,
-      IOException {
+  public void testPushForMasterWithHashtagsNoteDbDisabled() throws Exception {
     // push with hashtags should fail when noteDb is disabled
     assume().that(notesMigration.enabled()).isFalse();
     PushOneCommit.Result r = pushTo("refs/for/master%hashtag=tag1");

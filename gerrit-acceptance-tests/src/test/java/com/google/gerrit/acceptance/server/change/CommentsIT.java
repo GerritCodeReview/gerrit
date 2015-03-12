@@ -87,7 +87,7 @@ public class CommentsIT extends AbstractDaemonTest {
     for (Integer line : lines) {
       String file = "file";
       String contents = "contents " + line;
-      PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
+      PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
           "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
@@ -161,7 +161,7 @@ public class CommentsIT extends AbstractDaemonTest {
     for (Integer line : lines) {
       String file = "file";
       String contents = "contents " + line;
-      PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
+      PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
           "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();

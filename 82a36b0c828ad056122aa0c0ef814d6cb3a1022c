@@ -22,6 +22,30 @@
       "revId": "82a36b0c828ad056122aa0c0ef814d6cb3a1022c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_85c5a28c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-12T07:43:36Z",
+      "side": 0,
+      "message": "True.\nBut one of my objectives was to refrain from adding yet another abstraction layer in the creation of the table (which, I just realized, is not reflected by the commit message).\n\nOne could argue that this should be split into to commits in that case [1], but I just couldn\u0027t make myself upload a commit that moves the table creation entirely to CommitBox.java and not fix the bug.\n\nIf direct DOM manipulation is preferred in favor of using FlexTable et. al. then I would still vote for using DOM manipulation for the creation of the table in CommitBox.java and leave only the table in CommitBox.ui.xml.\n\nThe fact is that we only want to add rows to a table. Doing so in three different ways really makes for less than readable code.\n\nI usually get a slight headache when I have to do something in the Gerrit UI since almost every class is a tapestry of different ways of adding stuff to the DOM.\n\n[1] \"If you want to kill two birds, use a stone, not a commit!\"",
+      "parentUuid": "d76190bc_d7423c19",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 11
+      },
+      "revId": "82a36b0c828ad056122aa0c0ef814d6cb3a1022c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

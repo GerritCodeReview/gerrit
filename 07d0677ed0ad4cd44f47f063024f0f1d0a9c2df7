@@ -16,6 +16,24 @@
       "revId": "07d0677ed0ad4cd44f47f063024f0f1d0a9c2df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158b6e6_c4bb9e09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-12T07:43:36Z",
+      "side": 1,
+      "message": "Fair point\nDone",
+      "parentUuid": "d76190bc_b74dc84a",
+      "revId": "07d0677ed0ad4cd44f47f063024f0f1d0a9c2df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

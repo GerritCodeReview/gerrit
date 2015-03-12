@@ -15,14 +15,10 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.add;
-import static com.google.gerrit.acceptance.GitUtil.amendCommit;
-import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static com.google.gerrit.acceptance.GitUtil.rm;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
@@ -34,8 +30,8 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 import java.util.List;
@@ -55,28 +51,35 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   @Test
   public void listPatchesAgainstBase() throws Exception {
-    add(git, FILE_D, "4");
-    createCommit(git, admin.getIdent(), SUBJECT_1);
+    commitBuilder()
+        .add(FILE_D, "4")
+        .message(SUBJECT_1)
+        .create();
     pushHead(git, "refs/heads/master", false);
 
     // Change 1, 1 (+FILE_A, -FILE_D)
-    add(git, FILE_A, "1");
-    rm(git, FILE_D);
-    Commit c = createCommit(git, admin.getIdent(), SUBJECT_2);
+    RevCommit c = commitBuilder()
+        .add(FILE_A, "1")
+        .rm(FILE_D)
+        .message(SUBJECT_2)
+        .insertChangeId()
+        .create();
+    String id = getChangeId(testRepo, c).get();
     pushHead(git, "refs/for/master", false);
 
     // Compare Change 1,1 with Base (+FILE_A, -FILE_D)
-    List<PatchListEntry> entries = getCurrentPatches(c.getChangeId());
+    List<PatchListEntry> entries = getCurrentPatches(id);
     assertThat(entries).hasSize(3);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_A, entries.get(1));
     assertDeleted(FILE_D, entries.get(2));
 
     // Change 1,2 (+FILE_A, +FILE_B, -FILE_D)
-    add(git, FILE_B, "2");
-    c = amendCommit(git, admin.getIdent(), SUBJECT_2, c.getChangeId());
+    c = amendBuilder()
+        .add(FILE_B, "2")
+        .create();
     pushHead(git, "refs/for/master", false);
-    entries = getCurrentPatches(c.getChangeId());
+    entries = getCurrentPatches(id);
 
     // Compare Change 1,2 with Base (+FILE_A, +FILE_B, -FILE_D)
     assertThat(entries).hasSize(4);
@@ -88,33 +91,40 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   @Test
   public void listPatchesAgainstBaseWithRebase() throws Exception {
-    add(git, FILE_D, "4");
-    createCommit(git, admin.getIdent(), SUBJECT_1);
+    commitBuilder()
+        .add(FILE_D, "4")
+        .message(SUBJECT_1)
+        .create();
     pushHead(git, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, -FILE_D)
-    add(git, FILE_A, "1");
-    rm(git, FILE_D);
-    Commit c = createCommit(git, admin.getIdent(), SUBJECT_2);
+    RevCommit c = commitBuilder()
+        .add(FILE_A, "1")
+        .rm(FILE_D)
+        .message(SUBJECT_2)
+        .create();
+    String id = getChangeId(testRepo, c).get();
     pushHead(git, "refs/for/master", false);
-    List<PatchListEntry> entries = getCurrentPatches(c.getChangeId());
+    List<PatchListEntry> entries = getCurrentPatches(id);
     assertThat(entries).hasSize(3);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_A, entries.get(1));
     assertDeleted(FILE_D, entries.get(2));
 
     // Change 2,1 (+FILE_B)
-    git.reset().setMode(ResetType.HARD).setRef("HEAD~1").call();
-    add(git, FILE_B, "2");
-    createCommit(git, admin.getIdent(), SUBJECT_3);
+    testRepo.reset("HEAD~1");
+    commitBuilder()
+        .add(FILE_B, "2")
+        .message(SUBJECT_3)
+        .create();
     pushHead(git, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, -FILE_D))
-    git.cherryPick().include(c.getCommit()).call();
+    git.cherryPick().include(c).call();
     pushHead(git, "refs/for/master", false);
 
     // Compare Change 1,2 with Base (+FILE_A, -FILE_D))
-    entries = getCurrentPatches(c.getChangeId());
+    entries = getCurrentPatches(id);
     assertThat(entries).hasSize(3);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_A, entries.get(1));
@@ -123,24 +133,27 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   @Test
   public void listPatchesAgainstOtherPatchSet() throws Exception {
-    add(git, FILE_D, "4");
-    createCommit(git, admin.getIdent(), SUBJECT_1);
+    commitBuilder()
+        .add(FILE_D, "4")
+        .message(SUBJECT_1)
+        .create();
     pushHead(git, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, +FILE_C, -FILE_D)
-    add(git, FILE_A, "1");
-    add(git, FILE_C, "3");
-    rm(git, FILE_D);
-    Commit c = createCommit(git, admin.getIdent(), SUBJECT_2);
+    RevCommit a = commitBuilder()
+        .add(FILE_A, "1")
+        .add(FILE_C, "3")
+        .rm(FILE_D)
+        .message(SUBJECT_2)
+        .create();
     pushHead(git, "refs/for/master", false);
-    ObjectId a = getCurrentRevisionId(c.getChangeId());
 
     // Change 1,2 (+FILE_A, +FILE_B, -FILE_D)
-    add(git, FILE_B, "2");
-    rm(git, FILE_C);
-    c = amendCommit(git, admin.getIdent(), SUBJECT_2, c.getChangeId());
+    RevCommit b = amendBuilder()
+        .add(FILE_B, "2")
+        .rm(FILE_C)
+        .create();
     pushHead(git, "refs/for/master", false);
-    ObjectId b = getCurrentRevisionId(c.getChangeId());
 
     // Compare Change 1,1 with Change 1,2 (+FILE_B)
     List<PatchListEntry>  entries = getPatches(a, b);
@@ -151,29 +164,34 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   @Test
   public void listPatchesAgainstOtherPatchSetWithRebase() throws Exception {
-    add(git, FILE_D, "4");
-    createCommit(git, admin.getIdent(), SUBJECT_1);
+    commitBuilder()
+        .add(FILE_D, "4")
+        .message(SUBJECT_1)
+        .create();
     pushHead(git, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, -FILE_D)
-    add(git, FILE_A, "1");
-    rm(git, FILE_D);
-    Commit c = createCommit(git, admin.getIdent(), SUBJECT_2);
+    RevCommit a = commitBuilder()
+        .add(FILE_A, "1")
+        .rm(FILE_D)
+        .message(SUBJECT_2)
+        .create();
     pushHead(git, "refs/for/master", false);
-    ObjectId a = getCurrentRevisionId(c.getChangeId());
 
     // Change 2,1 (+FILE_B)
-    git.reset().setMode(ResetType.HARD).setRef("HEAD~1").call();
-    add(git, FILE_B, "2");
-    createCommit(git, admin.getIdent(), SUBJECT_3);
+    testRepo.reset("HEAD~1");
+    commitBuilder()
+        .add(FILE_B, "2")
+        .message(SUBJECT_3)
+        .create();
     pushHead(git, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, +FILE_C, -FILE_D)
-    git.cherryPick().include(c.getCommit()).call();
-    add(git, FILE_C, "2");
-    c = amendCommit(git, admin.getIdent(), SUBJECT_2, c.getChangeId());
+    git.cherryPick().include(a).call();
+    RevCommit b = amendBuilder()
+        .add(FILE_C, "2")
+        .create();
     pushHead(git, "refs/for/master", false);
-    ObjectId b = getCurrentRevisionId(c.getChangeId());
 
     // Compare Change 1,1 with Change 1,2 (+FILE_C)
     List<PatchListEntry>  entries = getPatches(a, b);

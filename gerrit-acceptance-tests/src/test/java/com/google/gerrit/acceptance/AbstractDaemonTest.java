@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.Util.block;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -63,6 +64,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -279,6 +281,24 @@ public abstract class AbstractDaemonTest {
     sshSession.close();
     server.stop();
     TempFileUtil.cleanup();
+  }
+
+  protected TestRepository<?>.CommitBuilder commitBuilder() throws Exception {
+    return testRepo.branch("HEAD").commit().insertChangeId();
+  }
+
+  protected TestRepository<?>.CommitBuilder amendBuilder() throws Exception {
+    ObjectId head = testRepo.getRepository().getRef("HEAD").getObjectId();
+    TestRepository<?>.CommitBuilder b = testRepo.amendRef("HEAD");
+    Optional<String> id = GitUtil.getChangeId(testRepo, head);
+    // TestRepository behaves like "git commit --amend -m foo", which does not
+    // preserve an existing Change-Id. Tests probably want this.
+    if (id.isPresent()) {
+      b.insertChangeId(id.get().substring(1));
+    } else {
+      b.insertChangeId();
+    }
+    return b;
   }
 
   protected PushOneCommit.Result createChange() throws Exception {

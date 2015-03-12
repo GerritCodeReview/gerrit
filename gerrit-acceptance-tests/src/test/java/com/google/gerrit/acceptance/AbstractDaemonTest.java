@@ -16,12 +16,12 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.data.AccessSection;
@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -141,7 +142,7 @@ public abstract class AbstractDaemonTest {
           boolean mem = description.getAnnotation(UseLocalDisk.class) == null;
           boolean enableHttpd = description.getAnnotation(NoHttpd.class) == null
               && description.getTestClass().getAnnotation(NoHttpd.class) == null;
-          beforeTest(config(description), mem, enableHttpd);
+          beforeTest(description, mem, enableHttpd);
           base.evaluate();
           afterTest();
         }
@@ -184,7 +185,9 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
-  private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
+  private void beforeTest(Description description, boolean memory,
+      boolean enableHttpd) throws Exception {
+    Config cfg = config(description);
     server = startServer(cfg, memory, enableHttpd);
     server.getTestInjector().injectMembers(this);
     admin = accounts.admin();
@@ -196,9 +199,45 @@ public abstract class AbstractDaemonTest {
     Context ctx = newRequestContext(admin);
     atrScope.set(ctx);
     sshSession = ctx.getSession();
-    project = new Project.NameKey("p");
-    createProject(sshSession, project.get());
+    sshSession.open();
+
+    ProjectInput projectInput = projectInput(description);
+    project = new Project.NameKey(projectInput.name);
+    gApi.projects().create(projectInput);
+
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
+  }
+
+  private ProjectInput projectInput(Description description) {
+    ProjectInput in = new ProjectInput();
+    TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
+    if (ann != null) {
+      in.name = ann.name();
+      in.parent = Strings.emptyToNull(ann.parent());
+      in.createEmptyCommit = ann.createEmptyCommit();
+      in.submitType = ann.submitType();
+      in.useContentMerge = ann.useContributorAgreements();
+      in.useSignedOffBy = ann.useSignedOffBy();
+      in.useContentMerge = ann.useContentMerge();
+    } else {
+      // Defaults should match TestProjectConfig, omitting nullable values.
+      in.createEmptyCommit = true;
+    }
+    if (Strings.isNullOrEmpty(in.name)) {
+      // TODO(dborowitz): Use different project names.
+      in.name = "p";
+    }
+    updateProjectInput(in);
+    return in;
+  }
+
+  /**
+   * Modify a project input before creating the initial test project.
+   *
+   * @param in input; may be modified in place.
+   */
+  protected void updateProjectInput(ProjectInput in) {
+    // Default implementation does nothing.
   }
 
   protected GerritServer startServer(Config cfg, boolean memory,

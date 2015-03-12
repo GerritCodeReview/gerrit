@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -29,7 +28,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParent_Forbidden() throws Exception {
     String parent = "parent";
-    createProject(sshSession, parent, null, true);
+    createProject(parent, null, true);
     RestResponse r =
         userSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
@@ -40,7 +39,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParent() throws Exception {
     String parent = "parent";
-    createProject(sshSession, parent, null, true);
+    createProject(parent, null, true);
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
@@ -73,14 +72,14 @@ public class SetParentIT extends AbstractDaemonTest {
     r.consume();
 
     String child = "child";
-    createProject(sshSession, child, project, true);
+    createProject(child, project, true);
     r = adminSession.put("/projects/" + project.get() + "/parent",
            newParentInput(child));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
     r.consume();
 
     String grandchild = "grandchild";
-    createProject(sshSession, grandchild, new Project.NameKey(child), true);
+    createProject(grandchild, new Project.NameKey(child), true);
     r = adminSession.put("/projects/" + project.get() + "/parent",
            newParentInput(grandchild));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);

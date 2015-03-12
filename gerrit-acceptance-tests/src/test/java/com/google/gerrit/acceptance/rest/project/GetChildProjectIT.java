@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -42,9 +41,9 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   public void getNonChildProject_NotFound() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey p1 = new Project.NameKey("p1");
-    createProject(sshSession, p1.get());
+    createProject(p1.get());
     Project.NameKey p2 = new Project.NameKey("p2");
-    createProject(sshSession, p2.get());
+    createProject(p2.get());
     sshSession.close();
     assertThat(
         GET("/projects/" + p1.get() + "/children/" + p2.get()).getStatusCode())
@@ -55,7 +54,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   public void getChildProject() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
-    createProject(sshSession, child.get());
+    createProject(child.get());
     sshSession.close();
     RestResponse r =
         GET("/projects/" + allProjects.get() + "/children/" + child.get());
@@ -69,9 +68,9 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   public void getGrandChildProject_NotFound() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
-    createProject(sshSession, child.get());
+    createProject(child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");
-    createProject(sshSession, grandChild.get(), child);
+    createProject(grandChild.get(), child);
     sshSession.close();
     assertThat(
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get())
@@ -82,9 +81,9 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   public void getGrandChildProjectWithRecursiveFlag() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
-    createProject(sshSession, child.get());
+    createProject(child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");
-    createProject(sshSession, grandChild.get(), child);
+    createProject(grandChild.get(), child);
     sshSession.close();
     RestResponse r =
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get()

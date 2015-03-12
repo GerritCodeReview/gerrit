@@ -49,7 +49,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectApi() throws Exception {
     final String newProjectName = "newProject";
-    ProjectInfo p = gApi.projects().name(newProjectName).create().get();
+    ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
@@ -60,7 +60,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectApiWithGitSuffix() throws Exception {
     final String newProjectName = "newProject";
-    ProjectInfo p = gApi.projects().name(newProjectName + ".git").create().get();
+    ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
     assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();

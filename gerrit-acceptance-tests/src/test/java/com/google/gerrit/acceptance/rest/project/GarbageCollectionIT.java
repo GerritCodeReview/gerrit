@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
@@ -40,7 +39,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     project2 = new Project.NameKey("p2");
-    createProject(sshSession, project2.get());
+    createProject(project2.get());
   }
 
   @Test

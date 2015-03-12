@@ -1795,7 +1795,7 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
   private String imageUrl = "http://placehold.it/16x16.gif";
 
   @Override
-  public WebLinkInfo getPathSetWebLink(String projectName, String commit) {
+  public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
     return new WebLinkInfo(name,
         imageUrl,
         String.format(placeHolderUrlProjectCommit, project, commit),

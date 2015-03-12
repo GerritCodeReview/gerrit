@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjects;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -42,7 +41,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjects() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
 
     RestResponse r = GET("/projects/");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
@@ -87,7 +86,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithLimit() throws Exception {
     for (int i = 0; i < 5; i++) {
-      createProject(sshSession, new Project.NameKey("someProject" + i).get());
+      createProject(new Project.NameKey("someProject" + i).get());
     }
 
     RestResponse r = GET("/projects/");
@@ -105,12 +104,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithPrefix() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
     Project.NameKey someOtherProject =
         new Project.NameKey("some-other-project");
-    createProject(sshSession, someOtherProject.get());
+    createProject(someOtherProject.get());
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
-    createProject(sshSession, projectAwesome.get());
+    createProject(projectAwesome.get());
 
     assertThat(GET("/projects/?p=some&r=.*").getStatusCode()).isEqualTo(
         HttpStatus.SC_BAD_REQUEST);
@@ -127,12 +126,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithRegex() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
     Project.NameKey someOtherProject =
         new Project.NameKey("some-other-project");
-    createProject(sshSession, someOtherProject.get());
+    createProject(someOtherProject.get());
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
-    createProject(sshSession, projectAwesome.get());
+    createProject(projectAwesome.get());
 
     assertThat(GET("/projects/?r=[.*some").getStatusCode()).isEqualTo(
         HttpStatus.SC_BAD_REQUEST);
@@ -161,7 +160,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithSkip() throws Exception {
     for (int i = 0; i < 5; i++) {
-      createProject(sshSession, new Project.NameKey("someProject" + i).get());
+      createProject(new Project.NameKey("someProject" + i).get());
     }
 
     RestResponse r = GET("/projects/");
@@ -179,12 +178,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithSubstring() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
     Project.NameKey someOtherProject =
         new Project.NameKey("some-other-project");
-    createProject(sshSession, someOtherProject.get());
+    createProject(someOtherProject.get());
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
-    createProject(sshSession, projectAwesome.get());
+    createProject(projectAwesome.get());
 
     assertThat(GET("/projects/?m=some&r=.*").getStatusCode()).isEqualTo(
         HttpStatus.SC_BAD_REQUEST);
@@ -203,10 +202,10 @@ public class ListProjectsIT extends AbstractDaemonTest {
   public void listProjectsWithTree() throws Exception {
     Project.NameKey someParentProject =
         new Project.NameKey("some-parent-project");
-    createProject(sshSession, someParentProject.get());
+    createProject(someParentProject.get());
     Project.NameKey someChildProject =
         new Project.NameKey("some-child-project");
-    createProject(sshSession, someChildProject.get(), someParentProject);
+    createProject(someChildProject.get(), someParentProject);
 
     RestResponse r = GET("/projects/?tree");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);

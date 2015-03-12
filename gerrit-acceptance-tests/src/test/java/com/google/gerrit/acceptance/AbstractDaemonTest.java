@@ -203,7 +203,7 @@ public abstract class AbstractDaemonTest {
 
     ProjectInput projectInput = projectInput(description);
     project = new Project.NameKey(projectInput.name);
-    gApi.projects().create(projectInput);
+    createProject(projectInput);
 
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
   }
@@ -229,6 +229,29 @@ public abstract class AbstractDaemonTest {
     }
     updateProjectInput(in);
     return in;
+  }
+
+  protected void createProject(String name) throws RestApiException {
+    createProject(name, null);
+  }
+
+  protected void createProject(String name, Project.NameKey parent)
+      throws RestApiException {
+    // Default for createEmptyCommit should match TestProjectConfig.
+    createProject(name, parent, true);
+  }
+
+  protected void createProject(String name, Project.NameKey parent,
+      boolean createEmptyCommit) throws RestApiException {
+    ProjectInput in = new ProjectInput();
+    in.name = name;
+    in.parent = parent != null ? parent.get() : null;
+    in.createEmptyCommit = createEmptyCommit;
+    createProject(in);
+  }
+
+  protected void createProject(ProjectInput in) throws RestApiException {
+    gApi.projects().create(in);
   }
 
   /**

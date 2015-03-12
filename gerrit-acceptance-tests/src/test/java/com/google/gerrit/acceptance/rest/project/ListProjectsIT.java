@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -48,7 +47,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjects() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
     assertThatNameList(gApi.projects().list().get())
         .containsExactly(allProjects, allUsers, project, someProject).inOrder();
   }
@@ -97,7 +96,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithLimit() throws Exception {
     for (int i = 0; i < 5; i++) {
-      createProject(sshSession, new Project.NameKey("someProject" + i).get());
+      createProject(new Project.NameKey("someProject" + i).get());
     }
 
     // 5 plus All-Projects, All-Users, and p.
@@ -111,12 +110,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithPrefix() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
     Project.NameKey someOtherProject =
         new Project.NameKey("some-other-project");
-    createProject(sshSession, someOtherProject.get());
+    createProject(someOtherProject.get());
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
-    createProject(sshSession, projectAwesome.get());
+    createProject(projectAwesome.get());
 
     assertBadRequest(gApi.projects().list().withPrefix("some").withRegex(".*"));
     assertBadRequest(gApi.projects().list().withPrefix("some")
@@ -128,12 +127,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithRegex() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
     Project.NameKey someOtherProject =
         new Project.NameKey("some-other-project");
-    createProject(sshSession, someOtherProject.get());
+    createProject(someOtherProject.get());
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
-    createProject(sshSession, projectAwesome.get());
+    createProject(projectAwesome.get());
 
     assertBadRequest(gApi.projects().list().withRegex("[.*"));
     assertBadRequest(gApi.projects().list().withRegex(".*").withPrefix("p"));
@@ -152,7 +151,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithStart() throws Exception {
     for (int i = 0; i < 5; i++) {
-      createProject(sshSession, new Project.NameKey("someProject" + i).get());
+      createProject(new Project.NameKey("someProject" + i).get());
     }
 
     List<ProjectInfo> all = gApi.projects().list().get();
@@ -166,12 +165,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithSubstring() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
-    createProject(sshSession, someProject.get());
+    createProject(someProject.get());
     Project.NameKey someOtherProject =
         new Project.NameKey("some-other-project");
-    createProject(sshSession, someOtherProject.get());
+    createProject(someOtherProject.get());
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
-    createProject(sshSession, projectAwesome.get());
+    createProject(projectAwesome.get());
 
     assertBadRequest(gApi.projects().list().withSubstring("some")
         .withRegex(".*"));
@@ -186,10 +185,10 @@ public class ListProjectsIT extends AbstractDaemonTest {
   public void listProjectsWithTree() throws Exception {
     Project.NameKey someParentProject =
         new Project.NameKey("some-parent-project");
-    createProject(sshSession, someParentProject.get());
+    createProject(someParentProject.get());
     Project.NameKey someChildProject =
         new Project.NameKey("some-child-project");
-    createProject(sshSession, someChildProject.get(), someParentProject);
+    createProject(someChildProject.get(), someParentProject);
 
     Map<String, ProjectInfo> result = gApi.projects().list().withTree(true)
         .getAsMap();

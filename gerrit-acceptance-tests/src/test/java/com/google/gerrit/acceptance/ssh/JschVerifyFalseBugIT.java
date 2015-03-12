@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -50,7 +49,7 @@ public class JschVerifyFalseBugIT extends AbstractDaemonTest {
       public Void call() throws Exception {
         for (int i = 1; i < 100; i++) {
           String p = "p" + i;
-          createProject(sshSession, p);
+          createProject(p);
           cloneProject(sshSession.getUrl() + "/" + p);
         }
         return null;

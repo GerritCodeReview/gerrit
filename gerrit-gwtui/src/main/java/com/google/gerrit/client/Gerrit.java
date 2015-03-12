@@ -579,6 +579,7 @@ public class Gerrit implements EntryPoint {
       AccountApi.self().view("preferences").get(cbg.add(createMyMenuBarCallback()));
     }
     PluginLoader.load(hpd.plugins,
+        hpd.pluginsLoadTimeout,
         cbg.addFinal(new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {

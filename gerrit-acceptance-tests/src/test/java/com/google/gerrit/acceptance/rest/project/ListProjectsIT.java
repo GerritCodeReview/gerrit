@@ -81,7 +81,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     ProjectInput projectInput = new ProjectInput();
     projectInput.name = "some-project";
     projectInput.description = "Description of some-project";
-    gApi.projects().name(projectInput.name).create(projectInput);
+    gApi.projects().create(projectInput);
 
     // description not be included in the results by default.
     Map<String, ProjectInfo> result = gApi.projects().list().getAsMap();

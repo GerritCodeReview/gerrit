@@ -31,7 +31,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -60,7 +59,7 @@ import javax.security.auth.login.LoginException;
  * Implementation of GroupBackend for the LDAP group system.
  */
 public class LdapGroupBackend implements GroupBackend {
-  private static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
+  static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
 
   private static final String LDAP_NAME = "ldap/";
   private static final String GROUPNAME = "groupname";
@@ -185,21 +184,7 @@ public class LdapGroupBackend implements GroupBackend {
     if (id == null) {
       return GroupMembership.EMPTY;
     }
-
-    try {
-      final Set<AccountGroup.UUID> groups = membershipCache.get(id);
-      return new ListGroupMembership(groups) {
-        @Override
-        public Set<AccountGroup.UUID> getKnownGroups() {
-          Set<AccountGroup.UUID> g = Sets.newHashSet(groups);
-          g.retainAll(projectCache.guessRelevantGroupUUIDs());
-          return g;
-        }
-      };
-    } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup membershipsOf %s in LDAP", id), e);
-      return GroupMembership.EMPTY;
-    }
+    return new LdapGroupMembership(membershipCache, projectCache, id);
   }
 
   private static String findId(final Collection<AccountExternalId> ids) {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18ed27f_cf573d32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-12T14:29:37Z",
+      "side": 1,
+      "message": "I would prefer to avoid dependencies on FileSystems.getDefault() (although in this case it\u0027s probably safe, since this PathMather doesn\u0027t depend on the filesystem separator).",
+      "revId": "fe20398556461e0c9b234779c097ed5a35d8ec69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e18ed27f_ef5c8156",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-12T14:29:37Z",
+      "side": 1,
+      "message": "Just use n[12].toString().endsWith(\".jar\")",
+      "revId": "fe20398556461e0c9b234779c097ed5a35d8ec69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -85,7 +85,7 @@ public class WebLinks {
 
       @Override
       public WebLinkInfo apply(WebLink webLink) {
-        return ((PatchSetWebLink)webLink).getPathSetWebLink(project.get(), commit);
+        return ((PatchSetWebLink)webLink).getPatchSetWebLink(project.get(), commit);
       }
     });
   }

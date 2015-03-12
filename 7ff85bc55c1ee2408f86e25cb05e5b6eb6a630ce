@@ -16,6 +16,24 @@
       "revId": "7ff85bc55c1ee2408f86e25cb05e5b6eb6a630ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e18ed27f_0f2545da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-12T13:27:22Z",
+      "side": 1,
+      "message": "Normally, this is not null but it happens for 5 changes(out of 570 000 changes) when the reindexer is indexing from 8 to 11 (I am upgrading from gerrit 2.9.x to 2.10).\n\nIf you look at the code of changedLines() method, it is possible that it return null but I do not know how to reproduce this, these 5 changes are old closed and probably corrupted changes.",
+      "parentUuid": "410f9eb1_8a35cb0d",
+      "revId": "7ff85bc55c1ee2408f86e25cb05e5b6eb6a630ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

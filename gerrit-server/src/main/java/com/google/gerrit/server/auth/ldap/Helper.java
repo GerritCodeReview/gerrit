@@ -17,6 +17,7 @@ package com.google.gerrit.server.auth.ldap;
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
@@ -37,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -58,6 +60,42 @@ import javax.security.auth.login.LoginException;
 @Singleton class Helper {
   static final String LDAP_UUID = "ldap:";
 
+  static private Map<String, String> getPoolProperties(Config config) {
+    if (LdapRealm.optional(config, "useConnectionPooling", false)) {
+      Map<String, String> r = Maps.newHashMap();
+      r.put("com.sun.jndi.ldap.connect.pool", "true");
+
+      String connectTimeout = LdapRealm.optional(config, "connectTimeout");
+      String poolDebug = LdapRealm.optional(config, "poolDebug");
+      String poolTimeout = LdapRealm.optional(config, "poolTimeout");
+
+      if (connectTimeout != null) {
+        r.put("com.sun.jndi.ldap.connect.timeout", Long.toString(ConfigUtil
+            .getTimeUnit(connectTimeout, 0, TimeUnit.MILLISECONDS)));
+      }
+      r.put("com.sun.jndi.ldap.connect.pool.authentication",
+          LdapRealm.optional(config, "poolAuthentication", "none simple"));
+      if (poolDebug != null) {
+        r.put("com.sun.jndi.ldap.connect.pool.debug", poolDebug);
+      }
+      r.put("com.sun.jndi.ldap.connect.pool.initsize",
+          String.valueOf(LdapRealm.optional(config, "poolInitsize", 1)));
+      r.put("com.sun.jndi.ldap.connect.pool.maxsize",
+          String.valueOf(LdapRealm.optional(config, "poolMaxsize", 0)));
+      r.put("com.sun.jndi.ldap.connect.pool.prefsize",
+          String.valueOf(LdapRealm.optional(config, "poolPrefsize", 0)));
+      r.put("com.sun.jndi.ldap.connect.pool.protocol",
+          LdapRealm.optional(config, "poolProtocol", "plain"));
+      if (poolTimeout != null) {
+        r.put("com.sun.jndi.ldap.connect.pool.timeout", Long
+            .toString(ConfigUtil.getTimeUnit(poolTimeout, 0,
+                TimeUnit.MILLISECONDS)));
+      }
+      return r;
+    }
+    return null;
+  }
+
   private final Cache<String, ImmutableSet<String>> groupsByInclude;
   private final Config config;
   private final String server;
@@ -68,6 +106,7 @@ import javax.security.auth.login.LoginException;
   private final String authentication;
   private volatile LdapSchema ldapSchema;
   private final String readTimeOutMillis;
+  private final Map<String, String> connectionPoolConfig;
 
   @Inject
   Helper(@GerritServerConfig final Config config,
@@ -76,10 +115,11 @@ import javax.security.auth.login.LoginException;
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
     this.username = LdapRealm.optional(config, "username");
-    this.password = LdapRealm.optional(config, "password");
-    this.referral = LdapRealm.optional(config, "referral");
+    this.password = LdapRealm.optional(config, "password", "");
+    this.referral = LdapRealm.optional(config, "referral", "ignore");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
-    this.authentication = LdapRealm.optional(config, "authentication");
+    this.authentication =
+        LdapRealm.optional(config, "authentication", "simple");
     String timeout = LdapRealm.optional(config, "readTimeout");
     if (timeout != null) {
       readTimeOutMillis =
@@ -89,6 +129,7 @@ import javax.security.auth.login.LoginException;
       readTimeOutMillis = null;
     }
     this.groupsByInclude = groupsByInclude;
+    this.connectionPoolConfig = getPoolProperties(config);
   }
 
   private Properties createContextProperties() {
@@ -107,14 +148,17 @@ import javax.security.auth.login.LoginException;
 
   DirContext open() throws NamingException, LoginException {
     final Properties env = createContextProperties();
-    env.put(Context.SECURITY_AUTHENTICATION, authentication != null ? authentication : "simple");
-    env.put(Context.REFERRAL, referral != null ? referral : "ignore");
+    if (connectionPoolConfig != null) {
+      env.putAll(connectionPoolConfig);
+    }
+    env.put(Context.SECURITY_AUTHENTICATION, authentication);
+    env.put(Context.REFERRAL, referral);
     if ("GSSAPI".equals(authentication)) {
       return kerberosOpen(env);
     } else {
       if (username != null) {
         env.put(Context.SECURITY_PRINCIPAL, username);
-        env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+        env.put(Context.SECURITY_CREDENTIALS, password);
       }
       return new InitialDirContext(env);
     }
@@ -146,8 +190,8 @@ import javax.security.auth.login.LoginException;
     final Properties env = createContextProperties();
     env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, dn);
-    env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
-    env.put(Context.REFERRAL, referral != null ? referral : "ignore");
+    env.put(Context.SECURITY_CREDENTIALS, password);
+    env.put(Context.REFERRAL, referral);
     try {
       return new InitialDirContext(env);
     } catch (NamingException e) {

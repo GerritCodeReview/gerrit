@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
@@ -23,7 +22,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -49,7 +47,6 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 public class PushOneCommit {
@@ -181,12 +178,8 @@ public class PushOneCommit {
 
   private Result execute(String ref) throws Exception {
     RevCommit c = commitBuilder.create();
-    testRepo.getRevWalk().parseBody(c);
     if (changeId == null) {
-      List<String> ids = c.getFooterLines(FooterConstants.CHANGE_ID);
-      checkState(ids.size() >= 1,
-          "No Change-Id found in new commit:\n%s", c.getFullMessage());
-      changeId = ids.get(ids.size() - 1);
+      changeId = GitUtil.getChangeId(testRepo, c).get();
     }
     Git git = Git.wrap(testRepo.getRepository());
     if (tag != null) {

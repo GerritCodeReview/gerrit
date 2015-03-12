@@ -25,7 +25,6 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.api.AddCommand;
-import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.FetchCommand;
@@ -149,12 +148,6 @@ public class GitUtil {
     FetchCommand fetch = git.fetch();
     fetch.setRefSpecs(new RefSpec(spec));
     fetch.call();
-  }
-
-  public static void checkout(Git git, String name) throws GitAPIException {
-    CheckoutCommand checkout = git.checkout();
-    checkout.setName(name);
-    checkout.call();
   }
 
   public static PushResult pushHead(Git git, String ref, boolean pushTags)

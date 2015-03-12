@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -30,13 +29,13 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   public void submitWithMerge() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "content");
+        createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, initialHead.getId().getName());
+    testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "b.txt", "other content");
+        createChange("Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
     RevCommit head = getRemoteHead();
     assertThat(head.getParentCount()).isEqualTo(2);
@@ -48,16 +47,16 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "aaa\nbbb\nccc\n");
+        createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
+        createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
     submit(change2.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, change.getCommitId().getName());
+    testRepo.reset(change.getCommitId());
     PushOneCommit.Result change3 =
-        createChange(git, "Change 3", "a.txt", "bbb\nccc\n");
+        createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     RevCommit head = getRemoteHead();
     assertThat(head.getParentCount()).isEqualTo(2);
@@ -70,13 +69,13 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   public void submitWithContentMerge_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "content");
+        createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, initialHead.getId().getName());
+    testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "a.txt", "other content");
+        createChange("Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId());
     assertThat(getRemoteHead()).isEqualTo(oldHead);
   }

@@ -41,6 +41,7 @@ class AddFileBox extends Composite {
 
   private final Change.Id changeId;
   private final RevisionInfo revision;
+  private final FileTable files;
 
   @UiField Button open;
   @UiField Button cancel;
@@ -48,9 +49,10 @@ class AddFileBox extends Composite {
   @UiField(provided = true)
   RemoteSuggestBox path;
 
-  AddFileBox(Change.Id changeId, RevisionInfo revision) {
+  AddFileBox(Change.Id changeId, RevisionInfo revision, FileTable files) {
     this.changeId = changeId;
     this.revision = revision;
+    this.files = files;
 
     path = new RemoteSuggestBox(new PathSuggestOracle(changeId, revision));
     path.addSelectionHandler(new SelectionHandler<String>() {
@@ -62,6 +64,9 @@ class AddFileBox extends Composite {
     path.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
       @Override
       public void onClose(CloseEvent<RemoteSuggestBox> event) {
+        if (path.getText() != null && path.getText().length() > 0) {
+          open(path.getText());
+        }
         hide();
       }
     });
@@ -92,6 +97,7 @@ class AddFileBox extends Composite {
   @UiHandler("cancel")
   void onCancel(@SuppressWarnings("unused") ClickEvent e) {
     hide();
+    files.registerKeys();
   }
 
   private void hide() {

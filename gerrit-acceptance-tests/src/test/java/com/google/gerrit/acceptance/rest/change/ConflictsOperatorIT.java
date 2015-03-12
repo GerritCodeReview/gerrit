@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -27,8 +26,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -40,8 +37,8 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
 
   @Test
   public void noConflictingChanges() throws Exception {
-    PushOneCommit.Result change = createChange(git, true);
-    createChange(git, false);
+    PushOneCommit.Result change = createChange(true);
+    createChange(false);
 
     Set<String> changes = queryConflictingChanges(change);
     assertThat((Iterable<?>)changes).isEmpty();
@@ -49,21 +46,21 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
 
   @Test
   public void conflictingChanges() throws Exception {
-    PushOneCommit.Result change = createChange(git, true);
-    PushOneCommit.Result conflictingChange1 = createChange(git, true);
-    PushOneCommit.Result conflictingChange2 = createChange(git, true);
-    createChange(git, false);
+    PushOneCommit.Result change = createChange(true);
+    PushOneCommit.Result conflictingChange1 = createChange(true);
+    PushOneCommit.Result conflictingChange2 = createChange(true);
+    createChange(false);
 
     Set<String> changes = queryConflictingChanges(change);
     assertChanges(changes, conflictingChange1, conflictingChange2);
   }
 
-  private PushOneCommit.Result createChange(Git git, boolean conflicting)
-      throws GitAPIException, IOException {
-    checkout(git, "origin/master");
+  private PushOneCommit.Result createChange(boolean conflicting)
+      throws Exception {
+    testRepo.reset("origin/master");
     String file = conflicting ? "test.txt" : "test-" + count + ".txt";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, "Change " + count, file,
+        pushFactory.create(db, admin.getIdent(), testRepo, "Change " + count, file,
             "content " + count);
     count++;
     return push.to("refs/for/master");

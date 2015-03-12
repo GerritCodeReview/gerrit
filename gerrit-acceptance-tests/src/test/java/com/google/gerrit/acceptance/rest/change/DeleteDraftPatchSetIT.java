@@ -29,7 +29,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -79,11 +78,10 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
   }
 
-  private String createDraftChangeWith2PS() throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+  private String createDraftChangeWith2PS() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     Result result = push.to("refs/drafts/master");
-    push = pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+    push = pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
         "b.txt", "4711", result.getChangeId());
     return push.to("refs/drafts/master").getChangeId();
   }

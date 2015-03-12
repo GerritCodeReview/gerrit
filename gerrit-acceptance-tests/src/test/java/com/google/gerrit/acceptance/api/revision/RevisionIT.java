@@ -46,14 +46,12 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Patch;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
@@ -214,7 +212,7 @@ public class RevisionIT extends AbstractDaemonTest {
     String subject = "Test change\n\n" +
         "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, subject,
+        pushFactory.create(db, admin.getIdent(), testRepo, subject,
             "another_file.txt", "another content");
     PushOneCommit.Result r2 = push.to("refs/for/master");
 
@@ -283,7 +281,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .create(new BranchInput());
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, "another content");
     push.to("refs/heads/foo");
 
@@ -300,11 +298,11 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void canRebase() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     merge(r1);
 
-    push = pushFactory.create(db, admin.getIdent(), git);
+    push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r2 = push.to("refs/for/master");
     boolean canRebase = gApi.changes()
         .id(r2.getChangeId())
@@ -314,7 +312,7 @@ public class RevisionIT extends AbstractDaemonTest {
     merge(r2);
 
     git.checkout().setName(r1.getCommit().name()).call();
-    push = pushFactory.create(db, admin.getIdent(), git);
+    push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r3 = push.to("refs/for/master");
 
     canRebase = gApi.changes()
@@ -326,7 +324,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void setUnsetReviewedFlag() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
 
     gApi.changes()
@@ -354,7 +352,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ObjectId initial = git.getRepository().getRef(HEAD).getLeaf().getObjectId();
 
     PushOneCommit push1 =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, "push 1 content");
 
     PushOneCommit.Result r1 = push1.to("refs/for/master");
@@ -367,7 +365,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 
     PushOneCommit push2 =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, "push 2 content");
     PushOneCommit.Result r2 = push2.to("refs/for/master");
     assertMergeable(r2.getChangeId(), false);
@@ -521,15 +519,14 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r,
-      String content) throws GitAPIException, IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git,
+      String content) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         "test commit", "a.txt", content, r.getChangeId());
     return push.to("refs/for/master");
   }
 
-  private PushOneCommit.Result createDraft() throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+  private PushOneCommit.Result createDraft() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to("refs/drafts/master");
   }
 }

@@ -91,10 +91,10 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         .create(new BranchInput());
 
     allow(Permission.SUBMIT, admins, "refs/for/refs/heads/*");
-    PushOneCommit.Result mr = pushFactory.create(db, admin.getIdent(), git)
+    PushOneCommit.Result mr = pushFactory.create(db, admin.getIdent(), testRepo)
         .to("refs/for/master%submit");
     mr.assertOkStatus();
-    PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), git)
+    PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), testRepo)
         .to("refs/for/branch%submit");
     br.assertOkStatus();
 

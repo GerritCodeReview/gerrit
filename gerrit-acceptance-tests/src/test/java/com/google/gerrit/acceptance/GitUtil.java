@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testutil.TempFileUtil;
 
 import com.jcraft.jsch.JSch;
@@ -73,39 +72,6 @@ public class GitUtil {
         }
       }
     });
-  }
-
-  public static void createProject(SshSession s, String name)
-      throws JSchException, IOException {
-    createProject(s, name, null);
-  }
-
-  public static void createProject(SshSession s, String name, Project.NameKey parent)
-      throws JSchException, IOException {
-    createProject(s, name, parent, true);
-  }
-
-  public static void createProject(SshSession s, String name,
-      Project.NameKey parent, boolean emptyCommit)
-      throws JSchException, IOException {
-    StringBuilder b = new StringBuilder();
-    b.append("gerrit create-project");
-    if (emptyCommit) {
-      b.append(" --empty-commit");
-    }
-    b.append(" --name \"");
-    b.append(name);
-    b.append("\"");
-    if (parent != null) {
-      b.append(" --parent \"");
-      b.append(parent.get());
-      b.append("\"");
-    }
-    s.exec(b.toString());
-    if (s.hasError()) {
-      throw new IllegalStateException(
-          "gerrit create-project returned error: " + s.getError());
-    }
   }
 
   public static Git cloneProject(String url) throws GitAPIException, IOException {

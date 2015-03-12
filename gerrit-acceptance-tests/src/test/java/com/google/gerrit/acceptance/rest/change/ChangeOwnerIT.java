@@ -34,7 +34,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +53,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     SshSession sshSession = new SshSession(server, user);
     initSsh(user);
     sshSession.open();
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
+    setRepo(cloneProject(sshSession.getUrl() + "/" + project.get()));
     sshSession.close();
     user2 = accounts.user2();
     sessionDev = new RestSession(server, user2);
@@ -102,9 +101,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     projectCache.evict(config.getProject());
   }
 
-  private String createMyChange() throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), git);
+  private String createMyChange() throws Exception {
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
     return push.to("refs/for/master").getChangeId();
   }
 }

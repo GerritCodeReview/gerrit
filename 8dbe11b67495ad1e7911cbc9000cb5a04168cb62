@@ -22,6 +22,30 @@
       "revId": "8dbe11b67495ad1e7911cbc9000cb5a04168cb62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_c5e4fa2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-03-12T09:40:25Z",
+      "side": 1,
+      "message": "final is actually needed here otherwise wouldn\u0027t compile :-)\nThere is an anonymous inner class later on (the new Comparator) that would not be able to use the matcher unless it is final.\n\nShould I just move the jarMatcher inside the inner class then?",
+      "parentUuid": "e18ed27f_cf365d1b",
+      "range": {
+        "startLine": 430,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 9
+      },
+      "revId": "8dbe11b67495ad1e7911cbc9000cb5a04168cb62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

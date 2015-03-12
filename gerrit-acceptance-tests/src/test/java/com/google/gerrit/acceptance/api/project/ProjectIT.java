@@ -38,8 +38,7 @@ public class ProjectIT extends AbstractDaemonTest  {
     String name = "foo";
     assertThat(name).isEqualTo(
         gApi.projects()
-            .name(name)
-            .create()
+            .create(name)
             .get()
             .name);
   }
@@ -49,8 +48,7 @@ public class ProjectIT extends AbstractDaemonTest  {
     String name = "foo";
     assertThat(name).isEqualTo(
         gApi.projects()
-            .name(name + ".git")
-            .create()
+            .create(name + ".git")
             .get()
             .name);
   }
@@ -69,10 +67,8 @@ public class ProjectIT extends AbstractDaemonTest  {
     ProjectInput in = new ProjectInput();
     in.name = "baz";
     gApi.projects()
-        .name("baz")
         .create(in);
     gApi.projects()
-        .name("baz")
         .create(in);
   }
 
@@ -89,8 +85,8 @@ public class ProjectIT extends AbstractDaemonTest  {
   public void listProjects() throws Exception {
     List<ProjectInfo> initialProjects = gApi.projects().list().get();
 
-    gApi.projects().name("foo").create();
-    gApi.projects().name("bar").create();
+    gApi.projects().create("foo");
+    gApi.projects().create("bar");
 
     List<ProjectInfo> allProjects = gApi.projects().list().get();
     assertThat(allProjects).hasSize(initialProjects.size() + 2);

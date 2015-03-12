@@ -40,6 +40,24 @@ public interface Projects {
    */
   ProjectApi name(String name) throws RestApiException;
 
+  /**
+   * Create a project using the default configuration.
+   *
+   * @param name project name.
+   * @return API for accessing the newly-created project.
+   * @throws RestApiException if an error occurred.
+   */
+  ProjectApi create(String name) throws RestApiException;
+
+  /**
+   * Create a project.
+   *
+   * @param in project creation input; name must be set.
+   * @return API for accessing the newly-created project.
+   * @throws RestApiException if an error occurred.
+   */
+  ProjectApi create(ProjectInput in) throws RestApiException;
+
   ListRequest list();
 
   public abstract class ListRequest {
@@ -160,6 +178,16 @@ public interface Projects {
   public class NotImplemented implements Projects {
     @Override
     public ProjectApi name(String name) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ProjectApi create(ProjectInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ProjectApi create(String name) throws RestApiException {
       throw new NotImplementedException();
     }
 

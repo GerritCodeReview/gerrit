@@ -18,22 +18,16 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 
-import com.jcraft.jsch.JSchException;
-
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
   @Test
-  public void submitWithMerge() throws JSchException, IOException,
-      GitAPIException {
-    Git git = createProject();
+  public void submitWithMerge() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");
@@ -51,10 +45,8 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithContentMerge() throws JSchException, IOException,
-      GitAPIException {
-    Git git = createProject();
-    setUseContentMerge();
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitWithContentMerge() throws Exception {
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
@@ -74,10 +66,8 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithContentMerge_Conflict() throws JSchException,
-      IOException, GitAPIException {
-    Git git = createProject();
-    setUseContentMerge();
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitWithContentMerge_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");

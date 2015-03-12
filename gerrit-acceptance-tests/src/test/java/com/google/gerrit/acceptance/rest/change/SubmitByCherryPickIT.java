@@ -19,12 +19,13 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -39,7 +40,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitWithCherryPickIfFastForwardPossible() throws Exception {
-    Git git = createProject();
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
     assertCherryPick(git, false);
@@ -49,7 +49,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitWithCherryPick() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");
@@ -70,9 +69,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
-    Git git = createProject();
-    setUseContentMerge();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
@@ -95,9 +93,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge_Conflict() throws Exception {
-    Git git = createProject();
-    setUseContentMerge();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");
@@ -115,7 +112,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitOutOfOrder() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");
@@ -138,7 +134,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitOutOfOrder_Conflict() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");
@@ -157,7 +152,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitMultipleChanges() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
 
     checkout(git, initialHead.getId().getName());
@@ -191,7 +185,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitDependentNonConflictingChangesOutOfOrder() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
 
     checkout(git, initialHead.getId().getName());
@@ -220,7 +213,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitDependentConflictingChangesOutOfOrder() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
 
     checkout(git, initialHead.getId().getName());
@@ -244,7 +236,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitSubsetOfDependentChanges() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
 
     checkout(git, initialHead.getId().getName());
@@ -271,7 +262,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitChangeAfterParentFailsDueToConflict() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
 
     checkout(git, initialHead.getId().getName());

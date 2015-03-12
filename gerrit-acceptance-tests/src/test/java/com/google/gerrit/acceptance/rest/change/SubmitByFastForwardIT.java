@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -33,7 +32,6 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitWithFastForward() throws Exception {
-    Git git = createProject();
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
@@ -45,7 +43,6 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitFastForwardNotPossible_Conflict() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");

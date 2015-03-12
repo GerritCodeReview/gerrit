@@ -18,7 +18,6 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 
@@ -26,14 +25,14 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -53,13 +52,10 @@ import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
-import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
@@ -118,7 +114,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       }
 
     }, listenerUser);
-    project = new Project.NameKey("p2");
   }
 
   @After
@@ -129,9 +124,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected abstract SubmitType getSubmitType();
 
   @Test
-  public void submitToEmptyRepo() throws JSchException, IOException,
-      GitAPIException {
-    Git git = createProject(false);
+  @TestProjectInput(createEmptyCommit = false)
+  public void submitToEmptyRepo() throws Exception {
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
     assertThat(getRemoteHead().getId()).isEqualTo(change.getCommitId());
@@ -140,7 +134,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void submitWholeTopic() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
-    Git git = createProject();
     PushOneCommit.Result change1 =
         createChange(git, "Change 1", "a.txt", "content", "test-topic");
     PushOneCommit.Result change2 =
@@ -172,40 +165,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected Git createProject() throws JSchException, IOException,
-      GitAPIException {
-    return createProject(true);
-  }
-
-  private Git createProject(boolean emptyCommit)
-      throws JSchException, IOException, GitAPIException {
-    SshSession sshSession = new SshSession(server, admin);
-    try {
-      GitUtil.createProject(sshSession, project.get(), null, emptyCommit);
-      setSubmitType(getSubmitType());
-      return cloneProject(sshSession.getUrl() + "/" + project.get());
-    } finally {
-      sshSession.close();
+  @Override
+  protected void updateProjectInput(ProjectInput in) {
+    in.submitType = getSubmitType();
+    if (in.useContentMerge == InheritableBoolean.INHERIT) {
+      in.useContentMerge = InheritableBoolean.FALSE;
     }
-  }
-
-  private void setSubmitType(SubmitType submitType) throws IOException {
-    PutConfig.Input in = new PutConfig.Input();
-    in.submitType = submitType;
-    in.useContentMerge = InheritableBoolean.FALSE;
-    RestResponse r =
-        adminSession.put("/projects/" + project.get() + "/config", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    r.consume();
-  }
-
-  protected void setUseContentMerge() throws IOException {
-    PutConfig.Input in = new PutConfig.Input();
-    in.useContentMerge = InheritableBoolean.TRUE;
-    RestResponse r =
-        adminSession.put("/projects/" + project.get() + "/config", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    r.consume();
   }
 
   protected PushOneCommit.Result createChange(Git git) throws GitAPIException,

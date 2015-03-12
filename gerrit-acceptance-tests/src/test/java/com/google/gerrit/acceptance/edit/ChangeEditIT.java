@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.edit;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -34,6 +33,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -266,9 +266,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  @TestProjectInput(createEmptyCommit = false)
   public void updateRootCommitMessage() throws Exception {
-    createProject(sshSession, "root-msg-test", null, false);
-    git = cloneProject(sshSession.getUrl() + "/root-msg-test");
+    git = cloneProject(sshSession.getUrl() + "/" + project);
     changeId = newChange(git, admin.getIdent());
     change = getChange(changeId);
 

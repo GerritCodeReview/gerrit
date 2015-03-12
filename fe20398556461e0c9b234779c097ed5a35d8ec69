@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8158b6e6_446c8e07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-03-12T14:32:26Z",
+      "side": 1,
+      "message": "Good, will go with the low-tech .toString.endsWith solution ;-)",
+      "parentUuid": "e18ed27f_cf573d32",
+      "revId": "fe20398556461e0c9b234779c097ed5a35d8ec69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e18ed27f_ef5c8156",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-12T14:29:37Z",
       "side": 1,
       "message": "Just use n[12].toString().endsWith(\".jar\")",
+      "revId": "fe20398556461e0c9b234779c097ed5a35d8ec69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_a5669e28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-03-12T14:32:26Z",
+      "side": 1,
+      "message": "I really like your proposal :-) ... I just tried with the pure \"java.nio\" approach first.",
+      "parentUuid": "e18ed27f_ef5c8156",
       "revId": "fe20398556461e0c9b234779c097ed5a35d8ec69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

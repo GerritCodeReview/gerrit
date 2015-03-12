@@ -59,7 +59,6 @@ import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -126,7 +125,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void submitToEmptyRepo() throws Exception {
-    PushOneCommit.Result change = createChange(git);
+    PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     assertThat(getRemoteHead().getId()).isEqualTo(change.getCommitId());
   }
@@ -135,11 +134,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitWholeTopic() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     PushOneCommit.Result change1 =
-        createChange(git, "Change 1", "a.txt", "content", "test-topic");
+        createChange("Change 1", "a.txt", "content", "test-topic");
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "b.txt", "content", "test-topic");
+        createChange("Change 2", "b.txt", "content", "test-topic");
     PushOneCommit.Result change3 =
-        createChange(git, "Change 3", "c.txt", "content", "test-topic");
+        createChange("Change 3", "c.txt", "content", "test-topic");
     approve(change1.getChangeId());
     approve(change2.getChangeId());
     approve(change3.getChangeId());
@@ -173,24 +172,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected PushOneCommit.Result createChange(Git git) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
-    return push.to("refs/for/master");
-  }
-
-  protected PushOneCommit.Result createChange(Git git, String subject,
-      String fileName, String content) throws GitAPIException, IOException {
+  protected PushOneCommit.Result createChange(String subject,
+      String fileName, String content) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, subject, fileName, content);
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master");
   }
 
-  protected PushOneCommit.Result createChange(Git git, String subject,
+  protected PushOneCommit.Result createChange(String subject,
       String fileName, String content, String topic)
-          throws GitAPIException, IOException {
+          throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, subject, fileName, content);
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master/" + topic);
   }
 

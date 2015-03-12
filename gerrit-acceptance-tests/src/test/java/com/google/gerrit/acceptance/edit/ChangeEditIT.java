@@ -59,7 +59,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.apache.commons.codec.binary.StringUtils;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -108,12 +107,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     db = reviewDbProvider.open();
-    changeId = newChange(git, admin.getIdent());
+    changeId = newChange(admin.getIdent());
     ps = getCurrentPatchSet(changeId);
-    amendChange(git, admin.getIdent(), changeId);
+    amendChange(admin.getIdent(), changeId);
     change = getChange(changeId);
     assertThat(ps).isNotNull();
-    changeId2 = newChange2(git, admin.getIdent());
+    changeId2 = newChange2(admin.getIdent());
     change2 = getChange(changeId2);
     assertThat(change2).isNotNull();
     ps2 = getCurrentPatchSet(changeId2);
@@ -244,7 +243,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
         current.getPatchSetId());
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, PushOneCommit.SUBJECT, FILE_NAME,
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, FILE_NAME,
             new String(CONTENT_NEW2), changeId2);
     push.to("refs/for/master").assertOkStatus();
     RestResponse r = adminSession.post(urlRebase());
@@ -268,8 +267,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void updateRootCommitMessage() throws Exception {
-    git = cloneProject(sshSession.getUrl() + "/" + project);
-    changeId = newChange(git, admin.getIdent());
+    setRepo(cloneProject(sshSession.getUrl() + "/" + project));
+    changeId = newChange(admin.getIdent());
     change = getChange(changeId);
 
     assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
@@ -653,23 +652,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(approvals.get(0).value).isEqualTo(1);
   }
 
-  private String newChange(Git git, PersonIdent ident) throws Exception {
+  private String newChange(PersonIdent ident) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, ident, git, PushOneCommit.SUBJECT, FILE_NAME,
+        pushFactory.create(db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME,
             new String(CONTENT_OLD));
     return push.to("refs/for/master").getChangeId();
   }
 
-  private String amendChange(Git git, PersonIdent ident, String changeId) throws Exception {
+  private String amendChange(PersonIdent ident, String changeId) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, ident, git, PushOneCommit.SUBJECT, FILE_NAME2,
+        pushFactory.create(db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME2,
             new String(CONTENT_NEW2), changeId);
     return push.to("refs/for/master").getChangeId();
   }
 
-  private String newChange2(Git git, PersonIdent ident) throws Exception {
+  private String newChange2(PersonIdent ident) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, ident, git, PushOneCommit.SUBJECT, FILE_NAME,
+        pushFactory.create(db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME,
             new String(CONTENT_OLD));
     return push.rm("refs/for/master").getChangeId();
   }

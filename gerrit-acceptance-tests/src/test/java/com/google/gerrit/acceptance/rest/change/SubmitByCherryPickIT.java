@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -40,7 +39,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitWithCherryPickIfFastForwardPossible() throws Exception {
-    PushOneCommit.Result change = createChange(git);
+    PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     assertCherryPick(git, false);
     assertThat(getRemoteHead().getParent(0))
@@ -51,13 +50,13 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitWithCherryPick() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "content");
+        createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, initialHead.getId().getName());
+    testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "b.txt", "other content");
+        createChange("Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
     assertCherryPick(git, false);
     RevCommit newHead = getRemoteHead();
@@ -72,16 +71,16 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "aaa\nbbb\nccc\n");
+        createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
+        createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
     submit(change2.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, change.getCommitId().getName());
+    testRepo.reset(change.getCommitId());
     PushOneCommit.Result change3 =
-        createChange(git, "Change 3", "a.txt", "bbb\nccc\n");
+        createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     assertCherryPick(git, true);
     RevCommit newHead = getRemoteHead();
@@ -97,13 +96,13 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitWithContentMerge_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "content");
+        createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, initialHead.getId().getName());
+    testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "a.txt", "other content");
+        createChange("Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId());
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
@@ -114,14 +113,14 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitOutOfOrder() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "content");
+        createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, initialHead.getId().getName());
-    createChange(git, "Change 2", "b.txt", "other content");
+    testRepo.reset(initialHead);
+    createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 =
-        createChange(git, "Change 3", "c.txt", "different content");
+        createChange("Change 3", "c.txt", "different content");
     submit(change3.getChangeId());
     assertCherryPick(git, false);
     RevCommit newHead = getRemoteHead();
@@ -136,14 +135,14 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitOutOfOrder_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "content");
+        createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, initialHead.getId().getName());
-    createChange(git, "Change 2", "b.txt", "other content");
+    testRepo.reset(initialHead);
+    createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 =
-        createChange(git, "Change 3", "b.txt", "different content");
+        createChange("Change 3", "b.txt", "different content");
     submitWithConflict(change3.getChangeId());
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change3.getChangeId(), 1, change3.getCommitId());
@@ -154,14 +153,14 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "b", "b");
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change4 = createChange(git, "Change 4", "d", "d");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
     submitStatusOnly(change2.getChangeId());
     submitStatusOnly(change3.getChangeId());
@@ -187,9 +186,9 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitDependentNonConflictingChangesOutOfOrder() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b");
-    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "b", "b");
+    PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
     assertThat(change3.getCommit().getParent(0)).isEqualTo(change2.getCommit());
 
     // Submit succeeds; change3 is successfully cherry-picked onto head.
@@ -215,9 +214,9 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitDependentConflictingChangesOutOfOrder() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b1");
-    PushOneCommit.Result change3 = createChange(git, "Change 3", "b", "b2");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "b", "b1");
+    PushOneCommit.Result change3 = createChange("Change 3", "b", "b2");
     assertThat(change3.getCommit().getParent(0)).isEqualTo(change2.getCommit());
 
     // Submit fails; change3 contains the delta "b1" -> "b2", which cannot be
@@ -238,11 +237,11 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitSubsetOfDependentChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    checkout(git, initialHead.getId().getName());
-    createChange(git, "Change 2", "b", "b");
-    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
-    createChange(git, "Change 4", "d", "d");
-    PushOneCommit.Result change5 = createChange(git, "Change 5", "e", "e");
+    testRepo.reset(initialHead);
+    createChange("Change 2", "b", "b");
+    PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
+    createChange("Change 4", "d", "d");
+    PushOneCommit.Result change5 = createChange("Change 5", "e", "e");
 
     // Out of the above, only submit 3 and 5.
     submitStatusOnly(change3.getChangeId());
@@ -264,14 +263,14 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitChangeAfterParentFailsDueToConflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b1");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "b", "b1");
     submit(change2.getChangeId());
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change3 = createChange(git, "Change 3", "b", "b2");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change3 = createChange("Change 3", "b", "b2");
     assertThat(change3.getCommit().getParent(0)).isEqualTo(initialHead);
-    PushOneCommit.Result change4 = createChange(git, "Change 3", "c", "c3");
+    PushOneCommit.Result change4 = createChange("Change 3", "c", "c3");
 
     submitStatusOnly(change3.getChangeId());
     submitStatusOnly(change4.getChangeId());

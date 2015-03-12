@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -33,7 +32,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   @Test
   public void submitWithFastForward() throws Exception {
     RevCommit oldHead = getRemoteHead();
-    PushOneCommit.Result change = createChange(git);
+    PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(change.getCommitId());
@@ -45,13 +44,13 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   public void submitFastForwardNotPossible_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
-        createChange(git, "Change 1", "a.txt", "content");
+        createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    checkout(git, initialHead.getId().getName());
+    testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
-        createChange(git, "Change 2", "b.txt", "other content");
+        createChange("Change 2", "b.txt", "other content");
     submitWithConflict(change2.getChangeId());
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);

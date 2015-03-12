@@ -347,7 +347,7 @@ public class EditScreen extends Screen {
   private void initEditor(HttpResponse<NativeString> file) {
     ModeInfo mode = null;
     String content = "";
-    if (file != null) {
+    if (file != null && file.getResult() != null) {
       content = file.getResult().asString();
       if (prefs.syntaxHighlighting()) {
         mode = ModeInfo.findMode(file.getContentType(), path);

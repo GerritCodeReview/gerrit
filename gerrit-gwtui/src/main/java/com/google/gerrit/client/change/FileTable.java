@@ -224,6 +224,14 @@ public class FileTable extends FlowPanel {
     }
   }
 
+  void unregisterKeys() {
+    register = false;
+
+    if (table != null) {
+      table.setRegisterKeys(false);
+    }
+  }
+
   void registerKeys() {
     register = true;
 

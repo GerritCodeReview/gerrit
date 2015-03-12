@@ -6,7 +6,6 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -21,7 +20,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithFastForward() throws Exception {
-    Git git = createProject();
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
@@ -33,7 +31,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitMultipleChanges() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
 
     checkout(git, initialHead.getId().getName());

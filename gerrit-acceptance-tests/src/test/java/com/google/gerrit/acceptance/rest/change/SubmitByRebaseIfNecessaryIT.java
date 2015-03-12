@@ -18,9 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -32,8 +33,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithFastForward() throws Exception {
-    Git git = createProject();
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
@@ -46,8 +47,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithRebase() throws Exception {
-    Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");
@@ -68,9 +69,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
-    Git git = createProject();
-    setUseContentMerge();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
@@ -93,9 +93,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge_Conflict() throws Exception {
-    Git git = createProject();
-    setUseContentMerge();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange(git, "Change 1", "a.txt", "content");

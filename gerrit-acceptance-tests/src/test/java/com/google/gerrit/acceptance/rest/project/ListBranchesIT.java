@@ -15,13 +15,12 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertBranches;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,10 +47,9 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
+  @TestProjectInput(createEmptyCommit = false)
   public void listBranchesOfEmptyProject() throws Exception {
-    Project.NameKey emptyProject = new Project.NameKey("empty");
-    createProject(sshSession, emptyProject.get(), null, false);
-    RestResponse r = adminSession.get("/projects/" + emptyProject.get() + "/branches");
+    RestResponse r = adminSession.get("/projects/" + project + "/branches");
     List<BranchInfo> expected = Lists.asList(
         new BranchInfo("refs/meta/config",  null, false),
         new BranchInfo[] {

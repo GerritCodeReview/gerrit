@@ -15,14 +15,12 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.add;
-import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.reviewdb.client.Change;
@@ -35,7 +33,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -58,36 +57,49 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Test
   public void getRelatedLinear() throws Exception {
-    add(git, "a.txt", "1");
-    Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
-    add(git, "b.txt", "2");
-    Commit c2 = createCommit(git, admin.getIdent(), "subject: 2");
+    RevCommit c1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(testRepo, c1).get();
+    RevCommit c2 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(testRepo, c2).get();
     pushHead(git, "refs/for/master", false);
 
-    for (Commit c : ImmutableList.of(c2, c1)) {
+    for (RevCommit c : ImmutableList.of(c2, c1)) {
       List<ChangeAndCommit> related = getRelated(getPatchSetId(c));
+      String id = getChangeId(testRepo, c).get();
       assertThat(related).hasSize(2);
       assertThat(related.get(0).changeId)
-          .named("related to " + c.getChangeId()).isEqualTo(c2.getChangeId());
+          .named("related to " + id).isEqualTo(id2);
       assertThat(related.get(1).changeId)
-          .named("related to " + c.getChangeId()).isEqualTo(c1.getChangeId());
+          .named("related to " + id).isEqualTo(id1);
     }
   }
 
   @Test
   public void getRelatedReorder() throws Exception {
     // Create two commits and push.
-    add(git, "a.txt", "1");
-    Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
-    add(git, "b.txt", "2");
-    Commit c2 = createCommit(git, admin.getIdent(), "subject: 2");
+    RevCommit c1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(testRepo, c1).get();
+    RevCommit c2 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(testRepo, c2).get();
     pushHead(git, "refs/for/master", false);
     PatchSet.Id c1ps1 = getPatchSetId(c1);
     PatchSet.Id c2ps1 = getPatchSetId(c2);
 
     // Swap the order of commits and push again.
-    git.reset().setMode(ResetType.HARD).setRef("HEAD^^").call();
-    git.cherryPick().include(c2.getCommit()).include(c1.getCommit()).call();
+    testRepo.reset("HEAD~2");
+    git.cherryPick().include(c2).include(c1).call();
     pushHead(git, "refs/for/master", false);
     PatchSet.Id c1ps2 = getPatchSetId(c1);
     PatchSet.Id c2ps2 = getPatchSetId(c2);
@@ -95,38 +107,48 @@ public class GetRelatedIT extends AbstractDaemonTest {
     for (PatchSet.Id ps : ImmutableList.of(c2ps2, c1ps2)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertThat(related).hasSize(2);
-      assertThat(related.get(0).changeId).named("related to " + ps).isEqualTo(
-          c1.getChangeId());
-      assertThat(related.get(1).changeId).named("related to " + ps).isEqualTo(
-          c2.getChangeId());
+      assertThat(related.get(0).changeId).named("related to " + ps)
+          .isEqualTo(id1);
+      assertThat(related.get(1).changeId).named("related to " + ps)
+          .isEqualTo(id2);
     }
 
     for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertThat(related).hasSize(2);
-      assertThat(related.get(0).changeId).named("related to " + ps).isEqualTo(
-          c2.getChangeId());
-      assertThat(related.get(1).changeId).named("related to " + ps).isEqualTo(
-          c1.getChangeId());
+      assertThat(related.get(0).changeId).named("related to " + ps)
+          .isEqualTo(id2);
+      assertThat(related.get(1).changeId).named("related to " + ps)
+          .isEqualTo(id1);
     }
   }
 
   @Test
   public void getRelatedReorderAndExtend() throws Exception {
     // Create two commits and push.
-    add(git, "a.txt", "1");
-    Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
-    add(git, "b.txt", "2");
-    Commit c2 = createCommit(git, admin.getIdent(), "subject: 2");
+    ObjectId initial = testRepo.getRepository().getRef("HEAD").getObjectId();
+    RevCommit c1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(testRepo, c1).get();
+    RevCommit c2 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(testRepo, c2).get();
     pushHead(git, "refs/for/master", false);
     PatchSet.Id c1ps1 = getPatchSetId(c1);
     PatchSet.Id c2ps1 = getPatchSetId(c2);
 
     // Swap the order of commits, create a new commit on top, and push again.
-    git.reset().setMode(ResetType.HARD).setRef("HEAD^^").call();
-    git.cherryPick().include(c2.getCommit()).include(c1.getCommit()).call();
-    add(git, "c.txt", "3");
-    Commit c3 = createCommit(git, admin.getIdent(), "subject: 3");
+    testRepo.reset(initial);
+    git.cherryPick().include(c2).include(c1).call();
+    RevCommit c3 = commitBuilder()
+        .add("c.txt", "3")
+        .message("subject: 3")
+        .create();
+    String id3 = getChangeId(testRepo, c3).get();
     pushHead(git, "refs/for/master", false);
     PatchSet.Id c1ps2 = getPatchSetId(c1);
     PatchSet.Id c2ps2 = getPatchSetId(c2);
@@ -136,34 +158,43 @@ public class GetRelatedIT extends AbstractDaemonTest {
     for (PatchSet.Id ps : ImmutableList.of(c3ps1, c2ps2, c1ps2)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertThat(related).hasSize(3);
-      assertThat(related.get(0).changeId).named("related to " + ps).isEqualTo(
-          c3.getChangeId());
-      assertThat(related.get(1).changeId).named("related to " + ps).isEqualTo(
-          c1.getChangeId());
-      assertThat(related.get(2).changeId).named("related to " + ps).isEqualTo(
-          c2.getChangeId());
+      assertThat(related.get(0).changeId).named("related to " + ps)
+          .isEqualTo(id3);
+      assertThat(related.get(1).changeId).named("related to " + ps)
+          .isEqualTo(id1);
+      assertThat(related.get(2).changeId).named("related to " + ps)
+          .isEqualTo(id2);
     }
 
     for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertThat(related).hasSize(3);
-      assertThat(related.get(0).changeId).named("related to " + ps).isEqualTo(
-          c3.getChangeId());
-      assertThat(related.get(1).changeId).named("related to " + ps).isEqualTo(
-          c2.getChangeId());
-      assertThat(related.get(2).changeId).named("related to " + ps).isEqualTo(
-          c1.getChangeId());
+      assertThat(related.get(0).changeId).named("related to " + ps)
+          .isEqualTo(id3);
+      assertThat(related.get(1).changeId).named("related to " + ps)
+          .isEqualTo(id2);
+      assertThat(related.get(2).changeId).named("related to " + ps)
+          .isEqualTo(id1);
     }
   }
 
   @Test
   public void getRelatedEdit() throws Exception {
-    add(git, "a.txt", "1");
-    Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
-    add(git, "b.txt", "2");
-    Commit c2 = createCommit(git, admin.getIdent(), "subject: 2");
-    add(git, "b.txt", "3");
-    Commit c3 = createCommit(git, admin.getIdent(), "subject: 3");
+    RevCommit c1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(testRepo, c1).get();
+    RevCommit c2 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(testRepo, c2).get();
+    RevCommit c3 = commitBuilder()
+        .add("c.txt", "3")
+        .message("subject: 3")
+        .create();
+    String id3 = getChangeId(testRepo, c3).get();
     pushHead(git, "refs/for/master", false);
 
     Change ch2 = getChange(c2).change();
@@ -174,16 +205,16 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     List<ChangeAndCommit> related = getRelated(ch2.getId(), 0);
     assertThat(related).hasSize(3);
-    assertThat(related.get(0).changeId).named("related to " + c2.getChangeId())
-        .isEqualTo(c3.getChangeId());
-    assertThat(related.get(1).changeId).named("related to " + c2.getChangeId())
-        .isEqualTo(c2.getChangeId());
+    assertThat(related.get(0).changeId).named("related to " + id2)
+        .isEqualTo(id3);
+    assertThat(related.get(1).changeId).named("related to " + id2)
+        .isEqualTo(id2);
     assertThat(related.get(1)._revisionNumber).named(
         "has edit revision number").isEqualTo(0);
     assertThat(related.get(1).commit.commit).named(
         "has edit revision " + editRev).isEqualTo(editRev);
-    assertThat(related.get(2).changeId).named("related to " + c2.getChangeId())
-        .isEqualTo(c1.getChangeId());
+    assertThat(related.get(2).changeId).named("related to " + id2)
+        .isEqualTo(id1);
   }
 
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {
@@ -198,7 +229,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         RelatedInfo.class).changes;
   }
 
-  private PatchSet.Id getPatchSetId(Commit c) throws OrmException {
+  private PatchSet.Id getPatchSetId(ObjectId c) throws OrmException {
     return getChange(c).change().currentPatchSetId();
   }
 
@@ -206,8 +237,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return db.patchSets().get(c.currentPatchSetId());
   }
 
-  private ChangeData getChange(Commit c) throws OrmException {
-    return Iterables.getOnlyElement(
-        queryProvider.get().byKeyPrefix(c.getChangeId()));
+  private ChangeData getChange(ObjectId c) throws OrmException {
+    return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
   }
 }

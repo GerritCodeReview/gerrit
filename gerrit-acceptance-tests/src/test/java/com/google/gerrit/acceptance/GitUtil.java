@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.base.Preconditions.checkState;
-
+import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.testutil.TempFileUtil;
@@ -24,27 +23,22 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CloneCommand;
-import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.FS;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
@@ -86,64 +80,6 @@ public class GitUtil {
     return cloneCmd.call();
   }
 
-  public static void add(Git git, String path, String content)
-      throws GitAPIException, IOException {
-    File f = new File(git.getRepository().getDirectory().getParentFile(), path);
-    File p = f.getParentFile();
-    if (!p.exists() && !p.mkdirs()) {
-      throw new IOException("failed to create dir: " + p.getAbsolutePath());
-    }
-    FileWriter w = new FileWriter(f);
-    BufferedWriter out = new BufferedWriter(w);
-    try {
-      out.write(content);
-    } finally {
-      out.close();
-    }
-
-    final AddCommand addCmd = git.add();
-    addCmd.addFilepattern(path);
-    addCmd.call();
-  }
-
-  public static void rm(Git gApi, String path)
-      throws GitAPIException {
-    gApi.rm()
-        .addFilepattern(path)
-        .call();
-  }
-
-  public static Commit createCommit(Git git, PersonIdent i, String msg)
-      throws GitAPIException {
-    return createCommit(git, i, msg, null);
-  }
-
-  public static Commit amendCommit(Git git, PersonIdent i, String msg, String changeId)
-      throws GitAPIException {
-    msg = ChangeIdUtil.insertId(msg, ObjectId.fromString(changeId.substring(1)));
-    return createCommit(git, i, msg, changeId);
-  }
-
-  private static Commit createCommit(Git git, PersonIdent i, String msg,
-      String changeId) throws GitAPIException {
-
-    final CommitCommand commitCmd = git.commit();
-    commitCmd.setAmend(changeId != null);
-    commitCmd.setAuthor(i);
-    commitCmd.setCommitter(i);
-    commitCmd.setMessage(msg);
-    commitCmd.setInsertChangeId(changeId == null);
-
-    RevCommit c = commitCmd.call();
-
-    List<String> ids = c.getFooterLines(FooterConstants.CHANGE_ID);
-    checkState(ids.size() >= 1,
-        "No Change-Id found in new commit:\n%s", c.getFullMessage());
-    changeId = ids.get(ids.size() - 1);
-
-    return new Commit(c, changeId);
-  }
-
   public static void fetch(Git git, String spec) throws GitAPIException {
     FetchCommand fetch = git.fetch();
     fetch.setRefSpecs(new RefSpec(spec));
@@ -183,5 +119,16 @@ public class GitUtil {
     public String getChangeId() {
       return changeId;
     }
+  }
+
+  public static Optional<String> getChangeId(TestRepository<?> tr, ObjectId id)
+      throws IOException {
+    RevCommit c = tr.getRevWalk().parseCommit(id);
+    tr.getRevWalk().parseBody(c);
+    List<String> ids = c.getFooterLines(FooterConstants.CHANGE_ID);
+    if (ids.isEmpty()) {
+      return Optional.absent();
+    }
+    return Optional.of(ids.get(ids.size() - 1));
   }
 }

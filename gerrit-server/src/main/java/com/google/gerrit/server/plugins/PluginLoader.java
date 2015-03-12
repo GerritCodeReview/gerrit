@@ -52,8 +52,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -425,6 +427,7 @@ public class PluginLoader implements LifecycleListener {
 
   private TreeSet<Entry<String, Path>> jarsFirstSortedPluginsSet(
       Map<String, Path> activePlugins) {
+    final PathMatcher jarMatcher = FileSystems.getDefault().getPathMatcher("glob:*.jar");
     TreeSet<Entry<String, Path>> sortedPlugins =
         Sets.newTreeSet(new Comparator<Entry<String, Path>>() {
           @Override
@@ -432,7 +435,7 @@ public class PluginLoader implements LifecycleListener {
             Path n1 = e1.getValue().getFileName();
             Path n2 = e2.getValue().getFileName();
             return ComparisonChain.start()
-                .compareTrueFirst(n1.endsWith(".jar"), n2.endsWith(".jar"))
+                .compareTrueFirst(jarMatcher.matches(n1), jarMatcher.matches(n2))
                 .compare(n1, n2)
                 .result();
           }

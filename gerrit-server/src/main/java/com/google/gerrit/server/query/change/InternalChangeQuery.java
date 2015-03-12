@@ -25,6 +25,9 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.util.List;
 
 /**
@@ -54,6 +57,10 @@ public class InternalChangeQuery {
 
   private static Predicate<ChangeData> topic(String topic) {
     return new TopicPredicate(topic);
+  }
+
+  private static Predicate<ChangeData> commit(AbbreviatedObjectId id) {
+    return new CommitPredicate(id);
   }
 
   private final QueryProcessor qp;
@@ -121,6 +128,14 @@ public class InternalChangeQuery {
   public List<ChangeData> byTopicOpen(String topic)
       throws OrmException {
     return query(and(topic(topic), open()));
+  }
+
+  public List<ChangeData> byCommitPrefix(String prefix) throws OrmException {
+    return query(commit(AbbreviatedObjectId.fromString(prefix)));
+  }
+
+  public List<ChangeData> byCommit(ObjectId id) throws OrmException {
+    return query(commit(AbbreviatedObjectId.fromObjectId(id)));
   }
 
   private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {

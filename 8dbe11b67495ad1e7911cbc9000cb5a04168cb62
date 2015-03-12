@@ -46,6 +46,30 @@
       "revId": "8dbe11b67495ad1e7911cbc9000cb5a04168cb62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "410f9eb1_4affd3a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-12T09:44:52Z",
+      "side": 1,
+      "message": "OK.  I haven\u0027t downloaded this change yet otherwise I would have seen the compilation error when I tried to remove it :)\n\nNot sure if it\u0027s better to keep it here or move it inside the comparator.  What about making it a final at class scope?\n\nAnyway, if we leave it here, please wrap the line.",
+      "parentUuid": "a1593aea_c5e4fa2e",
+      "range": {
+        "startLine": 430,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 9
+      },
+      "revId": "8dbe11b67495ad1e7911cbc9000cb5a04168cb62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

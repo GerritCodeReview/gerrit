@@ -16,6 +16,24 @@
       "revId": "a744065cebd2db8267caa2069bc03f0934afbd97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_e55c9656",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-12T14:30:24Z",
+      "side": 1,
+      "message": "Before your change:\n  http://i.imgur.com/BIquoFG.png\n\nAfter this change:\n  http://i.imgur.com/aUjSSQH.png",
+      "parentUuid": "a1593aea_2522aed3",
+      "revId": "a744065cebd2db8267caa2069bc03f0934afbd97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

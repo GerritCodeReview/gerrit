@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18ed27f_cfe41d2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-12T06:41:34Z",
+      "side": 1,
+      "message": "There something wrong with the line endings on this commit message.",
+      "revId": "98318b5842112ea6c5d752c6a4649e16798e39f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

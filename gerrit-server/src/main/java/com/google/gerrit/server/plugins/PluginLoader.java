@@ -432,9 +432,13 @@ public class PluginLoader implements LifecycleListener {
             Path n1 = e1.getValue().getFileName();
             Path n2 = e2.getValue().getFileName();
             return ComparisonChain.start()
-                .compareTrueFirst(n1.endsWith(".jar"), n2.endsWith(".jar"))
+                .compareTrueFirst(isJar(n1), isJar(n2))
                 .compare(n1, n2)
                 .result();
+          }
+
+          private boolean isJar(Path n1) {
+            return n1.toString().endsWith(".jar");
           }
         });
 

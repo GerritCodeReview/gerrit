@@ -1,7 +1,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -21,7 +20,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   @Test
   public void submitWithFastForward() throws Exception {
     RevCommit oldHead = getRemoteHead();
-    PushOneCommit.Result change = createChange(git);
+    PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(change.getCommitId());
@@ -33,14 +32,14 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   public void submitMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "b", "b");
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
 
-    checkout(git, initialHead.getId().getName());
-    PushOneCommit.Result change4 = createChange(git, "Change 4", "d", "d");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
     submitStatusOnly(change2.getChangeId());
     submitStatusOnly(change3.getChangeId());

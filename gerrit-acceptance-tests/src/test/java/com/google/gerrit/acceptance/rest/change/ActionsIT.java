@@ -25,7 +25,6 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -121,9 +120,9 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(actions).containsKey("rebase");
   }
 
-  private PushOneCommit.Result createChangeWithTopic(String topic) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+  private PushOneCommit.Result createChangeWithTopic(String topic)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     assertThat(topic).isNotEmpty();
     return push.to("refs/for/master/" + topic);
   }

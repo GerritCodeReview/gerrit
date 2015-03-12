@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 
@@ -25,6 +24,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     fetch(git, RefNames.REFS_CONFIG + ":refs/heads/config");
-    checkout(git, "refs/heads/config");
+    testRepo.reset("refs/heads/config");
   }
 
   @Test
@@ -43,7 +43,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     cfg.setString("s1", null, "k1", "v1");
     cfg.setString("s2", "ss", "k2", "v2");
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, "Create Project Level Config",
+        pushFactory.create(db, admin.getIdent(), testRepo, "Create Project Level Config",
             configName, cfg.toText());
     push.to(RefNames.REFS_CONFIG);
 
@@ -70,17 +70,19 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     Git parentGit =
         cloneProject(sshSession.getUrl() + "/" + allProjects.get(), false);
+    TestRepository<?> parentTestRepo =
+        new TestRepository<>(parentGit.getRepository());
     fetch(parentGit, RefNames.REFS_CONFIG + ":refs/heads/config");
-    checkout(parentGit, "refs/heads/config");
+    parentTestRepo.reset("refs/heads/config");
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), parentGit, "Create Project Level Config",
+        pushFactory.create(db, admin.getIdent(), parentTestRepo, "Create Project Level Config",
             configName, parentCfg.toText());
     push.to(RefNames.REFS_CONFIG);
 
     Config cfg = new Config();
     cfg.setString("s1", null, "k1", "childValue1");
     cfg.setString("s2", "ss", "k3", "childValue2");
-    push = pushFactory.create(db, admin.getIdent(), git, "Create Project Level Config",
+    push = pushFactory.create(db, admin.getIdent(), testRepo, "Create Project Level Config",
         configName, cfg.toText());
     push.to(RefNames.REFS_CONFIG);
 

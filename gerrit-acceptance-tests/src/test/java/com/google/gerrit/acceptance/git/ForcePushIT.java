@@ -31,7 +31,7 @@ public class ForcePushIT extends AbstractDaemonTest {
   public void forcePushNotAllowed() throws Exception {
     ObjectId initial = git.getRepository().getRef(HEAD).getLeaf().getObjectId();
     PushOneCommit push1 =
-        pushFactory.create(db, admin.getIdent(), git, "change1", "a.txt", "content");
+        pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
     r1.assertOkStatus();
 
@@ -41,7 +41,7 @@ public class ForcePushIT extends AbstractDaemonTest {
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 
     PushOneCommit push2 =
-        pushFactory.create(db, admin.getIdent(), git, "change2", "b.txt", "content");
+        pushFactory.create(db, admin.getIdent(), testRepo, "change2", "b.txt", "content");
     push2.setForce(true);
     PushOneCommit.Result r2 = push2.to("refs/heads/master");
     r2.assertErrorStatus("non-fast forward");
@@ -52,7 +52,7 @@ public class ForcePushIT extends AbstractDaemonTest {
     ObjectId initial = git.getRepository().getRef(HEAD).getLeaf().getObjectId();
     grant(Permission.PUSH, project, "refs/*", true);
     PushOneCommit push1 =
-        pushFactory.create(db, admin.getIdent(), git, "change1", "a.txt", "content");
+        pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
     r1.assertOkStatus();
 
@@ -62,7 +62,7 @@ public class ForcePushIT extends AbstractDaemonTest {
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 
     PushOneCommit push2 =
-        pushFactory.create(db, admin.getIdent(), git, "change2", "b.txt", "content");
+        pushFactory.create(db, admin.getIdent(), testRepo, "change2", "b.txt", "content");
     push2.setForce(true);
     PushOneCommit.Result r2 = push2.to("refs/heads/master");
     r2.assertOkStatus();

@@ -32,7 +32,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -73,7 +72,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.CREATE, project, "refs/tags/*");
     grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     push.setTag(tag);
     PushOneCommit.Result r = push.to("refs/for/master%submit");
     r.assertOkStatus();
@@ -90,7 +89,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.AnnotatedTag tag =
         new PushOneCommit.AnnotatedTag("v1.0", "annotation", admin.getIdent());
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     push.setTag(tag);
     PushOneCommit.Result r = push.to("refs/for/master%submit");
     r.assertOkStatus();
@@ -271,16 +270,15 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result push(String ref, String subject,
-      String fileName, String content) throws GitAPIException, IOException {
+      String fileName, String content) throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), git, subject, fileName, content);
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to(ref);
   }
 
   private PushOneCommit.Result push(String ref, String subject,
-      String fileName, String content, String changeId) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), git, subject,
+      String fileName, String content, String changeId) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo, subject,
         fileName, content, changeId);
     return push.to(ref);
   }

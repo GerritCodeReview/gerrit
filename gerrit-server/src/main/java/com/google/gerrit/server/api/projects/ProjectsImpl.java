@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Singleton
-class ProjectsImpl extends Projects.NotImplemented implements Projects {
+class ProjectsImpl implements Projects {
   private final ProjectsCollection projects;
   private final ProjectApiImpl.Factory api;
   private final Provider<ListProjects> listProvider;

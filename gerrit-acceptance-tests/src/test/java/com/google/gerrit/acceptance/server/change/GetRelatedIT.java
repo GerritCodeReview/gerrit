@@ -178,7 +178,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .isEqualTo(c3.getChangeId());
     assertThat(related.get(1).changeId).named("related to " + c2.getChangeId())
         .isEqualTo(c2.getChangeId());
-    assertThat(related.get(1)._revisionNumber.intValue()).named(
+    assertThat(related.get(1)._revisionNumber).named(
         "has edit revision number").isEqualTo(0);
     assertThat(related.get(1).commit.commit).named(
         "has edit revision " + editRev).isEqualTo(editRev);

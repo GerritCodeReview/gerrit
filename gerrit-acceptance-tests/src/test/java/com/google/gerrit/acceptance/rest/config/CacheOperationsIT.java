@@ -42,7 +42,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   public void flushAll() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long) 0);
+    assertThat(cacheInfo.entries.mem).isGreaterThan((long) 0);
 
     r = adminSession.post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
@@ -71,11 +71,11 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   public void flush() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)0);
+    assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
 
     r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)1);
+    assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
 
     r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("accounts", "project_list")));
@@ -88,7 +88,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
     r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)1);
+    assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
   }
 
   @Test
@@ -109,7 +109,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   public void flush_UnprocessableEntity() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/projects");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)0);
+    assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
 
     r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects", "unprocessable")));
@@ -118,7 +118,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
     r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)0);
+    assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
   }
 
   @Test

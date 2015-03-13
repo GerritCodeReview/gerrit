@@ -187,7 +187,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
-    assertThat(cr.all.get(0).value.intValue()).is(1);
+    assertThat(cr.all.get(0).value).is(1);
 
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
@@ -198,7 +198,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
-    assertThat(cr.all.get(0).value.intValue()).is(2);
+    assertThat(cr.all.get(0).value).is(2);
   }
 
   @Test

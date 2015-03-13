@@ -34,7 +34,7 @@ public class GetCacheIT extends AbstractDaemonTest {
 
     assertThat(result.name).isEqualTo("accounts");
     assertThat(result.type).isEqualTo(CacheType.MEM);
-    assertThat(result.entries.mem.longValue()).isEqualTo(1);
+    assertThat(result.entries.mem).isEqualTo(1);
     assertThat(result.averageGet).isNotNull();
     assertThat(result.averageGet).endsWith("s");
     assertThat(result.entries.disk).isNull();
@@ -47,7 +47,7 @@ public class GetCacheIT extends AbstractDaemonTest {
     r = adminSession.get("/config/server/caches/accounts");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(result.entries.mem.longValue()).isEqualTo(2);
+    assertThat(result.entries.mem).isEqualTo(2);
   }
 
   @Test

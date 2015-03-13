@@ -45,7 +45,7 @@ public class ListCachesIT extends AbstractDaemonTest {
     assertThat(result).containsKey("accounts");
     CacheInfo accountsCacheInfo = result.get("accounts");
     assertThat(accountsCacheInfo.type).isEqualTo(CacheType.MEM);
-    assertThat(accountsCacheInfo.entries.mem.longValue()).isEqualTo(1);
+    assertThat(accountsCacheInfo.entries.mem).isEqualTo(1);
     assertThat(accountsCacheInfo.averageGet).isNotNull();
     assertThat(accountsCacheInfo.averageGet).endsWith("s");
     assertThat(accountsCacheInfo.entries.disk).isNull();
@@ -59,7 +59,7 @@ public class ListCachesIT extends AbstractDaemonTest {
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = newGson().fromJson(r.getReader(),
         new TypeToken<Map<String, CacheInfo>>() {}.getType());
-    assertThat(result.get("accounts").entries.mem.longValue()).isEqualTo(2);
+    assertThat(result.get("accounts").entries.mem).isEqualTo(2);
   }
 
   @Test

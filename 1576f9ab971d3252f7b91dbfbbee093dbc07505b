@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18ed27f_af1bd96a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-13T00:52:56Z",
+      "side": 1,
+      "message": "Better to mention a Change-Id here so it\u0027s hyperlinked in the review UI.\n\nChange that introduced this is I23716673713db3955d9f1743dee95a87a9db2978",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "1576f9ab971d3252f7b91dbfbbee093dbc07505b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e18ed27f_6f2e5191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-13T00:52:56Z",
+      "side": 1,
+      "message": "This change has not made it into an officially released API yet, so I don\u0027t think this is worth mentioning.",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 16,
+        "endChar": 62
+      },
+      "revId": "1576f9ab971d3252f7b91dbfbbee093dbc07505b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

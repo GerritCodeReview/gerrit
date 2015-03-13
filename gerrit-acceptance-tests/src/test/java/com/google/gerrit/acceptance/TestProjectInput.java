@@ -26,9 +26,9 @@ import java.lang.annotation.Target;
 @Target({METHOD})
 @Retention(RUNTIME)
 public @interface TestProjectInput {
-  String name() default "";
   String parent() default "";
   boolean createEmptyCommit() default true;
+  String description() default "";
 
   // These may be null in a ProjectInput, but annotations do not allow null
   // default values. Thus these defaults should match ProjectConfig.

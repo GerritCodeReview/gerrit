@@ -73,7 +73,7 @@ public class RevisionIT extends AbstractDaemonTest {
   public void reviewTriplet() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(project.get() + "~master~" + r.getChangeId())
         .revision(r.getCommit().name())
         .review(ReviewInput.approve());
   }
@@ -106,11 +106,11 @@ public class RevisionIT extends AbstractDaemonTest {
   public void submit() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(project.get() + "~master~" + r.getChangeId())
         .current()
         .review(ReviewInput.approve());
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(project.get() + "~master~" + r.getChangeId())
         .current()
         .submit();
   }
@@ -119,14 +119,14 @@ public class RevisionIT extends AbstractDaemonTest {
   public void submitOnBehalfOf() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(project.get() + "~master~" + r.getChangeId())
         .current()
         .review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email;
     in.waitForMerge = true;
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(project.get() + "~master~" + r.getChangeId())
         .current()
         .submit(in);
   }
@@ -151,7 +151,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .branch(in.destination)
         .create(new BranchInput());
     ChangeApi orig = gApi.changes()
-        .id("p~master~" + r.getChangeId());
+        .id(project.get() + "~master~" + r.getChangeId());
 
     assertThat((Iterable<?>)orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
@@ -186,7 +186,7 @@ public class RevisionIT extends AbstractDaemonTest {
     in.destination = "master";
     in.message = "it generates a new patch set\n\nChange-Id: " + r.getChangeId();
     ChangeInfo cherryInfo = gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(project.get() + "~master~" + r.getChangeId())
         .revision(r.getCommit().name())
         .cherryPick(in)
         .get();
@@ -200,8 +200,8 @@ public class RevisionIT extends AbstractDaemonTest {
   public void cherryPickToSameBranchWithRebase() throws Exception {
     // Push a new change, then merge it
     PushOneCommit.Result baseChange = createChange();
-    RevisionApi baseRevision =
-        gApi.changes().id("p~master~" + baseChange.getChangeId()).current();
+    String triplet = project.get() + "~master~" + baseChange.getChangeId();
+    RevisionApi baseRevision = gApi.changes().id(triplet).current();
     baseRevision.review(ReviewInput.approve());
     baseRevision.submit();
 
@@ -221,7 +221,8 @@ public class RevisionIT extends AbstractDaemonTest {
       .isEqualTo(r1.getCommit().name());
 
     // Cherry pick change 2 onto the same branch
-    ChangeApi orig = gApi.changes().id("p~master~" + r2.getChangeId());
+    triplet = project.get() + "~master~" + r2.getChangeId();
+    ChangeApi orig = gApi.changes().id(triplet);
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
     in.message = subject;
@@ -250,7 +251,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .branch(in.destination)
         .create(new BranchInput());
     ChangeApi orig = gApi.changes()
-        .id("p~master~" + r.getChangeId());
+        .id(project.get() + "~master~" + r.getChangeId());
 
     assertThat((Iterable<?>)orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
@@ -285,7 +286,8 @@ public class RevisionIT extends AbstractDaemonTest {
             PushOneCommit.FILE_NAME, "another content");
     push.to("refs/heads/foo");
 
-    ChangeApi orig = gApi.changes().id("p~master~" + r.getChangeId());
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    ChangeApi orig = gApi.changes().id(triplet);
     assertThat((Iterable<?>)orig.get().messages).hasSize(1);
 
     try {

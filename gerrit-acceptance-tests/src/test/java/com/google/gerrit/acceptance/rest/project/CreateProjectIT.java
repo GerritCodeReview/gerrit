@@ -53,7 +53,7 @@ import java.util.Set;
 public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectHttp() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     RestResponse r = adminSession.put("/projects/" + newProjectName);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
@@ -67,14 +67,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectHttpWithNameMismatch_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
-    in.name = "otherName";
-    RestResponse r = adminSession.put("/projects/someName", in);
+    in.name = name("otherName");
+    RestResponse r = adminSession.put("/projects/" + name("someName"), in);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
   }
 
   @Test
   public void testCreateProject() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
@@ -85,7 +85,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateProjectWithGitSuffix() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
     assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
@@ -96,7 +96,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateProjectWithProperties() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
     in.name = newProjectName;
     in.description = "Test description";
@@ -119,12 +119,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateChildProject() throws Exception {
-    final String parentName = "parent";
+    String parentName = name("parent");
     ProjectInput in = new ProjectInput();
     in.name = parentName;
     gApi.projects().create(in);
 
-    final String childName = "child";
+    String childName = name("child");
     in = new ProjectInput();
     in.name = childName;
     in.parent = parentName;
@@ -137,14 +137,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity()
       throws Exception {
     ProjectInput in = new ProjectInput();
-    in.name = "newProjectName";
+    in.name = name("newProjectName");
     in.parent = "non-existing-project";
     assertCreateFails(in, UnprocessableEntityException.class);
   }
 
   @Test
   public void testCreateProjectWithOwner() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
     in.name = newProjectName;
     in.owners = Lists.newArrayListWithCapacity(3);
@@ -165,14 +165,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectWithNonExistingOwner_UnprocessableEntity()
       throws Exception {
     ProjectInput in = new ProjectInput();
-    in.name = "newProjectName";
+    in.name = name("newProjectName");
     in.owners = Collections.singletonList("non-existing-group");
     assertCreateFails(in, UnprocessableEntityException.class);
   }
 
   @Test
   public void testCreatePermissionOnlyProject() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
     in.name = newProjectName;
     in.permissionsOnly = true;
@@ -182,7 +182,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateProjectWithEmptyCommit() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
     in.name = newProjectName;
     in.createEmptyCommit = true;
@@ -192,7 +192,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateProjectWithBranches() throws Exception {
-    final String newProjectName = "newProject";
+    String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
     in.name = newProjectName;
     in.createEmptyCommit = true;
@@ -210,7 +210,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectWithoutCapability_Forbidden() throws Exception {
     setApiUser(user);
     ProjectInput in = new ProjectInput();
-    in.name = "newProject";
+    in.name = name("newProject");
     assertCreateFails(in, AuthException.class);
   }
 

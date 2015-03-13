@@ -19,7 +19,6 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProj
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -36,48 +35,33 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getNonChildProject_NotFound() throws Exception {
-    SshSession sshSession = new SshSession(server, admin);
-    Project.NameKey p1 = new Project.NameKey("p1");
-    createProject(p1.get());
-    Project.NameKey p2 = new Project.NameKey("p2");
-    createProject(p2.get());
-    sshSession.close();
+    Project.NameKey p1 = createProject("p1");
+    Project.NameKey p2 = createProject("p2");
 
     assertChildNotFound(p1, p2.get());
   }
 
   @Test
   public void getChildProject() throws Exception {
-    SshSession sshSession = new SshSession(server, admin);
-    Project.NameKey child = new Project.NameKey("p1");
-    createProject(child.get());
-    sshSession.close();
-
+    Project.NameKey child = createProject("p1");
     ProjectInfo childInfo = gApi.projects().name(allProjects.get())
         .child(child.get()).get();
+
     assertProjectInfo(projectCache.get(child).getProject(), childInfo);
   }
 
   @Test
   public void getGrandChildProject_NotFound() throws Exception {
-    SshSession sshSession = new SshSession(server, admin);
-    Project.NameKey child = new Project.NameKey("p1");
-    createProject(child.get());
-    Project.NameKey grandChild = new Project.NameKey("p1.1");
-    createProject(grandChild.get(), child);
-    sshSession.close();
+    Project.NameKey child = createProject("p1");
+    Project.NameKey grandChild = createProject("p1.1", child);
 
     assertChildNotFound(allProjects, grandChild.get());
   }
 
   @Test
   public void getGrandChildProjectWithRecursiveFlag() throws Exception {
-    SshSession sshSession = new SshSession(server, admin);
-    Project.NameKey child = new Project.NameKey("p1");
-    createProject(child.get());
-    Project.NameKey grandChild = new Project.NameKey("p1.1");
-    createProject(grandChild.get(), child);
-    sshSession.close();
+    Project.NameKey child = createProject("p1");
+    Project.NameKey grandChild = createProject("p1.1", child);
 
     ProjectInfo grandChildInfo = gApi.projects().name(allProjects.get())
         .child(grandChild.get()).get(true);
@@ -90,7 +74,6 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     try {
       gApi.projects().name(parent.get()).child(child);
     } catch (ResourceNotFoundException e) {
-      e.printStackTrace();
       assertThat(e.getMessage()).contains(child);
     }
   }

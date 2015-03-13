@@ -39,7 +39,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   public void deletePatchSet() throws Exception {
     String changeId = createChange().getChangeId();
     PatchSet ps = getCurrentPatchSet(changeId);
-    String triplet = "p~master~" + changeId;
+    String triplet = project.get() + "~master~" + changeId;
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
@@ -52,7 +52,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   public void deleteDraftPatchSetNoACL() throws Exception {
     String changeId = createDraftChangeWith2PS();
     PatchSet ps = getCurrentPatchSet(changeId);
-    String triplet = "p~master~" + changeId;
+    String triplet = project.get() + "~master~" + changeId;
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
@@ -65,7 +65,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   public void deleteDraftPatchSetAndChange() throws Exception {
     String changeId = createDraftChangeWith2PS();
     PatchSet ps = getCurrentPatchSet(changeId);
-    String triplet = "p~master~" + changeId;
+    String triplet = project.get() + "~master~" + changeId;
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);

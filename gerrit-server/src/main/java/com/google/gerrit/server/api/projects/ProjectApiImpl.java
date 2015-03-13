@@ -36,7 +36,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import java.io.IOException;
 
-public class ProjectApiImpl extends ProjectApi.NotImplemented implements ProjectApi {
+public class ProjectApiImpl implements ProjectApi {
   interface Factory {
     ProjectApiImpl create(ProjectResource project);
     ProjectApiImpl create(String name);

@@ -34,9 +34,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
-import dk.brics.automaton.RegExp;
-import dk.brics.automaton.RunAutomaton;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -52,6 +49,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.RunAutomaton;
 
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;

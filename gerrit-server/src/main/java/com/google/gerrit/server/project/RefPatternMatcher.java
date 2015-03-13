@@ -18,10 +18,10 @@ import static com.google.gerrit.server.project.RefControl.isRE;
 
 import com.google.gerrit.common.data.ParameterizedString;
 
-import dk.brics.automaton.Automaton;
-
 import java.util.Collections;
 import java.util.regex.Pattern;
+
+import dk.brics.automaton.Automaton;
 
 public abstract class RefPatternMatcher {
   public static RefPatternMatcher getMatcher(String pattern) {

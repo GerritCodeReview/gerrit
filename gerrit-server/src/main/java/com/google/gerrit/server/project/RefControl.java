@@ -30,8 +30,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
-import dk.brics.automaton.RegExp;
-
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -50,6 +48,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import dk.brics.automaton.RegExp;
 
 
 /** Manages access control for Git references (aka branches, tags). */

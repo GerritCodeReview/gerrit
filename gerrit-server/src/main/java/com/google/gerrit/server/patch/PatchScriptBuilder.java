@@ -28,9 +28,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.inject.Inject;
 
-import eu.medsea.mimeutil.MimeType;
-import eu.medsea.mimeutil.MimeUtil2;
-
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -49,6 +46,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import eu.medsea.mimeutil.MimeType;
+import eu.medsea.mimeutil.MimeUtil2;
 
 class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;

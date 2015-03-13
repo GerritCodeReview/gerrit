@@ -36,8 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import eu.medsea.mimeutil.MimeType;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -60,6 +58,8 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import eu.medsea.mimeutil.MimeType;
 
 /**
  * Exports a single version of a patch as a normal file download.

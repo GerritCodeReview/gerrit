@@ -34,5 +34,5 @@ public interface PatchSetWebLink extends WebLink{
    * @return WebLinkInfo that links to patch set in external service,
    * null if there should be no link.
    */
-  WebLinkInfo getPathSetWebLink(final String projectName, final String commit);
+  WebLinkInfo getPatchSetWebLink(final String projectName, final String commit);
 }

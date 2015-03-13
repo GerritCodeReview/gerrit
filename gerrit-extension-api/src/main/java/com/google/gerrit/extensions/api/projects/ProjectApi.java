@@ -18,10 +18,16 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
+import java.util.List;
+
 public interface ProjectApi {
   ProjectApi create() throws RestApiException;
   ProjectApi create(ProjectInput in) throws RestApiException;
   ProjectInfo get() throws RestApiException;
+
+  List<ProjectInfo> children() throws RestApiException;
+  List<ProjectInfo> children(boolean recursive) throws RestApiException;
+  ChildProjectApi child(String name) throws RestApiException;
 
   /**
    * Look up a branch by refname.
@@ -55,6 +61,21 @@ public interface ProjectApi {
 
     @Override
     public ProjectInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ProjectInfo> children() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ProjectInfo> children(boolean recursive) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChildProjectApi child(String name) throws RestApiException {
       throw new NotImplementedException();
     }
 

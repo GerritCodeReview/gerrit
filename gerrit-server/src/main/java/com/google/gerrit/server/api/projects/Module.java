@@ -24,5 +24,6 @@ public class Module extends FactoryModule {
 
     factory(BranchApiImpl.Factory.class);
     factory(ProjectApiImpl.Factory.class);
+    factory(ChildProjectApiImpl.Factory.class);
   }
 }

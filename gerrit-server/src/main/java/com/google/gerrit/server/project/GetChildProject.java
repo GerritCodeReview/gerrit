@@ -23,9 +23,12 @@ import org.kohsuke.args4j.Option;
 
 public class GetChildProject implements RestReadView<ChildProjectResource> {
   @Option(name = "--recursive", usage = "to list child projects recursively")
-  private boolean recursive;
+  public void setRecursive(boolean recursive) {
+    this.recursive = recursive;
+  }
 
   private final ProjectJson json;
+  private boolean recursive;
 
   @Inject
   GetChildProject(ProjectJson json) {

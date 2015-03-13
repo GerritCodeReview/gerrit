@@ -464,8 +464,10 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          ChangedLines lines = input.changedLines();
-          return lines != null ? lines.insertions : null;
+
+          return input.changedLines() != null
+              ? input.changedLines().insertions
+              : null;
         }
       };
 
@@ -476,8 +478,9 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          ChangedLines lines = input.changedLines();
-          return lines != null ? lines.deletions : null;
+          return input.changedLines() != null
+              ? input.changedLines().deletions
+              : null;
         }
       };
 
@@ -488,11 +491,10 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          ChangedLines lines = input.changedLines();
-          if (lines == null) {
-            return null;
-          }
-          return lines.insertions + lines.deletions;
+          ChangedLines changedLines = input.changedLines();
+          return changedLines != null
+              ? changedLines.insertions + changedLines.deletions
+              : null;
         }
       };
 

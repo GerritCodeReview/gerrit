@@ -17,9 +17,11 @@ package com.google.gerrit.server.api.projects;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ListProjects;
+import com.google.gerrit.server.project.ListProjects.FilterType;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -71,6 +73,33 @@ class ProjectsImpl implements Projects {
     lp.setLimit(request.getLimit());
     lp.setStart(request.getStart());
     lp.setMatchPrefix(request.getPrefix());
+
+    lp.setMatchSubstring(request.getSubstring());
+    lp.setMatchRegex(request.getRegex());
+    lp.setShowTree(request.getShowTree());
+    for (String branch : request.getBranches()) {
+      lp.addShowBranch(branch);
+    }
+
+    FilterType type;
+    switch (request.getFilterType()) {
+      case ALL:
+        type = FilterType.ALL;
+        break;
+      case CODE:
+        type = FilterType.CODE;
+        break;
+      case PARENT_CANDIDATES:
+        type = FilterType.PARENT_CANDIDATES;
+        break;
+      case PERMISSIONS:
+        type = FilterType.PERMISSIONS;
+        break;
+      default:
+        throw new BadRequestException(
+            "Unknown filter type: " + request.getFilterType());
+    }
+    lp.setFilterType(type);
 
     return lp.apply();
   }

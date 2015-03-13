@@ -45,7 +45,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
     result.assertOkStatus();
     String changeId = result.getChangeId();
-    String triplet = "p~master~" + changeId;
+    String triplet = project.get() + "~master~" + changeId;
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
@@ -60,7 +60,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createDraftChange();
     result.assertOkStatus();
     String changeId = result.getChangeId();
-    String triplet = "p~master~" + changeId;
+    String triplet = project.get() + "~master~" + changeId;
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
@@ -74,7 +74,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createDraftChange();
     result.assertOkStatus();
     String changeId = result.getChangeId();
-    String triplet = "p~master~" + changeId;
+    String triplet = project.get() + "~master~" + changeId;
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
@@ -90,7 +90,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createDraftChange();
     result.assertOkStatus();
     String changeId = result.getChangeId();
-    String triplet = "p~master~" + changeId;
+    String triplet = project.get() + "~master~" + changeId;
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);

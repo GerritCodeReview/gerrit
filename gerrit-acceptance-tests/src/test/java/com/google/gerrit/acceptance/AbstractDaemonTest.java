@@ -77,6 +77,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
@@ -134,6 +135,8 @@ public abstract class AbstractDaemonTest {
   protected SshSession sshSession;
   protected ReviewDb db;
   protected Project.NameKey project;
+
+  private String projectPrefix;
 
   @Rule
   public TestRule testRunner = new TestRule() {
@@ -203,20 +206,21 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     sshSession = ctx.getSession();
     sshSession.open();
+    projectPrefix = UNSAFE_PROJECT_NAME.matcher(
+        description.getClassName() + "_"
+        + description.getMethodName() + "_").replaceAll("");
 
-    ProjectInput projectInput = projectInput(description);
-    project = new Project.NameKey(projectInput.name);
-    createProject(projectInput);
-
+    project = createProject(projectInput(description));
     testRepo = cloneProject(project, sshSession);
   }
 
   private ProjectInput projectInput(Description description) {
     ProjectInput in = new ProjectInput();
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
+    in.name = projectPrefix + "project";
     if (ann != null) {
-      in.name = ann.name();
       in.parent = Strings.emptyToNull(ann.parent());
+      in.description = Strings.emptyToNull(ann.description());
       in.createEmptyCommit = ann.createEmptyCommit();
       in.submitType = ann.submitType();
       in.useContentMerge = ann.useContributorAgreements();
@@ -226,13 +230,12 @@ public abstract class AbstractDaemonTest {
       // Defaults should match TestProjectConfig, omitting nullable values.
       in.createEmptyCommit = true;
     }
-    if (Strings.isNullOrEmpty(in.name)) {
-      // TODO(dborowitz): Use different project names.
-      in.name = "p";
-    }
     updateProjectInput(in);
     return in;
   }
+
+  private static final Pattern UNSAFE_PROJECT_NAME =
+      Pattern.compile("[^a-zA-Z0-9._/-]+");
 
   protected Git git() {
     return testRepo.git();
@@ -242,27 +245,35 @@ public abstract class AbstractDaemonTest {
     return testRepo.getRepository();
   }
 
-  protected void createProject(String name) throws RestApiException {
-    createProject(name, null);
+  protected String getProjectPrefix() {
+    return projectPrefix;
   }
 
-  protected void createProject(String name, Project.NameKey parent)
+  protected Project.NameKey createProject(String nameSuffix)
       throws RestApiException {
-    // Default for createEmptyCommit should match TestProjectConfig.
-    createProject(name, parent, true);
+    return createProject(nameSuffix, null);
   }
 
-  protected void createProject(String name, Project.NameKey parent,
-      boolean createEmptyCommit) throws RestApiException {
+  protected Project.NameKey createProject(String nameSuffix,
+      Project.NameKey parent) throws RestApiException {
+    // Default for createEmptyCommit should match TestProjectConfig.
+    return createProject(nameSuffix, parent, true);
+  }
+
+  protected Project.NameKey createProject(String nameSuffix,
+      Project.NameKey parent, boolean createEmptyCommit)
+      throws RestApiException {
     ProjectInput in = new ProjectInput();
-    in.name = name;
+    in.name = projectPrefix + nameSuffix;
     in.parent = parent != null ? parent.get() : null;
     in.createEmptyCommit = createEmptyCommit;
-    createProject(in);
+    return createProject(in);
   }
 
-  protected void createProject(ProjectInput in) throws RestApiException {
+  private Project.NameKey createProject(ProjectInput in)
+      throws RestApiException {
     gApi.projects().create(in);
+    return new Project.NameKey(in.name);
   }
 
   /**

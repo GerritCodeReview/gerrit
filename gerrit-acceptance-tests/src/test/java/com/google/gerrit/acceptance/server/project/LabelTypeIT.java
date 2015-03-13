@@ -48,17 +48,16 @@ public class LabelTypeIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     codeReview = checkNotNull(cfg.getLabelSections().get("Code-Review"));
-    codeReview.setCopyMinScore(false);
-    codeReview.setCopyMaxScore(false);
-    codeReview.setCopyAllScoresOnTrivialRebase(false);
-    codeReview.setCopyAllScoresIfNoCodeChange(false);
-    codeReview.setCopyAllScoresIfNoChange(false);
     codeReview.setDefaultValue((short)-1);
     saveProjectConfig(cfg);
   }
 
   @Test
   public void noCopyMinScoreOnRework() throws Exception {
+    //allProjects only has it true by default
+    codeReview.setCopyMinScore(false);
+    saveLabelConfig();
+
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.reject());
     assertApproval(r, -2);
@@ -72,7 +71,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.reject());
-    //assertApproval(r, -2);
+    assertApproval(r, -2);
     r = amendChange(r.getChangeId());
     assertApproval(r, -2);
   }
@@ -125,6 +124,8 @@ public class LabelTypeIT extends AbstractDaemonTest {
 
   @Test
   public void noCopyAllScoresIfNoChange() throws Exception {
+    codeReview.setCopyAllScoresIfNoChange(false);
+    saveLabelConfig();
     PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
     rebase(patchSet);
     assertApproval(patchSet, 0);
@@ -133,8 +134,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
   @Test
   public void copyAllScoresIfNoChange() throws Exception {
     PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
-    codeReview.setCopyAllScoresIfNoChange(true);
-    saveLabelConfig();
     rebase(patchSet);
     assertApproval(patchSet, 1);
   }

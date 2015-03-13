@@ -533,7 +533,7 @@ this change and the descendant change now needs to be rebased. Please
 note that following the link to an indirect descendant change may
 result in a completely different related changes listing.
 
-** [[merged-ancestor]]Black Dot:
+** [[closed-ancestor]]Black Dot:
 +
 Indicates a merged ancestor, e.g. the commit was directly pushed into
 the repository bypassing code review, or the ancestor change was
@@ -541,10 +541,6 @@ reviewed and submitted on another branch. The latter may indicate that
 the user has accidentally pushed the commit to the wrong branch, e.g.
 the commit was done on `branch-a`, but was then pushed to
 `refs/for/branch-b`.
-
-** [[abandoned-change]]Dark Red Dot:
-+
-Indicates an abandoned change.
 
 +
 image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]

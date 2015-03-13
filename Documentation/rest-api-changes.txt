@@ -3445,6 +3445,37 @@ A link:#change-id[\{change-id\}] that identifies the base change for a create
 change operation. Only used for the link:#create-change[CreateChange] endpoint.
 |==================================
 
+[[related-changes-info]]
+=== RelatedChangesInfo
+The `RelatedChangesInfo` entity contains information about related
+changes.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name                |Description
+|`changes`                 |A list of
+link:#related-change-and-commit-info[RelatedChangeAndCommitInfo] entities
+describing the related changes. Sorted by git commit order, newest to
+oldest. Empty if there are no related changes.
+|===========================
+
+[[related-change-and-commit-info]]
+=== RelatedChangeAndCommitInfo
+
+The `RelatedChangeAndCommitInfo` entity contains information about
+a related change and commit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name                ||Description
+|`change_id`               |optional|The Change-Id of the change.
+|`commit`                  ||The commit as a
+link:#commit-info[CommitInfo] entity.
+|`_change_number`          |optional|The change number.
+|`_revision_number`        |optional|The revision number.
+|`_current_revision_number`|optional|The current revision number.
+|===========================
+
 [[change-message-info]]
 === ChangeMessageInfo
 The `ChangeMessageInfo` entity contains information about a message

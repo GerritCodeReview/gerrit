@@ -17,10 +17,12 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects.ListRequest;
 import com.google.gerrit.extensions.api.projects.Projects.ListRequest.FilterType;
@@ -28,6 +30,8 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
 import org.junit.Test;
@@ -47,6 +51,18 @@ public class ListProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, someProject.get());
     assertThatNameList(gApi.projects().list().get())
         .containsExactly(allProjects, allUsers, project, someProject).inOrder();
+  }
+
+  @Test
+  public void listProjectsFiltersInvisibleProjects() throws Exception {
+    setApiUser(user);
+    assertThatNameList(gApi.projects().list().get()).contains(project);
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
+    saveProjectConfig(project, cfg);
+
+    assertThatNameList(gApi.projects().list().get()).doesNotContain(project);
   }
 
   @Test

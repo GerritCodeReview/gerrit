@@ -34,6 +34,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -133,6 +134,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<Mergeable> mergeableProvider;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -149,7 +151,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer,
       @GerritServerConfig Config cfg,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      Provider<Mergeable> mergeableProvider) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
@@ -177,6 +180,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         cfg.getString("change", null, "submitTopicTooltip"),
         DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
+    this.mergeableProvider = mergeableProvider;
   }
 
   @Override
@@ -290,6 +294,15 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setTitle("")
         .setVisible(false);
     }
+
+    boolean enabled;
+    try {
+      enabled = mergeableProvider.get().apply(resource).mergeable;
+    } catch (AuthException | ResourceConflictException | BadRequestException
+        | OrmException | IOException e) {
+      throw new OrmRuntimeException("Could not determine mergability", e);
+    }
+
     List<ChangeData> changesByTopic = null;
     if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
       changesByTopic = getChangesByTopic(topic);
@@ -313,7 +326,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           .setTitle(Strings.emptyToNull(
               submitTopicTooltip.replace(params)))
           .setVisible(true)
-          .setEnabled(true);
+          .setEnabled(enabled);
       }
     } else {
       RevId revId = resource.getPatchSet().getRevision();
@@ -321,10 +334,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
           "branch", resource.getChange().getDest().getShortName(),
           "commit", ObjectId.fromString(revId.get()).abbreviate(7).name());
+
       return new UiAction.Description()
         .setLabel(label)
         .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
-        .setVisible(true);
+        .setVisible(true)
+        .setEnabled(enabled);
     }
   }
 

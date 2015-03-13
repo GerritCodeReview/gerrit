@@ -22,6 +22,30 @@
       "revId": "982bd198c7314207e89b62abac260bcfee8ac0ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e18ed27f_8f72959c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-13T14:27:57Z",
+      "side": 1,
+      "message": "Yes, good catch. It\u0027s not just consistency, it\u0027s restricting the throws clause in a class used as a base class means implementations can\u0027t throw it.",
+      "parentUuid": "410f9eb1_eaee87bb",
+      "range": {
+        "startLine": 115,
+        "startChar": 45,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "982bd198c7314207e89b62abac260bcfee8ac0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

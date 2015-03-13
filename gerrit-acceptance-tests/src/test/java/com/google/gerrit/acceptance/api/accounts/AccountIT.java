@@ -51,7 +51,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void starUnstarChange() throws Exception {
     PushOneCommit.Result r = createChange();
-    String triplet = "p~master~" + r.getChangeId();
+    String triplet = project.get() + "~master~" + r.getChangeId();
     gApi.accounts()
         .self()
         .starChange(triplet);

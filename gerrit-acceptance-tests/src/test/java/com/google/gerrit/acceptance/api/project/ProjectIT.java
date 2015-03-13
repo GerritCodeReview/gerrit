@@ -36,7 +36,7 @@ public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
   public void createProjectFoo() throws Exception {
-    String name = "foo";
+    String name = name("foo");
     assertThat(name).isEqualTo(
         gApi.projects()
             .create(name)
@@ -46,7 +46,7 @@ public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
   public void createProjectFooWithGitSuffix() throws Exception {
-    String name = "foo";
+    String name = name("foo");
     assertThat(name).isEqualTo(
         gApi.projects()
             .create(name + ".git")
@@ -57,7 +57,7 @@ public class ProjectIT extends AbstractDaemonTest  {
   @Test(expected = RestApiException.class)
   public void createProjectFooBar() throws Exception {
     ProjectInput in = new ProjectInput();
-    in.name = "foo";
+    in.name = name("foo");
     gApi.projects()
         .name("bar")
         .create(in);
@@ -66,7 +66,7 @@ public class ProjectIT extends AbstractDaemonTest  {
   @Test(expected = ResourceConflictException.class)
   public void createProjectDuplicate() throws Exception {
     ProjectInput in = new ProjectInput();
-    in.name = "baz";
+    in.name = name("baz");
     gApi.projects()
         .create(in);
     gApi.projects()
@@ -103,8 +103,8 @@ public class ProjectIT extends AbstractDaemonTest  {
   public void listProjects() throws Exception {
     List<ProjectInfo> initialProjects = gApi.projects().list().get();
 
-    gApi.projects().create("foo");
-    gApi.projects().create("bar");
+    gApi.projects().create(name("foo"));
+    gApi.projects().create(name("bar"));
 
     List<ProjectInfo> allProjects = gApi.projects().list().get();
     assertThat(allProjects).hasSize(initialProjects.size() + 2);
@@ -120,12 +120,12 @@ public class ProjectIT extends AbstractDaemonTest  {
     assertThat(projectsWithoutDescription.get(0).description).isNull();
 
     List<ProjectInfo> noMatchingProjects = gApi.projects().list()
-        .withPrefix("fox")
+        .withPrefix(name("fox"))
         .get();
     assertThat(noMatchingProjects).isEmpty();
 
     List<ProjectInfo> matchingProject = gApi.projects().list()
-        .withPrefix("fo")
+        .withPrefix(name("fo"))
         .get();
     assertThat(matchingProject).hasSize(1);
 

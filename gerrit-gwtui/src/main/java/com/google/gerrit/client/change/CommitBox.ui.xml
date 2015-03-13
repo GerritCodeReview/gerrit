@@ -162,7 +162,7 @@ limitations under the License.
             <g:FlowPanel ui:field='webLinkPanel' styleName='{style.webLinkPanel}'/>
         </td>
       </tr>
-      <tr ui:field='parents' style='display: none'>
+      <tr ui:field='firstParent' style='display: none'>
         <th><ui:msg>Parent(s)</ui:msg></th>
         <td>
           <g:FlowPanel ui:field='parentCommits'/>

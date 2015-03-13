@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -236,12 +237,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return apply();
   }
 
-  public Map<String, ProjectInfo> apply() throws BadRequestException {
+  public SortedMap<String, ProjectInfo> apply() throws BadRequestException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public Map<String, ProjectInfo> display(OutputStream displayOutputStream)
+  public SortedMap<String, ProjectInfo> display(OutputStream displayOutputStream)
       throws BadRequestException {
     PrintWriter stdout = null;
     if (displayOutputStream != null) {
@@ -255,7 +256,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
     int foundIndex = 0;
     int found = 0;
-    Map<String, ProjectInfo> output = Maps.newTreeMap();
+    TreeMap<String, ProjectInfo> output = Maps.newTreeMap();
     Map<String, String> hiddenNames = Maps.newHashMap();
     Set<String> rejected = new HashSet<>();
 

@@ -16,11 +16,6 @@ package com.google.gerrit.server.mime;
 
 import com.google.common.collect.ImmutableMap;
 
-import eu.medsea.mimeutil.MimeException;
-import eu.medsea.mimeutil.MimeType;
-import eu.medsea.mimeutil.MimeUtil;
-import eu.medsea.mimeutil.detector.MimeDetector;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +27,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
+
+import eu.medsea.mimeutil.MimeException;
+import eu.medsea.mimeutil.MimeType;
+import eu.medsea.mimeutil.MimeUtil;
+import eu.medsea.mimeutil.detector.MimeDetector;
 
 /** Loads mime types from {@code mime-types.properties} at specificity of 2. */
 public class DefaultFileExtensionRegistry extends MimeDetector {

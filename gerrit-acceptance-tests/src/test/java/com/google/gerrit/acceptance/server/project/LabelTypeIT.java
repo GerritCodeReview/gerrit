@@ -52,6 +52,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     codeReview.setCopyMaxScore(false);
     codeReview.setCopyAllScoresOnTrivialRebase(false);
     codeReview.setCopyAllScoresIfNoCodeChange(false);
+    codeReview.setCopyAllScoresIfNoChange(false);
     codeReview.setDefaultValue((short)-1);
     saveProjectConfig(cfg);
   }
@@ -120,6 +121,22 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, -1);
     r = amendChange(r.getChangeId());
     assertApproval(r, 0);
+  }
+
+  @Test
+  public void noCopyAllScoresIfNoChange() throws Exception {
+    PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
+    rebase(patchSet);
+    assertApproval(patchSet, 0);
+  }
+
+  @Test
+  public void copyAllScoresIfNoChange() throws Exception {
+    PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
+    codeReview.setCopyAllScoresIfNoChange(true);
+    saveLabelConfig();
+    rebase(patchSet);
+    assertApproval(patchSet, 1);
   }
 
   @Test
@@ -265,6 +282,34 @@ public class LabelTypeIT extends AbstractDaemonTest {
             .revision(r2.getCommit().name())
             .cherryPick(in)
             .get());
+  }
+
+  private PushOneCommit.Result readyPatchSetForNoChangeRebase()
+      throws Exception {
+    String file = "a.txt";
+    String contents = "contents";
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+        PushOneCommit.SUBJECT, file, contents);
+    PushOneCommit.Result base = push.to(git, "refs/for/master");
+    merge(base);
+
+    push = pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT, file,
+        contents + "M");
+    PushOneCommit.Result basePlusM = push.to(git, "refs/for/master");
+    merge(basePlusM);
+
+    push = pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT, file,
+        contents);
+    PushOneCommit.Result basePlusMMinusM = push.to(git, "refs/for/master");
+    merge(basePlusMMinusM);
+
+    git.checkout().setName(base.getCommit().name()).call();
+    push = pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT, file,
+        contents + "MM");
+    PushOneCommit.Result patchSet = push.to(git, "refs/for/master");
+    revision(patchSet).review(ReviewInput.recommend());
+    return patchSet;
   }
 
   private void saveLabelConfig() throws Exception {

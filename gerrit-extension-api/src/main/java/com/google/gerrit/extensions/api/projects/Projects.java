@@ -43,10 +43,19 @@ public interface Projects {
   ListRequest list();
 
   public abstract class ListRequest {
+    public static enum FilterType {
+      CODE, PARENT_CANDIDATES, PERMISSIONS, ALL;
+    }
+
+    private final List<String> branches = new ArrayList<>();
     private boolean description;
     private String prefix;
+    private String substring;
+    private String regex;
     private int limit;
     private int start;
+    private boolean showTree;
+    private FilterType type = FilterType.ALL;
 
     public List<ProjectInfo> get() throws RestApiException {
       Map<String, ProjectInfo> map = getAsMap();
@@ -72,6 +81,16 @@ public interface Projects {
       return this;
     }
 
+    public ListRequest withSubstring(String substring) {
+      this.substring = substring;
+      return this;
+    }
+
+    public ListRequest withRegex(String regex) {
+      this.regex = regex;
+      return this;
+    }
+
     public ListRequest withLimit(int limit) {
       this.limit = limit;
       return this;
@@ -79,6 +98,21 @@ public interface Projects {
 
     public ListRequest withStart(int start) {
       this.start = start;
+      return this;
+    }
+
+    public ListRequest addShowBranch(String branch) {
+      branches.add(branch);
+      return this;
+    }
+
+    public ListRequest withTree(boolean show) {
+      showTree = show;
+      return this;
+    }
+
+    public ListRequest withType(FilterType type) {
+      this.type = type != null ? type : FilterType.ALL;
       return this;
     }
 
@@ -90,12 +124,32 @@ public interface Projects {
       return prefix;
     }
 
+    public String getSubstring() {
+      return substring;
+    }
+
+    public String getRegex() {
+      return regex;
+    }
+
     public int getLimit() {
       return limit;
     }
 
     public int getStart() {
       return start;
+    }
+
+    public List<String> getBranches() {
+      return Collections.unmodifiableList(branches);
+    }
+
+    public boolean getShowTree() {
+      return showTree;
+    }
+
+    public FilterType getFilterType() {
+      return type;
     }
   }
 

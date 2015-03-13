@@ -16,54 +16,51 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjects;
+import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Inject;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
+@NoHttpd
 public class ListChildProjectsIT extends AbstractDaemonTest {
+
+  @Inject
+  private AllUsersName allUsers;
 
   @Test
   public void listChildrenOfNonExistingProject_NotFound() throws Exception {
-    assertThat(GET("/projects/non-existing/children/").getStatusCode())
-        .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    try {
+      gApi.projects().name("non-existing").child("children");
+    } catch (ResourceNotFoundException e) {
+      assertThat(e.getMessage()).contains("non-existing");
+    }
   }
 
   @Test
   public void listNoChildren() throws Exception {
-    RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    List<ProjectInfo> projectInfoList = toProjectInfoList(r);
-    // Project 'p' was already created in the base class
-    assertThat(projectInfoList).hasSize(2);
+    assertThatNameList(gApi.projects().name(allProjects.get()).children())
+        .containsExactly(allUsers, project).inOrder();
   }
 
   @Test
   public void listChildren() throws Exception {
-    Project.NameKey existingProject = new Project.NameKey("p");
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());
     Project.NameKey child2 = new Project.NameKey("p2");
     createProject(sshSession, child2.get());
-    createProject(sshSession, "p1.1", child1);
+    Project.NameKey child1_1 = new Project.NameKey("p1.1");
+    createProject(sshSession, child1_1.get(), child1);
 
-    RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertProjects(
-        Arrays.asList(
-            new Project.NameKey("All-Users"),
-            existingProject, child1, child2),
-        toProjectInfoList(r));
+    assertThatNameList(gApi.projects().name(allProjects.get()).children())
+        .containsExactly(allUsers, project, child1, child2).inOrder();
+    assertThatNameList(gApi.projects().name(child1.get()).children())
+        .containsExactly(child1_1);
   }
 
   @Test
@@ -80,19 +77,8 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     Project.NameKey child1_1_1_1 = new Project.NameKey("p1.1.1.1");
     createProject(sshSession, child1_1_1_1.get(), child1_1_1);
 
-    RestResponse r = GET("/projects/" + child1.get() + "/children/?recursive");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertProjects(Arrays.asList(child1_1, child1_2,
-        child1_1_1, child1_1_1_1), toProjectInfoList(r));
-  }
-
-  private static List<ProjectInfo> toProjectInfoList(RestResponse r)
-      throws IOException {
-    return newGson().fromJson(r.getReader(),
-        new TypeToken<List<ProjectInfo>>() {}.getType());
-  }
-
-  private RestResponse GET(String endpoint) throws IOException {
-    return adminSession.get(endpoint);
+    assertThatNameList(gApi.projects().name(child1.get()).children(true))
+        .containsExactly(child1_1, child1_1_1, child1_1_1_1, child1_2)
+        .inOrder();
   }
 }

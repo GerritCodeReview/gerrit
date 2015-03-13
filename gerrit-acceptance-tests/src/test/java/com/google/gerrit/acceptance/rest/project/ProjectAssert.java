@@ -15,35 +15,43 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.truth.IterableSubject;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class ProjectAssert {
-
-  public static void assertProjects(Iterable<Project.NameKey> expected,
-      Collection<ProjectInfo> actual) {
-    for (final Project.NameKey p : expected) {
-      ProjectInfo info = Iterables.find(actual, new Predicate<ProjectInfo>() {
-        @Override
-        public boolean apply(ProjectInfo info) {
-          // 'name' is not set if returned in a map, use the id instead.
-          return new Project.NameKey(info.name != null ? info.name : Url
-              .decode(info.id)).equals(p);
-        }}, null);
-      assertThat(info).isNotNull();
-      actual.remove(info);
+  public static IterableSubject<
+        ? extends IterableSubject<
+            ?, Project.NameKey, Iterable<Project.NameKey>>,
+        Project.NameKey,
+        Iterable<Project.NameKey>>
+      assertThatNameList(Iterable<ProjectInfo> actualIt) {
+    List<ProjectInfo> actual = ImmutableList.copyOf(actualIt);
+    for (ProjectInfo info : actual) {
+      assertWithMessage("missing project name").that(info.name).isNotNull();
+      assertWithMessage("project name does not match id")
+      .that(Url.decode(info.id))
+      .isEqualTo(info.name);
     }
-    assertThat((Iterable<?>)actual).isEmpty();
+    return assertThat(Iterables.transform(actual,
+    new Function<ProjectInfo, Project.NameKey>() {
+      @Override
+      public Project.NameKey apply(ProjectInfo in) {
+        return new Project.NameKey(in.name);
+      }
+    }));
   }
 
   public static void assertProjectInfo(Project project, ProjectInfo info) {

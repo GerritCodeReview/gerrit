@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.api.projects;
 
-import com.google.common.base.Preconditions;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
@@ -113,13 +112,22 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public ProjectInfo get() {
-    Preconditions.checkNotNull(project);
+  public ProjectInfo get() throws RestApiException {
+    if (project == null) {
+      throw new ResourceNotFoundException(name);
+    }
     return projectJson.format(project);
   }
 
   @Override
-  public BranchApi branch(String ref) {
-    return branchApi.create(project, ref);
+  public BranchApi branch(String ref) throws ResourceNotFoundException {
+    return branchApi.create(checkExists(), ref);
+  }
+
+  private ProjectResource checkExists() throws ResourceNotFoundException {
+    if (project == null) {
+      throw new ResourceNotFoundException(name);
+    }
+    return project;
   }
 }

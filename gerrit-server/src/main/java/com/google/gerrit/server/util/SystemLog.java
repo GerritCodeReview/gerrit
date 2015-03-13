@@ -16,6 +16,7 @@ package com.google.gerrit.server.util;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -27,6 +28,7 @@ import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.apache.log4j.helpers.OnlyOnceErrorHandler;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
@@ -88,6 +90,17 @@ public class SystemLog {
     }
     async.activateOptions();
     return async;
+  }
+
+  public static void initLogSystem(Path sitePath, String logName) throws IOException {
+    if (shouldConfigure()) {
+      Path logdir =
+          FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
+              "Cannot create log directory");
+      LogManager.getLogger(logName).removeAllAppenders();
+      LogManager.getLogger(logName).addAppender(createAppender(logdir, logName,
+          new PatternLayout("[%d] %-5p %c %x: %m%n")));
+    }
   }
 
   private static Path resolve(Path p) {

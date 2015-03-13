@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.api.projects;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -27,7 +26,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.SortedMap;
 
 @Singleton
 class ProjectsImpl implements Projects {
@@ -59,19 +58,20 @@ class ProjectsImpl implements Projects {
   public ListRequest list() {
     return new ListRequest() {
       @Override
-      public List<ProjectInfo> get() throws RestApiException {
+      public SortedMap<String, ProjectInfo> getAsMap() throws RestApiException {
         return list(this);
       }
     };
   }
 
-  private List<ProjectInfo> list(ListRequest request) throws RestApiException {
+  private SortedMap<String, ProjectInfo> list(ListRequest request)
+      throws RestApiException {
     ListProjects lp = listProvider.get();
     lp.setShowDescription(request.getDescription());
     lp.setLimit(request.getLimit());
     lp.setStart(request.getStart());
     lp.setMatchPrefix(request.getPrefix());
 
-    return ImmutableList.copyOf(lp.apply().values());
+    return lp.apply();
   }
 }

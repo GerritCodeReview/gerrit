@@ -18,7 +18,11 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 public interface Projects {
   /**
@@ -44,7 +48,19 @@ public interface Projects {
     private int limit;
     private int start;
 
-    public abstract List<ProjectInfo> get() throws RestApiException;
+    public List<ProjectInfo> get() throws RestApiException {
+      Map<String, ProjectInfo> map = getAsMap();
+      List<ProjectInfo> result = new ArrayList<>(map.size());
+      for (Map.Entry<String, ProjectInfo> e : map.entrySet()) {
+        // ListProjects "helpfully" nulls out names when converting to a map.
+        e.getValue().name = e.getKey();
+        result.add(e.getValue());
+      }
+      return Collections.unmodifiableList(result);
+    }
+
+    public abstract SortedMap<String, ProjectInfo> getAsMap()
+        throws RestApiException;
 
     public ListRequest withDescription(boolean description) {
       this.description = description;

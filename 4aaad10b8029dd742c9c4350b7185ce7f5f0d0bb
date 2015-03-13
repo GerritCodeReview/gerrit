@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8158b6e6_4487ae11",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-13T14:19:46Z",
+      "side": 1,
+      "message": "Terminate all sentences with \u0027.\u0027. At least this is how it\u0027s done in the 2.11 release notes.",
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158b6e6_848cc636",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-13T14:19:46Z",
+      "side": 1,
+      "message": "Not sure if I would mention this. It sounds strange to talk about a problem with upgrade to 2.11 which is fixed in 2.10.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

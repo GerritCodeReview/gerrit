@@ -18,11 +18,18 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gson.reflect.TypeToken;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
+
+import java.util.Map;
 
 public class SubmitByFastForwardIT extends AbstractSubmit {
 
@@ -55,6 +62,25 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     checkout(git, initialHead.getId().getName());
     PushOneCommit.Result change2 =
         createChange(git, "Change 2", "b.txt", "other content");
+
+ // TODO(sbeller): reuse ActionsIT:approve ?
+    RestResponse r = adminSession.post(
+        "/changes/" + change2.getChangeId() + "/revisions/current/review",
+        new ReviewInput().label("Code-Review", 2));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.consume();
+
+    // TODO(sbeller): reuse ActionsIT:getActions ?
+    Map<String, ActionInfo> actions = newGson().fromJson(
+        adminSession.get("/changes/"
+            + change2.getChangeId()
+            + "/revisions/current/actions").getReader(),
+        new TypeToken<Map<String, ActionInfo>>() {}.getType());
+
+    assertThat(actions).containsKey("submit");
+    ActionInfo info = actions.get("submit");
+    assertThat(info.enabled).isFalse();
+
     submitWithConflict(change2.getChangeId());
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);

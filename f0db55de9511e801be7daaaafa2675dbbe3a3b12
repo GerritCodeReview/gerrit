@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "410f9eb1_4ae0f3c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-13T10:13:21Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "f0db55de9511e801be7daaaafa2675dbbe3a3b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8158b6e6_a43f82da",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1

@@ -81,8 +81,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class Util {
-  public static AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
-  public static AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
+  public static final AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
+  public static final AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
 
   public static final LabelType CR = category("Code-Review",
       value(2, "Looks good to me, approved"),

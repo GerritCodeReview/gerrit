@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 public interface ProjectApi {
   ProjectApi create() throws RestApiException;
   ProjectApi create(ProjectInput in) throws RestApiException;
-  ProjectInfo get();
+  ProjectInfo get() throws RestApiException;
 
   /**
    * Look up a branch by refname.
@@ -33,9 +33,10 @@ public interface ProjectApi {
    * to store references to {@code BranchApi} instances.
    *
    * @param ref branch name, with or without "refs/heads/" prefix.
+   * @throws RestApiException if a problem occurred reading the project.
    * @return API for accessing the branch.
    */
-  BranchApi branch(String ref);
+  BranchApi branch(String ref) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -53,12 +54,12 @@ public interface ProjectApi {
     }
 
     @Override
-    public ProjectInfo get() {
+    public ProjectInfo get() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public BranchApi branch(String ref) {
+    public BranchApi branch(String ref) throws RestApiException {
       throw new NotImplementedException();
     }
   }

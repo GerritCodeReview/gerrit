@@ -31,11 +31,13 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -64,7 +66,7 @@ class CommitBox extends Composite {
   @UiField Image mergeCommit;
   @UiField CopyableLabel commitName;
   @UiField FlowPanel webLinkPanel;
-  @UiField Element parents;
+  @UiField TableRowElement firstParent;
   @UiField FlowPanel parentCommits;
   @UiField FlowPanel parentWebLinks;
   @UiField InlineHyperlink authorNameEmail;
@@ -75,6 +77,8 @@ class CommitBox extends Composite {
   @UiField HTML text;
   @UiField ScrollPanel scroll;
   @UiField Button more;
+  @UiField Element commitTable;
+  @UiField Element changeId;
   private boolean expanded;
 
   CommitBox() {
@@ -146,27 +150,50 @@ class CommitBox extends Composite {
   }
 
   private void setParents(String project, JsArray<CommitInfo> commits) {
-    setVisible(parents, true);
+    setVisible(firstParent, true);
+    TableRowElement next = firstParent;
+    TableRowElement previous = null;
     for (CommitInfo c : Natives.asList(commits)) {
-      CopyableLabel copyLabel = new CopyableLabel(c.commit());
-      copyLabel.setTitle(c.subject());
-      copyLabel.setStyleName(style.clippy());
-      parentCommits.add(copyLabel);
-
-      GitwebLink gw = Gerrit.getGitwebLink();
-      if (gw != null) {
-        Anchor a =
-            new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));
-        a.setStyleName(style.parentWebLink());
-        parentWebLinks.add(a);
+      if (next == firstParent) {
+        CopyableLabel copyLabel = getCommitLabel(c);
+        parentCommits.add(copyLabel);
+        addLinks(project, c, parentWebLinks);
+      } else {
+        next.appendChild(DOM.createTD());
+        next.appendChild(getCommitLabel(c).getElement());
+        FlowPanel linksPanel = new FlowPanel();
+        linksPanel.addStyleName(style.parentWebLink());
+        addLinks(project, c, linksPanel);
+        next.appendChild(linksPanel.getElement());
+        previous.getParentElement().insertAfter(next, previous);
       }
-      JsArray<WebLinkInfo> links = c.web_links();
-      if (links != null) {
-        for (WebLinkInfo link : Natives.asList(links)) {
-          parentWebLinks.add(link.toAnchor());
-        }
+      previous = next;
+      next = DOM.createTR().cast();
+    }
+  }
+
+  private void addLinks(String project, CommitInfo c, FlowPanel panel) {
+    GitwebLink gw = Gerrit.getGitwebLink();
+    if (gw != null) {
+      Anchor a =
+          new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));
+      a.setStyleName(style.parentWebLink());
+      panel.add(a);
+    }
+    JsArray<WebLinkInfo> links = c.web_links();
+    if (links != null) {
+      for (WebLinkInfo link : Natives.asList(links)) {
+        panel.add(link.toAnchor());
       }
     }
+  }
+
+  private CopyableLabel getCommitLabel(CommitInfo c) {
+    CopyableLabel copyLabel;
+    copyLabel = new CopyableLabel(c.commit());
+    copyLabel.setTitle(c.subject());
+    copyLabel.setStyleName(style.clippy());
+    return copyLabel;
   }
 
   private static void formatLink(GitPerson person, FlowPanel p,

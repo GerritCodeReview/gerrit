@@ -44,7 +44,7 @@ public class ChildProjectsCollection implements
   }
 
   @Override
-  public RestView<ProjectResource> list() throws ResourceNotFoundException,
+  public ListChildProjects list() throws ResourceNotFoundException,
       AuthException {
     return list.get();
   }

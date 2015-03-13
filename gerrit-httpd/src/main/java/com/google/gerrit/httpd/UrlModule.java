@@ -33,8 +33,10 @@ import com.google.gerrit.httpd.rpc.config.ConfigRestApiServlet;
 import com.google.gerrit.httpd.rpc.doc.QueryDocumentationFilter;
 import com.google.gerrit.httpd.rpc.group.GroupsRestApiServlet;
 import com.google.gerrit.httpd.rpc.project.ProjectsRestApiServlet;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Inject;
@@ -64,10 +66,12 @@ class UrlModule extends ServletModule {
 
   private final UrlConfig cfg;
   private GerritUiOptions uiOptions;
+  private AuthConfig authConfig;
 
-  UrlModule(UrlConfig cfg, GerritUiOptions uiOptions) {
+  UrlModule(UrlConfig cfg, GerritUiOptions uiOptions, AuthConfig authConfig) {
     this.cfg = cfg;
     this.uiOptions = uiOptions;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -81,8 +85,11 @@ class UrlModule extends ServletModule {
       serve("/Gerrit/*").with(legacyGerritScreen());
     }
     serve("/cat/*").with(CatServlet.class);
-    serve("/logout").with(HttpLogoutServlet.class);
-    serve("/signout").with(HttpLogoutServlet.class);
+
+    if (authConfig.getAuthType() != AuthType.OAUTH) {
+      serve("/logout").with(HttpLogoutServlet.class);
+      serve("/signout").with(HttpLogoutServlet.class);
+    }
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
 

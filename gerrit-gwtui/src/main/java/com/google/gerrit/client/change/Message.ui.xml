@@ -124,11 +124,13 @@ limitations under the License.
           <div>&#x21a9;</div>
         </g:Button>
       </g:HTMLPanel>
-      <div ui:field='message'
-           aria-hidden='true'
-           style='display: NONE'
-           styleName='{style.comment}'/>
-      <g:FlowPanel ui:field='comments' visible='false'/>
+      <div style='overflow: auto'>
+        <div ui:field='message'
+            aria-hidden='true'
+            style='display: NONE'
+            styleName='{style.comment}'/>
+        <g:FlowPanel ui:field='comments' visible='false'/>
+      </div>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

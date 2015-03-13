@@ -16,16 +16,20 @@ package com.google.gerrit.server.api.projects;
 
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -34,6 +38,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ProjectApiImpl implements ProjectApi {
   interface Factory {
@@ -44,6 +49,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final Provider<CreateProject.Factory> createProjectFactory;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
+  private final ChildProjectApiImpl.Factory childApi;
+  private final ChildProjectsCollection children;
   private final ProjectResource project;
   private final ProjectJson projectJson;
   private final String name;
@@ -53,27 +60,33 @@ public class ProjectApiImpl implements ProjectApi {
   ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      ChildProjectApiImpl.Factory childApi,
+      ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted ProjectResource project) {
-    this(createProjectFactory, projectApi, projects, projectJson,
-        branchApiFactory, project, null);
+    this(createProjectFactory, projectApi, projects, childApi, children,
+        projectJson, branchApiFactory, project, null);
   }
 
   @AssistedInject
   ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      ChildProjectApiImpl.Factory childApi,
+      ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted String name) {
-    this(createProjectFactory, projectApi, projects, projectJson,
-        branchApiFactory, null, name);
+    this(createProjectFactory, projectApi, projects, childApi, children,
+        projectJson, branchApiFactory, null, name);
   }
 
   private ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      ChildProjectApiImpl.Factory childApi,
+      ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       ProjectResource project,
@@ -81,6 +94,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.createProjectFactory = createProjectFactory;
     this.projectApi = projectApi;
     this.projects = projects;
+    this.childApi = childApi;
+    this.children = children;
     this.projectJson = projectJson;
     this.project = project;
     this.name = name;
@@ -117,6 +132,28 @@ public class ProjectApiImpl implements ProjectApi {
       throw new ResourceNotFoundException(name);
     }
     return projectJson.format(project);
+  }
+
+  @Override
+  public List<ProjectInfo> children() throws RestApiException {
+    return children(false);
+  }
+
+  @Override
+  public List<ProjectInfo> children(boolean recursive) throws RestApiException {
+    ListChildProjects list = children.list();
+    list.setRecursive(recursive);
+    return list.apply(checkExists());
+  }
+
+  @Override
+  public ChildProjectApi child(String name) throws RestApiException {
+    try {
+      return childApi.create(
+          children.parse(checkExists(), IdString.fromDecoded(name)));
+    } catch (IOException e) {
+      throw new RestApiException("Cannot parse child project", e);
+    }
   }
 
   @Override

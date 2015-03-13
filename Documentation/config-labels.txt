@@ -222,7 +222,8 @@ determining whether a change is submittable.
 === `label.Label-Name.copyMinScore`
 
 If true, the lowest possible negative value for the label is copied
-forward when a new patch set is uploaded.
+forward when a new patch set is uploaded. Defaults to false, except
+for All-Projects which has it true by default.
 
 [[label_copyMaxScore]]
 === `label.Label-Name.copyMaxScore`
@@ -230,7 +231,7 @@ forward when a new patch set is uploaded.
 If true, the highest possible positive value for the label is copied
 forward when a new patch set is uploaded. This can be used to enable
 sticky approvals, reducing turn-around for trivial cleanups prior to
-submitting a change.
+submitting a change. Defaults to false.
 
 [[label_copyAllScoresOnTrivialRebase]]
 === `label.Label-Name.copyAllScoresOnTrivialRebase`

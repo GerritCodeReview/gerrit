@@ -3918,7 +3918,6 @@ a related change and commit.
 |===========================
 |Field Name                ||Description
 |`change_id`               |optional|The Change-Id of the change.
-|`status`                  |optional|The status of the change.
 |`commit`                  ||The commit as a
 link:#commit-info[CommitInfo] entity.
 |`_change_number`          |optional|The change number.

@@ -20,13 +20,11 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -120,18 +118,6 @@ public class GetRelated implements RestReadView<RevisionResource> {
       if (p != null) {
         g = changes.get(p.getId().getParentKey()).change();
         added.add(p.getId().getParentKey());
-      } else {
-        // check if there is a merged or abandoned change for this commit
-        ReviewDb db = dbProvider.get();
-        for (PatchSet ps : db.patchSets().byRevision(new RevId(c.name())).toList()) {
-          Change change = db.changes().get(ps.getId().getParentKey());
-          if (change != null && change.getDest().equals(rsrc.getChange().getDest())) {
-            p = ps;
-            g = change;
-            added.add(g.getId());
-            break;
-          }
-        }
       }
       parents.add(new ChangeAndCommit(g, p, c));
     }
@@ -286,7 +272,6 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   public static class ChangeAndCommit {
     public String changeId;
-    public ChangeStatus status;
     public CommitInfo commit;
     public Integer _changeNumber;
     public Integer _revisionNumber;
@@ -295,7 +280,6 @@ public class GetRelated implements RestReadView<RevisionResource> {
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {
         changeId = change.getKey().get();
-        status = change.getStatus().asChangeStatus();
         _changeNumber = change.getChangeId();
         _revisionNumber = ps != null ? ps.getPatchSetId() : null;
         PatchSet.Id curr = change.currentPatchSetId();

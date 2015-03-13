@@ -68,8 +68,6 @@
 .current,
 .gitweb,
 .indirect,
-.abandoned,
-.merged,
 .notCurrent {
   display: inline-block;
   text-align: center;
@@ -77,7 +75,6 @@
   width: 12px;
 }
 
-.merged,
 .gitweb {
   color: #000;
 }
@@ -85,10 +82,6 @@
 .indirect {
   color: #090;      /* green */
   font-weight: bold;
-}
-
-.abandoned {
-  color: #900;      /* dark red */
 }
 
 .notCurrent {

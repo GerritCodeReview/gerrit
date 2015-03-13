@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1593aea_0581b2fa",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-13T14:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8158b6e6_4487ae11",
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8158b6e6_848cc636",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
         "patchSetId": 1
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "8158b6e6_64842a0c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-13T14:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8158b6e6_848cc636",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_257e2e94",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-13T14:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1593aea_6584260c",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8158b6e6_a491c24d",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2015-03-13T14:22:25Z",
       "side": 1,
       "message": "Add this:\n\n* Remove pre-configured Google OpenID 2.0 provider from the login form, that is going to be shut down on 20, April 2015.\n\n? Or alternatively re-phrase the statement above, with replace Google OpenID entry with Launchpad on login form.",
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_c5f39aba",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-13T14:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8158b6e6_a491c24d",
       "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1593aea_4531eaed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/archive/ZipFormat.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-13T20:57:35Z",
+      "side": 1,
+      "message": "Worth to wait for new JGit release with [1] included, to simplify this change?\n\n* [1] https://git.eclipse.org/r/41887",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "edfcfcbb5010182a9f00e36f7977697641265f9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

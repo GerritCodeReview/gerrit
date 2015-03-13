@@ -14,9 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 
 import org.apache.log4j.ConsoleAppender;
@@ -49,11 +47,7 @@ public class ErrorLogFile {
 
   public static LifecycleListener start(final Path sitePath)
       throws IOException {
-    Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
-        "Cannot create log directory");
-    if (SystemLog.shouldConfigure()) {
-      initLogSystem(logdir);
-    }
+    SystemLog.initLogSystem(sitePath, LOG_NAME);
 
     return new LifecycleListener() {
       @Override
@@ -65,12 +59,5 @@ public class ErrorLogFile {
         LogManager.shutdown();
       }
     };
-  }
-
-  private static void initLogSystem(Path logdir) {
-    final Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
-    root.addAppender(SystemLog.createAppender(logdir, LOG_NAME,
-        new PatternLayout("[%d] %-5p %c %x: %m%n")));
   }
 }

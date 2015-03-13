@@ -14,26 +14,20 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.util.SystemLog;
 
 import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 public class GarbageCollectionLogFile {
+  static final String PATTERN = "[%d] %-5p %x: %m%n";
+
   public static LifecycleListener start(Path sitePath) throws IOException {
-    Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
-        "Cannot create log directory");
-    if (SystemLog.shouldConfigure()) {
-      initLogSystem(logdir);
-    }
+    SystemLog.initLogSystem(sitePath, GarbageCollection.LOG_NAME, PATTERN);
 
     return new LifecycleListener() {
       @Override
@@ -45,13 +39,5 @@ public class GarbageCollectionLogFile {
         LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
       }
     };
-  }
-
-  private static void initLogSystem(Path logdir) {
-    Logger gcLogger = LogManager.getLogger(GarbageCollection.LOG_NAME);
-    gcLogger.removeAllAppenders();
-    gcLogger.addAppender(SystemLog.createAppender(logdir,
-        GarbageCollection.LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n")));
-    gcLogger.setAdditivity(false);
   }
 }

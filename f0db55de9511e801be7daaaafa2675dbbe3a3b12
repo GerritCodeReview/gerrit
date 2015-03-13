@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8158b6e6_6452ea38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-13T10:17:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "410f9eb1_4ae0f3c3",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "f0db55de9511e801be7daaaafa2675dbbe3a3b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8158b6e6_a43f82da",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-13T10:12:46Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "f0db55de9511e801be7daaaafa2675dbbe3a3b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158b6e6_044f768f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-13T10:17:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8158b6e6_a43f82da",
       "range": {
         "startLine": 80,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8158b6e6_244cf297",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-13T10:17:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8158b6e6_44556e1d",
+      "range": {
+        "startLine": 122,
+        "startChar": 11,
+        "endLine": 122,
+        "endChar": 33
+      },
+      "revId": "f0db55de9511e801be7daaaafa2675dbbe3a3b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1593aea_a5b8dedb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-03-13T10:12:46Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 174,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 29
+      },
+      "revId": "f0db55de9511e801be7daaaafa2675dbbe3a3b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_659bc672",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-03-13T10:17:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1593aea_a5b8dedb",
       "range": {
         "startLine": 174,
         "startChar": 10,

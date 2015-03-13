@@ -17,35 +17,31 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
+@NoHttpd
 public class GetProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getProject() throws Exception {
     String name = project.get();
-    RestResponse r = adminSession.get("/projects/" + name);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
+    ProjectInfo p = gApi.projects().name(name).get();
     assertThat(p.name).isEqualTo(name);
   }
 
   @Test
   public void getProjectWithGitSuffix() throws Exception {
     String name = project.get();
-    RestResponse r = adminSession.get("/projects/" + name + ".git");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
+    ProjectInfo p = gApi.projects().name(name).get();
     assertThat(p.name).isEqualTo(name);
   }
 
-  @Test
+  @Test(expected = ResourceNotFoundException.class)
   public void getProjectNotExisting() throws Exception {
-    RestResponse r = adminSession.get("/projects/does-not-exist");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    gApi.projects().name("does-not-exist").get();
   }
 }

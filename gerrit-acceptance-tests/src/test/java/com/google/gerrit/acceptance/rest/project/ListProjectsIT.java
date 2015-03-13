@@ -16,24 +16,26 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjects;
+import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.Projects.ListRequest;
+import com.google.gerrit.extensions.api.projects.Projects.ListRequest.FilterType;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+@NoHttpd
 public class ListProjectsIT extends AbstractDaemonTest {
 
   @Inject
@@ -43,23 +45,19 @@ public class ListProjectsIT extends AbstractDaemonTest {
   public void listProjects() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
-
-    RestResponse r = GET("/projects/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertProjects(Arrays.asList(allUsers, someProject, project),
-        result.values());
+    assertThatNameList(gApi.projects().list().get())
+        .containsExactly(allProjects, allUsers, project, someProject).inOrder();
   }
 
   @Test
   public void listProjectsWithBranch() throws Exception {
-    RestResponse r = GET("/projects/?b=master");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertThat(result.get(project.get())).isNotNull();
-    assertThat(result.get(project.get()).branches).isNotNull();
-    assertThat(result.get(project.get()).branches).hasSize(1);
-    assertThat(result.get(project.get()).branches.get("master")).isNotNull();
+    Map<String, ProjectInfo> result = gApi.projects().list()
+        .addShowBranch("master").getAsMap();
+    assertThat(result).containsKey(project.get());
+    ProjectInfo info = result.get(project.get());
+    assertThat(info.branches).isNotNull();
+    assertThat(info.branches).hasSize(1);
+    assertThat(info.branches.get("master")).isNotNull();
   }
 
   @Test
@@ -70,16 +68,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
     gApi.projects().name(projectInput.name).create(projectInput);
 
     // description not be included in the results by default.
-    RestResponse r = GET("/projects/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertThat(result.get(projectInput.name)).isNotNull();
+    Map<String, ProjectInfo> result = gApi.projects().list().getAsMap();
+    assertThat(result).containsKey(projectInput.name);
     assertThat(result.get(projectInput.name).description).isNull();
 
-    r = GET("/projects/?d");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    result = toProjectInfoMap(r);
-    assertThat(result.get(projectInput.name)).isNotNull();
+    result = gApi.projects().list().withDescription(true).getAsMap();
+    assertThat(result).containsKey(projectInput.name);
     assertThat(result.get(projectInput.name).description).isEqualTo(
         projectInput.description);
   }
@@ -90,16 +84,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
       createProject(sshSession, new Project.NameKey("someProject" + i).get());
     }
 
-    RestResponse r = GET("/projects/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertThat(result).hasSize(7); // 5 plus 2 existing projects: p and
-                                   // All-Users
-
-    r = GET("/projects/?n=2");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    result = toProjectInfoMap(r);
-    assertThat(result).hasSize(2);
+    // 5 plus All-Projects, All-Users, and p.
+    int n = 8;
+    for (int i = 1; i <= n + 2; i++) {
+      assertThat(gApi.projects().list().withLimit(i).get())
+          .hasSize(Math.min(i, n));
+    }
   }
 
   @Test
@@ -112,16 +102,11 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
-    assertThat(GET("/projects/?p=some&r=.*").getStatusCode()).isEqualTo(
-        HttpStatus.SC_BAD_REQUEST);
-    assertThat(GET("/projects/?p=some&m=some").getStatusCode()).isEqualTo(
-        HttpStatus.SC_BAD_REQUEST);
-
-    RestResponse r = GET("/projects/?p=some");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertProjects(Arrays.asList(someProject, someOtherProject),
-        result.values());
+    assertBadRequest(gApi.projects().list().withPrefix("some").withRegex(".*"));
+    assertBadRequest(gApi.projects().list().withPrefix("some")
+        .withSubstring("some"));
+    assertThatNameList(gApi.projects().list().withPrefix("some").get())
+        .containsExactly(someOtherProject, someProject).inOrder();
   }
 
   @Test
@@ -134,46 +119,32 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
-    assertThat(GET("/projects/?r=[.*some").getStatusCode()).isEqualTo(
-        HttpStatus.SC_BAD_REQUEST);
-    assertThat(GET("/projects/?r=.*&p=s").getStatusCode()).isEqualTo(
-        HttpStatus.SC_BAD_REQUEST);
-    assertThat(GET("/projects/?r=.*&m=s").getStatusCode()).isEqualTo(
-        HttpStatus.SC_BAD_REQUEST);
+    assertBadRequest(gApi.projects().list().withRegex("[.*"));
+    assertBadRequest(gApi.projects().list().withRegex(".*").withPrefix("p"));
+    assertBadRequest(gApi.projects().list().withRegex(".*").withSubstring("p"));
 
-    RestResponse r = GET("/projects/?r=.*some");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertProjects(Arrays.asList(projectAwesome), result.values());
-
-    r = GET("/projects/?r=some-project$");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    result = toProjectInfoMap(r);
-    assertProjects(Arrays.asList(someProject), result.values());
-
-    r = GET("/projects/?r=.*");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    result = toProjectInfoMap(r);
-    assertProjects(Arrays.asList(someProject, someOtherProject, projectAwesome,
-        project, allUsers), result.values());
+    assertThatNameList(gApi.projects().list().withRegex(".*some").get())
+        .containsExactly(projectAwesome);
+    assertThatNameList(gApi.projects().list().withRegex("some-project$").get())
+        .containsExactly(someProject);
+    assertThatNameList(gApi.projects().list().withRegex(".*").get())
+        .containsExactly(allProjects, allUsers, project, projectAwesome,
+            someOtherProject, someProject)
+        .inOrder();
   }
 
   @Test
-  public void listProjectsWithSkip() throws Exception {
+  public void listProjectsWithStart() throws Exception {
     for (int i = 0; i < 5; i++) {
       createProject(sshSession, new Project.NameKey("someProject" + i).get());
     }
 
-    RestResponse r = GET("/projects/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertThat(result).hasSize(7); // 5 plus 2 existing projects: p and
-                                   // All-Users
-
-    r = GET("/projects/?S=6");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    result = toProjectInfoMap(r);
-    assertThat(result).hasSize(1);
+    List<ProjectInfo> all = gApi.projects().list().get();
+    // 5 plus All-Projects, All-Users, and p.
+    int n = 8;
+    assertThat(all).hasSize(n);
+    assertThatNameList(gApi.projects().list().withStart(n - 1).get())
+        .containsExactly(new Project.NameKey(Iterables.getLast(all).name));
   }
 
   @Test
@@ -186,17 +157,13 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
-    assertThat(GET("/projects/?m=some&r=.*").getStatusCode()).isEqualTo(
-        HttpStatus.SC_BAD_REQUEST);
-    assertThat(GET("/projects/?m=some&p=some").getStatusCode()).isEqualTo(
-        HttpStatus.SC_BAD_REQUEST);
-
-    RestResponse r = GET("/projects/?m=some");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertProjects(
-        Arrays.asList(someProject, someOtherProject, projectAwesome),
-        result.values());
+    assertBadRequest(gApi.projects().list().withSubstring("some")
+        .withRegex(".*"));
+    assertBadRequest(gApi.projects().list().withSubstring("some")
+        .withPrefix("some"));
+    assertThatNameList(gApi.projects().list().withSubstring("some").get())
+        .containsExactly(projectAwesome, someOtherProject, someProject)
+        .inOrder();
   }
 
   @Test
@@ -208,39 +175,29 @@ public class ListProjectsIT extends AbstractDaemonTest {
         new Project.NameKey("some-child-project");
     createProject(sshSession, someChildProject.get(), someParentProject);
 
-    RestResponse r = GET("/projects/?tree");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertThat(result.get(someChildProject.get())).isNotNull();
-    assertThat(result.get(someChildProject.get()).parent).isEqualTo(
-        someParentProject.get());
+    Map<String, ProjectInfo> result = gApi.projects().list().withTree(true)
+        .getAsMap();
+    assertThat(result).containsKey(someChildProject.get());
+    assertThat(result.get(someChildProject.get()).parent)
+        .isEqualTo(someParentProject.get());
   }
 
   @Test
   public void listProjectWithType() throws Exception {
-    RestResponse r = GET("/projects/?type=PERMISSIONS");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Map<String, ProjectInfo> result = toProjectInfoMap(r);
+    Map<String, ProjectInfo> result = gApi.projects().list()
+        .withType(FilterType.PERMISSIONS).getAsMap();
     assertThat(result).hasSize(1);
-    assertThat(result.get(allProjects.get())).isNotNull();
+    assertThat(result).containsKey(allProjects.get());
 
-    r = GET("/projects/?type=ALL");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    result = toProjectInfoMap(r);
-    assertThat(result).hasSize(3);
-    assertProjects(Arrays.asList(allProjects, allUsers, project),
-        result.values());
+    assertThatNameList(gApi.projects().list().withType(FilterType.ALL).get())
+        .containsExactly(allProjects, allUsers, project).inOrder();
   }
 
-  private static Map<String, ProjectInfo> toProjectInfoMap(RestResponse r)
-      throws IOException {
-    Map<String, ProjectInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<Map<String, ProjectInfo>>() {}.getType());
-    return result;
-  }
-
-  private RestResponse GET(String endpoint) throws IOException {
-    return adminSession.get(endpoint);
+  private static void assertBadRequest(ListRequest req) throws Exception {
+    try {
+      req.get();
+    } catch (BadRequestException expected) {
+      // Expected.
+    }
   }
 }

@@ -39,6 +39,46 @@
       "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_6584260c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-13T14:22:25Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be 2.10 specific. Remove it?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158b6e6_a491c24d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-13T14:22:25Z",
+      "side": 1,
+      "message": "Add this:\n\n* Remove pre-configured Google OpenID 2.0 provider from the login form, that is going to be shut down on 20, April 2015.\n\n? Or alternatively re-phrase the statement above, with replace Google OpenID entry with Launchpad on login form.",
+      "revId": "4aaad10b8029dd742c9c4350b7185ce7f5f0d0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

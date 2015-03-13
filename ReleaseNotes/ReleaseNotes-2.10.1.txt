@@ -1,0 +1,42 @@
+Release notes for Gerrit 2.10.1
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.html[2.10].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.1.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.1.war]
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2260[Issue 2260]:
+LDAP horrendous login time due to recursive lookup
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3201[Issue 3201]:
+LDAP authentication stops working after upgrade to 2.11-rc0
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3210[Issue 3210]:
+Null Pointer Exception for query command with --comments switch
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3211[Issue 3211]:
+Intermittent Null Pointer Exception when showing process queue
+
+LDAP
+----
+
+* Several performance improvements when using LDAP, both in the number of LDAP
+  requests and in the amount of data transfered
+
+* Sites using LDAP for authentication but otherwise rely on local Gerrit groups
+  should set the new `ldap.fetchMemberOfEagerly' option to `false`
+
+OAuth
+-----
+
+* Expose extension point for generic OAuth providers
+
+OpenID
+------
+
+* Add support for Launchpad on the login form

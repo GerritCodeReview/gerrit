@@ -107,7 +107,7 @@ public class ChangeInfo {
     return latest;
   }
 
-  public java.sql.Timestamp getLastUpdatedOn() {
+  public Timestamp getLastUpdatedOn() {
     return lastUpdatedOn;
   }
 }

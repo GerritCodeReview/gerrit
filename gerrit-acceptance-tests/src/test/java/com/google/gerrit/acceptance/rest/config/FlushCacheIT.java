@@ -38,7 +38,7 @@ public class FlushCacheIT extends AbstractDaemonTest {
   public void flushCache() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/groups");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(result.entries.mem.longValue()).isGreaterThan((long)0);
+    assertThat(result.entries.mem).isGreaterThan((long)0);
 
     r = adminSession.post("/config/server/caches/groups/flush");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);

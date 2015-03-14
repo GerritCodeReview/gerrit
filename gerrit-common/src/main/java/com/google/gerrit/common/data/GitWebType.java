@@ -47,10 +47,6 @@ public class GitWebType {
       type = new GitWebType();
       // The custom name is not defined, let's keep the old style of using GitWeb
       type.setLinkName("gitweb");
-
-    } else if (name.equalsIgnoreCase("disabled")) {
-      type = null;
-
     } else {
       type = null;
     }

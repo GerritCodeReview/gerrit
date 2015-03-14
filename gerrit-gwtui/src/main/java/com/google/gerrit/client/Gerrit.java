@@ -101,7 +101,7 @@ public class Gerrit implements EntryPoint {
       GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
   public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
-  public static Themer THEMER = GWT.create(Themer.class);
+  public static final Themer THEMER = GWT.create(Themer.class);
   public static final String PROJECT_NAME_MENU_VAR = "${projectName}";
 
   private static String myHost;

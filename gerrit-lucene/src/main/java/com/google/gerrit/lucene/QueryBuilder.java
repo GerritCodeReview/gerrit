@@ -164,8 +164,8 @@ public class QueryBuilder {
     try {
       // Can't use IntPredicate because it and IndexPredicate are different
       // subclasses of OperatorPredicate.
-      value = Integer.valueOf(p.getValue());
-    } catch (IllegalArgumentException e) {
+      value = Integer.parseInt(p.getValue());
+    } catch (NumberFormatException e) {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
     return new TermQuery(intTerm(p.getField().getName(), value));

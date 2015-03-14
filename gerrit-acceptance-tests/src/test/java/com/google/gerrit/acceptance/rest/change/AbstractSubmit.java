@@ -317,7 +317,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeInfo c = getChange(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
-    assertThat(cr.all.get(0).value.intValue()).isEqualTo(2);
+    assertThat(cr.all.get(0).value).isEqualTo(2);
     assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
   }
 

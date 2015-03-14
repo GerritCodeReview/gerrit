@@ -312,6 +312,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertThat((int) cr.defaultValue).isEqualTo(-1);
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
-    assertThat(cr.all.get(0).value.intValue()).isEqualTo(expected);
+    assertThat(cr.all.get(0).value).isEqualTo(expected);
   }
 }

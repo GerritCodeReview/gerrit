@@ -14,8 +14,6 @@
 
 package com.google.gerrit.rules;
 
-import static java.nio.file.StandardOpenOption.DELETE_ON_CLOSE;
-
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -98,10 +96,12 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     if (ruleDir == null) {
       throw new CompileException("Caching not enabled");
     }
-    try {
-      Files.createDirectory(ruleDir);
-    } catch (IOException e) {
-      throw new IOException("Cannot create " + ruleDir);
+    if (!Files.isDirectory(ruleDir)) {
+      try {
+        Files.createDirectory(ruleDir);
+      } catch (IOException e) {
+        throw new IOException("Cannot create " + ruleDir);
+      }
     }
 
     File tempDir = File.createTempFile("GerritCodeReview_", ".rulec");
@@ -243,7 +243,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
 
     Path tmpjar =
         Files.createTempFile(archiveFile.getParent(), ".rulec_", ".jar");
-    try (OutputStream stream = Files.newOutputStream(tmpjar, DELETE_ON_CLOSE);
+    try (OutputStream stream = Files.newOutputStream(tmpjar);
         JarOutputStream out = new JarOutputStream(stream, mf)) {
       byte buffer[] = new byte[10240];
       // TODO: fixify this loop

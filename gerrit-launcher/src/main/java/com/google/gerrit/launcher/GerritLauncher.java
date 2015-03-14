@@ -88,9 +88,13 @@ public final class GerritLauncher {
 
     // Run the application class
     //
-    final ClassLoader cl = libClassLoader();
+    final ClassLoader cl = libClassLoader(isProlog(programClassName(argv[0])));
     Thread.currentThread().setContextClassLoader(cl);
     return invokeProgram(cl, argv);
+  }
+
+  private static boolean isProlog(String cn) {
+    return "PrologShell".equals(cn) || "Rulec".equals(cn);
   }
 
   private static String getVersion(final File me) {
@@ -122,20 +126,7 @@ public final class GerritLauncher {
     Class<?> clazz;
     try {
       try {
-        String cn = name;
-        if (cn.equals(cn.toLowerCase())) {
-          StringBuilder buf = new StringBuilder();
-          buf.append(Character.toUpperCase(cn.charAt(0)));
-          for (int i = 1; i < cn.length(); i++) {
-            if (cn.charAt(i) == '-' && i + 1 < cn.length()) {
-              i++;
-              buf.append(Character.toUpperCase(cn.charAt(i)));
-            } else {
-              buf.append(cn.charAt(i));
-            }
-          }
-          cn = buf.toString();
-        }
+        String cn = programClassName(name);
         clazz = Class.forName(pkg + "." + cn, true, loader);
       } catch (ClassNotFoundException cnfe) {
         if (name.equals(name.toLowerCase())) {
@@ -181,7 +172,25 @@ public final class GerritLauncher {
     }
   }
 
-  private static ClassLoader libClassLoader() throws IOException {
+  private static String programClassName(String cn) {
+    if (cn.equals(cn.toLowerCase())) {
+      StringBuilder buf = new StringBuilder();
+      buf.append(Character.toUpperCase(cn.charAt(0)));
+      for (int i = 1; i < cn.length(); i++) {
+        if (cn.charAt(i) == '-' && i + 1 < cn.length()) {
+          i++;
+          buf.append(Character.toUpperCase(cn.charAt(i)));
+        } else {
+          buf.append(cn.charAt(i));
+        }
+      }
+      return buf.toString();
+    }
+    return cn;
+  }
+
+  private static ClassLoader libClassLoader(boolean prologCompiler)
+      throws IOException {
     final File path;
     try {
       path = getDistributionArchive();
@@ -201,10 +210,16 @@ public final class GerritLauncher {
           final ZipEntry ze = e.nextElement();
           if (ze.isDirectory()) {
             continue;
-          } else if (ze.getName().startsWith("WEB-INF/lib/")) {
+          }
+
+          String name = ze.getName();
+          if (name.startsWith("WEB-INF/lib/")) {
             extractJar(zf, ze, jars);
-          } else if (ze.getName().startsWith("WEB-INF/pgm-lib/")) {
-            extractJar(zf, ze, jars);
+          } else if (name.startsWith("WEB-INF/pgm-lib/")) {
+            // Some Prolog tools are restricted.
+            if (prologCompiler || !name.startsWith("WEB-INF/pgm-lib/prolog-")) {
+              extractJar(zf, ze, jars);
+            }
           }
         }
       } finally {

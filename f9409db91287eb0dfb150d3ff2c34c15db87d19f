@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "a1593aea_e5ca564b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-03-16T09:10:46Z",
+      "side": 1,
+      "message": "Move to SystemLog. No need to specify the same patterns in several files.",
+      "revId": "f9409db91287eb0dfb150d3ff2c34c15db87d19f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158b6e6_c4c5de3d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-03-16T09:10:46Z",
+      "side": 1,
+      "message": "Not sure if related to your change, but why are not [%d]ate specified in the errorOnlyConsole()? Could you not reuse the PATTERN-field?",
+      "revId": "f9409db91287eb0dfb150d3ff2c34c15db87d19f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158b6e6_24287280",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-03-16T09:10:46Z",
+      "side": 1,
+      "message": "If you move the PATTERN to SystemLog, you can remove the PATTERN argument too.",
+      "revId": "f9409db91287eb0dfb150d3ff2c34c15db87d19f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e18ed27f_8f27f56e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SystemLog.java",
         "patchSetId": 4

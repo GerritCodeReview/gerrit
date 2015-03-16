@@ -211,6 +211,30 @@
       "revId": "c9f71c3c4354401a129a32c3d3c9b2500a1005ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1593aea_45e32ad2",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-16T17:10:46Z",
+      "side": 1,
+      "message": "Ah, I think I got it now. ;)\n\nYou are talking about the context menu in the Project view. That\u0027s the same as I was thinking of. There is a 2nd way to do it: Module configuration in Project settings.",
+      "parentUuid": "268720d3_615fb652",
+      "range": {
+        "startLine": 61,
+        "startChar": 31,
+        "endLine": 61,
+        "endChar": 35
+      },
+      "revId": "c9f71c3c4354401a129a32c3d3c9b2500a1005ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

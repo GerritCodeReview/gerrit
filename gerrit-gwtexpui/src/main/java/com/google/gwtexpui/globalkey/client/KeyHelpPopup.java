@@ -114,7 +114,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
   }
 
   private void populate(final Grid lists) {
-    int end[] = new int[5];
+    int[] end = new int[5];
     int column = 0;
     for (final KeyCommandSet set : combinedSetsByName()) {
       int row = end[column];

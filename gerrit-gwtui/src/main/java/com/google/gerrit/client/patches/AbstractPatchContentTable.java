@@ -546,7 +546,7 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private CommentEditorPanel findOrCreateCommentEditor(final int suggestRow,
       final int column, final PatchLineComment newComment, final boolean create) {
     int row = suggestRow;
-    int spans[] = new int[column + 1];
+    int[] spans = new int[column + 1];
     FIND_ROW: while (row < table.getRowCount()) {
       int col = 0;
       for (int cell = 0; row < table.getRowCount()

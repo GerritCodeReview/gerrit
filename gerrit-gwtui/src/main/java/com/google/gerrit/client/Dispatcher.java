@@ -341,7 +341,7 @@ public class Dispatcher {
 
   private static String legacyChange(final String token) {
     final String s = skip(token);
-    final String t[] = s.split(",", 2);
+    final String[] t = s.split(",", 2);
     if (t.length > 1 && matchPrefix("patchset=", t[1])) {
       return PageLinks.toChange(PatchSet.Id.parse(t[0] + "," + skip(t[1])));
     }

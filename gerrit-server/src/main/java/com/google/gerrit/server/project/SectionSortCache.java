@@ -86,7 +86,7 @@ public class SectionSortCache {
 
       Collections.sort(sections, new MostSpecificComparator(ref));
 
-      int srcIdx[];
+      int[] srcIdx;
       if (isIdentityTransform(sections, srcMap)) {
         srcIdx = null;
       } else {

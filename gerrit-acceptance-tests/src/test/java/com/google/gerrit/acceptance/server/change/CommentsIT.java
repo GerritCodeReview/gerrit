@@ -64,7 +64,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject
   private Provider<PostReview> postReview;
 
-  private final Integer lines[] = {0, 1};
+  private final Integer[] lines = {0, 1};
 
   @Test
   public void createDraft() throws Exception {

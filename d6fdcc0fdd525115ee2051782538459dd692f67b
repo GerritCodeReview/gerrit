@@ -46,6 +46,30 @@
       "revId": "d6fdcc0fdd525115ee2051782538459dd692f67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_02d6aa45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-16T21:41:29Z",
+      "side": 1,
+      "message": "Oh! I see what you mean. I\u0027d personally prefer not to do that if possible on the client side and do as much as possible on the server side, i.e. the REST API responses are reasonable answers.\n\nThe reason is testability. If you have modifications on both client and server side you need to be careful on what to watch when introducing new changes. I had the impression I was breaking quite a bit of the ChangeScreen while adding the `SubmitWholeTopic` feature and relied on the tests help me uncover the small details. This change for example fixes one of the subtle details which I overlooked. So I\u0027d really prefer to have the modifications only on the server side for ease of testing.\n\nThat said, would it make sense to somehow cache the result already computed and transport it here?",
+      "parentUuid": "c6df2422_1ebb6d0a",
+      "range": {
+        "startLine": 298,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 5
+      },
+      "revId": "d6fdcc0fdd525115ee2051782538459dd692f67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
-class HttpLogoutServlet extends HttpServlet {
+public class HttpLogoutServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private final DynamicItem<WebSession> webSession;
@@ -43,7 +43,7 @@ class HttpLogoutServlet extends HttpServlet {
   private final AuditService audit;
 
   @Inject
-  HttpLogoutServlet(final AuthConfig authConfig,
+  protected HttpLogoutServlet(final AuthConfig authConfig,
       final DynamicItem<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final AuditService audit) {
@@ -53,7 +53,7 @@ class HttpLogoutServlet extends HttpServlet {
     this.audit = audit;
   }
 
-  private void doLogout(final HttpServletRequest req,
+  protected void doLogout(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     webSession.get().logout();
     if (logoutUrl != null) {

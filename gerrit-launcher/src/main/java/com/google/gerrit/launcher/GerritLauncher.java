@@ -46,11 +46,11 @@ public final class GerritLauncher {
   private static final String pkg = "com.google.gerrit.pgm";
   public static final String NOT_ARCHIVED = "NOT_ARCHIVED";
 
-  public static void main(final String argv[]) throws Exception {
+  public static void main(final String[] argv) throws Exception {
     System.exit(mainImpl(argv));
   }
 
-  public static int mainImpl(final String argv[]) throws Exception {
+  public static int mainImpl(final String[] argv) throws Exception {
     if (argv.length == 0) {
       File me;
       try {

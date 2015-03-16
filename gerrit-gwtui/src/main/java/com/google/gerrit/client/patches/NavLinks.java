@@ -54,7 +54,7 @@ class NavLinks extends Composite {
   private final KeyCommandSet keys;
   private final Grid table;
 
-  private KeyCommand cmds[] = new KeyCommand[2];
+  private KeyCommand[] cmds = new KeyCommand[2];
 
   NavLinks(KeyCommandSet kcs, PatchSet.Id forPatch) {
     patchSetId = forPatch;

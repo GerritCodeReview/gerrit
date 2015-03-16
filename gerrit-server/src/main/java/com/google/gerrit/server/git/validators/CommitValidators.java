@@ -222,7 +222,7 @@ public class CommitValidators {
       sb.append("ERROR: ").append(errMsg);
 
       if (c.getFullMessage().indexOf(changeId) >= 0) {
-        String lines[] = c.getFullMessage().trim().split("\n");
+        String[] lines = c.getFullMessage().trim().split("\n");
         String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
 
         if (lastLine.indexOf(changeId) == -1) {

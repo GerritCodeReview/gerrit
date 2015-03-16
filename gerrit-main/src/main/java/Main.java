@@ -20,7 +20,7 @@ public final class Main {
   // to jump into the real main code.
   //
 
-  public static void main(final String argv[]) throws Exception {
+  public static void main(final String[] argv) throws Exception {
     if (onSupportedJavaVersion()) {
       com.google.gerrit.launcher.GerritLauncher.main(argv);
 

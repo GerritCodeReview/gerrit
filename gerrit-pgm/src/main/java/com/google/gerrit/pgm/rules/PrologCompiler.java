@@ -239,7 +239,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
         Files.createTempFile(archiveFile.getParent(), ".rulec_", ".jar");
     try (OutputStream stream = Files.newOutputStream(tmpjar);
         JarOutputStream out = new JarOutputStream(stream, mf)) {
-      byte buffer[] = new byte[10240];
+      byte[] buffer = new byte[10240];
       // TODO: fixify this loop
       for (String path : toBeJared) {
         JarEntry jarAdd = new JarEntry(path);

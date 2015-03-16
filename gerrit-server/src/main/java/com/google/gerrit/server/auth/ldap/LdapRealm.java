@@ -134,7 +134,7 @@ public class LdapRealm extends AbstractRealm {
 
   static List<String> optionalList(final Config config,
       final String name) {
-    String s[] = config.getStringList("ldap", null, name);
+    String[] s = config.getStringList("ldap", null, name);
     return Arrays.asList(s);
   }
 

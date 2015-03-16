@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18ed27f_8f27f56e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SystemLog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-16T04:38:01Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "f9409db91287eb0dfb150d3ff2c34c15db87d19f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

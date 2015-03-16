@@ -113,8 +113,9 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
   }
 
   public void display(final List<AccountProjectWatchInfo> result) {
-    while (2 < table.getRowCount())
+    while (2 < table.getRowCount()) {
       table.removeRow(table.getRowCount() - 1);
+    }
 
     for (final AccountProjectWatchInfo k : result) {
       final int row = table.getRowCount();

@@ -103,8 +103,9 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   public void displaySubset(List<GroupInfo> list, String toHighlight, int fromIndex, int toIndex) {
-    while (1 < table.getRowCount())
+    while (1 < table.getRowCount()) {
       table.removeRow(table.getRowCount() - 1);
+    }
 
     Collections.sort(list, new Comparator<GroupInfo>() {
       @Override

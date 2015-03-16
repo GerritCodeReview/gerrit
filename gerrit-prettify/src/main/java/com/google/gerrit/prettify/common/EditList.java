@@ -68,8 +68,9 @@ public class EditList {
 
   private int findCombinedEnd(final int i) {
     int end = i + 1;
-    while (end < edits.size() && (combineA(end) || combineB(end)))
+    while (end < edits.size() && (combineA(end) || combineB(end))) {
       end++;
+    }
     return end - 1;
   }
 

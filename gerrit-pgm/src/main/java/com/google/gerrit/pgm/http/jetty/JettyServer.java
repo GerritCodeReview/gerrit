@@ -527,11 +527,13 @@ public class JettyServer {
         final ZipEntry ze = e.nextElement();
         final String name = ze.getName();
 
-        if (ze.isDirectory()) continue;
-        if (name.startsWith("WEB-INF/")) continue;
-        if (name.startsWith("META-INF/")) continue;
-        if (name.startsWith("com/google/gerrit/launcher/")) continue;
-        if (name.equals("Main.class")) continue;
+        if (ze.isDirectory()
+          || name.startsWith("WEB-INF/")
+          || name.startsWith("META-INF/")
+          || name.startsWith("com/google/gerrit/launcher/")
+          || name.equals("Main.class")) {
+          continue;
+        }
 
         final File rawtmp = new File(dstwar, name);
         mkdir(rawtmp.getParentFile());
@@ -561,8 +563,9 @@ public class JettyServer {
   private static void mkdir(File dir) throws IOException {
     if (!dir.isDirectory()) {
       mkdir(dir.getParentFile());
-      if (!dir.mkdir())
+      if (!dir.mkdir()) {
         throw new IOException("Cannot mkdir " + dir.getAbsolutePath());
+      }
       dir.deleteOnExit();
     }
   }

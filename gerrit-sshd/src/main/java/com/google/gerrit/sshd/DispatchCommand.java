@@ -88,10 +88,11 @@ final class DispatchCommand extends BaseCommand {
       checkRequiresCapability(cmd);
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
-        if (getName().isEmpty())
+        if (getName().isEmpty()) {
           bc.setName(commandName);
-        else
+        } else {
           bc.setName(getName() + " " + commandName);
+        }
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {

@@ -270,8 +270,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void display(final List<AccountInfo> result) {
-      while (1 < table.getRowCount())
+      while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
+      }
 
       for (final AccountInfo i : result) {
         final int row = table.getRowCount();
@@ -376,8 +377,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void display(List<GroupInfo> list) {
-      while (1 < table.getRowCount())
+      while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
+      }
 
       for (final GroupInfo i : list) {
         final int row = table.getRowCount();

@@ -144,7 +144,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
       @Override
       public int compare(ChangeInfo a, ChangeInfo b) {
         int cmp = a.created().compareTo(b.created());
-        if (cmp != 0) return cmp;
+        if (cmp != 0) {
+          return cmp;
+        }
         return a._number() - b._number();
       }
     };

@@ -136,7 +136,9 @@ public class CommentDetail {
         parentMap.put(parentUuid, l);
       }
       l.add(c);
-      if (parentUuid == null) rootComments.add(c);
+      if (parentUuid == null) {
+        rootComments.add(c);
+      }
     }
 
     // Add the comments in the list, starting with the head and then going through all the

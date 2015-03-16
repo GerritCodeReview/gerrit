@@ -130,10 +130,11 @@ public class SparseFileContent {
         return size();
       }
 
-      if (idx < cur.base)
+      if (idx < cur.base) {
         high = mid;
-      else
+      } else {
         low = mid + 1;
+      }
     } while (low < high);
 
     return size();
@@ -183,10 +184,11 @@ public class SparseFileContent {
         currentRangeIdx = mid;
         return cur.get(idx);
       }
-      if (idx < cur.base)
+      if (idx < cur.base) {
         high = mid;
-      else
+      } else {
         low = mid + 1;
+      }
     } while (low < high);
     return null;
   }

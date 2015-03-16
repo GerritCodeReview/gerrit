@@ -81,8 +81,9 @@ public class VariablePredicate<T> extends Predicate<T> {
 
   @Override
   public boolean equals(final Object other) {
-    if (other == null)
+    if (other == null) {
       return false;
+    }
     if (getClass() == other.getClass()) {
       final VariablePredicate<?> v = (VariablePredicate<?>) other;
       return getName().equals(v.getName())

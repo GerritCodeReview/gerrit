@@ -65,8 +65,9 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   public void displaySubset(ProjectMap projects, int fromIndex, int toIndex) {
-    while (1 < table.getRowCount())
+    while (1 < table.getRowCount()) {
       table.removeRow(table.getRowCount() - 1);
+    }
 
     List<ProjectInfo> list = Natives.asList(projects.values());
     Collections.sort(list, new Comparator<ProjectInfo>() {
@@ -75,8 +76,9 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
         return a.name().compareTo(b.name());
       }
     });
-    for(ProjectInfo p : list.subList(fromIndex, toIndex))
+    for (ProjectInfo p : list.subList(fromIndex, toIndex)) {
       insert(table.getRowCount(), p);
+    }
 
     finishDisplay();
   }

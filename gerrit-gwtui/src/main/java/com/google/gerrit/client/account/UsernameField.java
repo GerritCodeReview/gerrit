@@ -178,10 +178,11 @@ class UsernameField extends Composite {
         default:
           final TextBox box = (TextBox) event.getSource();
           final String re;
-          if (box.getCursorPos() == 0)
+          if (box.getCursorPos() == 0) {
             re = Account.USER_NAME_PATTERN_FIRST;
-          else
+          } else {
             re = Account.USER_NAME_PATTERN_REST;
+          }
           if (!String.valueOf(code).matches("^" + re + "$")) {
             event.preventDefault();
             event.stopPropagation();

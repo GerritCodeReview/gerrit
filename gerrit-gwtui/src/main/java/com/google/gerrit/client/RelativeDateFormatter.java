@@ -47,7 +47,9 @@ public class RelativeDateFormatter {
     long ageMillis = (new Date()).getTime() - when.getTime();
 
     // shouldn't happen in a perfect world
-    if (ageMillis < 0) return Util.C.inTheFuture();
+    if (ageMillis < 0) {
+      return Util.C.inTheFuture();
+    }
 
     // seconds
     if (ageMillis < upperLimit(MINUTE_IN_MILLIS)) {

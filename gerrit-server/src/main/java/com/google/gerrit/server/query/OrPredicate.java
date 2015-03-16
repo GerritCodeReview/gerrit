@@ -92,8 +92,9 @@ public class OrPredicate<T> extends Predicate<T> {
 
   @Override
   public boolean equals(final Object other) {
-    if (other == null)
+    if (other == null) {
       return false;
+    }
     return getClass() == other.getClass()
         && getChildren().equals(((Predicate<?>) other).getChildren());
   }

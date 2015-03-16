@@ -260,8 +260,12 @@ class ProjectDigestFilter implements Filter {
       } else {
         int space = auth.indexOf(' ', eq + 1);
         int comma = auth.indexOf(',', eq + 1);
-        if (space < 0) space = auth.length();
-        if (comma < 0) comma = auth.length();
+        if (space < 0) {
+          space = auth.length();
+        }
+        if (comma < 0) {
+          comma = auth.length();
+        }
 
         final int e = Math.min(space, comma);
         value = auth.substring(eq + 1, e);

@@ -61,8 +61,9 @@ public class MyAgreementsScreen extends SettingsScreen {
     }
 
     void display(final AgreementInfo result) {
-      while (1 < table.getRowCount())
+      while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
+      }
 
       for (final String k : result.accepted) {
         addOne(result, k);

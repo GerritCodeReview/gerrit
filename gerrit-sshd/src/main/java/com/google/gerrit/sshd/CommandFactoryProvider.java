@@ -263,30 +263,33 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
       switch (b) {
         case '\t':
         case ' ':
-          if (inquote || inDblQuote)
+          if (inquote || inDblQuote) {
             r.append(b);
-          else if (r.length() > 0) {
+          } else if (r.length() > 0) {
             list.add(r.toString());
             r = new StringBuilder();
           }
           continue;
         case '\"':
-          if (inquote)
+          if (inquote) {
             r.append(b);
-          else
+          } else {
             inDblQuote = !inDblQuote;
+          }
           continue;
         case '\'':
-          if (inDblQuote)
+          if (inDblQuote) {
             r.append(b);
-          else
+          } else {
             inquote = !inquote;
+          }
           continue;
         case '\\':
-          if (inquote || ip == commandLine.length())
+          if (inquote || ip == commandLine.length()) {
             r.append(b); // literal within a quote
-          else
+          } else {
             r.append(commandLine.charAt(ip++));
+          }
           continue;
         default:
           r.append(b);

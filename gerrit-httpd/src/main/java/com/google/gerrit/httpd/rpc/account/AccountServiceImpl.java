@@ -201,8 +201,9 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
         final Account.Id me = getAccountId();
         for (final AccountProjectWatch.Key keyId : keys) {
-          if (!me.equals(keyId.getParentKey()))
+          if (!me.equals(keyId.getParentKey())) {
             throw new Failure(new NoSuchEntityException());
+          }
         }
 
         db.accountProjectWatches().deleteKeys(keys);

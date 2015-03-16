@@ -95,8 +95,9 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     verify(ui);
 
     for (String n : UpgradeFrom2_0_x.etcFiles) {
-      if ("gerrit.config".equals(n)) continue;
-      if ("secure.config".equals(n)) continue;
+      if ("gerrit.config".equals(n) || "secure.config".equals(n)) {
+        continue;
+      }
       try (InputStream in = Files.newInputStream(site.etc_dir.resolve(n))) {
         assertEquals("# " + n + "\n",
             new String(ByteStreams.toByteArray(in), UTF_8));

@@ -50,8 +50,9 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
 
   @Override
   public boolean equals(final Object other) {
-    if (other == null)
+    if (other == null) {
       return false;
+    }
     if (getClass() == other.getClass()) {
       final OperatorPredicate<?> p = (OperatorPredicate<?>) other;
       return getOperator().equals(p.getOperator())

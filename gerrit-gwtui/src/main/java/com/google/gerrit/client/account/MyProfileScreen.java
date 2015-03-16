@@ -33,7 +33,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MyProfileScreen extends SettingsScreen {
   private AvatarImage avatar;
   private Anchor changeAvatar;
-  private int labelIdx, fieldIdx;
+  private int labelIdx;
+  private int fieldIdx;
   private Grid info;
 
   @Override

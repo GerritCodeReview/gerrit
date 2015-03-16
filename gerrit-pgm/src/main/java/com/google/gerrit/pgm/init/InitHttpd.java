@@ -58,7 +58,8 @@ class InitHttpd implements InitStep {
   public void run() throws IOException, InterruptedException {
     ui.header("HTTP Daemon");
 
-    boolean proxy = false, ssl = false;
+    boolean proxy = false;
+    boolean ssl = false;
     String address = "*";
     int port = -1;
     String context = "/";

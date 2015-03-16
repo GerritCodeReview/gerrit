@@ -285,7 +285,8 @@ public class RefControlTest {
   public void testUsernamePatternNonRegex() {
     allow(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
-    ProjectControl u = util.user(local, "u", DEVS), d = util.user(local, "d", DEVS);
+    ProjectControl u = util.user(local, "u", DEVS);
+    ProjectControl d = util.user(local, "d", DEVS);
     assertFalse("u can't read", u.controlForRef("refs/sb/d/heads/foobar").isVisible());
     assertTrue("d can read", d.controlForRef("refs/sb/d/heads/foobar").isVisible());
   }
@@ -294,7 +295,8 @@ public class RefControlTest {
   public void testUsernamePatternWithRegex() {
     allow(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
-    ProjectControl u = util.user(local, "d.v", DEVS), d = util.user(local, "dev", DEVS);
+    ProjectControl u = util.user(local, "d.v", DEVS);
+    ProjectControl d = util.user(local, "dev", DEVS);
     assertFalse("u can't read", u.controlForRef("refs/sb/dev/heads/foobar").isVisible());
     assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar").isVisible());
   }
@@ -316,7 +318,8 @@ public class RefControlTest {
     allow(local, READ, DEVS, "^refs/heads/.*");
     allow(parent, READ, ANONYMOUS_USERS, "^refs/heads/.*-QA-.*");
 
-    ProjectControl u = util.user(local, DEVS), d = util.user(local, DEVS);
+    ProjectControl u = util.user(local, DEVS);
+    ProjectControl d = util.user(local, DEVS);
     assertTrue("u can read", u.controlForRef("refs/heads/foo-QA-bar").isVisible());
     assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
   }

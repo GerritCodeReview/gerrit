@@ -115,7 +115,8 @@ class Labels extends Grid {
 
   private Widget renderUsers(LabelInfo label) {
     Map<Integer, List<ApprovalInfo>> m = new HashMap<>(4);
-    int approved = 0, rejected = 0;
+    int approved = 0;
+    int rejected = 0;
 
     for (ApprovalInfo ai : Natives.asList(label.all())) {
       if (ai.value() != 0) {

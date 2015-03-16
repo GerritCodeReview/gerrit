@@ -158,7 +158,9 @@ public class GitWebConfig {
       resourcePaths = new String[] {};
     }
 
-    Path css = null, js = null, logo = null;
+    Path css = null;
+    Path js = null;
+    Path logo = null;
     for (String path : resourcePaths) {
       Path dir = Paths.get(path);
       css = dir.resolve("gitweb.css");

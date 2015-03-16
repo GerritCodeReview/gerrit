@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
 
-public class BranchApiImpl extends BranchApi.NotImplemented implements BranchApi {
+public class BranchApiImpl implements BranchApi {
   interface Factory {
     BranchApiImpl create(ProjectResource project, String ref);
   }

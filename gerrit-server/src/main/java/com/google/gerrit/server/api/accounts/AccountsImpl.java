@@ -34,7 +34,7 @@ import com.google.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class AccountsImpl extends Accounts.NotImplemented implements Accounts {
+public class AccountsImpl implements Accounts {
   private final AccountsCollection accounts;
   private final AccountApiImpl.Factory api;
   private final Provider<CurrentUser> self;

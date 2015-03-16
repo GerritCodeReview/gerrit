@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18ed27f_4f090de3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ProjectAssert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-16T03:21:26Z",
+      "side": 1,
+      "message": "nit: indentation",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 28
+      },
+      "revId": "d0135a54cbb66c9294804ab137081c9a0121234e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

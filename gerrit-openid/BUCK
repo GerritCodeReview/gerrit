@@ -12,6 +12,7 @@ java_library(
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:gwtorm',
+    '//lib/commons:codec',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',

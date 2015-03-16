@@ -114,7 +114,9 @@ public class ActionContext extends JavaScriptObject {
         return e.options[e.selectedIndex].text;
       },
 
-      popup: function(e){this._p=@com.google.gerrit.client.api.PopupHelper::popup(Lcom/google/gerrit/client/api/ActionContext;Lcom/google/gwt/dom/client/Element;)(this,e)},
+      popup: function(e){
+        this._p=@com.google.gerrit.client.api.PopupHelper::popup(
+          Lcom/google/gerrit/client/api/ActionContext;Lcom/google/gwt/dom/client/Element;)(this,e)},
       hide: function() {
         this._p.@com.google.gerrit.client.api.PopupHelper::hide()();
         delete this['_p'];
@@ -125,11 +127,18 @@ public class ActionContext extends JavaScriptObject {
         if (m == 'get' || m == 'delete' || i==null) this[m](b);
         else this[m](i,b);
       },
-      get: function(b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
-      post: function(i,b){@com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,i,b)},
-      put: function(i,b){@com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,i,b)},
-      'delete': function(b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
-      del: function(b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
+      get: function(b){@com.google.gerrit.client.api.ActionContext::get(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
+      post: function(i,b){@com.google.gerrit.client.api.ActionContext::post(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(
+        this._u,i,b)},
+      put: function(i,b){@com.google.gerrit.client.api.ActionContext::put(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(
+        this._u,i,b)},
+      'delete': function(b){@com.google.gerrit.client.api.ActionContext::delete(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
+      del: function(b){@com.google.gerrit.client.api.ActionContext::delete(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
     };
   }-*/;
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18ed27f_0f1c6516",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-03-16T05:18:43Z",
+      "side": 1,
+      "message": "(optional) could this be an enum, to avoid calls like e.g. libClassLoader(false) where the meaning of the argument\u0027s value is not obvious?\n\nI don\u0027t mind much since this is private.",
+      "range": {
+        "startLine": 192,
+        "startChar": 44,
+        "endLine": 192,
+        "endChar": 66
+      },
+      "revId": "f850389c212a04a34cd65d9d95f4ba303e315a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

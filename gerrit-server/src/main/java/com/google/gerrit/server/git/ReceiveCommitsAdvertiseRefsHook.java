@@ -154,9 +154,10 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     RevCommit c;
     try {
       while ((c = rw.next()) != null && toInclude.size() < max) {
-        if (alreadySending.contains(c)) {
-        } else if (toInclude.contains(c)) {
-        } else if (c.getParentCount() > 1) {
+        if (alreadySending.contains(c)
+            || toInclude.contains(c)
+            || c.getParentCount() > 1) {
+          // Do nothing
         } else if (toInclude.size() < base) {
           toInclude.add(c);
         } else {

@@ -196,8 +196,7 @@ public class Daemon extends SiteProgram {
     }
 
     manager.add(GarbageCollectionLogFile.start(getSitePath()));
-    if (consoleLog) {
-    } else {
+    if (!consoleLog) {
       manager.add(ErrorLogFile.start(getSitePath()));
     }
 

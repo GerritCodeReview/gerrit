@@ -177,7 +177,7 @@ class PatchScriptBuilder {
 
     boolean hugeFile = false;
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
-
+      // Do nothing
     } else if (a.src == b.src && a.size() <= context
         && content.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)

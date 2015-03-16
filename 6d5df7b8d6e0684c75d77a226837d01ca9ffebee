@@ -22,6 +22,23 @@
       "revId": "6d5df7b8d6e0684c75d77a226837d01ca9ffebee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e18ed27f_8f713563",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologCompiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-16T16:57:20Z",
+      "side": 1,
+      "message": "How about just using createDirectories?\n\n\"Unlike the createDirectory method, an exception is not thrown if the directory could not be created because it already exists.\"\n\nhttp://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createDirectories(java.nio.file.Path,%20java.nio.file.attribute.FileAttribute...)",
+      "revId": "6d5df7b8d6e0684c75d77a226837d01ca9ffebee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

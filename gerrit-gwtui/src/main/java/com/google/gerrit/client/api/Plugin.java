@@ -60,6 +60,7 @@ final class Plugin extends JavaScriptObject {
       onAction: function(t,n,c){G._onAction(this.name,t,n,c)},
       screen: function(p,c){G._screen(this.name,p,c)},
 
+      //CS IGNORE LineLength FOR NEXT 10 LINES. REASON: Inline Javascript
       url: function (u){return G.url(this._url(u))},
       get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
       post: function(u,i,b){@com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},

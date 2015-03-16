@@ -114,6 +114,7 @@ public class ActionContext extends JavaScriptObject {
         return e.options[e.selectedIndex].text;
       },
 
+      //CS IGNORE LineLength FOR NEXT 16 LINES. REASON: Inline Javascript
       popup: function(e){this._p=@com.google.gerrit.client.api.PopupHelper::popup(Lcom/google/gerrit/client/api/ActionContext;Lcom/google/gwt/dom/client/Element;)(this,e)},
       hide: function() {
         this._p.@com.google.gerrit.client.api.PopupHelper::hide()();

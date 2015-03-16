@@ -14,10 +14,12 @@ edited to remove noisy warnings.
   <property name="severity" value="warning"/>
   <property name="charset" value="UTF-8"/>
   <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
     <module name="OuterTypeFilename"/>
     <module name="LineLength">
       <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-      <property name="max" value="100"/>
+      <property name="max" value="150"/>
+      <property name="tabWidth" value="2"/>
     </module>
     <module name="OneTopLevelClass"/>
     <module name="NoLineWrap"/>
@@ -27,9 +29,8 @@ edited to remove noisy warnings.
     </module>
     <module name="NeedBraces"/>
     <module name="LeftCurly">
-      <property name="maxLineLength" value="100"/>
+      <property name="maxLineLength" value="150"/>
     </module>
-    <module name="RightCurly"/>
     <module name="RightCurly">
       <property name="option" value="alone"/>
       <property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO, STATIC_INIT, INSTANCE_INIT"/>
@@ -99,5 +100,10 @@ edited to remove noisy warnings.
     <property name="severity" value="ignore"/>
     <property name="eachLine" value="true"/>
     <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+  </module>
+  <module name="SuppressWithNearbyCommentFilter">
+    <property name="commentFormat" value="CS IGNORE (\w+) FOR NEXT (\d+) LINES\. REASON\: \w+"/>
+    <property name="checkFormat" value="$1"/>
+    <property name="influenceFormat" value="$2"/>
   </module>
 </module>

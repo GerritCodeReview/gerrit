@@ -109,7 +109,8 @@ final class CreateProjectCommand extends SshCommand {
     requireChangeID = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--create-new-change-for-all-not-in-target", aliases = {"--ncfa"}, usage = "if a new change will be created for every commit not in target branch")
+  @Option(name = "--create-new-change-for-all-not-in-target", aliases = {"--ncfa"},
+      usage = "if a new change will be created for every commit not in target branch")
   void setNewChangeForAllNotInTarget(@SuppressWarnings("unused") boolean on) {
     createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
   }
@@ -124,7 +125,8 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
 
-  @Option(name = "--plugin-config", usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'")
+  @Option(name = "--plugin-config",
+      usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'")
   private List<String> pluginConfigValues;
 
   private String projectName;

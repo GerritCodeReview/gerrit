@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "268720d3_a11dbe94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-03-16T16:45:07Z",
+      "side": 1,
+      "message": "Not sure I fully get your comment Urs. Please let me know if you\u0027d like me to amend this commit message with any specific (missing or incomplete) info; thanks.",
+      "parentUuid": "a1593aea_05c45239",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "c9f71c3c4354401a129a32c3d3c9b2500a1005ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1593aea_25c14e2a",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-16T16:10:30Z",
       "side": 1,
       "message": "Gerrit",
+      "range": {
+        "startLine": 59,
+        "startChar": 54,
+        "endLine": 59,
+        "endChar": 60
+      },
+      "revId": "c9f71c3c4354401a129a32c3d3c9b2500a1005ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "268720d3_c11a429a",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-03-16T16:45:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1593aea_25c14e2a",
       "range": {
         "startLine": 59,
         "startChar": 54,
@@ -82,6 +130,54 @@
       "writtenOn": "2015-03-16T16:10:30Z",
       "side": 1,
       "message": "settings?",
+      "range": {
+        "startLine": 61,
+        "startChar": 31,
+        "endLine": 61,
+        "endChar": 35
+      },
+      "revId": "c9f71c3c4354401a129a32c3d3c9b2500a1005ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "268720d3_81643a1e",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-03-16T16:45:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1593aea_c5ee3abc",
+      "range": {
+        "startLine": 60,
+        "startChar": 59,
+        "endLine": 61,
+        "endChar": 12
+      },
+      "revId": "c9f71c3c4354401a129a32c3d3c9b2500a1005ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "268720d3_615fb652",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-03-16T16:45:07Z",
+      "side": 1,
+      "message": "I really meant \"view\" (the view \"Project\", top left-hand side by default, at least in IDEA 14.0.3).",
+      "parentUuid": "8158b6e6_04c45639",
       "range": {
         "startLine": 61,
         "startChar": 31,

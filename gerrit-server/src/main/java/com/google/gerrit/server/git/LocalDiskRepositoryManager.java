@@ -373,28 +373,24 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private boolean isUnreasonableName(final Project.NameKey nameKey) {
     final String name = nameKey.get();
 
-    if (name.length() == 0) return true; // no empty paths
-    if (name.charAt(name.length() -1) == '/') return true; // no suffix
-
-    if (name.indexOf('\\') >= 0) return true; // no windows/dos style paths
-    if (name.charAt(0) == '/') return true; // no absolute paths
-    if (new File(name).isAbsolute()) return true; // no absolute paths
-
-    if (name.startsWith("../")) return true; // no "l../etc/passwd"
-    if (name.contains("/../")) return true; // no "foo/../etc/passwd"
-    if (name.contains("/./")) return true; // "foo/./foo" is insane to ask
-    if (name.contains("//")) return true; // windows UNC path can be "//..."
-    if (name.contains("?")) return true; // common unix wildcard
-    if (name.contains("%")) return true; // wildcard or string parameter
-    if (name.contains("*")) return true; // wildcard
-    if (name.contains(":")) return true; // Could be used for absolute paths in windows?
-    if (name.contains("<")) return true; // redirect input
-    if (name.contains(">")) return true; // redirect output
-    if (name.contains("|")) return true; // pipe
-    if (name.contains("$")) return true; // dollar sign
-    if (name.contains("\r")) return true; // carriage return
-
-    return false; // is a reasonable name
+    return name.length() == 0  // no empty paths
+      || name.charAt(name.length() -1) == '/' // no suffix
+      || name.indexOf('\\') >= 0 // no windows/dos style paths
+      || name.charAt(0) == '/' // no absolute paths
+      || new File(name).isAbsolute() // no absolute paths
+      || name.startsWith("../") // no "l../etc/passwd"
+      || name.contains("/../") // no "foo/../etc/passwd"
+      || name.contains("/./") // "foo/./foo" is insane to ask
+      || name.contains("//") // windows UNC path can be "//..."
+      || name.contains("?") // common unix wildcard
+      || name.contains("%") // wildcard or string parameter
+      || name.contains("*") // wildcard
+      || name.contains(":") // Could be used for absolute paths in windows?
+      || name.contains("<") // redirect input
+      || name.contains(">") // redirect output
+      || name.contains("|") // pipe
+      || name.contains("$") // dollar sign
+      || name.contains("\r"); // carriage return
   }
 
   @Override

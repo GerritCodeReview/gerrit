@@ -56,6 +56,17 @@ To use IntelliJ IDEA for development, the easiest way is to follow
 Eclipse integration and then open it as Eclipse project in IDEA.
 You need the Eclipse plugin activated in IntelliJ IDEA.
 
+Once you start compiling using both buck and your Gerrit project in
+IDEA, you will likely need to mark the below directories as generated
+sources roots. You can do so using the IDEA "Project" view. In the
+context menu of each one of these, use "Mark Directory As" to mark
+them as "Generated Sources Root":
+
+----
+  __auto_value_tests_gen__
+  __httpd_gen__
+  __server_gen__
+----
 
 == Mac OS X
 

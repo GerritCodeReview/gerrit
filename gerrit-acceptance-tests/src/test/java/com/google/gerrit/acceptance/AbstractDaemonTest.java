@@ -84,6 +84,9 @@ public abstract class AbstractDaemonTest {
   @ConfigSuite.Parameter
   public Config baseConfig;
 
+  @ConfigSuite.Name
+  private String configName;
+
   @Inject
   protected AllProjectsName allProjects;
 

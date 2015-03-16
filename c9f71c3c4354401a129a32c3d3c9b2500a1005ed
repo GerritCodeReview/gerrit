@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a1593aea_85e842af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-16T17:00:08Z",
+      "side": 1,
+      "message": "I think you could also add to dev-readme.txt that modules can be marked as \"Generated Sources Root\" via context menu item \"Mark Directory As\" on a module node in structure tree.",
+      "parentUuid": "268720d3_a11dbe94",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "c9f71c3c4354401a129a32c3d3c9b2500a1005ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1593aea_25c14e2a",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1

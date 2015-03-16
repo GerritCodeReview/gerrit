@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6df2422_1ebb6d0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-16T21:01:32Z",
+      "side": 1,
+      "message": "Can\u0027t you re-use ChangeInfo.mergeable() that was already computed in GET /changes/\u003cid\u003e/detail endpoint and transported to the client side? In Actions.java:116\n\n  if (canSubmit) {\n    ActionInfo action \u003d actions.get(\"submit\");\n    submit.setEnabled(info.mergeable());\n    [...]",
+      "range": {
+        "startLine": 298,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 5
+      },
+      "revId": "d6fdcc0fdd525115ee2051782538459dd692f67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

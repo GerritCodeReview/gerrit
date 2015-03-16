@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8158b6e6_24c1522a",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-03-16T17:14:03Z",
+      "side": 1,
+      "message": "(\"Project\" view, context menu item \"Mark Directory as\")\n\nI think this is enough. Sorry for the confusion.",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 37
+      },
+      "revId": "566234e26a89aef54b71f1394cdcd18e9e6beab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

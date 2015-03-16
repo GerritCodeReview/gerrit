@@ -22,6 +22,30 @@
       "revId": "d6fdcc0fdd525115ee2051782538459dd692f67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_c2cbe29c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-16T21:05:38Z",
+      "side": 1,
+      "message": "I thought the mergeableProvider.get().apply(...) had some kind of caching built in. I\u0027ll look into reusing that.",
+      "parentUuid": "c6df2422_1ebb6d0a",
+      "range": {
+        "startLine": 298,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 5
+      },
+      "revId": "d6fdcc0fdd525115ee2051782538459dd692f67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

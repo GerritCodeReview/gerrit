@@ -117,7 +117,8 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     FlowPanel dateTimePanel = new FlowPanel();
 
-    final int labelIdx, fieldIdx;
+    final int labelIdx;
+    final int fieldIdx;
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
       fieldIdx = 0;

@@ -83,7 +83,8 @@ public final class RangeUtil {
    */
   public static Range getRange(
       String prefix, String test, int queryInt, int minValue, int maxValue) {
-    int min, max;
+    int min;
+    int max;
     switch (test) {
       case "=":
       default:

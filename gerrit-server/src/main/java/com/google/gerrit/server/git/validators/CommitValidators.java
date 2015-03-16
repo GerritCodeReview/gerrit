@@ -387,7 +387,9 @@ public class CommitValidators {
       final ProjectControl projectControl = refControl.getProjectControl();
 
       if (projectControl.getProjectState().isUseSignedOffBy()) {
-        boolean sboAuthor = false, sboCommitter = false, sboMe = false;
+        boolean sboAuthor = false;
+        boolean sboCommitter = false;
+        boolean sboMe = false;
         for (final FooterLine footer : receiveEvent.commit.getFooterLines()) {
           if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
             final String e = footer.getEmailAddress();

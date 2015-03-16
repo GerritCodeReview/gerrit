@@ -104,7 +104,8 @@ public class ChangeUtil {
    * @throws OrmException the database couldn't be incremented.
    */
   public static String messageUUID(ReviewDb db) throws OrmException {
-    int p, s;
+    int p;
+    int s;
     synchronized (uuidLock) {
       if (uuidSeq == 0) {
         uuidPrefix = db.nextChangeMessageId();

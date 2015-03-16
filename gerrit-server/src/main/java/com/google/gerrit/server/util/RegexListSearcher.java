@@ -75,7 +75,8 @@ public abstract class RegexListSearcher<T> implements Function<T, String> {
 
   public Iterable<T> search(List<T> list) {
     checkNotNull(list);
-    int begin, end;
+    int begin;
+    int end;
 
     if (0 < prefixLen) {
       // Assumes many consecutive elements may have the same prefix, so the cost

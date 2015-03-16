@@ -48,7 +48,8 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 
 class ContactPanelShort extends Composite {
   protected final FlowPanel body;
-  protected int labelIdx, fieldIdx;
+  protected int labelIdx;
+  protected int fieldIdx;
   protected Button save;
 
   private String currentEmail;

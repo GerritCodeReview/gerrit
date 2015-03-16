@@ -220,7 +220,8 @@ class SshLog implements LifecycleListener {
 
     event.setProperty(P_SESSION, id(sd.getSessionId()));
 
-    String userName = "-", accountId = "-";
+    String userName = "-";
+    String accountId = "-";
 
     if (user != null && user.isIdentifiedUser()) {
       IdentifiedUser u = (IdentifiedUser) user;

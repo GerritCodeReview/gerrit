@@ -20,6 +20,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import org.junit.runner.Runner;
@@ -28,6 +29,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
@@ -78,6 +80,9 @@ import java.util.List;
  *
  * Additionally, config values used by <strong>default</strong> can be set
  * in a method annotated with {@code @ConfigSuite.Default}.
+ * <p>
+ * The name of the config method corresponding to the currently-running test can
+ * be stored in a field annotated with {@code @ConfigSuite.Name}.
  */
 public class ConfigSuite extends Suite {
   private static final String DEFAULT = "default";
@@ -97,15 +102,22 @@ public class ConfigSuite extends Suite {
   public static @interface Parameter {
   }
 
+  @Target({FIELD})
+  @Retention(RUNTIME)
+  public static @interface Name {
+  }
+
   private static class ConfigRunner extends BlockJUnit4ClassRunner {
     private final Method configMethod;
     private final Field parameterField;
+    private final Field nameField;
     private final String name;
 
-    private ConfigRunner(Class<?> clazz, Field parameterField, String name,
-        Method configMethod) throws InitializationError {
+    private ConfigRunner(Class<?> clazz, Field parameterField, Field nameField,
+        String name, Method configMethod) throws InitializationError {
       super(clazz);
       this.parameterField = parameterField;
+      this.nameField = nameField;
       this.name = name;
       this.configMethod = configMethod;
     }
@@ -114,6 +126,9 @@ public class ConfigSuite extends Suite {
     public Object createTest() throws Exception {
       Object test = getTestClass().getJavaClass().newInstance();
       parameterField.set(test, callConfigMethod(configMethod));
+      if (nameField != null) {
+        nameField.set(test, name);
+      }
       return test;
     }
 
@@ -132,12 +147,16 @@ public class ConfigSuite extends Suite {
   private static List<Runner> runnersFor(Class<?> clazz) {
     Method defaultConfig = getDefaultConfig(clazz);
     List<Method> configs = getConfigs(clazz);
-    Field field = getParameterField(clazz);
+    Field parameterField = getOnlyField(clazz, Parameter.class);
+    checkArgument(parameterField != null, "No @ConfigSuite.Field found");
+    Field nameField = getOnlyField(clazz, Name.class);
     List<Runner> result = Lists.newArrayListWithCapacity(configs.size() + 1);
     try {
-      result.add(new ConfigRunner(clazz, field, null, defaultConfig));
+      result.add(new ConfigRunner(
+          clazz, parameterField, nameField, null, defaultConfig));
       for (Method m : configs) {
-        result.add(new ConfigRunner(clazz, field, m.getName(), m));
+        result.add(new ConfigRunner(
+            clazz, parameterField, nameField, m.getName(), m));
       }
       return result;
     } catch (InitializationError e) {
@@ -195,16 +214,18 @@ public class ConfigSuite extends Suite {
     }
   }
 
-  private static Field getParameterField(Class<?> clazz) {
+  private static Field getOnlyField(Class<?> clazz,
+      Class<? extends Annotation> ann) {
     List<Field> fields = Lists.newArrayListWithExpectedSize(1);
     for (Field f : clazz.getFields()) {
-      if (f.getAnnotation(Parameter.class) != null) {
+      if (f.getAnnotation(ann) != null) {
         fields.add(f);
       }
     }
-    checkArgument(fields.size() == 1,
-        "expected 1 @ConfigSuite.Parameter field, found: %s", fields);
-    return fields.get(0);
+    checkArgument(fields.size() <= 1,
+        "expected 1 @ConfigSuite.%s field, found: %s",
+        ann.getSimpleName(), fields);
+    return Iterables.getFirst(fields, null);
   }
 
   public ConfigSuite(Class<?> clazz) throws InitializationError {

@@ -306,8 +306,9 @@ class SshPanel extends Composite {
         setKeyTableVisible(false);
         showAddKeyBlock(true);
       } else {
-        while (1 < table.getRowCount())
+        while (1 < table.getRowCount()) {
           table.removeRow(table.getRowCount() - 1);
+        }
         for (final SshKeyInfo k : result) {
           addOneKey(k);
         }

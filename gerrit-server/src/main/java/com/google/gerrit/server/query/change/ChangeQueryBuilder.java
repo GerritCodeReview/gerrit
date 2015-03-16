@@ -426,8 +426,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> project(String name) {
-    if (name.startsWith("^"))
+    if (name.startsWith("^")) {
       return new RegexProjectPredicate(name);
+    }
     return new ProjectPredicate(name);
   }
 
@@ -444,14 +445,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> branch(String name) {
-    if (name.startsWith("^"))
+    if (name.startsWith("^")) {
       return ref("^" + branchToRef(name.substring(1)));
+    }
     return ref(branchToRef(name));
   }
 
   private static String branchToRef(String name) {
-    if (!name.startsWith(Branch.R_HEADS))
+    if (!name.startsWith(Branch.R_HEADS)) {
       return Branch.R_HEADS + name;
+    }
     return name;
   }
 
@@ -462,15 +465,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> topic(String name) {
-    if (name.startsWith("^"))
+    if (name.startsWith("^")) {
       return new RegexTopicPredicate(name);
+    }
     return new TopicPredicate(name);
   }
 
   @Operator
   public Predicate<ChangeData> ref(String ref) {
-    if (ref.startsWith("^"))
+    if (ref.startsWith("^")) {
       return new RegexRefPredicate(ref);
+    }
     return new RefPredicate(ref);
   }
 

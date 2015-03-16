@@ -707,11 +707,13 @@ public class Dispatcher {
           return new RegisterScreen("/" + skip(token));
         }
 
-        if (matchPrefix("/VE/", token) || matchPrefix("VE,", token))
+        if (matchPrefix("/VE/", token) || matchPrefix("VE,", token)) {
           return new ValidateEmailScreen(skip(token));
+        }
 
-        if (matchExact(SETTINGS_NEW_AGREEMENT, token))
+        if (matchExact(SETTINGS_NEW_AGREEMENT, token)) {
           return new NewAgreementScreen();
+        }
 
         if (matchPrefix(SETTINGS_NEW_AGREEMENT + "/", token)) {
           return new NewAgreementScreen(skip(token));

@@ -444,8 +444,9 @@ public class ProjectBranchesScreen extends ProjectScreen {
     void displaySubset(List<BranchInfo> branches, int fromIndex, int toIndex) {
       canDelete = false;
 
-      while (1 < table.getRowCount())
+      while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
+      }
 
       for (BranchInfo k : branches.subList(fromIndex, toIndex)) {
         final int row = table.getRowCount();

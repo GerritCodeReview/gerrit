@@ -196,8 +196,9 @@ public abstract class BinaryResult implements Closeable {
     } catch (UnsupportedCharsetException | CharacterCodingException e) {
       // Fallback to ISO-8850-1 style encoding.
       StringBuilder r = new StringBuilder(data.length);
-      for (byte b : data)
-          r.append((char) (b & 0xff));
+      for (byte b : data) {
+        r.append((char) (b & 0xff));
+      }
       return r.toString();
     }
   }

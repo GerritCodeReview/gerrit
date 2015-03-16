@@ -758,7 +758,9 @@ public class QueryShell {
       r.append(" (");
       boolean first = true;
       for (String c : columns.values()) {
-        if (!first) r.append(", ");
+        if (!first) {
+          r.append(", ");
+        }
         r.append(c);
         first = false;
       }

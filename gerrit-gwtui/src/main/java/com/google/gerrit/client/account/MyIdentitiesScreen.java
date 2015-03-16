@@ -179,8 +179,9 @@ public class MyIdentitiesScreen extends SettingsScreen {
         }
       });
 
-      while (1 < table.getRowCount())
+      while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
+      }
 
       for (final AccountExternalId k : result) {
         addOneId(k);

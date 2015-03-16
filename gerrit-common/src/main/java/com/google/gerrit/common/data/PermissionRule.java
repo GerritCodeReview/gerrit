@@ -126,8 +126,12 @@ public class PermissionRule implements Comparable<PermissionRule> {
   @Override
   public int compareTo(PermissionRule o) {
     int cmp = action(this) - action(o);
-    if (cmp == 0) cmp = range(o) - range(this);
-    if (cmp == 0) cmp = group(this).compareTo(group(o));
+    if (cmp == 0) {
+      cmp = range(o) - range(this);
+    }
+    if (cmp == 0) {
+      cmp = group(this).compareTo(group(o));
+    }
     return cmp;
   }
 

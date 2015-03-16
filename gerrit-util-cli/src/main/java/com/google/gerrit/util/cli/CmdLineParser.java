@@ -202,8 +202,9 @@ public class CmdLineParser {
     for (int argi = 0; argi < args.length; argi++) {
       final String str = args[argi];
       if (str.equals("--")) {
-        while (argi < args.length)
+        while (argi < args.length) {
           tmp.add(args[argi++]);
+        }
         break;
       }
 

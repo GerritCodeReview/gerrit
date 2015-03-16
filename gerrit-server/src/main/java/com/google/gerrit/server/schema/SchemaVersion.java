@@ -49,8 +49,9 @@ public abstract class SchemaVersion {
   public static int guessVersion(Class<?> c) {
     String n = c.getName();
     n = n.substring(n.lastIndexOf('_') + 1);
-    while (n.startsWith("0"))
+    while (n.startsWith("0")) {
       n = n.substring(1);
+    }
     return Integer.parseInt(n);
   }
 

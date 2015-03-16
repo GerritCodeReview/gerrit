@@ -338,8 +338,7 @@ public abstract class BaseCommand implements Command {
       return 127;
     }
 
-    if (e instanceof UnloggedFailure) {
-    } else {
+    if (!(e instanceof UnloggedFailure)) {
       final StringBuilder m = new StringBuilder();
       m.append("Internal server error");
       if (userProvider.get().isIdentifiedUser()) {

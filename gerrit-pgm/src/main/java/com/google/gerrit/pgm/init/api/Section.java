@@ -68,10 +68,9 @@ public class Section {
         flags.cfg.setStringList(section, subsection, name, all);
       }
 
-    } else if (all.size() == 0) {
     } else if (all.size() == 1) {
       flags.cfg.unset(section, subsection, name);
-    } else {
+    } else if (all.size() != 0) {
       all.remove(0);
       flags.cfg.setStringList(section, subsection, name, all);
     }

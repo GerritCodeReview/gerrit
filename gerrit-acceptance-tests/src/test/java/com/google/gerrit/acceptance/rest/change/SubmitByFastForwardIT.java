@@ -18,9 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ActionInfo;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
+
+import java.util.Map;
 
 public class SubmitByFastForwardIT extends AbstractSubmit {
 
@@ -51,6 +54,14 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
+
+    approve(change2.getChangeId());
+    Map<String, ActionInfo> actions = getActions(change2.getChangeId());
+
+    assertThat(actions).containsKey("submit");
+    ActionInfo info = actions.get("submit");
+    assertThat(info.enabled).isNull();
+
     submitWithConflict(change2.getChangeId());
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);

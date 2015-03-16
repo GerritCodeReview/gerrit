@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class GerritApiImpl extends GerritApi.NotImplemented implements GerritApi {
+class GerritApiImpl implements GerritApi {
   private final Accounts accounts;
   private final Changes changes;
   private final Projects projects;

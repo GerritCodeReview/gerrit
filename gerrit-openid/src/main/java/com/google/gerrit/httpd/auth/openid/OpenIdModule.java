@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
+import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.inject.servlet.ServletModule;
 
 /** Servlets related to OpenID authentication. */
@@ -21,9 +23,12 @@ public class OpenIdModule extends ServletModule {
   @Override
   protected void configureServlets() {
     serve("/login", "/login/*").with(LoginForm.class);
+    serve("/logout").with(OAuthOverOpenIDLogoutServlet.class);
+    filter("/oauth").through(OAuthWebFilterOverOpenID.class);
     serve("/" + OpenIdServiceImpl.RETURN_URL).with(OpenIdLoginServlet.class);
     serve("/" + XrdsServlet.LOCATION).with(XrdsServlet.class);
     filter("/").through(XrdsFilter.class);
     bind(OpenIdServiceImpl.class);
+    DynamicMap.mapOf(binder(), OAuthServiceProvider.class);
   }
 }

@@ -25,6 +25,9 @@ public interface ProjectApi {
   ProjectApi create(ProjectInput in) throws RestApiException;
   ProjectInfo get() throws RestApiException;
 
+  String description() throws RestApiException;
+  void description(PutDescriptionInput in) throws RestApiException;
+
   List<ProjectInfo> children() throws RestApiException;
   List<ProjectInfo> children(boolean recursive) throws RestApiException;
   ChildProjectApi child(String name) throws RestApiException;
@@ -61,6 +64,17 @@ public interface ProjectApi {
 
     @Override
     public ProjectInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String description() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void description(PutDescriptionInput in)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

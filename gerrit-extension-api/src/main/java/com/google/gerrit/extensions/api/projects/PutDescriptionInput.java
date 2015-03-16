@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.extensions.api.projects;
 
-import com.google.common.base.Strings;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Singleton;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 
-@Singleton
-public class GetDescription implements RestReadView<ProjectResource> {
-  @Override
-  public String apply(ProjectResource resource) {
-    Project project = resource.getControl().getProject();
-    return Strings.nullToEmpty(project.getDescription());
-  }
+public class PutDescriptionInput {
+  @DefaultInput
+  public String description;
+  public String commitMessage;
 }

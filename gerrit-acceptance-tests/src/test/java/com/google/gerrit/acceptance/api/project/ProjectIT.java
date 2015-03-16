@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -79,6 +80,23 @@ public class ProjectIT extends AbstractDaemonTest  {
         .name(project.get())
         .branch("foo")
         .create(new BranchInput());
+  }
+
+  @Test
+  public void description() throws Exception {
+    assertThat(gApi.projects()
+            .name(project.get())
+            .description())
+        .isEmpty();
+    PutDescriptionInput in = new PutDescriptionInput();
+    in.description = "new project description";
+    gApi.projects()
+        .name(project.get())
+        .description(in);
+    assertThat(gApi.projects()
+            .name(project.get())
+            .description())
+        .isEqualTo(in.description);
   }
 
   @Test

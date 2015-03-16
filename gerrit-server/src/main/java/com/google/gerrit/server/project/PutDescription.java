@@ -17,8 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -30,7 +30,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.PutDescription.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -42,13 +41,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Singleton
-class PutDescription implements RestModifyView<ProjectResource, Input> {
-  static class Input {
-    @DefaultInput
-    String description;
-    String commitMessage;
-  }
-
+public class PutDescription implements RestModifyView<ProjectResource, PutDescriptionInput> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
@@ -66,11 +59,11 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Response<String> apply(ProjectResource resource, Input input)
-      throws AuthException, ResourceConflictException,
-      ResourceNotFoundException, IOException {
+  public Response<String> apply(ProjectResource resource,
+      PutDescriptionInput input) throws AuthException,
+      ResourceConflictException, ResourceNotFoundException, IOException {
     if (input == null) {
-      input = new Input(); // Delete would set description to null.
+      input = new PutDescriptionInput(); // Delete would set description to null.
     }
 
     ProjectControl ctl = resource.getControl();

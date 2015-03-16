@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -29,10 +30,12 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.GetDescription;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.project.PutDescription;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -49,6 +52,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final Provider<CreateProject.Factory> createProjectFactory;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
+  private final GetDescription getDescription;
+  private final PutDescription putDescription;
   private final ChildProjectApiImpl.Factory childApi;
   private final ChildProjectsCollection children;
   private final ProjectResource project;
@@ -60,31 +65,39 @@ public class ProjectApiImpl implements ProjectApi {
   ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      GetDescription getDescription,
+      PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted ProjectResource project) {
-    this(createProjectFactory, projectApi, projects, childApi, children,
-        projectJson, branchApiFactory, project, null);
+    this(createProjectFactory, projectApi, projects, getDescription,
+        putDescription, childApi, children, projectJson, branchApiFactory,
+        project, null);
   }
 
   @AssistedInject
   ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      GetDescription getDescription,
+      PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted String name) {
-    this(createProjectFactory, projectApi, projects, childApi, children,
-        projectJson, branchApiFactory, null, name);
+    this(createProjectFactory, projectApi, projects, getDescription,
+        putDescription, childApi, children, projectJson, branchApiFactory, null,
+        name);
   }
 
   private ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      GetDescription getDescription,
+      PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
       ChildProjectsCollection children,
       ProjectJson projectJson,
@@ -94,6 +107,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.createProjectFactory = createProjectFactory;
     this.projectApi = projectApi;
     this.projects = projects;
+    this.getDescription = getDescription;
+    this.putDescription = putDescription;
     this.childApi = childApi;
     this.children = children;
     this.projectJson = projectJson;
@@ -132,6 +147,21 @@ public class ProjectApiImpl implements ProjectApi {
       throw new ResourceNotFoundException(name);
     }
     return projectJson.format(project);
+  }
+
+  @Override
+  public String description() throws RestApiException {
+    return getDescription.apply(checkExists());
+  }
+
+  @Override
+  public void description(PutDescriptionInput in)
+      throws RestApiException {
+    try {
+      putDescription.apply(checkExists(), in);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot put project description", e);
+    }
   }
 
   @Override

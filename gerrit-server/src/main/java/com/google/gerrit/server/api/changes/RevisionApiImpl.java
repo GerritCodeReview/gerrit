@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi {
+class RevisionApiImpl implements RevisionApi {
   interface Factory {
     RevisionApiImpl create(RevisionResource r);
   }

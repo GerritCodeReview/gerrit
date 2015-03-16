@@ -30,7 +30,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
 
-class FileApiImpl extends FileApi.NotImplemented implements FileApi {
+class FileApiImpl implements FileApi {
   interface Factory {
     FileApiImpl create(FileResource r);
   }

@@ -28,7 +28,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-public class AccountApiImpl extends AccountApi.NotImplemented implements AccountApi {
+public class AccountApiImpl implements AccountApi {
   interface Factory {
     AccountApiImpl create(AccountResource account);
   }

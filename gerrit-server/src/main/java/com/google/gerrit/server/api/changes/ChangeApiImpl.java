@@ -56,7 +56,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
+class ChangeApiImpl implements ChangeApi {
   interface Factory {
     ChangeApiImpl create(ChangeResource change);
   }

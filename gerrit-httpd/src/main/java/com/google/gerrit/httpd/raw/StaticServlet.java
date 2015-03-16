@@ -152,13 +152,12 @@ public class StaticServlet extends HttpServlet {
   }
 
   private static boolean isUnreasonableName(String name) {
-    if (name.length() < 1) return true;
-    if (name.contains("\\")) return true; // no windows/dos style paths
-    if (name.startsWith("../")) return true; // no "../etc/passwd"
-    if (name.contains("/../")) return true; // no "foo/../etc/passwd"
-    if (name.contains("/./")) return true; // "foo/./foo" is insane to ask
-    if (name.contains("//")) return true; // windows UNC path can be "//..."
-    return false; // is a reasonable name
+    return name.length() < 1
+      || name.contains("\\") // no windows/dos style paths
+      || name.startsWith("../") // no "../etc/passwd"
+      || name.contains("/../") // no "foo/../etc/passwd"
+      || name.contains("/./") // "foo/./foo" is insane to ask
+      || name.contains("//"); // windows UNC path can be "//..."
   }
 
   @Override

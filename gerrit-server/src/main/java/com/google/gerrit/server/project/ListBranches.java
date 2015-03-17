@@ -88,14 +88,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     BranchInfo configBranch = null;
     final Set<String> targets = Sets.newHashSet();
 
-    final Repository db;
-    try {
-      db = repoManager.openRepository(rsrc.getNameKey());
-    } catch (RepositoryNotFoundException noGitRepository) {
-      throw new ResourceNotFoundException();
-    }
-
-    try {
+    try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
       List<Ref> refs =
           new ArrayList<>(db.getRefDatabase().getRefs(Constants.R_HEADS)
               .values());
@@ -157,8 +150,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
           }
         }
       }
-    } finally {
-      db.close();
+    } catch (RepositoryNotFoundException noGitRepository) {
+      throw new ResourceNotFoundException();
     }
     Collections.sort(branches, new Comparator<BranchInfo>() {
       @Override

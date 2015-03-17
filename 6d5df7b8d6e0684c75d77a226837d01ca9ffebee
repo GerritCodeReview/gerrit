@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "46cc147d_a22dfe90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-17T17:27:21Z",
+      "side": 1,
+      "message": "And we don\u0027t need to delete the temporary JAR otherwise, because in the successful code path it is renamed and in the unsuccessful code path it is still there, but just a minor annoyance?",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "6d5df7b8d6e0684c75d77a226837d01ca9ffebee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e18ed27f_8f713563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologCompiler.java",
         "patchSetId": 1

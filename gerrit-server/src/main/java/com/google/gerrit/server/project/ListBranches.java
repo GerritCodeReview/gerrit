@@ -15,9 +15,8 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -83,7 +82,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
-    List<BranchInfo> branches;
+    List<BranchInfo> branchList;
     BranchInfo headBranch = null;
     BranchInfo configBranch = null;
 
@@ -102,7 +101,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
         }
       }
 
-      branches = new ArrayList<>(refs.size());
+      branchList = new ArrayList<>(refs.size());
       for (Ref ref : refs) {
         if (ref.isSymbolic()) {
           // A symbolic reference to another branch, instead of
@@ -123,7 +122,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
             headBranch = b;
           } else {
             b.setCanDelete(targetRefControl.canDelete());
-            branches.add(b);
+            branchList.add(b);
           }
           continue;
         }
@@ -133,45 +132,34 @@ public class ListBranches implements RestReadView<ProjectResource> {
           if (RefNames.REFS_CONFIG.equals(ref.getName())) {
             configBranch = createBranchInfo(ref, refControl, targets);
           } else {
-            branches.add(createBranchInfo(ref, refControl, targets));
+            branchList.add(createBranchInfo(ref, refControl, targets));
           }
         }
       }
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException();
     }
-    Collections.sort(branches, new Comparator<BranchInfo>() {
+    Collections.sort(branchList, new Comparator<BranchInfo>() {
       @Override
       public int compare(BranchInfo a, BranchInfo b) {
         return a.ref.compareTo(b.ref);
       }
     });
     if (configBranch != null) {
-      branches.add(0, configBranch);
+      branchList.add(0, configBranch);
     }
     if (headBranch != null) {
-      branches.add(0, headBranch);
+      branchList.add(0, headBranch);
     }
 
-    List<BranchInfo> filteredBranches;
-    if ((matchSubstring != null && !matchSubstring.isEmpty())
-        || (matchRegex != null && !matchRegex.isEmpty())) {
-      filteredBranches = filterBranches(branches);
-    } else {
-      filteredBranches = branches;
+    FluentIterable<BranchInfo> branches = filterBranches(branchList);
+    if (start > 0) {
+      branches = branches.skip(start);
     }
-    if (!filteredBranches.isEmpty()) {
-      int end = filteredBranches.size();
-      if (limit > 0 && start + limit < end) {
-        end = start + limit;
-      }
-      if (start <= end) {
-        filteredBranches = filteredBranches.subList(start, end);
-      } else {
-        filteredBranches = Collections.emptyList();
-      }
+    if (limit > 0) {
+      branches = branches.limit(limit);
     }
-    return filteredBranches;
+    return branches.toList();
   }
 
   private static void addRef(Repository db, List<Ref> refs, String name)
@@ -182,52 +170,60 @@ public class ListBranches implements RestReadView<ProjectResource> {
     }
   }
 
-  private List<BranchInfo> filterBranches(List<BranchInfo> branches)
+  private FluentIterable<BranchInfo> filterBranches(List<BranchInfo> branchList)
       throws BadRequestException {
-    if (matchSubstring != null) {
-      return Lists.newArrayList(Iterables.filter(branches,
-          new Predicate<BranchInfo>() {
-            @Override
-            public boolean apply(BranchInfo in) {
-              if (!in.ref.startsWith(Constants.R_HEADS)){
-                return in.ref.toLowerCase(Locale.US).contains(
-                    matchSubstring.toLowerCase(Locale.US));
-              } else {
-                return in.ref.substring(Constants.R_HEADS.length())
-                    .toLowerCase(Locale.US)
-                    .contains(matchSubstring.toLowerCase(Locale.US));
-              }
-            }
-          }));
-    } else if (matchRegex != null) {
-      if (matchRegex.startsWith("^")) {
-        matchRegex = matchRegex.substring(1);
-        if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
-          matchRegex = matchRegex.substring(0, matchRegex.length() - 1);
+    FluentIterable<BranchInfo> branches = FluentIterable.from(branchList);
+    if (!Strings.isNullOrEmpty(matchSubstring)) {
+      branches = branches.filter(new SubstringPredicate(matchSubstring));
+    } else if (!Strings.isNullOrEmpty(matchRegex)) {
+      branches = branches.filter(new RegexPredicate(matchRegex));
+    }
+    return branches;
+  }
+
+  private static class SubstringPredicate implements Predicate<BranchInfo> {
+    private final String substring;
+
+    private SubstringPredicate(String substring) {
+      this.substring = substring.toLowerCase(Locale.US);
+    }
+
+    @Override
+    public boolean apply(BranchInfo in) {
+      String ref = in.ref;
+      if (ref.startsWith(Constants.R_HEADS)) {
+        ref = ref.substring(Constants.R_HEADS.length());
+      }
+      ref = ref.toLowerCase(Locale.US);
+      return ref.contains(substring);
+    }
+  }
+
+  private static class RegexPredicate implements Predicate<BranchInfo> {
+    private final RunAutomaton a;
+
+    private RegexPredicate(String regex) throws BadRequestException {
+      if (regex.startsWith("^")) {
+        regex = regex.substring(1);
+        if (regex.endsWith("$") && !regex.endsWith("\\$")) {
+          regex = regex.substring(0, regex.length() - 1);
         }
       }
-      if (matchRegex.equals(".*")) {
-        return branches;
-      }
       try {
-        final RunAutomaton a =
-            new RunAutomaton(new RegExp(matchRegex).toAutomaton());
-        return Lists.newArrayList(Iterables.filter(
-            branches, new Predicate<BranchInfo>() {
-              @Override
-              public boolean apply(BranchInfo in) {
-                if (!in.ref.startsWith(Constants.R_HEADS)){
-                  return a.run(in.ref);
-                } else {
-                  return a.run(in.ref.substring(Constants.R_HEADS.length()));
-                }
-              }
-            }));
+        a = new RunAutomaton(new RegExp(regex).toAutomaton());
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }
     }
-    return branches;
+
+    @Override
+    public boolean apply(BranchInfo in) {
+      if (!in.ref.startsWith(Constants.R_HEADS)){
+        return a.run(in.ref);
+      } else {
+        return a.run(in.ref.substring(Constants.R_HEADS.length()));
+      }
+    }
   }
 
   private BranchInfo createBranchInfo(Ref ref, RefControl refControl,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26cf2074_e1aaa67c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-17T17:36:12Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand this. Do you mean this commit fixing the performance-regression (then I don\u0027t understand the last half sentence, needing a more efficient implementation) or the reverted commits, which did add a feature rather than a bugfix (but those would come in handy having a more efficient implementation).",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "2e821187a90f8c27756de19085209f75d90bf84c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_c2b122d4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3448,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-17T17:36:12Z",
+      "side": 1,
+      "message": "I cannot quite connect this documentation with the removal of feature showing more related changes.",
+      "range": {
+        "startLine": 3448,
+        "startChar": 0,
+        "endLine": 3448,
+        "endChar": 24
+      },
+      "revId": "2e821187a90f8c27756de19085209f75d90bf84c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

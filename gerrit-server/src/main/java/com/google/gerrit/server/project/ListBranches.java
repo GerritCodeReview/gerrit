@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -83,9 +84,6 @@ public class ListBranches implements RestReadView<ProjectResource> {
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
     List<BranchInfo> branchList;
-    BranchInfo headBranch = null;
-    BranchInfo configBranch = null;
-
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
       Collection<Ref> heads =
           db.getRefDatabase().getRefs(Constants.R_HEADS).values();
@@ -117,41 +115,23 @@ public class ListBranches implements RestReadView<ProjectResource> {
           }
 
           BranchInfo b = new BranchInfo(ref.getName(), target, false);
+          branchList.add(b);
 
-          if (Constants.HEAD.equals(ref.getName())) {
-            headBranch = b;
-          } else {
+          if (!Constants.HEAD.equals(ref.getName())) {
             b.setCanDelete(targetRefControl.canDelete());
-            branchList.add(b);
           }
           continue;
         }
 
         RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
         if (refControl.isVisible()) {
-          if (RefNames.REFS_CONFIG.equals(ref.getName())) {
-            configBranch = createBranchInfo(ref, refControl, targets);
-          } else {
-            branchList.add(createBranchInfo(ref, refControl, targets));
-          }
+          branchList.add(createBranchInfo(ref, refControl, targets));
         }
       }
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException();
     }
-    Collections.sort(branchList, new Comparator<BranchInfo>() {
-      @Override
-      public int compare(BranchInfo a, BranchInfo b) {
-        return a.ref.compareTo(b.ref);
-      }
-    });
-    if (configBranch != null) {
-      branchList.add(0, configBranch);
-    }
-    if (headBranch != null) {
-      branchList.add(0, headBranch);
-    }
-
+    Collections.sort(branchList, new BranchComparator());
     FluentIterable<BranchInfo> branches = filterBranches(branchList);
     if (start > 0) {
       branches = branches.skip(start);
@@ -160,6 +140,25 @@ public class ListBranches implements RestReadView<ProjectResource> {
       branches = branches.limit(limit);
     }
     return branches.toList();
+  }
+
+  private static class BranchComparator implements Comparator<BranchInfo> {
+    @Override
+    public int compare(BranchInfo a, BranchInfo b) {
+      return ComparisonChain.start()
+          .compareTrueFirst(isHead(a), isHead(b))
+          .compareTrueFirst(isConfig(a), isConfig(b))
+          .compare(a.ref, b.ref)
+          .result();
+    }
+
+    private static boolean isHead(BranchInfo i) {
+      return Constants.HEAD.equals(i.ref);
+    }
+
+    private static boolean isConfig(BranchInfo i) {
+      return RefNames.REFS_CONFIG.equals(i.ref);
+    }
   }
 
   private static void addRef(Repository db, List<Ref> refs, String name)

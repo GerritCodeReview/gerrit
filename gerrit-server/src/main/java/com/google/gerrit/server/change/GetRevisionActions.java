@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.server.CurrentUser;
@@ -30,6 +31,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.Map;
 
 @Singleton
 public class GetRevisionActions implements ETagView<RevisionResource> {
@@ -47,7 +50,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   }
 
   @Override
-  public Object apply(RevisionResource rsrc) {
+  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) {
     return Response.withMustRevalidate(delegate.format(rsrc));
   }
 

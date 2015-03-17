@@ -22,6 +22,30 @@
       "revId": "18a8ce9b5e3f7f00ad25ef48704d380a343eb983",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26cf2074_e1b466b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-17T22:01:25Z",
+      "side": 1,
+      "message": "The enclosing try block creates a new scope, and branchList is used past the end of the try block.",
+      "parentUuid": "46cc147d_c255a2dc",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 16
+      },
+      "revId": "18a8ce9b5e3f7f00ad25ef48704d380a343eb983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

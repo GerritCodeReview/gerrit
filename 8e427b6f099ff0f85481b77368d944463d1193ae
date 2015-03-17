@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46cc147d_0225caa2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-17T17:30:29Z",
+      "side": 1,
+      "message": "Change the return type of GetRevisionActions#apply to this and avoid the cast.",
+      "range": {
+        "startLine": 342,
+        "startChar": 12,
+        "endLine": 342,
+        "endChar": 46
+      },
+      "revId": "8e427b6f099ff0f85481b77368d944463d1193ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

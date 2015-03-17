@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26cf2074_4199927a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-17T17:39:48Z",
+      "side": 1,
+      "message": "The interpretation that actually makes any sense is the correct one :)\n\nReworded to make this clearer.",
+      "parentUuid": "26cf2074_e1aaa67c",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "2e821187a90f8c27756de19085209f75d90bf84c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46cc147d_c2b122d4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-17T17:36:12Z",
       "side": 1,
       "message": "I cannot quite connect this documentation with the removal of feature showing more related changes.",
+      "range": {
+        "startLine": 3448,
+        "startChar": 0,
+        "endLine": 3448,
+        "endChar": 24
+      },
+      "revId": "2e821187a90f8c27756de19085209f75d90bf84c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_e2be26a3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3448,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-17T17:39:48Z",
+      "side": 1,
+      "message": "Yeah I don\u0027t see this delta in either of the reverted changes. Let me try again.",
+      "parentUuid": "46cc147d_c2b122d4",
       "range": {
         "startLine": 3448,
         "startChar": 0,

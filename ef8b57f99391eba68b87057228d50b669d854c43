@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06d69c0c_00d6a645",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-03-17T13:30:35Z",
+      "side": 1,
+      "message": "While it looks fine without bold, it stands out a bit since all other buttons with a similar styling uses bold.",
+      "parentUuid": "46cc147d_027f8a8f",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 307,
+        "endChar": 20
+      },
+      "revId": "ef8b57f99391eba68b87057228d50b669d854c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26cf2074_c16f62f5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-17T13:03:22Z",
       "side": 1,
       "message": "FYI on the google plus pages they have a green button that uses #53a93f",
+      "range": {
+        "startLine": 313,
+        "startChar": 21,
+        "endLine": 313,
+        "endChar": 27
+      },
+      "revId": "ef8b57f99391eba68b87057228d50b669d854c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6df2422_becb599d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-03-17T13:30:35Z",
+      "side": 1,
+      "message": "Yeah. I like that one even more.",
+      "parentUuid": "26cf2074_c16f62f5",
       "range": {
         "startLine": 313,
         "startChar": 21,

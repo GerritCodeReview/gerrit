@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
@@ -53,6 +54,8 @@ public interface RevisionApi {
   DraftApi draft(String id) throws RestApiException;
 
   CommentApi comment(String id) throws RestApiException;
+
+  Map<String, ActionInfo> actions() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -161,6 +164,11 @@ public interface RevisionApi {
 
     @Override
     public CommentApi comment(String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, ActionInfo> actions() throws RestApiException {
       throw new NotImplementedException();
     }
   }

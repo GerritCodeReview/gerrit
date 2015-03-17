@@ -246,6 +246,30 @@
       "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_02b22ac5",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-17T19:47:13Z",
+      "side": 1,
+      "message": "\u003e Before this patch, this scenario was classed as a \"Trivial Rebase\" by Gerrit (which is clearly wrong).\n\nI must be missing something...why is the scenario described in the commit message not a \"trivial rebase\"? PS1 was based on some older state of the branch. PS2 is based on the new branch tip. There were no code conflicts.\n\nThat\u0027s exactly my definition of \"trivial rebase\". What\u0027s your definition?",
+      "parentUuid": "d6dfcd7d_025a8ac0",
+      "range": {
+        "startLine": 270,
+        "startChar": 20,
+        "endLine": 270,
+        "endChar": 37
+      },
+      "revId": "1a8fc604bfe2c6d110f5e37b2dc9a637341b76f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,18 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class ActionsIT extends AbstractDaemonTest {
@@ -97,20 +91,6 @@ public class ActionsIT extends AbstractDaemonTest {
     }
   }
 
-  static Map<String, ActionInfo> getActions(RestSession adminSession,
-      String changeId) throws IOException {
-    return newGson().fromJson(
-        adminSession.get("/changes/"
-            + changeId
-            + "/revisions/1/actions").getReader(),
-        new TypeToken<Map<String, ActionInfo>>() {}.getType());
-  }
-
-  private Map<String, ActionInfo> getActions(String changeId)
-      throws IOException {
-    return getActions(adminSession, changeId);
-  }
-
   private void noSubmitWholeTopicAssertions(Map<String, ActionInfo> actions) {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isTrue();
@@ -131,18 +111,5 @@ public class ActionsIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     assertThat(topic).isNotEmpty();
     return push.to("refs/for/master/" + topic);
-  }
-
-  static void approve(RestSession adminSession, String changeId)
-      throws IOException {
-    RestResponse r = adminSession.post(
-        "/changes/" + changeId + "/revisions/current/review",
-        new ReviewInput().label("Code-Review", 2));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    r.consume();
-  }
-
-  private void approve(String changeId) throws IOException {
-    approve(adminSession, changeId);
   }
 }

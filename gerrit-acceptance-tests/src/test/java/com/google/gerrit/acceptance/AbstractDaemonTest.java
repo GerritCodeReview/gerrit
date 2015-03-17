@@ -29,9 +29,11 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -53,6 +55,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -76,6 +79,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
@@ -442,5 +446,21 @@ public abstract class AbstractDaemonTest {
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to(ref);
+  }
+
+  protected void approve(String changeId) throws Exception {
+    RestResponse r = adminSession.post(
+        "/changes/" + changeId + "/revisions/current/review",
+        new ReviewInput().label("Code-Review", 2));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.consume();
+  }
+
+  protected Map<String, ActionInfo> getActions(String changeId) throws Exception {
+    return newGson().fromJson(
+        adminSession.get("/changes/"
+            + changeId
+            + "/revisions/1/actions").getReader(),
+        new TypeToken<Map<String, ActionInfo>>() {}.getType());
   }
 }

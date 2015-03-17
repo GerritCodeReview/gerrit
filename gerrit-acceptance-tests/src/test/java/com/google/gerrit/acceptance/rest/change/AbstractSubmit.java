@@ -30,7 +30,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -187,16 +186,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return push.to("refs/for/master/" + topic);
   }
 
-  protected void submit(String changeId) throws IOException {
+  protected void submit(String changeId) throws Exception {
     submit(changeId, HttpStatus.SC_OK);
   }
 
-  protected void submitWithConflict(String changeId) throws IOException {
+  protected void submitWithConflict(String changeId) throws Exception {
     submit(changeId, HttpStatus.SC_CONFLICT);
   }
 
-  protected void submitStatusOnly(String changeId)
-      throws IOException, OrmException {
+  protected void submitStatusOnly(String changeId) throws Exception {
     approve(changeId);
     Change c = queryProvider.get().byKeyPrefix(changeId).get(0).change();
     c.setStatus(Change.Status.SUBMITTED);
@@ -212,7 +210,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     indexer.index(db, c);
   }
 
-  private void submit(String changeId, int expectedStatus) throws IOException {
+  private void submit(String changeId, int expectedStatus) throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
     subm.waitForMerge = true;
@@ -244,14 +242,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           mergeResults.get(Integer.toString(change._number)));
     }
     b.consume();
-  }
-
-  private void approve(String changeId) throws IOException {
-    RestResponse r = adminSession.post(
-        "/changes/" + changeId + "/revisions/current/review",
-        new ReviewInput().label("Code-Review", 2));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    r.consume();
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,

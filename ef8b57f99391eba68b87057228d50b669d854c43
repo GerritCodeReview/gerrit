@@ -22,6 +22,29 @@
       "revId": "ef8b57f99391eba68b87057228d50b669d854c43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26cf2074_c16f62f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-17T13:03:22Z",
+      "side": 1,
+      "message": "FYI on the google plus pages they have a green button that uses #53a93f",
+      "range": {
+        "startLine": 313,
+        "startChar": 21,
+        "endLine": 313,
+        "endChar": 27
+      },
+      "revId": "ef8b57f99391eba68b87057228d50b669d854c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

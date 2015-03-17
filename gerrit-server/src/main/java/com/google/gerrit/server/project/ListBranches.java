@@ -128,7 +128,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
           continue;
         }
 
-        final RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
+        RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
         if (refControl.isVisible()) {
           if (RefNames.REFS_CONFIG.equals(ref.getName())) {
             configBranch = createBranchInfo(ref, refControl, targets);
@@ -142,7 +142,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     }
     Collections.sort(branches, new Comparator<BranchInfo>() {
       @Override
-      public int compare(final BranchInfo a, final BranchInfo b) {
+      public int compare(BranchInfo a, BranchInfo b) {
         return a.ref.compareTo(b.ref);
       }
     });

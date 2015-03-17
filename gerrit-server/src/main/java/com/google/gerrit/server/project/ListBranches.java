@@ -92,22 +92,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
           db.getRefDatabase().getRefs(Constants.R_HEADS).values();
       List<Ref> refs = new ArrayList<>(heads.size() + 2);
       refs.addAll(heads);
-        try {
-          Ref head = db.getRef(Constants.HEAD);
-          if (head != null) {
-            refs.add(head);
-          }
-        } catch (IOException e) {
-          // Ignore the failure reading HEAD.
-        }
-        try {
-          Ref config = db.getRef(RefNames.REFS_CONFIG);
-          if (config != null) {
-            refs.add(config);
-          }
-        } catch (IOException e) {
-          // Ignore the failure reading refs/meta/config.
-        }
+      addRef(db, refs, Constants.HEAD);
+      addRef(db, refs, RefNames.REFS_CONFIG);
 
       Set<String> targets = Sets.newHashSetWithExpectedSize(1);
       for (Ref ref : refs) {
@@ -186,6 +172,14 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
     }
     return filteredBranches;
+  }
+
+  private static void addRef(Repository db, List<Ref> refs, String name)
+      throws IOException {
+    Ref ref = db.getRef(name);
+    if (ref != null) {
+      refs.add(ref);
+    }
   }
 
   private List<BranchInfo> filterBranches(List<BranchInfo> branches)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46cc147d_027f8a8f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-17T12:54:37Z",
+      "side": 1,
+      "message": "I find it looks a bit better if this is also removed.",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 307,
+        "endChar": 20
+      },
+      "revId": "ef8b57f99391eba68b87057228d50b669d854c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

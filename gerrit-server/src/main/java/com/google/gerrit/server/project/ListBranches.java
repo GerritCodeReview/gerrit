@@ -83,56 +83,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
-    List<BranchInfo> branchList;
-    try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
-      Collection<Ref> heads =
-          db.getRefDatabase().getRefs(Constants.R_HEADS).values();
-      List<Ref> refs = new ArrayList<>(heads.size() + 2);
-      refs.addAll(heads);
-      addRef(db, refs, Constants.HEAD);
-      addRef(db, refs, RefNames.REFS_CONFIG);
-
-      Set<String> targets = Sets.newHashSetWithExpectedSize(1);
-      for (Ref ref : refs) {
-        if (ref.isSymbolic()) {
-          targets.add(ref.getTarget().getName());
-        }
-      }
-
-      branchList = new ArrayList<>(refs.size());
-      for (Ref ref : refs) {
-        if (ref.isSymbolic()) {
-          // A symbolic reference to another branch, instead of
-          // showing the resolved value, show the name it references.
-          //
-          String target = ref.getTarget().getName();
-          RefControl targetRefControl = rsrc.getControl().controlForRef(target);
-          if (!targetRefControl.isVisible()) {
-            continue;
-          }
-          if (target.startsWith(Constants.R_HEADS)) {
-            target = target.substring(Constants.R_HEADS.length());
-          }
-
-          BranchInfo b = new BranchInfo(ref.getName(), target, false);
-          branchList.add(b);
-
-          if (!Constants.HEAD.equals(ref.getName())) {
-            b.setCanDelete(targetRefControl.canDelete());
-          }
-          continue;
-        }
-
-        RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
-        if (refControl.isVisible()) {
-          branchList.add(createBranchInfo(ref, refControl, targets));
-        }
-      }
-    } catch (RepositoryNotFoundException noGitRepository) {
-      throw new ResourceNotFoundException();
-    }
-    Collections.sort(branchList, new BranchComparator());
-    FluentIterable<BranchInfo> branches = filterBranches(branchList);
+    FluentIterable<BranchInfo> branches = allBranches(rsrc);
+    branches = filterBranches(branches);
     if (start > 0) {
       branches = branches.skip(start);
     }
@@ -140,6 +92,60 @@ public class ListBranches implements RestReadView<ProjectResource> {
       branches = branches.limit(limit);
     }
     return branches.toList();
+  }
+
+  private FluentIterable<BranchInfo> allBranches(ProjectResource rsrc)
+      throws IOException, ResourceNotFoundException {
+    List<Ref> refs;
+    try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
+      Collection<Ref> heads =
+          db.getRefDatabase().getRefs(Constants.R_HEADS).values();
+      refs = new ArrayList<>(heads.size() + 2);
+      refs.addAll(heads);
+      addRef(db, refs, Constants.HEAD);
+      addRef(db, refs, RefNames.REFS_CONFIG);
+    } catch (RepositoryNotFoundException noGitRepository) {
+      throw new ResourceNotFoundException();
+    }
+
+    Set<String> targets = Sets.newHashSetWithExpectedSize(1);
+    for (Ref ref : refs) {
+      if (ref.isSymbolic()) {
+        targets.add(ref.getTarget().getName());
+      }
+    }
+
+    List<BranchInfo> branches = new ArrayList<>(refs.size());
+    for (Ref ref : refs) {
+      if (ref.isSymbolic()) {
+        // A symbolic reference to another branch, instead of
+        // showing the resolved value, show the name it references.
+        //
+        String target = ref.getTarget().getName();
+        RefControl targetRefControl = rsrc.getControl().controlForRef(target);
+        if (!targetRefControl.isVisible()) {
+          continue;
+        }
+        if (target.startsWith(Constants.R_HEADS)) {
+          target = target.substring(Constants.R_HEADS.length());
+        }
+
+        BranchInfo b = new BranchInfo(ref.getName(), target, false);
+        branches.add(b);
+
+        if (!Constants.HEAD.equals(ref.getName())) {
+          b.setCanDelete(targetRefControl.canDelete());
+        }
+        continue;
+      }
+
+      RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
+      if (refControl.isVisible()) {
+        branches.add(createBranchInfo(ref, refControl, targets));
+      }
+    }
+    Collections.sort(branches, new BranchComparator());
+    return FluentIterable.from(branches);
   }
 
   private static class BranchComparator implements Comparator<BranchInfo> {
@@ -169,9 +175,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
     }
   }
 
-  private FluentIterable<BranchInfo> filterBranches(List<BranchInfo> branchList)
-      throws BadRequestException {
-    FluentIterable<BranchInfo> branches = FluentIterable.from(branchList);
+  private FluentIterable<BranchInfo> filterBranches(
+      FluentIterable<BranchInfo> branches) throws BadRequestException {
     if (!Strings.isNullOrEmpty(matchSubstring)) {
       branches = branches.filter(new SubstringPredicate(matchSubstring));
     } else if (!Strings.isNullOrEmpty(matchRegex)) {

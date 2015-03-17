@@ -448,12 +448,11 @@ public abstract class AbstractDaemonTest {
     return push.to(ref);
   }
 
-  protected void approve(String changeId) throws Exception {
-    RestResponse r = adminSession.post(
-        "/changes/" + changeId + "/revisions/current/review",
-        new ReviewInput().label("Code-Review", 2));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    r.consume();
+  protected void approve(String id) throws Exception {
+    gApi.changes()
+      .id(id)
+      .revision("current")
+      .review(new ReviewInput().label("Code-Review", 2));
   }
 
   protected Map<String, ActionInfo> getActions(String changeId) throws Exception {

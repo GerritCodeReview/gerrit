@@ -22,6 +22,30 @@
       "revId": "f0273a9b9ad55986c5c1c2ab0a9ed26141753cb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_22f3aeb9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-17T12:56:18Z",
+      "side": 1,
+      "message": "I thought about doing that, but it\u0027s not really the scope of this change.",
+      "parentUuid": "46cc147d_a287be11",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 23
+      },
+      "revId": "f0273a9b9ad55986c5c1c2ab0a9ed26141753cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,9 +34,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
-import dk.brics.automaton.RegExp;
-import dk.brics.automaton.RunAutomaton;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -45,6 +42,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -52,6 +50,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.RunAutomaton;
 
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
@@ -82,17 +83,15 @@ public class ListBranches implements RestReadView<ProjectResource> {
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
-    List<BranchInfo> branches = Lists.newArrayList();
-
+    List<BranchInfo> branches;
     BranchInfo headBranch = null;
     BranchInfo configBranch = null;
-    final Set<String> targets = Sets.newHashSet();
 
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
-      List<Ref> refs =
-          new ArrayList<>(db.getRefDatabase().getRefs(Constants.R_HEADS)
-              .values());
-
+      Collection<Ref> heads =
+          db.getRefDatabase().getRefs(Constants.R_HEADS).values();
+      List<Ref> refs = new ArrayList<>(heads.size() + 2);
+      refs.addAll(heads);
         try {
           Ref head = db.getRef(Constants.HEAD);
           if (head != null) {
@@ -110,12 +109,14 @@ public class ListBranches implements RestReadView<ProjectResource> {
           // Ignore the failure reading refs/meta/config.
         }
 
+      Set<String> targets = Sets.newHashSetWithExpectedSize(1);
       for (Ref ref : refs) {
         if (ref.isSymbolic()) {
           targets.add(ref.getTarget().getName());
         }
       }
 
+      branches = new ArrayList<>(refs.size());
       for (Ref ref : refs) {
         if (ref.isSymbolic()) {
           // A symbolic reference to another branch, instead of

@@ -17,7 +17,7 @@ BROWSERS = [
   'firefox',
   'gecko1_8',
   'safari',
-  'msie', 'ie6', 'ie8', 'ie9',
+  'msie', 'ie8', 'ie9',
 ]
 ALIASES = {
   'chrome': 'safari',

@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-public class FancyFlexTableImplIE6 extends FancyFlexTableImpl {
+public class FancyFlexTableImplIE8 extends FancyFlexTableImpl {
   @Override
   public void resetHtml(final FlexTable myTable, final SafeHtml bodyHtml) {
     final Element oldBody = getBodyElement(myTable);

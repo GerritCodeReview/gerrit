@@ -16,8 +16,8 @@ package com.google.gerrit.prettify.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-/** IE6 requires us to initialize the document before we can use it. */
-public class PrivateScopeImplIE6 extends PrivateScopeImpl {
+/** MSIE requires us to initialize the document before we can use it. */
+public class PrivateScopeImplIE8 extends PrivateScopeImpl {
   private JavaScriptObject context;
 
   @Override

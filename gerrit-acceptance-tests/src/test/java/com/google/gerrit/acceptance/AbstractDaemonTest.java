@@ -55,7 +55,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -455,11 +454,10 @@ public abstract class AbstractDaemonTest {
       .review(new ReviewInput().label("Code-Review", 2));
   }
 
-  protected Map<String, ActionInfo> getActions(String changeId) throws Exception {
-    return newGson().fromJson(
-        adminSession.get("/changes/"
-            + changeId
-            + "/revisions/1/actions").getReader(),
-        new TypeToken<Map<String, ActionInfo>>() {}.getType());
+  protected Map<String, ActionInfo> getActions(String id) throws Exception {
+    return gApi.changes()
+      .id(id)
+      .revision(1)
+      .actions();
   }
 }

@@ -27,10 +27,12 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.CherryPick;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
+import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.ListComments;
 import com.google.gerrit.server.change.ListDraftComments;
 import com.google.gerrit.server.change.Mergeable;
@@ -87,6 +90,7 @@ class RevisionApiImpl implements RevisionApi {
   private final DraftApiImpl.Factory draftFactory;
   private final Comments comments;
   private final CommentApiImpl.Factory commentFactory;
+  private final GetRevisionActions revisionActions;
 
   @Inject
   RevisionApiImpl(Changes changes,
@@ -110,6 +114,7 @@ class RevisionApiImpl implements RevisionApi {
       DraftApiImpl.Factory draftFactory,
       Comments comments,
       CommentApiImpl.Factory commentFactory,
+      GetRevisionActions revisionActions,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -132,6 +137,7 @@ class RevisionApiImpl implements RevisionApi {
     this.draftFactory = draftFactory;
     this.comments = comments;
     this.commentFactory = commentFactory;
+    this.revisionActions = revisionActions;
     this.revision = r;
   }
 
@@ -328,5 +334,11 @@ class RevisionApiImpl implements RevisionApi {
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve comment", e);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public Map<String, ActionInfo> actions() throws RestApiException {
+    return ((Response<Map<String, ActionInfo>>) revisionActions.apply(revision)).value();
   }
 }

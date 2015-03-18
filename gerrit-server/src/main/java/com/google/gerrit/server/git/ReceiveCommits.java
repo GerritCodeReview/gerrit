@@ -650,6 +650,40 @@ public class ReceiveCommits {
           }
         }
     }
+
+    for (final ReceiveCommand c : commands) {
+      if (isHead(c) || isConfig(c)) {
+        switch (c.getType()) {
+          case CREATE:
+          case UPDATE:
+          case UPDATE_NONFASTFORWARD:
+            final RevWalk rw = rp.getRevWalk();
+            Branch.NameKey branch =
+                new Branch.NameKey(project.getNameKey(), c.getRefName());
+            try {
+              RevCommit newTip = rw.parseCommit(c.getNewId());
+               // Update superproject gitlinks if required.
+               subOpFactory.create(
+                   branch, newTip, rw, repo, project,
+                   new ArrayList<Change>(),
+                   new HashMap<Change.Id, CodeReviewCommit>(),
+                   currentUser.getAccount()).update();
+
+            } catch (MissingObjectException e) {
+              log.error("Can't scan for changes to close", e);
+            } catch (SubmoduleException e) {
+              log.error("Can't complete git links check", e);
+            } catch (IOException e) {
+              log.error("Can't scan for changes to close", e);
+            }
+
+            break;
+          case DELETE:
+            // nothing
+        }
+      }
+    }
+
     closeProgress.end();
     commandProgress.end();
     progress.end();
@@ -2482,20 +2516,12 @@ public class ReceiveCommits {
         }
       }
 
-      // Update superproject gitlinks if required.
-      subOpFactory.create(
-          branch, newTip, rw, repo, project,
-          new ArrayList<Change>(),
-          new HashMap<Change.Id, CodeReviewCommit>(),
-          currentUser.getAccount()).update();
     } catch (InsertException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException e) {
       log.error("Can't scan for changes to close", e);
     } catch (OrmException e) {
       log.error("Can't scan for changes to close", e);
-    } catch (SubmoduleException e) {
-      log.error("Can't complete git links check", e);
     }
   }
 

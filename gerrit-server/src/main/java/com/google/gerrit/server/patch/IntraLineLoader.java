@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -29,7 +30,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
@@ -41,12 +47,13 @@ class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
   private static final Pattern CONTROL_BLOCK_START_RE = Pattern
       .compile("[{:][ \\t]*$");
 
-  private final IntraLineWorkerPool workerPool;
+  private final ExecutorService diffExecutor;
   private final long timeoutMillis;
 
   @Inject
-  IntraLineLoader(IntraLineWorkerPool pool, @GerritServerConfig Config cfg) {
-    workerPool = pool;
+  IntraLineLoader(@DiffExecutor ExecutorService diffExecutor,
+      @GerritServerConfig Config cfg) {
+    this.diffExecutor = diffExecutor;
     timeoutMillis =
         ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.INTRA_NAME,
             "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
@@ -54,27 +61,30 @@ class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
   }
 
   @Override
-  public IntraLineDiff load(IntraLineDiffKey key) throws Exception {
-    IntraLineWorkerPool.Worker w = workerPool.acquire();
-    IntraLineWorkerPool.Worker.Result r = w.computeWithTimeout(key, timeoutMillis);
-
-    if (r == IntraLineWorkerPool.Worker.Result.TIMEOUT) {
-      // Don't keep this thread. We have to murder it unsafely, which
-      // means its unable to be reused in the future. Return back a
-      // null result, indicating the cache cannot load this key.
-      //
+  public IntraLineDiff load(final IntraLineDiffKey key) throws Exception {
+    Future<IntraLineDiff> result = diffExecutor.submit(new Callable<IntraLineDiff>() {
+      @Override
+      public IntraLineDiff call() throws Exception {
+        return IntraLineLoader.compute(key);
+      }
+    });
+    try {
+      return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException | TimeoutException e) {
+      log.warn(timeoutMillis + " ms timeout reached for IntraLineDiff"
+          + " in project " + key.getProject().get()
+          + " on commit " + key.getCommit().name()
+          + " for path " + key.getPath()
+          + " comparing " + key.getBlobA().name()
+          + ".." + key.getBlobB().name());
+      result.cancel(true);
       return new IntraLineDiff(IntraLineDiff.Status.TIMEOUT);
-    }
-    workerPool.release(w);
-
-    if (r.error != null) {
+    } catch (ExecutionException e) {
       // If there was an error computing the result, carry it
       // up to the caller so the cache knows this key is invalid.
-      //
-      throw r.error;
+      Throwables.propagateIfInstanceOf(e.getCause(), Exception.class);
+      throw new Exception(e.getMessage(), e.getCause());
     }
-
-    return r.diff;
   }
 
   static IntraLineDiff compute(IntraLineDiffKey key) throws Exception {

@@ -18,8 +18,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RemotePeer;
@@ -55,8 +55,8 @@ public class ChangeMergeQueue implements MergeQueue {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeMergeQueue.class);
 
-  private final Map<Branch.NameKey, MergeEntry> active = new HashMap<>();
-  private final Map<Branch.NameKey, RecheckJob> recheck = new HashMap<>();
+  private final Map<List<Change>, MergeEntry> active = new HashMap<>();
+  private final Map<List<Change>, RecheckJob> recheck = new HashMap<>();
 
   private final WorkQueue workQueue;
   private final Provider<MergeOp.Factory> bgFactory;
@@ -118,19 +118,19 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public void merge(Branch.NameKey branch) {
-    if (start(branch)) {
-      mergeImpl(branch);
+  public void merge(List<Change> changes) {
+    if (start(changes)) {
+      mergeImpl(changes);
     }
   }
 
-  private synchronized boolean start(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
+  private synchronized boolean start(List<Change> changes) {
+    final MergeEntry e = active.get(changes);
     if (e == null) {
       // Let the caller attempt this merge, its the only one interested
       // in processing this branch right now.
       //
-      active.put(branch, new MergeEntry(branch));
+      active.put(changes, new MergeEntry(changes));
       return true;
     } else {
       // Request that the job queue handle this merge later.
@@ -141,11 +141,11 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public synchronized void schedule(final Branch.NameKey branch) {
-    MergeEntry e = active.get(branch);
+  public synchronized void schedule(final List<Change> changes) {
+    MergeEntry e = active.get(changes);
     if (e == null) {
-      e = new MergeEntry(branch);
-      active.put(branch, e);
+      e = new MergeEntry(changes);
+      active.put(changes, e);
       e.needMerge = true;
       scheduleJob(e);
     } else {
@@ -154,21 +154,21 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public synchronized void recheckAfter(final Branch.NameKey branch,
+  public synchronized void recheckAfter(List<Change> changes,
       final long delay, final TimeUnit delayUnit) {
     final long now = TimeUtil.nowMs();
     final long at = now + MILLISECONDS.convert(delay, delayUnit);
-    RecheckJob e = recheck.get(branch);
+    RecheckJob e = recheck.get(changes);
     if (e == null) {
-      e = new RecheckJob(branch);
+      e = new RecheckJob(changes);
       workQueue.getDefaultQueue().schedule(e, now - at, MILLISECONDS);
-      recheck.put(branch, e);
+      recheck.put(changes, e);
     }
     e.recheckAt = Math.max(at, e.recheckAt);
   }
 
-  private synchronized void finish(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
+  private synchronized void finish(List<Change> changes) {
+    final MergeEntry e = active.get(changes);
     if (e == null) {
       // Not registered? Shouldn't happen but ignore it.
       //
@@ -178,7 +178,7 @@ public class ChangeMergeQueue implements MergeQueue {
     if (!e.needMerge) {
       // No additional merges are in progress, we can delete it.
       //
-      active.remove(branch);
+      active.remove(changes);
       return;
     }
 
@@ -200,19 +200,23 @@ public class ChangeMergeQueue implements MergeQueue {
     e.needMerge = false;
   }
 
-  private void mergeImpl(final Branch.NameKey branch) {
-    try {
-      threadScoper.scope(new Callable<Void>(){
-        @Override
-        public Void call() throws Exception {
-          bgFactory.get().create(branch).merge();
-          return null;
-        }
-      }).call();
-    } catch (Throwable e) {
-      log.error("Merge attempt for " + branch + " failed", e);
-    } finally {
-      finish(branch);
+  private void mergeImpl(final List<Change> changes) {
+    // TODO(sbeller): We need to see if we can parallelize here
+    for (final Change c : changes) {
+      final NameKey branch = c.getDest();
+      try {
+        threadScoper.scope(new Callable<Void>(){
+          @Override
+          public Void call() throws Exception {
+            bgFactory.get().create(branch).merge(changes);
+            return null;
+          }
+        }).call();
+      } catch (Throwable e) {
+        log.error("Merge attempt for " + branch + " failed", e);
+      } finally {
+        finish(changes);
+      }
     }
   }
 
@@ -229,38 +233,45 @@ public class ChangeMergeQueue implements MergeQueue {
       // Schedule a merge attempt on this branch to see if we can
       // actually complete it this time.
       //
-      schedule(e.dest);
+      schedule(e.changes);
     }
   }
 
   private class MergeEntry implements Runnable {
-    final Branch.NameKey dest;
+    final List<Change> changes;
     boolean needMerge;
     boolean jobScheduled;
 
-    MergeEntry(final Branch.NameKey d) {
-      dest = d;
+    MergeEntry(final List<Change> changes) {
+      this.changes = changes;
     }
 
     @Override
     public void run() {
       unschedule(this);
-      mergeImpl(dest);
+      mergeImpl(changes);
     }
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "submit " + project.get() + " " + dest.getShortName();
+      StringBuilder sb = new StringBuilder();
+      for (Change c : changes) {
+        sb.append("(");
+        sb.append(c.getId());
+        sb.append(" ");
+        sb.append(c.getDest());
+        sb.append(")");
+      }
+      return "submit " + sb.toString();
     }
   }
 
   private class RecheckJob implements Runnable {
-    final Branch.NameKey dest;
+    final List<Change> changes;
     long recheckAt;
 
-    RecheckJob(final Branch.NameKey d) {
-      dest = d;
+    RecheckJob(final List<Change> changes) {
+      this.changes = changes;
     }
 
     @Override
@@ -270,8 +281,15 @@ public class ChangeMergeQueue implements MergeQueue {
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "recheck " + project.get() + " " + dest.getShortName();
+      StringBuilder sb = new StringBuilder();
+      for (Change c : changes) {
+        sb.append("(");
+        sb.append(c.getId());
+        sb.append(" ");
+        sb.append(c.getDest());
+        sb.append(")");
+      }
+      return "recheck " + sb.toString();
     }
   }
 }

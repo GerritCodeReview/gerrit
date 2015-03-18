@@ -174,7 +174,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryIt.next().message).isEqualTo(expectedMessage);
 
     assertThat(cherry.get().subject).contains(in.message);
-    assertThat(cherry.get().topic).isEqualTo("someTopic");
+    assertThat(cherry.get().topic).isEqualTo("someTopic-foo");
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
   }

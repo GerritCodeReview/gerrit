@@ -124,6 +124,7 @@ class OAuthSession {
         if (claimedId != null && actualId != null) {
           if (claimedId.equals(actualId)) {
             // Both link to the same account, that's what we expected.
+            log.debug("OAuth2: claimed identity equals current id");
           } else {
             // This is (for now) a fatal error. There are two records
             // for what might be the same user.
@@ -138,6 +139,8 @@ class OAuthSession {
         } else if (claimedId != null && actualId == null) {
           // Claimed account already exists: link to it.
           //
+          log.debug("OAuth2: linking claimed identity to {}",
+              claimedId.toString());
           try {
             accountManager.link(claimedId, areq);
           } catch (OrmException e) {
@@ -148,6 +151,8 @@ class OAuthSession {
             return;
           }
         }
+      } else {
+        log.debug("OAuth2: claimed identity is empty");
       }
       areq.setUserName(user.getUserName());
       areq.setEmailAddress(user.getEmailAddress());

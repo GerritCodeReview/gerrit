@@ -184,7 +184,7 @@ public class CherryPickChange {
         // change.
         Change newChange = createNewChange(git, revWalk, changeKey, project,
             destRef, cherryPickCommit, refControl,
-            identifiedUser, change.getTopic());
+            identifiedUser, change.getTopic() + "-" + destRef.getName());
 
         addMessageToSourceChange(change, patch.getId(), destinationBranch,
             cherryPickCommit, identifiedUser, refControl);

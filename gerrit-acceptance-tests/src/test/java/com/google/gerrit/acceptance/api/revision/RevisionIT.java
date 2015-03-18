@@ -311,7 +311,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(canRebase).isFalse();
     merge(r2);
 
-    git.checkout().setName(r1.getCommit().name()).call();
+    testRepo.reset(r1.getCommit());
     push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r3 = push.to("refs/for/master");
 

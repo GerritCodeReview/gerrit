@@ -22,6 +22,30 @@
       "revId": "da1c9f39fa8e4729eb2acc894ac64d6d44094bf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6692f867_eba7d1b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-18T07:13:59Z",
+      "side": 1,
+      "message": "Not if I want the code to compile. In Java the @SuppressWarnings annotation can  be applied to a variable declaration, but not to a statement that does variable assignment.",
+      "parentUuid": "268720d3_41e15211",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 29
+      },
+      "revId": "da1c9f39fa8e4729eb2acc894ac64d6d44094bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

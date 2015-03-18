@@ -22,6 +22,30 @@
       "revId": "6dce0e47a270bd03dcbc45b9f8d681e91f6047d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_a205fecb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2641,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-18T04:26:31Z",
+      "side": 1,
+      "message": "Hmm.  This could generate a LOT of emails under some circumstances.\n\nI wonder if this would be better if it sent one email with a summary of the pushed commits?",
+      "parentUuid": "72a1d25d_7cfbd94c",
+      "range": {
+        "startLine": 2635,
+        "startChar": 0,
+        "endLine": 2641,
+        "endChar": 7
+      },
+      "revId": "6dce0e47a270bd03dcbc45b9f8d681e91f6047d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

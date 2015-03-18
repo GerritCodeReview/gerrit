@@ -67,7 +67,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .message("subject: 2")
         .create();
     String id2 = getChangeId(testRepo, c2).get();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     for (RevCommit c : ImmutableList.of(c2, c1)) {
       List<ChangeAndCommit> related = getRelated(getPatchSetId(c));
@@ -93,7 +93,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .message("subject: 2")
         .create();
     String id2 = getChangeId(testRepo, c2).get();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id c1ps1 = getPatchSetId(c1);
     PatchSet.Id c2ps1 = getPatchSetId(c2);
 
@@ -101,7 +101,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     testRepo.reset("HEAD~2");
     testRepo.cherryPick(c2);
     testRepo.cherryPick(c1);
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id c1ps2 = getPatchSetId(c1);
     PatchSet.Id c2ps2 = getPatchSetId(c2);
 
@@ -127,7 +127,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Test
   public void getRelatedReorderAndExtend() throws Exception {
     // Create two commits and push.
-    ObjectId initial = testRepo.getRepository().getRef("HEAD").getObjectId();
+    ObjectId initial = repo().getRef("HEAD").getObjectId();
     RevCommit c1 = commitBuilder()
         .add("a.txt", "1")
         .message("subject: 1")
@@ -138,7 +138,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .message("subject: 2")
         .create();
     String id2 = getChangeId(testRepo, c2).get();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id c1ps1 = getPatchSetId(c1);
     PatchSet.Id c2ps1 = getPatchSetId(c2);
 
@@ -151,7 +151,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .message("subject: 3")
         .create();
     String id3 = getChangeId(testRepo, c3).get();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id c1ps2 = getPatchSetId(c1);
     PatchSet.Id c2ps2 = getPatchSetId(c2);
     PatchSet.Id c3ps1 = getPatchSetId(c3);
@@ -197,7 +197,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .message("subject: 3")
         .create();
     String id3 = getChangeId(testRepo, c3).get();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     Change ch2 = getChange(c2).change();
     editModifier.createEdit(ch2, getPatchSet(ch2));

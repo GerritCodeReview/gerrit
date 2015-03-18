@@ -45,7 +45,7 @@ public class BanCommitIT extends AbstractDaemonTest {
     assertThat(info.alreadyBanned).isNull();
     assertThat(info.ignored).isNull();
 
-    PushResult pushResult = pushHead(git, "refs/heads/master", false);
+    PushResult pushResult = pushHead(testRepo, "refs/heads/master", false);
     assertThat(pushResult.getRemoteUpdate("refs/heads/master").getMessage())
         .startsWith("contains banned commit");
   }

@@ -24,7 +24,6 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.api.FetchCommand;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -96,20 +95,21 @@ public class GitUtil {
     return cloneProject(project, sshSession.getUrl() + "/" + project.get());
   }
 
-  public static void fetch(Git git, String spec) throws GitAPIException {
-    FetchCommand fetch = git.fetch();
+  public static void fetch(TestRepository<?> testRepo, String spec)
+      throws GitAPIException {
+    FetchCommand fetch = testRepo.git().fetch();
     fetch.setRefSpecs(new RefSpec(spec));
     fetch.call();
   }
 
-  public static PushResult pushHead(Git git, String ref, boolean pushTags)
-      throws GitAPIException {
-    return pushHead(git, ref, pushTags, false);
+  public static PushResult pushHead(TestRepository<?> testRepo, String ref,
+      boolean pushTags) throws GitAPIException {
+    return pushHead(testRepo, ref, pushTags, false);
   }
 
-  public static PushResult pushHead(Git git, String ref, boolean pushTags,
-      boolean force) throws GitAPIException {
-    PushCommand pushCmd = git.push();
+  public static PushResult pushHead(TestRepository<?> testRepo, String ref,
+      boolean pushTags, boolean force) throws GitAPIException {
+    PushCommand pushCmd = testRepo.git().push();
     pushCmd.setForce(force);
     pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
     if (pushTags) {

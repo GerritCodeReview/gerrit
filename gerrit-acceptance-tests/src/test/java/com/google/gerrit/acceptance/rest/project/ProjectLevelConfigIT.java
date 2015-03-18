@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -32,7 +31,7 @@ import org.junit.Test;
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
-    fetch(git, RefNames.REFS_CONFIG + ":refs/heads/config");
+    fetch(testRepo, RefNames.REFS_CONFIG + ":refs/heads/config");
     testRepo.reset("refs/heads/config");
   }
 
@@ -69,8 +68,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     parentCfg.setString("s2", "ss", "k4", "parentValue4");
 
     TestRepository<?> parentTestRepo = cloneProject(allProjects, sshSession);
-    Git parentGit = Git.wrap(parentTestRepo.getRepository());
-    fetch(parentGit, RefNames.REFS_CONFIG + ":refs/heads/config");
+    fetch(parentTestRepo, RefNames.REFS_CONFIG + ":refs/heads/config");
     parentTestRepo.reset("refs/heads/config");
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), parentTestRepo, "Create Project Level Config",

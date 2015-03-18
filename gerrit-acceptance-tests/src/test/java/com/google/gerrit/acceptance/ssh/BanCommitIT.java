@@ -42,7 +42,7 @@ public class BanCommitIT extends AbstractDaemonTest {
         .that(sshSession.hasError()).isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
 
-    PushResult pushResult = pushHead(git, "refs/heads/master", false);
+    PushResult pushResult = pushHead(testRepo, "refs/heads/master", false);
     assertThat(pushResult.getRemoteUpdate("refs/heads/master").getMessage())
         .startsWith("contains banned commit");
   }

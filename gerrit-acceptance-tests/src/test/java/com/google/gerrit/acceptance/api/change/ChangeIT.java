@@ -155,6 +155,19 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r1.getPatchSetId().get()).is(3);
   }
 
+  @Test(expected = ResourceConflictException.class)
+  public void rebaseChangeBaseRecursion() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    RebaseInput ri = new RebaseInput();
+    ri.base = r2.getCommit().name();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .rebase(ri);
+  }
+
   private Set<Account.Id> getReviewers(String changeId) throws Exception {
     ChangeInfo ci = gApi.changes().id(changeId).get();
     Set<Account.Id> result = Sets.newHashSet();

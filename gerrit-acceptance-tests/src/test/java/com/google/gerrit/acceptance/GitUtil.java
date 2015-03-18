@@ -17,20 +17,23 @@ package com.google.gerrit.acceptance;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.testutil.TempFileUtil;
+import com.google.gerrit.reviewdb.client.Project;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.transport.PushResult;
@@ -38,7 +41,6 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.util.FS;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
@@ -67,17 +69,31 @@ public class GitUtil {
     });
   }
 
-  public static Git cloneProject(String url) throws GitAPIException, IOException {
-    return cloneProject(url, true);
+  public static TestRepository<InMemoryRepository> cloneProject(
+      Project.NameKey project, String uri) throws Exception {
+    InMemoryRepository dest = new InMemoryRepository.Builder()
+        .setRepositoryDescription(new DfsRepositoryDescription(project.get()))
+        // SshTransport depends on a real FS to read ~/.ssh/config, but
+        // InMemoryRepository by default uses a null FS.
+        // TODO(dborowitz): Remove when we no longer depend on SSH.
+        .setFS(FS.detect())
+        .build();
+    Config cfg = dest.getConfig();
+    cfg.setString("remote", "origin", "url", uri);
+    cfg.setString("remote", "origin", "fetch",
+        "+refs/heads/*:refs/remotes/origin/*");
+    TestRepository<InMemoryRepository> testRepo = new TestRepository<>(dest);
+    FetchResult result = testRepo.git().fetch().setRemote("origin").call();
+    String originMaster = "refs/remotes/origin/master";
+    if (result.getTrackingRefUpdate(originMaster) != null) {
+      testRepo.reset(originMaster);
+    }
+    return new TestRepository<>(dest);
   }
 
-  public static Git cloneProject(String url, boolean checkout) throws GitAPIException, IOException {
-    final File gitDir = TempFileUtil.createTempDirectory();
-    final CloneCommand cloneCmd = Git.cloneRepository();
-    cloneCmd.setURI(url);
-    cloneCmd.setDirectory(gitDir);
-    cloneCmd.setNoCheckout(!checkout);
-    return cloneCmd.call();
+  public static TestRepository<InMemoryRepository> cloneProject(
+      Project.NameKey project, SshSession sshSession) throws Exception {
+    return cloneProject(project, sshSession.getUrl() + "/" + project.get());
   }
 
   public static void fetch(Git git, String spec) throws GitAPIException {

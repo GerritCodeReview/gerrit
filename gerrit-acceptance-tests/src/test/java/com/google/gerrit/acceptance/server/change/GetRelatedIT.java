@@ -99,7 +99,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Swap the order of commits and push again.
     testRepo.reset("HEAD~2");
-    git.cherryPick().include(c2).include(c1).call();
+    testRepo.cherryPick(c2);
+    testRepo.cherryPick(c1);
     pushHead(git, "refs/for/master", false);
     PatchSet.Id c1ps2 = getPatchSetId(c1);
     PatchSet.Id c2ps2 = getPatchSetId(c2);
@@ -143,7 +144,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Swap the order of commits, create a new commit on top, and push again.
     testRepo.reset(initial);
-    git.cherryPick().include(c2).include(c1).call();
+    testRepo.cherryPick(c2);
+    testRepo.cherryPick(c1);
     RevCommit c3 = commitBuilder()
         .add("c.txt", "3")
         .message("subject: 3")

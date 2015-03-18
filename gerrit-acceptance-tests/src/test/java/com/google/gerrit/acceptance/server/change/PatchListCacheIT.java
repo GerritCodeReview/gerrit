@@ -120,7 +120,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     pushHead(git, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, -FILE_D))
-    git.cherryPick().include(c).call();
+    testRepo.cherryPick(c);
     pushHead(git, "refs/for/master", false);
 
     // Compare Change 1,2 with Base (+FILE_A, -FILE_D))
@@ -187,7 +187,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     pushHead(git, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, +FILE_C, -FILE_D)
-    git.cherryPick().include(a).call();
+    testRepo.cherryPick(a);
     RevCommit b = amendBuilder()
         .add(FILE_C, "2")
         .create();

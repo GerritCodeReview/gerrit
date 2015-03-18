@@ -616,7 +616,7 @@ public class ChangeData {
         mergeable = true;
       } else {
         PatchSet ps = currentPatchSet();
-        if (ps == null) {
+        if (ps == null || !changeControl().isPatchVisible(ps, db)) {
           return null;
         }
         try (Repository repo = repoManager.openRepository(c.getProject())) {

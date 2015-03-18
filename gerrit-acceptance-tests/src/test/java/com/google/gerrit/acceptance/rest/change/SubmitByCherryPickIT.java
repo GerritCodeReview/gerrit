@@ -41,7 +41,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void submitWithCherryPickIfFastForwardPossible() throws Exception {
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    assertCherryPick(git, false);
+    assertCherryPick(testRepo, false);
     assertThat(getRemoteHead().getParent(0))
       .isEqualTo(change.getCommit().getParent(0));
   }
@@ -58,7 +58,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
-    assertCherryPick(git, false);
+    assertCherryPick(testRepo, false);
     RevCommit newHead = getRemoteHead();
     assertThat(newHead.getParentCount()).isEqualTo(1);
     assertThat(newHead.getParent(0)).isEqualTo(oldHead);
@@ -82,7 +82,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change3 =
         createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
-    assertCherryPick(git, true);
+    assertCherryPick(testRepo, true);
     RevCommit newHead = getRemoteHead();
     assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());
@@ -122,7 +122,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change3 =
         createChange("Change 3", "c.txt", "different content");
     submit(change3.getChangeId());
-    assertCherryPick(git, false);
+    assertCherryPick(testRepo, false);
     RevCommit newHead = getRemoteHead();
     assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());

@@ -57,8 +57,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -279,17 +279,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(submitter.getAccountId()).isEqualTo(admin.getId());
   }
 
-  protected void assertCherryPick(Git localGit, boolean contentMerge)
-      throws IOException {
-    assertRebase(localGit, contentMerge);
+  protected void assertCherryPick(TestRepository<?> testRepo,
+      boolean contentMerge) throws IOException {
+    assertRebase(testRepo, contentMerge);
     RevCommit remoteHead = getRemoteHead();
     assertThat(remoteHead.getFooterLines("Reviewed-On")).isNotEmpty();
     assertThat(remoteHead.getFooterLines("Reviewed-By")).isNotEmpty();
   }
 
-  protected void assertRebase(Git localGit, boolean contentMerge)
+  protected void assertRebase(TestRepository<?> testRepo, boolean contentMerge)
       throws IOException {
-    Repository repo = localGit.getRepository();
+    Repository repo = testRepo.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
     assert_().withFailureMessage(

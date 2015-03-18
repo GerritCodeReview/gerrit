@@ -58,7 +58,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
-    assertRebase(git, false);
+    assertRebase(testRepo, false);
     RevCommit head = getRemoteHead();
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change2.getChangeId());
@@ -82,7 +82,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     PushOneCommit.Result change3 =
         createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
-    assertRebase(git, true);
+    assertRebase(testRepo, true);
     RevCommit head = getRemoteHead();
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());

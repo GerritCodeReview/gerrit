@@ -53,7 +53,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     SshSession sshSession = new SshSession(server, user);
     initSsh(user);
     sshSession.open();
-    setRepo(cloneProject(project, sshSession));
+    testRepo = cloneProject(project, sshSession);
     sshSession.close();
     user2 = accounts.user2();
     sessionDev = new RestSession(server, user2);

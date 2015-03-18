@@ -349,7 +349,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void mergeable() throws Exception {
-    ObjectId initial = git.getRepository().getRef(HEAD).getLeaf().getObjectId();
+    ObjectId initial = repo().getRef(HEAD).getLeaf().getObjectId();
 
     PushOneCommit push1 =
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
@@ -360,7 +360,7 @@ public class RevisionIT extends AbstractDaemonTest {
     merge(r1);
 
     // Reset HEAD to initial so the new change is a merge conflict.
-    RefUpdate ru = git.getRepository().updateRef(HEAD);
+    RefUpdate ru = repo().updateRef(HEAD);
     ru.setNewObjectId(initial);
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 

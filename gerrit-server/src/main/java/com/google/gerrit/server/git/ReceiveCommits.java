@@ -1738,7 +1738,7 @@ public class ReceiveCommits {
     }
     addMessage("");
     for (Change c : changes) {
-      mergeQueue.merge(c.getDest());
+      mergeQueue.merge(changes);
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:

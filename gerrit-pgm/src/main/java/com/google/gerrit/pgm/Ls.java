@@ -39,6 +39,7 @@ public class Ls extends AbstractProgram {
         show &= !ze.isDirectory();
         show &= !name.startsWith("WEB-INF/classes/");
         show &= !name.startsWith("WEB-INF/lib/");
+        show &= !name.startsWith("WEB-INF/pgm-lib/");
         show &= !name.equals("WEB-INF/web.xml");
         if (show) {
           if (name.startsWith("WEB-INF/")) {

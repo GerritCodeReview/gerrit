@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46c1746b_badb516b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-18T21:46:25Z",
+      "side": 1,
+      "message": "Actually I think 8k is too small here for est. size. It may force the ArrayList to grow slowly from 1 to 2 to 4 entries as the diff is built.\n\nPerhaps do:\n\n Math.min(32*1024, args.settings.maximumDiffSize)\n\nas the estimate?",
+      "revId": "16390ab18262cc53e59eca8f8bf4044a7e185a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

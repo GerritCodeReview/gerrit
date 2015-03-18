@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "46c1746b_9ae08d10",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-18T22:01:02Z",
+      "side": 1,
+      "message": "FWIW I checked our logs and our 99% response size is 6k, while 99.9% is about 25 KiB. Not sure if we have compression turned on but that shows this bound is pretty reasonable.",
+      "revId": "16390ab18262cc53e59eca8f8bf4044a7e185a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66b0380a_9b176b7d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-18T22:01:02Z",
+      "side": 1,
+      "message": "Had to take the min here.",
+      "revId": "16390ab18262cc53e59eca8f8bf4044a7e185a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46c1746b_badb516b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 1
@@ -13,6 +47,24 @@
       "writtenOn": "2015-03-18T21:46:25Z",
       "side": 1,
       "message": "Actually I think 8k is too small here for est. size. It may force the ArrayList to grow slowly from 1 to 2 to 4 entries as the diff is built.\n\nPerhaps do:\n\n Math.min(32*1024, args.settings.maximumDiffSize)\n\nas the estimate?",
+      "revId": "16390ab18262cc53e59eca8f8bf4044a7e185a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66b0380a_bb12278d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-18T22:01:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46c1746b_badb516b",
       "revId": "16390ab18262cc53e59eca8f8bf4044a7e185a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.changedetail.RebaseChange;
@@ -41,6 +42,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+
+import java.util.ArrayList;
 
 @Singleton
 public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
@@ -110,6 +113,10 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
           } else if (baseChange.getStatus() == Status.ABANDONED) {
             throw new ResourceConflictException("base change is abandoned: "
                                                 + baseChange.getKey());
+          } else if (isDescendantOf(baseChange.getId(), rsrc.getPatchSet().getRevision())) {
+            throw new ResourceConflictException("base change " + baseChange.getKey()
+                                                + " is a descendant of the current "
+                                                + " change - recursion not allowed");
           }
           baseRev = basePatchSet.getRevision().get();
           break;
@@ -118,7 +125,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     }
 
     try {
-      rebaseChange.get().rebase(rsrc.getChange(), rsrc.getPatchSet().getId(),
+      rebaseChange.get().rebase(change, rsrc.getPatchSet().getId(),
           rsrc.getUser(), baseRev);
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -129,6 +136,32 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     }
 
     return json.format(change.getId());
+  }
+
+  private boolean isDescendantOf(Change.Id child, RevId ancestor)
+      throws OrmException {
+    ReviewDb db = dbProvider.get();
+
+    ArrayList<RevId> parents = new ArrayList<RevId>();
+    parents.add(ancestor);
+    while (!parents.isEmpty()) {
+      RevId parent = parents.remove(0);
+      // get direct descendants of change
+      for (PatchSetAncestor desc : db.patchSetAncestors().descendantsOf(parent)) {
+        PatchSet descPatchSet = db.patchSets().get(desc.getPatchSet());
+        Change.Id descChangeId = descPatchSet.getId().getParentKey();
+        if (child.equals(descChangeId)) {
+          PatchSet.Id descCurrentPatchSetId = db.changes().get(descChangeId).currentPatchSetId();
+          // its only bad if the descendant patch set is current
+          return descPatchSet.getId().equals(descCurrentPatchSetId);
+        } else {
+          // process indirect descendants as well
+          parents.add(descPatchSet.getRevision());
+        }
+      }
+    }
+
+    return false;
   }
 
   private PatchSet parseBase(final String base) throws OrmException {

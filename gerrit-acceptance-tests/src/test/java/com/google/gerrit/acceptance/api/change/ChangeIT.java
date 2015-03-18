@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -153,6 +154,19 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(ps1.getRevision().get())
         .rebase(ri);
     assertThat(r1.getPatchSetId().get()).is(3);
+  }
+
+  @Test(expected = ResourceConflictException.class)
+  public void rebaseChangeBaseRecursion() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    RebaseInput ri = new RebaseInput();
+    ri.base = r2.getCommit().name();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .rebase(ri);
   }
 
   private Set<Account.Id> getReviewers(String changeId) throws Exception {

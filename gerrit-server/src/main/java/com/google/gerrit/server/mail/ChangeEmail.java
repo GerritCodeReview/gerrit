@@ -379,6 +379,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     return args.settings.includeDiff;
   }
 
+  private static int HEAP_EST_SIZE = 32 * 1024;
+
   /** Show patch set as unified difference. */
   public String getUnifiedDiff() {
     PatchList patchList;
@@ -394,8 +396,9 @@ public abstract class ChangeEmail extends NotificationEmail {
       return "";
     }
 
+    int maxSize = args.settings.maximumDiffSize;
     TemporaryBuffer.Heap buf =
-        new TemporaryBuffer.Heap(args.settings.maximumDiffSize);
+        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxSize), maxSize);
     try (DiffFormatter fmt = new DiffFormatter(buf)) {
       Repository git;
       try {

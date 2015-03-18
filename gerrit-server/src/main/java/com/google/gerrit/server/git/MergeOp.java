@@ -347,7 +347,6 @@ public class MergeOp {
     }
   }
 
-
   private boolean containsMissingCommits(
       ListMultimap<SubmitType, CodeReviewCommit> map, CodeReviewCommit commit) {
     if (!isSubmitForMissingCommitsStillPossible(commit)) {

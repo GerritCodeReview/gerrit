@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6a428cd_3fd96777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2015-03-18T20:08:24Z",
+      "side": 1,
+      "message": "The commit message should probably describe that the destination-branch is appended to the topic branch.",
+      "revId": "f4c679a4e9e8d1024d81d3603b56759d9ae30896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

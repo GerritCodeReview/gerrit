@@ -14,10 +14,9 @@
  limitations under the License.
 -->
 <module>
-  <replace-with class='com.google.gerrit.prettify.client.PrivateScopeImplIE6'>
+  <replace-with class='com.google.gerrit.prettify.client.PrivateScopeImplIE8'>
     <when-type-is class='com.google.gerrit.prettify.client.PrivateScopeImpl'/>
     <any>
-      <when-property-is name="user.agent" value="ie6" />
       <when-property-is name="user.agent" value="ie8" />
     </any>
   </replace-with>

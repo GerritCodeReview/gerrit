@@ -354,7 +354,7 @@ a:hover {
     opacity: 0.80;
   }
 }
-@if user.agent ie6 ie8 {
+@if user.agent ie8 {
   /* IE just doesn't do opacity the way we want, make our dialog
    * stand out in a way that it can't be missed against the page
    */

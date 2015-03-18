@@ -67,9 +67,6 @@ public class UserAgentRule {
         if (v >= 8000) {
           return "ie8";
         }
-        if (v >= 6000) {
-          return "ie6";
-        }
       }
       return null;
 

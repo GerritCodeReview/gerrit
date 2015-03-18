@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "66b0380a_fbbaef04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-18T14:02:58Z",
+      "side": 1,
+      "message": "I organized imports, and my Eclipse isn\u0027t subject to the bug that leaves these up where they were.",
+      "parentUuid": "6692f867_cbef75fc",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "09cd96d1d8fc37407dbee84804fa6e8202209cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6692f867_ebec310a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "66b0380a_dbbf33f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-18T14:02:58Z",
+      "side": 1,
+      "message": "i thought it was obvious from the fact that this is immediately followed by addAll(heads) and two more add() calls. (Even more obvious after a later change that factors out a method:",
+      "parentUuid": "6692f867_ebec310a",
+      "range": {
+        "startLine": 93,
+        "startChar": 51,
+        "endLine": 93,
+        "endChar": 56
+      },
+      "revId": "09cd96d1d8fc37407dbee84804fa6e8202209cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6692f867_0b097d62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-03-18T00:45:12Z",
       "side": 1,
       "message": "Why 1?",
+      "range": {
+        "startLine": 112,
+        "startChar": 60,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "09cd96d1d8fc37407dbee84804fa6e8202209cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46c1746b_dabf25f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-18T14:02:58Z",
+      "side": 1,
+      "message": "We expect there to be approximately one symref in a repo.",
+      "parentUuid": "6692f867_0b097d62",
       "range": {
         "startLine": 112,
         "startChar": 60,

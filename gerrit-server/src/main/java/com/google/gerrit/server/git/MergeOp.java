@@ -93,6 +93,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -249,7 +250,7 @@ public class MergeOp {
     }
   }
 
-  public void merge()
+  public void merge(List<Change> changes)
       throws MergeException, NoSuchChangeException, IOException {
     logDebug("Beginning merge attempt on {}", destBranch);
     setDestProject();
@@ -278,7 +279,7 @@ public class MergeOp {
           }
           SubmitStrategy strategy = createStrategy(submitType);
           MergeTip mergeTip = preMerge(strategy, toMerge.get(submitType));
-          RefUpdate update = updateBranch(strategy, branchUpdate);
+          RefUpdate update = updateBranch(strategy, branchUpdate, toSubmit.get(submitType));
           reopen = true;
 
           updateChangeStatus(toSubmit.get(submitType), mergeTip);
@@ -658,7 +659,7 @@ public class MergeOp {
   }
 
   private RefUpdate updateBranch(SubmitStrategy strategy,
-      RefUpdate branchUpdate) throws MergeException {
+      RefUpdate branchUpdate, List<Change> changes) throws MergeException {
     CodeReviewCommit currentTip =
         mergeTip != null ? mergeTip.getCurrentTip() : null;
     if (Objects.equals(branchTip, currentTip)) {
@@ -715,7 +716,7 @@ public class MergeOp {
         case LOCK_FAILURE:
           String msg;
           if (strategy.retryOnLockFailure()) {
-            mergeQueue.recheckAfter(destBranch, LOCK_FAILURE_RETRY_DELAY,
+            mergeQueue.recheckAfter(changes, LOCK_FAILURE_RETRY_DELAY,
                 MILLISECONDS);
             msg = "will retry";
           } else {
@@ -859,7 +860,7 @@ public class MergeOp {
       // If we waited a short while we might still be able to get
       // this change submitted. Reschedule an attempt in a bit.
       //
-      mergeQueue.recheckAfter(destBranch, recheckIn, MILLISECONDS);
+      mergeQueue.recheckAfter(Arrays.asList(c), recheckIn, MILLISECONDS);
       capable = Capable.OK;
     } else if (submitStillPossible) {
       // It would be possible to submit the change if the missing

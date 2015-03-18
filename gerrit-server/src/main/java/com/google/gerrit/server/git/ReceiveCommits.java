@@ -1737,8 +1737,8 @@ public class ReceiveCommits {
       throw new IOException(e);
     }
     addMessage("");
+    mergeQueue.merge(changes);
     for (Change c : changes) {
-      mergeQueue.merge(c.getDest());
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:

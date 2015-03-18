@@ -395,7 +395,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     TemporaryBuffer.Heap buf =
-        new TemporaryBuffer.Heap(args.settings.maximumDiffSize);
+        new TemporaryBuffer.Heap(8192, args.settings.maximumDiffSize);
     try (DiffFormatter fmt = new DiffFormatter(buf)) {
       Repository git;
       try {

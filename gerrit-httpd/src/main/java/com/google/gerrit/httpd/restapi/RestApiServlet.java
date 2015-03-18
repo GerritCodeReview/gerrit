@@ -142,6 +142,8 @@ public class RestApiServlet extends HttpServlet {
   private static final String JSON_TYPE = "application/json";
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
+  private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
+
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
    * <p>
@@ -656,7 +658,7 @@ public class RestApiServlet extends HttpServlet {
       Multimap<String, String> config,
       Object result)
       throws IOException {
-    TemporaryBuffer.Heap buf = heap(Integer.MAX_VALUE);
+    TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
     Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
     Gson gson = newGson(config, req);
@@ -781,7 +783,7 @@ public class RestApiServlet extends HttpServlet {
 
   private static BinaryResult stackJsonString(HttpServletResponse res,
       final BinaryResult src) throws IOException {
-    TemporaryBuffer.Heap buf = heap(Integer.MAX_VALUE);
+    TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
     try(Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
         JsonWriter json = new JsonWriter(w)) {
@@ -1053,10 +1055,14 @@ public class RestApiServlet extends HttpServlet {
     return false;
   }
 
+  private static int base64MaxSize(long n) {
+    return 4 * IntMath.divide((int) n, 3, CEILING);
+  }
+
   private static BinaryResult base64(BinaryResult bin)
       throws IOException {
-    int max = 4 * IntMath.divide((int) bin.getContentLength(), 3, CEILING);
-    TemporaryBuffer.Heap buf = heap(max);
+    TemporaryBuffer.Heap buf = heap(base64MaxSize(HEAP_EST_SIZE),
+        base64MaxSize(bin.getContentLength()));
     OutputStream encoded = BaseEncoding.base64().encodingStream(
         new OutputStreamWriter(buf, ISO_8859_1));
     bin.writeTo(encoded);
@@ -1066,7 +1072,7 @@ public class RestApiServlet extends HttpServlet {
 
   private static BinaryResult compress(BinaryResult bin)
       throws IOException {
-    TemporaryBuffer.Heap buf = heap(20 << 20);
+    TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, 20 << 20);
     GZIPOutputStream gz = new GZIPOutputStream(buf);
     bin.writeTo(gz);
     gz.close();
@@ -1083,8 +1089,8 @@ public class RestApiServlet extends HttpServlet {
     }.setContentLength(buf.length());
   }
 
-  private static Heap heap(int max) {
-    return new TemporaryBuffer.Heap(max);
+  private static Heap heap(int est, int max) {
+    return new TemporaryBuffer.Heap(est, max);
   }
 
   @SuppressWarnings("serial")

@@ -211,7 +211,7 @@ public abstract class AbstractDaemonTest {
     project = new Project.NameKey(projectInput.name);
     createProject(projectInput);
 
-    setRepo(cloneProject(sshSession.getUrl() + "/" + project.get()));
+    setRepo(cloneProject(project, sshSession));
   }
 
   private ProjectInput projectInput(Description description) {
@@ -237,9 +237,9 @@ public abstract class AbstractDaemonTest {
     return in;
   }
 
-  protected void setRepo(Git git) throws Exception {
-    this.git = git;
-    testRepo = new TestRepository<>(git.getRepository());
+  protected void setRepo(TestRepository<?> testRepo) throws Exception {
+    this.git = Git.wrap(testRepo.getRepository());
+    this.testRepo = new TestRepository<>(git.getRepository());
   }
 
   protected void createProject(String name) throws RestApiException {

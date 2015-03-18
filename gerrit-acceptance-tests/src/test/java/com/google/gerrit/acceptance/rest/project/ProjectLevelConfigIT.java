@@ -68,10 +68,8 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     parentCfg.setString("s2", "ss", "k3", "parentValue3");
     parentCfg.setString("s2", "ss", "k4", "parentValue4");
 
-    Git parentGit =
-        cloneProject(sshSession.getUrl() + "/" + allProjects.get(), false);
-    TestRepository<?> parentTestRepo =
-        new TestRepository<>(parentGit.getRepository());
+    TestRepository<?> parentTestRepo = cloneProject(allProjects, sshSession);
+    Git parentGit = Git.wrap(parentTestRepo.getRepository());
     fetch(parentGit, RefNames.REFS_CONFIG + ":refs/heads/config");
     parentTestRepo.reset("refs/heads/config");
     PushOneCommit push =

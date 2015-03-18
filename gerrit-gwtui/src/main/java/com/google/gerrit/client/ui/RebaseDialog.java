@@ -26,6 +26,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.LinkedList;
@@ -81,10 +82,12 @@ public abstract class RebaseDialog extends CommentedActionDialog {
                 public void onSuccess(ChangeList result) {
                   changes = Natives.asList(result);
                   base.setEnabled(true);
+                  base.setFocus(true);
                 }
               });
         } else {
           base.setEnabled(false);
+          sendButton.setFocus(true);
         }
       }
     });
@@ -93,6 +96,13 @@ public abstract class RebaseDialog extends CommentedActionDialog {
     contentPanel.add(cb);
     contentPanel.add(base);
     contentPanel.setStyleName(Gerrit.RESOURCES.css().rebaseContentPanel());
+  }
+
+  @Override
+  public void center() {
+    super.center();
+    GlobalKey.dialog(this);
+    sendButton.setFocus(true);
   }
 
   public String getBase() {

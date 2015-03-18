@@ -103,9 +103,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   public void submitOnPushToRefsMetaConfig() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
 
-    git.fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
-    ObjectId objectId = git.getRepository().getRef("refs/meta/config").getObjectId();
-    testRepo.reset(objectId);
+    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
+    testRepo.reset("refs/meta/config");
 
     PushOneCommit.Result r = pushTo("refs/for/refs/meta/config%submit");
     r.assertOkStatus();
@@ -116,7 +115,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushMergeConflict() throws Exception {
-    ObjectId objectId = git.getRepository().getRef("HEAD").getObjectId();
+    ObjectId objectId = repo().getRef("HEAD").getObjectId();
     push("refs/heads/master", "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
@@ -131,7 +130,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Test
   public void submitOnPushSuccessfulMerge() throws Exception {
     String master = "refs/heads/master";
-    ObjectId objectId = git.getRepository().getRef("HEAD").getObjectId();
+    ObjectId objectId = repo().getRef("HEAD").getObjectId();
     push(master, "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
@@ -196,7 +195,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
     r.assertOkStatus();
 
-    git.push()
+    git().push()
         .setRefSpecs(new RefSpec(r.getCommitId().name() + ":refs/heads/master"))
         .call();
     assertCommit(project, "refs/heads/master");

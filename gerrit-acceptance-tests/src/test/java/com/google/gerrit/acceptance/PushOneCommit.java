@@ -36,7 +36,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -181,9 +180,8 @@ public class PushOneCommit {
     if (changeId == null) {
       changeId = GitUtil.getChangeId(testRepo, c).get();
     }
-    Git git = Git.wrap(testRepo.getRepository());
     if (tag != null) {
-      TagCommand tagCommand = git.tag().setName(tag.name);
+      TagCommand tagCommand = testRepo.git().tag().setName(tag.name);
       if (tag instanceof AnnotatedTag) {
         AnnotatedTag annotatedTag = (AnnotatedTag)tag;
         tagCommand.setAnnotated(true)
@@ -194,7 +192,8 @@ public class PushOneCommit {
       }
       tagCommand.call();
     }
-    return new Result(ref, pushHead(git, ref, tag != null, force), c, subject);
+    return new Result(ref, pushHead(testRepo, ref, tag != null, force), c,
+        subject);
   }
 
   public void setTag(final Tag tag) {

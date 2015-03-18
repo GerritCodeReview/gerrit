@@ -213,16 +213,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     List<Change> submittedChanges = submit(rsrc, caller, false);
 
     if (input.waitForMerge) {
-      for (Change c : submittedChanges) {
-        // TODO(sbeller): We should make schedule return a Future, then we
-        // could do these all in parallel and still block until they're done.
-        mergeQueue.merge(c.getDest());
-      }
+      mergeQueue.merge(submittedChanges);
       change = dbProvider.get().changes().get(change.getId());
     } else {
-      for (Change c : submittedChanges) {
-        mergeQueue.schedule(c.getDest());
-      }
+      mergeQueue.schedule(submittedChanges);
     }
 
     if (change == null) {

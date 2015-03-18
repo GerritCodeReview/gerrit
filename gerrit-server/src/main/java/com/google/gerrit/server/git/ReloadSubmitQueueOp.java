@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -26,7 +25,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
+import java.util.Arrays;
 
 @Singleton
 public class ReloadSubmitQueueOp extends DefaultQueueOp {
@@ -52,17 +51,15 @@ public class ReloadSubmitQueueOp extends DefaultQueueOp {
   @Override
   public void run() {
     try (AutoCloseable ctx = requestContext.open()) {
-      HashSet<Branch.NameKey> pending = new HashSet<>();
       for (ChangeData cd : queryProvider.get().allSubmitted()) {
         try {
-          pending.add(cd.change().getDest());
+          // TODO(sbeller): Guess the correct lists instead of having each
+          // change being in its own list. As of writing this todo, it's
+          // only dependent on `submitwholetopic`
+          mergeQueue.schedule(Arrays.asList(cd.change()));
         } catch (OrmException e) {
           log.error("Error reading submitted change", e);
         }
-      }
-
-      for (Branch.NameKey branch : pending) {
-        mergeQueue.schedule(branch);
       }
     } catch (Exception e) {
       log.error("Cannot reload MergeQueue", e);

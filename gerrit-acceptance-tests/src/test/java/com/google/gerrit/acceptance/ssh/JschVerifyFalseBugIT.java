@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class JschVerifyFalseBugIT extends AbstractDaemonTest {
         for (int i = 1; i < 100; i++) {
           String p = "p" + i;
           createProject(p);
-          cloneProject(sshSession.getUrl() + "/" + p);
+          cloneProject(new Project.NameKey(p), sshSession);
         }
         return null;
       }

@@ -619,9 +619,7 @@ public class ChangeData {
         if (ps == null) {
           return null;
         }
-        Repository repo = null;
-        try {
-          repo = repoManager.openRepository(c.getProject());
+        try (Repository repo = repoManager.openRepository(c.getProject())) {
           Ref ref = repo.getRef(c.getDest().get());
           SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
               .getSubmitType();
@@ -637,10 +635,6 @@ public class ChangeData {
               ref, rec.type, mergeStrategy, c.getDest(), repo, db);
         } catch (IOException e) {
           throw new OrmException(e);
-        } finally {
-          if (repo != null) {
-            repo.close();
-          }
         }
       }
     }

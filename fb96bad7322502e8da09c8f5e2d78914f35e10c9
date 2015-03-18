@@ -16,6 +16,24 @@
       "revId": "fb96bad7322502e8da09c8f5e2d78914f35e10c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46cc147d_c2dbe2ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-18T00:44:55Z",
+      "side": 1,
+      "message": "No. It was just me incapable doing the right thing.",
+      "parentUuid": "46cc147d_a2dededf",
+      "revId": "fb96bad7322502e8da09c8f5e2d78914f35e10c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

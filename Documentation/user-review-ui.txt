@@ -239,7 +239,11 @@ onto the tip of the destination branch.
 If the change depends on another open change, it is rebased onto the
 current patch set of that other change.
 +
-The `Rebase` button is only available if the change can be rebased and
+It is possible to change parent revision of a change. The new parent
+revision can be another change towards the same target branch, or
+the tip of the target branch.
++
+The `Rebase` button is only available if
 the link:access-control.html#category_rebase[Rebase] access right is
 assigned. Rebasing merge commits is not supported.
 

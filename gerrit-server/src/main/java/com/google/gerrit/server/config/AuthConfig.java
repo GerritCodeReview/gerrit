@@ -203,7 +203,7 @@ public class AuthConfig {
       case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
-        // Its safe to assume yes for an HTTP authentication type, as the
+      case OAUTH:
         // only way in is through some external system that the admin trusts
         //
         return true;

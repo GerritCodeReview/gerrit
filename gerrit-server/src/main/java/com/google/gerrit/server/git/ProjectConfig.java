@@ -1054,8 +1054,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       } else {
         rc.unset(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
       }
-      if (label.isCopyAllScoresIfNoChange()) {
-        rc.setBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE, true);
+      if (!label.isCopyAllScoresIfNoChange()) {
+        rc.setBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE, false);
       } else {
         rc.unset(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
       }

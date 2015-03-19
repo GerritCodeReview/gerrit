@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2637206d_e1ba6605",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-19T16:29:57Z",
+      "side": 1,
+      "message": "No, I think we can safely use a CachedThreadPool instead. Which would be much simpler code to write.",
+      "parentUuid": "66f758e2_e3ba3205",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_772a5079",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 2

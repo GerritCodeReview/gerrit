@@ -69,6 +69,24 @@
       "revId": "f464452c1677a2ba1e280ca18fd3fa8ae4dc0d53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6fdd0c1_6573e6e5",
+        "filename": "gerrit-util-http/src/main/java/com/google/gerrit/util/http/RequestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-19T03:44:51Z",
+      "side": 1,
+      "message": "Actually I would prefer the long link in the source and a checkstyle exception over a shortlink.",
+      "parentUuid": "c602c48c_c663c214",
+      "revId": "f464452c1677a2ba1e280ca18fd3fa8ae4dc0d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

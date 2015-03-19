@@ -94,6 +94,30 @@
       "revId": "edfcfcbb5010182a9f00e36f7977697641265f9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60b48a7_a7db2a6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/archive/ZipFormat.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-19T08:19:51Z",
+      "side": 1,
+      "message": "Reworked the change and removed copy of ZipFormat with ThreadLocal hack.",
+      "parentUuid": "c602c48c_2654d624",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "edfcfcbb5010182a9f00e36f7977697641265f9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

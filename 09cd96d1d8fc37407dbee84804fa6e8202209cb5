@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c602c48c_e6ba3e05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-19T02:06:58Z",
+      "side": 1,
+      "message": "What version of Eclipse are you using?\n\nI just updated on my Ubuntu workstation from Kepler to the latest available which is:\n\n  Version: Luna Service Release 2 (4.4.2)\n  Build id: 20150219-0600\n\nand the organize import just puts these back where they were.",
+      "parentUuid": "66b0380a_fbbaef04",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "09cd96d1d8fc37407dbee84804fa6e8202209cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6692f867_ebec310a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 1

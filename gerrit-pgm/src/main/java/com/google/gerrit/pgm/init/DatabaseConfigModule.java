@@ -30,6 +30,8 @@ public class DatabaseConfigModule extends AbstractModule {
   protected void configure() {
     bind(SitePaths.class).toInstance(site);
     bind(DatabaseConfigInitializer.class).annotatedWith(
+        Names.named("db2")).to(DB2Initializer.class);
+    bind(DatabaseConfigInitializer.class).annotatedWith(
         Names.named("h2")).to(H2Initializer.class);
     bind(DatabaseConfigInitializer.class).annotatedWith(
         Names.named("jdbc")).to(JDBCInitializer.class);

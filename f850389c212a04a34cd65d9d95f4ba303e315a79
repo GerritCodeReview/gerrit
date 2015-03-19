@@ -22,6 +22,30 @@
       "revId": "f850389c212a04a34cd65d9d95f4ba303e315a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c602c48c_e6e11e17",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-19T02:57:36Z",
+      "side": 1,
+      "message": "An enum is a good suggestion, but I have tried to avoid making more than one class in this package. This goes directly into the WAR as-is in a funny way to make it executable. Each class its is own file in the WAR, which is weird. An enum would be another class, and another file. Bleh.",
+      "parentUuid": "e18ed27f_0f1c6516",
+      "range": {
+        "startLine": 192,
+        "startChar": 44,
+        "endLine": 192,
+        "endChar": 66
+      },
+      "revId": "f850389c212a04a34cd65d9d95f4ba303e315a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

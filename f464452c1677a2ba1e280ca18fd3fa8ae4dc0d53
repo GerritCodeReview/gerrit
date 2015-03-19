@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6fdd0c1_a5db1e6b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ActionContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-19T03:11:05Z",
+      "side": 1,
+      "message": "Actually, this is no longer true. We can line wrap this stuff sanely with the version of GWT we have. JSNI calls can line wrap at argument boundaries e.g. , and ( and ). We do that elsewhere in JSNI.\n\nI think I would prefer to line wrap the JSNI over exempting it for a span of lines with a comment.",
+      "revId": "f464452c1677a2ba1e280ca18fd3fa8ae4dc0d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6fdd0c1_65f646de",
+        "filename": "gerrit-util-http/src/main/java/com/google/gerrit/util/http/RequestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-19T03:11:05Z",
+      "side": 1,
+      "message": "This is annoying but fine. :)",
+      "revId": "f464452c1677a2ba1e280ca18fd3fa8ae4dc0d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

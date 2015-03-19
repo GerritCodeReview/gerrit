@@ -39,6 +39,8 @@ class Libraries {
 
   /* final */LibraryDownloader bouncyCastleProvider;
   /* final */LibraryDownloader bouncyCastleSSL;
+  /* final */LibraryDownloader db2Driver;
+  /* final */LibraryDownloader db2DriverLicense;
   /* final */LibraryDownloader mysqlDriver;
   /* final */LibraryDownloader oracleDriver;
 
@@ -89,16 +91,25 @@ class Libraries {
     LibraryDownloader dl = (LibraryDownloader) field.get(this);
     dl.setName(get(cfg, n, "name"));
     dl.setJarUrl(get(cfg, n, "url"));
-    dl.setSHA1(get(cfg, n, "sha1"));
+    dl.setSHA1(getOptional(cfg, n, "sha1"));
     dl.setRemove(get(cfg, n, "remove"));
     for (String d : cfg.getStringList("library", n, "needs")) {
       dl.addNeeds((LibraryDownloader) getClass().getDeclaredField(d).get(this));
     }
   }
 
+  private static String getOptional(Config cfg, String name, String key) {
+    return doGet(cfg, name, key, false);
+  }
+
   private static String get(Config cfg, String name, String key) {
+    return doGet(cfg, name, key, true);
+  }
+
+  private static final String doGet(Config cfg, String name, String key,
+      boolean required) {
     String val = cfg.getString("library", name, key);
-    if (val == null || val.isEmpty()) {
+    if ((val == null || val.isEmpty()) && required) {
       throw new IllegalStateException("Variable library." + name + "." + key
           + " is required within " + RESOURCE_FILE);
     }

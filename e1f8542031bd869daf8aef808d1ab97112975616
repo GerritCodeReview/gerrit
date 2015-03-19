@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06093caf_48f35fec",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-19T14:21:49Z",
+      "side": 1,
+      "message": "nit: align the comlumns",
+      "range": {
+        "startLine": 2119,
+        "startChar": 14,
+        "endLine": 2119,
+        "endChar": 34
+      },
+      "revId": "e1f8542031bd869daf8aef808d1ab97112975616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

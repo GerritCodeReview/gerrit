@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06093caf_68cf43ac",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Libraries.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-19T07:40:03Z",
+      "side": 1,
+      "message": "db2DriverLicense field is missing",
+      "range": {
+        "startLine": 42,
+        "startChar": 31,
+        "endLine": 42,
+        "endChar": 40
+      },
+      "revId": "241725976255e689e14a47fef23ff835fd8abee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

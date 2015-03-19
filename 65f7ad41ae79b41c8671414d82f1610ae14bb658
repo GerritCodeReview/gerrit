@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46c1746b_3a1e2190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-19T00:58:06Z",
+      "side": 1,
+      "message": "It\u0027s",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "65f7ad41ae79b41c8671414d82f1610ae14bb658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66b0380a_3b7df7ae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-19T00:58:06Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "65f7ad41ae79b41c8671414d82f1610ae14bb658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66b0380a_1b7a3bb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-19T00:58:06Z",
+      "side": 1,
+      "message": "In Java 7 this is not necessary and causes a \"redundant specification of type argument\" warning",
+      "range": {
+        "startLine": 145,
+        "startChar": 45,
+        "endLine": 145,
+        "endChar": 50
+      },
+      "revId": "65f7ad41ae79b41c8671414d82f1610ae14bb658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66b0380a_fb454f76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-19T00:58:06Z",
+      "side": 1,
+      "message": "it\u0027s",
+      "range": {
+        "startLine": 155,
+        "startChar": 13,
+        "endLine": 155,
+        "endChar": 16
+      },
+      "revId": "65f7ad41ae79b41c8671414d82f1610ae14bb658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

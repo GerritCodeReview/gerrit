@@ -46,6 +46,30 @@
       "revId": "6dce0e47a270bd03dcbc45b9f8d681e91f6047d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06093caf_c8bf4ff3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2641,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-03-19T01:28:58Z",
+      "side": 1,
+      "message": "The ideal method I\u0027d like is equivalent of git-multimail setup possibly configurable..?\n\nI\u0027d like to get one email per new commit, and one email summary indicating what changed on the branch being modified.\n\nOptionally being configurable would be nice.... but I just copied and rebased this original change, so I don\u0027t really know exactly how it works.\n\nWhat I want is something of the equivalent to https://github.com/mhagger/git-multimail\n\nMaybe this patch series is not the right way?",
+      "parentUuid": "46cc147d_a205fecb",
+      "range": {
+        "startLine": 2635,
+        "startChar": 0,
+        "endLine": 2641,
+        "endChar": 7
+      },
+      "revId": "6dce0e47a270bd03dcbc45b9f8d681e91f6047d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

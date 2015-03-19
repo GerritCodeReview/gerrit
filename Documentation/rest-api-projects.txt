@@ -2116,6 +2116,8 @@ collection.
 |Field Name      ||Description
 |`show_progress` |`false` if not set|
 Whether progress information should be shown.
+|`aggressive`    |`false` if not set|
+Whether an aggressive garbage collection should be done.
 |=============================
 
 [[head-input]]

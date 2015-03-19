@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c602c48c_c6bf42f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-19T02:12:40Z",
+      "side": 1,
+      "message": "Blech.\n\nLet me just do the workaround where we list all packages explicitly in gerrit.importorder.",
+      "parentUuid": "c602c48c_e6ba3e05",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "09cd96d1d8fc37407dbee84804fa6e8202209cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6692f867_ebec310a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 1

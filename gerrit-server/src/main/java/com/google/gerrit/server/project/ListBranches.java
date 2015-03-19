@@ -15,9 +15,9 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -34,9 +34,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
-import dk.brics.automaton.RegExp;
-import dk.brics.automaton.RunAutomaton;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -45,6 +42,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -52,6 +50,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.RunAutomaton;
 
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
@@ -82,164 +83,151 @@ public class ListBranches implements RestReadView<ProjectResource> {
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
-    List<BranchInfo> branches = Lists.newArrayList();
+    FluentIterable<BranchInfo> branches = allBranches(rsrc);
+    branches = filterBranches(branches);
+    if (start > 0) {
+      branches = branches.skip(start);
+    }
+    if (limit > 0) {
+      branches = branches.limit(limit);
+    }
+    return branches.toList();
+  }
 
-    BranchInfo headBranch = null;
-    BranchInfo configBranch = null;
-    final Set<String> targets = Sets.newHashSet();
-
-    final Repository db;
-    try {
-      db = repoManager.openRepository(rsrc.getNameKey());
+  private FluentIterable<BranchInfo> allBranches(ProjectResource rsrc)
+      throws IOException, ResourceNotFoundException {
+    List<Ref> refs;
+    try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
+      Collection<Ref> heads =
+          db.getRefDatabase().getRefs(Constants.R_HEADS).values();
+      refs = new ArrayList<>(heads.size() + 2);
+      refs.addAll(heads);
+      addRef(db, refs, Constants.HEAD);
+      addRef(db, refs, RefNames.REFS_CONFIG);
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException();
     }
 
-    try {
-      List<Ref> refs =
-          new ArrayList<>(db.getRefDatabase().getRefs(Constants.R_HEADS)
-              .values());
-
-        try {
-          Ref head = db.getRef(Constants.HEAD);
-          if (head != null) {
-            refs.add(head);
-          }
-        } catch (IOException e) {
-          // Ignore the failure reading HEAD.
-        }
-        try {
-          Ref config = db.getRef(RefNames.REFS_CONFIG);
-          if (config != null) {
-            refs.add(config);
-          }
-        } catch (IOException e) {
-          // Ignore the failure reading refs/meta/config.
-        }
-
-      for (Ref ref : refs) {
-        if (ref.isSymbolic()) {
-          targets.add(ref.getTarget().getName());
-        }
+    Set<String> targets = Sets.newHashSetWithExpectedSize(1);
+    for (Ref ref : refs) {
+      if (ref.isSymbolic()) {
+        targets.add(ref.getTarget().getName());
       }
+    }
 
-      for (Ref ref : refs) {
-        if (ref.isSymbolic()) {
-          // A symbolic reference to another branch, instead of
-          // showing the resolved value, show the name it references.
-          //
-          String target = ref.getTarget().getName();
-          RefControl targetRefControl = rsrc.getControl().controlForRef(target);
-          if (!targetRefControl.isVisible()) {
-            continue;
-          }
-          if (target.startsWith(Constants.R_HEADS)) {
-            target = target.substring(Constants.R_HEADS.length());
-          }
-
-          BranchInfo b = new BranchInfo(ref.getName(), target, false);
-
-          if (Constants.HEAD.equals(ref.getName())) {
-            headBranch = b;
-          } else {
-            b.setCanDelete(targetRefControl.canDelete());
-            branches.add(b);
-          }
+    List<BranchInfo> branches = new ArrayList<>(refs.size());
+    for (Ref ref : refs) {
+      if (ref.isSymbolic()) {
+        // A symbolic reference to another branch, instead of
+        // showing the resolved value, show the name it references.
+        //
+        String target = ref.getTarget().getName();
+        RefControl targetRefControl = rsrc.getControl().controlForRef(target);
+        if (!targetRefControl.isVisible()) {
           continue;
         }
-
-        final RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
-        if (refControl.isVisible()) {
-          if (RefNames.REFS_CONFIG.equals(ref.getName())) {
-            configBranch = createBranchInfo(ref, refControl, targets);
-          } else {
-            branches.add(createBranchInfo(ref, refControl, targets));
-          }
+        if (target.startsWith(Constants.R_HEADS)) {
+          target = target.substring(Constants.R_HEADS.length());
         }
-      }
-    } finally {
-      db.close();
-    }
-    Collections.sort(branches, new Comparator<BranchInfo>() {
-      @Override
-      public int compare(final BranchInfo a, final BranchInfo b) {
-        return a.ref.compareTo(b.ref);
-      }
-    });
-    if (configBranch != null) {
-      branches.add(0, configBranch);
-    }
-    if (headBranch != null) {
-      branches.add(0, headBranch);
-    }
 
-    List<BranchInfo> filteredBranches;
-    if ((matchSubstring != null && !matchSubstring.isEmpty())
-        || (matchRegex != null && !matchRegex.isEmpty())) {
-      filteredBranches = filterBranches(branches);
-    } else {
-      filteredBranches = branches;
-    }
-    if (!filteredBranches.isEmpty()) {
-      int end = filteredBranches.size();
-      if (limit > 0 && start + limit < end) {
-        end = start + limit;
+        BranchInfo b = new BranchInfo(ref.getName(), target, false);
+        branches.add(b);
+
+        if (!Constants.HEAD.equals(ref.getName())) {
+          b.setCanDelete(targetRefControl.canDelete());
+        }
+        continue;
       }
-      if (start <= end) {
-        filteredBranches = filteredBranches.subList(start, end);
-      } else {
-        filteredBranches = Collections.emptyList();
+
+      RefControl refControl = rsrc.getControl().controlForRef(ref.getName());
+      if (refControl.isVisible()) {
+        branches.add(createBranchInfo(ref, refControl, targets));
       }
     }
-    return filteredBranches;
+    Collections.sort(branches, new BranchComparator());
+    return FluentIterable.from(branches);
   }
 
-  private List<BranchInfo> filterBranches(List<BranchInfo> branches)
-      throws BadRequestException {
-    if (matchSubstring != null) {
-      return Lists.newArrayList(Iterables.filter(branches,
-          new Predicate<BranchInfo>() {
-            @Override
-            public boolean apply(BranchInfo in) {
-              if (!in.ref.startsWith(Constants.R_HEADS)){
-                return in.ref.toLowerCase(Locale.US).contains(
-                    matchSubstring.toLowerCase(Locale.US));
-              } else {
-                return in.ref.substring(Constants.R_HEADS.length())
-                    .toLowerCase(Locale.US)
-                    .contains(matchSubstring.toLowerCase(Locale.US));
-              }
-            }
-          }));
-    } else if (matchRegex != null) {
-      if (matchRegex.startsWith("^")) {
-        matchRegex = matchRegex.substring(1);
-        if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
-          matchRegex = matchRegex.substring(0, matchRegex.length() - 1);
+  private static class BranchComparator implements Comparator<BranchInfo> {
+    @Override
+    public int compare(BranchInfo a, BranchInfo b) {
+      return ComparisonChain.start()
+          .compareTrueFirst(isHead(a), isHead(b))
+          .compareTrueFirst(isConfig(a), isConfig(b))
+          .compare(a.ref, b.ref)
+          .result();
+    }
+
+    private static boolean isHead(BranchInfo i) {
+      return Constants.HEAD.equals(i.ref);
+    }
+
+    private static boolean isConfig(BranchInfo i) {
+      return RefNames.REFS_CONFIG.equals(i.ref);
+    }
+  }
+
+  private static void addRef(Repository db, List<Ref> refs, String name)
+      throws IOException {
+    Ref ref = db.getRef(name);
+    if (ref != null) {
+      refs.add(ref);
+    }
+  }
+
+  private FluentIterable<BranchInfo> filterBranches(
+      FluentIterable<BranchInfo> branches) throws BadRequestException {
+    if (!Strings.isNullOrEmpty(matchSubstring)) {
+      branches = branches.filter(new SubstringPredicate(matchSubstring));
+    } else if (!Strings.isNullOrEmpty(matchRegex)) {
+      branches = branches.filter(new RegexPredicate(matchRegex));
+    }
+    return branches;
+  }
+
+  private static class SubstringPredicate implements Predicate<BranchInfo> {
+    private final String substring;
+
+    private SubstringPredicate(String substring) {
+      this.substring = substring.toLowerCase(Locale.US);
+    }
+
+    @Override
+    public boolean apply(BranchInfo in) {
+      String ref = in.ref;
+      if (ref.startsWith(Constants.R_HEADS)) {
+        ref = ref.substring(Constants.R_HEADS.length());
+      }
+      ref = ref.toLowerCase(Locale.US);
+      return ref.contains(substring);
+    }
+  }
+
+  private static class RegexPredicate implements Predicate<BranchInfo> {
+    private final RunAutomaton a;
+
+    private RegexPredicate(String regex) throws BadRequestException {
+      if (regex.startsWith("^")) {
+        regex = regex.substring(1);
+        if (regex.endsWith("$") && !regex.endsWith("\\$")) {
+          regex = regex.substring(0, regex.length() - 1);
         }
       }
-      if (matchRegex.equals(".*")) {
-        return branches;
-      }
       try {
-        final RunAutomaton a =
-            new RunAutomaton(new RegExp(matchRegex).toAutomaton());
-        return Lists.newArrayList(Iterables.filter(
-            branches, new Predicate<BranchInfo>() {
-              @Override
-              public boolean apply(BranchInfo in) {
-                if (!in.ref.startsWith(Constants.R_HEADS)){
-                  return a.run(in.ref);
-                } else {
-                  return a.run(in.ref.substring(Constants.R_HEADS.length()));
-                }
-              }
-            }));
+        a = new RunAutomaton(new RegExp(regex).toAutomaton());
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }
     }
-    return branches;
+
+    @Override
+    public boolean apply(BranchInfo in) {
+      if (!in.ref.startsWith(Constants.R_HEADS)){
+        return a.run(in.ref);
+      } else {
+        return a.run(in.ref.substring(Constants.R_HEADS.length()));
+      }
+    }
   }
 
   private BranchInfo createBranchInfo(Ref ref, RefControl refControl,

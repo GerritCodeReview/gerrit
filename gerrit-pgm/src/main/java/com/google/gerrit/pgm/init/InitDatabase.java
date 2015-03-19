@@ -74,7 +74,7 @@ class InitDatabase implements InitStep {
     }
 
     String dbType =
-        database.select("Database server type", "type", "h2", allowedValues);
+        database.select("Database server type", "type", "db2", allowedValues);
 
     DatabaseConfigInitializer dci =
         i.getInstance(Key.get(DatabaseConfigInitializer.class,
@@ -84,6 +84,8 @@ class InitDatabase implements InitStep {
       libraries.mysqlDriver.downloadRequired();
     } else if (dci instanceof OracleInitializer) {
       libraries.oracleDriver.downloadRequired();
+    } else if (dci instanceof DB2Initializer) {
+      libraries.db2Driver.downloadRequired();
     }
 
     dci.initConfig(database);

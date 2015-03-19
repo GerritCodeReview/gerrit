@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66f758e2_e3ba3205",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-19T15:05:17Z",
+      "side": 1,
+      "message": "I am working on combining the 2 diff thread pools into a single pool and the pool will be a standard ExecutorService now that we can interrupt MyersDiff. \n\nDo we really need to keep idle threads, can I use a common CachedThreadPool instead (corePoolSize\u003d0 and keepAliveTime\u003d60sec)?",
+      "parentUuid": "7cc449d2_c467fe23",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_772a5079",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 2

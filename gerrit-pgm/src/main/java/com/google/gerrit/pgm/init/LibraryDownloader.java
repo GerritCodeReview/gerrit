@@ -300,6 +300,8 @@ class LibraryDownloader {
 
   private void verifyFileChecksum() {
     if (sha1 == null) {
+      System.err.println();
+      System.err.flush();
       return;
     }
     Hasher h = Hashing.sha1().newHasher();

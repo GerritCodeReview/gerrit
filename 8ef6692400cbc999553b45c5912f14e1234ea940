@@ -22,6 +22,30 @@
       "revId": "8ef6692400cbc999553b45c5912f14e1234ea940",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60b48a7_c70dfe6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2015-03-19T14:51:26Z",
+      "side": 1,
+      "message": "with \"both cases\" I meant: \"scheduled to run at certain intervals\" vs. \"triggered explicitly\". I just rephrased to \"In all cases\". Done",
+      "parentUuid": "06093caf_8817177d",
+      "range": {
+        "startLine": 11,
+        "startChar": 30,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "8ef6692400cbc999553b45c5912f14e1234ea940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26856059_b1c900aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-19T23:03:06Z",
+      "side": 1,
+      "message": "Factor this out.",
+      "range": {
+        "startLine": 282,
+        "startChar": 66,
+        "endLine": 282,
+        "endChar": 90
+      },
+      "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26856059_51cf74ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-19T23:03:06Z",
+      "side": 1,
+      "message": "If you follow my other suggestions this will disappear, but just FYI, Guava has a Sets.newHashSet(Iterable) method that should avoid the extra Arrays.asList.",
+      "range": {
+        "startLine": 863,
+        "startChar": 30,
+        "endLine": 863,
+        "endChar": 61
+      },
+      "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_efbfa1f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-19T23:03:06Z",
+      "side": 1,
+      "message": "You\u0027re missing a guice binding for this factory.\n\nThis is kind of a lot of boilerplate; would it make more sense to just provide a single static method that takes MergeOp.Factory and Iterable\u003cChange\u003e?",
+      "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26856059_91c4fc90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-19T23:03:06Z",
+      "side": 1,
+      "message": "Changes don\u0027t have a hashCode so it\u0027s hard to sanely construct a set of them. Just pass Iterable\u003cChange\u003e or something.",
+      "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

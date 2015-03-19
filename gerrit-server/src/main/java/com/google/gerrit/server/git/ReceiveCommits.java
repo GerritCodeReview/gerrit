@@ -1763,16 +1763,16 @@ public class ReceiveCommits {
       throws OrmException, IOException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
-    List<Change> changes;
+    Set<Change> changes;
     try {
       // Force submit even if submit rule evaluation fails.
-      changes = submit.submit(rsrc, currentUser, true);
+      changes = new HashSet<>(submit.submit(rsrc, currentUser, true));
     } catch (ResourceConflictException e) {
       throw new IOException(e);
     }
     addMessage("");
+    mergeQueue.merge(changes);
     for (Change c : changes) {
-      mergeQueue.merge(c.getDest());
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:

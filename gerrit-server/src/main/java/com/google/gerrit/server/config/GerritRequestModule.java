@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeOpMapper;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -36,6 +37,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(ProjectControl.Factory.class).in(SINGLETON);
 
     factory(SubmoduleOp.Factory.class);
+    factory(MergeOpMapper.Factory.class);
     factory(MergeOp.Factory.class);
   }
 }

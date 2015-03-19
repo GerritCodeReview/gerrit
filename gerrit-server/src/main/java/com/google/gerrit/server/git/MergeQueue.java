@@ -14,12 +14,26 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public interface MergeQueue {
-  void merge(Branch.NameKey branch);
-  void schedule(Branch.NameKey branch);
-  void recheckAfter(Branch.NameKey branch, long delay, TimeUnit delayUnit);
+  /**
+   * Merges the changes if currently possible. If it is not possible a
+   * MergeException is thrown.
+   * @param changes
+   */
+  void merge(Set<Change> changes);
+
+  /**
+   * Schedule changes for merge. The changes will be checked periodically and
+   * merged eventually.
+   * @param changes
+   */
+  void schedule(Set<Change> changes);
+
+
+  void recheckAfter(Set<Change> changes, long delay, TimeUnit delayUnit);
 }

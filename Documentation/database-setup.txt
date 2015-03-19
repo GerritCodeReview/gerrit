@@ -146,6 +146,51 @@ In $site_path/etc/secure.config:
 Visit SAP MaxDB's link:http://maxdb.sap.com/documentation/[documentation] for further
 information regarding using SAP MaxDB.
 
+[[createdb_db2]]
+=== DB2
+
+IBM DB2 is a supported database for running Gerrit Code Review. However it is
+recommended only for environments where you intend to run Gerrit on an existing
+DB2 installation to reduce administrative overhead.
+
+Create a system wide user user for the Gerrit application, and grant the user
+full rights on the newly created database:
+
+----
+  db2 => create database gerrit
+  db2 => connect to gerrit
+  db2 => grant connect,accessctrl,dataaccess,dbadm,secadm on database to gerrit2;
+----
+
+JDBC driver db2jcc4.jar.jar and db2jcc_license_cu.jar must be obtained
+from your DB2 distribution. Gerrit initialization process tries to copy
+it from a known location:
+
+----
+/opt/ibm/db2/V10.5/java/db2jcc4.jar
+/opt/ibm/db2/V10.5/java/db2jcc_license_cu.jar
+----
+
+If these files can not be located at this place, then the alternative location
+can be provided.
+
+Sample database section in $site_path/etc/gerrit.config:
+
+----
+[database]
+        type = db2
+        database = gerrit
+        hostname = localhost
+        username = gerrit2
+        port = 50001
+----
+
+Sample database section in $site_path/etc/secure.config:
+
+----
+[database]
+        password = secret_pasword
+----
 
 GERRIT
 ------

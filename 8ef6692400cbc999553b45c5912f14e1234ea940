@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06093caf_8817177d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-03-19T14:30:20Z",
+      "side": 1,
+      "message": "better:\n\n  With REST and SSH\n\n\"both cases\" sounds wrong when in the sentence before 3 options are listed (REST, SSH and WebUI).",
+      "range": {
+        "startLine": 11,
+        "startChar": 30,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "8ef6692400cbc999553b45c5912f14e1234ea940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

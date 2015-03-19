@@ -40,7 +40,8 @@ public class DefaultRealm extends AbstractRealm {
 
   @Override
   public boolean allowsEdit(final Account.FieldName field) {
-    if (authConfig.getAuthType() == AuthType.HTTP) {
+    if (authConfig.getAuthType() == AuthType.HTTP
+        || authConfig.getAuthType() == AuthType.OAUTH) {
       switch (field) {
         case USER_NAME:
           return false;

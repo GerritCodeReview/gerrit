@@ -78,7 +78,7 @@ public class WebModule extends LifecycleModule {
 
     installAuthModule();
     if (options.enableMasterFeatures()) {
-      install(new UrlModule(options));
+      install(new UrlModule(options, authConfig));
       install(new UiRpcModule());
     }
     install(new GerritRequestModule());
@@ -123,6 +123,8 @@ public class WebModule extends LifecycleModule {
         install(new BecomeAnyAccountModule());
         break;
 
+      case OAUTH:
+        // OAuth support is bound in WebAppInitializer and Daemon.
       case OPENID:
       case OPENID_SSO:
         // OpenID support is bound in WebAppInitializer and Daemon.

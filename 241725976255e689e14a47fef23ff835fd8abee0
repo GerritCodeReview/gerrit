@@ -62,6 +62,29 @@
       "revId": "241725976255e689e14a47fef23ff835fd8abee0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06093caf_e8e1f316",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-19T07:52:48Z",
+      "side": 1,
+      "message": "May be change this file to db2jcc_license_cu.jar?",
+      "range": {
+        "startLine": 55,
+        "startChar": 11,
+        "endLine": 55,
+        "endChar": 22
+      },
+      "revId": "241725976255e689e14a47fef23ff835fd8abee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

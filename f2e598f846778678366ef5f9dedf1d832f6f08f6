@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e68ee87f_0fb545ad",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-20T20:04:44Z",
+      "side": 1,
+      "message": "lib/maven.defs.\n\nThis is not fine, this is an unreleased, not-deployed version of JGit available only on my workstation. But that\u0027s why I said DO NOT SUBMIT.",
+      "parentUuid": "26856059_11bfaca0",
+      "range": {
+        "startLine": 4,
+        "startChar": 7,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "f2e598f846778678366ef5f9dedf1d832f6f08f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e68ee87f_4fab4d54",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-20T19:58:35Z",
       "side": 1,
       "message": "Again, undoubtedly fine, but why are these now commented out?",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 57
+      },
+      "revId": "f2e598f846778678366ef5f9dedf1d832f6f08f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_2fb289c6",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-20T20:04:44Z",
+      "side": 1,
+      "message": "Updating the SHA-1s is a pain, so I only want to do it when I know this is the actual version of JGit I\u0027m going to end up using.",
+      "parentUuid": "e68ee87f_4fab4d54",
       "range": {
         "startLine": 10,
         "startChar": 2,

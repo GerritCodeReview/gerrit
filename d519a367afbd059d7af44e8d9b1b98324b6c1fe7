@@ -22,6 +22,30 @@
       "revId": "d519a367afbd059d7af44e8d9b1b98324b6c1fe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6eeb034_dde08b11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-20T10:44:03Z",
+      "side": 1,
+      "message": "In this thread [1] the stack trace is included. Reference this thread here too?\n\n* [1] https://groups.google.com/d/topic/repo-discuss/REYuk4mgIw8/discussion",
+      "parentUuid": "e68ee87f_eff7a1a1",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "d519a367afbd059d7af44e8d9b1b98324b6c1fe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

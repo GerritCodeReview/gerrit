@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "e68ee87f_8fca954c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffWorkerPool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T15:43:28Z",
+      "side": 1,
+      "message": "I am currently working on that change. I moved my change on master because I needed my change in jgit[1] which we have on master but if you can upgrade 2.10 with jgit 3.6 + [1], I will submit my changes (I have 2 now, I rework the intraline diff to interrupt MyersDiff instead of killing it) on 2.10.\n\nI think it would be less risky to take 3.6 + [1] than 3.7.\n\nI will submit my changes on master today so we can start review.\n\n[1] https://git.eclipse.org/r/44041",
+      "parentUuid": "a6eeb034_fd12a78d",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b7c86852",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2

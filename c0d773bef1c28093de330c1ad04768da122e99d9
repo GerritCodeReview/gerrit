@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26856059_91cabc4c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3067,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-20T19:42:55Z",
+      "side": 1,
+      "message": "Elsewhere we spell SSH as SSH not Ssh. This reads funny. I would say instead of \"Sshd Mina\", \"SSH daemon\"",
+      "range": {
+        "startLine": 3067,
+        "startChar": 0,
+        "endLine": 3067,
+        "endChar": 4
+      },
+      "revId": "c0d773bef1c28093de330c1ad04768da122e99d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

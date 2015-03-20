@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e68ee87f_6f041115",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-20T14:07:47Z",
+      "side": 1,
+      "message": "NPE is caused because cfgInjector is passed here before it\u0027s initialised.\n\nIt\u0027s initialised at line 165, but that\u0027s after the call to createDbInjector at line 145 which calls this.",
+      "revId": "cf148e23d5f3930de3e0ef30f6d3c000dd98c201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

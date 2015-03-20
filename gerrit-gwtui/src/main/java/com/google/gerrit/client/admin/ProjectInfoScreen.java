@@ -698,7 +698,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         && Gerrit.getUserAccount().getUserName().length() > 0;
   }
 
-  private class LabeledWidgetsGrid extends FlexTable {
+  private static class LabeledWidgetsGrid extends FlexTable {
     private String labelSuffix;
 
     public LabeledWidgetsGrid() {

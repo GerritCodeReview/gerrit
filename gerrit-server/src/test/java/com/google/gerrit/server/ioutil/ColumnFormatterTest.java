@@ -25,7 +25,7 @@ public class ColumnFormatterTest {
    * Holds an in-memory {@link java.io.PrintWriter} object and allows
    * comparisons of its contents to a supplied string via an assert statement.
    */
-  class PrintWriterComparator {
+  static class PrintWriterComparator {
     private PrintWriter printWriter;
     private StringWriter stringWriter;
 

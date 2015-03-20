@@ -186,7 +186,7 @@ class ProjectBasicAuthFilter implements Filter {
     return MoreObjects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
   }
 
-  class Response extends HttpServletResponseWrapper {
+  static class Response extends HttpServletResponseWrapper {
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
 
     Response(HttpServletResponse rsp) {

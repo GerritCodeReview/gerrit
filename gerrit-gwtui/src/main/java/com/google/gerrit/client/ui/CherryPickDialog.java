@@ -82,7 +82,7 @@ public abstract class CherryPickDialog extends TextAreaActionDialog {
     return newBranch.getText();
   }
 
-  class BranchSuggestion implements Suggestion {
+  static class BranchSuggestion implements Suggestion {
     private BranchInfo branch;
 
     public BranchSuggestion(BranchInfo branch) {

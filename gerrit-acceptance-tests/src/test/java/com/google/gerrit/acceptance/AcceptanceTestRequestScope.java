@@ -41,7 +41,7 @@ public class AcceptanceTestRequestScope {
   private static final Key<RequestScopedReviewDbProvider> DB_KEY =
       Key.get(RequestScopedReviewDbProvider.class);
 
-  public class Context implements RequestContext {
+  public static class Context implements RequestContext {
     private final RequestCleanup cleanup = new RequestCleanup();
     private final Map<Key<?>, Object> map = Maps.newHashMap();
     private final SchemaFactory<ReviewDb> schemaFactory;

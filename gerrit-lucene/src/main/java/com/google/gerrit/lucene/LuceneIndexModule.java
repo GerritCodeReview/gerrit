@@ -54,7 +54,7 @@ public class LuceneIndexModule extends LifecycleModule {
     }
   }
 
-  private class MultiVersionModule extends LifecycleModule {
+  private static class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
       factory(OnlineReindexer.Factory.class);

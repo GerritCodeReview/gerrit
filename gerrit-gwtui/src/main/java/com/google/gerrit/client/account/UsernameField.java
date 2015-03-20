@@ -142,7 +142,7 @@ class UsernameField extends Composite {
     setUserName.setEnabled(on);
   }
 
-  private final class UserNameValidator implements KeyPressHandler {
+  private static final class UserNameValidator implements KeyPressHandler {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       final char code = event.getCharCode();

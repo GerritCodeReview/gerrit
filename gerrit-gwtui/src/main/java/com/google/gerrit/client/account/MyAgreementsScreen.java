@@ -47,7 +47,7 @@ public class MyAgreementsScreen extends SettingsScreen {
     });
   }
 
-  private class AgreementTable extends FancyFlexTable<ContributorAgreement> {
+  private static class AgreementTable extends FancyFlexTable<ContributorAgreement> {
     AgreementTable() {
       table.setWidth("");
       table.setText(0, 1, Util.C.agreementStatus());

@@ -63,7 +63,11 @@ public class BuckPrologCompiler {
 
   private static void add(JarOutputStream out, File classes, String prefix)
       throws IOException {
-    for (String name : classes.list()) {
+    String[] list = classes.list();
+    if (list == null) {
+      return;
+    }
+    for (String name : list) {
       File f = new File(classes, name);
       if (f.isDirectory()) {
         add(out, f, prefix + name + "/");

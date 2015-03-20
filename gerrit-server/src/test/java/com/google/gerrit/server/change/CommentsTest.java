@@ -298,8 +298,8 @@ public class CommentsTest  {
     update.commit();
 
     ChangeControl ctl = stubChangeControl(change);
-    revRes1 = new RevisionResource(new ChangeResource(ctl), ps1);
-    revRes2 = new RevisionResource(new ChangeResource(ctl), ps2);
+    revRes1 = new RevisionResource(new ChangeResource(ctl, null), ps1);
+    revRes2 = new RevisionResource(new ChangeResource(ctl, null), ps2);
   }
 
   private ChangeControl stubChangeControl(Change c) throws OrmException {

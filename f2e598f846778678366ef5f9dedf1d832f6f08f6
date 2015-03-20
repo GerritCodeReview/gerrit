@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "26856059_d1e7e4d8",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-03-20T20:16:44Z",
+      "side": 1,
+      "message": "Ahh, I didn\u0027t notice the DO NOT SUBMIT; thanks.",
+      "parentUuid": "e68ee87f_0fb545ad",
+      "range": {
+        "startLine": 4,
+        "startChar": 7,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "f2e598f846778678366ef5f9dedf1d832f6f08f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e68ee87f_4fab4d54",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 1

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6eeb034_bdbadf03",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-20T05:58:01Z",
+      "side": 1,
+      "message": "Good question! I was testing this integration with free DB2-Express-Edition in which case this JAR is always the same.",
+      "parentUuid": "26856059_d15e0455",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "5324e1e479336b47469a3dcb29ea67bfad0a1026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60b48a7_67f652de",
         "filename": "lib/BUCK",
         "patchSetId": 3

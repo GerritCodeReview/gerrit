@@ -691,17 +691,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             KEY_DEFAULT_VALUE, dv, name)));
       }
       label.setCopyMinScore(
-          rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, false));
+          rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE,
+              LabelType.DEF_COPY_MIN_SCORE));
       label.setCopyMaxScore(
-          rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, false));
+          rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE,
+              LabelType.DEF_COPY_MAX_SCORE));
       label.setCopyAllScoresOnTrivialRebase(
-          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, false));
+          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+              LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE));
       label.setCopyAllScoresIfNoCodeChange(
-          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, false));
+          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+              LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE));
       label.setCopyAllScoresIfNoChange(
-          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE, true));
+          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+              LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE));
       label.setCanOverride(
-          rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, true));
+          rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE,
+              LabelType.DEF_CAN_OVERRIDE));
       label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_Branch));
       labelSections.put(name, label);
     }
@@ -1034,37 +1040,22 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       toUnset.remove(name);
       rc.setString(LABEL, name, KEY_FUNCTION, label.getFunctionName());
       rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
-      if (label.isCopyMinScore()) {
-        rc.setBoolean(LABEL, name, KEY_COPY_MIN_SCORE, true);
-      } else {
-        rc.unset(LABEL, name, KEY_COPY_MIN_SCORE);
-      }
-      if (label.isCopyMaxScore()) {
-        rc.setBoolean(LABEL, name, KEY_COPY_MAX_SCORE, true);
-      } else {
-        rc.unset(LABEL, name, KEY_COPY_MAX_SCORE);
-      }
-      if (label.isCopyAllScoresOnTrivialRebase()) {
-        rc.setBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, true);
-      } else {
-        rc.unset(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-      }
-      if (label.isCopyAllScoresIfNoCodeChange()) {
-        rc.setBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, true);
-      } else {
-        rc.unset(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
-      }
-      if (!label.isCopyAllScoresIfNoChange()) {
-        rc.setBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE, false);
-      } else {
-        rc.unset(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
-      }
-      if (!label.canOverride()) {
-        rc.setBoolean(LABEL, name, KEY_CAN_OVERRIDE, false);
-      } else {
-        rc.unset(LABEL, name, KEY_CAN_OVERRIDE);
-      }
 
+      setBooleanConfigKey(rc, name, KEY_COPY_MIN_SCORE, label.isCopyMinScore(),
+          LabelType.DEF_COPY_MIN_SCORE);
+      setBooleanConfigKey(rc, name, KEY_COPY_MAX_SCORE, label.isCopyMaxScore(),
+          LabelType.DEF_COPY_MAX_SCORE);
+      setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+          label.isCopyAllScoresOnTrivialRebase(),
+          LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+      setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+          label.isCopyAllScoresIfNoCodeChange(),
+          LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+      setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+          label.isCopyAllScoresIfNoChange(),
+          LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+      setBooleanConfigKey(rc, name, KEY_CAN_OVERRIDE, label.canOverride(),
+          LabelType.DEF_CAN_OVERRIDE);
       List<String> values =
           Lists.newArrayListWithCapacity(label.getValues().size());
       for (LabelValue value : label.getValues()) {
@@ -1075,6 +1066,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     for (String name : toUnset) {
       rc.unsetSection(LABEL, name);
+    }
+  }
+
+  private static void setBooleanConfigKey(
+      Config rc, String name, String key, boolean value, boolean defaultValue) {
+    if (value == defaultValue) {
+      rc.unset(LABEL, name, key);
+    } else {
+      rc.setBoolean(LABEL, name, key, value);
     }
   }
 

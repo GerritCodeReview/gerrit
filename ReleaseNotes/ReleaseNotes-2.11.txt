@@ -7,6 +7,11 @@ Gerrit 2.11 is now available:
 link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war]
 
+Gerrit 2.11 includes the bug fixes done with
+link:ReleaseNotes-2.10.1.html[Gerrit 2.10.1].
+These bug fixes are *not* listed in these release notes.
+
+
 Important Notes
 ---------------
 
@@ -361,9 +366,6 @@ Allow projects to be configured to create a new change for every uploaded commit
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#container.daemonOpt[
 options to pass to the daemon].
 
-* Remove support for Google accounts and add support for Launchpad accounts on
-the OpenID login page.
-
 Daemon
 ~~~~~~
 
@@ -524,22 +526,8 @@ If a user uploaded a change while `allowDrafts` was enabled, and then it was
 disabled by the administrator, the uploaded change could not be published and
 was stuck in the draft state.
 
-* link:https://code.google.com/p/gerrit/issues/detail?id=3211[Issue 3211]:
-Fix crash in the `show-queues` command.
-+
-Running the `show-queues` command while an `ls-projects` command was executing
-would cause a crash.
-
-
-Authentication
-~~~~~~~~~~~~~~
-
-* Improve LDAP login times and transfer 40x less data.
-+
-When recursively expanding LDAP groups, all attributes were fetched. However
-only one of the attributes is actually needed. By fetching only that attribute,
-the amount of data transferred is significantly reduced and the login time is
-decreased.
+* link:https://code.google.com/p/gerrit/issues/detail?id=3249[Issue 3249]:
+Fix server error when checking mergeability of a change.
 
 
 Secondary Index / Search
@@ -716,6 +704,9 @@ When matching accounts by email address against an external account, results
 now show the email address that matched, not the preferred email address.
 
 * Fix accidental reviewer selection on slow networks.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3120[Issue 3120]:
+Align parent weblinks with parent commits in the commit box.
 
 
 Side-By-Side Diff

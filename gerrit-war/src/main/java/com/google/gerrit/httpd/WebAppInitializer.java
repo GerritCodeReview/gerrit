@@ -56,6 +56,9 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.server.securestore.SecureStoreClassName;
+import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.solr.SolrIndexModule;
@@ -74,6 +77,7 @@ import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -249,6 +253,16 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
     }
     modules.add(new DatabaseModule());
+    modules.add(new AbstractModule() {
+      @Override
+      public void configure() {
+        String secureStoreClassName =
+            GerritServerConfigModule.getSecureStoreClassName(cfgInjector);
+        bind(String.class).annotatedWith(SecureStoreClassName.class).toProvider(
+            Providers.of(secureStoreClassName));
+        bind(SecureStore.class).toProvider(SecureStoreProvider.class);
+      }
+    });
     return Guice.createInjector(PRODUCTION, modules);
   }
 

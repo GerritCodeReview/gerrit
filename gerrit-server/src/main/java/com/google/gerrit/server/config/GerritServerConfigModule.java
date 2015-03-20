@@ -16,14 +16,27 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
+import com.google.inject.Key;
 
 import org.eclipse.jgit.lib.Config;
 
 /** Creates {@link GerritServerConfig}. */
 public class GerritServerConfigModule extends AbstractModule {
+
+  public static String getSecureStoreClassName(Injector injector) {
+    Config cfg = injector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
+    String className = cfg.getString("gerrit", null, "secureStoreClass");
+    return className != null
+        ? className
+        : DefaultSecureStore.class.getName();
+  }
+
   @Override
   protected void configure() {
     bind(SitePaths.class);

@@ -319,7 +319,11 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public DraftApi createDraft(DraftInput in) throws RestApiException {
     try {
-      return draft(createDraft.apply(revision, in).value().id);
+      String id = createDraft.apply(revision, in).value().id;
+      // Reread change to pick up new notes refs.
+      return changes.id(revision.getChange().getId().get())
+          .revision(revision.getPatchSet().getId().get())
+          .draft(id);
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot create draft", e);
     }

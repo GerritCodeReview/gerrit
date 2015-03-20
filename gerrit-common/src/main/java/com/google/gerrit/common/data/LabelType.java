@@ -25,6 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 public class LabelType {
+  public static final boolean DEF_CAN_OVERRIDE = true;
+  public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
+  public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
+  public static final boolean DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = false;
+  public static final boolean DEF_COPY_MAX_SCORE = false;
+  public static final boolean DEF_COPY_MIN_SCORE = false;
+
   public static LabelType withDefaultValues(String name) {
     checkName(name);
     List<LabelValue> values = new ArrayList<>(2);
@@ -127,6 +134,12 @@ public class LabelType {
         maxPositive = values.get(values.size() - 1).getValue();
       }
     }
+    setCanOverride(DEF_CAN_OVERRIDE);
+    setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+    setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+    setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setCopyMaxScore(DEF_COPY_MAX_SCORE);
+    setCopyMinScore(DEF_COPY_MIN_SCORE);
   }
 
   public String getName() {

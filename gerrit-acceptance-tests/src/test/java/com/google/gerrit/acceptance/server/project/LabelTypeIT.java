@@ -48,16 +48,16 @@ public class LabelTypeIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     codeReview = checkNotNull(cfg.getLabelSections().get("Code-Review"));
-    codeReview.setCopyMinScore(false);
-    codeReview.setCopyMaxScore(false);
-    codeReview.setCopyAllScoresOnTrivialRebase(false);
-    codeReview.setCopyAllScoresIfNoCodeChange(false);
     codeReview.setDefaultValue((short)-1);
     saveProjectConfig(cfg);
   }
 
   @Test
   public void noCopyMinScoreOnRework() throws Exception {
+    //allProjects only has it true by default
+    codeReview.setCopyMinScore(false);
+    saveLabelConfig();
+
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.reject());
     assertApproval(r, -2);
@@ -71,7 +71,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.reject());
-    //assertApproval(r, -2);
+    assertApproval(r, -2);
     r = amendChange(r.getChangeId());
     assertApproval(r, -2);
   }
@@ -120,6 +120,22 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, -1);
     r = amendChange(r.getChangeId());
     assertApproval(r, 0);
+  }
+
+  @Test
+  public void noCopyAllScoresIfNoChange() throws Exception {
+    codeReview.setCopyAllScoresIfNoChange(false);
+    saveLabelConfig();
+    PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
+    rebase(patchSet);
+    assertApproval(patchSet, 0);
+  }
+
+  @Test
+  public void copyAllScoresIfNoChange() throws Exception {
+    PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
+    rebase(patchSet);
+    assertApproval(patchSet, 1);
   }
 
   @Test
@@ -265,6 +281,34 @@ public class LabelTypeIT extends AbstractDaemonTest {
             .revision(r2.getCommit().name())
             .cherryPick(in)
             .get());
+  }
+
+  private PushOneCommit.Result readyPatchSetForNoChangeRebase()
+      throws Exception {
+    String file = "a.txt";
+    String contents = "contents";
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+        PushOneCommit.SUBJECT, file, contents);
+    PushOneCommit.Result base = push.to(git, "refs/for/master");
+    merge(base);
+
+    push = pushFactory.create(db, admin.getIdent(),
+        PushOneCommit.SUBJECT, file, contents + "M");
+    PushOneCommit.Result basePlusM = push.to(git, "refs/for/master");
+    merge(basePlusM);
+
+    push = pushFactory.create(db, admin.getIdent(),
+        PushOneCommit.SUBJECT, file, contents);
+    PushOneCommit.Result basePlusMMinusM = push.to(git, "refs/for/master");
+    merge(basePlusMMinusM);
+
+    git.checkout().setName(base.getCommit().name()).call();
+    push = pushFactory.create(db, admin.getIdent(),
+        PushOneCommit.SUBJECT, file, contents + "MM");
+    PushOneCommit.Result patchSet = push.to(git, "refs/for/master");
+    revision(patchSet).review(ReviewInput.recommend());
+    return patchSet;
   }
 
   private void saveLabelConfig() throws Exception {

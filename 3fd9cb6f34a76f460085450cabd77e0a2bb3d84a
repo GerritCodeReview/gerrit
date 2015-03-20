@@ -52,6 +52,24 @@
       "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26856059_7185d807",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T14:49:53Z",
+      "side": 1,
+      "message": "oups, my previous comment was a response to your general comment and I posted it in the file...\n\n\u003e Can you try to add:...\n\nI tried that and it\u0027s still not working...",
+      "parentUuid": "e68ee87f_2f25a9a2",
+      "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -288,25 +288,25 @@ public class LabelTypeIT extends AbstractDaemonTest {
     String file = "a.txt";
     String contents = "contents";
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, file, contents);
-    PushOneCommit.Result base = push.to(git, "refs/for/master");
+    PushOneCommit.Result base = push.to("refs/for/master");
     merge(base);
 
-    push = pushFactory.create(db, admin.getIdent(),
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, file, contents + "M");
-    PushOneCommit.Result basePlusM = push.to(git, "refs/for/master");
+    PushOneCommit.Result basePlusM = push.to("refs/for/master");
     merge(basePlusM);
 
-    push = pushFactory.create(db, admin.getIdent(),
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, file, contents);
-    PushOneCommit.Result basePlusMMinusM = push.to(git, "refs/for/master");
+    PushOneCommit.Result basePlusMMinusM = push.to("refs/for/master");
     merge(basePlusMMinusM);
 
     git.checkout().setName(base.getCommit().name()).call();
-    push = pushFactory.create(db, admin.getIdent(),
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, file, contents + "MM");
-    PushOneCommit.Result patchSet = push.to(git, "refs/for/master");
+    PushOneCommit.Result patchSet = push.to("refs/for/master");
     revision(patchSet).review(ReviewInput.recommend());
     return patchSet;
   }

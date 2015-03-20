@@ -16,6 +16,24 @@
       "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_6f2bb17b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-20T14:42:21Z",
+      "side": 1,
+      "message": "Can you try to add:\n\n bind(String.class).annotatedWith(SecureStoreClassName.class);\n\nbefore this line?  Not sure if `in(SINGLETON)` is also needed?\n\nand not sure if the added getSecureStoreClassName is still needed?",
+      "parentUuid": "26856059_b1926054",
+      "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

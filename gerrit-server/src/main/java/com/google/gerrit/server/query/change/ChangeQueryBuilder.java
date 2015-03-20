@@ -88,6 +88,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMENT = "comment";
+  public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DELETED = "deleted";
@@ -664,9 +665,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> owner(String who) throws QueryParseException,
       OrmException {
-    Set<Account.Id> m = parseAccount(who);
-    List<OwnerPredicate> p = Lists.newArrayListWithCapacity(m.size());
-    for (Account.Id id : m) {
+    return owner(parseAccount(who));
+  }
+
+  private Predicate<ChangeData> owner(Set<Account.Id> who) {
+    List<OwnerPredicate> p = Lists.newArrayListWithCapacity(who.size());
+    for (Account.Id id : who) {
       p.add(new OwnerPredicate(id));
     }
     return Predicate.or(p);
@@ -746,6 +750,27 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> delta(String value)
       throws QueryParseException {
     return new DeltaPredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> commentby(String who)
+      throws QueryParseException, OrmException {
+    return commentby(parseAccount(who));
+  }
+
+  private Predicate<ChangeData> commentby(Set<Account.Id> who) {
+    List<CommentByPredicate> p = Lists.newArrayListWithCapacity(who.size());
+    for (Account.Id id : who) {
+      p.add(new CommentByPredicate(id));
+    }
+    return Predicate.or(p);
+  }
+
+  @Operator
+  public Predicate<ChangeData> from(String who)
+      throws QueryParseException, OrmException {
+    Set<Account.Id> ownerIds = parseAccount(who);
+    return Predicate.or(owner(ownerIds), commentby(ownerIds));
   }
 
   @Override

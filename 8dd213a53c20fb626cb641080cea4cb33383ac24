@@ -129,6 +129,30 @@
     },
     {
       "key": {
+        "uuid": "e68ee87f_8f3ff5da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-20T05:03:42Z",
+      "side": 1,
+      "message": "This is probably changing and not throwing this exception. I thought about this feature again and I\u0027m unsure how to do it eventually.",
+      "parentUuid": "e68ee87f_0f078549",
+      "range": {
+        "startLine": 24,
+        "startChar": 47,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26856059_91c4fc90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
         "patchSetId": 10

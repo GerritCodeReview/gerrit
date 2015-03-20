@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "7799c4f8_3c99917b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-20T15:30:26Z",
+      "side": 1,
+      "message": "something is missing here?",
+      "range": {
+        "startLine": 711,
+        "startChar": 64,
+        "endLine": 711,
+        "endChar": 74
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_1c9cd56a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-20T15:30:26Z",
+      "side": 1,
+      "message": "diff?",
+      "range": {
+        "startLine": 711,
+        "startChar": 26,
+        "endLine": 711,
+        "endChar": 36
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7799c4f8_5ca65dbe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-20T15:30:26Z",
+      "side": 1,
+      "message": "diff?",
+      "range": {
+        "startLine": 713,
+        "startChar": 19,
+        "endLine": 713,
+        "endChar": 29
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc449d2_c467fe23",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -119,6 +188,24 @@
       "side": 1,
       "message": "Yes. It would be easier to make MyersDiff interruptible, then we can eliminate these dangerous thread kills.",
       "parentUuid": "d76190bc_37a37880",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6eeb034_fd12a78d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffWorkerPool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-20T15:30:26Z",
+      "side": 1,
+      "message": "@Hugo: now that the MyersDiff in JGit is interruptible [1] do you want to work further on this change? I am seeing a couple of threads running for hours in MyersDiff when testing online reindexing in 2.10 on a large Gerrit instance. We would need a newer JGit which would contain [1]. Either I would prepare a custom JGit version (3.6 + [1]) or I convince Matthias Sohn to release 3.7 + [1] officially.\n\n[1] https://git.eclipse.org/r/44041",
+      "parentUuid": "7cc449d2_c4037e0c",
       "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

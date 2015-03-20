@@ -16,6 +16,24 @@
       "revId": "eea94379471689793adb2c35dd48ec9c913cd53a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_af18b976",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-20T14:29:20Z",
+      "side": 1,
+      "message": "Possibly. I\u0027d prefer to do it in a separate change though, when the number of warnings has settled down a bit.",
+      "parentUuid": "e6ec283e_ff129f8d",
+      "revId": "eea94379471689793adb2c35dd48ec9c913cd53a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

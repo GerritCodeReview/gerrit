@@ -75,8 +75,7 @@ public class BuckPrologCompiler {
       }
 
       JarEntry e = new JarEntry(prefix + name);
-      FileInputStream in = new FileInputStream(f);
-      try {
+      try (FileInputStream in = new FileInputStream(f)) {
         e.setTime(f.lastModified());
         out.putNextEntry(e);
         byte[] buf = new byte[16 << 10];
@@ -85,7 +84,6 @@ public class BuckPrologCompiler {
           out.write(buf, 0, n);
         }
       } finally {
-        in.close();
         out.closeEntry();
       }
     }

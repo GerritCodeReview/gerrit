@@ -157,9 +157,7 @@ public class ChangeBatchIndexer {
     final AtomicBoolean ok = new AtomicBoolean(true);
 
     for (final Project.NameKey project : projects) {
-      if (!updateMergeable(project)) {
-        ok.set(false);
-      }
+      updateMergeable(project);
       final ListenableFuture<?> future = executor.submit(reindexProject(
           indexerFactory.create(index), project, doneTask, failedTask,
           verboseWriter));
@@ -219,7 +217,7 @@ public class ChangeBatchIndexer {
     if (mergeabilityChecker != null) {
       try {
         mergeabilityChecker.newCheck().addProject(project).run();
-      } catch (IOException e) {
+      } catch (Exception e) {
         log.error("Error in mergeability checker", e);
         return false;
       }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "26856059_11280c7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-20T19:39:21Z",
+      "side": 1,
+      "message": "only one pool?",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "24f1e60967ff58de2d84a73c9cfa3ded7cd30fd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26856059_913f1cdb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

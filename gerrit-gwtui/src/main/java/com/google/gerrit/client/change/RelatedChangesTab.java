@@ -68,7 +68,8 @@ class RelatedChangesTab implements IsWidget {
       AbstractImagePrototype.create(Gerrit.RESOURCES.arrowRight()).getSafeHtml();
 
   private static final native String init(String o) /*-{
-    $wnd[o] = $entry(@com.google.gerrit.client.change.RelatedChangesTab::onOpen(Lcom/google/gwt/dom/client/NativeEvent;Lcom/google/gwt/dom/client/Element;));
+    $wnd[o] = $entry(@com.google.gerrit.client.change.RelatedChangesTab::onOpen(
+      Lcom/google/gwt/dom/client/NativeEvent;Lcom/google/gwt/dom/client/Element;));
     return o + '(event,this)';
   }-*/;
 

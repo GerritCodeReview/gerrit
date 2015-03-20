@@ -73,7 +73,9 @@ public class ReviewCommand extends SshCommand {
 
   private final Set<PatchSet> patchSets = new HashSet<>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "list of commits or patch sets to review")
+  @Argument(index = 0, required = true, multiValued = true,
+      metaVar = "{COMMIT | CHANGE,PATCHSET}",
+      usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
       PatchSet ps = CommandUtils.parsePatchSet(token, db, projectControl,

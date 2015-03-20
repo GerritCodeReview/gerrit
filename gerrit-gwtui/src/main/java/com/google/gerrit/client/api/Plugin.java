@@ -61,11 +61,18 @@ final class Plugin extends JavaScriptObject {
       screen: function(p,c){G._screen(this.name,p,c)},
 
       url: function (u){return G.url(this._url(u))},
-      get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
-      post: function(u,i,b){@com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
-      put: function(u,i,b){@com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
-      'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
-      del: function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
+      get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
+      post: function(u,i,b){@com.google.gerrit.client.api.ActionContext::post(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(
+        this._api(u),i,b)},
+      put: function(u,i,b){@com.google.gerrit.client.api.ActionContext::put(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(
+        this._api(u),i,b)},
+      'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
+      del: function(u,b){@com.google.gerrit.client.api.ActionContext::delete(
+        Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
 
       _loadedGwt: function(){@com.google.gerrit.client.api.PluginLoader::loaded()()},
       _api: function(u){return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(this._url(u))},

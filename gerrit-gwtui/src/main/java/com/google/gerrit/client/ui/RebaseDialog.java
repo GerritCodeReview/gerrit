@@ -36,10 +36,12 @@ public abstract class RebaseDialog extends CommentedActionDialog {
   private final SuggestBox base;
   private final CheckBox cb;
   private List<ChangeInfo> changes;
+  private final boolean sendEnabled;
 
   public RebaseDialog(final String project, final String branch,
-      final Change.Id changeId) {
+      final Change.Id changeId, final boolean sendEnabled) {
     super(Util.C.rebaseTitle(), null);
+    this.sendEnabled = sendEnabled;
     sendButton.setText(Util.C.buttonRebaseChangeSend());
 
     // create the suggestion box
@@ -63,7 +65,6 @@ public abstract class RebaseDialog extends CommentedActionDialog {
         done.onSuggestionsReady(request, new Response(suggestions));
       }
     });
-    base.setEnabled(false);
     base.getElement().setAttribute("placeholder",
         Util.C.rebasePlaceholderMessage());
     base.setStyleName(Gerrit.RESOURCES.css().rebaseSuggestBox());
@@ -81,13 +82,11 @@ public abstract class RebaseDialog extends CommentedActionDialog {
                 @Override
                 public void onSuccess(ChangeList result) {
                   changes = Natives.asList(result);
-                  base.setEnabled(true);
-                  base.setFocus(true);
+                  updateControls(true);
                 }
               });
         } else {
-          base.setEnabled(false);
-          sendButton.setFocus(true);
+          updateControls(false);
         }
       }
     });
@@ -102,7 +101,26 @@ public abstract class RebaseDialog extends CommentedActionDialog {
   public void center() {
     super.center();
     GlobalKey.dialog(this);
-    sendButton.setFocus(true);
+    updateControls(false);
+  }
+
+  private void updateControls(boolean changeParentEnabled) {
+    if (changeParentEnabled) {
+      sendButton.setTitle(null);
+      sendButton.setEnabled(true);
+      base.setEnabled(true);
+      base.setFocus(true);
+    } else {
+      base.setEnabled(false);
+      sendButton.setEnabled(sendEnabled);
+      if (sendEnabled) {
+        sendButton.setTitle(null);
+        sendButton.setFocus(true);
+      } else {
+        sendButton.setTitle(Util.C.rebaseNotPossibleMessage());
+        cancelButton.setFocus(true);
+      }
+    }
   }
 
   public String getBase() {

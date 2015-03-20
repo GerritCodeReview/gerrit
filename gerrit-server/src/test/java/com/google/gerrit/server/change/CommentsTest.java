@@ -56,6 +56,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -133,6 +134,7 @@ public class CommentsTest  {
   @Inject private InMemoryRepositoryManager repoManager;
   @Inject private NotesMigration migration;
   @Inject private PatchLineCommentsUtil plcUtil;
+  @Inject private RebaseChange rebaseChange;
 
   @Before
   public void setUp() throws Exception {
@@ -298,8 +300,8 @@ public class CommentsTest  {
     update.commit();
 
     ChangeControl ctl = stubChangeControl(change);
-    revRes1 = new RevisionResource(new ChangeResource(ctl), ps1);
-    revRes2 = new RevisionResource(new ChangeResource(ctl), ps2);
+    revRes1 = new RevisionResource(new ChangeResource(ctl, rebaseChange), ps1);
+    revRes2 = new RevisionResource(new ChangeResource(ctl, rebaseChange), ps2);
   }
 
   private ChangeControl stubChangeControl(Change c) throws OrmException {

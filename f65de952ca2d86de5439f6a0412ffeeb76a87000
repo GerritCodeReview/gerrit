@@ -230,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "a6eeb034_5d047b42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffWorkerPool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-20T16:38:37Z",
+      "side": 1,
+      "message": "| I am currently working on that change.\n\nHave you found a way to reproduce the problem?",
+      "parentUuid": "e68ee87f_8fca954c",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b7c86852",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2

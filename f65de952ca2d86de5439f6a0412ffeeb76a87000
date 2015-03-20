@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "e68ee87f_6fb2d1d9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T16:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7799c4f8_3c99917b",
+      "range": {
+        "startLine": 711,
+        "startChar": 64,
+        "endLine": 711,
+        "endChar": 74
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_4fb58dbe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T16:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7799c4f8_1c9cd56a",
+      "range": {
+        "startLine": 711,
+        "startChar": 26,
+        "endLine": 711,
+        "endChar": 36
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7799c4f8_5ca65dbe",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-03-20T15:30:26Z",
       "side": 1,
       "message": "diff?",
+      "range": {
+        "startLine": 713,
+        "startChar": 19,
+        "endLine": 713,
+        "endChar": 29
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26856059_b1010009",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T16:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7799c4f8_5ca65dbe",
       "range": {
         "startLine": 713,
         "startChar": 19,
@@ -124,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "26856059_5107741a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T16:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2637206d_e1ba6605",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_772a5079",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 2
@@ -135,6 +225,24 @@
       "writtenOn": "2015-03-11T05:27:41Z",
       "side": 1,
       "message": "Any binding added here must also be in the WebAppInitializer.\n\nBut I think this should be combined with the IntralineWorkerPool.",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_0fbf85a0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T16:47:38Z",
+      "side": 1,
+      "message": "Done, the new combined pool in declared in this file and in WebAppInitializer",
+      "parentUuid": "d76190bc_772a5079",
       "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -248,6 +356,24 @@
     },
     {
       "key": {
+        "uuid": "26856059_7104f814",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffWorkerPool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T16:47:38Z",
+      "side": 1,
+      "message": "\u003e Have you found a way to reproduce the problem?\n\nWe have some changes on our production server that always trigger the MyersDiff infinite loop. Without this change, the online reindexer was never completing(version 8 to 11) after upgrading to gerrit version 2.11",
+      "parentUuid": "a6eeb034_5d047b42",
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d76190bc_b7c86852",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2
@@ -259,6 +385,30 @@
       "writtenOn": "2015-03-11T05:27:41Z",
       "side": 1,
       "message": "nit: indentation is wrong here.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 87
+      },
+      "revId": "f65de952ca2d86de5439f6a0412ffeeb76a87000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_2fbcc9a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T16:47:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d76190bc_b7c86852",
       "range": {
         "startLine": 188,
         "startChar": 0,

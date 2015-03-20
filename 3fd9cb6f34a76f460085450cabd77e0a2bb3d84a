@@ -34,6 +34,24 @@
       "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_2f25a9a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-20T14:43:56Z",
+      "side": 1,
+      "message": "I know, I looked at the Daemon startup and there are bindings related to the secure store in many places (Daemon.java, SiteProgram.java) and I could not quickly figure out how to fix WebAppInitializer. I was hoping that Darius could help solve this one otherwise I will spend more time on it and fix it.",
+      "parentUuid": "26856059_b1926054",
+      "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

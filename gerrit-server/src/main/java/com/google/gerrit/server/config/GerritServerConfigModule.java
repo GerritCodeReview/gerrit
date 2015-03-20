@@ -16,14 +16,50 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.ProvisionException;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+
+import java.io.File;
+import java.io.IOException;
 
 /** Creates {@link GerritServerConfig}. */
 public class GerritServerConfigModule extends AbstractModule {
+
+  public static String getSecureStoreClassName(final File sitePath) {
+    AbstractModule m = new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(SitePaths.class);
+      }
+    };
+    Injector injector = Guice.createInjector(m);
+    SitePaths site = injector.getInstance(SitePaths.class);
+    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    String defaultSecureStore = DefaultSecureStore.class.getName();
+    if (!cfg.getFile().exists()) {
+      return defaultSecureStore;
+    }
+
+    try {
+      cfg.load();
+      String className = cfg.getString("gerrit", null, "secureStoreClass");
+      return className != null ? className : defaultSecureStore;
+    } catch (IOException | ConfigInvalidException e) {
+      throw new ProvisionException(e.getMessage(), e);
+    }
+  }
+
   @Override
   protected void configure() {
     bind(SitePaths.class);

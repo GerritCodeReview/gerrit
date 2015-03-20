@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
+import static com.google.gerrit.server.config.GerritServerConfigModule.getSecureStoreClassName;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
@@ -188,26 +189,7 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   protected final String getConfiguredSecureStoreClass() {
-    Module m = new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        bind(SitePaths.class);
-      }
-    };
-    Injector i = Guice.createInjector(m);
-    SitePaths site = i.getInstance(SitePaths.class);
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
-    if (!cfg.getFile().exists()) {
-      return null;
-    }
-
-    try {
-      cfg.load();
-      return cfg.getString("gerrit", null, "secureStoreClass");
-    } catch (IOException | ConfigInvalidException e) {
-      throw new ProvisionException(e.getMessage(), e);
-    }
+    return getSecureStoreClassName(sitePath);
   }
 
   private String getDbType(Provider<DataSource> dsProvider) {

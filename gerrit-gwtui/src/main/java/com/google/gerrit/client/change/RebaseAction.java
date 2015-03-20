@@ -27,10 +27,10 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 class RebaseAction {
   static void call(final Button b, final String project, final String branch,
-      final Change.Id id, final String revision) {
+      final Change.Id id, final String revision, final boolean enabled) {
     b.setEnabled(false);
 
-    new RebaseDialog(project, branch, id) {
+    new RebaseDialog(project, branch, id, enabled) {
       @Override
       public void onSend() {
         ChangeApi.rebase(id.get(), revision, getBase(), new GerritCallback<ChangeInfo>() {

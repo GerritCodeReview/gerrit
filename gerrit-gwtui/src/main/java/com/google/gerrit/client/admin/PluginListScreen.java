@@ -60,7 +60,7 @@ public class PluginListScreen extends PluginScreen {
     add(pluginPanel);
   }
 
-  private class PluginTable extends FancyFlexTable<PluginInfo> {
+  private static class PluginTable extends FancyFlexTable<PluginInfo> {
     PluginTable() {
       table.setText(0, 1, Util.C.columnPluginName());
       table.setText(0, 2, Util.C.columnPluginSettings());

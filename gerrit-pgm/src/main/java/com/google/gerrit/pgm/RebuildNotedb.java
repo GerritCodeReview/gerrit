@@ -244,7 +244,7 @@ public class RebuildNotedb extends SiteProgram {
     }
   }
 
-  private class RebuildListener implements Runnable {
+  private static class RebuildListener implements Runnable {
     private Change.Id changeId;
     private ListenableFuture<?> future;
     private AtomicBoolean ok;

@@ -278,7 +278,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     }
   }
 
-  public class PermissionRuleInfo {
+  public static class PermissionRuleInfo {
     public PermissionRule.Action action;
     public Boolean force;
     public Integer min;

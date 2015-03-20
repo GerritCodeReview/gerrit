@@ -45,7 +45,7 @@ class ContextMapper {
     return base + name;
   }
 
-  private class WrappedRequest extends HttpServletRequestWrapper {
+  private static class WrappedRequest extends HttpServletRequestWrapper {
     private final String contextPath;
     private final String pathInfo;
 

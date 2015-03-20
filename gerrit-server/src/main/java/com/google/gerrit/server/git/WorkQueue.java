@@ -301,11 +301,9 @@ public class WorkQueue {
       final long delay = getDelay(TimeUnit.MILLISECONDS);
       if (delay <= 0) {
         return State.READY;
-      } else if (0 < delay) {
+      } else {
         return State.SLEEPING;
       }
-
-      return State.OTHER;
     }
 
     public Date getStartTime() {

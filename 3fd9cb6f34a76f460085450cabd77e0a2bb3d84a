@@ -70,6 +70,24 @@
       "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26856059_317f5090",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-20T14:52:20Z",
+      "side": 1,
+      "message": "OK, thanks for trying.\n\nSorry but I can\u0027t spend any more time on this now.  Would be great if you can try some other ways, otherwise we\u0027ll have to wait for Dariusz to look at it.\n\nIn the worst case, we can revert this feature on the stable-2.11 branch.",
+      "parentUuid": "26856059_7185d807",
+      "revId": "3fd9cb6f34a76f460085450cabd77e0a2bb3d84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

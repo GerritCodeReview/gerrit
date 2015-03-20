@@ -92,6 +92,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -142,6 +143,7 @@ public class ChangeJson {
   private final PatchLineCommentsUtil plcUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
+  private final RebaseChange rebaseChange;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -163,7 +165,8 @@ public class ChangeJson {
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
       Provider<ConsistencyChecker> checkerProvider,
-      ActionJson actionJson) {
+      ActionJson actionJson,
+      RebaseChange rebaseChange) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -180,6 +183,7 @@ public class ChangeJson {
     this.plcUtil = plcUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
+    this.rebaseChange = rebaseChange;
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -890,7 +894,7 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(out,
-          new RevisionResource(new ChangeResource(ctl), in));
+          new RevisionResource(new ChangeResource(ctl, rebaseChange), in));
     }
 
     if (has(DRAFT_COMMENTS)

@@ -66,7 +66,8 @@ public class ChangeResource implements RestResource, HasETag {
       .putBoolean(user.getStarredChanges().contains(getChange().getId()))
       .putInt(user.isIdentifiedUser()
           ? ((IdentifiedUser) user).getAccountId().get()
-          : 0);
+          : 0)
+      .putBoolean(control.canRebase());
 
     byte[] buf = new byte[20];
     ObjectId noteId;

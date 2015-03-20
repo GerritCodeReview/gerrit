@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e68ee87f_afc999a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-20T00:41:20Z",
+      "side": 1,
+      "message": "use Sets.newHashSet(Iterable)",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 78
+      },
+      "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26856059_b1c900aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 10
@@ -59,6 +82,24 @@
       "writtenOn": "2015-03-19T23:03:06Z",
       "side": 1,
       "message": "You\u0027re missing a guice binding for this factory.\n\nThis is kind of a lot of boilerplate; would it make more sense to just provide a single static method that takes MergeOp.Factory and Iterable\u003cChange\u003e?",
+      "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e68ee87f_8fc4d590",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-20T00:41:20Z",
+      "side": 1,
+      "message": "It probably is the way to go. Though there is at least one new binding at https://gerrit-review.googlesource.com/#/c/66410/10/gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+      "parentUuid": "e68ee87f_efbfa1f2",
       "revId": "8dd213a53c20fb626cb641080cea4cb33383ac24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

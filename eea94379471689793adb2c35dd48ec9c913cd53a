@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6ec283e_ff129f8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-20T11:55:20Z",
+      "side": 1,
+      "message": "Would it make sense to mention this in dev-eclipse?",
+      "revId": "eea94379471689793adb2c35dd48ec9c913cd53a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,7 +21,6 @@ import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologClassLoader;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
-import com.googlecode.prolog_cafe.repl.PrologMain;
 
 import org.kohsuke.args4j.Option;
 
@@ -71,8 +70,6 @@ public class PrologShell extends AbstractProgram {
     System.err.format("Gerrit Code Review %s - Interactive Prolog Shell",
         com.google.gerrit.common.Version.getVersion());
     System.err.println();
-    System.err.println("based on " + PrologMain.VERSION);
-    System.err.println("         " + PrologMain.COPYRIGHT);
     System.err.println("(type Ctrl-D or \"halt.\" to exit,"
         + " \"['path/to/file.pl'].\" to load a file)");
     System.err.println();

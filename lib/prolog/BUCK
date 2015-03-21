@@ -1,12 +1,12 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '1.4'
+VERSION = '1.4.1'
 REPO = GERRIT
 
 maven_jar(
   name = 'runtime',
   id = 'com.googlecode.prolog-cafe:prolog-runtime:' + VERSION,
-  sha1 = 'a99cde464f7ff75371751493ab821edd7a225bc3',
+  sha1 = 'c5d9f92e49c485969dcd424dfc0c08125b5f8246',
   license = 'prologcafe',
   repository = REPO,
 )
@@ -14,7 +14,7 @@ maven_jar(
 maven_jar(
   name = 'compiler',
   id = 'com.googlecode.prolog-cafe:prolog-compiler:' + VERSION,
-  sha1 = 'ced8f50f635486bc96fca6315cacb8b18a8ef68b',
+  sha1 = 'ac24044c6ec166fdcb352b78b80d187ead3eff41',
   license = 'prologcafe',
   repository = REPO,
   deps = [
@@ -26,7 +26,7 @@ maven_jar(
 maven_jar(
   name = 'io',
   id = 'com.googlecode.prolog-cafe:prolog-io:' + VERSION,
-  sha1 = 'a4f71e4f7b80dd7a2ee5138d31f2c131ec672d15',
+  sha1 = 'b072426a4b1b8af5e914026d298ee0358a8bb5aa',
   license = 'prologcafe',
   repository = REPO,
   deps = [':runtime'],
@@ -36,7 +36,7 @@ maven_jar(
 maven_jar(
   name = 'cafeteria',
   id = 'com.googlecode.prolog-cafe:prolog-cafeteria:' + VERSION,
-  sha1 = '9d71fbbc1e4cb9280c5a5d68836a904f7abfd9f9',
+  sha1 = '8cbc3b0c19e7167c42d3f11667b21cb21ddec641',
   license = 'prologcafe',
   repository = REPO,
   deps = [

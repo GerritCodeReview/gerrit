@@ -334,6 +334,17 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/motd/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+=== OAuth authentication provider
+
+This plugin enables Gerrit to use OAuth2 protocol for authentication.
+Two different OAuth providers are supported:
+
+* Google
+* GitHub
+
+https://github.com/davido/gerrit-oauth-provider[Project] |
+https://github.com/davido/gerrit-oauth-provider/wiki/Getting-Started[Configuration]
+
 === project-download-commands
 
 This plugin adds support for project specific download commands.

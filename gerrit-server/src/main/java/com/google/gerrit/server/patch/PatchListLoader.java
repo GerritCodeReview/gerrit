@@ -21,7 +21,9 @@ import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffEntry;
@@ -35,6 +37,7 @@ import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -45,8 +48,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeFormatter;
 import org.eclipse.jgit.merge.MergeResult;
-import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger;
+import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.FileHeader.PatchType;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -72,11 +75,14 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
   private final GitRepositoryManager repoManager;
   private final PatchListCache patchListCache;
+  private final ThreeWayMergeStrategy mergeStrategy;
 
   @Inject
-  PatchListLoader(GitRepositoryManager mgr, PatchListCache plc) {
+  PatchListLoader(GitRepositoryManager mgr, PatchListCache plc,
+      @GerritServerConfig Config cfg) {
     repoManager = mgr;
     patchListCache = plc;
+    mergeStrategy = MergeUtil.getMergeStrategy(cfg);
   }
 
   @Override
@@ -224,7 +230,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private static RevObject aFor(final PatchListKey key,
+  private RevObject aFor(final PatchListKey key,
       final Repository repo, final RevWalk rw, final RevCommit b)
       throws IOException {
     if (key.getOldId() != null) {
@@ -240,20 +246,20 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         return r;
       }
       case 2:
-        return automerge(repo, rw, b);
+        return automerge(repo, rw, b, mergeStrategy);
       default:
         // TODO(sop) handle an octopus merge.
         return null;
     }
   }
 
-  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b)
-      throws IOException {
-    return automerge(repo, rw, b, true);
+  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
+      ThreeWayMergeStrategy mergeStrategy) throws IOException {
+    return automerge(repo, rw, b, mergeStrategy, true);
   }
 
   public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
-      boolean save) throws IOException {
+      ThreeWayMergeStrategy mergeStrategy, boolean save) throws IOException {
     String hash = b.name();
     String refName = RefNames.REFS_CACHE_AUTOMERGE
         + hash.substring(0, 2)
@@ -264,8 +270,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       return rw.parseTree(ref.getObjectId());
     }
 
-    ObjectId treeId;
-    ResolveMerger m = (ResolveMerger) MergeStrategy.RESOLVE.newMerger(repo, true);
+    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
     final ObjectInserter ins = repo.newObjectInserter();
     try {
       DirCache dc = DirCache.newInCore();
@@ -297,6 +302,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         return null;
       }
 
+      ObjectId treeId;
       if (couldMerge) {
         treeId = m.getResultTreeId();
 
@@ -381,17 +387,18 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         treeId = dc.writeTree(ins);
       }
       ins.flush();
+
+      if (save) {
+        RefUpdate update = repo.updateRef(refName);
+        update.setNewObjectId(treeId);
+        update.disableRefLog();
+        update.forceUpdate();
+      }
+
+      return rw.lookupTree(treeId);
     } finally {
       ins.release();
     }
-
-    if (save) {
-      RefUpdate update = repo.updateRef(refName);
-      update.setNewObjectId(treeId);
-      update.disableRefLog();
-      update.forceUpdate();
-    }
-    return rw.parseTree(treeId);
   }
 
   private static ObjectId emptyTree(final Repository repo) throws IOException {

@@ -32,7 +32,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.MergeabilityChecker;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
@@ -43,6 +45,7 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,6 +53,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -112,6 +116,7 @@ public class ChangeBatchIndexer {
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
   private final MergeabilityChecker mergeabilityChecker;
+  private final ThreeWayMergeStrategy mergeStrategy;
 
   @Inject
   ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -119,6 +124,7 @@ public class ChangeBatchIndexer {
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
+      @GerritServerConfig Config config,
       @Nullable MergeabilityChecker mergeabilityChecker) {
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
@@ -126,6 +132,7 @@ public class ChangeBatchIndexer {
     this.executor = executor;
     this.indexerFactory = indexerFactory;
     this.mergeabilityChecker = mergeabilityChecker;
+    this.mergeStrategy = MergeUtil.getMergeStrategy(config);
   }
 
   public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
@@ -239,8 +246,13 @@ public class ChangeBatchIndexer {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));
             }
           }
-          new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
-              .call();
+          new ProjectIndexer(indexer,
+              mergeStrategy,
+              byId,
+              repo,
+              done,
+              failed,
+              verboseWriter).call();
         } catch (RepositoryNotFoundException rnfe) {
           log.error(rnfe.getMessage());
         } finally {
@@ -261,6 +273,7 @@ public class ChangeBatchIndexer {
 
   public static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
+    private final ThreeWayMergeStrategy mergeStrategy;
     private final Multimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
@@ -268,16 +281,15 @@ public class ChangeBatchIndexer {
     private final Repository repo;
     private RevWalk walk;
 
-    public ProjectIndexer(ChangeIndexer indexer,
-        Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo) {
-      this(indexer, changesByCommitId, repo,
-          NullProgressMonitor.INSTANCE, NullProgressMonitor.INSTANCE, null);
-    }
-
-    ProjectIndexer(ChangeIndexer indexer,
-        Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo,
-        ProgressMonitor done, ProgressMonitor failed, PrintWriter verboseWriter) {
+    private ProjectIndexer(ChangeIndexer indexer,
+        ThreeWayMergeStrategy mergeStrategy,
+        Multimap<ObjectId, ChangeData> changesByCommitId,
+        Repository repo,
+        ProgressMonitor done,
+        ProgressMonitor failed,
+        PrintWriter verboseWriter) {
       this.indexer = indexer;
+      this.mergeStrategy = mergeStrategy;
       this.byId = changesByCommitId;
       this.repo = repo;
       this.done = done;
@@ -376,7 +388,7 @@ public class ChangeBatchIndexer {
           walk.parseBody(a);
           return walk.parseTree(a.getTree());
         case 2:
-          return PatchListLoader.automerge(repo, walk, b);
+          return PatchListLoader.automerge(repo, walk, b, mergeStrategy);
         default:
           return null;
       }

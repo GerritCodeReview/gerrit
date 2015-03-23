@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e688a8a6_9fba9304",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-23T19:39:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c5d0ce_a5babe03",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "5324e1e479336b47469a3dcb29ea67bfad0a1026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60b48a7_67f652de",
         "filename": "lib/BUCK",
         "patchSetId": 3

@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 /** Operation performed by a change relative to its parent. */
 public enum ChangeKind {
-  /** Nontrivial content changes. */
+  /** Nontrivial content changes else than rebase. */
   REWORK,
 
   /** Conflict-free merge between the new parent and the prior patch set. */
@@ -26,5 +26,8 @@ public enum ChangeKind {
   NO_CODE_CHANGE,
 
   /** Same tree, parent tree, same commit message. */
-  NO_CHANGE;
+  NO_CHANGE,
+
+  /** Conflicting merge between the new parent and the prior patch set. */
+  NON_TRIVIAL_REBASE
 }

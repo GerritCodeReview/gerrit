@@ -30,8 +30,10 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 
+import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -175,6 +177,20 @@ public class LabelTypeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void noCopyAllScoresOnNonTrivialRebase() throws Exception {
+    PushOneCommit.Result patchSet = readyPatchSetAfterNonTrivialRebase();
+    assertApproval(patchSet, 0);
+  }
+
+  @Test
+  public void copyAllScoresOnNonTrivialRebase() throws Exception {
+    codeReview.setCopyAllScoresOnNonTrivialRebase(true);
+    saveLabelConfig();
+    PushOneCommit.Result patchSet = readyPatchSetAfterNonTrivialRebase();
+    assertApproval(patchSet, 1);
+  }
+
+  @Test
   public void noCopyAllScoresOnTrivialRebase() throws Exception {
     String subject = "test commit";
     String file = "a.txt";
@@ -308,6 +324,39 @@ public class LabelTypeIT extends AbstractDaemonTest {
         PushOneCommit.SUBJECT, file, contents + "MM");
     PushOneCommit.Result patchSet = push.to("refs/for/master");
     revision(patchSet).review(ReviewInput.recommend());
+    return patchSet;
+  }
+
+  private PushOneCommit.Result readyPatchSetAfterNonTrivialRebase()
+      throws Exception {
+    String newBaseSuffix = " nB";
+    String patchSetSuffix = " pS";
+    String otherFile = "b.txt";
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit.Result base = push.to("refs/for/master");
+    merge(base);
+
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT + newBaseSuffix, otherFile,
+        PushOneCommit.FILE_CONTENT + newBaseSuffix);
+    PushOneCommit.Result newBase = push.to("refs/for/master");
+    merge(newBase);
+
+    testRepo.reset(base.getCommit());
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT + patchSetSuffix, otherFile,
+        PushOneCommit.FILE_CONTENT + patchSetSuffix);
+    PushOneCommit.Result patchSet = push.to("refs/for/master");
+    revision(patchSet).review(ReviewInput.recommend());
+
+    testRepo.git().rebase().setUpstream(newBase.getCommit())
+        .setOperation(RebaseCommand.Operation.BEGIN).call();
+    testRepo.git().add().addFilepattern(otherFile).call();
+    testRepo.git().rebase()
+        .setOperation(RebaseCommand.Operation.CONTINUE).call();
+    testRepo.git().push()
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master")).call();
     return patchSet;
   }
 

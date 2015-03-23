@@ -246,6 +246,18 @@ trivial rebases prior to submitting a change.
 It is recommended to enable this for the Code-Review label.
 Defaults to false.
 
+[[label_copyAllScoresOnNonTrivialRebase]]
+=== `label.Label-Name.copyAllScoresOnNonTrivialRebase`
+
+If true, all scores for the label are copied forward when a new patch
+set is uploaded that is a non-trivial rebase. A new patch set is
+considered as non-trivial rebase if the commit message is the same as in
+the previous patch set and if it has a code delta different from the
+previous patch set. This can be used to enable sticky approvals,
+reducing turn-around for non-trivial rebases prior to submitting a
+change. It is recommended to enable this for the Code-Review label only
+if explicitly wanted in a project. Defaults to false.
+
 [[label_copyAllScoresIfNoCodeChange]]
 === `label.Label-Name.copyAllScoresIfNoCodeChange`
 

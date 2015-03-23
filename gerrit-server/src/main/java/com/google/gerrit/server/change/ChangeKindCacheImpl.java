@@ -115,7 +115,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   }
 
   public static class Key implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private transient ObjectId prior;
     private transient ObjectId next;
@@ -222,7 +222,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
             && merger.getResultTreeId().equals(next.getTree())) {
           return ChangeKind.TRIVIAL_REBASE;
         } else {
-          return ChangeKind.REWORK;
+          if (prior.getParent(0).equals(next.getParent(0))) {
+            return ChangeKind.REWORK;
+          } else {
+            return ChangeKind.NON_TRIVIAL_REBASE;
+          }
         }
       } finally {
         key.repo = null;

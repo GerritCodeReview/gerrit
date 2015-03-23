@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.projects;
 
+import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
+
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
@@ -27,7 +29,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.GetDescription;
@@ -49,6 +51,7 @@ public class ProjectApiImpl implements ProjectApi {
     ProjectApiImpl create(String name);
   }
 
+  private final Provider<CurrentUser> user;
   private final Provider<CreateProject.Factory> createProjectFactory;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
@@ -62,7 +65,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final BranchApiImpl.Factory branchApi;
 
   @AssistedInject
-  ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+  ProjectApiImpl(Provider<CurrentUser> user,
+      Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -72,13 +76,14 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted ProjectResource project) {
-    this(createProjectFactory, projectApi, projects, getDescription,
+    this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
         project, null);
   }
 
   @AssistedInject
-  ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+  ProjectApiImpl(Provider<CurrentUser> user,
+      Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -88,12 +93,13 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted String name) {
-    this(createProjectFactory, projectApi, projects, getDescription,
+    this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory, null,
         name);
   }
 
-  private ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+  private ProjectApiImpl(Provider<CurrentUser> user,
+      Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -104,6 +110,7 @@ public class ProjectApiImpl implements ProjectApi {
       BranchApiImpl.Factory branchApiFactory,
       ProjectResource project,
       String name) {
+    this.user = user;
     this.createProjectFactory = createProjectFactory;
     this.projectApi = projectApi;
     this.projects = projects;
@@ -131,12 +138,11 @@ public class ProjectApiImpl implements ProjectApi {
       if (in.name != null && !name.equals(in.name)) {
         throw new BadRequestException("name must match input.name");
       }
+      checkRequiresCapability(user, null, CreateProject.class);
       createProjectFactory.get().create(name)
           .apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
-    } catch (BadRequestException | UnprocessableEntityException
-        | ResourceNotFoundException | ProjectCreationFailedException
-        | IOException e) {
+    } catch (ProjectCreationFailedException | IOException e) {
       throw new RestApiException("Cannot create project: " + e.getMessage(), e);
     }
   }

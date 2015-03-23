@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -26,6 +27,10 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -47,29 +52,7 @@ import java.util.Set;
 
 public class CreateProjectIT extends AbstractDaemonTest {
   @Test
-  public void testCreateProjectApi() throws Exception {
-    final String newProjectName = "newProject";
-    ProjectInfo p = gApi.projects().create(newProjectName).get();
-    assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
-  }
-
-  @Test
-  public void testCreateProjectApiWithGitSuffix() throws Exception {
-    final String newProjectName = "newProject";
-    ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
-    assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
-  }
-
-  @Test
-  public void testCreateProject() throws Exception {
+  public void testCreateProjectHttp() throws Exception {
     final String newProjectName = "newProject";
     RestResponse r = adminSession.put("/projects/" + newProjectName);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
@@ -82,11 +65,17 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithGitSuffix() throws Exception {
+  public void testCreateProjectHttpWithNameMismatch_BadRequest() throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = "otherName";
+    RestResponse r = adminSession.put("/projects/someName", in);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+  }
+
+  @Test
+  public void testCreateProject() throws Exception {
     final String newProjectName = "newProject";
-    RestResponse r = adminSession.put("/projects/" + newProjectName + ".git");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
+    ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
@@ -95,25 +84,28 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithNameMismatch_BadRequest() throws Exception {
-    ProjectInput in = new ProjectInput();
-    in.name = "otherName";
-    RestResponse r = adminSession.put("/projects/someName", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+  public void testCreateProjectWithGitSuffix() throws Exception {
+    final String newProjectName = "newProject";
+    ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
   }
 
   @Test
   public void testCreateProjectWithProperties() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
     in.description = "Test description";
     in.submitType = SubmitType.CHERRY_PICK;
     in.useContributorAgreements = InheritableBoolean.TRUE;
     in.useSignedOffBy = InheritableBoolean.TRUE;
     in.useContentMerge = InheritableBoolean.TRUE;
     in.requireChangeId = InheritableBoolean.TRUE;
-    RestResponse r = adminSession.put("/projects/" + newProjectName, in);
-    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
+    ProjectInfo p = gApi.projects().create(in).get();
     assertThat(p.name).isEqualTo(newProjectName);
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);
@@ -128,12 +120,15 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateChildProject() throws Exception {
     final String parentName = "parent";
-    RestResponse r = adminSession.put("/projects/" + parentName);
-    r.consume();
-    final String childName = "child";
     ProjectInput in = new ProjectInput();
+    in.name = parentName;
+    gApi.projects().create(in);
+
+    final String childName = "child";
+    in = new ProjectInput();
+    in.name = childName;
     in.parent = parentName;
-    r = adminSession.put("/projects/" + childName, in);
+    gApi.projects().create(in);
     Project project = projectCache.get(new Project.NameKey(childName)).getProject();
     assertThat(project.getParentName()).isEqualTo(in.parent);
   }
@@ -142,21 +137,22 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity()
       throws Exception {
     ProjectInput in = new ProjectInput();
+    in.name = "newProjectName";
     in.parent = "non-existing-project";
-    RestResponse r = adminSession.put("/projects/child", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    assertCreateFails(in, UnprocessableEntityException.class);
   }
 
   @Test
   public void testCreateProjectWithOwner() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
     in.owners = Lists.newArrayListWithCapacity(3);
     in.owners.add("Anonymous Users"); // by name
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
     in.owners.add(Integer.toString(groupCache.get(
         new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
-    adminSession.put("/projects/" + newProjectName, in);
+    gApi.projects().create(in);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
     expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
@@ -169,17 +165,18 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectWithNonExistingOwner_UnprocessableEntity()
       throws Exception {
     ProjectInput in = new ProjectInput();
+    in.name = "newProjectName";
     in.owners = Collections.singletonList("non-existing-group");
-    RestResponse r = adminSession.put("/projects/newProject", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    assertCreateFails(in, UnprocessableEntityException.class);
   }
 
   @Test
   public void testCreatePermissionOnlyProject() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
     in.permissionsOnly = true;
-    adminSession.put("/projects/" + newProjectName, in);
+    gApi.projects().create(in);
     assertHead(newProjectName, RefNames.REFS_CONFIG);
   }
 
@@ -187,8 +184,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectWithEmptyCommit() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
     in.createEmptyCommit = true;
-    adminSession.put("/projects/" + newProjectName, in);
+    gApi.projects().create(in);
     assertEmptyCommit(newProjectName, "refs/heads/master");
   }
 
@@ -196,12 +194,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectWithBranches() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
     in.createEmptyCommit = true;
     in.branches = Lists.newArrayListWithCapacity(3);
     in.branches.add("refs/heads/test");
     in.branches.add("refs/heads/master");
     in.branches.add("release"); // without 'refs/heads' prefix
-    adminSession.put("/projects/" + newProjectName, in);
+    gApi.projects().create(in);
     assertHead(newProjectName, "refs/heads/test");
     assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/master",
         "refs/heads/release");
@@ -209,15 +208,18 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateProjectWithoutCapability_Forbidden() throws Exception {
-    RestResponse r = userSession.put("/projects/newProject");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    setApiUser(user);
+    ProjectInput in = new ProjectInput();
+    in.name = "newProject";
+    assertCreateFails(in, AuthException.class);
   }
 
   @Test
   public void testCreateProjectWhenProjectAlreadyExists_Conflict()
       throws Exception {
-    RestResponse r = adminSession.put("/projects/All-Projects");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+    ProjectInput in = new ProjectInput();
+    in.name = allProjects.get();
+    assertCreateFails(in, ResourceConflictException.class);
   }
 
   private AccountGroup.UUID groupUuid(String groupName) {
@@ -249,6 +251,16 @@ public class CreateProjectIT extends AbstractDaemonTest {
         assertThat(tw.next()).isFalse();
         tw.reset();
       }
+    }
+  }
+
+  private void assertCreateFails(ProjectInput in,
+      Class<? extends RestApiException> errType) throws Exception {
+    try {
+      gApi.projects().create(in);
+      fail("Expected " + errType.getSimpleName());
+    } catch (RestApiException expected) {
+      assertThat(expected).isInstanceOf(errType);
     }
   }
 }

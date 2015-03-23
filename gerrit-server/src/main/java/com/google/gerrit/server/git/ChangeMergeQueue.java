@@ -19,134 +19,99 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
-import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwtorm.client.IntKey;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.servlet.RequestScoped;
-
-import com.jcraft.jsch.HostKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.SocketAddress;
-import java.util.Collections;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class is managing the merging of changes.
+ */
 @Singleton
 public class ChangeMergeQueue implements MergeQueue {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeMergeQueue.class);
 
-  private final Map<Branch.NameKey, MergeEntry> active = new HashMap<>();
-  private final Map<Branch.NameKey, RecheckJob> recheck = new HashMap<>();
+  private final Map<ChangeSet.Id, MergeEntry> active = new HashMap<>();
+  private final Map<ChangeSet.Id, RecheckJob> recheck = new HashMap<>();
+
+  private final HashSet<Branch.NameKey> currentBranches = new HashSet<>();
 
   private final WorkQueue workQueue;
-  private final Provider<MergeOp.Factory> bgFactory;
-  private final PerThreadRequestScope.Scoper threadScoper;
+  private final Provider<MergeOpMapper.Factory> bgFactory;
+  private final MessageDigest hasher;
 
   @Inject
-  ChangeMergeQueue(final WorkQueue wq, Injector parent) {
+  ChangeMergeQueue(
+      final WorkQueue wq,
+      Provider<MergeOpMapper.Factory> bg)
+      throws NoSuchAlgorithmException {
     workQueue = wq;
-
-    Injector child = parent.createChildInjector(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
-        bind(RequestScopePropagator.class)
-            .to(PerThreadRequestScope.Propagator.class);
-        bind(PerThreadRequestScope.Propagator.class);
-        install(new GerritRequestModule());
-
-        bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
-            new Provider<SocketAddress>() {
-              @Override
-              public SocketAddress get() {
-                throw new OutOfScopeException("No remote peer on merge thread");
-              }
-            });
-        bind(SshInfo.class).toInstance(new SshInfo() {
-          @Override
-          public List<HostKey> getHostKeys() {
-            return Collections.emptyList();
-          }
-        });
-      }
-
-      @Provides
-      public PerThreadRequestScope.Scoper provideScoper(
-          final PerThreadRequestScope.Propagator propagator,
-          final Provider<RequestScopedReviewDbProvider> dbProvider) {
-        final RequestContext requestContext = new RequestContext() {
-          @Override
-          public CurrentUser getCurrentUser() {
-            throw new OutOfScopeException("No user on merge thread");
-          }
-
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            return dbProvider.get();
-          }
-        };
-        return new PerThreadRequestScope.Scoper() {
-          @Override
-          public <T> Callable<T> scope(Callable<T> callable) {
-            return propagator.scope(requestContext, callable);
-          }
-        };
-      }
-    });
-    bgFactory = child.getProvider(MergeOp.Factory.class);
-    threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
+    bgFactory = bg;
+    // todo where to catch the NoSuchAlgorithm exception?
+    // we want to have the error message at startup
+    hasher = MessageDigest.getInstance("MD5");
   }
 
   @Override
-  public void merge(Branch.NameKey branch) {
-    if (start(branch)) {
-      mergeImpl(branch);
+  public void merge(Iterable<Change> changes) {
+    ChangeSet set = new ChangeSet(changes);
+    if (start(set)) {
+      mergeImpl(set);
     }
   }
 
-  private synchronized boolean start(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
+  /**
+   *
+   * @param changes list of changes which should be merged
+   * @return true if the changes are put in the active queue, blocking the
+   *        branches being changed by the list of changes
+   */
+  private synchronized boolean start(ChangeSet changes) {
+    MergeEntry e = active.get(changes.hash);
     if (e == null) {
-      // Let the caller attempt this merge, its the only one interested
-      // in processing this branch right now.
-      //
-      active.put(branch, new MergeEntry(branch));
-      return true;
+      e = new MergeEntry(changes);
+      HashSet<Branch.NameKey> intersect = new HashSet<>(e.getBranches());
+      intersect.retainAll(currentBranches);
+      if (intersect.isEmpty()) {
+        // Let the caller attempt this merge, its the only one interested
+        // in processing these branches right now.
+        active.put(changes.hash, new MergeEntry(changes));
+        currentBranches.addAll(e.getBranches());
+        return true;
+      } else {
+        // We cannot merge this right now as at least one branch is locked
+        // TODO(sbeller): throw an CongestedException or reschedule?
+        schedule(changes);
+        return false;
+      }
     } else {
+      // We have submitted this change set for merge already.
       // Request that the job queue handle this merge later.
-      //
       e.needMerge = true;
       return false;
     }
   }
-
-  @Override
-  public synchronized void schedule(final Branch.NameKey branch) {
-    MergeEntry e = active.get(branch);
-    if (e == null) {
-      e = new MergeEntry(branch);
-      active.put(branch, e);
+  private synchronized void schedule(final ChangeSet set) {
+    MergeEntry e = active.get(set.hash);
+    HashSet<Branch.NameKey> intersect = new HashSet<>(e.getBranches());
+    intersect.retainAll(currentBranches);
+    if (intersect.isEmpty()) {
+      e = new MergeEntry(set);
       e.needMerge = true;
+      active.put(set.hash, e);
       scheduleJob(e);
     } else {
       e.needMerge = true;
@@ -154,31 +119,38 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public synchronized void recheckAfter(final Branch.NameKey branch,
-      final long delay, final TimeUnit delayUnit) {
+  public synchronized void schedule(Iterable<Change> changes) {
+    ChangeSet set = new ChangeSet(changes);
+    schedule(set);
+  }
+
+  @Override
+  public synchronized void recheckAfter(Iterable<Change> changes,
+      long delay, TimeUnit delayUnit) {
+    ChangeSet set = new ChangeSet(changes);
     final long now = TimeUtil.nowMs();
     final long at = now + MILLISECONDS.convert(delay, delayUnit);
-    RecheckJob e = recheck.get(branch);
+    RecheckJob e = recheck.get(changes);
     if (e == null) {
-      e = new RecheckJob(branch);
+      e = new RecheckJob(set);
       workQueue.getDefaultQueue().schedule(e, now - at, MILLISECONDS);
-      recheck.put(branch, e);
+      recheck.put(set.hash, e);
     }
     e.recheckAt = Math.max(at, e.recheckAt);
   }
 
-  private synchronized void finish(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
+  private synchronized void finish(ChangeSet changeSet) {
+    final MergeEntry e = active.get(changeSet.hash);
     if (e == null) {
       // Not registered? Shouldn't happen but ignore it.
-      //
+      log.debug("finish was called for an unknown change set");
       return;
     }
 
     if (!e.needMerge) {
       // No additional merges are in progress, we can delete it.
-      //
-      active.remove(branch);
+      active.remove(changeSet.hash);
+      currentBranches.removeAll(changeSet.getBranches());
       return;
     }
 
@@ -187,8 +159,8 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private void scheduleJob(final MergeEntry e) {
     if (!e.jobScheduled) {
-      // No job has been scheduled to execute this branch, but it needs
-      // to run a merge again.
+      // No job has been scheduled to execute this set of changes,
+      // but it needs to run a merge again.
       //
       e.jobScheduled = true;
       workQueue.getDefaultQueue().schedule(e, 0, TimeUnit.SECONDS);
@@ -200,19 +172,13 @@ public class ChangeMergeQueue implements MergeQueue {
     e.needMerge = false;
   }
 
-  private void mergeImpl(final Branch.NameKey branch) {
+  private void mergeImpl(final ChangeSet changeSet) {
     try {
-      threadScoper.scope(new Callable<Void>(){
-        @Override
-        public Void call() throws Exception {
-          bgFactory.get().create(branch).merge();
-          return null;
-        }
-      }).call();
+      bgFactory.get().create(changeSet.changes).merge();
     } catch (Throwable e) {
-      log.error("Merge attempt for " + branch + " failed", e);
+      log.error("Merge attempt for " + changeSet.toString() + " failed", e);
     } finally {
-      finish(branch);
+      finish(changeSet);
     }
   }
 
@@ -229,38 +195,109 @@ public class ChangeMergeQueue implements MergeQueue {
       // Schedule a merge attempt on this branch to see if we can
       // actually complete it this time.
       //
-      schedule(e.dest);
+      schedule(e.changeSet);
+    }
+  }
+
+  private class ChangeSet {
+    class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+      private static final long serialVersionUID = 1L;
+
+      protected int id;
+
+      public Id(final int id) {
+        this.id = id;
+      }
+
+      @Override
+      public int get() {
+        return id;
+      }
+
+      @Override
+      protected void set(int newValue) {
+        id = newValue;
+      }
+    }
+
+    /*
+     * The hash of the changes contained in this set of changes
+     * It should be unique or the merge doesn't trigger. Chosing an int
+     * is considered good enough, as the birthday problem hints that we can
+     * have up to 77k of change sets in the merge queue at the same time
+     * before we'd be likely to run into a collision.
+     */
+    final Id hash;
+    final Iterable<Change> changes;
+    HashSet<Branch.NameKey> touchedBranches;
+
+    ChangeSet(Iterable<Change> changes) {
+      this.changes = changes;
+      this.touchedBranches = null;
+
+      MessageDigest md = hasher;
+      ByteBuffer b = ByteBuffer.allocate(4);
+      for (Change c : changes) {
+        md.update(b.putInt(0, c.getChangeId()).array());
+      }
+      hash = new Id(ByteBuffer.wrap(md.digest()).getInt());
+    }
+
+    HashSet<Branch.NameKey> getBranches() {
+      if (touchedBranches == null) {
+        touchedBranches = new HashSet<>();
+        for (Change c : changes) {
+          touchedBranches.add(c.getDest());
+        }
+      }
+      return touchedBranches;
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      for (Change c : changes) {
+        sb.append("(");
+        sb.append(c.getId());
+        sb.append(":");
+        sb.append(c.getDest());
+        sb.append(")");
+      }
+      return "changeset " + sb.toString();
     }
   }
 
   private class MergeEntry implements Runnable {
-    final Branch.NameKey dest;
+    final ChangeSet changeSet;
     boolean needMerge;
     boolean jobScheduled;
 
-    MergeEntry(final Branch.NameKey d) {
-      dest = d;
+    MergeEntry(final ChangeSet changes) {
+      this.changeSet = changes;
     }
 
     @Override
     public void run() {
       unschedule(this);
-      mergeImpl(dest);
+      mergeImpl(changeSet);
+    }
+
+    HashSet<Branch.NameKey> getBranches() {
+      return changeSet.getBranches();
     }
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "submit " + project.get() + " " + dest.getShortName();
+      return "submit " + changeSet.toString();
     }
   }
 
   private class RecheckJob implements Runnable {
-    final Branch.NameKey dest;
+    final ChangeSet changeSet;
     long recheckAt;
 
-    RecheckJob(final Branch.NameKey d) {
-      dest = d;
+    RecheckJob(final ChangeSet changes) {
+      this.changeSet = changes;
     }
 
     @Override
@@ -270,8 +307,7 @@ public class ChangeMergeQueue implements MergeQueue {
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "recheck " + project.get() + " " + dest.getShortName();
+      return "recheck " + changeSet.toString();
     }
   }
 }

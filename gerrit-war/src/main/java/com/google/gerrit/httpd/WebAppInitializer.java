@@ -47,7 +47,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
-import com.google.gerrit.server.patch.IntraLineWorkerPool;
+import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.schema.DataSourceModule;
@@ -281,7 +281,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
-    modules.add(new IntraLineWorkerPool.Module());
+    modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new InternalAccountDirectory.Module());

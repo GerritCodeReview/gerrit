@@ -1,21 +1,43 @@
-Adrian Görler <adrian.goerler@sap.com>        Adrian Goerler <adrian.goerler@sap.com>
-Alex Ryazantsev <alex.ryazantsev@gmail.com>   alex <alex.ryazantsev@gmail.com>
-Alex Ryazantsev <alex.ryazantsev@gmail.com>   alex.ryazantsev <alex.ryazantsev@gmail.com>
-Carlos Eduardo Baldacin <carloseduardo.baldacin@sonyericsson.com> carloseduardo.baldacin <carloseduardo.baldacin@sonyericsson.com>
-Deniz Türkoglu <deniz@spotify.com>            Deniz Turkoglu <deniz@spotify.com>
-Deniz Türkoglu <deniz@spotify.com>            Deniz Türkoglu <deniz@spotify.com>
-Edwin Kempin <edwin.kempin@sap.com>           Edwin Kempin <edwin.kempin@gmail.com>
-Hugo Arès <hugo.ares@ericsson.com>            Hugo Ares <hugo.ares@ericsson.com>
-Jason Huntley <jhuntley@houghtonassociates.com> jhuntley <jhuntley@houghtonassociates.com>
-Johan Björk <jbjoerk@gmail.com>               Johan Bjork <phb@spotify.com>
+
+Adrian Görler <adrian.goerler@sap.com>                                                      Adrian Goerler <adrian.goerler@sap.com>
+Ahaan Ugale <ahaanugale@gmail.com>                                                          <augale@codeaurora.org>
+Alex Blewitt <alex.blewitt@gmail.com>                                                       <alex.blewitt@gs.com>
+Alex Ryazantsev <alex.ryazantsev@gmail.com>                                                 alex <alex.ryazantsev@gmail.com>
+Alex Ryazantsev <alex.ryazantsev@gmail.com>                                                 alex.ryazantsev <alex.ryazantsev@gmail.com>
+Brad Larson <bklarson@gmail.com>                                                            <brad.larson@garmin.com>
+Bruce Zu <bruce.zu@sonymobile.com>                                                          <bruce.zu@sonyericsson.com>
+Carlos Eduardo Baldacin <carloseduardo.baldacin@sonyericsson.com>                           carloseduardo.baldacin <carloseduardo.baldacin@sonyericsson.com>
+David Ostrovsky <david@ostrovsky.org>                                                       <d.ostrovsky@gmx.de>
+Deniz Türkoglu <deniz@spotify.com>                                                          Deniz Türkoglu <deniz@spotify.com>
+Deniz Türkoglu <deniz@spotify.com>                                                          Deniz Turkoglu <deniz@spotify.com>
+Edwin Kempin <edwin.kempin@sap.com>                                                         Edwin Kempin <edwin.kempin@gmail.com>
+Eryk Szymanski <eryksz@gmail.com>                                                           <eryksz@google.com>
+Fredrik Luthander <fredrik.luthander@sonymobile.com>                                        <fredrik@gandaraj.com>
+Fredrik Luthander <fredrik.luthander@sonymobile.com>                                        <fredrik.luthander@sonyericsson.com>
+Gustaf Lundh <gustaf.lundh@sonymobile.com>                                                  <gustaf.lundh@sonyericsson.com>
+Hugo Arès <hugo.ares@ericsson.com>                                                          Hugo Ares <hugo.ares@ericsson.com>
+Jason Huntley <jhuntley@houghtonassociates.com>                                             jhuntley <jhuntley@houghtonassociates.com>
+Jiří Engelthaler <EngyCZ@gmail.com>                                                         <engycz@gmail.com>
+Joe Onorato <onoratoj@gmail.com>                                                            <joeo@android.com>
+Johan Björk <jbjoerk@gmail.com>                                                             Johan Bjork <phb@spotify.com>
 Lincoln Oliveira Campos Do Nascimento <lincoln.oliveiracamposdonascimento@sonyericsson.com> lincoln <lincoln.oliveiracamposdonascimento@sonyericsson.com>
-Mônica Dionísio <monica.dionisio@sonyericsson.com> monica.dionisio <monica.dionisio@sonyericsson.com>
-Peter Jönsson <peter.joensson@gmail.com>      Peter Jönsson <peter.joensson@gmail.com>
-Rafael Rabelo Silva <rafael.rabelosilva@sonyericsson.com> rafael.rabelosilva <rafael.rabelosilva@sonyericsson.com>
-Saša Živkov <sasa.zivkov@sap.com>             Sasa Zivkov <sasa.zivkov@sap.com>
-Saša Živkov <sasa.zivkov@sap.com>             Saša Živkov <zivkov@gmail.com>
-Shawn Pearce <sop@google.com>                 Shawn O. Pearce <sop@google.com>
-Tomas Westling <thomas.westling@sonyericsson.com> thomas.westling <thomas.westling@sonyericsson.com>
-Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>  Ulrik Sjolin <ulrik.sjolin@gmail.com>
-Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>  Ulrik Sjolin <ulrik.sjolin@sonyericsson.com>
-Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>  Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>
+Luca Milanesio <luca.milanesio@gmail.com>                                                   <luca@gitent-scm.com>
+Magnus Bäck <baeck@google.com>                                                              <magnus.back@sonyericsson.com>
+Mark Derricutt <mark.derricutt@smxemail.com>                                                <mark@talios.com>
+Martin Fick <mfick@codeaurora.org>                                                          <mogulguy10@gmail.com>
+Martin Fick <mfick@codeaurora.org>                                                          <mogulguy@yahoo.com>
+Michael Zhou <moz@google.com>                                                               <zhoumotongxue008@gmail.com>
+Mônica Dionísio <monica.dionisio@sonyericsson.com>                                          monica.dionisio <monica.dionisio@sonyericsson.com>
+Nasser Grainawi <nasser@grainawi.org>                                                       <nasser@codeaurora.org>
+Nasser Grainawi <nasser@grainawi.org>                                                       <nasserg@quicinc.com>
+Peter Jönsson <peter.joensson@gmail.com>                                                    Peter Jönsson <peter.joensson@gmail.com>
+Rafael Rabelo Silva <rafael.rabelosilva@sonyericsson.com>                                   rafael.rabelosilva <rafael.rabelosilva@sonyericsson.com>
+Richard Möhn <richard.moehn@posteo.de>                                                      <richard.moehn@fu-berlin.de>
+Saša Živkov <sasa.zivkov@sap.com>                                                           Sasa Zivkov <sasa.zivkov@sap.com>
+Saša Živkov <sasa.zivkov@sap.com>                                                           Saša Živkov <zivkov@gmail.com>
+Shawn Pearce <sop@google.com>                                                               Shawn O. Pearce <sop@google.com>
+Tomas Westling <thomas.westling@sonyericsson.com>                                           thomas.westling <thomas.westling@sonyericsson.com>
+Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>                                                <ulrik.sjolin@gmail.com>
+Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>                                                Ulrik Sjolin <ulrik.sjolin@gmail.com>
+Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>                                                Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>
+Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>                                                Ulrik Sjolin <ulrik.sjolin@sonyericsson.com>

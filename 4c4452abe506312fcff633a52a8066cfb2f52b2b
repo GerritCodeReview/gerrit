@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6cac4dd_e6c4be91",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-23T18:36:11Z",
+      "side": 0,
+      "message": "No, this must be bound in the Daemon module, otherwise my servers at Google will run out of memory.",
+      "revId": "4c4452abe506312fcff633a52a8066cfb2f52b2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

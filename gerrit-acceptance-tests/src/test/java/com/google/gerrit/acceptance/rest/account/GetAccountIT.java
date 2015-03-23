@@ -14,54 +14,51 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-
+@NoHttpd
 public class GetAccountIT extends AbstractDaemonTest {
   @Test
   public void getNonExistingAccount_NotFound() throws Exception {
-    assertThat(adminSession.get("/accounts/non-existing").getStatusCode())
-      .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    try {
+      gApi.accounts().id("non-existing").get();
+      fail("Expected account to not exist");
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
   }
 
   @Test
   public void getAccount() throws Exception {
     // by formatted string
-    testGetAccount("/accounts/"
-        + Url.encode(admin.fullName + " <" + admin.email + ">"), admin);
+    testGetAccount(admin.fullName + " <" + admin.email + ">", admin);
 
     // by email
-    testGetAccount("/accounts/" + admin.email, admin);
+    testGetAccount(admin.email, admin);
 
     // by full name
-    testGetAccount("/accounts/" + admin.fullName, admin);
+    testGetAccount(admin.fullName, admin);
 
     // by account ID
-    testGetAccount("/accounts/" + admin.id.get(), admin);
+    testGetAccount(Integer.toString(admin.id.get()), admin);
 
     // by user name
-    testGetAccount("/accounts/" + admin.username, admin);
+    testGetAccount(admin.username, admin);
 
     // by 'self'
-    testGetAccount("/accounts/self", admin);
+    testGetAccount("self", admin);
   }
 
-  private void testGetAccount(String url, TestAccount expectedAccount)
-      throws IOException {
-    RestResponse r = adminSession.get(url);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertAccountInfo(expectedAccount, newGson()
-        .fromJson(r.getReader(), AccountInfo.class));
+  private void testGetAccount(String id, TestAccount expectedAccount)
+      throws Exception {
+    assertAccountInfo(expectedAccount, gApi.accounts().id(id).get());
   }
 }

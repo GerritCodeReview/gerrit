@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86ab6cef_ecdb0b6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-23T00:39:11Z",
+      "side": 1,
+      "message": "Have we imported this version of JGit yet?",
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60508c4_37fd58b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffExecutorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-23T00:39:11Z",
+      "side": 1,
+      "message": "These threads should be daemon.",
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60508c4_7707d048",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-23T00:39:11Z",
+      "side": 1,
+      "message": "return instead of assigning to a local variable",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 22
+      },
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60508c4_17fad4b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-23T00:39:11Z",
+      "side": 1,
+      "message": "Throwables.propagateIfInstanceOf(e.getCause(), Exception.class);",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

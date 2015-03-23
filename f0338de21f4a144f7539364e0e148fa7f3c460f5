@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66bf5833_c3c9b6a9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-03-23T19:50:51Z",
+      "side": 1,
+      "message": "WTF?",
+      "range": {
+        "startLine": 77,
+        "startChar": 56,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "f0338de21f4a144f7539364e0e148fa7f3c460f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e60508c4_372438d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-23T13:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86ab6cef_cce0cf11",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 19
+      },
+      "revId": "33318e1548b844984580ced610b29640034b8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60508c4_b72fa8ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-23T00:41:52Z",
       "side": 1,
       "message": "Throwables.propagateIfInstanceOf(e.getCause(), IOException.class)",
+      "range": {
+        "startLine": 218,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 34
+      },
+      "revId": "33318e1548b844984580ced610b29640034b8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60508c4_172134c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-23T13:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e60508c4_b72fa8ba",
       "range": {
         "startLine": 218,
         "startChar": 6,

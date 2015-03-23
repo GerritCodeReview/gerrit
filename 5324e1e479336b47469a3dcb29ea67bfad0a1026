@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a6c5d0ce_a5babe03",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-23T18:27:28Z",
+      "side": 1,
+      "message": "From my limited Googling it seems there may be at least a few valid SHA-1s for this JAR, depending on the product the customer has purchased.\n\nIf we omit sha1 here we will just blindly trust the JAR from the filesystem. I think that is what we should do for the license JAR.",
+      "parentUuid": "a6eeb034_bdbadf03",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "5324e1e479336b47469a3dcb29ea67bfad0a1026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60b48a7_67f652de",
         "filename": "lib/BUCK",
         "patchSetId": 3

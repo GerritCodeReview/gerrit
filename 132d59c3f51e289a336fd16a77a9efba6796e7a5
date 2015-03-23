@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e60508c4_97342410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-23T12:58:54Z",
+      "side": 1,
+      "message": "Yes: https://gerrit-review.googlesource.com/#/c/66460/",
+      "parentUuid": "86ab6cef_ecdb0b6a",
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60508c4_37fd58b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffExecutorModule.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-23T00:39:11Z",
       "side": 1,
       "message": "These threads should be daemon.",
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60508c4_f72920b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffExecutorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-23T12:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e60508c4_37fd58b1",
       "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "86ab6cef_ec12eb8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-23T12:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e60508c4_7707d048",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 22
+      },
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60508c4_17fad4b8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2015-03-23T00:39:11Z",
       "side": 1,
       "message": "Throwables.propagateIfInstanceOf(e.getCause(), Exception.class);",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "132d59c3f51e289a336fd16a77a9efba6796e7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86ab6cef_cc172f7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-23T12:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e60508c4_17fad4b8",
       "range": {
         "startLine": 86,
         "startChar": 6,

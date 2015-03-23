@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86ab6cef_ac08e35f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-23T00:53:02Z",
+      "side": 1,
+      "message": "Yay another catch(Exception). What could go wrong. At least we log what we caught.",
+      "revId": "16133e6e84edec601a10b252dcbf0ebc28f3529f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

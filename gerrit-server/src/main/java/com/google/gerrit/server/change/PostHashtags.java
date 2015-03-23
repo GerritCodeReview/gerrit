@@ -38,12 +38,12 @@ public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInpu
   }
 
   @Override
-  public Response<? extends Set<String>> apply(ChangeResource req, HashtagsInput input)
+  public Response<Set<String>> apply(ChangeResource req, HashtagsInput input)
       throws AuthException, OrmException, IOException, BadRequestException,
       ResourceConflictException {
 
     try {
-      return Response.ok(hashtagsUtil.setHashtags(
+      return Response.<Set<String>> ok(hashtagsUtil.setHashtags(
           req.getControl(), input, true, true));
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(e.getMessage());

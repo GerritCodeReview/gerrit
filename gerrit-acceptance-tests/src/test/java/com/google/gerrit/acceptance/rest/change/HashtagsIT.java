@@ -16,218 +16,206 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.common.truth.IterableSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
+@NoHttpd
 public class HashtagsIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {
     return NotesMigration.allEnabledConfig();
   }
 
-  private void assertResult(RestResponse r, List<String> expected)
-      throws IOException {
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    List<String> result = toHashtagList(r);
-    assertThat(result).containsExactlyElementsIn(expected);
-  }
-
   @Test
   public void testGetNoHashtags() throws Exception {
-    // GET hashtags on a change with no hashtags returns an empty list
-    String changeId = createChange().getChangeId();
-    assertResult(GET(changeId), ImmutableList.<String>of());
+    // Get on a change with no hashtags returns an empty list.
+    PushOneCommit.Result r = createChange();
+    assertThatGet(r).isEmpty();
   }
 
   @Test
   public void testAddSingleHashtag() throws Exception {
-    String changeId = createChange().getChangeId();
+    PushOneCommit.Result r = createChange();
 
-    // POST adding a single hashtag returns a single hashtag
-    List<String> expected = Arrays.asList("tag2");
-    assertResult(POST(changeId, "tag2", null), expected);
-    assertResult(GET(changeId), expected);
+    // Adding a single hashtag returns a single hashtag.
+    addHashtags(r, "tag2");
+    assertThatGet(r).containsExactly("tag2");
 
-    // POST adding another single hashtag to change that already has one
-    // hashtag returns a sorted list of hashtags with existing and new
-    expected = Arrays.asList("tag1", "tag2");
-    assertResult(POST(changeId, "tag1", null), expected);
-    assertResult(GET(changeId), expected);
+    // Adding another single hashtag to change that already has one hashtag
+    // returns a sorted list of hashtags with existing and new.
+    addHashtags(r, "tag1");
+    assertThatGet(r).containsExactly("tag1", "tag2").inOrder();
   }
 
   @Test
   public void testAddMultipleHashtags() throws Exception {
-    String changeId = createChange().getChangeId();
+    PushOneCommit.Result r = createChange();
 
-    // POST adding multiple hashtags returns a sorted list of hashtags
-    List<String> expected = Arrays.asList("tag1", "tag3");
-    assertResult(POST(changeId, "tag3, tag1", null), expected);
-    assertResult(GET(changeId), expected);
+    // Adding multiple hashtags returns a sorted list of hashtags.
+    addHashtags(r, "tag3", "tag1");
+    assertThatGet(r).containsExactly("tag1", "tag3").inOrder();
 
-    // POST adding multiple hashtags to change that already has hashtags
-    // returns a sorted list of hashtags with existing and new
-    expected = Arrays.asList("tag1", "tag2", "tag3", "tag4");
-    assertResult(POST(changeId, "tag2, tag4", null), expected);
-    assertResult(GET(changeId), expected);
+    // Adding multiple hashtags to change that already has hashtags returns a
+    // sorted list of hashtags with existing and new.
+    addHashtags(r, "tag2", "tag4");
+    assertThatGet(r).containsExactly("tag1", "tag2", "tag3", "tag4").inOrder();
   }
 
   @Test
   public void testAddAlreadyExistingHashtag() throws Exception {
-    // POST adding a hashtag that already exists on the change returns a
-    // sorted list of hashtags without duplicates
-    String changeId = createChange().getChangeId();
-    List<String> expected = Arrays.asList("tag2");
-    assertResult(POST(changeId, "tag2", null), expected);
-    assertResult(GET(changeId), expected);
-    assertResult(POST(changeId, "tag2", null), expected);
-    assertResult(GET(changeId), expected);
-    expected = Arrays.asList("tag1", "tag2");
-    assertResult(POST(changeId, "tag2, tag1", null), expected);
-    assertResult(GET(changeId), expected);
+    // Adding a hashtag that already exists on the change returns a sorted list
+    // of hashtags without duplicates.
+    PushOneCommit.Result r = createChange();
+    addHashtags(r, "tag2");
+    assertThatGet(r).containsExactly("tag2");
+    addHashtags(r, "tag2");
+    assertThatGet(r).containsExactly("tag2");
+    addHashtags(r, "tag1", "tag2");
+    assertThatGet(r).containsExactly("tag1", "tag2").inOrder();
   }
 
   @Test
   public void testHashtagsWithPrefix() throws Exception {
-    String changeId = createChange().getChangeId();
+    PushOneCommit.Result r = createChange();
 
-    // Leading # is stripped from added tag
-    List<String> expected = Arrays.asList("tag1");
-    assertResult(POST(changeId, "#tag1", null), expected);
-    assertResult(GET(changeId), expected);
+    // Leading # is stripped from added tag.
+    addHashtags(r, "#tag1");
+    assertThatGet(r).containsExactly("tag1");
 
-    // Leading # is stripped from multiple added tags
-    expected = Arrays.asList("tag1", "tag2", "tag3");
-    assertResult(POST(changeId, "#tag2, #tag3", null), expected);
-    assertResult(GET(changeId), expected);
+    // Leading # is stripped from multiple added tags.
+    addHashtags(r, "#tag2", "#tag3");
+    assertThatGet(r).containsExactly("tag1", "tag2", "tag3").inOrder();
 
-    // Leading # is stripped from removed tag
-    expected = Arrays.asList("tag1", "tag3");
-    assertResult(POST(changeId, null, "#tag2"), expected);
-    assertResult(GET(changeId), expected);
+    // Leading # is stripped from removed tag.
+    removeHashtags(r, "#tag2");
+    assertThatGet(r).containsExactly("tag1", "tag3").inOrder();
 
-    // Leading # is stripped from multiple removed tags
-    expected = Collections.emptyList();
-    assertResult(POST(changeId, null, "#tag1, #tag3"), expected);
-    assertResult(GET(changeId), expected);
+    // Leading # is stripped from multiple removed tags.
+    removeHashtags(r, "#tag1", "#tag3");
+    assertThatGet(r).isEmpty();
 
-    // Leading # and space are stripped from added tag
-    expected = Arrays.asList("tag1");
-    assertResult(POST(changeId, "# tag1", null), expected);
-    assertResult(GET(changeId), expected);
+    // Leading # and space are stripped from added tag.
+    addHashtags(r, "# tag1");
+    assertThatGet(r).containsExactly("tag1");
 
-    // Multiple leading # are stripped from added tag
-    expected = Arrays.asList("tag1", "tag2");
-    assertResult(POST(changeId, "##tag2", null), expected);
-    assertResult(GET(changeId), expected);
+    // Multiple leading # are stripped from added tag.
+    addHashtags(r, "##tag2");
+    assertThatGet(r).containsExactly("tag1", "tag2").inOrder();
 
-    // Multiple leading spaces and # are stripped from added tag
-    expected = Arrays.asList("tag1", "tag2", "tag3");
-    assertResult(POST(changeId, " # # tag3", null), expected);
-    assertResult(GET(changeId), expected);
+    // Multiple leading spaces and # are stripped from added tag.
+    addHashtags(r, "# # tag3");
+    assertThatGet(r).containsExactly("tag1", "tag2", "tag3").inOrder();
   }
 
   @Test
   public void testRemoveSingleHashtag() throws Exception {
-    // POST removing a single tag from a change that only has that tag
-    // returns an empty list
-    String changeId = createChange().getChangeId();
-    List<String> expected = Arrays.asList("tag1");
-    assertResult(POST(changeId, "tag1", null), expected);
-    assertResult(POST(changeId, null, "tag1"), ImmutableList.<String>of());
-    assertResult(GET(changeId), ImmutableList.<String>of());
+    // Removing a single tag from a change that only has that tag returns an
+    // empty list.
+    PushOneCommit.Result r = createChange();
+    addHashtags(r, "tag1");
+    assertThatGet(r).containsExactly("tag1");
+    removeHashtags(r, "tag1");
+    assertThatGet(r).isEmpty();
 
-    // POST removing a single tag from a change that has multiple tags
-    // returns a sorted list of remaining tags
-    expected = Arrays.asList("tag1", "tag2", "tag3");
-    assertResult(POST(changeId, "tag1, tag2, tag3", null), expected);
-    expected = Arrays.asList("tag1", "tag3");
-    assertResult(POST(changeId, null, "tag2"), expected);
-    assertResult(GET(changeId), expected);
+    // Removing a single tag from a change that has multiple tags returns a
+    // sorted list of remaining tags.
+    addHashtags(r, "tag1", "tag2", "tag3");
+    removeHashtags(r, "tag2");
+    assertThatGet(r).containsExactly("tag1", "tag3").inOrder();
   }
 
   @Test
   public void testRemoveMultipleHashtags() throws Exception {
-    // POST removing multiple tags from a change that only has those tags
-    // returns an empty list
-    String changeId = createChange().getChangeId();
-    List<String> expected = Arrays.asList("tag1", "tag2");
-    assertResult(POST(changeId, "tag1, tag2", null), expected);
-    assertResult(POST(changeId, null, "tag1, tag2"), ImmutableList.<String>of());
-    assertResult(GET(changeId), ImmutableList.<String>of());
+    // Removing multiple tags from a change that only has those tags returns an
+    // empty list.
+    PushOneCommit.Result r = createChange();
+    addHashtags(r, "tag1", "tag2");
+    assertThatGet(r).containsExactly("tag1", "tag2").inOrder();
+    removeHashtags(r, "tag1", "tag2");
+    assertThatGet(r).isEmpty();
 
-    // POST removing multiple tags from a change that has multiple changes
-    // returns a sorted list of remaining changes
-    expected = Arrays.asList("tag1", "tag2", "tag3", "tag4");
-    assertResult(POST(changeId, "tag1, tag2, tag3, tag4", null), expected);
-    expected = Arrays.asList("tag2", "tag4");
-    assertResult(POST(changeId, null, "tag1, tag3"), expected);
-    assertResult(GET(changeId), expected);
+    // Removing multiple tags from a change that has multiple tags returns a
+    // sorted list of remaining tags.
+    addHashtags(r, "tag1", "tag2", "tag3", "tag4");
+    assertThatGet(r).containsExactly("tag1", "tag2", "tag3", "tag4").inOrder();
+    removeHashtags(r, "tag2", "tag4");
+    assertThatGet(r).containsExactly("tag1", "tag3").inOrder();
   }
 
   @Test
   public void testRemoveNotExistingHashtag() throws Exception {
-    // POST removing a single hashtag from change that has no hashtags
-    // returns an empty list
-    String changeId = createChange().getChangeId();
-    assertResult(POST(changeId, null, "tag1"), ImmutableList.<String>of());
-    assertResult(GET(changeId), ImmutableList.<String>of());
+    // Removing a single hashtag from change that has no hashtags returns an
+    // empty list.
+    PushOneCommit.Result r = createChange();
+    removeHashtags(r, "tag1");
+    assertThatGet(r).isEmpty();
 
-    // POST removing a single non-existing tag from a change that only
-    // has one other tag returns a list of only one tag
-    List<String> expected = Arrays.asList("tag1");
-    assertResult(POST(changeId, "tag1", null), expected);
-    assertResult(POST(changeId, null, "tag4"), expected);
-    assertResult(GET(changeId), expected);
+    // Removing a single non-existing tag from a change that only has one other
+    // tag returns a list of only one tag.
+    addHashtags(r, "tag1");
+    removeHashtags(r, "tag4");
+    assertThatGet(r).containsExactly("tag1");
 
-    // POST removing a single non-existing tag from a change that has multiple
-    // tags returns a sorted list of tags without any deleted
-    expected = Arrays.asList("tag1", "tag2", "tag3");
-    assertResult(POST(changeId, "tag1, tag2, tag3", null), expected);
-    assertResult(POST(changeId, null, "tag4"), expected);
-    assertResult(GET(changeId), expected);
+    // Removing a single non-existing tag from a change that has multiple tags
+    // returns a sorted list of tags without any deleted.
+    addHashtags(r, "tag1", "tag2", "tag3");
+    removeHashtags(r, "tag4");
+    assertThatGet(r).containsExactly("tag1", "tag2", "tag3").inOrder();
   }
 
-  private RestResponse GET(String changeId) throws IOException {
-    return adminSession.get("/changes/" + changeId + "/hashtags/");
-  }
-
-  private RestResponse POST(String changeId, String toAdd, String toRemove)
-      throws IOException {
+  @Test
+  public void testAddAndRemove() throws Exception {
+    // Adding and remove hashtags in a single request performs correctly.
+    PushOneCommit.Result r = createChange();
+    addHashtags(r, "tag1", "tag2");
     HashtagsInput input = new HashtagsInput();
-    if (toAdd != null) {
-      input.add = new HashSet<>(
-          Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",")).split(toAdd)));
-    }
-    if (toRemove != null) {
-      input.remove = new HashSet<>(
-          Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",")).split(toRemove)));
-    }
-    return adminSession.post("/changes/" + changeId + "/hashtags/", input);
+    input.add = Sets.newHashSet("tag3", "tag4");
+    input.remove = Sets.newHashSet("tag1");
+    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
+    assertThatGet(r).containsExactly("tag2", "tag3", "tag4");
+
+    // Adding and removing the same hashtag actually removes it.
+    addHashtags(r, "tag1", "tag2");
+    input = new HashtagsInput();
+    input.add = Sets.newHashSet("tag3", "tag4");
+    input.remove = Sets.newHashSet("tag3");
+    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
+    assertThatGet(r).containsExactly("tag1", "tag2", "tag4");
   }
 
-  private static List<String> toHashtagList(RestResponse r)
-      throws IOException {
-    List<String> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<String>>() {}.getType());
-    return result;
+  private IterableSubject<
+        ? extends IterableSubject<?, String, Iterable<String>>,
+        String, Iterable<String>>
+      assertThatGet(PushOneCommit.Result r) throws Exception {
+    return assertThat((Iterable<String>) gApi.changes()
+        .id(r.getChange().getId().get())
+        .getHashtags());
+  }
+
+  private void addHashtags(PushOneCommit.Result r, String... toAdd)
+      throws Exception {
+    HashtagsInput input = new HashtagsInput();
+    input.add = Sets.newHashSet(toAdd);
+    gApi.changes()
+        .id(r.getChange().getId().get())
+        .setHashtags(input);
+  }
+
+  private void removeHashtags(PushOneCommit.Result r, String... toRemove)
+      throws Exception {
+    HashtagsInput input = new HashtagsInput();
+    input.remove = Sets.newHashSet(toRemove);
+    gApi.changes()
+        .id(r.getChange().getId().get())
+        .setHashtags(input);
   }
 }

@@ -2079,6 +2079,7 @@ public class ReceiveCommits {
           message += ": Commit message was updated";
           break;
         case REWORK:
+        case NON_TRIVIAL_REBASE:
         default:
           break;
       }

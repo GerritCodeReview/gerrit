@@ -133,6 +133,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_DEFAULT_VALUE = "defaultValue";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+  private static final String KEY_COPY_ALL_SCORES_ON_NON_TRIVIAL_REBASE = "copyAllScoresOnNonTrivialRebase";
   private static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
   private static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
   private static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
@@ -699,6 +700,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       label.setCopyAllScoresOnTrivialRebase(
           rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
               LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE));
+      label.setCopyAllScoresOnNonTrivialRebase(
+          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_NON_TRIVIAL_REBASE,
+              LabelType.DEF_COPY_ALL_SCORES_ON_NON_TRIVIAL_REBASE));
       label.setCopyAllScoresIfNoCodeChange(
           rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
               LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE));
@@ -1048,6 +1052,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
           label.isCopyAllScoresOnTrivialRebase(),
           LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+      setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_ON_NON_TRIVIAL_REBASE,
+          label.isCopyAllScoresOnNonTrivialRebase(),
+          LabelType.DEF_COPY_ALL_SCORES_ON_NON_TRIVIAL_REBASE);
       setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
           label.isCopyAllScoresIfNoCodeChange(),
           LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);

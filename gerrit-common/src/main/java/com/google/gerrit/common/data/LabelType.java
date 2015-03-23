@@ -28,6 +28,7 @@ public class LabelType {
   public static final boolean DEF_CAN_OVERRIDE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
+  public static final boolean DEF_COPY_ALL_SCORES_ON_NON_TRIVIAL_REBASE = false;
   public static final boolean DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = false;
   public static final boolean DEF_COPY_MAX_SCORE = false;
   public static final boolean DEF_COPY_MIN_SCORE = false;
@@ -99,6 +100,7 @@ public class LabelType {
   protected String functionName;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
+  protected boolean copyAllScoresOnNonTrivialRebase;
   protected boolean copyAllScoresOnTrivialRebase;
   protected boolean copyAllScoresIfNoCodeChange;
   protected boolean copyAllScoresIfNoChange;
@@ -137,6 +139,7 @@ public class LabelType {
     setCanOverride(DEF_CAN_OVERRIDE);
     setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
     setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+    setCopyAllScoresOnNonTrivialRebase(DEF_COPY_ALL_SCORES_ON_NON_TRIVIAL_REBASE);
     setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
@@ -223,6 +226,14 @@ public class LabelType {
 
   public void setCopyAllScoresOnTrivialRebase(boolean copyAllScoresOnTrivialRebase) {
     this.copyAllScoresOnTrivialRebase = copyAllScoresOnTrivialRebase;
+  }
+
+  public boolean isCopyAllScoresOnNonTrivialRebase() {
+    return copyAllScoresOnNonTrivialRebase;
+  }
+
+  public void setCopyAllScoresOnNonTrivialRebase(boolean copyAllScoresOnNonTrivialRebase) {
+    this.copyAllScoresOnNonTrivialRebase = copyAllScoresOnNonTrivialRebase;
   }
 
   public boolean isCopyAllScoresIfNoCodeChange() {

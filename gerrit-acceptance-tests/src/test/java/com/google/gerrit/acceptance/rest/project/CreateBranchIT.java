@@ -18,17 +18,25 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
 
-import org.apache.http.HttpStatus;
+import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
+@NoHttpd
 public class CreateBranchIT extends AbstractDaemonTest {
   private Branch.NameKey branch;
 
@@ -39,65 +47,32 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   @Test
   public void createBranch_Forbidden() throws Exception {
-    RestResponse r =
-        userSession.put("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    setApiUser(user);
+    assertCreateFails(AuthException.class);
   }
 
   @Test
   public void createBranchByAdmin() throws Exception {
-    RestResponse r =
-        adminSession.put("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    r.consume();
-
-    r = adminSession.get("/projects/" + project.get()
-        + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    assertCreateSucceeds();
   }
 
   @Test
   public void branchAlreadyExists_Conflict() throws Exception {
-    RestResponse r =
-        adminSession.put("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    r.consume();
-
-    r = adminSession.put("/projects/" + project.get()
-        + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+    assertCreateSucceeds();
+    assertCreateFails(ResourceConflictException.class);
   }
 
   @Test
   public void createBranchByProjectOwner() throws Exception {
     grantOwner();
-
-    RestResponse r =
-        userSession.put("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    r.consume();
-
-    r = adminSession.get("/projects/" + project.get()
-        + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    setApiUser(user);
+    assertCreateSucceeds();
   }
 
   @Test
   public void createBranchByAdminCreateReferenceBlocked() throws Exception {
     blockCreateReference();
-    RestResponse r =
-        adminSession.put("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    r.consume();
-
-    r = adminSession.get("/projects/" + project.get()
-        + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    assertCreateSucceeds();
   }
 
   @Test
@@ -105,10 +80,8 @@ public class CreateBranchIT extends AbstractDaemonTest {
       throws Exception {
     grantOwner();
     blockCreateReference();
-    RestResponse r =
-        userSession.put("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    setApiUser(user);
+    assertCreateFails(AuthException.class);
   }
 
   private void blockCreateReference() throws Exception {
@@ -119,5 +92,27 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   private void grantOwner() throws Exception {
     allow(Permission.OWNER, REGISTERED_USERS, "refs/*");
+  }
+
+  private BranchApi branch() throws Exception {
+    return gApi.projects()
+        .name(branch.getParentKey().get())
+        .branch(branch.get());
+  }
+
+  private void assertCreateSucceeds() throws Exception {
+    BranchInfo created = branch().create(new BranchInput()).get();
+    assertThat(created.ref)
+        .isEqualTo(Constants.R_HEADS + branch.getShortName());
+  }
+
+  private void assertCreateFails(Class<? extends RestApiException> errType)
+      throws Exception {
+    try {
+      branch().create(new BranchInput());
+      fail("Expected " + errType.getSimpleName());
+    } catch (RestApiException expected) {
+      assertThat(expected).isInstanceOf(errType);
+    }
   }
 }

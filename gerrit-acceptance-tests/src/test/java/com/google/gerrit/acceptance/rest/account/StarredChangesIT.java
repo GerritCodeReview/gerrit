@@ -32,16 +32,16 @@ public class StarredChangesIT extends AbstractDaemonTest {
   public void starredChangeState() throws Exception {
     Result c1 = createChange();
     Result c2 = createChange();
-    assertThat(getChange(c1.getChangeId()).starred).isNull();
-    assertThat(getChange(c2.getChangeId()).starred).isNull();
+    assertThat(info(c1.getChangeId()).starred).isNull();
+    assertThat(info(c2.getChangeId()).starred).isNull();
     starChange(true, c1.getPatchSetId().getParentKey());
     starChange(true, c2.getPatchSetId().getParentKey());
-    assertThat(getChange(c1.getChangeId()).starred).isTrue();
-    assertThat(getChange(c2.getChangeId()).starred).isTrue();
+    assertThat(info(c1.getChangeId()).starred).isTrue();
+    assertThat(info(c2.getChangeId()).starred).isTrue();
     starChange(false, c1.getPatchSetId().getParentKey());
     starChange(false, c2.getPatchSetId().getParentKey());
-    assertThat(getChange(c1.getChangeId()).starred).isNull();
-    assertThat(getChange(c2.getChangeId()).starred).isNull();
+    assertThat(info(c1.getChangeId()).starred).isNull();
+    assertThat(info(c2.getChangeId()).starred).isNull();
   }
 
   private void starChange(boolean on, Change.Id id) throws IOException {

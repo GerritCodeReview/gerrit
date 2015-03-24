@@ -374,6 +374,11 @@ public class IdentifiedUser extends CurrentUser {
     }
   }
 
+  public void clearStarredChanges() {
+    abortStarredChanges();
+    starredChanges = null;
+  }
+
   @Override
   public Collection<AccountProjectWatch> getNotificationFilters() {
     if (notificationFilters == null) {

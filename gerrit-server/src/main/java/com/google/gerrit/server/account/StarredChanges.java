@@ -145,6 +145,7 @@ public class StarredChanges implements
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }
+      rsrc.getUser().clearStarredChanges();
       return Response.none();
     }
   }
@@ -191,6 +192,7 @@ public class StarredChanges implements
           new StarredChange(new StarredChange.Key(
               rsrc.getUser().getAccountId(),
               rsrc.getChange().getId()))));
+      rsrc.getUser().clearStarredChanges();
       return Response.none();
     }
   }

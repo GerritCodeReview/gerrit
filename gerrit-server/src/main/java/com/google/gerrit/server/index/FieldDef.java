@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -78,9 +81,15 @@ public abstract class FieldDef<I, T> {
   private final boolean stored;
 
   private FieldDef(String name, FieldType<?> type, boolean stored) {
-    this.name = name;
+    this.name = checkName(name);
     this.type = type;
     this.stored = stored;
+  }
+
+  private static String checkName(String name) {
+    CharMatcher m = CharMatcher.anyOf("abcdefghijklmnopqrstuvwxyz0123456789_");
+    checkArgument(m.matchesAllOf(name), "illegal field name: %s", name);
+    return name;
   }
 
   /** @return name of the field. */

@@ -245,8 +245,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,
-      ObjectId expectedId) throws IOException {
-    ChangeInfo c = getChange(changeId, CURRENT_REVISION);
+      ObjectId expectedId) throws Exception {
+    ChangeInfo c = get(changeId, CURRENT_REVISION);
     assertThat(c.currentRevision).isEqualTo(expectedId.name());
     assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
     Repository repo =
@@ -261,8 +261,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected void assertApproved(String changeId) throws IOException {
-    ChangeInfo c = getChange(changeId, DETAILED_LABELS);
+  protected void assertApproved(String changeId) throws Exception {
+    ChangeInfo c = get(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);

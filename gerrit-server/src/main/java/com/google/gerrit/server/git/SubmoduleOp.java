@@ -70,8 +70,7 @@ import java.util.Set;
 public class SubmoduleOp {
   public interface Factory {
     SubmoduleOp create(Branch.NameKey destBranch, RevCommit mergeTip,
-        RevWalk rw, Repository db, Project destProject, List<Change> submitted,
-        Map<Change.Id, CodeReviewCommit> commits, Account account);
+        RevWalk rw, Repository db, Project destProject, Account account);
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -84,8 +83,6 @@ public class SubmoduleOp {
   private ReviewDb schema;
   private Repository db;
   private Project destProject;
-  private List<Change> submitted;
-  private final Map<Change.Id, CodeReviewCommit> commits;
   private final PersonIdent myIdent;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
@@ -103,9 +100,6 @@ public class SubmoduleOp {
       SchemaFactory<ReviewDb> sf,
       @Assisted Repository db,
       @Assisted Project destProject,
-      @Assisted List<Change> submitted,
-      @Assisted Map<Change.Id,
-      CodeReviewCommit> commits,
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
@@ -119,8 +113,6 @@ public class SubmoduleOp {
     this.schemaFactory = sf;
     this.db = db;
     this.destProject = destProject;
-    this.submitted = submitted;
-    this.commits = commits;
     this.myIdent = myIdent;
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
@@ -131,12 +123,15 @@ public class SubmoduleOp {
     updatedSubscribers = new HashSet<>();
   }
 
-  public void update() throws SubmoduleException {
+  public void update(List<Change> submitted,
+      Map<Change.Id, CodeReviewCommit> commits)
+          throws SubmoduleException {
     try {
       schema = schemaFactory.open();
 
       updateSubmoduleSubscriptions();
-      updateSuperProjects(destBranch, rw, mergeTip.getId().toObjectId(), null);
+      updateSuperProjects(destBranch, rw, mergeTip.getId().toObjectId(), null,
+          submitted, commits);
     } catch (OrmException | IOException e) {
       throw new SubmoduleException("Cannot open database", e);
     } finally {
@@ -210,8 +205,9 @@ public class SubmoduleOp {
   }
 
   private void updateSuperProjects(final Branch.NameKey updatedBranch, RevWalk myRw,
-      final ObjectId mergedCommit, final String msg) throws SubmoduleException,
-      IOException {
+      final ObjectId mergedCommit, final String msg, List<Change> submitted,
+      Map<Change.Id, CodeReviewCommit> commits)
+          throws SubmoduleException, IOException {
     try {
       final List<SubmoduleSubscription> subscribers =
           schema.submoduleSubscriptions().bySubmodule(updatedBranch).toList();
@@ -257,7 +253,8 @@ public class SubmoduleOp {
 
             Map<Branch.NameKey, String> paths = new HashMap<>(1);
               paths.put(updatedBranch, s.getPath());
-              updateGitlinks(s.getSuperProject(), myRw, modules, paths, sb.toString());
+              updateGitlinks(s.getSuperProject(), myRw, modules, paths,
+                  sb.toString(), submitted, commits);
             }
           } catch (SubmoduleException e) {
               log.warn("Cannot update gitlinks for " + s + " due to " + e.getMessage());
@@ -285,7 +282,9 @@ public class SubmoduleOp {
 
   private void updateGitlinks(final Branch.NameKey subscriber, RevWalk myRw,
       final Map<Branch.NameKey, ObjectId> modules,
-      final Map<Branch.NameKey, String> paths, final String msg)
+      final Map<Branch.NameKey, String> paths, final String msg,
+      List<Change> submitted,
+      Map<Change.Id, CodeReviewCommit> commits)
       throws SubmoduleException {
     PersonIdent author = null;
 
@@ -387,7 +386,8 @@ public class SubmoduleOp {
       recRw = new RevWalk(pdb);
 
       // Recursive call: update subscribers of the subscriber
-      updateSuperProjects(subscriber, recRw, commitId, msgbuf.toString());
+      updateSuperProjects(subscriber, recRw, commitId, msgbuf.toString(),
+          submitted, commits);
     } catch (IOException e) {
         throw new SubmoduleException("Cannot update gitlinks for "
             + subscriber.get(), e);

@@ -883,9 +883,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
       expect(urlProvider.get()).andReturn("http://localhost:8080").times(2);
 
-      expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-      expect(subscriptions.bySuperProject(mergedBranch)).andReturn(
-          new ListResultSet<>(previousSubscriptions));
+      //expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+      //expect(subscriptions.bySuperProject(mergedBranch)).andReturn(
+      //    new ListResultSet<>(previousSubscriptions));
 
       SortedSet<Project.NameKey> existingProjects = new TreeSet<>();
 
@@ -894,7 +894,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
       }
 
       for (int index = 0; index < extractedSubscriptions.size(); index++) {
-        expect(repoManager.list()).andReturn(existingProjects);
+        //expect(repoManager.list()).andReturn(existingProjects);
       }
 
       final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
@@ -931,8 +931,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
       final SubmoduleOp submoduleOp =
           new SubmoduleOp(mergedBranch, mergeTip, new RevWalk(realDb),
               urlProvider, schemaFactory, realDb, new Project(mergedBranch
-                  .getParentKey()), null, null,
-              null, null, null);
+                  .getParentKey()), null, null, null, null, null);
 
       submoduleOp.update(new ArrayList<Change>(), null);
     }

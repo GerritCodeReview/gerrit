@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "062dbc76_08cf47ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-24T15:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "062dbc76_88ba5704",
+      "range": {
+        "startLine": 212,
+        "startChar": 40,
+        "endLine": 212,
+        "endChar": 54
+      },
+      "revId": "0f55f2a5e67a86383728cba7d949698995409d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e62fc86e_87ba4604",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-24T15:20:14Z",
       "side": 1,
       "message": "same as the previous comment for both getOldId and getNewId",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 53
+      },
+      "revId": "0f55f2a5e67a86383728cba7d949698995409d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "062dbc76_28cc0bb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-24T15:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e62fc86e_87ba4604",
       "range": {
         "startLine": 214,
         "startChar": 0,

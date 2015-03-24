@@ -46,6 +46,30 @@
       "revId": "415ae0c1d4235c845cbf959541eae0e859f94e23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_50e82cf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-24T22:11:22Z",
+      "side": 1,
+      "message": "* Bumping the schema number forces a reindex to pick up the new file format.\n* LuceneChangeIndex has:\n\n    this.useDocValuesForSorting \u003d schema.getVersion() \u003e\u003d 16;",
+      "parentUuid": "c329d686_2ec42790",
+      "range": {
+        "startLine": 147,
+        "startChar": 34,
+        "endLine": 147,
+        "endChar": 37
+      },
+      "revId": "415ae0c1d4235c845cbf959541eae0e859f94e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,7 +25,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.IndexInput;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -51,8 +50,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class DocIndexer {
-  @SuppressWarnings("deprecation")
-  private static final Version LUCENE_VERSION = Version.LUCENE_4_10_1;
   private static final Pattern SECTION_HEADER = Pattern.compile("^=+ (.*)");
 
   @Option(name = "-o", usage = "output JAR file")
@@ -99,9 +96,9 @@ public class DocIndexer {
       UnsupportedEncodingException, FileNotFoundException {
     RAMDirectory directory = new RAMDirectory();
     IndexWriterConfig config = new IndexWriterConfig(
-        LUCENE_VERSION,
         new StandardAnalyzer(CharArraySet.EMPTY_SET));
     config.setOpenMode(OpenMode.CREATE);
+    config.setCommitOnClose(true);
     IndexWriter iwriter = new IndexWriter(directory, config);
     for (String inputFile : inputFiles) {
       File file = new File(inputFile);

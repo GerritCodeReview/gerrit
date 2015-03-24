@@ -78,10 +78,6 @@ public class OnlineReindexer {
         version(indexes.getSearchIndex()), version(index));
     ChangeBatchIndexer.Result result = batchIndexer.indexAll(
         index, projectCache.all(), -1, -1, null, null);
-    if (!result.success()) {
-      log.error("Online reindex of schema version {} failed", version(index));
-      return;
-    }
 
     indexes.setSearchIndex(index);
     log.info("Reindex complete, using schema version {}", version(index));

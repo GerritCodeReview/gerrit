@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -50,7 +51,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -60,15 +60,28 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private final WebLinks webLinks;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of branches to list")
-  private int limit;
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
 
   @Option(name = "--start", aliases = {"-s"}, metaVar = "CNT", usage = "number of branches to skip")
-  private int start;
+  public void setStart(int start) {
+    this.start = start;
+  }
 
   @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match branches substring")
-  private String matchSubstring;
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
 
   @Option(name = "--regex", aliases = {"-r"}, metaVar = "REGEX", usage = "match branches regex")
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
+  }
+
+  private int limit;
+  private int start;
+  private String matchSubstring;
   private String matchRegex;
 
   @Inject
@@ -130,11 +143,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
           target = target.substring(Constants.R_HEADS.length());
         }
 
-        BranchInfo b = new BranchInfo(ref.getName(), target, false);
+        BranchInfo b = new BranchInfo();
+        b.ref = ref.getName();
+        b.revision = target;
         branches.add(b);
 
         if (!Constants.HEAD.equals(ref.getName())) {
-          b.setCanDelete(targetRefControl.canDelete());
+          b.canDelete = targetRefControl.canDelete() ? true : null;
         }
         continue;
       }
@@ -232,9 +247,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   private BranchInfo createBranchInfo(Ref ref, RefControl refControl,
       Set<String> targets) {
-    BranchInfo info = new BranchInfo(ref.getName(),
-        ref.getObjectId() != null ? ref.getObjectId().name() : null,
-        !targets.contains(ref.getName()) && refControl.canDelete());
+    BranchInfo info = new BranchInfo();
+    info.ref = ref.getName();
+    info.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
+    info.canDelete = !targets.contains(ref.getName()) && refControl.canDelete()
+        ? true : null;
     for (UiAction.Description d : UiActions.from(
         branchViews,
         new BranchResource(refControl.getProjectControl(), info),
@@ -249,23 +266,5 @@ public class ListBranches implements RestReadView<ProjectResource> {
             refControl.getProjectControl().getProject().getName(), ref.getName());
     info.webLinks = links.isEmpty() ? null : links.toList();
     return info;
-  }
-
-  public static class BranchInfo {
-    public String ref;
-    public String revision;
-    public Boolean canDelete;
-    public Map<String, ActionInfo> actions;
-    public List<WebLinkInfo> webLinks;
-
-    public BranchInfo(String ref, String revision, boolean canDelete) {
-      this.ref = ref;
-      this.revision = revision;
-      this.canDelete = canDelete;
-    }
-
-    void setCanDelete(boolean canDelete) {
-      this.canDelete = canDelete ? true : null;
-    }
   }
 }

@@ -14,100 +14,87 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertBranches;
+import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertRefNames;
+import static org.junit.Assert.fail;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.server.project.ListBranches.BranchInfo;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.ProjectApi.ListBranchesRequest;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
+@NoHttpd
 public class ListBranchesIT extends AbstractDaemonTest {
   @Test
   public void listBranchesOfNonExistingProject_NotFound() throws Exception {
-    assertThat(GET("/projects/non-existing/branches").getStatusCode())
-        .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    try {
+      gApi.projects().name("non-existing").branches().get();
+      fail("Expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
   }
 
   @Test
   public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
     blockRead(project, "refs/*");
-    assertThat(
-        userSession.get("/projects/" + project.get() + "/branches")
-            .getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    setApiUser(user);
+    try {
+      gApi.projects().name(project.get()).branches().get();
+      fail("Expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
   }
 
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void listBranchesOfEmptyProject() throws Exception {
-    RestResponse r = adminSession.get("/projects/" + project + "/branches");
-    List<BranchInfo> expected = Lists.asList(
-        new BranchInfo("refs/meta/config",  null, false),
-        new BranchInfo[] {
-          new BranchInfo("HEAD", null, false)
-        });
-    assertBranches(expected, toBranchInfoList(r));
+    assertBranches(ImmutableList.of(
+          branch("HEAD", null, false),
+          branch("refs/meta/config",  null, false)),
+        list().get());
   }
 
   @Test
   public void listBranches() throws Exception {
-    pushTo("refs/heads/master");
-    String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
-    pushTo("refs/heads/dev");
-    String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
-    RestResponse r = adminSession.get("/projects/" + project.get() + "/branches");
-    List<BranchInfo> expected = Lists.asList(
-        new BranchInfo("refs/meta/config",  null, false),
-        new BranchInfo[] {
-          new BranchInfo("HEAD", "master", false),
-          new BranchInfo("refs/heads/master", masterCommit, false),
-          new BranchInfo("refs/heads/dev", devCommit, true)
-        });
-    List<BranchInfo> result = toBranchInfoList(r);
-    assertBranches(expected, result);
-
-    // verify correct sorting
-    assertThat(result.get(0).ref).isEqualTo("HEAD");
-    assertThat(result.get(1).ref).isEqualTo("refs/meta/config");
-    assertThat(result.get(2).ref).isEqualTo("refs/heads/dev");
-    assertThat(result.get(3).ref).isEqualTo("refs/heads/master");
+    String master = pushTo("refs/heads/master").getCommit().name();
+    String dev = pushTo("refs/heads/dev").getCommit().name();
+    assertBranches(ImmutableList.of(
+          branch("HEAD", "master", false),
+          branch("refs/meta/config",  null, false),
+          branch("refs/heads/dev", dev, true),
+          branch("refs/heads/master", master, false)),
+        list().get());
   }
 
   @Test
   public void listBranchesSomeHidden() throws Exception {
     blockRead(project, "refs/heads/dev");
-    pushTo("refs/heads/master");
-    String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
+    String master = pushTo("refs/heads/master").getCommit().name();
     pushTo("refs/heads/dev");
-    RestResponse r = userSession.get("/projects/" + project.get() + "/branches");
+    setApiUser(user);
     // refs/meta/config is hidden since user is no project owner
-    List<BranchInfo> expected = Lists.asList(
-        new BranchInfo("HEAD", "master", false),
-        new BranchInfo[] {
-          new BranchInfo("refs/heads/master", masterCommit, false),
-        });
-    assertBranches(expected, toBranchInfoList(r));
+    assertBranches(ImmutableList.of(
+          branch("HEAD", "master", false),
+          branch("refs/heads/master", master, false)),
+        list().get());
   }
 
   @Test
   public void listBranchesHeadHidden() throws Exception {
     blockRead(project, "refs/heads/master");
     pushTo("refs/heads/master");
-    pushTo("refs/heads/dev");
-    String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
-    RestResponse r = userSession.get("/projects/" + project.get() + "/branches");
+    String dev = pushTo("refs/heads/dev").getCommit().name();
+    setApiUser(user);
     // refs/meta/config is hidden since user is no project owner
-    assertBranches(Collections.singletonList(new BranchInfo("refs/heads/dev",
-        devCommit, false)), toBranchInfoList(r));
+    assertBranches(ImmutableList.of(branch("refs/heads/dev", dev, false)),
+        list().get());
   }
 
   @Test
@@ -117,47 +104,40 @@ public class ListBranchesIT extends AbstractDaemonTest {
     pushTo("refs/heads/someBranch2");
     pushTo("refs/heads/someBranch3");
 
-    // using only limit
-    RestResponse r =
-        adminSession.get("/projects/" + project.get() + "/branches?n=4");
-    List<BranchInfo> result = toBranchInfoList(r);
-    assertThat(result).hasSize(4);
-    assertThat(result.get(0).ref).isEqualTo("HEAD");
-    assertThat(result.get(1).ref).isEqualTo("refs/meta/config");
-    assertThat(result.get(2).ref).isEqualTo("refs/heads/master");
-    assertThat(result.get(3).ref).isEqualTo("refs/heads/someBranch1");
+    // Using only limit.
+    assertRefNames(ImmutableList.of(
+          "HEAD",
+          "refs/meta/config",
+          "refs/heads/master",
+          "refs/heads/someBranch1"),
+        list().withLimit(4).get());
 
-    // limit higher than total number of branches
-    r = adminSession.get("/projects/" + project.get() + "/branches?n=25");
-    result = toBranchInfoList(r);
-    assertThat(result).hasSize(6);
-    assertThat(result.get(0).ref).isEqualTo("HEAD");
-    assertThat(result.get(1).ref).isEqualTo("refs/meta/config");
-    assertThat(result.get(2).ref).isEqualTo("refs/heads/master");
-    assertThat(result.get(3).ref).isEqualTo("refs/heads/someBranch1");
-    assertThat(result.get(4).ref).isEqualTo("refs/heads/someBranch2");
-    assertThat(result.get(5).ref).isEqualTo("refs/heads/someBranch3");
+    // Limit higher than total number of branches.
+    assertRefNames(ImmutableList.of(
+          "HEAD",
+          "refs/meta/config",
+          "refs/heads/master",
+          "refs/heads/someBranch1",
+          "refs/heads/someBranch2",
+          "refs/heads/someBranch3"),
+        list().withLimit(25).get());
 
-    // using skip only
-    r = adminSession.get("/projects/" + project.get() + "/branches?s=2");
-    result = toBranchInfoList(r);
-    assertThat(result).hasSize(4);
-    assertThat(result.get(0).ref).isEqualTo("refs/heads/master");
-    assertThat(result.get(1).ref).isEqualTo("refs/heads/someBranch1");
-    assertThat(result.get(2).ref).isEqualTo("refs/heads/someBranch2");
-    assertThat(result.get(3).ref).isEqualTo("refs/heads/someBranch3");
+    // Using skip only.
+    assertRefNames(ImmutableList.of(
+          "refs/heads/master",
+          "refs/heads/someBranch1",
+          "refs/heads/someBranch2",
+          "refs/heads/someBranch3"),
+        list().withStart(2).get());
 
-    // skip more branches than the number of available branches
-    r = adminSession.get("/projects/" + project.get() + "/branches?s=7");
-    result = toBranchInfoList(r);
-    assertThat(result).isEmpty();
+    // Skip more branches than the number of available branches.
+    assertRefNames(ImmutableList.<String> of(), list().withStart(7).get());
 
     // using skip and limit
-    r = adminSession.get("/projects/" + project.get() + "/branches?s=2&n=2");
-    result = toBranchInfoList(r);
-    assertThat(result).hasSize(2);
-    assertThat(result.get(0).ref).isEqualTo("refs/heads/master");
-    assertThat(result.get(1).ref).isEqualTo("refs/heads/someBranch1");
+    assertRefNames(ImmutableList.of(
+          "refs/heads/master",
+          "refs/heads/someBranch1"),
+        list().withStart(2).withLimit(2).get());
   }
 
   @Test
@@ -167,38 +147,34 @@ public class ListBranchesIT extends AbstractDaemonTest {
     pushTo("refs/heads/someBranch2");
     pushTo("refs/heads/someBranch3");
 
-    //using substring
-    RestResponse r =
-        adminSession.get("/projects/" + project.get() + "/branches?m=some");
-    List<BranchInfo> result = toBranchInfoList(r);
-    assertThat(result).hasSize(3);
-    assertThat(result.get(0).ref).isEqualTo("refs/heads/someBranch1");
-    assertThat(result.get(1).ref).isEqualTo("refs/heads/someBranch2");
-    assertThat(result.get(2).ref).isEqualTo("refs/heads/someBranch3");
+    // Using substring.
+    assertRefNames(ImmutableList.of(
+          "refs/heads/someBranch1",
+          "refs/heads/someBranch2",
+          "refs/heads/someBranch3"),
+        list().withSubstring("some").get());
 
-    r = adminSession.get("/projects/" + project.get() + "/branches?m=Branch");
-    result = toBranchInfoList(r);
-    assertThat(result).hasSize(3);
-    assertThat(result.get(0).ref).isEqualTo("refs/heads/someBranch1");
-    assertThat(result.get(1).ref).isEqualTo("refs/heads/someBranch2");
-    assertThat(result.get(2).ref).isEqualTo("refs/heads/someBranch3");
+    assertRefNames(ImmutableList.of(
+          "refs/heads/someBranch1",
+          "refs/heads/someBranch2",
+          "refs/heads/someBranch3"),
+        list().withSubstring("Branch").get());
 
-    //using regex
-    r = adminSession.get("/projects/" + project.get() + "/branches?r=.*ast.*r");
-    result = toBranchInfoList(r);
-    assertThat(result).hasSize(1);
-    assertThat(result.get(0).ref).isEqualTo("refs/heads/master");
+    // Using regex>
+    assertRefNames(ImmutableList.of("refs/heads/master"),
+        list().withRegex(".*ast.*r").get());
   }
 
-  private RestResponse GET(String endpoint) throws IOException {
-    return adminSession.get(endpoint);
+  private ListBranchesRequest list() throws Exception {
+    return gApi.projects().name(project.get()).branches();
   }
 
-  private static List<BranchInfo> toBranchInfoList(RestResponse r)
-      throws IOException {
-    List<BranchInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<BranchInfo>>() {}.getType());
-    return result;
+  private static BranchInfo branch(String ref, String revision,
+        boolean canDelete) {
+    BranchInfo info = new BranchInfo();
+    info.ref = ref;
+    info.revision = revision;
+    info.canDelete = canDelete ? true : null;
+    return info;
   }
 }

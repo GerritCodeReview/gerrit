@@ -28,9 +28,9 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ReferenceManager;
 import org.apache.lucene.search.ReferenceManager.RefreshListener;
 import org.apache.lucene.search.SearcherFactory;
-import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -52,17 +52,19 @@ class SubIndex {
 
   private final Directory dir;
   private final TrackingIndexWriter writer;
-  private final SearcherManager searcherManager;
+  private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
 
-  SubIndex(Path path, GerritIndexWriterConfig writerConfig) throws IOException {
-    this(FSDirectory.open(path.toFile()), path.getFileName().toString(),
-        writerConfig);
+  SubIndex(Path path, GerritIndexWriterConfig writerConfig,
+      SearcherFactory searcherFactory) throws IOException {
+    this(FSDirectory.open(path), path.getFileName().toString(), writerConfig,
+        searcherFactory);
   }
 
   SubIndex(Directory dir, final String dirName,
-      GerritIndexWriterConfig writerConfig) throws IOException {
+      GerritIndexWriterConfig writerConfig,
+      SearcherFactory searcherFactory) throws IOException {
     this.dir = dir;
     IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
@@ -104,8 +106,8 @@ class SubIndex {
           }, commitPeriod, commitPeriod, MILLISECONDS);
     }
     writer = new TrackingIndexWriter(delegateWriter);
-    searcherManager = new SearcherManager(
-        writer.getIndexWriter(), true, new SearcherFactory());
+    searcherManager = new WrappableSearcherManager(
+        writer.getIndexWriter(), true, searcherFactory);
 
     notDoneNrtFutures = Sets.newConcurrentHashSet();
 
@@ -125,6 +127,8 @@ class SubIndex {
     // searching generation being up to date when calling
     // reopenThread.waitForGeneration(gen, 0), therefore the reopen thread's
     // internal listener needs to be called first.
+    // TODO(dborowitz): This may have been fixed by
+    // http://issues.apache.org/jira/browse/LUCENE-5461
     searcherManager.addListener(new RefreshListener() {
       @Override
       public void beforeRefresh() throws IOException {
@@ -158,12 +162,9 @@ class SubIndex {
     }
 
     try {
-      writer.getIndexWriter().commit();
-      try {
-        writer.getIndexWriter().close();
-      } catch (AlreadyClosedException e) {
-        // Ignore.
-      }
+      writer.getIndexWriter().close();
+    } catch (AlreadyClosedException e) {
+      // Ignore.
     } catch (IOException e) {
       log.warn("error closing Lucene writer", e);
     }

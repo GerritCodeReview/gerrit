@@ -327,15 +327,12 @@ public abstract class AbstractDaemonTest {
 
   protected ChangeInfo getChange(String changeId, ListChangesOption... options)
       throws IOException {
-    return getChange(adminSession, changeId, options);
+    return getChange(admin, changeId, options);
   }
 
-  protected ChangeInfo getChange(RestSession session, String changeId,
+  protected ChangeInfo getChange(TestAccount account, String changeId,
       ListChangesOption... options) throws IOException {
-    String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
-    RestResponse r = session.get("/changes/" + changeId + q);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return newGson().fromJson(r.getReader(), ChangeInfo.class);
+    return gApi.changes().id(changeId).get(options);
   }
 
   protected ChangeInfo info(String id)

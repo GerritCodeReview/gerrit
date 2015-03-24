@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.inject.Singleton;
 
 @Singleton

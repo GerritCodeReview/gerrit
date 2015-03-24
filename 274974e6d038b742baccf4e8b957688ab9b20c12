@@ -117,6 +117,30 @@
       "revId": "274974e6d038b742baccf4e8b957688ab9b20c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c329d686_4ebf73f4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-24T22:01:31Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "03404e41_f0cde0b2",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 11
+      },
+      "revId": "274974e6d038b742baccf4e8b957688ab9b20c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

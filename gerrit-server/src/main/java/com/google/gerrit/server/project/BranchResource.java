@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.inject.TypeLiteral;
 
 public class BranchResource extends ProjectResource {

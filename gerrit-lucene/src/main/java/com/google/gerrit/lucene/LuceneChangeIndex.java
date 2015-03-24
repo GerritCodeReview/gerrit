@@ -14,7 +14,7 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
@@ -39,7 +39,6 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeField.ChangeProtoField;
 import com.google.gerrit.server.index.ChangeField.PatchSetApprovalProtoField;
 import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
@@ -64,6 +63,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -82,7 +82,6 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.Version;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -120,53 +119,18 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final String ID_SORT_FIELD =
+      sortFieldName(ChangeField.LEGACY_ID);
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
+  private static final String UPDATED_SORT_FIELD =
+      sortFieldName(ChangeField.UPDATED);
+
   private static final ImmutableSet<String> FIELDS = ImmutableSet.of(
       ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD,
       MERGEABLE_FIELD);
+
   private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
       "_", " ", ".", " ");
-
-  private static final Map<Schema<ChangeData>, Version> LUCENE_VERSIONS;
-  static {
-    ImmutableMap.Builder<Schema<ChangeData>, Version> versions =
-        ImmutableMap.builder();
-    @SuppressWarnings("deprecation")
-    Version lucene43 = Version.LUCENE_43;
-    @SuppressWarnings("deprecation")
-    Version lucene44 = Version.LUCENE_44;
-    @SuppressWarnings("deprecation")
-    Version lucene46 = Version.LUCENE_46;
-    @SuppressWarnings("deprecation")
-    Version lucene47 = Version.LUCENE_47;
-    @SuppressWarnings("deprecation")
-    Version lucene48 = Version.LUCENE_48;
-    @SuppressWarnings("deprecation")
-    Version lucene410 = Version.LUCENE_4_10_0;
-    // We are using 4.10.2 but there is no difference in the index
-    // format since 4.10.1, so we reuse the version here.
-    @SuppressWarnings("deprecation")
-    Version lucene4101 = Version.LUCENE_4_10_1;
-    for (Map.Entry<Integer, Schema<ChangeData>> e
-        : ChangeSchemas.ALL.entrySet()) {
-      if (e.getKey() <= 3) {
-        versions.put(e.getValue(), lucene43);
-      } else if (e.getKey() <= 5) {
-        versions.put(e.getValue(), lucene44);
-      } else if (e.getKey() <= 8) {
-        versions.put(e.getValue(), lucene46);
-      } else if (e.getKey() <= 10) {
-        versions.put(e.getValue(), lucene47);
-      } else if (e.getKey() <= 11) {
-        versions.put(e.getValue(), lucene48);
-      } else if (e.getKey() <= 13) {
-        versions.put(e.getValue(), lucene410);
-      } else {
-        versions.put(e.getValue(), lucene4101);
-      }
-    }
-    LUCENE_VERSIONS = versions.build();
-  }
 
   public static void setReady(SitePaths sitePaths, int version, boolean ready)
       throws IOException {
@@ -180,6 +144,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
+  private static String sortFieldName(FieldDef<?, ?> f) {
+    return f.getName() + "_SORT";
+  }
+
   static interface Factory {
     LuceneChangeIndex create(Schema<ChangeData> schema, String base);
   }
@@ -188,12 +156,13 @@ public class LuceneChangeIndex implements ChangeIndex {
     private final IndexWriterConfig luceneConfig;
     private long commitWithinMs;
 
-    private GerritIndexWriterConfig(Version version, Config cfg, String name) {
+    private GerritIndexWriterConfig(Config cfg, String name) {
       CustomMappingAnalyzer analyzer =
           new CustomMappingAnalyzer(new StandardAnalyzer(
               CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
-      luceneConfig = new IndexWriterConfig(version, analyzer);
-      luceneConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
+      luceneConfig = new IndexWriterConfig(analyzer)
+          .setOpenMode(OpenMode.CREATE_OR_APPEND)
+          .setCommitOnClose(true);
       double m = 1 << 20;
       luceneConfig.setRAMBufferSizeMB(cfg.getLong(
           "index", name, "ramBufferSize",
@@ -229,6 +198,17 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
 
+  /**
+   * Whether to use DocValues for range/sorted numeric fields.
+   * <p>
+   * Lucene 5 removed support for sorting based on normal numeric fields, so we
+   * use the newer API for more strongly typed numeric fields in newer schema
+   * versions. These fields also are not stored, so we need to store auxiliary
+   * stored-only field for them as well.
+   */
+  // TODO(dborowitz): Delete when we delete support for pre-Lucene-5.0 schemas.
+  private final boolean useDocValuesForSorting;
+
   @AssistedInject
   LuceneChangeIndex(
       @GerritServerConfig Config cfg,
@@ -245,10 +225,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
+    this.useDocValuesForSorting = schema.getVersion() >= 16;
 
-    Version luceneVersion = checkNotNull(
-        LUCENE_VERSIONS.get(schema),
-        "unknown Lucene version for index schema: %s", schema);
     CustomMappingAnalyzer analyzer =
         new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
             CUSTOM_CHAR_MAPPING);
@@ -258,9 +236,9 @@ public class LuceneChangeIndex implements ChangeIndex {
         BooleanQuery.getMaxClauseCount()));
 
     GerritIndexWriterConfig openConfig =
-        new GerritIndexWriterConfig(luceneVersion, cfg, "changes_open");
+        new GerritIndexWriterConfig(cfg, "changes_open");
     GerritIndexWriterConfig closedConfig =
-        new GerritIndexWriterConfig(luceneVersion, cfg, "changes_closed");
+        new GerritIndexWriterConfig(cfg, "changes_closed");
 
     if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
       openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig);
@@ -355,12 +333,18 @@ public class LuceneChangeIndex implements ChangeIndex {
     setReady(sitePaths, schema.getVersion(), ready);
   }
 
-  private static Sort getSort() {
-    return new Sort(
-        new SortField(
-          ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
-        new SortField(
-          ChangeField.LEGACY_ID.getName(), SortField.Type.INT, true));
+  private Sort getSort() {
+    if (useDocValuesForSorting) {
+      return new Sort(
+          new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
+          new SortField(ID_SORT_FIELD, SortField.Type.LONG, true));
+    } else {
+      return new Sort(
+          new SortField(
+            ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
+          new SortField(
+            ChangeField.LEGACY_ID.getName(), SortField.Type.INT, true));
+    }
   }
 
   private class QuerySource implements ChangeDataSource {
@@ -505,6 +489,16 @@ public class LuceneChangeIndex implements ChangeIndex {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
+
+    if (useDocValuesForSorting) {
+      if (values.getField() == ChangeField.LEGACY_ID) {
+        int v = (Integer) getOnlyElement(values.getValues());
+        doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
+      } else if (values.getField() == ChangeField.UPDATED) {
+        long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
+        doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
+      }
+    }
 
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
       for (Object value : values.getValues()) {

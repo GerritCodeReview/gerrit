@@ -57,8 +57,7 @@ class SubIndex {
   private final Set<NrtFuture> notDoneNrtFutures;
 
   SubIndex(Path path, GerritIndexWriterConfig writerConfig) throws IOException {
-    this(FSDirectory.open(path.toFile()), path.getFileName().toString(),
-        writerConfig);
+    this(FSDirectory.open(path), path.getFileName().toString(), writerConfig);
   }
 
   SubIndex(Directory dir, final String dirName,
@@ -125,6 +124,8 @@ class SubIndex {
     // searching generation being up to date when calling
     // reopenThread.waitForGeneration(gen, 0), therefore the reopen thread's
     // internal listener needs to be called first.
+    // TODO(dborowitz): This may have been fixed by
+    // http://issues.apache.org/jira/browse/LUCENE-5461
     searcherManager.addListener(new RefreshListener() {
       @Override
       public void beforeRefresh() throws IOException {
@@ -158,12 +159,9 @@ class SubIndex {
     }
 
     try {
-      writer.getIndexWriter().commit();
-      try {
-        writer.getIndexWriter().close();
-      } catch (AlreadyClosedException e) {
-        // Ignore.
-      }
+      writer.getIndexWriter().close();
+    } catch (AlreadyClosedException e) {
+      // Ignore.
     } catch (IOException e) {
       log.warn("error closing Lucene writer", e);
     }

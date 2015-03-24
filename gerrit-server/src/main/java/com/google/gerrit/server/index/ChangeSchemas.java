@@ -143,6 +143,9 @@ public class ChangeSchemas {
       ChangeField.HASHTAG,
       ChangeField.COMMENTBY);
 
+  // For upgrade to Lucene 5.0.0 index format only.
+  static final Schema<ChangeData> V16 = schema(V15.getFields().values());
+
   private static Schema<ChangeData> schema(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<>(ImmutableList.copyOf(fields));
   }

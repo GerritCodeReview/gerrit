@@ -46,7 +46,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
   private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
 
-  static class Input {
+  public static class Input {
   }
 
   private final Provider<IdentifiedUser> identifiedUser;

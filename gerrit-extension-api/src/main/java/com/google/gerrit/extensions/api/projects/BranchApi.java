@@ -20,6 +20,10 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 public interface BranchApi {
   BranchApi create(BranchInput in) throws RestApiException;
 
+  BranchInfo get() throws RestApiException;
+
+  void delete() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -27,6 +31,16 @@ public interface BranchApi {
   public class NotImplemented implements BranchApi {
     @Override
     public BranchApi create(BranchInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public BranchInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

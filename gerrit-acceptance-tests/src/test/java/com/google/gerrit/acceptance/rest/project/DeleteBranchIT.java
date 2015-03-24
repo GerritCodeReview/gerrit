@@ -14,21 +14,25 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
 
-import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
+@NoHttpd
 public class DeleteBranchIT extends AbstractDaemonTest {
 
   private Branch.NameKey branch;
@@ -36,62 +40,31 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     branch = new Branch.NameKey(project, "test");
-    adminSession.put("/projects/" + project.get()
-        + "/branches/" + branch.getShortName()).consume();
+    branch().create(new BranchInput());
   }
 
   @Test
   public void deleteBranch_Forbidden() throws Exception {
-    RestResponse r =
-        userSession.delete("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
-    r.consume();
+    setApiUser(user);
+    assertDeleteForbidden();
   }
 
   @Test
   public void deleteBranchByAdmin() throws Exception {
-    RestResponse r =
-        adminSession.delete("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    r.consume();
-
-    r = adminSession.get("/projects/" + project.get()
-        + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
-    r.consume();
+    assertDeleteSucceeds();
   }
 
   @Test
   public void deleteBranchByProjectOwner() throws Exception {
     grantOwner();
-
-    RestResponse r =
-        userSession.delete("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    r.consume();
-
-    r = userSession.get("/projects/" + project.get()
-        + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
-    r.consume();
+    setApiUser(user);
+    assertDeleteSucceeds();
   }
 
   @Test
   public void deleteBranchByAdminForcePushBlocked() throws Exception {
     blockForcePush();
-    RestResponse r =
-        adminSession.delete("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    r.consume();
-
-    r = adminSession.get("/projects/" + project.get()
-        + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
-    r.consume();
+    assertDeleteSucceeds();
   }
 
   @Test
@@ -99,11 +72,8 @@ public class DeleteBranchIT extends AbstractDaemonTest {
       throws Exception {
     grantOwner();
     blockForcePush();
-    RestResponse r =
-        userSession.delete("/projects/" + project.get()
-            + "/branches/" + branch.getShortName());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
-    r.consume();
+    setApiUser(user);
+    assertDeleteForbidden();
   }
 
   private void blockForcePush() throws Exception {
@@ -114,5 +84,31 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   private void grantOwner() throws Exception {
     allow(Permission.OWNER, REGISTERED_USERS, "refs/*");
+  }
+
+  private BranchApi branch() throws Exception {
+    return gApi.projects()
+        .name(branch.getParentKey().get())
+        .branch(branch.get());
+  }
+
+  private void assertDeleteSucceeds() throws Exception {
+    branch().delete();
+    try {
+      branch().get();
+      fail("Expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
+  }
+
+  private void assertDeleteForbidden() throws Exception {
+    try {
+      branch().delete();
+      fail("Expected AuthException");
+    } catch (AuthException expected) {
+      // Expected.
+    }
+    branch().get();
   }
 }

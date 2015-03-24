@@ -22,6 +22,30 @@
       "revId": "d1eda6846ea2f94e16f8db708e409b037de2f560",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "030bee18_78bae105",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-24T19:46:42Z",
+      "side": 1,
+      "message": "Yes, we need a way to change the index without restarting the server.\n\nTo help admins make the decision whether to switch the index we should also write the number of successful/failed changes in the error_log.",
+      "parentUuid": "661bd85b_a3bf3af3",
+      "range": {
+        "startLine": 17,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "d1eda6846ea2f94e16f8db708e409b037de2f560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

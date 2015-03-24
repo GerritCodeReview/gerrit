@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c32476a6_16c97ca6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-24T21:47:31Z",
+      "side": 1,
+      "message": "wrong indentation",
+      "range": {
+        "startLine": 342,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 70
+      },
+      "revId": "274974e6d038b742baccf4e8b957688ab9b20c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c32476a6_f6cde0b2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-24T21:47:31Z",
+      "side": 1,
+      "message": "Are these nested try blocks still necessary?",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 11
+      },
+      "revId": "274974e6d038b742baccf4e8b957688ab9b20c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

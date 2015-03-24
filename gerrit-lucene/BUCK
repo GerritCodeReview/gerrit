@@ -34,7 +34,9 @@ java_library(
     '//lib/jgit:jgit',
     '//lib/log:api',
     '//lib/lucene:analyzers-common',
+    '//lib/lucene:backward-codecs',
     '//lib/lucene:core',
+    '//lib/lucene:misc',
   ],
   visibility = ['PUBLIC'],
 )

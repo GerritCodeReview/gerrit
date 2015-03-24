@@ -393,6 +393,8 @@ public class SubmoduleOp {
 
   private static DirCache readTree(final Repository pdb, final Ref branch)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    // TODO(sbeller): add a cache here for multi changes?
+    // make committing a last step requiring no arguments, so it can be deferred
     try (RevWalk rw = new RevWalk(pdb)) {
       final DirCache dc = DirCache.newInCore();
       final DirCacheBuilder b = dc.builder();

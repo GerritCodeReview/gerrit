@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "661bd85b_a3bf3af3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-03-24T16:58:03Z",
+      "side": 1,
+      "message": "I thought about doing the same change but the major difference is that when you run Reindex program and it fails, you still have the chance to fix stuff and re-run it before starting Gerrit. If you only have couple of changes that failed to reindex, you may still decided to start Gerrit with the partial index, which make sense.\n\nIf you switch the index even when there are issues for online reindexer, it\u0027s really risky because you could end up with an empty index, if you have many issues.\n\nI think the decision to switch to a partial index should be made by someone, not automatically.\n\nWhat about adding a way to change the index live, without restarting the server instead?",
+      "range": {
+        "startLine": 17,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "d1eda6846ea2f94e16f8db708e409b037de2f560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

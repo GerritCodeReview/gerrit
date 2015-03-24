@@ -15,10 +15,16 @@
 package com.google.gerrit.server.api.projects;
 
 import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.server.project.BranchesCollection;
 import com.google.gerrit.server.project.CreateBranch;
+import com.google.gerrit.server.project.DeleteBranch;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -29,16 +35,21 @@ public class BranchApiImpl implements BranchApi {
     BranchApiImpl create(ProjectResource project, String ref);
   }
 
+  private final BranchesCollection branches;
   private final CreateBranch.Factory createBranchFactory;
+  private final DeleteBranch deleteBranch;
   private final String ref;
   private final ProjectResource project;
 
   @Inject
-  BranchApiImpl(
+  BranchApiImpl(BranchesCollection branches,
       CreateBranch.Factory createBranchFactory,
+      DeleteBranch deleteBranch,
       @Assisted ProjectResource project,
       @Assisted String ref) {
+    this.branches = branches;
     this.createBranchFactory = createBranchFactory;
+    this.deleteBranch = deleteBranch;
     this.project = project;
     this.ref = ref;
   }
@@ -54,5 +65,27 @@ public class BranchApiImpl implements BranchApi {
     } catch (IOException e) {
       throw new RestApiException("Cannot create branch", e);
     }
+  }
+
+  @Override
+  public BranchInfo get() throws RestApiException {
+    try {
+      return resource().getBranchInfo();
+    } catch (IOException e) {
+      throw new RestApiException("Cannot read branch", e);
+    }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    try {
+      deleteBranch.apply(resource(), new DeleteBranch.Input());
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot delete branch", e);
+    }
+  }
+
+  private BranchResource resource() throws RestApiException, IOException {
+    return branches.parse(project, IdString.fromDecoded(ref));
   }
 }

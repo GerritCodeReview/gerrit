@@ -14,15 +14,14 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.data.AccessSection;
@@ -60,7 +59,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -76,7 +74,6 @@ import org.junit.runners.model.Statement;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -325,19 +322,6 @@ public abstract class AbstractDaemonTest {
     return push.to(ref);
   }
 
-  protected ChangeInfo getChange(String changeId, ListChangesOption... options)
-      throws IOException {
-    return getChange(adminSession, changeId, options);
-  }
-
-  protected ChangeInfo getChange(RestSession session, String changeId,
-      ListChangesOption... options) throws IOException {
-    String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
-    RestResponse r = session.get("/changes/" + changeId + q);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return newGson().fromJson(r.getReader(), ChangeInfo.class);
-  }
-
   protected ChangeInfo info(String id)
       throws RestApiException {
     return gApi.changes().id(id).info();
@@ -355,9 +339,8 @@ public abstract class AbstractDaemonTest {
 
   protected ChangeInfo get(String id, ListChangesOption... options)
       throws RestApiException {
-    EnumSet<ListChangesOption> s = EnumSet.noneOf(ListChangesOption.class);
-    s.addAll(Arrays.asList(options));
-    return gApi.changes().id(id).get(s);
+    return gApi.changes().id(id).get(
+        Sets.newEnumSet(Arrays.asList(options), ListChangesOption.class));
   }
 
   protected List<ChangeInfo> query(String q) throws RestApiException {

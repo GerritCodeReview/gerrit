@@ -22,6 +22,30 @@
       "revId": "415ae0c1d4235c845cbf959541eae0e859f94e23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c329d686_0ec96ba6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-03-24T22:10:45Z",
+      "side": 1,
+      "message": "Nevermind :)",
+      "parentUuid": "c329d686_2ec42790",
+      "range": {
+        "startLine": 147,
+        "startChar": 34,
+        "endLine": 147,
+        "endChar": 37
+      },
+      "revId": "415ae0c1d4235c845cbf959541eae0e859f94e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

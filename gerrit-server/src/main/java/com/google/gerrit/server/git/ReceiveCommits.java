@@ -666,9 +666,9 @@ public class ReceiveCommits {
                // Update superproject gitlinks if required.
                subOpFactory.create(
                    branch, newTip, rw, repo, project,
-                   new ArrayList<Change>(),
-                   new HashMap<Change.Id, CodeReviewCommit>(),
-                   currentUser.getAccount()).update();
+                   currentUser.getAccount()).update(
+                       new ArrayList<Change>(),
+                       new HashMap<Change.Id, CodeReviewCommit>());
 
             } catch (MissingObjectException e) {
               log.error("Can't scan for changes to close", e);

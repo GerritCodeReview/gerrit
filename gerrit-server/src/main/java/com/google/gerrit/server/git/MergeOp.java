@@ -835,10 +835,10 @@ public class MergeOp {
           submitted.size());
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
-              destProject.getProject(), submitted, commits,
+              destProject.getProject(),
               getAccount(mergeTip.getCurrentTip()));
       try {
-        subOp.update();
+        subOp.update(submitted, commits);
       } catch (SubmoduleException e) {
         logError(
             "The gitLinks were not updated according to the subscriptions" , e);

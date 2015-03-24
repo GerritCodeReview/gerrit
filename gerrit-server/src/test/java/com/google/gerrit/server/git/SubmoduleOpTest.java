@@ -141,11 +141,11 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
       doReplay();
 
       final SubmoduleOp submoduleOp =
-          new SubmoduleOp(branchNameKey, mergeTip, new RevWalk(realDb), urlProvider,
-              schemaFactory, realDb, null, new ArrayList<Change>(), null, null,
-              null, null, null, null);
+          new SubmoduleOp(branchNameKey, mergeTip, new RevWalk(realDb),
+              urlProvider, schemaFactory, realDb, null, null, null,
+              null, null, null);
 
-      submoduleOp.update();
+      submoduleOp.update(new ArrayList<Change>(), null);
 
       doVerify();
     }
@@ -664,11 +664,10 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
       final SubmoduleOp submoduleOp =
           new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
               sourceRepository), urlProvider, schemaFactory, sourceRepository,
-              new Project(sourceBranchNameKey.getParentKey()), submitted,
-              mergedCommits, myIdent, repoManager, gitRefUpdated, null,
-              changeHooks);
+              new Project(sourceBranchNameKey.getParentKey()), myIdent,
+              repoManager, gitRefUpdated, null, changeHooks);
 
-      submoduleOp.update();
+      submoduleOp.update(submitted, mergedCommits);
 
       doVerify();
       RefUpdate ru = ruCapture.getValue();
@@ -775,10 +774,10 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
       final SubmoduleOp submoduleOp =
           new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
               sourceRepository), urlProvider, schemaFactory, sourceRepository,
-              new Project(sourceBranchNameKey.getParentKey()), submitted,
-              mergedCommits, myIdent, repoManager, gitRefUpdated, null, changeHooks);
+              new Project(sourceBranchNameKey.getParentKey()), myIdent,
+              repoManager, gitRefUpdated, null, changeHooks);
 
-      submoduleOp.update();
+      submoduleOp.update(submitted, mergedCommits);
 
       doVerify();
       RefUpdate ru = ruCapture.getValue();
@@ -932,10 +931,10 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
       final SubmoduleOp submoduleOp =
           new SubmoduleOp(mergedBranch, mergeTip, new RevWalk(realDb),
               urlProvider, schemaFactory, realDb, new Project(mergedBranch
-                  .getParentKey()), new ArrayList<Change>(), null, null,
-              repoManager, null, null, null);
+                  .getParentKey()), null, null,
+              null, null, null);
 
-      submoduleOp.update();
+      submoduleOp.update(new ArrayList<Change>(), null);
     }
   }
 

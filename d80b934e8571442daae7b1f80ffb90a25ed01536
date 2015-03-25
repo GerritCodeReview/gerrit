@@ -34,6 +34,24 @@
       "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c32476a6_d6f8a4c0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-25T20:56:16Z",
+      "side": 1,
+      "message": "In that case, it should probably be in the \"Lucene configuration\" section below.",
+      "parentUuid": "03404e41_90ed7405",
+      "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

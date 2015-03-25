@@ -267,7 +267,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void updateRootCommitMessage() throws Exception {
-    setRepo(cloneProject(sshSession.getUrl() + "/" + project));
+    // Re-clone empty repo; TestRepository doesn't let us reset to unborn head.
+    testRepo = cloneProject(project, sshSession);
     changeId = newChange(admin.getIdent());
     change = getChange(changeId);
 

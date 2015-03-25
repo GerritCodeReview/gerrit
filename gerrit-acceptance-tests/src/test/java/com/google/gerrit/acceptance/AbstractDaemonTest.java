@@ -64,6 +64,7 @@ import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -127,8 +128,7 @@ public abstract class AbstractDaemonTest {
   @Inject
   protected @GerritServerConfig Config cfg;
 
-  protected Git git;
-  protected TestRepository<?> testRepo;
+  protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
   protected TestAccount admin;
   protected TestAccount user;
@@ -211,7 +211,7 @@ public abstract class AbstractDaemonTest {
     project = new Project.NameKey(projectInput.name);
     createProject(projectInput);
 
-    setRepo(cloneProject(sshSession.getUrl() + "/" + project.get()));
+    testRepo = cloneProject(project, sshSession);
   }
 
   private ProjectInput projectInput(Description description) {
@@ -237,9 +237,12 @@ public abstract class AbstractDaemonTest {
     return in;
   }
 
-  protected void setRepo(Git git) throws Exception {
-    this.git = git;
-    testRepo = new TestRepository<>(git.getRepository());
+  protected Git git() {
+    return testRepo.git();
+  }
+
+  protected InMemoryRepository repo() {
+    return testRepo.getRepository();
   }
 
   protected void createProject(String name) throws RestApiException {
@@ -291,7 +294,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected TestRepository<?>.CommitBuilder amendBuilder() throws Exception {
-    ObjectId head = testRepo.getRepository().getRef("HEAD").getObjectId();
+    ObjectId head = repo().getRef("HEAD").getObjectId();
     TestRepository<?>.CommitBuilder b = testRepo.amendRef("HEAD");
     Optional<String> id = GitUtil.getChangeId(testRepo, head);
     // TestRepository behaves like "git commit --amend -m foo", which does not

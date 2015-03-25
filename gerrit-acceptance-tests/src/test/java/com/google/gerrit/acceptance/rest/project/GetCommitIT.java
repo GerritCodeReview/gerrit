@@ -19,6 +19,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.AccessSection;
@@ -40,7 +41,7 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    repo = new TestRepository<>(repoManager.openRepository(project));
+    repo = GitUtil.newTestRepository(repoManager.openRepository(project));
 
     ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
     for (AccessSection sec : pc.getAccessSections()) {

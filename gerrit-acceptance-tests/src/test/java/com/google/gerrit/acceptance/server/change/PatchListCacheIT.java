@@ -55,7 +55,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .add(FILE_D, "4")
         .message(SUBJECT_1)
         .create();
-    pushHead(git, "refs/heads/master", false);
+    pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1, 1 (+FILE_A, -FILE_D)
     RevCommit c = commitBuilder()
@@ -65,7 +65,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .insertChangeId()
         .create();
     String id = getChangeId(testRepo, c).get();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Compare Change 1,1 with Base (+FILE_A, -FILE_D)
     List<PatchListEntry> entries = getCurrentPatches(id);
@@ -78,7 +78,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     c = amendBuilder()
         .add(FILE_B, "2")
         .create();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
     entries = getCurrentPatches(id);
 
     // Compare Change 1,2 with Base (+FILE_A, +FILE_B, -FILE_D)
@@ -95,7 +95,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .add(FILE_D, "4")
         .message(SUBJECT_1)
         .create();
-    pushHead(git, "refs/heads/master", false);
+    pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, -FILE_D)
     RevCommit c = commitBuilder()
@@ -104,7 +104,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .message(SUBJECT_2)
         .create();
     String id = getChangeId(testRepo, c).get();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
     List<PatchListEntry> entries = getCurrentPatches(id);
     assertThat(entries).hasSize(3);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
@@ -117,11 +117,11 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .add(FILE_B, "2")
         .message(SUBJECT_3)
         .create();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, -FILE_D))
-    git.cherryPick().include(c).call();
-    pushHead(git, "refs/for/master", false);
+    testRepo.cherryPick(c);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Compare Change 1,2 with Base (+FILE_A, -FILE_D))
     entries = getCurrentPatches(id);
@@ -137,7 +137,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .add(FILE_D, "4")
         .message(SUBJECT_1)
         .create();
-    pushHead(git, "refs/heads/master", false);
+    pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, +FILE_C, -FILE_D)
     RevCommit a = commitBuilder()
@@ -146,14 +146,14 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .rm(FILE_D)
         .message(SUBJECT_2)
         .create();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, +FILE_B, -FILE_D)
     RevCommit b = amendBuilder()
         .add(FILE_B, "2")
         .rm(FILE_C)
         .create();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Compare Change 1,1 with Change 1,2 (+FILE_B)
     List<PatchListEntry>  entries = getPatches(a, b);
@@ -168,7 +168,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .add(FILE_D, "4")
         .message(SUBJECT_1)
         .create();
-    pushHead(git, "refs/heads/master", false);
+    pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, -FILE_D)
     RevCommit a = commitBuilder()
@@ -176,7 +176,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .rm(FILE_D)
         .message(SUBJECT_2)
         .create();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Change 2,1 (+FILE_B)
     testRepo.reset("HEAD~1");
@@ -184,14 +184,14 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .add(FILE_B, "2")
         .message(SUBJECT_3)
         .create();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, +FILE_C, -FILE_D)
-    git.cherryPick().include(a).call();
+    testRepo.cherryPick(a);
     RevCommit b = amendBuilder()
         .add(FILE_C, "2")
         .create();
-    pushHead(git, "refs/for/master", false);
+    pushHead(testRepo, "refs/for/master", false);
 
     // Compare Change 1,1 with Change 1,2 (+FILE_C)
     List<PatchListEntry>  entries = getPatches(a, b);

@@ -189,7 +189,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push.to("refs/for/master");
     merge(r2);
 
-    git.checkout().setName(r1.getCommit().name()).call();
+    testRepo.reset(r1.getCommit());
     push = pushFactory.create(db, admin.getIdent(), testRepo, subject, file, contents);
     PushOneCommit.Result r3 = push.to("refs/for/master");
     revision(r3).review(ReviewInput.recommend());
@@ -216,7 +216,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push.to("refs/for/master");
     merge(r2);
 
-    git.checkout().setName(r1.getCommit().name()).call();
+    testRepo.reset(r1.getCommit());
     push = pushFactory.create(db, admin.getIdent(), testRepo, subject, file, contents);
     PushOneCommit.Result r3 = push.to("refs/for/master");
     revision(r3).review(ReviewInput.recommend());
@@ -232,7 +232,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     saveLabelConfig();
 
     PushOneCommit.Result r1 = createChange();
-    git.checkout().setName(r1.getCommit().name()).call();
+    testRepo.reset(r1.getCommit());
 
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, "b.txt", "other contents");
@@ -262,7 +262,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r1 = createChange();
 
-    git.checkout().setName(r1.getCommit().name()).call();
+    testRepo.reset(r1.getCommit());
 
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, "b.txt", "other contents");
@@ -303,7 +303,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result basePlusMMinusM = push.to("refs/for/master");
     merge(basePlusMMinusM);
 
-    git.checkout().setName(base.getCommit().name()).call();
+    testRepo.reset(base.getCommit());
     push = pushFactory.create(db, admin.getIdent(), testRepo,
         PushOneCommit.SUBJECT, file, contents + "MM");
     PushOneCommit.Result patchSet = push.to("refs/for/master");

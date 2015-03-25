@@ -61,15 +61,15 @@ public class ListBranchesIT extends AbstractDaemonTest {
   @Test
   public void listBranches() throws Exception {
     pushTo("refs/heads/master");
-    String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
+    String headCommit = repo().getRef("HEAD").getTarget().getObjectId().getName();
     pushTo("refs/heads/dev");
-    String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
+    String devCommit = repo().getRef("HEAD").getTarget().getObjectId().getName();
     RestResponse r = adminSession.get("/projects/" + project.get() + "/branches");
     List<BranchInfo> expected = Lists.asList(
         new BranchInfo("refs/meta/config",  null, false),
         new BranchInfo[] {
           new BranchInfo("HEAD", "master", false),
-          new BranchInfo("refs/heads/master", masterCommit, false),
+          new BranchInfo("refs/heads/master", headCommit, false),
           new BranchInfo("refs/heads/dev", devCommit, true)
         });
     List<BranchInfo> result = toBranchInfoList(r);
@@ -86,14 +86,14 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranchesSomeHidden() throws Exception {
     blockRead(project, "refs/heads/dev");
     pushTo("refs/heads/master");
-    String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
+    String headCommit = repo().getRef("HEAD").getTarget().getObjectId().getName();
     pushTo("refs/heads/dev");
     RestResponse r = userSession.get("/projects/" + project.get() + "/branches");
     // refs/meta/config is hidden since user is no project owner
     List<BranchInfo> expected = Lists.asList(
         new BranchInfo("HEAD", "master", false),
         new BranchInfo[] {
-          new BranchInfo("refs/heads/master", masterCommit, false),
+          new BranchInfo("refs/heads/master", headCommit, false),
         });
     assertBranches(expected, toBranchInfoList(r));
   }
@@ -103,7 +103,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     blockRead(project, "refs/heads/master");
     pushTo("refs/heads/master");
     pushTo("refs/heads/dev");
-    String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
+    String devCommit = repo().getRef("HEAD").getTarget().getObjectId().getName();
     RestResponse r = userSession.get("/projects/" + project.get() + "/branches");
     // refs/meta/config is hidden since user is no project owner
     assertBranches(Collections.singletonList(new BranchInfo("refs/heads/dev",

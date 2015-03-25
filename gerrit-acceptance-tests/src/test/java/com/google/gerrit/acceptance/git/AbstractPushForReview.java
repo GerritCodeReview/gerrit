@@ -68,7 +68,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       default:
         throw new IllegalArgumentException("unexpected protocol: " + p);
     }
-    setRepo(cloneProject(url + "/" + project.get()));
+    testRepo = cloneProject(project, url + "/" + project.get());
   }
 
   @Test

@@ -70,6 +70,30 @@
       "revId": "415ae0c1d4235c845cbf959541eae0e859f94e23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_10e2a418",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T15:55:33Z",
+      "side": 1,
+      "message": "Maybe we should not bump the schema version? V15 has only been submitted for like a week, nobody should be running a live server with that version.",
+      "parentUuid": "03404e41_50e82cf8",
+      "range": {
+        "startLine": 147,
+        "startChar": 34,
+        "endLine": 147,
+        "endChar": 37
+      },
+      "revId": "415ae0c1d4235c845cbf959541eae0e859f94e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

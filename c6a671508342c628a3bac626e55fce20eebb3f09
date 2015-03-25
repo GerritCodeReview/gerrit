@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "030bee18_98edb505",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-03-25T12:53:47Z",
+      "side": 1,
+      "message": "Better to log at INFO level as we may want to monitor the migration of users from OpenID to OAUTH, without having to dump the error_log with lots of debug messages.",
+      "range": {
+        "startLine": 142,
+        "startChar": 14,
+        "endLine": 142,
+        "endChar": 19
+      },
+      "revId": "c6a671508342c628a3bac626e55fce20eebb3f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

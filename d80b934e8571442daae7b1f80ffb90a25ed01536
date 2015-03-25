@@ -16,6 +16,24 @@
       "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_90ed7405",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T20:49:15Z",
+      "side": 1,
+      "message": "All index types that support online upgrading, so, just Lucene :)\n\nI can make that explicit I guess?",
+      "parentUuid": "c32476a6_560db46b",
+      "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

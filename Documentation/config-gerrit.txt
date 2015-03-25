@@ -2176,6 +2176,18 @@ If not set or set to a negative value, defaults to using the same
 thread pool as interactive operations (unless
 link:#changeMerge.threadPoolSize[changeMerge.threadPoolSize] is set).
 
+[[index.onlineUpgrade]]index.onlineUpgrade::
++
+Whether to upgrade to new index schema versions while the server is
+running. This is recommended as it prevents additional downtime during
+Gerrit version upgrades (avoiding the need for an offline reindex step
+using Reindex), but can add additional server load during the upgrade.
++
+If set to false, there is no way to upgrade the index schema to take
+advantage of new search features without restarting the server.
++
+Defaults to true.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

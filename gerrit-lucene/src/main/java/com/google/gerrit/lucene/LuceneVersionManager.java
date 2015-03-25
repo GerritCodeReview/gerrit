@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
@@ -93,9 +94,11 @@ class LuceneVersionManager implements LifecycleListener {
   private final LuceneChangeIndex.Factory indexFactory;
   private final IndexCollection indexes;
   private final OnlineReindexer.Factory reindexerFactory;
+  private final boolean onlineUpgrade;
 
   @Inject
   LuceneVersionManager(
+      @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
       IndexCollection indexes,
@@ -104,6 +107,7 @@ class LuceneVersionManager implements LifecycleListener {
     this.indexFactory = indexFactory;
     this.indexes = indexes;
     this.reindexerFactory = reindexerFactory;
+    this.onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
   }
 
   @Override
@@ -133,7 +137,7 @@ class LuceneVersionManager implements LifecycleListener {
       if (v.schema == null) {
         continue;
       }
-      if (write.isEmpty()) {
+      if (write.isEmpty() && onlineUpgrade) {
         write.add(v);
       }
       if (v.ready) {
@@ -162,7 +166,7 @@ class LuceneVersionManager implements LifecycleListener {
     }
 
     int latest = write.get(0).version;
-    if (latest != search.version) {
+    if (onlineUpgrade && latest != search.version) {
       reindexerFactory.create(latest).start();
     }
   }

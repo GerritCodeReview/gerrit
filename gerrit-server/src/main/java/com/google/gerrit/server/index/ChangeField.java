@@ -55,6 +55,10 @@ import java.util.Set;
  * {@link ChangeQueryBuilder} for querying that field, and a method on
  * {@link ChangeData} used for populating the corresponding document fields in
  * the secondary index.
+ * <p>
+ * Field names are all lowercase alphanumeric plus underscore; index
+ * implementations may create unambiguous derived field names containing other
+ * characters.
  */
 public class ChangeField {
   /** Legacy change ID. */

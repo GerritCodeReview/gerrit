@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c329d686_ee24dfdc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:52:34Z",
+      "side": 1,
+      "message": "PIck one of superProject/subscribedProject and just reuse the existing testRepo that AbstractDaemonTest creates for you.",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_f024c0dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:52:34Z",
+      "side": 1,
+      "message": "What are you trying to do here? I don\u0027t think you need to operate on a branch in superRepo, you should be fine using only detached HEAD.",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_d021bcca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:52:34Z",
+      "side": 1,
+      "message": "This URL is wrong. Get the origin URL from the project you cloned; cloneProject sets that up for you.",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_901b349d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:52:34Z",
+      "side": 1,
+      "message": "PushOneCommit is a bit of a black box and might not behave exactly how you would expect. I would not do this. Instead, something like:\n\n subRepo.branch(\"HEAD\").commit().insertChangeId()\n     .message(\"first change\")\n     .add(\"a.txt\", \"a contents\")\n     .create();\n subRepo.branch(\"HEAD\").insertChangeId()\n     ....\n     .create()\n\nThen when you want to push for review:\n\n subRepo.git().push().\u003cequivalent of \"git push origin HEAD:refs/for/master\u003e",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c329d686_0e304b18",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:52:34Z",
+      "side": 1,
+      "message": "Don\u0027t use PushOneCommit for this either.",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_705e9056",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:52:34Z",
+      "side": 1,
+      "message": "You should be able to pull out the SHA-1 from the result of git().fetch().call(). No need to reset superRepo\u0027s head or look up a ref.",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c329d686_2e2b07ae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:52:34Z",
+      "side": 1,
+      "message": "Don\u0027t build a string by hand. Use a new Config() and call toText().",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

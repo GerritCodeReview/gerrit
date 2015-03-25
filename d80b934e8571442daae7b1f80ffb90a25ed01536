@@ -52,6 +52,24 @@
       "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c329d686_6e08ef5d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T20:59:07Z",
+      "side": 1,
+      "message": "To be clear: I strongly believe that every implementation that implements online reindexing should respect this option.\n\nThere\u0027s only one of those right now, but there should be more.",
+      "parentUuid": "c32476a6_d6f8a4c0",
+      "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

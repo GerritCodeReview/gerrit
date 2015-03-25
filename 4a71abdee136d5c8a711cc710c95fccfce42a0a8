@@ -46,6 +46,30 @@
       "revId": "4a71abdee136d5c8a711cc710c95fccfce42a0a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c329d686_6e310f20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-25T22:31:44Z",
+      "side": 0,
+      "message": "Ack, thanks for the explanation.",
+      "parentUuid": "c329d686_8e02fb36",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 23
+      },
+      "revId": "4a71abdee136d5c8a711cc710c95fccfce42a0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

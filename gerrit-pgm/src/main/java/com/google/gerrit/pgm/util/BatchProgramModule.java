@@ -47,6 +47,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkInfo;
@@ -84,6 +85,7 @@ public class BatchProgramModule extends FactoryModule {
   @Override
   protected void configure() {
     install(reviewDbModule);
+    install(new DiffExecutorModule());
     install(PatchListCacheImpl.module());
     // Plugins are not loaded and we're just running through each change
     // once, so don't worry about cache removal.

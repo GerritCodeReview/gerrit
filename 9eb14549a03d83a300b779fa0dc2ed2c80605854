@@ -22,6 +22,30 @@
       "revId": "9eb14549a03d83a300b779fa0dc2ed2c80605854",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c32476a6_76e31020",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-03-25T08:04:49Z",
+      "side": 1,
+      "message": "It is intended to be set by the user. Same as \u0027\u0027 and \u0027gerrit.site_path\u0027 defined in WebAppInitializer class",
+      "parentUuid": "c32476a6_56bff4f3",
+      "range": {
+        "startLine": 42,
+        "startChar": 53,
+        "endLine": 42,
+        "endChar": 78
+      },
+      "revId": "9eb14549a03d83a300b779fa0dc2ed2c80605854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

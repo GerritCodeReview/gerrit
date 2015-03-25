@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c329d686_0e172b80",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/BranchInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-03-25T22:22:45Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "8360766bb6e76db760d9d17396f286b070391a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

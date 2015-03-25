@@ -22,6 +22,30 @@
       "revId": "4a71abdee136d5c8a711cc710c95fccfce42a0a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c329d686_8e02fb36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T22:28:16Z",
+      "side": 0,
+      "message": "No. getAccessPath() returns UNKNOWN when coming from the extension API. Some test in this change depends on canDelete() returning true.\n\nOnce I added UNKNOWN here, it made this case take up all of the enum values so I just threw it in the default.\n\nChanging the Provider\u003cCurrentUser\u003e to set the AccessPath to a distinct enum value when directly injecting an API impl might be technically possible, but a) I\u0027m not sure it is, and b) it\u0027s beyond the scope of this change.",
+      "parentUuid": "c329d686_eefbbfba",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 23
+      },
+      "revId": "4a71abdee136d5c8a711cc710c95fccfce42a0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

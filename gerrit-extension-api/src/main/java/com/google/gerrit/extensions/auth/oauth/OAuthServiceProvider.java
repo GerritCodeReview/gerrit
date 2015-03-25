@@ -33,10 +33,9 @@ public interface OAuthServiceProvider {
    * Returns the URL where you should redirect your users to authenticate
    * your application.
    *
-   * @param requestToken the request token you need to authorize
-   * @return the URL where you should redirect your users
+   * @return the OAuth service URL to redirect your users for authentication
    */
-  String getAuthorizationUrl(OAuthToken requestToken);
+  String getAuthorizationUrl();
 
   /**
    * Retrieve the access token

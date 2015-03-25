@@ -103,7 +103,7 @@ class OAuthSession {
     } else {
       log.debug("Login-PHASE1 " + this);
       redirectUrl = request.getRequestURI();
-      response.sendRedirect(oauth.getAuthorizationUrl(null) +
+      response.sendRedirect(oauth.getAuthorizationUrl() +
           "&state=" + state);
       return false;
     }

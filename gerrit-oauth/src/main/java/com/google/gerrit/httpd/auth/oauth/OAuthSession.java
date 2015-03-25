@@ -87,8 +87,7 @@ class OAuthSession {
       }
 
       log.debug("Login-Retrieve-User " + this);
-      token = oauth.getAccessToken(null,
-          new OAuthVerifier(request.getParameter("code")));
+      token = oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")));
 
       user = oauth.getUserInfo(token);
 
@@ -103,7 +102,7 @@ class OAuthSession {
     } else {
       log.debug("Login-PHASE1 " + this);
       redirectUrl = request.getRequestURI();
-      response.sendRedirect(oauth.getAuthorizationUrl(null) +
+      response.sendRedirect(oauth.getAuthorizationUrl() +
           "&state=" + state);
       return false;
     }

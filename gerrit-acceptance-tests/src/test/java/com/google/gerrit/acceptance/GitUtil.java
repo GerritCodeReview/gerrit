@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -31,6 +32,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
@@ -43,8 +45,12 @@ import org.eclipse.jgit.util.FS;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GitUtil {
+  private static final AtomicInteger testRepoCount = new AtomicInteger();
+  private static final int TEST_REPO_WINDOW_DAYS = 2;
 
   public static void initSsh(final TestAccount a) {
     final Properties config = new Properties();
@@ -68,6 +74,31 @@ public class GitUtil {
     });
   }
 
+  /**
+   * Create a new {@link TestRepository} with a distinct commit clock.
+   * <p>
+   * It is very easy for tests to create commits with identical subjects and
+   * trees; if such commits also have identical authors/committers, then the
+   * computed Change-Id is identical as well. Tests may generally assume that
+   * Change-Ids are unique, so to ensure this, we provision TestRepository
+   * instances with non-overlapping commit clock times.
+   * <p>
+   * Space test repos 1 day apart, which allows for about 86k ticks per repo
+   * before overlapping, and about 8k instances per process before hitting
+   * JGit's year 2038 limit.
+   *
+   * @param repo repository to wrap.
+   * @return wrapped test repository with distinct commit time space.
+   */
+  public static <R extends Repository> TestRepository<R> newTestRepository(
+      R repo) throws IOException {
+    TestRepository<R> tr = new TestRepository<>(repo);
+    tr.tick(Ints.checkedCast(TimeUnit.SECONDS.convert(
+        testRepoCount.getAndIncrement() * TEST_REPO_WINDOW_DAYS,
+        TimeUnit.DAYS)));
+    return tr;
+  }
+
   public static TestRepository<InMemoryRepository> cloneProject(
       Project.NameKey project, String uri) throws Exception {
     InMemoryRepository dest = new InMemoryRepository.Builder()
@@ -81,13 +112,13 @@ public class GitUtil {
     cfg.setString("remote", "origin", "url", uri);
     cfg.setString("remote", "origin", "fetch",
         "+refs/heads/*:refs/remotes/origin/*");
-    TestRepository<InMemoryRepository> testRepo = new TestRepository<>(dest);
+    TestRepository<InMemoryRepository> testRepo = newTestRepository(dest);
     FetchResult result = testRepo.git().fetch().setRemote("origin").call();
     String originMaster = "refs/remotes/origin/master";
     if (result.getTrackingRefUpdate(originMaster) != null) {
       testRepo.reset(originMaster);
     }
-    return new TestRepository<>(dest);
+    return testRepo;
   }
 
   public static TestRepository<InMemoryRepository> cloneProject(

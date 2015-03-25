@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c329d686_2edd475e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T17:37:39Z",
+      "side": 1,
+      "message": "All well and good for a 5.0 index, but unfortunately we still can\u0027t use the old index as-is. I need to convert this to use an UninvertingReader.",
+      "revId": "415ae0c1d4235c845cbf959541eae0e859f94e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c329d686_2ec42790",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
         "patchSetId": 5

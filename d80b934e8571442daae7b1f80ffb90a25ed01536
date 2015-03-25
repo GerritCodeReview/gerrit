@@ -70,6 +70,24 @@
       "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "030bee18_98025537",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-03-25T21:12:08Z",
+      "side": 1,
+      "message": "OK, then let\u0027s leave it like it is.",
+      "parentUuid": "c329d686_6e08ef5d",
+      "revId": "d80b934e8571442daae7b1f80ffb90a25ed01536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c329d686_eef61fdd",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/WrappableSearcherManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-25T19:07:54Z",
+      "side": 1,
+      "message": "I will definitely file a bug upstream about this, and hopefully they loosen this check as well.",
+      "range": {
+        "startLine": 191,
+        "startChar": 9,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "7b99b39c60d30dcc8ef4261e4633dc51876dd2fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

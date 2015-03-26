@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "c329d686_4e4c13a1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-26T01:56:56Z",
+      "side": 1,
+      "message": "I wasn\u0027t entirely sure myself. it\u0027s a leftover from the time when I assumed the test would fail because of a bogus subscription. At the time I was just subscribing master and not all branches via \".\".",
+      "parentUuid": "03404e41_f024c0dc",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03404e41_d021bcca",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-03-25T22:52:34Z",
       "side": 1,
       "message": "This URL is wrong. Get the origin URL from the project you cloned; cloneProject sets that up for you.",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_50638c16",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-26T01:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03404e41_d021bcca",
       "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "03404e41_d06e5cf9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-26T01:56:56Z",
+      "side": 1,
+      "message": "Done,\n\nI\u0027ll go with refs/heads/master as that works as well.\nthe submodule update is also triggered by the code in ReceiveCommits.java",
+      "parentUuid": "03404e41_901b349d",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c329d686_0e304b18",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 1
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "c329d686_6e47cf80",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-26T01:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c329d686_0e304b18",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03404e41_705e9056",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2015-03-25T22:52:34Z",
       "side": 1,
       "message": "You should be able to pull out the SHA-1 from the result of git().fetch().call(). No need to reset superRepo\u0027s head or look up a ref.",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03404e41_b07bd8b9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-26T01:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03404e41_705e9056",
       "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

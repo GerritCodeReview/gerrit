@@ -87,6 +87,30 @@
       "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "030bee18_18bbe5d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-03-26T14:19:21Z",
+      "side": 1,
+      "message": "I think this solution was a suggested \"placeholder solution\" by Dave during the Hackathon in Berlin. The plan was to rewrite it once we had all accounts in NoteDB/Secondary index.\n\nBut are you experience a negative impact due to this implementation compared to the previous one where a new database query was issued every time any of your 10.000 users pressed a button in the \"Add Reviewer\"-field in the UI?\n\nAfter deploying this patch we were seeing nice speed gains in the UI and a bit less load on the database. I cannot imagine 10.000 accounts to be that heavy on memory usage.",
+      "parentUuid": "c32476a6_76ac309e",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

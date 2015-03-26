@@ -371,7 +371,7 @@ public class SideBySide extends Screen {
         .on("O", commentManager.toggleOpenBox(cm))
         .on("Enter", commentManager.toggleOpenBox(cm))
         .on("N", maybeNextVimSearch(cm))
-        .on("M", modifyInEditScreen(cm))
+        .on("E", openEditScreen(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
         .on("Shift-A", diffTable.toggleA())
         .on("Shift-M", header.reviewedAndNext())
@@ -487,7 +487,7 @@ public class SideBySide extends Screen {
     keysNavigation.add(
         new NoOpKeyCommand(KeyCommand.M_CTRL, 'f', Gerrit.C.keySearch()));
     keysNavigation.add(
-        new NoOpKeyCommand(0, 'm', PatchUtil.C.modifyInEditScreen()));
+        new NoOpKeyCommand(0, 'e', PatchUtil.C.openEditScreen()));
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,
         PatchUtil.C.expandComment()));
@@ -938,7 +938,7 @@ public class SideBySide extends Screen {
     }
   }
 
-  private Runnable modifyInEditScreen(final CodeMirror cm) {
+  private Runnable openEditScreen(final CodeMirror cm) {
     return new Runnable() {
       @Override
       public void run() {

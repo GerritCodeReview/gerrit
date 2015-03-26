@@ -351,6 +351,7 @@ public class SubmoduleOp {
       commit.setCommitter(myIdent);
       commit.setMessage(msgbuf.toString());
       oi.insert(commit);
+      oi.flush();
 
       ObjectId commitId = oi.idFor(Constants.OBJ_COMMIT, commit.build());
 

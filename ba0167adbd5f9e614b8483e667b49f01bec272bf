@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "238712d3_41c952a5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-26T05:20:23Z",
+      "side": 1,
+      "message": "That said we can improve/extend it of course, but I\u0027d rather want to migrate the tests first before doing any features now.",
+      "parentUuid": "238712d3_21c44e90",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03404e41_901b349d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 1

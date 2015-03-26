@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -37,6 +39,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
@@ -327,35 +330,29 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public Set<Change.Id> getStarredChanges() {
     if (starredChanges == null) {
-      if (dbProvider == null) {
-        throw new OutOfScopeException("Not in request scoped user");
-      }
-      Set<Change.Id> h = Sets.newHashSet();
+      checkRequestScope();
       try {
-        if (starredQuery != null) {
-          for (StarredChange sc : starredQuery) {
-            h.add(sc.getChangeId());
-          }
-          starredQuery = null;
-        } else {
-          for (StarredChange sc : dbProvider.get().starredChanges()
-              .byAccount(getAccountId())) {
-            h.add(sc.getChangeId());
-          }
-        }
-      } catch (OrmException e) {
-        log.warn("Cannot query starred by user changes", e);
+        starredChanges = starredChangeIds(
+            starredQuery != null ? starredQuery : starredQuery());
+      } catch (OrmException | OrmRuntimeException e) {
+        log.warn("Cannot query starred changes", e);
       }
-      starredChanges = Collections.unmodifiableSet(h);
     }
+    return starredChanges;
+  }
+
+  public Set<Change.Id> clearStarredChanges() {
+    // Async query may have started before an update that the caller expects
+    // to see the results of, so we can't trust it.
+    abortStarredChanges();
+    starredChanges = null;
     return starredChanges;
   }
 
   public void asyncStarredChanges() {
     if (starredChanges == null && dbProvider != null) {
       try {
-        starredQuery =
-            dbProvider.get().starredChanges().byAccount(getAccountId());
+        starredQuery = starredQuery();
       } catch (OrmException e) {
         log.warn("Cannot query starred by user changes", e);
         starredQuery = null;
@@ -374,12 +371,31 @@ public class IdentifiedUser extends CurrentUser {
     }
   }
 
+  private void checkRequestScope() {
+    if (dbProvider == null) {
+      throw new OutOfScopeException("Not in request scoped user");
+    }
+  }
+
+  private ResultSet<StarredChange> starredQuery() throws OrmException {
+    return dbProvider.get().starredChanges().byAccount(getAccountId());
+  }
+
+  private static ImmutableSet<Change.Id> starredChangeIds(
+      Iterable<StarredChange> scs) {
+    return FluentIterable.from(scs)
+        .transform(new Function<StarredChange, Change.Id>() {
+          @Override
+          public Change.Id apply(StarredChange in) {
+            return in.getChangeId();
+          }
+        }).toSet();
+  }
+
   @Override
   public Collection<AccountProjectWatch> getNotificationFilters() {
     if (notificationFilters == null) {
-      if (dbProvider == null) {
-        throw new OutOfScopeException("Not in request scoped user");
-      }
+      checkRequestScope();
       List<AccountProjectWatch> r;
       try {
         r = dbProvider.get().accountProjectWatches() //

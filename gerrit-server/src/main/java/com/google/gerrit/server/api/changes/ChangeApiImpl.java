@@ -31,6 +31,8 @@ import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeEdits;
 import com.google.gerrit.server.change.ChangeJson;
@@ -61,6 +63,7 @@ class ChangeApiImpl implements ChangeApi {
     ChangeApiImpl create(ChangeResource change);
   }
 
+  private final Provider<CurrentUser> user;
   private final Changes changeApi;
   private final Revisions revisions;
   private final RevisionApiImpl.Factory revisionApi;
@@ -79,7 +82,8 @@ class ChangeApiImpl implements ChangeApi {
   private final ChangeEdits.Detail editDetail;
 
   @Inject
-  ChangeApiImpl(Changes changeApi,
+  ChangeApiImpl(Provider<CurrentUser> user,
+      Changes changeApi,
       Revisions revisions,
       RevisionApiImpl.Factory revisionApi,
       Provider<SuggestReviewers> suggestReviewers,
@@ -95,6 +99,7 @@ class ChangeApiImpl implements ChangeApi {
       Check check,
       ChangeEdits.Detail editDetail,
       @Assisted ChangeResource change) {
+    this.user = user;
     this.changeApi = changeApi;
     this.revert = revert;
     this.revisions = revisions;
@@ -244,6 +249,10 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo get(EnumSet<ListChangesOption> s)
       throws RestApiException {
     try {
+      CurrentUser u = user.get();
+      if (u.isIdentifiedUser()) {
+        ((IdentifiedUser) u).clearStarredChanges();
+      }
       return changeJson.get().addOptions(s).format(change);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve change", e);

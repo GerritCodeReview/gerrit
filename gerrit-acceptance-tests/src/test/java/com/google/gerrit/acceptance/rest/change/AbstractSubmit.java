@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -50,7 +51,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
@@ -245,8 +245,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,
-      ObjectId expectedId) throws IOException {
-    ChangeInfo c = getChange(changeId, CURRENT_REVISION);
+      ObjectId expectedId) throws Exception {
+    ChangeInfo c = get(changeId, CURRENT_REVISION);
     assertThat(c.currentRevision).isEqualTo(expectedId.name());
     assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
     Repository repo =
@@ -261,8 +261,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected void assertApproved(String changeId) throws IOException {
-    ChangeInfo c = getChange(changeId, DETAILED_LABELS);
+  protected void assertApproved(String changeId) throws Exception {
+    ChangeInfo c = get(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);

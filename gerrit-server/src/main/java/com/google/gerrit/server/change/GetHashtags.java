@@ -30,9 +30,8 @@ import java.util.Set;
 @Singleton
 public class GetHashtags implements RestReadView<ChangeResource> {
   @Override
-  public Response<? extends Set<String>> apply(ChangeResource req)
+  public Response<Set<String>> apply(ChangeResource req)
       throws AuthException, OrmException, IOException, BadRequestException {
-
     ChangeControl control = req.getControl();
     ChangeNotes notes = control.getNotes().load();
     Set<String> hashtags = notes.getHashtags();

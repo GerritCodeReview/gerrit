@@ -259,6 +259,7 @@ public class RefControl {
     switch (getCurrentUser().getAccessPath()) {
       case REST_API:
       case JSON_RPC:
+      case UNKNOWN:
         owner = isOwner();
         admin = getCurrentUser().getCapabilities().canAdministrateServer();
         break;
@@ -364,18 +365,13 @@ public class RefControl {
     }
 
     switch (getCurrentUser().getAccessPath()) {
-      case REST_API:
-      case JSON_RPC:
-      case SSH_COMMAND:
-        return getCurrentUser().getCapabilities().canAdministrateServer()
-            || (isOwner() && !isForceBlocked(Permission.PUSH))
-            || canPushWithForce();
-
       case GIT:
         return canPushWithForce();
 
       default:
-        return false;
+        return getCurrentUser().getCapabilities().canAdministrateServer()
+            || (isOwner() && !isForceBlocked(Permission.PUSH))
+            || canPushWithForce();
     }
   }
 

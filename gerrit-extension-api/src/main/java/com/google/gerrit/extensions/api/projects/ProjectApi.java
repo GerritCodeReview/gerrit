@@ -28,6 +28,54 @@ public interface ProjectApi {
   String description() throws RestApiException;
   void description(PutDescriptionInput in) throws RestApiException;
 
+  ListBranchesRequest branches();
+
+  public abstract class ListBranchesRequest {
+    private int limit;
+    private int start;
+    private String substring;
+    private String regex;
+
+    public abstract List<BranchInfo> get() throws RestApiException;
+
+    public ListBranchesRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public ListBranchesRequest withStart(int start) {
+      this.start = start;
+      return this;
+    }
+
+    public ListBranchesRequest withSubstring(String substring) {
+      this.substring = substring;
+      return this;
+    }
+
+    public ListBranchesRequest withRegex(String regex) {
+      this.regex = regex;
+      return this;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+
+    public int getStart() {
+      return start;
+    }
+
+    public String getSubstring() {
+      return substring;
+    }
+
+    public String getRegex() {
+      return regex;
+    }
+
+  }
+
   List<ProjectInfo> children() throws RestApiException;
   List<ProjectInfo> children(boolean recursive) throws RestApiException;
   ChildProjectApi child(String name) throws RestApiException;
@@ -75,6 +123,11 @@ public interface ProjectApi {
     @Override
     public void description(PutDescriptionInput in)
         throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ListBranchesRequest branches() {
       throw new NotImplementedException();
     }
 

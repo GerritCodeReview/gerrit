@@ -55,11 +55,11 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts()
         .self()
         .starChange(triplet);
-    assertThat(getChange(triplet).starred).isTrue();
+    assertThat(info(triplet).starred).isTrue();
     gApi.accounts()
         .self()
         .unstarChange(triplet);
-    assertThat(getChange(triplet).starred).isNull();
+    assertThat(info(triplet).starred).isNull();
   }
 
   @Test

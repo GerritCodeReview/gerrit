@@ -19,9 +19,11 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -34,21 +36,19 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NoHttpd
 public class CommentsIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
@@ -66,14 +66,18 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private final Integer[] lines = {0, 1};
 
+  @Before
+  public void setUp() {
+    setApiUser(user);
+  }
+
   @Test
   public void createDraft() throws Exception {
     for (Integer line : lines) {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      ReviewInput.CommentInput comment = newCommentInfo(
-          "file1", Side.REVISION, line, "comment 1");
+      DraftInput comment = newDraft("file1", Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       assertThat(result).hasSize(1);
@@ -93,8 +97,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      ReviewInput.CommentInput comment = newCommentInfo(
-          file, Side.REVISION, line, "comment 1");
+      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1");
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
@@ -111,8 +114,7 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      ReviewInput.CommentInput comment = newCommentInfo(
-          "file1", Side.REVISION, line, "comment 1");
+      DraftInput comment = newDraft("file1", Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
@@ -132,7 +134,7 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      ReviewInput.CommentInput comment = newCommentInfo(
+      DraftInput comment = newDraft(
           "file1", Side.REVISION, line, "comment 1");
       CommentInfo returned = addDraft(changeId, revId, comment);
       CommentInfo actual = getDraftComment(changeId, revId, returned.id);
@@ -146,9 +148,8 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      ReviewInput.CommentInput comment = newCommentInfo(
-          "file1", Side.REVISION, line, "comment 1");
-      CommentInfo returned = addDraft(changeId, revId, comment);
+      DraftInput draft = newDraft("file1", Side.REVISION, line, "comment 1");
+      CommentInfo returned = addDraft(changeId, revId, draft);
       deleteDraft(changeId, revId, returned.id);
       Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
       assertThat(drafts).isEmpty();
@@ -167,8 +168,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      ReviewInput.CommentInput comment = newCommentInfo(
-          file, Side.REVISION, line, "comment 1");
+      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1");
       comment.updated = timestamp;
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
@@ -186,56 +186,37 @@ public class CommentsIT extends AbstractDaemonTest {
     }
   }
 
-  private CommentInfo addDraft(String changeId, String revId,
-      ReviewInput.CommentInput c) throws IOException {
-    RestResponse r = userSession.put(
-        "/changes/" + changeId + "/revisions/" + revId + "/drafts", c);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    return newGson().fromJson(r.getReader(), CommentInfo.class);
+  private CommentInfo addDraft(String changeId, String revId, DraftInput in)
+      throws Exception {
+    return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
   }
 
-  private void updateDraft(String changeId, String revId,
-      ReviewInput.CommentInput c, String uuid) throws IOException {
-    RestResponse r = userSession.put(
-        "/changes/" + changeId + "/revisions/" + revId + "/drafts/" + uuid, c);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+  private void updateDraft(String changeId, String revId, DraftInput in,
+      String uuid) throws Exception {
+    gApi.changes().id(changeId).revision(revId).draft(uuid).update(in);
   }
 
   private void deleteDraft(String changeId, String revId, String uuid)
-      throws IOException {
-    RestResponse r = userSession.delete(
-        "/changes/" + changeId + "/revisions/" + revId + "/drafts/" + uuid);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+      throws Exception {
+    gApi.changes().id(changeId).revision(revId).draft(uuid).delete();
   }
 
   private Map<String, List<CommentInfo>> getPublishedComments(String changeId,
-      String revId) throws IOException {
-    RestResponse r = userSession.get(
-        "/changes/" + changeId + "/revisions/" + revId + "/comments/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Type mapType = new TypeToken<Map<String, List<CommentInfo>>>() {}.getType();
-    return newGson().fromJson(r.getReader(), mapType);
+      String revId) throws Exception {
+    return gApi.changes().id(changeId).revision(revId).comments();
   }
 
   private Map<String, List<CommentInfo>> getDraftComments(String changeId,
-      String revId) throws IOException {
-    RestResponse r = userSession.get(
-        "/changes/" + changeId + "/revisions/" + revId + "/drafts/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    Type mapType = new TypeToken<Map<String, List<CommentInfo>>>() {}.getType();
-    return newGson().fromJson(r.getReader(), mapType);
+      String revId) throws Exception {
+    return gApi.changes().id(changeId).revision(revId).drafts();
   }
 
   private CommentInfo getDraftComment(String changeId, String revId,
-      String uuid) throws IOException {
-    RestResponse r = userSession.get(
-        "/changes/" + changeId + "/revisions/" + revId + "/drafts/" + uuid);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return newGson().fromJson(r.getReader(), CommentInfo.class);
+      String uuid) throws Exception {
+    return gApi.changes().id(changeId).revision(revId).draft(uuid).get();
   }
 
-  private static void assertCommentInfo(ReviewInput.CommentInput expected,
-      CommentInfo actual) {
+  private static void assertCommentInfo(Comment expected, CommentInfo actual) {
     assertThat(actual.line).isEqualTo(expected.line);
     assertThat(actual.message).isEqualTo(expected.message);
     assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
@@ -258,21 +239,32 @@ public class CommentsIT extends AbstractDaemonTest {
     }
   }
 
-  private ReviewInput.CommentInput newCommentInfo(String path,
-      Side side, int line, String message) {
-    ReviewInput.CommentInput input = new ReviewInput.CommentInput();
-    input.path = path;
-    input.side = side;
-    input.line = line != 0 ? line : null;
-    input.message = message;
+  private static CommentInput newComment(String path, Side side, int line,
+      String message) {
+    CommentInput c = new CommentInput();
+    return populate(c, path, side, line, message);
+  }
+
+  private DraftInput newDraft(String path, Side side, int line,
+      String message) {
+    DraftInput d = new DraftInput();
+    return populate(d, path, side, line, message);
+  }
+
+  private static <C extends Comment> C populate(C c, String path, Side side,
+      int line, String message) {
+    c.path = path;
+    c.side = side;
+    c.line = line != 0 ? line : null;
+    c.message = message;
     if (line != 0) {
       Comment.Range range = new Comment.Range();
       range.startLine = 1;
       range.startCharacter = 1;
       range.endLine = 1;
       range.endCharacter = 5;
-      input.range = range;
+      c.range = range;
     }
-    return input;
+    return c;
   }
 }

@@ -16,18 +16,22 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.testutil.ConfigSuite;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
+@NoHttpd
 public class CreateChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config allowDraftsDisabled() {
@@ -38,9 +42,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void createEmptyChange_MissingBranch() throws Exception {
     ChangeInfo ci = new ChangeInfo();
     ci.project = project.get();
-    RestResponse r = adminSession.post("/changes/", ci);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    assertThat(r.getEntityContent()).contains("branch must be non-empty");
+    assertCreateFails(ci, BadRequestException.class,
+        "branch must be non-empty");
   }
 
   @Test
@@ -48,37 +51,34 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo ci = new ChangeInfo();
     ci.project = project.get();
     ci.branch = "master";
-    RestResponse r = adminSession.post("/changes/", ci);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    assertThat(r.getEntityContent()).contains("commit message must be non-empty");
+    assertCreateFails(ci, BadRequestException.class,
+        "commit message must be non-empty");
   }
 
   @Test
   public void createEmptyChange_InvalidStatus() throws Exception {
     ChangeInfo ci = newChangeInfo(ChangeStatus.SUBMITTED);
-    RestResponse r = adminSession.post("/changes/", ci);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    assertThat(r.getEntityContent()).contains("unsupported change status");
+    assertCreateFails(ci, BadRequestException.class,
+        "unsupported change status");
   }
 
   @Test
   public void createNewChange() throws Exception {
-    assertChange(newChangeInfo(ChangeStatus.NEW));
+    assertCreateSucceeds(newChangeInfo(ChangeStatus.NEW));
   }
 
   @Test
   public void createDraftChange() throws Exception {
     assume().that(isAllowDrafts()).isTrue();
-    assertChange(newChangeInfo(ChangeStatus.DRAFT));
+    assertCreateSucceeds(newChangeInfo(ChangeStatus.DRAFT));
   }
 
   @Test
   public void createDraftChangeNotAllowed() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
     ChangeInfo ci = newChangeInfo(ChangeStatus.DRAFT);
-    RestResponse r = adminSession.post("/changes/", ci);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_METHOD_NOT_ALLOWED);
-    assertThat(r.getEntityContent()).contains("draft workflow is disabled");
+    assertCreateFails(ci, MethodNotAllowedException.class,
+        "draft workflow is disabled");
   }
 
   private ChangeInfo newChangeInfo(ChangeStatus status) {
@@ -91,13 +91,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     return in;
   }
 
-  private void assertChange(ChangeInfo in) throws Exception {
-    RestResponse r = adminSession.post("/changes/", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-
-    ChangeInfo info = newGson().fromJson(r.getReader(), ChangeInfo.class);
-    ChangeInfo out = get(info.changeId);
-
+  private void assertCreateSucceeds(ChangeInfo in) throws Exception {
+    ChangeInfo out = gApi.changes().create(in).get();
     assertThat(out.branch).isEqualTo(in.branch);
     assertThat(out.subject).isEqualTo(in.subject);
     assertThat(out.topic).isEqualTo(in.topic);
@@ -105,6 +100,18 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.revisions).hasSize(1);
     Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
     assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
+  }
+
+  private void assertCreateFails(ChangeInfo in,
+      Class<? extends RestApiException> errType, String errSubstring)
+      throws Exception {
+    try {
+      gApi.changes().create(in);
+      fail("Expected " + errType.getSimpleName());
+    } catch (RestApiException expected) {
+      assertThat(expected).isInstanceOf(errType);
+      assertThat(expected.getMessage()).contains(errSubstring);
+    }
   }
 
   private ChangeStatus booleanToDraftStatus(Boolean draft) {

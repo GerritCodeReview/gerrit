@@ -18,6 +18,7 @@ java_library(
     '//lib:guava',
     '//lib:junit',
     '//lib:truth',
+    '//gerrit-extension-api:api',
     '//gerrit-server:server',
   ],
 )

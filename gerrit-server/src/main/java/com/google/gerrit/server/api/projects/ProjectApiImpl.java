@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.api.projects;
 
+import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
+
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -27,10 +30,11 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.GetDescription;
+import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
@@ -49,6 +53,7 @@ public class ProjectApiImpl implements ProjectApi {
     ProjectApiImpl create(String name);
   }
 
+  private final Provider<CurrentUser> user;
   private final Provider<CreateProject.Factory> createProjectFactory;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
@@ -60,9 +65,11 @@ public class ProjectApiImpl implements ProjectApi {
   private final ProjectJson projectJson;
   private final String name;
   private final BranchApiImpl.Factory branchApi;
+  private final Provider<ListBranches> listBranchesProvider;
 
   @AssistedInject
-  ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+  ProjectApiImpl(Provider<CurrentUser> user,
+      Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -71,14 +78,16 @@ public class ProjectApiImpl implements ProjectApi {
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      Provider<ListBranches> listBranchesProvider,
       @Assisted ProjectResource project) {
-    this(createProjectFactory, projectApi, projects, getDescription,
+    this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        project, null);
+        listBranchesProvider, project, null);
   }
 
   @AssistedInject
-  ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+  ProjectApiImpl(Provider<CurrentUser> user,
+      Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -87,13 +96,15 @@ public class ProjectApiImpl implements ProjectApi {
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      Provider<ListBranches> listBranchesProvider,
       @Assisted String name) {
-    this(createProjectFactory, projectApi, projects, getDescription,
-        putDescription, childApi, children, projectJson, branchApiFactory, null,
-        name);
+    this(user, createProjectFactory, projectApi, projects, getDescription,
+        putDescription, childApi, children, projectJson, branchApiFactory,
+        listBranchesProvider, null, name);
   }
 
-  private ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+  private ProjectApiImpl(Provider<CurrentUser> user,
+      Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -102,8 +113,10 @@ public class ProjectApiImpl implements ProjectApi {
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      Provider<ListBranches> listBranchesProvider,
       ProjectResource project,
       String name) {
+    this.user = user;
     this.createProjectFactory = createProjectFactory;
     this.projectApi = projectApi;
     this.projects = projects;
@@ -115,6 +128,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.project = project;
     this.name = name;
     this.branchApi = branchApiFactory;
+    this.listBranchesProvider = listBranchesProvider;
   }
 
   @Override
@@ -131,12 +145,11 @@ public class ProjectApiImpl implements ProjectApi {
       if (in.name != null && !name.equals(in.name)) {
         throw new BadRequestException("name must match input.name");
       }
+      checkRequiresCapability(user, null, CreateProject.class);
       createProjectFactory.get().create(name)
           .apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
-    } catch (BadRequestException | UnprocessableEntityException
-        | ResourceNotFoundException | ProjectCreationFailedException
-        | IOException e) {
+    } catch (ProjectCreationFailedException | IOException e) {
       throw new RestApiException("Cannot create project: " + e.getMessage(), e);
     }
   }
@@ -161,6 +174,30 @@ public class ProjectApiImpl implements ProjectApi {
       putDescription.apply(checkExists(), in);
     } catch (IOException e) {
       throw new RestApiException("Cannot put project description", e);
+    }
+  }
+
+  @Override
+  public ListBranchesRequest branches() {
+    return new ListBranchesRequest() {
+      @Override
+      public List<BranchInfo> get() throws RestApiException {
+        return listBranches(this);
+      }
+    };
+  }
+
+  private List<BranchInfo> listBranches(ListBranchesRequest request)
+      throws RestApiException {
+    ListBranches list = listBranchesProvider.get();
+    list.setLimit(request.getLimit());
+    list.setStart(request.getStart());
+    list.setMatchSubstring(request.getSubstring());
+    list.setMatchRegex(request.getRegex());
+    try {
+      return list.apply(checkExists());
+    } catch (IOException e) {
+      throw new RestApiException("Cannot list branches", e);
     }
   }
 

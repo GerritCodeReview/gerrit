@@ -18,6 +18,7 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.InvalidRevisionException;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -30,7 +31,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.CreateBranch.Input;
-import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -172,7 +172,11 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
           }
         }
 
-        return new BranchInfo(ref, revid.getName(), refControl.canDelete());
+        BranchInfo info = new BranchInfo();
+        info.ref = ref;
+        info.revision = revid.getName();
+        info.canDelete = refControl.canDelete() ? true : null;
+        return info;
       } catch (IOException err) {
         log.error("Cannot create branch \"" + name + "\"", err);
         throw err;

@@ -1832,8 +1832,10 @@ will be available as `/plugins/helloworld/Documentation/resource`. This
 prefix is configurable by setting the `Gerrit-HttpDocumentationPrefix`
 attribute.
 
-Documentation may be written in
-link:http://daringfireball.net/projects/markdown/[Markdown] style
+Documentation may be written in the
+link:http://daringfireball.net/projects/markdown/[Markdown]
+flavor
+link:https://github.com/sirthias/pegdown[pegdown]
 if the file name ends with `.md`. Gerrit will automatically convert
 Markdown to HTML if accessed with extension `.html`.
 

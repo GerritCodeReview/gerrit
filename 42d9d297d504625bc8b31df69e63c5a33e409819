@@ -111,6 +111,30 @@
       "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "030bee18_f89f1163",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-26T14:42:10Z",
+      "side": 1,
+      "message": "We never tried this in production.. so I am just guessing. \n\n\u003e I cannot imagine 10.000 accounts to be that heavy on memory usage.\n\nIt is definitely not and I didn\u0027t mean to complain about the memory usage.\n\n\nMy main point was about reloading all accounts every 30 seconds and if this can be optimized. I mean, we use to give CR-1 for such \"minor\" things like using a LinkedList where ArrayList is a better choice or when an additional variable can be avoided etc... Therefore, trying to avoid reloading of all accounts is not that unreasonable?",
+      "parentUuid": "030bee18_18bbe5d6",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

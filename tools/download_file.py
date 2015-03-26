@@ -25,7 +25,11 @@ from util import resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')
-CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache')
+CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache', 'downloaded-artifacts')
+# LEGACY_CACHE_DIR is only used to allow existing workspaces to move already
+# downloaded files to the new cache directory.
+# Please remove after 3 months (2015-10-07).
+LEGACY_CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache')
 LOCAL_PROPERTIES = 'local.properties'
 
 
@@ -85,6 +89,15 @@ def cache_entry(args):
   name = '%s-%s' % (path.basename(args.o), h)
   return path.join(CACHE_DIR, name)
 
+# Please remove after 3 months (2015-10-07). See LEGACY_CACHE_DIR above.
+def legacy_cache_entry(args):
+  if args.v:
+    h = args.v
+  else:
+    h = sha1(args.u.encode('utf-8')).hexdigest()
+  name = '%s-%s' % (path.basename(args.o), h)
+  return path.join(LEGACY_CACHE_DIR, name)
+
 
 opts = OptionParser()
 opts.add_option('-o', help='local output file')
@@ -103,7 +116,18 @@ while root_dir:
 
 redirects = download_properties(root_dir)
 cache_ent = cache_entry(args)
+legacy_cache_ent = legacy_cache_entry(args)
 src_url = resolve_url(args.u, redirects)
+
+# Please remove after 3 months (2015-10-07). See LEGACY_CACHE_DIR above.
+if not path.exists(cache_ent) and path.exists(legacy_cache_ent):
+  try:
+    safe_mkdirs(path.dirname(cache_ent))
+  except OSError as err:
+    print('error creating directory %s: %s' %
+          (path.dirname(cache_ent), err), file=stderr)
+    exit(1)
+  shutil.move(legacy_cache_ent, cache_ent)
 
 if not path.exists(cache_ent):
   try:

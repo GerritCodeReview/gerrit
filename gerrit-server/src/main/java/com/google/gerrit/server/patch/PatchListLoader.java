@@ -87,7 +87,6 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   private final ExecutorService diffExecutor;
   private final long timeoutMillis;
 
-
   @Inject
   PatchListLoader(GitRepositoryManager mgr,
       PatchListCache plc,
@@ -206,10 +205,10 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     } catch (InterruptedException | TimeoutException e) {
       log.warn(timeoutMillis + " ms timeout reached for Diff loader"
                       + " in project " + key.projectKey.get()
-                      + " on commit " + key.getNewId()
+                      + " on commit " + key.getNewId().name()
                       + " on path " + diffEntry.getNewPath()
-                      + " comparing " + diffEntry.getOldId()
-                      + ".." + diffEntry.getNewId());
+                      + " comparing " + diffEntry.getOldId().name()
+                      + ".." + diffEntry.getNewId().name());
       result.cancel(true);
       return toFileHeaderWithoutMyersDiff(diffFormatter, diffEntry);
     } catch (ExecutionException e) {

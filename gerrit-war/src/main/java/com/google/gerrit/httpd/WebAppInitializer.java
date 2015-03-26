@@ -56,6 +56,7 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.solr.SolrIndexModule;
@@ -74,6 +75,7 @@ import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -207,6 +209,7 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<>();
+    AbstractModule secureStore = createSecureStoreModule();
     if (sitePath != null) {
       Module sitePathModule = new AbstractModule() {
         @Override
@@ -219,13 +222,13 @@ public class WebAppInitializer extends GuiceServletContextListener
       Module configModule = new GerritServerConfigModule();
       modules.add(configModule);
 
-      Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
+      Injector cfgInjector = Guice.createInjector(sitePathModule, configModule, secureStore);
       Config cfg = cfgInjector.getInstance(Key.get(Config.class,
           GerritServerConfig.class));
       String dbType = cfg.getString("database", null, "type");
 
       final DataSourceType dst = Guice.createInjector(new DataSourceModule(),
-          configModule, sitePathModule).getInstance(
+          configModule, sitePathModule, secureStore).getInstance(
             Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
       modules.add(new LifecycleModule() {
         @Override
@@ -240,6 +243,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
 
     } else {
+      modules.add(secureStore);
       modules.add(new LifecycleModule() {
         @Override
         protected void configure() {
@@ -375,5 +379,17 @@ public class WebAppInitializer extends GuiceServletContextListener
       manager.stop();
       manager = null;
     }
+  }
+
+  private AbstractModule createSecureStoreModule() {
+    return new AbstractModule() {
+      @Override
+      public void configure() {
+        String secureStoreClassName =
+            GerritServerConfigModule.getSecureStoreClassName(sitePath);
+        bind(String.class).annotatedWith(SecureStoreClassName.class).toProvider(
+            Providers.of(secureStoreClassName));
+      }
+    };
   }
 }

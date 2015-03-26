@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c32476a6_f65a8053",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-26T13:46:06Z",
+      "side": 1,
+      "message": "Newly created accounts are not added to this cache and we cannot flush this cache. This means that Gerrit has to be restarted when a new account is added in order to be loaded into this cache.\n\nCompare this implementation with the \"project_list\" cache implementation in the ProjectCacheImpl.",
+      "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c32476a6_16461c81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-03-26T13:46:06Z",
+      "side": 1,
+      "message": "Since this cache is not defined using a CacheModule gerrit will not list it from its \"show-caches\" command. Right? And we also have no way of flushing this cache since it has no name.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

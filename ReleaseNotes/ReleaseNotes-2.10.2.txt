@@ -1,0 +1,31 @@
+Release notes for Gerrit 2.10.2
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.1.html[2.10.1].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.2.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.2.war]
+
+Bug Fixes
+---------
+
+* Work around MyersDiff infinite loop in PatchListLoader. If the MyersDiff diff
+doesn't finish within 5 seconds, interrupt it and fall back to a different diff
+algorithm. From the user perspective, the only difference when the infinite
+loop is detected is that the files in the commit will not be compared in-depth,
+which will result in bigger edit regions.
+
+Secondary Index
+---------------
+
+* Online reindexing: log the number of done/failed changes in the error_log.
+Administrators can use the logged information to decide whether to activate the
+new index version or not.
+
+Gitweb
+------
+
+* Do not return `Forbidden` when clicking on Gitweb breadcrumb. Now when the
+user clicks on the parent folder, redirect to Gerrit projects list screen with
+the parent folder path as the filter.

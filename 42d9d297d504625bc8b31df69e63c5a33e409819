@@ -39,6 +39,30 @@
       "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c32476a6_b6540828",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-03-26T13:58:45Z",
+      "side": 1,
+      "message": "Perhaps I am misunderstanding you, but since  .expireAfterWrite(30, TimeUnit.SECONDS) is used, should not the cache \"refresh\" every 30 second? If so, is it really necessary to manually flush the cache? Is it common that you add a user and try to add him/her as a reviewer within 30 seconds?",
+      "parentUuid": "c32476a6_16461c81",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "42d9d297d504625bc8b31df69e63c5a33e409819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,7 +25,7 @@ from util import resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')
-CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache')
+CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache', 'downloaded-artifacts')
 LOCAL_PROPERTIES = 'local.properties'
 
 

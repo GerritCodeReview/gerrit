@@ -503,7 +503,7 @@ The trivial case using a local directory is:
 === Cleaning The Buck Cache
 
 The cache for the Gerrit Code Review project is located in
-`~/.gerritcodereview/buck-cache/cache`.
+`~/.gerritcodereview/buck-cache/locally-built-artifacts`.
 
 The Buck cache should never need to be manually deleted. If you find yourself
 deleting the Buck cache regularly, then it is likely that there is something
@@ -512,11 +512,12 @@ wrong with your environment or your workflow.
 If you really do need to clean the cache manually, then:
 
 ----
- rm -rf ~/.gerritcodereview/buck-cache/cache
+ rm -rf ~/.gerritcodereview/buck-cache/locally-built-artifacts
 ----
 
-Note that the root `buck-cache` folder should not be deleted as this is where
-downloaded artifacts are stored.
+Note that the root `buck-cache` folder should not be deleted as it also contains
+the `downloaded-artifacts` directory, which holds the artifacts that got
+downloaded (not built locally).
 
 [[buck-daemon]]
 === Using Buck daemon

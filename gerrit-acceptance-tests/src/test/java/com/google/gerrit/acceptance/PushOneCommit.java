@@ -17,10 +17,8 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -44,9 +42,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
-
-import java.util.Arrays;
-import java.util.Set;
 
 public class PushOneCommit {
   public static final String SUBJECT = "test commit";
@@ -247,32 +242,18 @@ public class PushOneCommit {
         String expectedTopic, TestAccount... expectedReviewers)
         throws OrmException {
       Change c = getChange().change();
-      assertThat(resSubj).isEqualTo(c.getSubject());
-      assertThat(expectedStatus).isEqualTo(c.getStatus());
-      assertThat(expectedTopic).isEqualTo(Strings.emptyToNull(c.getTopic()));
+      assertThat(c.getSubject()).isEqualTo(resSubj);
+      assertThat(c.getStatus()).isEqualTo(expectedStatus);
+      assertThat(Strings.emptyToNull(c.getTopic())).isEqualTo(expectedTopic);
       assertReviewers(c, expectedReviewers);
     }
 
     private void assertReviewers(Change c, TestAccount... expectedReviewers)
         throws OrmException {
-      Set<Account.Id> expectedReviewerIds =
-          Sets.newHashSet(Lists.transform(Arrays.asList(expectedReviewers),
-              new Function<TestAccount, Account.Id>() {
-                @Override
-                public Account.Id apply(TestAccount a) {
-                  return a.id;
-                }
-              }));
-
-      for (Account.Id accountId
-          : approvalsUtil.getReviewers(db, notesFactory.create(c)).values()) {
-        assertThat(expectedReviewerIds.remove(accountId))
-          .named("unexpected reviewer " + accountId)
-          .isTrue();
-      }
-      assertThat((Iterable<?>)expectedReviewerIds)
-        .named("missing reviewers: " + expectedReviewerIds)
-        .isEmpty();
+      Iterable<Account.Id> actualIds =
+          approvalsUtil.getReviewers(db, notesFactory.create(c)).values();
+      assertThat(actualIds).containsExactlyElementsIn(
+          Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }
 
     public void assertOkStatus() {
@@ -285,10 +266,10 @@ public class PushOneCommit {
 
     private void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-      assertThat(expectedStatus)
+      assertThat(refUpdate.getStatus())
         .named(message(refUpdate))
-        .isEqualTo(refUpdate.getStatus());
-      assertThat(expectedMessage).isEqualTo(refUpdate.getMessage());
+        .isEqualTo(expectedStatus);
+      assertThat(refUpdate.getMessage()).isEqualTo(expectedMessage);
     }
 
     public void assertMessage(String expectedMessage) {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Account;
 
 import com.jcraft.jsch.KeyPair;
@@ -21,9 +23,24 @@ import com.jcraft.jsch.KeyPair;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 
 public class TestAccount {
+  public static Iterable<Account.Id> ids(Iterable<TestAccount> accounts) {
+    return Iterables.transform(accounts,
+        new Function<TestAccount, Account.Id>() {
+          @Override
+          public Account.Id apply(TestAccount in) {
+            return in.id;
+          }
+        });
+  }
+
+  public static Iterable<Account.Id> ids(TestAccount... accounts) {
+    return ids(Arrays.asList(accounts));
+  }
+
   public final Account.Id id;
   public final String username;
   public final String email;

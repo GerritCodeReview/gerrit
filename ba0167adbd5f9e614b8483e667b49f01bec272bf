@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "238712d3_81bf5af3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-26T02:04:00Z",
+      "side": 1,
+      "message": "\u003e I\u0027d assume this rather be superRepo.getRepository().getConfig().getString(\"remote\", \"origin\", \"url\");\n\nYes that\u0027s what I meant.\n\n\u003e Though we need the canonical web url and not the ssh url here. How would I get that?\n\nWhy? Does gerrit actually require that? That\u0027s weird. The reason I thought it was wrong is I\u0027m pretty sure the acceptance test harness does not listen at the canonicalWebUr.",
+      "parentUuid": "c329d686_6e958f40",
+      "revId": "ba0167adbd5f9e614b8483e667b49f01bec272bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03404e41_901b349d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 1

@@ -279,7 +279,7 @@ public class SubmoduleOp {
     PersonIdent author = null;
 
     final StringBuilder msgbuf = new StringBuilder();
-    msgbuf.append("Updated " + subscriber.getParentKey().get());
+    msgbuf.append("Updated " + subscriber.getParentKey().get() + "\n");
     Repository pdb = null;
     RevWalk recRw = null;
 

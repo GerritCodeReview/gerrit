@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c343967f_de1be59b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-27T18:45:50Z",
+      "side": 1,
+      "message": "Oh, that wasn\u0027t clear from the substring documentation.\n\nI am unsure about this test when you pass in only the first character of the prefix, as we may get more suggestions then.",
+      "parentUuid": "c343967f_5e307519",
+      "range": {
+        "startLine": 93,
+        "startChar": 35,
+        "endLine": 93,
+        "endChar": 59
+      },
+      "revId": "024c3bcbfeb50c769e6543052092e6e44d4d2c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c343967f_9ef83dc0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
         "patchSetId": 1

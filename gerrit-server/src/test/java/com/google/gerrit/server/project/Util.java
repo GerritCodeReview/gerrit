@@ -21,9 +21,11 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
@@ -138,6 +140,22 @@ public class Util {
     project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
         .getPermission(capabilityName, true)
         .add(rule);
+      if (GlobalCapability.hasRange(capabilityName)) {
+        PermissionRange.WithDefaults range =
+            GlobalCapability.getRange(capabilityName);
+        if (range != null) {
+          rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+        }
+      }
+    return rule;
+  }
+
+  public static PermissionRule remove(ProjectConfig project,
+      String capabilityName, AccountGroup.UUID group) {
+    PermissionRule rule = newRule(project, group);
+    project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+        .getPermission(capabilityName, true)
+        .remove(rule);
     return rule;
   }
 

@@ -397,10 +397,31 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
-  protected void allowGlobalCapability(String capabilityName,
-      AccountGroup.UUID id) throws Exception {
+  protected void allowGlobalCapabilities(AccountGroup.UUID id,
+      String... capabilityNames) throws Exception {
+    allowGlobalCapabilities(id, Arrays.asList(capabilityNames));
+  }
+
+  protected void allowGlobalCapabilities(AccountGroup.UUID id,
+      Iterable<String> capabilityNames) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.allow(cfg, capabilityName, id);
+    for (String capabilityName : capabilityNames) {
+      Util.allow(cfg, capabilityName, id);
+    }
+    saveProjectConfig(allProjects, cfg);
+  }
+
+  protected void removeGlobalCapabilities(AccountGroup.UUID id,
+      String... capabilityNames) throws Exception {
+    removeGlobalCapabilities(id, Arrays.asList(capabilityNames));
+  }
+
+  protected void removeGlobalCapabilities(AccountGroup.UUID id,
+      Iterable<String> capabilityNames) throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    for (String capabilityName : capabilityNames) {
+      Util.remove(cfg, capabilityName, id);
+    }
     saveProjectConfig(allProjects, cfg);
   }
 

@@ -149,7 +149,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
         changeId, user2.fullName, 2);
     assertThat(reviewers).isEmpty();
 
-    grantCapability(GlobalCapability.VIEW_ALL_ACCOUNTS, group1);
+    allowGlobalCapabilities(group1.getGroupUUID(),
+        GlobalCapability.VIEW_ALL_ACCOUNTS);
     reviewers = suggestReviewers(new RestSession(server, user1),
         changeId, user2.fullName, 2);
     assertThat(reviewers).hasSize(1);

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "83a8be5c_84544628",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-27T18:52:00Z",
+      "side": 1,
+      "message": "The purpose of this test is checking that there are zero results when the number of characters in the query is less than the value of suggest.from.\n\nThis is preserving the exact behavior from the LHS: the query is exactly the first character of a string that should return \u003e1 value. It just happens that the first character is no longer \"u\", it\u0027s the first character of resourcePrefix.\n\nI might get to rewriting these tests for more clarity, but not in this change.",
+      "parentUuid": "c343967f_de1be59b",
+      "range": {
+        "startLine": 93,
+        "startChar": 35,
+        "endLine": 93,
+        "endChar": 59
+      },
+      "revId": "024c3bcbfeb50c769e6543052092e6e44d4d2c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c343967f_9ef83dc0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
         "patchSetId": 1

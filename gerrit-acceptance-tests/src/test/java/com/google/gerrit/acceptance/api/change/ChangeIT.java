@@ -33,11 +33,13 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -58,7 +60,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.mergeable).isTrue();
     assertThat(c.changeId).isEqualTo(r.getChangeId());
     assertThat(c.created).isEqualTo(c.updated);
-    assertThat(c._number).is(1);
+    assertThat(c._number).is(r.getChange().getId().get());
 
     assertThat(c.owner._accountId).is(admin.getId().get());
     assertThat(c.owner.name).isNull();
@@ -233,38 +235,35 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangesNoQuery() throws Exception {
-    PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = createChange();
+    PushOneCommit.Result r = createChange();
     List<ChangeInfo> results = gApi.changes().query().get();
-    assertThat(results).hasSize(2);
-    assertThat(results.get(0).changeId).isEqualTo(r2.getChangeId());
-    assertThat(results.get(1).changeId).isEqualTo(r1.getChangeId());
+    assertThat(results.size()).isAtLeast(1);
+    List<Integer> ids = new ArrayList<>(results.size());
+    for (int i = 0; i < results.size(); i++) {
+      ChangeInfo info = results.get(i);
+      if (i == 0) {
+        assertThat(info._number).isEqualTo(r.getChange().getId().get());
+      }
+      assertThat(Change.Status.forChangeStatus(info.status).isOpen()).isTrue();
+      ids.add(info._number);
+    }
+    assertThat(ids).contains(r.getChange().getId().get());
   }
 
   @Test
   public void queryChangesNoResults() throws Exception {
     createChange();
-    List<ChangeInfo> results = query("status:open");
-    assertThat(results).hasSize(1);
-    results = query("status:closed");
-    assertThat(results).isEmpty();
+    assertThat(query("message:test")).isNotEmpty();
+    assertThat(query("message:{" + getClass().getName() + "fhqwhgads}"))
+        .isEmpty();
   }
 
   @Test
-  public void queryChangesOneTerm() throws Exception {
-    PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = createChange();
-    List<ChangeInfo> results = query("status:open");
-    assertThat(results).hasSize(2);
-    assertThat(results.get(0).changeId).isEqualTo(r2.getChangeId());
-    assertThat(results.get(1).changeId).isEqualTo(r1.getChangeId());
-  }
-
-  @Test
-  public void queryChangesMultipleTerms() throws Exception {
+  public void queryChanges() throws Exception {
     PushOneCommit.Result r1 = createChange();
     createChange();
-    List<ChangeInfo> results = query("status:open " + r1.getChangeId());
+    List<ChangeInfo> results =
+        query("project:{" + project.get() + "} " + r1.getChangeId());
     assertThat(Iterables.getOnlyElement(results).changeId)
         .isEqualTo(r1.getChangeId());
   }
@@ -283,7 +282,8 @@ public class ChangeIT extends AbstractDaemonTest {
   public void queryChangesStart() throws Exception {
     PushOneCommit.Result r1 = createChange();
     createChange();
-    List<ChangeInfo> results = gApi.changes().query().withStart(1).get();
+    List<ChangeInfo> results = gApi.changes()
+        .query("project:{" + project.get() + "}").withStart(1).get();
     assertThat(Iterables.getOnlyElement(results).changeId)
         .isEqualTo(r1.getChangeId());
   }
@@ -321,7 +321,8 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void queryChangesOwnerWithDifferentUsers() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(Iterables.getOnlyElement(query("owner:self")).changeId)
+    assertThat(Iterables.getOnlyElement(
+            query("project:{" + project.get() + "} owner:self")).changeId)
         .isEqualTo(r.getChangeId());
     setApiUser(user);
     assertThat(query("owner:self")).isEmpty();

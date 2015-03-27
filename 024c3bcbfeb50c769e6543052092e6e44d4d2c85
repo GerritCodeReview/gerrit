@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c343967f_5e307519",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-27T18:36:54Z",
+      "side": 1,
+      "message": "No?\n\n $ cat \u003c\u003c EOF \u003e Foo.java\n public class Foo {\n   public static void main(String[] args) throws Exception {\n     System.out.println(\"abcd\".substring(0, 1));\n   }\n }\n $ javac Foo.java \u0026\u0026 java Foo\n a",
+      "parentUuid": "c343967f_fe050142",
+      "range": {
+        "startLine": 93,
+        "startChar": 35,
+        "endLine": 93,
+        "endChar": 59
+      },
+      "revId": "024c3bcbfeb50c769e6543052092e6e44d4d2c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c343967f_9ef83dc0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "writtenOn": "2015-03-27T18:31:58Z",
       "side": 1,
       "message": "Why did you change this to users?\n\nI assume the group name is arbitrary and has no special meaning, (Administrator/users might sound so), though now you\u0027d have the same group in the test below?",
+      "range": {
+        "startLine": 64,
+        "startChar": 21,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "024c3bcbfeb50c769e6543052092e6e44d4d2c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c343967f_be2419dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-27T18:36:54Z",
+      "side": 1,
+      "message": "I don\u0027t want to modify global server state that\u0027s not specific to this test. See later changes in the series for more examples and rational.",
+      "parentUuid": "c343967f_9ef83dc0",
       "range": {
         "startLine": 64,
         "startChar": 21,

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -33,6 +34,7 @@ import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
@@ -43,7 +45,6 @@ import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -325,7 +326,6 @@ public class Daemon extends SiteProgram {
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new InternalAccountDirectory.Module());
-    modules.add(new DefaultCacheFactory.Module());
     if (emailModule != null) {
       modules.add(emailModule);
     } else {
@@ -370,6 +370,13 @@ public class Daemon extends SiteProgram {
       }
     });
     modules.add(new GarbageCollectionModule());
+    modules.add(new LifecycleModule() {
+
+      @Override
+      protected void configure() {
+        listener().toInstance(registerInParentInjectors());
+      }
+    });
     return cfgInjector.createChildInjector(modules);
   }
 

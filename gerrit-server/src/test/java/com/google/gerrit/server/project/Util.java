@@ -259,10 +259,6 @@ public class Util {
       }
 
       @Override
-      public void onCreateProject(Project.NameKey newProjectName) {
-      }
-
-      @Override
       public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
         return Collections.emptySet();
       }

@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
@@ -39,29 +38,29 @@ import org.junit.Test;
 @NoHttpd
 public class CustomLabelIT extends AbstractDaemonTest {
 
-  private final LabelType Q = category("CustomLabel",
+  private final LabelType label = category("CustomLabel",
       value(1, "Positive"),
       value(0, "No score"),
       value(-1, "Negative"));
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     AccountGroup.UUID anonymousUsers =
         SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    Util.allow(cfg, Permission.forLabel(Q.getName()), -1, 1, anonymousUsers,
+    Util.allow(cfg, Permission.forLabel(label.getName()), -1, 1, anonymousUsers,
         "refs/heads/*");
-    saveProjectConfig(cfg);
+    saveProjectConfig(project, cfg);
   }
 
   @Test
   public void customLabelNoOp_NegativeVoteNotBlock() throws Exception {
-    Q.setFunctionName("NoOp");
+    label.setFunctionName("NoOp");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(Q.getName(), -1));
+    revision(r).review(new ReviewInput().label(label.getName(), -1));
     ChangeInfo c = get(r.getChangeId());
-    LabelInfo q = c.labels.get(Q.getName());
+    LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isNull();
@@ -69,12 +68,12 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelNoBlock_NegativeVoteNotBlock() throws Exception {
-    Q.setFunctionName("NoBlock");
+    label.setFunctionName("NoBlock");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(Q.getName(), -1));
+    revision(r).review(new ReviewInput().label(label.getName(), -1));
     ChangeInfo c = get(r.getChangeId());
-    LabelInfo q = c.labels.get(Q.getName());
+    LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isNull();
@@ -82,12 +81,12 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxNoBlock_NegativeVoteNotBlock() throws Exception {
-    Q.setFunctionName("MaxNoBlock");
+    label.setFunctionName("MaxNoBlock");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(Q.getName(), -1));
+    revision(r).review(new ReviewInput().label(label.getName(), -1));
     ChangeInfo c = get(r.getChangeId());
-    LabelInfo q = c.labels.get(Q.getName());
+    LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isNull();
@@ -95,12 +94,12 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelAnyWithBlock_NegativeVoteBlock() throws Exception {
-    Q.setFunctionName("AnyWithBlock");
+    label.setFunctionName("AnyWithBlock");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(Q.getName(), -1));
+    revision(r).review(new ReviewInput().label(label.getName(), -1));
     ChangeInfo c = get(r.getChangeId());
-    LabelInfo q = c.labels.get(Q.getName());
+    LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
@@ -111,9 +110,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
   public void customLabelMaxWithBlock_NegativeVoteBlock() throws Exception {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(Q.getName(), -1));
+    revision(r).review(new ReviewInput().label(label.getName(), -1));
     ChangeInfo c = get(r.getChangeId());
-    LabelInfo q = c.labels.get(Q.getName());
+    LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
@@ -121,18 +120,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
   }
 
   private void saveLabelConfig() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    cfg.getLabelSections().put(Q.getName(), Q);
-    saveProjectConfig(cfg);
-  }
-
-  private void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
-    try {
-      cfg.commit(md);
-    } finally {
-      md.close();
-    }
-    projectCache.evict(allProjects);
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().put(label.getName(), label);
+    saveProjectConfig(project, cfg);
   }
 }

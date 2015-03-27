@@ -21,23 +21,19 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 @NoHttpd
 public class DraftChangeBlockedIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     block(cfg, Permission.PUSH, ANONYMOUS_USERS, "refs/drafts/*");
-    saveProjectConfig(cfg);
-    projectCache.evict(cfg.getProject());
+    saveProjectConfig(project, cfg);
   }
 
   @Test
@@ -52,14 +48,5 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
     // create draft by using 'draft' option
     PushOneCommit.Result r = pushTo("refs/for/master%draft");
     r.assertErrorStatus("cannot upload drafts");
-  }
-
-  private void saveProjectConfig(ProjectConfig cfg) throws IOException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
-    try {
-      cfg.commit(md);
-    } finally {
-      md.close();
-    }
   }
 }

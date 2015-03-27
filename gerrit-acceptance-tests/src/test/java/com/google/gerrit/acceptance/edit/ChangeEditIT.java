@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.Util;
 import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -623,10 +625,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void editCommitMessageCopiesLabelScores() throws Exception {
     String cr = "Code-Review";
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    cfg.getLabelSections().get(cr)
-        .setCopyAllScoresIfNoCodeChange(true);
-    saveProjectConfig(allProjects, cfg);
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    LabelType codeReview = Util.codeReview();
+    codeReview.setCopyAllScoresIfNoCodeChange(true);
+    cfg.getLabelSections().put(cr, codeReview);
+    saveProjectConfig(project, cfg);
 
     String changeId = change.getKey().get();
     ReviewInput r = new ReviewInput();

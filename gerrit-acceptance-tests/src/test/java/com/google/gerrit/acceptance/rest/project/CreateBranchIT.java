@@ -85,9 +85,9 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private void blockCreateReference() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     block(cfg, Permission.CREATE, ANONYMOUS_USERS, "refs/*");
-    saveProjectConfig(allProjects, cfg);
+    saveProjectConfig(project, cfg);
   }
 
   private void grantOwner() throws Exception {

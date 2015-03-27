@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
 
@@ -67,22 +68,28 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     parentCfg.setString("s2", "ss", "k3", "parentValue3");
     parentCfg.setString("s2", "ss", "k4", "parentValue4");
 
-    TestRepository<?> parentTestRepo = cloneProject(allProjects, sshSession);
-    fetch(parentTestRepo, RefNames.REFS_CONFIG + ":refs/heads/config");
-    parentTestRepo.reset("refs/heads/config");
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), parentTestRepo, "Create Project Level Config",
-            configName, parentCfg.toText());
-    push.to(RefNames.REFS_CONFIG);
+    pushFactory.create(
+          db, admin.getIdent(), testRepo, "Create Project Level Config",
+          configName, parentCfg.toText())
+        .to(RefNames.REFS_CONFIG)
+        .assertOkStatus();
+
+    Project.NameKey childProject = createProject("child", project);
+    TestRepository<?> childTestRepo = cloneProject(childProject, sshSession);
+    fetch(childTestRepo, RefNames.REFS_CONFIG + ":refs/heads/config");
+    childTestRepo.reset("refs/heads/config");
 
     Config cfg = new Config();
     cfg.setString("s1", null, "k1", "childValue1");
     cfg.setString("s2", "ss", "k3", "childValue2");
-    push = pushFactory.create(db, admin.getIdent(), testRepo, "Create Project Level Config",
-        configName, cfg.toText());
-    push.to(RefNames.REFS_CONFIG);
 
-    ProjectState state = projectCache.get(project);
+    pushFactory.create(
+          db, admin.getIdent(), childTestRepo, "Create Project Level Config",
+          configName, cfg.toText())
+        .to(RefNames.REFS_CONFIG)
+        .assertOkStatus();
+
+    ProjectState state = projectCache.get(childProject);
 
     Config expectedCfg = new Config();
     expectedCfg.setString("s1", null, "k1", "childValue1");

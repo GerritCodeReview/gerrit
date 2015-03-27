@@ -77,9 +77,9 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void blockForcePush() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     block(cfg, Permission.PUSH, ANONYMOUS_USERS, "refs/heads/*").setForce(true);
-    saveProjectConfig(allProjects, cfg);
+    saveProjectConfig(project, cfg);
   }
 
   private void grantOwner() throws Exception {

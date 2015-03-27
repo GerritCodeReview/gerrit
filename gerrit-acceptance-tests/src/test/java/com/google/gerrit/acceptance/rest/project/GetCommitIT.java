@@ -15,14 +15,12 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -42,12 +40,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     repo = GitUtil.newTestRepository(repoManager.openRepository(project));
-
-    ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
-    for (AccessSection sec : pc.getAccessSections()) {
-      sec.removePermission(Permission.READ);
-    }
-    saveProjectConfig(allProjects, pc);
+    blockRead(project, "refs/*");
   }
 
   @After
@@ -65,7 +58,7 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getMergedCommit_Found() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
+    unblockRead();
     RevCommit commit = repo.parseBody(repo.branch("master")
         .commit()
         .message("Create\n\nNew commit\n")
@@ -99,7 +92,7 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getOpenChange_Found() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
+    unblockRead();
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo)
         .to("refs/for/master");
     r.assertOkStatus();
@@ -128,6 +121,12 @@ public class GetCommitIT extends AbstractDaemonTest {
         .to("refs/for/master");
     r.assertOkStatus();
     assertNotFound(r.getCommitId());
+  }
+
+  private void unblockRead() throws Exception {
+    ProjectConfig pc = projectCache.checkedGet(project).getConfig();
+    pc.getAccessSection("refs/*").remove(new Permission(Permission.READ));
+    saveProjectConfig(project, pc);
   }
 
   private void assertNotFound(ObjectId id) throws Exception {

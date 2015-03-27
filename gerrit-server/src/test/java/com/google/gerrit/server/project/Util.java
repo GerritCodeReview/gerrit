@@ -86,12 +86,14 @@ public class Util {
   public static final AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
   public static final AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
 
-  public static final LabelType CR = category("Code-Review",
-      value(2, "Looks good to me, approved"),
-      value(1, "Looks good to me, but someone else must approve"),
-      value(0, "No score"),
-      value(-1, "I would prefer this is not merged as is"),
-      value(-2, "This shall not be merged"));
+  public static final LabelType codeReview() {
+    return category("Code-Review",
+        value(2, "Looks good to me, approved"),
+        value(1, "Looks good to me, but someone else must approve"),
+        value(0, "No score"),
+        value(-1, "I would prefer this is not merged as is"),
+        value(-2, "This shall not be merged"));
+  }
 
   public static LabelValue value(int value, String text) {
     return new LabelValue((short) value, text);
@@ -215,7 +217,8 @@ public class Util {
       Repository repo = repoManager.createRepository(allProjectsName);
       allProjects = new ProjectConfig(new Project.NameKey(allProjectsName.get()));
       allProjects.load(repo);
-      allProjects.getLabelSections().put(CR.getName(), CR);
+      LabelType cr = codeReview();
+      allProjects.getLabelSections().put(cr.getName(), cr);
       add(allProjects);
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);

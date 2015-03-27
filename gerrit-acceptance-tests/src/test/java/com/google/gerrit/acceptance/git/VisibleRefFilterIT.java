@@ -68,20 +68,33 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   private AccountGroup.UUID admins;
 
+  private Change.Id c1;
+  private Change.Id c2;
+  private String r1;
+  private String r2;
+
   @Before
   public void setUp() throws Exception {
     admins = groupCache.get(new AccountGroup.NameKey("Administrators"))
         .getGroupUUID();
-    setUpChanges();
     setUpPermissions();
+    setUpChanges();
   }
 
   private void setUpPermissions() throws Exception {
+    // Remove read permissions for all users besides admin. This method is
+    // idempotent, so is safe to call on every test setup.
     ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
     for (AccessSection sec : pc.getAccessSections()) {
       sec.removePermission(Permission.READ);
     }
+    Util.allow(pc, Permission.READ, admins, "refs/*");
     saveProjectConfig(allProjects, pc);
+  }
+
+  private static String changeRefPrefix(Change.Id id) {
+    String ps = new PatchSet.Id(id, 1).toRefName();
+    return ps.substring(0, ps.length() - 1);
   }
 
   private void setUpChanges() throws Exception {
@@ -94,9 +107,13 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     PushOneCommit.Result mr = pushFactory.create(db, admin.getIdent(), testRepo)
         .to("refs/for/master%submit");
     mr.assertOkStatus();
+    c1 = mr.getChange().getId();
+    r1 = changeRefPrefix(c1);
     PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), testRepo)
         .to("refs/for/branch%submit");
     br.assertOkStatus();
+    c2 = br.getChange().getId();
+    r2 = changeRefPrefix(c2);
 
     Repository repo = repoManager.openRepository(project);
     try {
@@ -126,10 +143,10 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
     assertRefs(
         "HEAD",
-        "refs/changes/01/1/1",
-        "refs/changes/01/1/meta",
-        "refs/changes/02/2/1",
-        "refs/changes/02/2/meta",
+        r1 + "1",
+        r1 + "meta",
+        r2 + "1",
+        r2 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
         "refs/tags/branch-tag",
@@ -143,10 +160,10 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
     assertRefs(
         "HEAD",
-        "refs/changes/01/1/1",
-        "refs/changes/01/1/meta",
-        "refs/changes/02/2/1",
-        "refs/changes/02/2/meta",
+        r1 + "1",
+        r1 + "meta",
+        r2 + "1",
+        r2 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
         "refs/meta/config",
@@ -161,8 +178,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
     assertRefs(
         "HEAD",
-        "refs/changes/01/1/1",
-        "refs/changes/01/1/meta",
+        r1 + "1",
+        r1 + "meta",
         "refs/heads/master",
         "refs/tags/master-tag");
   }
@@ -173,8 +190,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     assertRefs(
-        "refs/changes/02/2/1",
-        "refs/changes/02/2/meta",
+        r2 + "1",
+        r2 + "meta",
         "refs/heads/branch",
         "refs/tags/branch-tag",
         // master branch is not visible but master-tag is reachable from branch
@@ -187,24 +204,24 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
-    Change c1 = db.changes().get(new Change.Id(1));
-    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1.getId(), 1));
+    Change change1 = db.changes().get(c1);
+    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1, 1));
 
     // Admin's edit is not visible.
     setApiUser(admin);
-    editModifier.createEdit(c1, ps1);
+    editModifier.createEdit(change1, ps1);
 
     // User's edit is visible.
     setApiUser(user);
-    editModifier.createEdit(c1, ps1);
+    editModifier.createEdit(change1, ps1);
 
     assertRefs(
         "HEAD",
-        "refs/changes/01/1/1",
-        "refs/changes/01/1/meta",
+        r1 + "1",
+        r1 + "meta",
         "refs/heads/master",
         "refs/tags/master-tag",
-        "refs/users/01/1000001/edit-1/1");
+        "refs/users/01/1000001/edit-" + c1.get() + "/1");
   }
 
   @Test
@@ -214,27 +231,27 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
       allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
-      Change c1 = db.changes().get(new Change.Id(1));
-      PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1.getId(), 1));
+      Change change1 = db.changes().get(c1);
+      PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1, 1));
       setApiUser(admin);
-      editModifier.createEdit(c1, ps1);
+      editModifier.createEdit(change1, ps1);
       setApiUser(user);
-      editModifier.createEdit(c1, ps1);
+      editModifier.createEdit(change1, ps1);
 
       assertRefs(
           // Change 1 is visible due to accessDatabase capability, even though
           // refs/heads/master is not.
-          "refs/changes/01/1/1",
-          "refs/changes/01/1/meta",
-          "refs/changes/02/2/1",
-          "refs/changes/02/2/meta",
+          r1 + "1",
+          r1 + "meta",
+          r2 + "1",
+          r2 + "meta",
           "refs/heads/branch",
           "refs/tags/branch-tag",
           // See comment in subsetOfBranchesVisibleNotIncludingHead.
           "refs/tags/master-tag",
           // All edits are visible due to accessDatabase capability.
-          "refs/users/00/1000000/edit-1/1",
-          "refs/users/01/1000001/edit-1/1");
+          "refs/users/00/1000000/edit-" + c1.get() + "/1",
+          "refs/users/01/1000001/edit-" + c1.get() + "/1");
     } finally {
       removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     }

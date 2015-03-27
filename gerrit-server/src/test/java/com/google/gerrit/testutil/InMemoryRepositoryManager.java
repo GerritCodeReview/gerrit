@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 
@@ -33,6 +34,14 @@ import java.util.SortedSet;
 public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static InMemoryRepository newRepository(Project.NameKey name) {
     return new Repo(name);
+  }
+
+  @Override
+  public void onCreateProject(NameKey newProjectName) {
+  }
+
+  @Override
+  public void onRemoveProject(Project p) {
   }
 
   private static class Description extends DfsRepositoryDescription {

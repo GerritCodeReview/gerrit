@@ -157,7 +157,9 @@ public class PushOneCommit {
     } else {
       commitBuilder = testRepo.branch("HEAD").commit().insertChangeId();
     }
-    commitBuilder.message(subject).ident(i);
+    commitBuilder.message(subject)
+      .author(i)
+      .committer(new PersonIdent(i, testRepo.getClock()));
   }
 
   public Result to(String ref) throws Exception {

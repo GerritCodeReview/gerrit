@@ -22,6 +22,30 @@
       "revId": "ca1a4730bf43f68567f33a598f48f83a99280aea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83a8be5c_e49c1a71",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-27T20:38:04Z",
+      "side": 0,
+      "message": "Bad rebase, fixed.",
+      "parentUuid": "c343967f_5e17d57e",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 19
+      },
+      "revId": "ca1a4730bf43f68567f33a598f48f83a99280aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

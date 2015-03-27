@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
@@ -250,6 +251,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
     }
     modules.add(new DatabaseModule());
+    modules.add(new DefaultCacheFactory.Module());
     return Guice.createInjector(PRODUCTION, modules);
   }
 
@@ -285,7 +287,6 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new InternalAccountDirectory.Module());
-    modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
@@ -317,6 +318,13 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
     });
     modules.add(GarbageCollectionRunner.module());
+    modules.add(new LifecycleModule() {
+
+      @Override
+      protected void configure() {
+        listener().toInstance(registerInParentInjectors());
+      }
+    });
     return cfgInjector.createChildInjector(modules);
   }
 

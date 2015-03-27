@@ -76,8 +76,7 @@ public class GerritServer {
       cfg.setString("gitweb", null, "cgi", "");
       daemon.setEnableHttpd(enableHttpd);
       daemon.setLuceneModule(new LuceneIndexModule(
-          ChangeSchemas.getLatest().getVersion(),
-          Runtime.getRuntime().availableProcessors(), null));
+          ChangeSchemas.getLatest().getVersion(), 0, null));
       daemon.setDatabaseForTesting(ImmutableList.<Module>of(
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
@@ -137,6 +136,11 @@ public class GerritServer {
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
+
+    cfg.setInt("sshd", null, "threads", 1);
+    cfg.setInt("sshd", null, "commandStartThreads", 1);
+    cfg.setInt("receive", null, "threadPoolSize", 1);
+    cfg.setInt("index", null, "threads", 1);
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {

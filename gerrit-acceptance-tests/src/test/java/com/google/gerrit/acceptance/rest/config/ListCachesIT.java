@@ -45,7 +45,7 @@ public class ListCachesIT extends AbstractDaemonTest {
     assertThat(result).containsKey("accounts");
     CacheInfo accountsCacheInfo = result.get("accounts");
     assertThat(accountsCacheInfo.type).isEqualTo(CacheType.MEM);
-    assertThat(accountsCacheInfo.entries.mem).isEqualTo(1);
+    assertThat(accountsCacheInfo.entries.mem).isAtLeast(1L);
     assertThat(accountsCacheInfo.averageGet).isNotNull();
     assertThat(accountsCacheInfo.averageGet).endsWith("s");
     assertThat(accountsCacheInfo.entries.disk).isNull();

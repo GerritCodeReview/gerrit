@@ -141,6 +141,10 @@ public class ConfigSuite extends Suite {
       }
       return result;
     } catch (InitializationError e) {
+      System.err.println("Errors initializing runners:");
+      for (Throwable t : e.getCauses()) {
+        t.printStackTrace();
+      }
       throw new RuntimeException(e);
     }
   }

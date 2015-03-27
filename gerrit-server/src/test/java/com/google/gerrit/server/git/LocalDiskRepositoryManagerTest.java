@@ -16,8 +16,14 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager.ListKey;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
@@ -35,7 +41,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.SortedSet;
 
 public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
 
@@ -50,18 +59,28 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
   @Before
   public void setUp() throws Exception {
     site = new SitePaths(TempFileUtil.createTempDirectory().toPath());
-    site.resolve("git").toFile().mkdir();
+    final Path sitePath = site.resolve("git");
+    Files.createDirectory(sitePath);
     cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");
+    LoadingCache<LocalDiskRepositoryManager.ListKey, SortedSet<Project.NameKey>> cache =
+        CacheBuilder.newBuilder().build(
+            new CacheLoader<LocalDiskRepositoryManager.ListKey, SortedSet<Project.NameKey>>() {
+
+              @Override
+              public SortedSet<NameKey> load(ListKey key) throws Exception {
+                return LocalDiskRepositoryManager.scan(sitePath);
+              }
+            });
     repoManager =
         new LocalDiskRepositoryManager(site, cfg,
-            createNiceMock(NotesMigration.class));
+            createNiceMock(NotesMigration.class), cache);
   }
 
   @Test(expected = IllegalStateException.class)
   public void testThatNullBasePathThrowsAnException() {
     new LocalDiskRepositoryManager(site, new Config(),
-        createNiceMock(NotesMigration.class));
+        createNiceMock(NotesMigration.class), null);
   }
 
   @Test

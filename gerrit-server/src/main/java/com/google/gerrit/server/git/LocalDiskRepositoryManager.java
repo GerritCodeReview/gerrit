@@ -17,15 +17,21 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 
 import com.jcraft.jsch.Session;
 
@@ -57,10 +63,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -73,11 +81,30 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private static final String UNNAMED =
       "Unnamed repository; edit this file to name it for gitweb.";
 
+  private static final String CACHE_LIST = "project_list";
+
+  static class ListKey {
+    static final ListKey ALL = new ListKey();
+
+    private ListKey() {
+    }
+  }
+
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
       bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
       listener().to(LocalDiskRepositoryManager.Lifecycle.class);
+      install(new CacheModule() {
+        @Override
+        protected void configure() {
+          cache(CACHE_LIST,
+              ListKey.class,
+              new TypeLiteral<SortedSet<Project.NameKey>>() {})
+              .maximumWeight(1)
+              .loader(Lister.class);
+        }
+      });
     }
   }
 
@@ -138,12 +165,13 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private final Path basePath;
   private final Path noteDbPath;
   private final Lock namesUpdateLock;
-  private volatile SortedSet<Project.NameKey> names;
+  private final LoadingCache<ListKey, SortedSet<Project.NameKey>> list;
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site,
       @GerritServerConfig Config cfg,
-      NotesMigration notesMigration) {
+      NotesMigration notesMigration,
+      @Named(CACHE_LIST) LoadingCache<ListKey, SortedSet<Project.NameKey>> list) {
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
@@ -156,7 +184,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       noteDbPath = null;
     }
     namesUpdateLock = new ReentrantLock(true /* fair */);
-    names = list();
+    this.list = list;
   }
 
   /** @return base directory under which all projects are stored. */
@@ -176,7 +204,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
     File gitDir = path.resolve(name.get()).toFile();
-    if (!names.contains(name)) {
+    if (!list().contains(name)) {
       // The this.names list does not hold the project-name but it can still exist
       // on disk; for instance when the project has been created directly on the
       // file-system through replication.
@@ -234,7 +262,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       loc = FileKey.exact(dir, FS.DETECTED);
 
-      if (!names.contains(name)) {
+      if (!list().contains(name)) {
         throw new RepositoryCaseMismatchException(name);
       }
     } else {
@@ -288,12 +316,32 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private void onCreateProject(final Project.NameKey newProjectName) {
+  private void onCreateProject(final Project.NameKey p) {
     namesUpdateLock.lock();
     try {
-      SortedSet<Project.NameKey> n = new TreeSet<>(names);
-      n.add(newProjectName);
-      names = Collections.unmodifiableSortedSet(n);
+      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
+      n.add(p);
+      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+    } catch (ExecutionException e) {
+      log.warn(MessageFormat.format(
+          "Failed to add project {0} to projects list cache",
+          p.toString()), e);
+    } finally {
+      namesUpdateLock.unlock();
+    }
+  }
+
+  @Override
+  public void onRemoveProject(final Project p) {
+    namesUpdateLock.lock();
+    try {
+      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
+      n.remove(p.getNameKey());
+      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+    } catch (ExecutionException e) {
+      log.warn(MessageFormat.format(
+          "Failed to remove project {0} from projects list cache",
+          p.toString()), e);
     } finally {
       namesUpdateLock.unlock();
     }
@@ -370,7 +418,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private boolean isUnreasonableName(final Project.NameKey nameKey) {
+  private static boolean isUnreasonableName(final Project.NameKey nameKey) {
     final String name = nameKey.get();
 
     return name.length() == 0  // no empty paths
@@ -396,27 +444,52 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public SortedSet<Project.NameKey> list() {
-    // The results of this method are cached by ProjectCacheImpl. Control only
-    // enters here if the cache was flushed by the administrator to force
-    // scanning the filesystem. Don't rely on the cached names collection.
-    namesUpdateLock.lock();
     try {
-      ProjectVisitor visitor = new ProjectVisitor();
-      try {
-        Files.walkFileTree(basePath, EnumSet.of(FileVisitOption.FOLLOW_LINKS),
-            Integer.MAX_VALUE, visitor);
-      } catch (IOException e) {
-        log.error("Error walking repository tree " + basePath.toAbsolutePath(),
-            e);
-      }
-      return Collections.unmodifiableSortedSet(visitor.found);
-    } finally {
-      namesUpdateLock.unlock();
+      return list.get(ListKey.ALL);
+    } catch (ExecutionException e) {
+      log.warn("Cannot list available projects", e);
+      return new TreeSet<>();
     }
   }
 
-  private class ProjectVisitor extends SimpleFileVisitor<Path> {
+  private static class Lister extends CacheLoader<ListKey, SortedSet<Project.NameKey>> {
+    private final Path basePath;
+
+    @Inject
+    Lister(SitePaths site, @GerritServerConfig Config cfg) {
+      basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
+    }
+
+    @Override
+    public SortedSet<Project.NameKey> load(ListKey key) throws Exception {
+      // The results of this method are cached by {@code #list}. Control only
+      // enters here if the cache was flushed by the administrator to force
+      // scanning the filesystem. Don't rely on the cached names collection.
+      return scan(basePath);
+    }
+
+  }
+
+  // package visible to allow tests to access it
+  static SortedSet<Project.NameKey> scan(Path basePath) {
+    ProjectVisitor visitor = new ProjectVisitor(basePath);
+    try {
+      Files.walkFileTree(basePath, EnumSet.of(FileVisitOption.FOLLOW_LINKS),
+          Integer.MAX_VALUE, visitor);
+    } catch (IOException e) {
+      log.error("Error walking repository tree " + basePath.toAbsolutePath(),
+          e);
+    }
+    return Collections.unmodifiableSortedSet(visitor.found);
+  }
+
+  private static class ProjectVisitor extends SimpleFileVisitor<Path> {
     private final SortedSet<Project.NameKey> found = new TreeSet<>();
+    private final Path basePath;
+
+    public ProjectVisitor(Path basePath) {
+      this.basePath = basePath;
+    }
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir,

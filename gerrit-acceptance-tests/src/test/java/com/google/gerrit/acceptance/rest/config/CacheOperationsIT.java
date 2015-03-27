@@ -34,17 +34,18 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flushAll() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/project_list");
+    RestResponse r = adminSession.get("/config/server/caches/projects");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem).isGreaterThan((long) 0);
+    assertThat(cacheInfo.entries.mem).is(2);
 
     r = adminSession.post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
-    r = adminSession.get("/config/server/caches/project_list");
+    r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem).isNull();
+    // All-Projects gets loaded again by accessing caches REST API
+    assertThat(cacheInfo.entries.mem).is(1);
   }
 
   @Test
@@ -63,26 +64,19 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flush() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/project_list");
+    RestResponse r = adminSession.get("/config/server/caches/projects");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
-
-    r = adminSession.get("/config/server/caches/projects");
-    cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
+    assertThat(cacheInfo.entries.mem).is(2);
 
     r = adminSession.post("/config/server/caches/",
-        new PostCaches.Input(FLUSH, Arrays.asList("accounts", "project_list")));
+        new PostCaches.Input(FLUSH, Arrays.asList("accounts", "projects")));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
-    r = adminSession.get("/config/server/caches/project_list");
-    cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem).isNull();
-
     r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
+    // All-Projects gets loaded again by accessing caches REST API
+    assertThat(cacheInfo.entries.mem).is(1);
   }
 
   @Test

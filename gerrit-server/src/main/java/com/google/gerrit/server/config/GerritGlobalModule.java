@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
@@ -65,7 +64,6 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.avatar.AvatarProvider;
-import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
@@ -246,8 +244,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.project.Module());
 
     bind(GitReferenceUpdated.class);
-    DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
-    DynamicSet.setOf(binder(), CacheRemovalListener.class);
     DynamicMap.mapOf(binder(), CapabilityDefinition.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);

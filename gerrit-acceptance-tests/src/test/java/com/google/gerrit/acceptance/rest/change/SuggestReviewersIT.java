@@ -24,16 +24,11 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.PerformCreateGroup;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -227,18 +222,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     args.setGroupName(name(name));
     args.initialMembers = Collections.singleton(admin.getId());
     return createGroupFactory.create(args).createGroup();
-  }
-
-  private void grantCapability(String name, AccountGroup group)
-      throws Exception {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection(
-        AccessSection.GLOBAL_CAPABILITIES);
-    Permission p = s.getPermission(name, true);
-    p.add(new PermissionRule(config.resolve(group)));
-    config.commit(md);
-    projectCache.evict(config.getProject());
   }
 
   private TestAccount user(String name, AccountGroup... groups) throws Exception {

@@ -17,15 +17,19 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.cache.Cache;
 import com.google.common.net.InetAddresses;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -178,6 +182,13 @@ public class InMemoryModule extends FactoryModule {
       }
     });
     install(new DefaultCacheFactory.Module());
+    install(new AbstractModule() {
+      @Override
+      protected void configure() {
+        DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+        DynamicSet.setOf(binder(), CacheRemovalListener.class);
+      }
+    });
     install(new SmtpEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
 

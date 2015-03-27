@@ -16,9 +16,14 @@ package com.google.gerrit.acceptance;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.cache.CacheRemovalListener;
+import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -34,6 +39,7 @@ import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -81,6 +87,15 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     install(new SchemaModule());
     bind(SchemaVersion.class).to(SchemaVersion.C);
+
+    install(new DefaultCacheFactory.Module());
+    install(new AbstractModule() {
+      @Override
+      protected void configure() {
+        DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+        DynamicSet.setOf(binder(), CacheRemovalListener.class);
+      }
+    });
   }
 
   @Provides

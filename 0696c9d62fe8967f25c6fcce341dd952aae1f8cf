@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "235c7263_39baef04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-27T23:18:33Z",
+      "side": 1,
+      "message": "Are we planning for the possibility to parallelize the tests eventually?",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "0696c9d62fe8967f25c6fcce341dd952aae1f8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

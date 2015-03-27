@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -154,6 +155,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());
     modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(new DefaultCacheFactory.Module());
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

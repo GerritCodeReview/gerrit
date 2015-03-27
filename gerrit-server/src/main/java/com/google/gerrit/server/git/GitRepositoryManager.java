@@ -108,4 +108,16 @@ public interface GitRepositoryManager {
    */
   public abstract void setProjectDescription(Project.NameKey name,
       final String description);
+
+  /**
+   * Handle creation of a new project
+   * @param newProjectName name of the new project
+   */
+  public void onCreateProject(final Project.NameKey newProjectName);
+
+  /**
+   * Handle removal of an existing project
+   * @param p the project to remove
+   */
+  public void onRemoveProject(final Project p);
 }

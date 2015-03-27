@@ -35,6 +35,14 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     return new Repo(name);
   }
 
+  @Override
+  public void onCreateProject(Project.NameKey newProjectName) {
+  }
+
+  @Override
+  public void onRemoveProject(Project p) {
+  }
+
   private static class Description extends DfsRepositoryDescription {
     private String desc;
 

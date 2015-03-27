@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c343967f_9ef31dec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-27T18:19:43Z",
+      "side": 1,
+      "message": "I think it should be resourcePrefix?",
+      "range": {
+        "startLine": 277,
+        "startChar": 14,
+        "endLine": 277,
+        "endChar": 27
+      },
+      "revId": "7684dd7c4f54803d4fdab0ea3dc8c7fc98a88354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

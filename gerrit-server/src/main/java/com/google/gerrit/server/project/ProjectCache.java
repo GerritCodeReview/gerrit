@@ -76,7 +76,4 @@ public interface ProjectCache {
    * @return sorted iteration of projects sharing the same prefix.
    */
   public abstract Iterable<Project.NameKey> byName(String prefix);
-
-  /** Notify the cache that a new project was constructed. */
-  public void onCreateProject(Project.NameKey newProjectName);
 }

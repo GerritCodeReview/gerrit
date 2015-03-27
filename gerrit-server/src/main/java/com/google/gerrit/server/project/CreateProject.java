@@ -336,7 +336,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     } finally {
       md.close();
     }
-    projectCache.onCreateProject(args.getProject());
     repoManager.setProjectDescription(args.getProject(),
         args.projectDescription);
   }

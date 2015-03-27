@@ -14,13 +14,14 @@
 
 package com.google.gerrit.acceptance.server.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -46,15 +47,20 @@ public class LabelTypeIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    codeReview = checkNotNull(cfg.getLabelSections().get("Code-Review"));
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    codeReview = new LabelType("Code-Review", ImmutableList.of(
+        new LabelValue((short) 2, "+2"),
+        new LabelValue((short) 1, "+1"),
+        new LabelValue((short) 0, "0"),
+        new LabelValue((short) -1, "-1"),
+        new LabelValue((short) -2, "-2")));
     codeReview.setDefaultValue((short)-1);
+    cfg.getLabelSections().put(codeReview.getName(), codeReview);
     saveProjectConfig(cfg);
   }
 
   @Test
   public void noCopyMinScoreOnRework() throws Exception {
-    //allProjects only has it true by default
     codeReview.setCopyMinScore(false);
     saveLabelConfig();
 
@@ -312,14 +318,14 @@ public class LabelTypeIT extends AbstractDaemonTest {
   }
 
   private void saveLabelConfig() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     cfg.getLabelSections().clear();
     cfg.getLabelSections().put(codeReview.getName(), codeReview);
     saveProjectConfig(cfg);
   }
 
   private void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
+    MetaDataUpdate md = metaDataUpdateFactory.create(project);
     try {
       cfg.commit(md);
     } finally {

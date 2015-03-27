@@ -17,10 +17,15 @@ package com.google.gerrit.pgm.util;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.cache.CacheRemovalListener;
+import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -154,6 +159,14 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());
     modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(new DefaultCacheFactory.Module());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+        DynamicSet.setOf(binder(), CacheRemovalListener.class);
+      }
+    });
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

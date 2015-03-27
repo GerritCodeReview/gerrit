@@ -14,11 +14,15 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
+import com.google.common.cache.Cache;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
@@ -27,6 +31,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
+import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -70,6 +75,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -250,6 +256,14 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
     }
     modules.add(new DatabaseModule());
+    modules.add(new DefaultCacheFactory.Module());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+        DynamicSet.setOf(binder(), CacheRemovalListener.class);
+      }
+    });
     return Guice.createInjector(PRODUCTION, modules);
   }
 
@@ -285,7 +299,6 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new InternalAccountDirectory.Module());
-    modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
@@ -317,6 +330,13 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
     });
     modules.add(GarbageCollectionRunner.module());
+    modules.add(new LifecycleModule() {
+
+      @Override
+      protected void configure() {
+        listener().toInstance(registerInParentInjectors());
+      }
+    });
     return cfgInjector.createChildInjector(modules);
   }
 

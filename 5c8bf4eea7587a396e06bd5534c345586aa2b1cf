@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c343967f_9e6e7df8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-27T19:21:52Z",
+      "side": 1,
+      "message": "Better do it twice, so it\u0027s done properly? ;)",
+      "range": {
+        "startLine": 410,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 42
+      },
+      "revId": "5c8bf4eea7587a396e06bd5534c345586aa2b1cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c343967f_fe7b41b8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-27T19:21:52Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 425,
+        "startChar": 6,
+        "endLine": 425,
+        "endChar": 43
+      },
+      "revId": "5c8bf4eea7587a396e06bd5534c345586aa2b1cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

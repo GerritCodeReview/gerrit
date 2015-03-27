@@ -20,8 +20,11 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheBinding;
+import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
@@ -29,6 +32,7 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
+import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -43,6 +47,8 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
       bind(MemoryCacheFactory.class).to(DefaultCacheFactory.class);
       bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
       listener().to(H2CacheFactory.class);
+      DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+      DynamicSet.setOf(binder(), CacheRemovalListener.class);
     }
   }
 

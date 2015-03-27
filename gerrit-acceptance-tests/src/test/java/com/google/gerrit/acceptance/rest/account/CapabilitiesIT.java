@@ -24,51 +24,56 @@ import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_L
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
   public void testCapabilitiesUser() throws Exception {
-    grantAllCapabilities();
-    RestResponse r =
-        userSession.get("/accounts/self/capabilities");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
-        new TypeToken<CapabilityInfo>() {}.getType());
-    for (String c : GlobalCapability.getAllNames()) {
-      if (ADMINISTRATE_SERVER.equals(c)) {
-        assertThat(info.administrateServer).isFalse();
-      } else if (BATCH_CHANGES_LIMIT.equals(c)) {
-        assertThat(info.batchChangesLimit.min).isEqualTo((short) 0);
-        assertThat(info.batchChangesLimit.max).isEqualTo((short) DEFAULT_MAX_BATCH_CHANGES_LIMIT);
-      } else if (PRIORITY.equals(c)) {
-        assertThat(info.priority).isFalse();
-      } else if (QUERY_LIMIT.equals(c)) {
-        assertThat(info.queryLimit.min).isEqualTo((short) 0);
-        assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
-      } else {
-        assert_().withFailureMessage(String.format("capability %s was not granted", c))
-          .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
+    Iterable<String> all = Iterables.filter(GlobalCapability.getAllNames(),
+        new Predicate<String>() {
+          @Override
+          public boolean apply(String in) {
+            return !ADMINISTRATE_SERVER.equals(in) && !PRIORITY.equals(in);
+          }
+        });
+
+    allowGlobalCapabilities(REGISTERED_USERS, all);
+    try {
+      RestResponse r =
+          userSession.get("/accounts/self/capabilities");
+      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+      CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
+          new TypeToken<CapabilityInfo>() {}.getType());
+      for (String c : GlobalCapability.getAllNames()) {
+        if (ADMINISTRATE_SERVER.equals(c)) {
+          assertThat(info.administrateServer).isFalse();
+        } else if (BATCH_CHANGES_LIMIT.equals(c)) {
+          assertThat(info.batchChangesLimit.min).isEqualTo((short) 0);
+          assertThat(info.batchChangesLimit.max).isEqualTo((short) DEFAULT_MAX_BATCH_CHANGES_LIMIT);
+        } else if (PRIORITY.equals(c)) {
+          assertThat(info.priority).isFalse();
+        } else if (QUERY_LIMIT.equals(c)) {
+          assertThat(info.queryLimit.min).isEqualTo((short) 0);
+          assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
+        } else {
+          assert_().withFailureMessage(String.format("capability %s was not granted", c))
+            .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
+        }
       }
+    } finally {
+      removeGlobalCapabilities(REGISTERED_USERS, all);
     }
   }
 
@@ -100,36 +105,5 @@ public class CapabilitiesIT extends AbstractDaemonTest {
           .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
       }
     }
-  }
-
-  /**
-   * Grant all global capabilities except ADMINISTRATE_SERVER and PRIORITY.
-   * Set the default ranges for range permissions.
-   */
-  private void grantAllCapabilities() throws IOException,
-      ConfigInvalidException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
-    md.setMessage("Make super user");
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection(
-        AccessSection.GLOBAL_CAPABILITIES);
-    for (String c : GlobalCapability.getAllNames()) {
-      if (ADMINISTRATE_SERVER.equals(c) || PRIORITY.equals(c)) {
-        continue;
-      }
-      Permission p = s.getPermission(c, true);
-      PermissionRule rule = new PermissionRule(
-          config.resolve(SystemGroupBackend.getGroup(
-              SystemGroupBackend.REGISTERED_USERS)));
-      if (GlobalCapability.hasRange(c)) {
-        PermissionRange.WithDefaults range = GlobalCapability.getRange(c);
-        if (range != null) {
-          rule.setRange(range.getDefaultMin(), range.getDefaultMax());
-        }
-      }
-      p.add(rule);
-    }
-    config.commit(md);
-    projectCache.evict(config.getProject());
   }
 }

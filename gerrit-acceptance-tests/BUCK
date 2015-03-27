@@ -2,6 +2,7 @@ java_library(
   name = 'lib',
   srcs = glob(['src/test/java/com/google/gerrit/acceptance/*.java']),
   exported_deps = [
+    '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',

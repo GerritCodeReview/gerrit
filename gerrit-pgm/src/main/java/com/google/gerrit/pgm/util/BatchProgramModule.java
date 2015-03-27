@@ -16,9 +16,6 @@ package com.google.gerrit.pgm.util;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.common.cache.Cache;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
@@ -30,8 +27,6 @@ import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.cache.CacheRemovalListener;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -81,7 +76,6 @@ public class BatchProgramModule extends FactoryModule {
     this.reviewDbModule = reviewDbModule;
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
     install(reviewDbModule);
@@ -90,10 +84,6 @@ public class BatchProgramModule extends FactoryModule {
 
     // Plugins are not loaded and we're just running through each change
     // once, so don't worry about cache removal.
-    bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
-        .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
-    bind(new TypeLiteral<DynamicMap<Cache<?, ?>>>() {})
-        .toInstance(DynamicMap.<Cache<?, ?>> emptyMap());
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class).in(SINGLETON);
     bind(String.class).annotatedWith(CanonicalWebUrl.class)
@@ -119,7 +109,6 @@ public class BatchProgramModule extends FactoryModule {
     factory(ProjectControl.AssistedFactory.class);
 
     install(new BatchGitModule());
-    install(new DefaultCacheFactory.Module());
     install(new GroupModule());
     install(new NoteDbModule());
     install(new PrologModule());

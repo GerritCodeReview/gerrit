@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -81,6 +82,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     install(new SchemaModule());
     bind(SchemaVersion.class).to(SchemaVersion.C);
+
+    install(new DefaultCacheFactory.Module());
   }
 
   @Provides

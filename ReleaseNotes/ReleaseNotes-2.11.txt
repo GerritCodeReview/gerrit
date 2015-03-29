@@ -8,7 +8,8 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war]
 
 Gerrit 2.11 includes the bug fixes done with
-link:ReleaseNotes-2.10.1.html[Gerrit 2.10.1].
+link:ReleaseNotes-2.10.1.html[Gerrit 2.10.1] and
+link:ReleaseNotes-2.10.2.html[Gerrit 2.10.2].
 These bug fixes are *not* listed in these release notes.
 
 

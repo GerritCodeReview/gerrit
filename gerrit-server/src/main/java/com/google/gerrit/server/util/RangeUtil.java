@@ -46,7 +46,7 @@ public final class RangeUtil {
   /**
    * Determine the range of values being requested in the given query.
    *
-   * @param rangeQuery the raw query, e.g. "added:>12345"
+   * @param rangeQuery the raw query, e.g. "{@code added:>12345}"
    * @param minValue the minimum possible value for the field, inclusive
    * @param maxValue the maximum possible value for the field, inclusive
    * @return the calculated {@link Range}, or null if the query is invalid

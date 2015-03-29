@@ -61,7 +61,9 @@ public class DynamicSet<T> implements Iterable<T> {
    * <p>
    * Sets must be defined in a Guice module before they can be bound:
    * <pre>
+   * {@code
    *   DynamicSet.setOf(binder(), new TypeLiteral<Thing<Foo>>() {});
+   * }
    * </pre>
    *
    * @param binder a new binder created in the module.

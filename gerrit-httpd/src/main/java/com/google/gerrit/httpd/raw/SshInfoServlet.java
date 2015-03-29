@@ -40,12 +40,14 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * Versions of Git before 1.5.3 may require setting the username and port
  * properties in the user's {@code ~/.ssh/config} file, and using a host
- * alias through a URL such as <code>gerrit-alias:/tools/gerrit.git:
+ * alias through a URL such as {@code gerrit-alias:/tools/gerrit.git}:
  * <pre>
+ * {@code
  * Host gerrit-alias
  *  User sop@google.com
  *  Hostname gerrit.com
  *  Port 8010
+ * }
  * </pre>
  */
 @SuppressWarnings("serial")

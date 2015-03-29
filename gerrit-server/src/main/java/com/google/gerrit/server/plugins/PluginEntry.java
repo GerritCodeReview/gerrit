@@ -23,7 +23,7 @@ import java.util.Map;
  * Plugin static resource entry
  *
  * Bean representing a static resource inside a plugin.
- * All static resources are available at <plugin web url>/static
+ * All static resources are available at {@code <plugin web url>/static}
  * and served by the HttpPluginServlet.
  */
 public class PluginEntry {

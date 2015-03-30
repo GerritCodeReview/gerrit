@@ -9,32 +9,32 @@ In particular this error occurs:
 1. if you push a commit for code review to a branch for which you
    don't have upload permissions (access right
    link:access-control.html#category_push_review['Push'] on
-   `refs/for/refs/heads/*`)
+   `+refs/for/refs/heads/*+`)
 2. if you bypass code review without
    link:access-control.html#category_push_direct['Push'] access right
-   on `refs/heads/*`
+   on `+refs/heads/*+`
 3. if you bypass code review pushing to a non-existing branch without
    link:access-control.html#category_create['Create Reference'] access
-   right on `refs/heads/*`
+   right on `+refs/heads/*+`
 4. if you push an annotated tag without
    link:access-control.html#category_push_annotated['Push Annotated Tag']
-   access right on 'refs/tags/*'
+   access right on `+refs/tags/*+`
 5. if you push a signed tag without
    link:access-control.html#category_push_signed['Push Signed Tag']
-   access right on 'refs/tags/*'
+   access right on `+refs/tags/*+`
 6. if you push a lightweight tag without the access right link:access-control.html#category_create['Create
-   Reference'] for the reference name 'refs/tags/*'
+   Reference'] for the reference name `+refs/tags/*+`
 7. if you push a tag with somebody else as tagger and you don't have the
    link:access-control.html#category_forge_committer['Forge Committer']
-   access right for the reference name 'refs/tags/*'
+   access right for the reference name `+refs/tags/*+`
 8. if you push to a project that is in state 'Read Only'
 
 For new users it often happens that they accidentally try to bypass
 code review. The push then fails with the error message 'prohibited
 by Gerrit' because the project didn't allow to bypass code review.
-Bypassing the code review is done by pushing directly to refs/heads/*
-(e.g. refs/heads/master) instead of pushing to refs/for/* (e.g.
-refs/for/master). Details about how to push commits for code review
+Bypassing the code review is done by pushing directly to `+refs/heads/*+`
+(e.g. `refs/heads/master`) instead of pushing to `+refs/for/*+` (e.g.
+`refs/for/master`). Details about how to push commits for code review
 are explained link:user-upload.html#push_create[here].
 
 

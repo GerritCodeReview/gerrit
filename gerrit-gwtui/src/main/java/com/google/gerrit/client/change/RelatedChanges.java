@@ -171,6 +171,7 @@ public class RelatedChanges extends TabPanel {
     getTab(Tab.CHERRY_PICKS).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowProjects(true);
+    getTab(Tab.SAME_TOPIC).setShowSubmittable(true);
   }
 
   void set(final ChangeInfo info, final String revision) {
@@ -350,6 +351,7 @@ public class RelatedChanges extends TabPanel {
     public final native CommitInfo commit() /*-{ return this.commit }-*/;
     final native String branch() /*-{ return this.branch }-*/;
     final native String project() /*-{ return this.project }-*/;
+    final native boolean submittable() /*-{ return this.submittable }-*/;
 
     final native void set_id(String i)
     /*-{ if(i)this.change_id=i; }-*/;

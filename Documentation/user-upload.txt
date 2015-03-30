@@ -319,9 +319,9 @@ be rewritten.
 
 Gerrit restricts direct pushes that bypass review to:
 
-* `refs/heads/*`: any branch can be updated, created, deleted,
+* `+refs/heads/*+`: any branch can be updated, created, deleted,
 or rewritten by the pusher.
-* `refs/tags/*`: annotated tag objects pointing to any other type
+* `+refs/tags/*+`: annotated tag objects pointing to any other type
 of Git object can be created.
 
 To push branches, the proper access rights must be configured first.
@@ -445,8 +445,8 @@ As Gerrit implements the entire SSH and Git server stack within its
 own process space, Gerrit maintains complete control over how the
 repository is updated, and what responses are sent to the `git push`
 client invoked by the end-user, or by `repo upload`.  This allows
-Gerrit to provide magical refs, such as `refs/for/*` for new
-change submission and `refs/changes/*` for change replacement.
+Gerrit to provide magical refs, such as `+refs/for/*+` for new
+change submission and `+refs/changes/*+` for change replacement.
 When a push request is received to create a ref in one of these
 namespaces Gerrit performs its own logic to update the database,
 and then lies to the client about the result of the operation.

@@ -9,13 +9,13 @@ In particular this error occurs:
 1. if you push a commit for code review to a branch for which you
    don't have upload permissions (access right
    link:access-control.html#category_push_review['Push'] on
-   `refs/for/refs/heads/*`)
+   `+refs/for/refs/heads/*+`)
 2. if you bypass code review without
    link:access-control.html#category_push_direct['Push'] access right
-   on `refs/heads/*`
+   on `+refs/heads/*+`
 3. if you bypass code review pushing to a non-existing branch without
    link:access-control.html#category_create['Create Reference'] access
-   right on `refs/heads/*`
+   right on `+refs/heads/*+`
 4. if you push an annotated tag without
    link:access-control.html#category_push_annotated['Push Annotated Tag']
    access right on 'refs/tags/*'

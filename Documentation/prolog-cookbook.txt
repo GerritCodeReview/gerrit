@@ -987,11 +987,11 @@ submit_type(cherry_pick).
 ----
 
 [[SubmitTypePerBranch]]
-=== Example 2: `Fast Forward Only` for all `refs/heads/stable*` branches
-For all `refs/heads/stable*` branches we would like to enforce the `Fast
+=== Example 2: `Fast Forward Only` for all `+refs/heads/stable*+` branches
+For all `+refs/heads/stable*+` branches we would like to enforce the `Fast
 Forward Only` submit type. A reason for this decision may be a need to never
 break the build in the stable branches.  For all other branches, those not
-matching the `refs/heads/stable*` pattern, we would like to use the project's
+matching the `+refs/heads/stable*+` pattern, we would like to use the project's
 default submit type as defined on the project settings page.
 
 `rules.pl`
@@ -1004,13 +1004,13 @@ submit_type(T) :- gerrit:project_default_submit_type(T)
 ----
 
 The first `submit_type` predicate defines the `Fast Forward Only` submit type
-for `refs/heads/stable.*` branches. The second `submit_type` predicate returns
+for `+refs/heads/stable.*+` branches. The second `submit_type` predicate returns
 the project's default submit type.
 
 === Example 3: Don't require `Fast Forward Only` if only documentation was changed
 Like in the previous example we want the `Fast Forward Only` submit type for the
-`refs/heads/stable*` branches.  However, if only documentation was changed
-(only `*.txt` files), then we allow project's default submit type for such
+`+refs/heads/stable*+` branches.  However, if only documentation was changed
+(only `+*.txt+` files), then we allow project's default submit type for such
 changes.
 
 `rules.pl`

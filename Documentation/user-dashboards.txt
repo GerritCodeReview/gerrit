@@ -58,7 +58,7 @@ to changes for the current user:
 == Project Dashboards
 
 It is possible to share custom dashboards at a project level. To do
-this define the dashboards in a `refs/meta/dashboards/*` branch of the
+this define the dashboards in a `+refs/meta/dashboards/*+` branch of the
 project. For each dashboard create a config file. The file path/name
 will be used as name (equivalent to a title in a custom dashboard) for
 the dashboard.

@@ -17,6 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
@@ -106,6 +107,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String current_revision() /*-{ return this.current_revision; }-*/;
   public final native void set_current_revision(String r) /*-{ this.current_revision = r; }-*/;
+  public final native void set_submittability(boolean x) /*-{ this.submittability = x; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
@@ -130,6 +132,54 @@ public class ChangeInfo extends JavaScriptObject {
   final native int _number() /*-{ return this._number; }-*/;
   final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;
+
+  public final native boolean submittable() /*-{ this.getMissingLabelIndex(); return this.submittability; }-*/;
+
+  /**
+   * As a side effect this.submittability is evaluated and set accordingly.
+   *
+   * @return the index of the missing label or -1 if no or more than one label
+   *        is missing.
+   */
+  public final int getMissingLabelIndex() {
+    int i = -1;
+    int ret = -1;
+    for (LabelInfo label : Natives.asList(all_labels().values())) {
+      if (!permitted_labels().containsKey(label.name())) {
+        continue;
+      }
+
+      JsArrayString values = permitted_values(label.name());
+      if (values.length() == 0) {
+        continue;
+      }
+
+      switch (label.status()) {
+        case NEED: // Label is required for submit.
+          if (ret != -1) {
+            // more than one label is missing, so it's unclear which to quick
+            // approve, return -1
+            set_submittability(false);
+            return -1;
+          } else {
+            ret = i;
+          }
+          continue;
+
+        case OK: // Label already applied.
+        case MAY: // Label is not required.
+          continue;
+
+        case REJECT: // Submit cannot happen, do not quick approve.
+        case IMPOSSIBLE:
+          set_submittability(false);
+          return -1;
+      }
+      i++;
+    }
+    set_submittability(ret == -1);
+    return ret;
+  }
 
   protected ChangeInfo() {
   }

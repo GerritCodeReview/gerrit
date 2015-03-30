@@ -303,6 +303,12 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     }
 
     @Override
+    public String toString() {
+      return "mergeability-check-change-" + change.getId().get() + "-project-"
+          + change.getDest().getParentKey();
+    }
+
+    @Override
     public Boolean call() throws Exception {
       mergeabilityCheckQueue.updatingMergeabilityFlag(change, force);
 

@@ -92,6 +92,24 @@
       "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e30a5a5c_2f08e95c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-30T23:55:06Z",
+      "side": 1,
+      "message": "ISTM after looking at the next change, the more fundamental problem is this field isn\u0027t produced on the server side.",
+      "parentUuid": "e30a5a5c_cfeddd04",
+      "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

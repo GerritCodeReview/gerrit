@@ -16,6 +16,24 @@
       "revId": "b63d6299175fa00cae46112d8988fb3c3b379ad6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03084e62_f0d7e041",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-03-30T16:43:41Z",
+      "side": 1,
+      "message": "The 3 lines above are common but the two conditions do different things.  I think it might be simpler if there was a function for adding label info but i don\u0027t think it\u0027s appropriate to combine the two.  Also I didn\u0027t want to refactor anything in this change I just wanted this change to focus on adding the label info.  Refactoring should probably be done in a separate change?",
+      "parentUuid": "43fec670_32ba1005",
+      "revId": "b63d6299175fa00cae46112d8988fb3c3b379ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,8 +34,11 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -57,9 +60,13 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -108,6 +115,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_PATH = "path";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
+  public static final String FIELD_QUERY = "query";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
@@ -139,6 +147,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
     final AllProjectsName allProjectsName;
+    final AllUsersNameProvider allUsersName;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
@@ -166,6 +175,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
+        AllUsersNameProvider allUsersName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
@@ -178,9 +188,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this(db, queryProvider, rewriter, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
-          allProjectsName, patchListCache, repoManager, projectCache,
-          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
-          trackingFooters,
+          allProjectsName, allUsersName, patchListCache, repoManager,
+          projectCache, listChildProjects, indexes, submitStrategyFactory,
+          conflictsCache, trackingFooters,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
@@ -198,6 +208,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
+        AllUsersNameProvider allUsersName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
@@ -220,6 +231,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.accountResolver = accountResolver;
      this.groupBackend = groupBackend;
      this.allProjectsName = allProjectsName;
+     this.allUsersName = allUsersName;
      this.patchListCache = patchListCache;
      this.repoManager = repoManager;
      this.projectCache = projectCache;
@@ -236,9 +248,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           Providers.of(otherUser),
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
-          allProjectsName, patchListCache, repoManager, projectCache,
-          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
-          trackingFooters, allowsDrafts);
+          allProjectsName, allUsersName, patchListCache, repoManager,
+          projectCache, listChildProjects, indexes, submitStrategyFactory,
+          conflictsCache, trackingFooters, allowsDrafts);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -771,6 +783,25 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throws QueryParseException, OrmException {
     Set<Account.Id> ownerIds = parseAccount(who);
     return Predicate.or(owner(ownerIds), commentby(ownerIds));
+  }
+
+  @Operator
+  public Predicate<ChangeData> query(String name) throws QueryParseException {
+    AllUsersName allUsers = args.allUsersName.get();
+    try (Repository git = args.repoManager.openRepository(allUsers)) {
+      VersionedAccountQueries q = VersionedAccountQueries.forUser(self());
+      q.load(git);
+      String query = q.getQueryList().getQuery(name);
+      if (query != null) {
+        return parse(query);
+      }
+    } catch (RepositoryNotFoundException e) {
+      throw new QueryParseException("Unknown named query (no " +
+          allUsers.get() +" repo): " + name, e);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new QueryParseException("Error parsing named query: " + name, e);
+    }
+    throw new QueryParseException("Unknown named query: " + name);
   }
 
   @Override

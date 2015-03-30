@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43fec670_32ba1005",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2015-03-30T16:14:17Z",
+      "side": 1,
+      "message": "Couldn\u0027t this block be rolled into the previous to simply the code a bit? We are basically saying that changing the value and not changing the value should not be treated as special.",
+      "revId": "b63d6299175fa00cae46112d8988fb3c3b379ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

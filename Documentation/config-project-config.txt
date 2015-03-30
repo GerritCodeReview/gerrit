@@ -64,7 +64,7 @@ As you can see, there are several sections.
 The link:#project-section[+project+ section] appears once per project.
 
 The link:#access-section[+access+ section] appears once per reference pattern,
-such as `refs/*` or `refs/heads/*`.  Only one access section per pattern is
+such as `+refs/*+` or `+refs/heads/*+`.  Only one access section per pattern is
 allowed.  You will find examples of keys and values in each category section
 <<access_category,below>>.
 

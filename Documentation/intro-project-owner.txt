@@ -10,7 +10,7 @@ workflows for a project.
 Being project owner means that you own a project in Gerrit.
 Technically this is expressed by having the
 link:access-control.html#category_owner[Owner] access right on
-`refs/*` on that project. As project owner you have the permission to
+`+refs/*+` on that project. As project owner you have the permission to
 edit the access control list and the project settings of the project.
 It also means that you should get familiar with these settings so that
 you can adapt them to the needs of your project.
@@ -127,12 +127,12 @@ Access rights can be assigned on a concrete ref, e.g.
 `refs/heads/master` but also on ref patterns and regular expressions
 for ref names.
 
-A ref pattern ends with `/*` and describes a complete ref name
-namespace, e.g. access rights assigned on `refs/heads/*` apply to all
+A ref pattern ends with `+/*+` and describes a complete ref name
+namespace, e.g. access rights assigned on `+refs/heads/*+` apply to all
 branches.
 
 Regular expressions must start with `^`, e.g. access rights assigned
-on `^refs/heads/rel-.*` would apply to all `rel-*` branches.
+on `+^refs/heads/rel-.*+` would apply to all `+rel-*+` branches.
 
 [[groups]]
 === Groups

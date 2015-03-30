@@ -210,8 +210,8 @@ Reference-level access control is also possible.
 
 Permissions can be set on a single reference name to match one
 branch (e.g. `refs/heads/master`), or on a reference namespace
-(e.g. `refs/heads/*`) to match any branch starting with that
-prefix. So a permission with `refs/heads/*` will match
+(e.g. `+refs/heads/*+`) to match any branch starting with that
+prefix. So a permission with `+refs/heads/*+` will match
 `refs/heads/master` and `refs/heads/experimental`, etc.
 
 Reference names can also be described with a regular expression
@@ -227,7 +227,7 @@ particular regular expression flavor.
 References can have the current user name automatically included,
 creating dynamic access controls that change to match the currently
 logged in user.  For example to provide a personal sandbox space
-to all developers, `refs/heads/sandbox/${username}/*` allowing
+to all developers, `+refs/heads/sandbox/${username}/*+` allowing
 the user 'joe' to use 'refs/heads/sandbox/joe/foo'.
 
 When evaluating a reference-level access right, Gerrit will use
@@ -405,19 +405,19 @@ link:user-upload.html#push_create[Upload changes] page.
 
 ==== refs/publish/*
 
-`refs/publish/*` is an alternative name to `refs/for/*` when pushing new changes
+`+refs/publish/*+` is an alternative name to `+refs/for/*+` when pushing new changes
 and patch sets.
 
 
 ==== refs/drafts/*
 
-Push to `refs/drafts/*` creates a change like push to `refs/for/*`, except the
+Push to `+refs/drafts/*+` creates a change like push to `+refs/for/*+`, except the
 resulting change remains hidden from public review.  You then have the option
 of adding individual reviewers before making the change public to all.  The
 change page will have a 'Publish' button which allows you to convert individual
 draft patch sets of a change into public patch sets for review.
 
-To block push permission to `refs/drafts/*` the following permission rule can
+To block push permission to `+refs/drafts/*+` the following permission rule can
 be configured:
 
 ====
@@ -464,18 +464,18 @@ branch permissions, allowing the holder of both to create new branches
 as well as bypass review for new commits on that branch.
 
 To push lightweight (non-annotated) tags, grant
-`Create Reference` for reference name `refs/tags/*`, as lightweight
+`Create Reference` for reference name `+refs/tags/*+`, as lightweight
 tags are implemented just like branches in Git.
 
 For example, to grant the possibility to create new branches under the
 namespace `foo`, you have to grant this permission on
-`refs/heads/foo/*` for the group that should have it.
+`+refs/heads/foo/*+` for the group that should have it.
 Finally, if you plan to grant each user a personal namespace in
 where they are free to create as many branches as they wish, you
 should grant the create reference permission so it's possible
 to create new branches. This is done by using the special
 `${username}` keyword in the reference pattern, e.g.
-`refs/heads/sandbox/${username}/*`. If you do, it's also recommended
+`+refs/heads/sandbox/${username}/*+`. If you do, it's also recommended
 you grant the users the push force permission to be able to clean up
 stale branches.
 
@@ -547,7 +547,7 @@ they are a member of, just like for any other user.
 Ownership over a particular branch subspace may be delegated by
 entering a branch pattern.  To delegate control over all branches
 that begin with `qa/` to the QA group, add `Owner` category
-for reference `refs/heads/qa/*`.  Members of the QA group can
+for reference `+refs/heads/qa/*+`.  Members of the QA group can
 further refine access, but only for references that begin with
 `refs/heads/qa/`. See <<project_owners,project owners>> to find
 out more about this role.
@@ -600,15 +600,15 @@ a new commit on their local system, so in practice they must also
 have the `Read` access granted to upload a change.
 
 For an open source, public Gerrit installation, it is common to
-grant `Read` and `Push` for `refs/for/refs/heads/*`
+grant `Read` and `Push` for `+refs/for/refs/heads/*+`
 to `Registered Users` in the `All-Projects` ACL.  For more
 private installations, its common to simply grant `Read` and
-`Push` for `refs/for/refs/heads/*` to all users of a project.
+`Push` for `+refs/for/refs/heads/*+` to all users of a project.
 
 * Force option
 +
 The force option has no function when granted to a branch in the
-`refs/for/refs/heads/*` namespace.
+`+refs/for/refs/heads/*+` namespace.
 
 
 [[category_push_merge]]
@@ -661,11 +661,11 @@ must be also granted in addition to `Push Annotated Tag`.
 
 To push lightweight (non annotated) tags, grant
 <<category_create,`Create Reference`>> for reference name
-`refs/tags/*`, as lightweight tags are implemented just like
+`+refs/tags/*+`, as lightweight tags are implemented just like
 branches in Git.
 
 To delete or overwrite an existing tag, grant `Push` with the force
-option enabled for reference name `refs/tags/*`, as deleting a tag
+option enabled for reference name `+refs/tags/*+`, as deleting a tag
 requires the same permission as deleting a branch.
 
 
@@ -1026,7 +1026,7 @@ Suggested access rights to grant:
 
 == Enforcing site wide access policies
 
-By granting the <<category_owner,`Owner`>> access right on the `refs/*` to a
+By granting the <<category_owner,`Owner`>> access right on the `+refs/*+` to a
 group, Gerrit administrators can delegate the responsibility of maintaining
 access rights for that project to that group.
 

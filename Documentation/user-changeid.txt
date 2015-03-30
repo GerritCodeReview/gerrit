@@ -70,8 +70,8 @@ For more details, see link:cmd-hook-commit-msg.html[commit-msg].
 Change Upload
 --------------
 
-During upload by pushing to `refs/for/*`, `refs/drafts/*` or
-`refs/heads/*`, Gerrit will try to find an existing review the
+During upload by pushing to `+refs/for/*+`, `+refs/drafts/*+` or
+`+refs/heads/*+`, Gerrit will try to find an existing review the
 uploaded commit relates to. For an existing review to match, the
 following properties have to match:
 

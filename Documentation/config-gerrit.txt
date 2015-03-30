@@ -2621,8 +2621,8 @@ are specified in the link:#container[container section]:
 If set to true, files with the MIME type `<name>` will be sent as
 direct downloads to the user's browser, rather than being wrapped up
 inside of zipped archives.  The type name may be a complete type
-name, e.g. `image/gif`, a generic media type, e.g. `image/*`,
-or the wildcard `*/*` to match all types.
+name, e.g. `image/gif`, a generic media type, e.g. `+image/*+`,
+or the wildcard `+*/*+` to match all types.
 +
 By default, false for all MIME types.
 

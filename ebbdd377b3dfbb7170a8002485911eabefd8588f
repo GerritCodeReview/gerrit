@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03084e62_d0029c37",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-30T23:49:20Z",
+      "side": 1,
+      "message": "Does this method need to be public? Should it perhaps be private?",
+      "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03084e62_30316821",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-30T23:49:20Z",
+      "side": 1,
+      "message": "Just use \"submittable\" in place of \"submittability\".",
+      "range": {
+        "startLine": 110,
+        "startChar": 27,
+        "endLine": 110,
+        "endChar": 45
+      },
+      "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03084e62_f0052042",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-30T23:49:20Z",
+      "side": 1,
+      "message": "Does this work? I thought you needed to do some more JSNI ugliness to get it to work, possibly involving @com.google.gerrit.client.changes.ChangeInfo::getMissingLabelIndex\n\nBut honestly my JSNI expertise is practically non-existent.",
+      "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

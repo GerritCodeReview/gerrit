@@ -469,13 +469,13 @@ tags are implemented just like branches in Git.
 
 For example, to grant the possibility to create new branches under the
 namespace `foo`, you have to grant this permission on
-`refs/heads/foo/*` for the group that should have it.
+`+refs/heads/foo/*+` for the group that should have it.
 Finally, if you plan to grant each user a personal namespace in
 where they are free to create as many branches as they wish, you
 should grant the create reference permission so it's possible
 to create new branches. This is done by using the special
 `${username}` keyword in the reference pattern, e.g.
-`refs/heads/sandbox/${username}/*`. If you do, it's also recommended
+`+refs/heads/sandbox/${username}/*+`. If you do, it's also recommended
 you grant the users the push force permission to be able to clean up
 stale branches.
 

@@ -171,6 +171,7 @@ public class RelatedChanges extends TabPanel {
     getTab(Tab.CHERRY_PICKS).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowProjects(true);
+    getTab(Tab.SAME_TOPIC).setShowSubmittable(true);
   }
 
   void set(final ChangeInfo info, final String revision) {
@@ -199,9 +200,14 @@ public class RelatedChanges extends TabPanel {
       StringBuilder topicQuery = new StringBuilder();
       topicQuery.append("status:open");
       topicQuery.append(" ").append(op("topic", info.topic()));
-      topicQuery.append(" ").append(op("-change", info.legacy_id().get()));
       ChangeList.query(topicQuery.toString(),
-          EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
+          // TODO(sbeller): extract detailed labels information by looking
+          // at the current commit instead of retransmitting
+          EnumSet.of(ListChangesOption.CURRENT_REVISION,
+                     ListChangesOption.CURRENT_COMMIT,
+                     ListChangesOption.DETAILED_LABELS,
+                     ListChangesOption.LABELS),
+
           new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
     }
   }
@@ -328,6 +334,7 @@ public class RelatedChanges extends TabPanel {
           c.set_revision_number(currentRevision._number());
           c.set_branch(i.branch());
           c.set_project(i.project());
+          c.set_submittable(i.submittable());
           arr.push(c);
         }
       }
@@ -350,6 +357,7 @@ public class RelatedChanges extends TabPanel {
     public final native CommitInfo commit() /*-{ return this.commit }-*/;
     final native String branch() /*-{ return this.branch }-*/;
     final native String project() /*-{ return this.project }-*/;
+    final native boolean submittable() /*-{ return this._submittable ? true : false; }-*/;
 
     final native void set_id(String i)
     /*-{ if(i)this.change_id=i; }-*/;
@@ -399,6 +407,9 @@ public class RelatedChanges extends TabPanel {
 
     final native void set_current_revision_number(int n)
     /*-{ this._current_revision_number=n; }-*/;
+
+    final native void set_submittable(boolean s)
+    /*-{ this._submittable=s; }-*/;
 
     protected ChangeAndCommit() {
     }

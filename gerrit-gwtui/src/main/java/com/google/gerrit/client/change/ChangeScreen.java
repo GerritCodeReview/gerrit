@@ -1103,12 +1103,19 @@ public class ChangeScreen extends Screen {
     }
     setWindowTitle(sb.toString());
 
+    // Although this is related to the revision, we can process it early to
+    // render it faster.
+    if (!info.status().isOpen()
+        || !revision.equals(info.current_revision())
+        || info.revision(revision).is_edit()) {
+      setVisible(strategy, false);
+    }
+
     // Properly render revision actions initially while waiting for
     // the callback to populate them correctly.
     NativeMap<ActionInfo> emptyMap = NativeMap.<ActionInfo> create();
     initRevisionsAction(info, revision, emptyMap);
     quickApprove.setVisible(false);
-    setVisible(strategy, false);
     actions.reloadRevisionActions(emptyMap);
   }
 
@@ -1141,7 +1148,6 @@ public class ChangeScreen extends Screen {
       loadSubmitType(info.status(), isSubmittable(info));
     } else {
       quickApprove.setVisible(false);
-      setVisible(strategy, false);
     }
     actions.reloadRevisionActions(actionMap);
   }

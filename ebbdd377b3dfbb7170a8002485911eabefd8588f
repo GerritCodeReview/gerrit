@@ -110,6 +110,24 @@
       "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e30a5a5c_6f12f190",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-31T00:06:42Z",
+      "side": 1,
+      "message": "I was wondering if this is the right design decision, or if we want to do the computation on the server side and just tell the client which of the changes in the topic needs attention. The client would just take the data and visualize it like proposed now and wouldn\u0027t need to do any computation itself.",
+      "parentUuid": "e30a5a5c_2f08e95c",
+      "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

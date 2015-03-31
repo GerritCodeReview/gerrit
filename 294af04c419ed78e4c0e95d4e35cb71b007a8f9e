@@ -46,6 +46,30 @@
       "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3c30259_d5d71c42",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-31T22:04:55Z",
+      "side": 1,
+      "message": "Ok, how about reusing the check/X icons from the change list? We might need to find/make smaller versions of them however.\n\n\u003e Also do we want to only show these symbols if `change.submitWholeTopic` is set?\n\nUndecided.\n\nPersonally I think all tabs here should have the same check/X symbols, including the normal related changes tab. In which case they\u0027re just things we expect to see, so no reason to turn them off just because submitWholeTopic is not enabled.",
+      "parentUuid": "a3c30259_95cda4b4",
+      "range": {
+        "startLine": 299,
+        "startChar": 24,
+        "endLine": 299,
+        "endChar": 30
+      },
+      "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

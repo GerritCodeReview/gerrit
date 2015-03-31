@@ -34,6 +34,7 @@ import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -106,6 +107,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String current_revision() /*-{ return this.current_revision; }-*/;
   public final native void set_current_revision(String r) /*-{ this.current_revision = r; }-*/;
+  private final native void set_submittable(boolean x) /*-{ this.submittable = x; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
@@ -130,6 +132,62 @@ public class ChangeInfo extends JavaScriptObject {
   final native int _number() /*-{ return this._number; }-*/;
   final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;
+
+  public final boolean submittable() {
+    init();
+    getMissingLabelIndex();
+    return _submittable();
+  }
+
+  private final native boolean _submittable()
+  /*-{ return this.submittable ? true : false; }-*/;
+
+  /**
+   * As a side effect this.submittability is evaluated and set accordingly.
+   *
+   * @return the index of the missing label or -1 if no or more than one label
+   *        is missing.
+   */
+  public final int getMissingLabelIndex() {
+    int i = 0;
+    int ret = -1;
+    List<LabelInfo> labels = Natives.asList(all_labels().values());
+    for (LabelInfo label : labels) {
+      if (!permitted_labels().containsKey(label.name())) {
+        continue;
+      }
+
+      JsArrayString values = permitted_values(label.name());
+      if (values.length() == 0) {
+        continue;
+      }
+
+      switch (label.status()) {
+        case NEED: // Label is required for submit.
+          if (ret != -1) {
+            // more than one label is missing, so it's unclear which to quick
+            // approve, return -1
+            set_submittable(false);
+            return -1;
+          } else {
+            ret = i;
+          }
+          continue;
+
+        case OK: // Label already applied.
+        case MAY: // Label is not required.
+          continue;
+
+        case REJECT: // Submit cannot happen, do not quick approve.
+        case IMPOSSIBLE:
+          set_submittable(false);
+          return -1;
+      }
+      i++;
+    }
+    set_submittable(ret == -1);
+    return ret;
+  }
 
   protected ChangeInfo() {
   }

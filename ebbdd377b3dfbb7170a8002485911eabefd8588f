@@ -128,6 +128,24 @@
       "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e30a5a5c_affb39bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-31T00:12:45Z",
+      "side": 1,
+      "message": "Oh, ok, you want to do all computation on the client side. That\u0027s fine, I don\u0027t think we need a server-side piece.\n\n(I think I was partially confuse by the presence of set_submittability in this class. That method is just a JSNI shim, only used by getMissingLabelIndex, hence why it can be private. Makes sense now.)",
+      "parentUuid": "e30a5a5c_6f12f190",
+      "revId": "ebbdd377b3dfbb7170a8002485911eabefd8588f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

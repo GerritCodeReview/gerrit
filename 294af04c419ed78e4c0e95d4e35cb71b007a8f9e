@@ -22,6 +22,30 @@
       "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3c30259_95cda4b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-31T22:01:22Z",
+      "side": 1,
+      "message": "We can also have both (1) and (2).\n\nAs a colorblind I oppose having color codes (3) as the only option. Colors might be additional, but I don\u0027t really care.\n\nAlso do we want to only show these symbols if `change.submitWholeTopic` is set? Otherwise we don\u0027t really care about the changes in the same topic, but maybe that would just complicate the code here unnecessarily.",
+      "parentUuid": "e30a5a5c_0f4c05a0",
+      "range": {
+        "startLine": 299,
+        "startChar": 24,
+        "endLine": 299,
+        "endChar": 30
+      },
+      "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

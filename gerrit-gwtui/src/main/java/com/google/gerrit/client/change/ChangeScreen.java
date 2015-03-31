@@ -1108,7 +1108,6 @@ public class ChangeScreen extends Screen {
     NativeMap<ActionInfo> emptyMap = NativeMap.<ActionInfo> create();
     initRevisionsAction(info, revision, emptyMap);
     quickApprove.setVisible(false);
-    setVisible(strategy, false);
     actions.reloadRevisionActions(emptyMap);
   }
 

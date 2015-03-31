@@ -18,18 +18,15 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GroupList {
+public class GroupList extends TabFile {
   public static final String FILE_NAME = "groups";
   private final Map<AccountGroup.UUID, GroupReference> byUUID;
 
@@ -37,24 +34,14 @@ public class GroupList {
         this.byUUID = byUUID;
   }
 
-  public static GroupList parse(String text, ValidationError.Sink errors) throws IOException {
-    Map<AccountGroup.UUID, GroupReference> groupsByUUID = new HashMap<>();
-
-    BufferedReader br = new BufferedReader(new StringReader(text));
-    String s;
-    for (int lineNumber = 1; (s = br.readLine()) != null; lineNumber++) {
-      if (s.isEmpty() || s.startsWith("#")) {
-        continue;
-      }
-
-      int tab = s.indexOf('\t');
-      if (tab < 0) {
-        errors.error(new ValidationError(FILE_NAME, lineNumber, "missing tab delimiter"));
-        continue;
-      }
-
-      AccountGroup.UUID uuid = new AccountGroup.UUID(s.substring(0, tab).trim());
-      String name = s.substring(tab + 1).trim();
+  public static GroupList parse(String text, ValidationError.Sink errors)
+      throws IOException {
+    List<Row> rows = parse(text, FILE_NAME, errors);
+    Map<AccountGroup.UUID, GroupReference> groupsByUUID =
+        new HashMap<>(rows.size());
+    for(Row row : rows) {
+      AccountGroup.UUID uuid = new AccountGroup.UUID(row.left);
+      String name = row.right;
       GroupReference ref = new GroupReference(uuid, name);
 
       groupsByUUID.put(uuid, ref);
@@ -90,49 +77,19 @@ public class GroupList {
     byUUID.put(uuid, reference);
   }
 
-  private static String pad(int len, String src) {
-    if (len <= src.length()) {
-      return src;
-    }
-
-    StringBuilder r = new StringBuilder(len);
-    r.append(src);
-    while (r.length() < len) {
-      r.append(' ');
-    }
-    return r.toString();
-  }
-
-  private static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {
-    ArrayList<T> r = new ArrayList<>(m);
-    Collections.sort(r);
-    return r;
-  }
-
   public String asText() {
     if (byUUID.isEmpty()) {
       return null;
     }
 
-    final int uuidLen = 40;
-    StringBuilder buf = new StringBuilder();
-    buf.append(pad(uuidLen, "# UUID"));
-    buf.append('\t');
-    buf.append("Group Name");
-    buf.append('\n');
-
-    buf.append('#');
-    buf.append('\n');
-
+    List<Row> rows = new ArrayList<Row>(byUUID.size());
     for (GroupReference g : sort(byUUID.values())) {
       if (g.getUUID() != null && g.getName() != null) {
-        buf.append(pad(uuidLen, g.getUUID().get()));
-        buf.append('\t');
-        buf.append(g.getName());
-        buf.append('\n');
+        rows.add(new Row(g.getUUID().get(), g.getName()));
       }
     }
-    return buf.toString();
+
+    return asText("UUID", "Group Name", rows);
   }
 
   public void retainUUIDs(Collection<AccountGroup.UUID> toBeRetained) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e30a5a5c_ef1ee18d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-03-31T20:45:29Z",
+      "side": 1,
+      "message": "Since commit 3e027d6, test starts to fail at above line. This is caused by the former commit replacing on-disk test repo with a bare /in-memory one (no more work-dir). Hence the above rebase (and following steps below) not working anymore. Trying to work this out with 3e027d6 author.",
+      "revId": "7b48662960ef0caeca952eaf8230cc92d8562eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

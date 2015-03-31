@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e30a5a5c_0f4c05a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-31T21:40:28Z",
+      "side": 1,
+      "message": "I don\u0027t think this has been sufficiently bikeshedded. Some options:\n\n* This\n* The opposite of this, suggested by jrn (checkmark for ok)\n* Something using red/green colored dots, similar to the dots we have in the related changes tab.\n\nAlso if you\u0027re going to include a Unicode code point here, add a comment with its full name.",
+      "range": {
+        "startLine": 299,
+        "startChar": 24,
+        "endLine": 299,
+        "endChar": 30
+      },
+      "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

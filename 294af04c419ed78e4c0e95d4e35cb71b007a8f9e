@@ -94,6 +94,30 @@
       "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3c30259_15e35420",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-03-31T22:20:06Z",
+      "side": 1,
+      "message": "\u003e Do you mean Unicode Character \u0027CHECK MARK\u0027 (U+2713)\n\nNo, I mean the icons people are already familiar with:\nhttps://gerrit-review.googlesource.com/#/q/owner:dborowitz+status:open\n\nOnly smaller.",
+      "parentUuid": "83c27e55_34bf70f5",
+      "range": {
+        "startLine": 299,
+        "startChar": 24,
+        "endLine": 299,
+        "endChar": 30
+      },
+      "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

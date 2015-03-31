@@ -85,6 +85,10 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (!missing.isEmpty()) {
       try {
         for (Account account : db.get().accounts().get(missing.keySet())) {
+          if (options.contains(FillOptions.USERNAME)) {
+            account.setUserName(AccountState.getUserName(
+                db.get().accountExternalIds().byAccount(account.getId()).toList()));
+          }
           for (AccountInfo info : missing.get(account.getId())) {
             fill(info, account, options);
           }

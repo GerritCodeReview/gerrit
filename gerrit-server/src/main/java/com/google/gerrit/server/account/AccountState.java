@@ -73,7 +73,7 @@ public class AccountState {
     return internalGroups;
   }
 
-  private static String getUserName(Collection<AccountExternalId> ids) {
+  public static String getUserName(Collection<AccountExternalId> ids) {
     for (AccountExternalId id : ids) {
       if (id.isScheme(SCHEME_USERNAME)) {
         return id.getSchemeRest();

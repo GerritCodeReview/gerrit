@@ -173,6 +173,7 @@ public class RelatedChanges extends TabPanel {
     getTab(Tab.SAME_TOPIC).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowProjects(true);
     getTab(Tab.SAME_TOPIC).setShowSubmittable(true);
+    getTab(Tab.SAME_TOPIC).setShowPointer(false);
   }
 
   void set(final ChangeInfo info, final String revision) {

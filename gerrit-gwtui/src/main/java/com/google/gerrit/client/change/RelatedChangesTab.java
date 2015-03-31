@@ -85,6 +85,7 @@ class RelatedChangesTab implements IsWidget {
   private final SimplePanel panel;
   private final RelatedChanges.Tab subject;
 
+  private boolean showPointer;
   private boolean showBranches;
   private boolean showProjects;
   private boolean showSubmittable;
@@ -98,6 +99,7 @@ class RelatedChangesTab implements IsWidget {
   RelatedChangesTab(RelatedChanges.Tab subject) {
     panel = new SimplePanel();
     this.subject = subject;
+    this.showPointer = true;
   }
 
   @Override
@@ -115,6 +117,10 @@ class RelatedChangesTab implements IsWidget {
 
   void setShowSubmittable(boolean submittable) {
     this.showSubmittable = submittable;
+  }
+
+  void setShowPointer(boolean pointer) {
+    this.showPointer = pointer;
   }
 
   void setShowIndirectAncestors(boolean showIndirectAncestors) {
@@ -276,9 +282,11 @@ class RelatedChangesTab implements IsWidget {
     private void renderRow(SafeHtmlBuilder sb) {
       sb.openDiv().setStyleName(RelatedChanges.R.css().row());
 
-      sb.openSpan().setStyleName(RelatedChanges.R.css().pointer());
-      sb.append(POINTER_HTML);
-      sb.closeSpan();
+      if (showPointer) {
+        sb.openSpan().setStyleName(RelatedChanges.R.css().pointer());
+        sb.append(POINTER_HTML);
+        sb.closeSpan();
+      }
 
       sb.openSpan().setStyleName(RelatedChanges.R.css().subject());
       String url = url();

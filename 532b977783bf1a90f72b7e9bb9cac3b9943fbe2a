@@ -22,6 +22,30 @@
       "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03084e62_d051fc36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-31T21:39:43Z",
+      "side": 1,
+      "message": "Personally \"-\" feels weird as you cannot use it in variable names in many languages whereas \"_\" can be used. \n\nSo when deciding on a topic name by myself I\u0027ll use the underscore to make it look like a variable name. (I did use a white space once, but that is months ago)\n\nFor an automatic topic rewrite, \"-\" makes more sense (at least for gerrit itself, maybe we need to have a config option if people complain later on) as that\u0027s what used by most of the other contributors.",
+      "parentUuid": "e30a5a5c_af7179de",
+      "range": {
+        "startLine": 187,
+        "startChar": 48,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

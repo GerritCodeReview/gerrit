@@ -70,6 +70,30 @@
       "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83c27e55_34bf70f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-03-31T22:18:32Z",
+      "side": 1,
+      "message": "Do you mean Unicode Character \u0027CHECK MARK\u0027 (U+2713)\n✓ http://www.fileformat.info/info/unicode/char/2713/index.htm\n\nI guess you rather want the box included like that:\n☐ http://www.fileformat.info/info/unicode/char/2610/index.htm\n☑ http://www.fileformat.info/info/unicode/char/2611/index.htm\n\nI am testing if I can write unicode-html in this comment as well.\n\nPersonally I\u0027d omit the box as it\u0027s no relevant information, and the check mark looks a lot better outside the box IMHO.",
+      "parentUuid": "a3c30259_d5d71c42",
+      "range": {
+        "startLine": 299,
+        "startChar": 24,
+        "endLine": 299,
+        "endChar": 30
+      },
+      "revId": "294af04c419ed78e4c0e95d4e35cb71b007a8f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -42,10 +42,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -74,7 +71,6 @@ public class ProjectCacheImpl implements ProjectCache {
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final LoadingCache<String, ProjectState> byName;
-  private final Lock listLock;
   private final ProjectCacheClock clock;
   private final GitRepositoryManager mgr;
 
@@ -88,7 +84,6 @@ public class ProjectCacheImpl implements ProjectCache {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
-    this.listLock = new ReentrantLock(true /* fair */);
     this.clock = clock;
     this.mgr = mgr;
   }

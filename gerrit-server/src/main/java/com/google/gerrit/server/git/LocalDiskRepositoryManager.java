@@ -17,9 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
@@ -67,27 +65,16 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
-public class LocalDiskRepositoryManager implements GitRepositoryManager {
+public class LocalDiskRepositoryManager extends CachingGitRepositoryManager
+    implements GitRepositoryManager {
   private static final Logger log =
       LoggerFactory.getLogger(LocalDiskRepositoryManager.class);
 
   private static final String UNNAMED =
       "Unnamed repository; edit this file to name it for gitweb.";
-
-  private static final String CACHE_LIST = "project_list";
-
-  static class ListKey {
-    static final ListKey ALL = new ListKey();
-
-    private ListKey() {
-    }
-  }
 
   public static class Module extends LifecycleModule {
     @Override
@@ -163,14 +150,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   private final Path basePath;
   private final Path noteDbPath;
-  private final Lock namesUpdateLock;
-  private final LoadingCache<ListKey, SortedSet<Project.NameKey>> list;
-
   @Inject
   LocalDiskRepositoryManager(SitePaths site,
       @GerritServerConfig Config cfg,
       NotesMigration notesMigration,
       @Named(CACHE_LIST) LoadingCache<ListKey, SortedSet<Project.NameKey>> list) {
+    super(list);
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
@@ -182,8 +167,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     } else {
       noteDbPath = null;
     }
-    namesUpdateLock = new ReentrantLock(true /* fair */);
-    this.list = list;
   }
 
   /** @return base directory under which all projects are stored. */
@@ -316,34 +299,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public void onCreateProject(final Project.NameKey newProjectName) {
-    namesUpdateLock.lock();
-    try {
-      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
-      n.add(newProjectName);
-      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
-    } catch (ExecutionException e) {
-      log.warn("Cannot list avaliable projects", e);
-    } finally {
-      namesUpdateLock.unlock();
-    }
-  }
-
-  @Override
-  public void onRemoveProject(final Project p) {
-    namesUpdateLock.lock();
-    try {
-      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
-      n.remove(p.getNameKey());
-      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
-    } catch (ExecutionException e) {
-      log.warn("Cannot list avaliable projects", e);
-    } finally {
-      namesUpdateLock.unlock();
-    }
-  }
-
-  @Override
   public String getProjectDescription(final Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
     final Repository e = openRepository(name);
@@ -437,16 +392,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       || name.contains("\r"); // carriage return
   }
 
-  @Override
-  public SortedSet<Project.NameKey> list() {
-    try {
-      return list.get(ListKey.ALL);
-    } catch (ExecutionException e) {
-      log.warn("Cannot list available projects", e);
-      return new TreeSet<>(); // TODO something simpler to not instantiate
-    }
-  }
-
   private class ProjectVisitor extends SimpleFileVisitor<Path> {
     private final SortedSet<Project.NameKey> found = new TreeSet<>();
 
@@ -488,7 +433,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  SortedSet<Project.NameKey> scan() {
+  @Override
+  protected SortedSet<Project.NameKey> scan() {
     // The results of this method are cached by {@code #list}. Control only
     // enters here if the cache was flushed by the administrator to force
     // scanning the filesystem. Don't rely on the cached names collection.
@@ -508,18 +454,4 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
 }
-  static class Lister extends CacheLoader<ListKey, SortedSet<Project.NameKey>> {
-
-    private LocalDiskRepositoryManager mgr;
-
-    @Inject
-    Lister(LocalDiskRepositoryManager mgr) {
-      this.mgr = mgr;
-    }
-
-    @Override
-    public SortedSet<Project.NameKey> load(ListKey key) throws Exception {
-      return mgr.scan();
-    }
-  }
 }

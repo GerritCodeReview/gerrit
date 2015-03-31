@@ -14,18 +14,14 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager.ListKey;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.SortedSet;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Manages Git repositories for the Gerrit server process.

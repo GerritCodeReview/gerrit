@@ -33,7 +33,7 @@ public interface MergeabilityCache {
     }
 
     @Override
-    public boolean getIfPresent(ObjectId commit, Ref intoRef,
+    public Boolean getIfPresent(ObjectId commit, Ref intoRef,
         SubmitType submitType, String mergeStrategy) {
       throw new UnsupportedOperationException("Mergeability checking disabled");
     }
@@ -42,6 +42,6 @@ public interface MergeabilityCache {
   public boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
       String mergeStrategy, Branch.NameKey dest, Repository repo, ReviewDb db);
 
-  public boolean getIfPresent(ObjectId commit, Ref intoRef,
+  public Boolean getIfPresent(ObjectId commit, Ref intoRef,
       SubmitType submitType, String mergeStrategy);
 }

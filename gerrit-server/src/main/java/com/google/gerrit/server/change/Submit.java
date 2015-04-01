@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -249,8 +250,17 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChanges(List<ChangeData> changes,
-      IdentifiedUser identifiedUser) {
+  private String problemsForSubmittingChanges(RevisionResource resource,
+                                              List<ChangeData> changes,
+                                              IdentifiedUser identifiedUser) {
+    try {
+      if (!mergeableProvider.get().apply(resource).mergeable) {
+        return Util.C.mergeConflict();
+      }
+    } catch (RestApiException | OrmException | IOException e) {
+      throw new OrmRuntimeException("Could not determine mergeability", e);
+    }
+
     for (ChangeData c : changes) {
       try {
         ChangeControl changeControl = c.changeControl().forUser(
@@ -283,8 +293,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
-    if (problemsForSubmittingChanges(Arrays.asList(cd), resource.getUser())
-        != null) {
+    if (problemsForSubmittingChanges(resource,
+                                     Arrays.asList(cd),
+                                     resource.getUser()) != null) {
       visible = false;
     }
 
@@ -311,8 +322,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && changesByTopic.size() > 1) {
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(changesByTopic.size()));
-      String topicProblems = problemsForSubmittingChanges(changesByTopic,
-          resource.getUser());
+      String topicProblems = problemsForSubmittingChanges(resource,
+                                                          changesByTopic,
+                                                          resource.getUser());
       if (topicProblems != null) {
         return new UiAction.Description()
           .setLabel(submitTopicLabel)
@@ -421,7 +433,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
 
     List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
-    String problems = problemsForSubmittingChanges(changesByTopic, caller);
+    String problems = problemsForSubmittingChanges(rsrc, changesByTopic, caller);
     if (problems != null) {
       throw new ResourceConflictException(problems);
     }

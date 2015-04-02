@@ -27,6 +27,17 @@ import java.util.List;
 import java.util.Map;
 
 public class TabFile {
+  public interface Parser {
+    public String parse(String str);
+  }
+
+  public static Parser TRIM = new Parser() {
+        public String parse(String str) {
+           return str.trim();
+        }
+      };
+
+
   protected static class Row {
     public String left;
     public String right;
@@ -37,9 +48,9 @@ public class TabFile {
     }
   }
 
-  protected static List<Row> parse(String text, String filename,
-      ValidationError.Sink errors) throws IOException {
-    List<Row> rows = new ArrayList<>();
+  protected static List<Row> parse(String text, String filename, Parser left,
+      Parser right, ValidationError.Sink errors) throws IOException {
+    List<Row> rows = new ArrayList<Row>();
     BufferedReader br = new BufferedReader(new StringReader(text));
     String s;
     for (int lineNumber = 1; (s = br.readLine()) != null; lineNumber++) {
@@ -54,8 +65,15 @@ public class TabFile {
         continue;
       }
 
-      rows.add(new Row(s.substring(0, tab).trim(),
-          s.substring(tab + 1).trim()));
+      Row row = new Row(s.substring(0, tab), s.substring(tab + 1));
+      rows.add(row);
+
+      if (left != null) {
+        row.left = left.parse(row.left);
+      }
+      if (right != null) {
+        row.right = right.parse(row.right);
+      }
     }
     return rows;
   }

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "43e6c629_32f1b0e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "\"Clicking \\\"%s\\\" on this change would fail.\"\n\nBut the button %s may not be there (we don\u0027t know if it\u0027s submit or submit whole topic, so we\u0027d need additional logic)\nAlso I wonder how helpful this is (it\u0027s a reason why it\u0027s gray though, but not more than that).\n\nAlso the %s is hard to put in, so maybe just\n\"Clicking the button would fail for {this, other} change[s].\"",
+      "parentUuid": "43e6c629_72f738da",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_92c85ca4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3
@@ -126,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "43e6c629_52f434d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f25ae5_cf0cfd72",
+      "range": {
+        "startLine": 252,
+        "startChar": 12,
+        "endLine": 252,
+        "endChar": 22
+      },
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3f25ae5_cfbe3df7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3
@@ -179,6 +221,24 @@
     },
     {
       "key": {
+        "uuid": "e3f25ae5_6ffcf1b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f25ae5_0fee85ff",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_32d89071",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3
@@ -190,6 +250,24 @@
       "writtenOn": "2015-04-02T00:25:05Z",
       "side": 1,
       "message": "You\u0027re computing this (at least) twice in the getDescription path below. Although it\u0027s cached, it\u0027s not that cheap, as we need to run the submit rule evaluator to get the cache key.\n\nSee my comment below on isMergeable as well.",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_4ff92dc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43e6c629_32d89071",
       "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +291,24 @@
     },
     {
       "key": {
+        "uuid": "e3f25ae5_2f06e94d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f25ae5_0fd56539",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3f25ae5_2fd82971",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3
@@ -224,6 +320,24 @@
       "writtenOn": "2015-04-02T00:25:05Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_92e17c16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f25ae5_2fd82971",
       "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -247,6 +361,24 @@
     },
     {
       "key": {
+        "uuid": "e3f25ae5_2ff149e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f25ae5_8fc835a4",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_52cb149e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3
@@ -258,6 +390,24 @@
       "writtenOn": "2015-04-02T00:25:05Z",
       "side": 1,
       "message": "Optional nit: I tend to order catch clauses in the order of most specific -\u003e most general, and I think ResourceConflictException is more specific than OrmException.",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_ef07c14d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T01:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43e6c629_52cb149e",
       "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

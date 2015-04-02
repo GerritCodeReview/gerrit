@@ -27,8 +27,7 @@ import org.junit.Test;
 public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParent_Forbidden() throws Exception {
-    String parent = "parent";
-    createProject(parent, null, true);
+    String parent = createProject("parent", null, true).get();
     RestResponse r =
         userSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
@@ -38,8 +37,7 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Test
   public void setParent() throws Exception {
-    String parent = "parent";
-    createProject(parent, null, true);
+    String parent = createProject("parent", null, true).get();
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
@@ -71,15 +69,13 @@ public class SetParentIT extends AbstractDaemonTest {
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
     r.consume();
 
-    String child = "child";
-    createProject(child, project, true);
+    Project.NameKey child = createProject("child", project, true);
     r = adminSession.put("/projects/" + project.get() + "/parent",
-           newParentInput(child));
+           newParentInput(child.get()));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
     r.consume();
 
-    String grandchild = "grandchild";
-    createProject(grandchild, new Project.NameKey(child), true);
+    String grandchild = createProject("grandchild", child, true).get();
     r = adminSession.put("/projects/" + project.get() + "/parent",
            newParentInput(grandchild));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);

@@ -34,7 +34,7 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
-    String changeId = createChangeWithTopic("foo1").getChangeId();
+    String changeId = createChangeWithTopic(name("foo1")).getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
     assertThat(actions).containsKey("cherrypick");
     assertThat(actions).containsKey("rebase");
@@ -43,7 +43,7 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsOneChangePerTopic() throws Exception {
-    String changeId = createChangeWithTopic("foo1").getChangeId();
+    String changeId = createChangeWithTopic(name("foo1")).getChangeId();
     approve(changeId);
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
@@ -54,10 +54,10 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsTwoChangeChangesInTopic() throws Exception {
-    String changeId = createChangeWithTopic("foo2").getChangeId();
+    String changeId = createChangeWithTopic(name("foo2")).getChangeId();
     approve(changeId);
     // create another change with the same topic
-    createChangeWithTopic("foo2").getChangeId();
+    createChangeWithTopic(name("foo2")).getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
@@ -73,10 +73,10 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsTwoChangeChangesInTopicReady() throws Exception {
-    String changeId = createChangeWithTopic("foo2").getChangeId();
+    String changeId = createChangeWithTopic(name("foo2")).getChangeId();
     approve(changeId);
     // create another change with the same topic
-    String changeId2 = createChangeWithTopic("foo2").getChangeId();
+    String changeId2 = createChangeWithTopic(name("foo2")).getChangeId();
     approve(changeId2);
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);

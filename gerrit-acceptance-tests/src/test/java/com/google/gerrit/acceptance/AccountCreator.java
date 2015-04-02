@@ -28,6 +28,7 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -36,8 +37,12 @@ import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+@Singleton
 public class AccountCreator {
+  private final Map<String, TestAccount> accounts;
 
   private SchemaFactory<ReviewDb> reviewDbProvider;
   private GroupCache groupCache;
@@ -49,6 +54,7 @@ public class AccountCreator {
   AccountCreator(SchemaFactory<ReviewDb> schema, GroupCache groupCache,
       SshKeyCache sshKeyCache, AccountCache accountCache,
       AccountByEmailCache byEmailCache) {
+    accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.groupCache = groupCache;
     this.sshKeyCache = sshKeyCache;
@@ -56,9 +62,13 @@ public class AccountCreator {
     this.byEmailCache = byEmailCache;
   }
 
-  public TestAccount create(String username, String email, String fullName,
-      String... groups)
+  public synchronized TestAccount create(String username, String email,
+      String fullName, String... groups)
       throws OrmException, UnsupportedEncodingException, JSchException {
+    TestAccount account = accounts.get(username);
+    if (account != null) {
+      return account;
+    }
     ReviewDb db = reviewDbProvider.open();
     try {
       Account.Id id = new Account.Id(db.nextAccountId());
@@ -99,7 +109,10 @@ public class AccountCreator {
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
 
-      return new TestAccount(id, username, email, fullName, sshKey, httpPass);
+      account =
+          new TestAccount(id, username, email, fullName, sshKey, httpPass);
+      accounts.put(username, account);
+      return account;
     } finally {
       db.close();
     }

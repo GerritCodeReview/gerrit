@@ -30,7 +30,7 @@ import org.junit.Test;
 public class CreateGroupIT extends AbstractDaemonTest {
   @Test
   public void testCreateGroup() throws Exception {
-    final String newGroupName = "newGroup";
+    String newGroupName = name("newGroup");
     RestResponse r = adminSession.put("/groups/" + newGroupName);
     GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
     assertThat(g.name).isEqualTo(newGroupName);
@@ -41,7 +41,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateGroupWithProperties() throws Exception {
-    final String newGroupName = "newGroup";
+    String newGroupName = name("newGroup");
     CreateGroup.Input in = new CreateGroup.Input();
     in.description = "Test description";
     in.visibleToAll = true;
@@ -57,7 +57,8 @@ public class CreateGroupIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateGroupWithoutCapability_Forbidden() throws Exception {
-    RestResponse r = (new RestSession(server, user)).put("/groups/newGroup");
+    String newGroupName = name("newGroup");
+    RestResponse r = (new RestSession(server, user)).put("/groups/" + newGroupName);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 

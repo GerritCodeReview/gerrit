@@ -58,13 +58,13 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   private Map<String, Repo> repos = Maps.newHashMap();
 
   @Override
-  public InMemoryRepository openRepository(Project.NameKey name)
+  public synchronized InMemoryRepository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
     return get(name);
   }
 
   @Override
-  public InMemoryRepository createRepository(Project.NameKey name)
+  public synchronized InMemoryRepository createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException {
     Repo repo;
     try {
@@ -80,13 +80,13 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public InMemoryRepository openMetadataRepository(Project.NameKey name)
-      throws RepositoryNotFoundException {
+  public synchronized InMemoryRepository openMetadataRepository(
+      Project.NameKey name) throws RepositoryNotFoundException {
     return openRepository(name);
   }
 
   @Override
-  public SortedSet<Project.NameKey> list() {
+  public synchronized SortedSet<Project.NameKey> list() {
     SortedSet<Project.NameKey> names = Sets.newTreeSet();
     for (DfsRepository repo : repos.values()) {
       names.add(new Project.NameKey(repo.getDescription().getRepositoryName()));
@@ -95,13 +95,14 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public String getProjectDescription(Project.NameKey name)
+  public synchronized String getProjectDescription(Project.NameKey name)
       throws RepositoryNotFoundException {
     return get(name).getDescription().desc;
   }
 
   @Override
-  public void setProjectDescription(Project.NameKey name, String description) {
+  public synchronized void setProjectDescription(Project.NameKey name,
+      String description) {
     try {
       get(name).getDescription().desc = description;
     } catch (RepositoryNotFoundException e) {
@@ -109,7 +110,8 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private Repo get(Project.NameKey name) throws RepositoryNotFoundException {
+  private synchronized Repo get(Project.NameKey name)
+      throws RepositoryNotFoundException {
     Repo repo = repos.get(name.get().toLowerCase());
     if (repo != null) {
       return repo;

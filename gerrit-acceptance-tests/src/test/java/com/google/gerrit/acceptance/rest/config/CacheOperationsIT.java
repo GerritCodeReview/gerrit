@@ -22,18 +22,12 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.PostCaches;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.Util;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public class CacheOperationsIT extends AbstractDaemonTest {
@@ -123,30 +117,20 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flushWebSessions_Forbidden() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    Util.allow(cfg, GlobalCapability.VIEW_CACHES, registeredUsers);
-    Util.allow(cfg, GlobalCapability.FLUSH_CACHES, registeredUsers);
-    saveProjectConfig(cfg);
-
-    RestResponse r = userSession.post("/config/server/caches/",
-        new PostCaches.Input(FLUSH, Arrays.asList("projects")));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    r.consume();
-
-    r = userSession.post("/config/server/caches/",
-        new PostCaches.Input(FLUSH, Arrays.asList("web_sessions")));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
-  }
-
-  private void saveProjectConfig(ProjectConfig cfg) throws IOException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
+    allowGlobalCapabilities(REGISTERED_USERS,
+        GlobalCapability.FLUSH_CACHES, GlobalCapability.VIEW_CACHES);
     try {
-      cfg.commit(md);
+      RestResponse r = userSession.post("/config/server/caches/",
+          new PostCaches.Input(FLUSH, Arrays.asList("projects")));
+      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+      r.consume();
+
+      r = userSession.post("/config/server/caches/",
+          new PostCaches.Input(FLUSH, Arrays.asList("web_sessions")));
+      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
     } finally {
-      md.close();
+      removeGlobalCapabilities(REGISTERED_USERS,
+          GlobalCapability.FLUSH_CACHES, GlobalCapability.VIEW_CACHES);
     }
-    projectCache.evict(allProjects);
   }
 }

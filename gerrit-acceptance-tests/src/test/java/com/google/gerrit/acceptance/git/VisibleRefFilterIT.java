@@ -209,31 +209,35 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   @Test
   public void subsetOfRefsVisibleWithAccessDatabase() throws Exception {
-    deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
-    allowGlobalCapability(GlobalCapability.ACCESS_DATABASE, REGISTERED_USERS);
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    try {
+      deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+      allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
-    Change c1 = db.changes().get(new Change.Id(1));
-    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1.getId(), 1));
-    setApiUser(admin);
-    editModifier.createEdit(c1, ps1);
-    setApiUser(user);
-    editModifier.createEdit(c1, ps1);
+      Change c1 = db.changes().get(new Change.Id(1));
+      PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1.getId(), 1));
+      setApiUser(admin);
+      editModifier.createEdit(c1, ps1);
+      setApiUser(user);
+      editModifier.createEdit(c1, ps1);
 
-    assertRefs(
-        // Change 1 is visible due to accessDatabase capability, even though
-        // refs/heads/master is not.
-        "refs/changes/01/1/1",
-        "refs/changes/01/1/meta",
-        "refs/changes/02/2/1",
-        "refs/changes/02/2/meta",
-        "refs/heads/branch",
-        "refs/tags/branch-tag",
-        // See comment in subsetOfBranchesVisibleNotIncludingHead.
-        "refs/tags/master-tag",
-        // All edits are visible due to accessDatabase capability.
-        "refs/users/00/1000000/edit-1/1",
-        "refs/users/01/1000001/edit-1/1");
+      assertRefs(
+          // Change 1 is visible due to accessDatabase capability, even though
+          // refs/heads/master is not.
+          "refs/changes/01/1/1",
+          "refs/changes/01/1/meta",
+          "refs/changes/02/2/1",
+          "refs/changes/02/2/meta",
+          "refs/heads/branch",
+          "refs/tags/branch-tag",
+          // See comment in subsetOfBranchesVisibleNotIncludingHead.
+          "refs/tags/master-tag",
+          // All edits are visible due to accessDatabase capability.
+          "refs/users/00/1000000/edit-1/1",
+          "refs/users/01/1000001/edit-1/1");
+    } finally {
+      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    }
   }
 
   /**

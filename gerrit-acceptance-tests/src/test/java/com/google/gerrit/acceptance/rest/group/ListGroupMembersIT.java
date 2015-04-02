@@ -36,43 +36,48 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupMembers_NotFound() throws Exception {
-    assertThat(adminSession.get("/groups/non-existing/members/").getStatusCode())
-      .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    assertThat(adminSession.get(
+          "/groups/" + name("non-existing") + "/members/").getStatusCode())
+        .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void listEmptyGroupMembers() throws Exception {
-    group("empty", "Administrators");
-    assertThat(GET("/groups/empty/members/")).isEmpty();
+    String group = createGroup("empty");
+    assertThat(GET("/groups/" + group + "/members/")).isEmpty();
   }
 
   @Test
   public void listNonEmptyGroupMembers() throws Exception {
-    assertMembers(GET("/groups/Administrators/members/"), admin.fullName);
-
-    accounts.create("admin2", "Administrators");
-    assertMembers(GET("/groups/Administrators/members/"),
-        admin.fullName, "admin2");
+    String group = createGroup("group");
+    String user1 = createAccount("user1", group);
+    String user2 = createAccount("user2", group);
+    assertMembers(GET("/groups/" + group + "/members/"), user1, user2);
   }
 
   @Test
   public void listOneGroupMember() throws Exception {
-    assertThat(GET_ONE("/groups/Administrators/members/admin").name)
-      .isEqualTo(admin.fullName);
+    String group = createGroup("group");
+    String user = createAccount("user1", group);
+    assertMembers(GET("/groups/" + group + "/members/"), user);
+    assertThat(GET_ONE("/groups/" + group + "/members/" + user).name)
+        .isEqualTo(user);
   }
 
   @Test
   public void listGroupMembersRecursively() throws Exception {
-    group("gx", "Administrators");
-    accounts.create("ux", "gx");
+    String gx = createGroup("gx");
+    String ux = createAccount("ux", gx);
 
-    group("gy", "Administrators");
-    accounts.create("uy", "gy");
+    String gy = createGroup("gy");
+    String uy = createAccount("uy", gy);
 
-    PUT("/groups/Administrators/groups/gx");
-    PUT("/groups/gx/groups/gy");
-    assertMembers(GET("/groups/Administrators/members/?recursive"),
-        admin.fullName, "ux", "uy");
+    String gz = createGroup("gz");
+    String uz = createAccount("uz", gz);
+
+    PUT("/groups/" + gx + "/groups/" + gy);
+    PUT("/groups/" + gy + "/groups/" + gz);
+    assertMembers(GET("/groups/" + gx + "/members/?recursive"), ux, uy, uz);
   }
 
   private List<AccountInfo> GET(String endpoint) throws IOException {
@@ -92,11 +97,19 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
     adminSession.put(endpoint).consume();
   }
 
-  private void group(String name, String ownerGroup)
-      throws IOException {
+  private String createGroup(String name) throws IOException {
+    name = name(name);
     CreateGroup.Input in = new CreateGroup.Input();
-    in.ownerId = ownerGroup;
+    in.ownerId = "Administrators";
     adminSession.put("/groups/" + name, in).consume();
+    return name;
+
+  }
+
+  private String createAccount(String name, String group) throws Exception {
+    name = name(name);
+    accounts.create(name, group);
+    return name;
   }
 
   private void assertMembers(List<AccountInfo> members, String name,

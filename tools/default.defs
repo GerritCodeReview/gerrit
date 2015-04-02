@@ -63,7 +63,8 @@ def _set_auto_value(kwargs):
     kwargs[apdk] = []
   apds = kwargs.get(apdk, [])
 
-  if AUTO_VALUE_DEP in kwargs.get('deps', []):
+  all_deps = kwargs.get('deps', []) + kwargs.get('exported_deps', [])
+  if AUTO_VALUE_DEP in all_deps:
     aps.extend(AUTO_VALUE_PROCESSORS)
     apds.extend(AUTO_VALUE_PROCESSOR_DEPS)
 

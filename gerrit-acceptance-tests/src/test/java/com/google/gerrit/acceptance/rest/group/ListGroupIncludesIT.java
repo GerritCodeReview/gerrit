@@ -36,33 +36,36 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupIncludes_NotFound() throws Exception {
-    assertThat(adminSession.get("/groups/non-existing/groups/").getStatusCode())
+    String name = name("non-existing");
+    assertThat(adminSession.get("/groups/" + name + "/groups/").getStatusCode())
       .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void listEmptyGroupIncludes() throws Exception {
+    String gx = group("gx", "Administrators");
+    PUT("/groups/" + gx + "/groups/" + name("emptygroup"));
     assertThat(GET("/groups/Administrators/groups/")).isEmpty();
   }
 
   @Test
   public void listNonEmptyGroupIncludes() throws Exception {
-    group("gx", "Administrators");
-    group("gy", "Administrators");
-    PUT("/groups/Administrators/groups/gx");
-    PUT("/groups/Administrators/groups/gy");
+    String gx = group("gx", "Administrators");
+    String gy = group("gy", "Administrators");
+    String gz = group("gz", "Administrators");
+    PUT("/groups/" + gx + "/groups/" + gy);
+    PUT("/groups/" + gx + "/groups/" + gz);
 
-    assertIncludes(GET("/groups/Administrators/groups/"), "gx", "gy");
+    assertIncludes(GET("/groups/" + gx + "/groups/"), gy, gz);
   }
 
   @Test
   public void listOneIncludeMember() throws Exception {
-    group("gx", "Administrators");
-    group("gy", "Administrators");
-    PUT("/groups/Administrators/groups/gx");
-    PUT("/groups/Administrators/groups/gy");
+    String gx = group("gx", "Administrators");
+    String gy = group("gy", "Administrators");
+    PUT("/groups/" + gx + "/groups/" + gy);
 
-    assertThat(GET_ONE("/groups/Administrators/groups/gx").name).isEqualTo("gx");
+    assertThat(GET_ONE("/groups/" + gx + "/groups/" + gy).name).isEqualTo(gy);
   }
 
   private List<GroupInfo> GET(String endpoint) throws IOException {
@@ -82,10 +85,12 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
     adminSession.put(endpoint).consume();
   }
 
-  private void group(String name, String ownerGroup) throws IOException {
+  private String group(String name, String ownerGroup) throws IOException {
+    name = name(name);
     CreateGroup.Input in = new CreateGroup.Input();
     in.ownerId = ownerGroup;
     adminSession.put("/groups/" + name, in).consume();
+    return name;
   }
 
   private void assertIncludes(List<GroupInfo> includes, String name,

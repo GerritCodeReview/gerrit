@@ -61,16 +61,17 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void addRemoveMember() throws Exception {
-    RestResponse r = PUT("/groups/Administrators/members/user");
+    String g = group("users");
+    RestResponse r = PUT("/groups/" + g + "/members/user");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     AccountInfo ai = newGson().fromJson(r.getReader(), AccountInfo.class);
     assertAccountInfo(user, ai);
-    assertMembers("Administrators", admin, user);
+    assertMembers(g, admin, user);
     r.consume();
 
-    assertThat(DELETE("/groups/Administrators/members/user"))
+    assertThat(DELETE("/groups/" + g + "/members/user"))
       .isEqualTo(HttpStatus.SC_NO_CONTENT);
-    assertMembers("Administrators", admin);
+    assertMembers(g, admin);
   }
 
   @Test
@@ -81,14 +82,14 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void addMultipleMembers() throws Exception {
-    group("users");
+    String g = group("users");
     TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
     TestAccount u2 = accounts.create("u2", "u2@example.com", "Full Name 2");
     List<String> members = Lists.newLinkedList();
     members.add(u1.username);
     members.add(u2.username);
     AddMembers.Input input = AddMembers.Input.fromMembers(members);
-    RestResponse r = POST("/groups/users/members", input);
+    RestResponse r = POST("/groups/" + g + "/members", input);
     List<AccountInfo> ai = newGson().fromJson(r.getReader(),
         new TypeToken<List<AccountInfo>>() {}.getType());
     assertMembers(ai, u1, u2);
@@ -96,39 +97,42 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void includeRemoveGroup() throws Exception {
-    group("newGroup");
-    RestResponse r = PUT("/groups/Administrators/groups/newGroup");
+    String p = group("parent");
+    String g = group("newGroup");
+    RestResponse r = PUT("/groups/" + p + "/groups/" + g);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     GroupInfo i = newGson().fromJson(r.getReader(), GroupInfo.class);
     r.consume();
-    assertGroupInfo(groupCache.get(new AccountGroup.NameKey("newGroup")), i);
-    assertIncludes("Administrators", "newGroup");
+    assertGroupInfo(groupCache.get(new AccountGroup.NameKey(g)), i);
+    assertIncludes(p, g);
 
-    assertThat(DELETE("/groups/Administrators/groups/newGroup"))
+    assertThat(DELETE("/groups/" + p + "/groups/" + g))
       .isEqualTo(HttpStatus.SC_NO_CONTENT);
-    assertNoIncludes("Administrators");
+    assertNoIncludes(p);
   }
 
   @Test
   public void includeExistingGroup_OK() throws Exception {
-    group("newGroup");
-    PUT("/groups/Administrators/groups/newGroup").consume();
-    assertThat(PUT("/groups/Administrators/groups/newGroup").getStatusCode())
+    String p = group("parent");
+    String g = group("newGroup");
+    PUT("/groups/" + p + "/groups/" + g).consume();
+    assertThat(PUT("/groups/" + p + "/groups/" + g).getStatusCode())
       .isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
   public void addMultipleIncludes() throws Exception {
-    group("newGroup1");
-    group("newGroup2");
+    String p = group("parent");
+    String g1 = group("newGroup1");
+    String g2 = group("newGroup2");
     List<String> groups = Lists.newLinkedList();
-    groups.add("newGroup1");
-    groups.add("newGroup2");
+    groups.add(g1);
+    groups.add(g2);
     AddIncludedGroups.Input input = AddIncludedGroups.Input.fromGroups(groups);
-    RestResponse r = POST("/groups/Administrators/groups", input);
+    RestResponse r = POST("/groups/" + p + "/groups", input);
     List<GroupInfo> gi = newGson().fromJson(r.getReader(),
         new TypeToken<List<GroupInfo>>() {}.getType());
-    assertIncludes(gi, "newGroup1", "newGroup2");
+    assertIncludes(gi, g1, g2);
   }
 
   private RestResponse PUT(String endpoint) throws IOException {
@@ -151,9 +155,11 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     return adminSession.post(endPoint, gi);
   }
 
-  private void group(String name) throws IOException {
+  private String group(String name) throws IOException {
+    name = name(name);
     CreateGroup.Input in = new CreateGroup.Input();
     adminSession.put("/groups/" + name, in).consume();
+    return name;
   }
 
   private void assertMembers(String group, TestAccount... members)

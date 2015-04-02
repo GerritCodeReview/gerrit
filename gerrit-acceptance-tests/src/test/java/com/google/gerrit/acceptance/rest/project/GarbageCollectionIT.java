@@ -38,8 +38,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    project2 = new Project.NameKey("p2");
-    createProject(project2.get());
+    project2 = createProject("p2");
   }
 
   @Test

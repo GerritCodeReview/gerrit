@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.Lists;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -50,6 +51,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Objects;
+import java.util.List;
 
 /**
  * Support for metadata stored within a version controlled branch.
@@ -59,6 +61,23 @@ import java.util.Objects;
  * later be written back to the repository.
  */
 public abstract class VersionedMetaData {
+  /**
+   * Path information that does not hold references to any repository
+   * data structures, allowing the application to retain this object
+   * for long periods of time.
+   */
+  public static class PathInfo {
+    public final FileMode fileMode;
+    public final String path;
+    public final ObjectId objectId;
+
+    protected PathInfo(TreeWalk tw) {
+      fileMode = tw.getFileMode(0);
+      path = tw.getPathString();
+      objectId = tw.getObjectId(0);
+    }
+  }
+
   private RevCommit revision;
   protected ObjectReader reader;
   protected ObjectInserter inserter;
@@ -437,6 +456,17 @@ public abstract class VersionedMetaData {
     }
 
     return null;
+  }
+
+  public List<PathInfo> getPathInfos(boolean recursive) throws IOException {
+    TreeWalk tw = new TreeWalk(reader);
+    tw.addTree(revision.getTree());
+    tw.setRecursive(recursive);
+    List<PathInfo> paths = Lists.newArrayList();
+    while (tw.next()) {
+      paths.add(new PathInfo(tw));
+    }
+    return paths;
   }
 
   protected static void set(Config rc, String section, String subsection,

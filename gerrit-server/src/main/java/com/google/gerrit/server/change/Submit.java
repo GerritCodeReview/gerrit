@@ -100,10 +100,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "Other changes in this topic are not ready";
   private static final String BLOCKED_HIDDEN_TOPIC_TOOLTIP =
       "Other hidden changes in this topic are not ready";
-  private static final String CLICK_FAILURE_TOOLTIP =
-      "Clicking the button would fail for this change.";
-  private static final String CLICK_FAILURE_OTHER_TOOLTIP =
-      "Clicking the button would fail for other changes.";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -249,22 +245,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   /**
-   * @param changeList list of changes to be submitted at once
+   * @param changes list of changes to be submitted at once
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChanges(
-      RevisionResource resource,
-      List<ChangeData> changeList,
+  private String problemsForSubmittingChanges(List<ChangeData> changes,
       IdentifiedUser identifiedUser) {
-    try {
-      if (!mergeableProvider.get().apply(resource).mergeable) {
-        return CLICK_FAILURE_TOOLTIP;
-      }
-      for (ChangeData c : changeList) {
-        if (!c.isMergeable()) {
-          return CLICK_FAILURE_OTHER_TOOLTIP;
-        }
+    for (ChangeData c : changes) {
+      try {
         ChangeControl changeControl = c.changeControl().forUser(
             identifiedUser);
         if (!changeControl.isVisible(dbProvider.get())) {
@@ -274,10 +262,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           return BLOCKED_TOPIC_TOOLTIP;
         }
         checkSubmitRule(c, c.currentPatchSet(), false);
+      } catch (OrmException e) {
+        log.error("Error checking if change is submittable", e);
+        throw new OrmRuntimeException(e);
+      } catch (ResourceConflictException e) {
+        return BLOCKED_TOPIC_TOOLTIP;
       }
-    } catch (RestApiException | OrmException | IOException e) {
-      log.error("Error checking if change is submittable", e);
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
     return null;
   }
@@ -293,8 +283,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
-    if (problemsForSubmittingChanges(
-        resource, Arrays.asList(cd), resource.getUser()) != null) {
+    if (problemsForSubmittingChanges(Arrays.asList(cd), resource.getUser())
+        != null) {
       visible = false;
     }
 
@@ -321,8 +311,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && changesByTopic.size() > 1) {
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(changesByTopic.size()));
-      String topicProblems = problemsForSubmittingChanges(
-          resource, changesByTopic, resource.getUser());
+      String topicProblems = problemsForSubmittingChanges(changesByTopic,
+          resource.getUser());
       if (topicProblems != null) {
         return new UiAction.Description()
           .setLabel(submitTopicLabel)
@@ -431,7 +421,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
 
     List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
-    String problems = problemsForSubmittingChanges(rsrc, changesByTopic, caller);
+    String problems = problemsForSubmittingChanges(changesByTopic, caller);
     if (problems != null) {
       throw new ResourceConflictException(problems);
     }

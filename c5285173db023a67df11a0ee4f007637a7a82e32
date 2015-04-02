@@ -46,6 +46,30 @@
       "revId": "c5285173db023a67df11a0ee4f007637a7a82e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_922f3cb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-04-02T17:59:04Z",
+      "side": 1,
+      "message": "Thanks.\n\nPRED_number_chars_2 and PRED_number_codes_2 seem to also use the arity 5 version.",
+      "parentUuid": "e30b3aa7_87c826a4",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 43
+      },
+      "revId": "c5285173db023a67df11a0ee4f007637a7a82e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

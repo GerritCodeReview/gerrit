@@ -68,7 +68,8 @@
 .current,
 .gitweb,
 .indirect,
-.notCurrent {
+.notCurrent,
+.submittable {
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -86,4 +87,9 @@
 
 .notCurrent {
   color: #FFA62F;   /* orange */
+}
+
+.submittable {
+  color: #090;      /* green */
+  font-weight: bold;
 }

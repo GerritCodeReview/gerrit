@@ -45,8 +45,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -154,9 +152,9 @@ public class RulesCache {
     return pcm;
   }
 
-  public PrologMachineCopy loadMachine(String name, InputStream in)
+  public PrologMachineCopy loadMachine(String name, Reader in)
       throws CompileException {
-    PrologMachineCopy pmc = consultRules(name, new InputStreamReader(in));
+    PrologMachineCopy pmc = consultRules(name, in);
     if (pmc == null) {
       throw new CompileException("Cannot consult rules from the stream " + name);
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3f25ae5_8f6cb503",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-04-02T17:50:55Z",
+      "side": 1,
+      "message": "When would this happen?\n\nI thought syntax_error had arity 5, with arguments\n\n goal, argument number, expected, found, message\n\nexcept in $read_tokens1, where it has arity 1 (message) and $parse_tokens_error, where it has arity 2 (message, at-expr).",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 43
+      },
+      "revId": "c5285173db023a67df11a0ee4f007637a7a82e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

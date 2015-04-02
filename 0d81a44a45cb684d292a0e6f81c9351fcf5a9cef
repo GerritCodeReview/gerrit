@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "430fa6b1_eab9e710",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T01:06:48Z",
+      "side": 1,
+      "message": "We don\u0027t save any RTTs; there are still the same number of them. More like, \"we can render this row before waiting for the revision action results.\"\n\nBut yeah, I understand this change now, thanks.",
+      "range": {
+        "startLine": 1107,
+        "startChar": 7,
+        "endLine": 1107,
+        "endChar": 21
+      },
+      "revId": "0d81a44a45cb684d292a0e6f81c9351fcf5a9cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

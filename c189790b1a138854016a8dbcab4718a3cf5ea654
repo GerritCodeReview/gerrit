@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43e6c629_b2c36089",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:03:24Z",
+      "side": 1,
+      "message": "Why?",
+      "range": {
+        "startLine": 1106,
+        "startChar": 49,
+        "endLine": 1106,
+        "endChar": 76
+      },
+      "revId": "c189790b1a138854016a8dbcab4718a3cf5ea654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

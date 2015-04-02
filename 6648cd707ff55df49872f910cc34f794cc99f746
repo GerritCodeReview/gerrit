@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "43e6c629_72f738da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:54:05Z",
+      "side": 1,
+      "message": "\u003e That proposed, we\u0027d most likely need to (find someone to) make it configurable as \"submit\" may be reworded via config.\n\nI think just \"%s of this change would fail.\" using the existing configurable text would be fine. I have a hard time caring about people who want to put grammatically complex or otherwise awkward text there.\n\nIf we decide we do care, then maybe \"Clicking \\\"%s\\\" on this change would fail.\"",
+      "parentUuid": "e3f25ae5_8fe15516",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_92c85ca4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "e3f25ae5_cf0cfd72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:51:03Z",
+      "side": 1,
+      "message": "Ok. In that case, changeList.",
+      "parentUuid": "43e6c629_12d58c39",
+      "range": {
+        "startLine": 252,
+        "startChar": 12,
+        "endLine": 252,
+        "endChar": 22
+      },
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3f25ae5_cfbe3df7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3
@@ -113,6 +137,24 @@
       "side": 1,
       "message": "ok :(\n\nI really like the newly proposed rectangle looking like code format idea though.",
       "parentUuid": "e3f25ae5_cfbe3df7",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_0fee85ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:51:03Z",
+      "side": 1,
+      "message": "I think you misunderstand the rectangle rule. It doesn\u0027t say that all parts of the subtree must be left aligned, only that there must be a rectangular box surrounding exactly the subtree. It does not supersede other indentation rules, which say indent by 4 spaces.\n\nEither of these alternatives satisfies the rule:\n\n private String problemsForSubmittingChanges(\n     RevisionResource resource,\n     List\u003cChangeData\u003e changelist,\n     IdentifiedUser identifiedUser) {\n\n private String problemsForSubmittingChanges(\n     RevisionResource resource, List\u003cChangeData\u003e changelist,\n     IdentifiedUser identifiedUser) {",
+      "parentUuid": "e3f25ae5_cfe75d29",
       "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

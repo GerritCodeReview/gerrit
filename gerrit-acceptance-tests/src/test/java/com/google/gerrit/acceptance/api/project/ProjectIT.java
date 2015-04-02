@@ -23,13 +23,10 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
-import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.junit.Test;
-
-import java.util.List;
 
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest  {
@@ -97,46 +94,5 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name(project.get())
             .description())
         .isEqualTo(in.description);
-  }
-
-  @Test
-  public void listProjects() throws Exception {
-    List<ProjectInfo> initialProjects = gApi.projects().list().get();
-
-    gApi.projects().create(name("foo"));
-    gApi.projects().create(name("bar"));
-
-    List<ProjectInfo> allProjects = gApi.projects().list().get();
-    assertThat(allProjects).hasSize(initialProjects.size() + 2);
-
-    List<ProjectInfo> projectsWithDescription = gApi.projects().list()
-        .withDescription(true)
-        .get();
-    assertThat(projectsWithDescription.get(0).description).isNotNull();
-
-    List<ProjectInfo> projectsWithoutDescription = gApi.projects().list()
-        .withDescription(false)
-        .get();
-    assertThat(projectsWithoutDescription.get(0).description).isNull();
-
-    List<ProjectInfo> noMatchingProjects = gApi.projects().list()
-        .withPrefix(name("fox"))
-        .get();
-    assertThat(noMatchingProjects).isEmpty();
-
-    List<ProjectInfo> matchingProject = gApi.projects().list()
-        .withPrefix(name("fo"))
-        .get();
-    assertThat(matchingProject).hasSize(1);
-
-    List<ProjectInfo> limitOneProject = gApi.projects().list()
-        .withLimit(1)
-        .get();
-    assertThat(limitOneProject).hasSize(1);
-
-    List<ProjectInfo> startAtOneProjects = gApi.projects().list()
-        .withStart(1)
-        .get();
-    assertThat(startAtOneProjects).hasSize(allProjects.size() - 1);
   }
 }

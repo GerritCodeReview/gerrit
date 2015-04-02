@@ -1,0 +1,32 @@
+= Gerrit Code Review - Named Destinations
+
+[[user-named-destinations]]
+== User Named Destinations
+It is possible to define named destination sets on a user level.
+To do this, define the named destination sets in files named after
+each destination set in the `destinations` directory of the user's
+account ref in the `All-Users` project.  The user's account ref is
+based on the user's account id which is an integer.  The account
+refs are sharded by the last two digits (`+nn+`) in the refname,
+leading to refs of the format `+refs/users/nn/accountid+`.  The
+user's destination files are a 2 column tab delimited file.  Each
+row in a destination file represents a single destination in the
+named set.  The left column represents the ref of the destination,
+and the right column represents the project of the destination.
+
+Example destination file named `destinations/myreviews`:
+
+----
+# Ref            	Project
+#
+refs/heads/master	gerrit
+refs/heads/stable-2.11	gerrit
+refs/heads/master	plugins/cookbook-plugin
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

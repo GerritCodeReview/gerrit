@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.VersionedAccountQueries;
+import com.google.gerrit.server.account.VersionedAccountDestinations;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -91,6 +93,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_AGE = "age";
   public static final String FIELD_BEFORE = "before";
   public static final String FIELD_BRANCH = "branch";
+  public static final String FIELD_DESTINATION = "destination";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMENTBY = "commentby";
@@ -818,6 +821,29 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return IsReviewedPredicate.create(args.getSchema(), parseAccount(who));
   }
 
+  @Operator
+  public Predicate<ChangeData> destination(String name)
+      throws QueryParseException, OrmException {
+    AllUsersName allUsers = args.allUsersName.get();
+    try (Repository git = args.repoManager.openRepository(allUsers)) {
+      VersionedAccountDestinations d =
+          VersionedAccountDestinations.forUser(self());
+      d.load(git);
+      Set<Branch.NameKey> destinations =
+          d.getDestinationList().getDestinations(name);
+      if (destinations != null) {
+        return new DestinationPredicate(destinations, name);
+      }
+    } catch (RepositoryNotFoundException e) {
+      throw new QueryParseException("Unknown named destination (no " +
+          allUsers.get() +" repo): " + name, e);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new QueryParseException("Error parsing named destination: " + name, e);
+    }
+    throw new QueryParseException("Unknown named destination: " + name);
+  }
+
+  @SuppressWarnings("unchecked")
   @Override
   protected Predicate<ChangeData> defaultField(String query) throws QueryParseException {
     if (query.startsWith("refs/")) {

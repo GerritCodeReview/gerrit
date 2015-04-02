@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3f25ae5_cfc4fd43",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T22:13:06Z",
+      "side": 1,
+      "message": "name(\"foo2\")\n\nActually you could just refactor to push the name() call into createChangeWithTopic.",
+      "range": {
+        "startLine": 79,
+        "startChar": 44,
+        "endLine": 79,
+        "endChar": 50
+      },
+      "revId": "d94d6c591f01723d208a662325f576db840da3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_72897825",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T22:13:06Z",
+      "side": 1,
+      "message": "Do you need a fresh repo here? Can\u0027t you just testRepo.reset(\"HEAD~2\")?",
+      "revId": "d94d6c591f01723d208a662325f576db840da3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_8fcef55d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T22:13:06Z",
+      "side": 1,
+      "message": "I think it would be helpful to check the actions for the other change as well. We should see the distinction between \"clicking would fail for this change\" and \"clicking would fail other changes\"",
+      "revId": "d94d6c591f01723d208a662325f576db840da3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_b28ec02e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T22:13:06Z",
+      "side": 1,
+      "message": "Long line.\n\nOptionally you could make the constant in Submit @VisibleForTesting.",
+      "revId": "d94d6c591f01723d208a662325f576db840da3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3f25ae5_afc9b959",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

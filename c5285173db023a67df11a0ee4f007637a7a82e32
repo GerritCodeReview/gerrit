@@ -22,6 +22,30 @@
       "revId": "c5285173db023a67df11a0ee4f007637a7a82e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e30b3aa7_87c826a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-02T17:53:21Z",
+      "side": 1,
+      "message": "syntax_error is overloaded, it has 3 forms.\n\nOnly the arity 1 and arity 2 forms can show up from consult_stream. In both of those the first argument in the structure is usually a list of atoms that make up a phrase.\n\nIIRC the arity 5 version only shows up in the dynamic interpreter through illarg().",
+      "parentUuid": "e3f25ae5_8f6cb503",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 43
+      },
+      "revId": "c5285173db023a67df11a0ee4f007637a7a82e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

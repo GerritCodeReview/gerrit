@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "43e6c629_d20ca472",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T16:54:12Z",
+      "side": 1,
+      "message": "\u003e But the button %s may not be there (we don\u0027t know if it\u0027s submit or submit whole topic, so we\u0027d need additional logic)\n\nSure. But the definition of \"submit whole topic\" is \"click submit on all changes in the topic at once\". So, the reason you can\u0027t submit the whole topic is that clicking submit (even without whole topic) on one of the constituent changes would fail.\n\n\u003e Also the %s is hard to put in\n\nNot sure I buy this :). You\u0027re already getting the config option in the constructor. Just store it in an instance field and construct the ParameterizedString in when you\u0027re building the description.\n\n\u003e \"Clicking the button would fail for {this, other} change[s].\"\n\nYeah, I\u0027m fine with this though, it\u0027s less work and pretty much just as clear.",
+      "parentUuid": "43e6c629_32f1b0e3",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_92c85ca4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

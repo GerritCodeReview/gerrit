@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3f25ae5_afc9b959",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T22:12:23Z",
+      "side": 1,
+      "message": "This feels like a step backwards, but we need to do it to have the Submit button still available in case of FASTFORWARD ONLY merge strategy and just advanced branches. This will produce a state where the change will be stuck in the submit queue and not apply cleanly. But I guess that\u0027s intended for the case when change.submitWholeTopic \u003d\u003d false. \n\nIn case it is true, we still catch that by the call to problemsForSubmittingChanges in line 324.",
+      "range": {
+        "startLine": 292,
+        "startChar": 3,
+        "endLine": 299,
+        "endChar": 5
+      },
+      "revId": "d94d6c591f01723d208a662325f576db840da3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

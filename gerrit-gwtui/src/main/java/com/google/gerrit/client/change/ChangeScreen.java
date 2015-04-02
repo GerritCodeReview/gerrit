@@ -1091,6 +1091,12 @@ public class ChangeScreen extends Screen {
         keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
           @Override
           public void onKeyPress(KeyPressEvent event) {
+            // In Firefox this event is mistakenly called when F5 is pressed so
+            // differentiate F5 from 't' by checking the charCode(F5=0, t=116).
+            if (event.getNativeEvent().getCharCode() == 0) {
+              Window.Location.reload();
+              return;
+            }
             topic.onEdit();
           }
         });

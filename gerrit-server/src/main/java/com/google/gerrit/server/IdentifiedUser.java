@@ -341,12 +341,11 @@ public class IdentifiedUser extends CurrentUser {
     return starredChanges;
   }
 
-  public Set<Change.Id> clearStarredChanges() {
+  public void clearStarredChanges() {
     // Async query may have started before an update that the caller expects
     // to see the results of, so we can't trust it.
     abortStarredChanges();
     starredChanges = null;
-    return starredChanges;
   }
 
   public void asyncStarredChanges() {

@@ -2574,6 +2574,14 @@ describing the permutations that satisfy the tested submit rule.
   ]
 ----
 
+When testing with the `curl` command line client the
+`--data-binary @rules.pl` flag should be used to ensure
+all LFs are included in the Prolog code:
+
+----
+  curl -X POST --data-binary @rules.pl http://.../test.submit_rule
+----
+
 [[list-drafts]]
 === List Drafts
 --

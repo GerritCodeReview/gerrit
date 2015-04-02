@@ -58,9 +58,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     approve(change2.getChangeId());
     Map<String, ActionInfo> actions = getActions(change2.getChangeId());
 
-    assertThat(actions).containsKey("submit");
-    ActionInfo info = actions.get("submit");
-    assertThat(info.enabled).isNull();
+    assertThat(actions).doesNotContainKey("submit");
 
     submitWithConflict(change2.getChangeId());
     assertThat(getRemoteHead()).isEqualTo(oldHead);

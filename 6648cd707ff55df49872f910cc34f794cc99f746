@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3f25ae5_8fe15516",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-02T00:45:53Z",
+      "side": 1,
+      "message": "That\u0027s what I was originally trying to do.\nThe client side has a good approach on that in the statusText field, which is modified from all over the place to make the text as precise as possible.\n\nAnd we\u0027re not necessarily merging, so I knew this is not the best way to do it when writing it. Maybe we should get rid of \"merge\" altogether because the Cherrypick and fast forward only strategies do exist. So maybe\n\n  \"Submit of this change would fail.\"\n\n\nThat proposed, we\u0027d most likely need to (find someone to) make it configurable as \"submit\" may be reworded via config.",
+      "parentUuid": "e3f25ae5_4fcb6d9e",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_92c85ca4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3

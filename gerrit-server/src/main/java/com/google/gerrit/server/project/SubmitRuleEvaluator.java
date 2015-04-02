@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
@@ -45,7 +44,7 @@ import com.googlecode.prolog_cafe.lang.VariableTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -510,8 +509,7 @@ public class SubmitRuleEvaluator {
       if (rule == null) {
         env = projectState.newPrologEnvironment();
       } else {
-        env = projectState.newPrologEnvironment(
-            "stdin", new ByteArrayInputStream(rule.getBytes(UTF_8)));
+        env = projectState.newPrologEnvironment("stdin", new StringReader(rule));
       }
     } catch (CompileException err) {
       String msg;

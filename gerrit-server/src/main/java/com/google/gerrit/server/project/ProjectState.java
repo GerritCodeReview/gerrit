@@ -55,7 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -205,10 +205,10 @@ public class ProjectState {
    * read the provided input stream.
    *
    * @param name a name of the input stream. Could be any name.
-   * @param in InputStream to read prolog rules from
+   * @param in stream to read prolog rules from
    * @throws CompileException
    */
-  public PrologEnvironment newPrologEnvironment(String name, InputStream in)
+  public PrologEnvironment newPrologEnvironment(String name, Reader in)
       throws CompileException {
     PrologMachineCopy pmc = rulesCache.loadMachine(name, in);
     return envFactory.create(pmc);

@@ -58,7 +58,7 @@ public interface PatchConstants extends Constants {
   String toggleIntraline();
   String showPreferences();
 
-  String modifyInEditScreen();
+  String openEditScreen();
 
   String toggleReviewed();
   String markAsReviewedAndGoToNext();

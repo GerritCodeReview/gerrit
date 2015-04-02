@@ -15,18 +15,21 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 
-import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.testutil.ConfigSuite;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.util.Map;
 
-public class ActionsIT extends AbstractDaemonTest {
+public class ActionsIT extends AbstractSubmit {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
@@ -72,6 +75,32 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revisionActionsTwoChangeChangesInTopic_conflicting() throws Exception {
+    String changeId = createChangeWithTopic("foo2").getChangeId();
+    approve(changeId);
+    // create another change with the same topic
+    createChangeWithTopic(testRepo, "foo2", "touching b", "b.txt", "real content");
+
+    // collide with the other change in the same topic
+    TestRepository<InMemoryRepository> testRepo1 =
+        cloneProject(project, sshSession);
+    submit(createChangeWithTopic(testRepo1, "off_topic", "rewriting file b",
+        "b.txt", "garbage\ngarbage\ngarbage").getChangeId());
+
+    Map<String, ActionInfo> actions = getActions(changeId);
+    commonActionsAssertions(actions);
+    if (isSubmitWholeTopicEnabled()) {
+      ActionInfo info = actions.get("submit");
+      assertThat(info.enabled).isNull();
+      assertThat(info.label).isEqualTo("Submit whole topic");
+      assertThat(info.method).isEqualTo("POST");
+      assertThat(info.title).isEqualTo("Clicking the button would fail for other changes in the topic.");
+    } else {
+      noSubmitWholeTopicAssertions(actions);
+    }
+  }
+
+  @Test
   public void revisionActionsTwoChangeChangesInTopicReady() throws Exception {
     String changeId = createChangeWithTopic(name("foo2")).getChangeId();
     approve(changeId);
@@ -106,10 +135,23 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(actions).containsKey("rebase");
   }
 
-  private PushOneCommit.Result createChangeWithTopic(String topic)
-      throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+  private PushOneCommit.Result createChangeWithTopic(
+      TestRepository<InMemoryRepository> repo, String topic,
+      String commitMsg, String fileName, String content) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+        repo, commitMsg, fileName, content);
     assertThat(topic).isNotEmpty();
     return push.to("refs/for/master/" + topic);
+  }
+
+  private PushOneCommit.Result createChangeWithTopic(String topic)
+      throws Exception {
+    return createChangeWithTopic(testRepo, topic,
+        "a message", "a.txt", "content\n");
+  }
+
+  @Override
+  protected SubmitType getSubmitType() {
+    return SubmitType.MERGE_ALWAYS;
   }
 }

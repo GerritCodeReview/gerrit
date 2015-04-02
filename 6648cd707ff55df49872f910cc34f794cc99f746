@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3f25ae5_4fcb6d9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "This is slightly inaccurate. The mergeability bit reflects the result of applying the merge strategy. In the case of fast-forward only, a merge is not even attempted. We actually have this inaccuracy elsewhere in the change screen: the \"Merge Conflict\" status. But at least that placeholder text is called \"changeTableNotMergeable\". So perhaps this should be NOT_MERGEABLE_TOOLTIP?\n\nHow about for the actual text:\n\n\"Merging this change would fail.\"\n\n\"Merging another change in this topic would fail.\"\n\n(A much more complex feature request would be changing the mergeability bit to provide more information here than a simple yes/no, so we could distinguish between a content merge failure and another kind of merge strategy failure, etc. :)",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_92c85ca4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "Why this change?",
+      "range": {
+        "startLine": 252,
+        "startChar": 12,
+        "endLine": 252,
+        "endChar": 22
+      },
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_cfbe3df7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "Indent 4 spaces.",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_32d89071",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "You\u0027re computing this (at least) twice in the getDescription path below. Although it\u0027s cached, it\u0027s not that cheap, as we need to run the submit rule evaluator to get the cache key.\n\nSee my comment below on isMergeable as well.",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_0fd56539",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "This is kind of gross. We already have an almost equivalent way to do this that\u0027s much easier to spell:\n\n if (!cd.isMergeable())\n\nUnfortunately, the isMergeable implementation is missing the code path to throw ResourceConflictException when the change is closed. It should probably be changed to do that first. (I tried merging those code paths but they are annoyingly slightly different and it didn\u0027t work out the last time I tried.)\n\nAnother major advantage of using the ChangeData method is the result is cached, so you wouldn\u0027t have to worry about repeating work (as long as you reuse the same ChangeData instance).",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_2fd82971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_8fc835a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "Isn\u0027t this covered by the outer catch block?",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_52cb149e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "Optional nit: I tend to order catch clauses in the order of most specific -\u003e most general, and I think ResourceConflictException is more specific than OrmException.",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_afc3f988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_6fce31b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T00:25:05Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "6648cd707ff55df49872f910cc34f794cc99f746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

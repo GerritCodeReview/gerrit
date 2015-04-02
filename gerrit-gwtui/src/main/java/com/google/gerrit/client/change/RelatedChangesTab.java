@@ -87,6 +87,7 @@ class RelatedChangesTab implements IsWidget {
 
   private boolean showBranches;
   private boolean showProjects;
+  private boolean showSubmittable;
   private boolean showIndirectAncestors;
   private boolean registerKeys;
   private int maxHeight;
@@ -110,6 +111,10 @@ class RelatedChangesTab implements IsWidget {
 
   void setShowProjects(boolean showProjects) {
     this.showProjects = showProjects;
+  }
+
+  void setShowSubmittable(boolean submittable) {
+    this.showSubmittable = submittable;
   }
 
   void setShowIndirectAncestors(boolean showIndirectAncestors) {
@@ -310,6 +315,10 @@ class RelatedChangesTab implements IsWidget {
         sb.setStyleName(RelatedChanges.R.css().notCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
         sb.append('\u25CF');
+      } else if (showSubmittable && info.submittable()) {
+        sb.setStyleName(RelatedChanges.R.css().submittable());
+        sb.setAttribute("title", Util.C.submittable());
+        sb.append('\u2713');
       } else {
         sb.setStyleName(RelatedChanges.R.css().current());
       }

@@ -16,6 +16,7 @@ package com.google.gerrit.rules;
 
 import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -28,12 +29,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import com.googlecode.prolog_cafe.exceptions.CompileException;
+import com.googlecode.prolog_cafe.exceptions.TermException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
+import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologClassLoader;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
+import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
+import com.googlecode.prolog_cafe.lang.Term;
 
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -203,10 +208,56 @@ public class RulesCache {
           SymbolTerm.intern(name), new JavaObjectTerm(in))) {
         return null;
       }
+    } catch (TermException e) {
+      Term m = e.getMessageTerm();
+      if (m instanceof StructureTerm && "syntax_error".equals(m.name())
+          && m.arity() >= 1) {
+        StringBuilder msg = new StringBuilder();
+        if (m.arg(0) instanceof ListTerm) {
+          msg.append(Joiner.on(' ').join(((ListTerm) m.arg(0)).toJava()));
+        } else {
+          msg.append(m.arg(0).toString());
+        }
+        if (m.arity() == 2 && m.arg(1) instanceof StructureTerm
+            && "at".equals(m.arg(1).name())) {
+          Term at = m.arg(1).arg(0).dereference();
+          if (at instanceof ListTerm) {
+            msg.append(" at: ");
+            msg.append(prettyProlog(at));
+          }
+        }
+        throw new CompileException(msg.toString(), e);
+      }
+      throw new CompileException("Error while consulting rules from " + name, e);
     } catch (RuntimeException e) {
       throw new CompileException("Error while consulting rules from " + name, e);
     }
     return save(ctl);
+  }
+
+  private static String prettyProlog(Term at) {
+    StringBuilder b = new StringBuilder();
+    for (Object o : ((ListTerm) at).toJava()) {
+      if (o instanceof Term) {
+        Term t = (Term) o;
+        if (!(t instanceof StructureTerm)) {
+          b.append(t.toString()).append(' ');
+          continue;
+        }
+        switch (t.name()) {
+          case "atom":
+            SymbolTerm atom = (SymbolTerm) t.arg(0);
+            b.append(atom.toString());
+            break;
+          case "var":
+            b.append(t.arg(0).toString());
+            break;
+        }
+      } else {
+        b.append(o);
+      }
+    }
+    return b.toString().trim();
   }
 
   private String read(Project.NameKey project, ObjectId rulesId)

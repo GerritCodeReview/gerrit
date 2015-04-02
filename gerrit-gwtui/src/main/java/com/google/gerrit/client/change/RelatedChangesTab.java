@@ -87,6 +87,7 @@ class RelatedChangesTab implements IsWidget {
 
   private boolean showBranches;
   private boolean showProjects;
+  private boolean showSubmittable;
   private boolean showIndirectAncestors;
   private boolean registerKeys;
   private int maxHeight;
@@ -110,6 +111,10 @@ class RelatedChangesTab implements IsWidget {
 
   void setShowProjects(boolean showProjects) {
     this.showProjects = showProjects;
+  }
+
+  void setShowSubmittable(boolean submittable) {
+    this.showSubmittable = submittable;
   }
 
   void setShowIndirectAncestors(boolean showIndirectAncestors) {
@@ -300,7 +305,7 @@ class RelatedChangesTab implements IsWidget {
       if (gw != null && (!info.has_change_number() || !info.has_revision_number())) {
         sb.setStyleName(RelatedChanges.R.css().gitweb());
         sb.setAttribute("title", gw.getLinkName());
-        sb.append('\u25CF');
+        sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
       } else if (notConnected) {
         sb.setStyleName(RelatedChanges.R.css().indirect());
         sb.setAttribute("title", Resources.C.indirectAncestor());
@@ -309,7 +314,11 @@ class RelatedChangesTab implements IsWidget {
           && info._current_revision_number() != info._revision_number()) {
         sb.setStyleName(RelatedChanges.R.css().notCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
-        sb.append('\u25CF');
+        sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
+      } else if (showSubmittable && info.submittable()) {
+        sb.setStyleName(RelatedChanges.R.css().submittable());
+        sb.setAttribute("title", Util.C.submittable());
+        sb.append('\u2713'); // Unicode 'CHECK MARK'
       } else {
         sb.setStyleName(RelatedChanges.R.css().current());
       }

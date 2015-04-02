@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3f25ae5_4f6fedf5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T17:53:58Z",
+      "side": 1,
+      "message": "Nit: alpha sort",
+      "revId": "8dc39bf5b8f84e187eb35546004db204f67454a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f25ae5_2f7ca9b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T17:53:58Z",
+      "side": 1,
+      "message": "The only detailed label information you have is for the current change/revision, right? So you would need to fetch detailed label information for all other changes in the topic regardless. I\u0027m not sure how you could do less work here.",
+      "revId": "8dc39bf5b8f84e187eb35546004db204f67454a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_12034c3e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T17:53:58Z",
+      "side": 1,
+      "message": "Please comment with the character name. (Yes, I know the other ones don\u0027t have comments, I didn\u0027t review them :)",
+      "revId": "8dc39bf5b8f84e187eb35546004db204f67454a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_f230c81e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-02T17:53:58Z",
+      "side": 1,
+      "message": "Nit: maintain sorting as in the Java source.\n\nDon\u0027t need to resort the whole section, but at least be consistent between .java/.properties.",
+      "revId": "8dc39bf5b8f84e187eb35546004db204f67454a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -67,6 +67,14 @@ public final class Branch {
 
       return n;
     }
+
+    public String getRefName() {
+      final String n = get();
+      if (n.startsWith(R_HEADS)) {
+        return n;
+      }
+      return R_HEADS + n;
+    }
   }
 
   protected NameKey name;
@@ -90,6 +98,10 @@ public final class Branch {
 
   public String getShortName() {
     return name.getShortName();
+  }
+
+  public String getRefName() {
+    return name.getRefName();
   }
 
   public RevId getRevision() {

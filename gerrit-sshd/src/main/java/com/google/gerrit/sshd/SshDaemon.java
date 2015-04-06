@@ -45,6 +45,7 @@ import org.apache.sshd.common.ForwardingFilter;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.RequestHandler;
 import org.apache.sshd.common.Session;
 import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.SshdSocketAddress;
@@ -67,10 +68,11 @@ import org.apache.sshd.common.forward.TcpipServerChannel;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoAcceptor;
-import org.apache.sshd.common.io.IoServiceFactory;
+import org.apache.sshd.common.io.IoServiceFactoryFactory;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.io.mina.MinaServiceFactory;
+import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
@@ -79,7 +81,9 @@ import org.apache.sshd.common.random.BouncyCastleRandom;
 import org.apache.sshd.common.random.JceRandom;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.AbstractSession;
+import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.signature.SignatureDSA;
+import org.apache.sshd.common.signature.SignatureECDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
@@ -91,6 +95,10 @@ import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
 import org.apache.sshd.server.channel.ChannelSession;
+import org.apache.sshd.server.global.CancelTcpipForwardHandler;
+import org.apache.sshd.server.global.KeepAliveHandler;
+import org.apache.sshd.server.global.NoMoreSessionsHandler;
+import org.apache.sshd.server.global.TcpipForwardHandler;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.session.SessionFactory;
@@ -181,6 +189,15 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         IDLE_TIMEOUT,
         String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
 
+    long rekeyTimeLimit = ConfigUtil.getTimeUnit(cfg, "sshd", null,
+        "rekeyTimeLimit", 3600, SECONDS);
+    getProperties().put(
+        REKEY_TIME_LIMIT,
+        String.valueOf(SECONDS.toMillis(rekeyTimeLimit)));
+
+    getProperties().put(REKEY_BYTES_LIMIT,
+        String.valueOf(cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */)));
+
     final int maxConnectionsPerUser =
         cfg.getInt("sshd", "maxConnectionsPerUser", 64);
     if (0 < maxConnectionsPerUser) {
@@ -193,8 +210,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final String kerberosPrincipal = cfg.getString(
         "sshd", null, "kerberosPrincipal");
 
-    System.setProperty(IoServiceFactory.class.getName(),
-        MinaServiceFactory.class.getName());
+    SshSessionBackend backend = cfg.getEnum(
+        "sshd", null, "backend", SshSessionBackend.MINA);
+
+    System.setProperty(IoServiceFactoryFactory.class.getName(),
+        backend == SshSessionBackend.MINA
+            ? MinaServiceFactoryFactory.class.getName()
+            : Nio2ServiceFactoryFactory.class.getName());
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();
@@ -251,6 +273,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         return new GerritServerSession(server, ioSession);
       }
     });
+    setGlobalRequestHandlers(Arrays.<RequestHandler<ConnectionService>> asList(
+          new KeepAliveHandler(),
+          new NoMoreSessionsHandler(),
+          new TcpipForwardHandler(),
+          new CancelTcpipForwardHandler()
+        ));
 
     hostKeys = computeHostKeys();
   }
@@ -492,7 +520,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private void initSignatures() {
     setSignatureFactories(Arrays.<NamedFactory<Signature>> asList(
-        new SignatureDSA.Factory(), new SignatureRSA.Factory()));
+        new SignatureDSA.Factory(),
+        new SignatureRSA.Factory(),
+        new SignatureECDSA.NISTP256Factory(),
+        new SignatureECDSA.NISTP384Factory(),
+        new SignatureECDSA.NISTP521Factory()));
   }
 
   private void initCompression() {
@@ -587,6 +619,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           @Override
           public SshFile getFile(String file) {
             return null;
+          }
+
+          @Override
+          public FileSystemView getNormalizedView() {
+            return this;
           }};
       }
     });

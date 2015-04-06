@@ -20,15 +20,18 @@ public class OAuthUserInfo {
   private final String userName;
   private final String emailAddress;
   private final String displayName;
+  private final String claimedIdentity;
 
   public OAuthUserInfo(String externalId,
       String userName,
       String emailAddress,
-      String displayName) {
+      String displayName,
+      String claimedIdentity) {
     this.externalId = externalId;
     this.userName = userName;
     this.emailAddress = emailAddress;
     this.displayName = displayName;
+    this.claimedIdentity = claimedIdentity;
   }
 
   public String getExternalId() {
@@ -45,5 +48,9 @@ public class OAuthUserInfo {
 
   public String getDisplayName() {
     return displayName;
+  }
+
+  public String getClaimedIdentity() {
+    return claimedIdentity;
   }
 }

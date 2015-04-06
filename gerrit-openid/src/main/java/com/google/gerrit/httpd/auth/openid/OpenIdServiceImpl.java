@@ -144,6 +144,7 @@ class OpenIdServiceImpl {
     final AuthRequest aReq;
     try {
       aReq = manager.authenticate(state.discovered, state.retTo.toString());
+      log.debug("OpenID: openid-realm={}", state.contextUrl);
       aReq.setRealm(state.contextUrl);
 
       if (requestRegistration(aReq)) {

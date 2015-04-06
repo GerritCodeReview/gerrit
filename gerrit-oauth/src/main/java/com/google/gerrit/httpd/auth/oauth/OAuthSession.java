@@ -23,9 +23,11 @@ import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
 
@@ -87,8 +89,7 @@ class OAuthSession {
       }
 
       log.debug("Login-Retrieve-User " + this);
-      token = oauth.getAccessToken(null,
-          new OAuthVerifier(request.getParameter("code")));
+      token = oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")));
 
       user = oauth.getUserInfo(token);
 
@@ -103,7 +104,7 @@ class OAuthSession {
     } else {
       log.debug("Login-PHASE1 " + this);
       redirectUrl = request.getRequestURI();
-      response.sendRedirect(oauth.getAuthorizationUrl(null) +
+      response.sendRedirect(oauth.getAuthorizationUrl() +
           "&state=" + state);
       return false;
     }
@@ -113,11 +114,48 @@ class OAuthSession {
       throws IOException {
     com.google.gerrit.server.account.AuthRequest areq =
         new com.google.gerrit.server.account.AuthRequest(user.getExternalId());
-    areq.setUserName(user.getUserName());
-    areq.setEmailAddress(user.getEmailAddress());
-    areq.setDisplayName(user.getDisplayName());
     AuthResult arsp;
     try {
+      String claimedIdentifier = user.getClaimedIdentity();
+      Account.Id actualId = accountManager.lookup(user.getExternalId());
+      if (!Strings.isNullOrEmpty(claimedIdentifier)) {
+        Account.Id claimedId = accountManager.lookup(claimedIdentifier);
+        if (claimedId != null && actualId != null) {
+          if (claimedId.equals(actualId)) {
+            // Both link to the same account, that's what we expected.
+            log.debug("OAuth2: claimed identity equals current id");
+          } else {
+            // This is (for now) a fatal error. There are two records
+            // for what might be the same user.
+            //
+            log.error("OAuth accounts disagree over user identity:\n"
+                + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
+                + "\n" + "  Delgate ID: " + actualId + " is "
+                + user.getExternalId());
+            rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+          }
+        } else if (claimedId != null && actualId == null) {
+          // Claimed account already exists: link to it.
+          //
+          log.info("OAuth2: linking claimed identity to {}",
+              claimedId.toString());
+          try {
+            accountManager.link(claimedId, areq);
+          } catch (OrmException e) {
+            log.error("Cannot link: " +  user.getExternalId()
+                + " to user identity:\n"
+                + "  Claimed ID: " + claimedId + " is " + claimedIdentifier);
+            rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+          }
+        }
+      } else {
+        log.debug("OAuth2: claimed identity is empty");
+      }
+      areq.setUserName(user.getUserName());
+      areq.setEmailAddress(user.getEmailAddress());
+      areq.setDisplayName(user.getDisplayName());
       arsp = accountManager.authenticate(areq);
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c302b68c_e607de4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-06T06:22:07Z",
+      "side": 1,
+      "message": "So I assume this is sending out email to the user, which is as confusing as having the commit \"submitted, merge pending\". Now the users will know there is something wrong, but why did they get the email, isn\u0027t the admin fixing the issue ?\n\nSo I wonder if this is making user experience better. Maybe we want to have an internal count down to not send out the email?\n\nOr `msg` could be more specific at hinting at the backend being at fault here?\n\nOverall I like the change, i just wonder how users would perceive the change.",
+      "range": {
+        "startLine": 827,
+        "startChar": 12,
+        "endLine": 827,
+        "endChar": 54
+      },
+      "revId": "5a9fc3e15be993885651baf54beb8300a4492864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3fdc2c1_85e14216",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": "Unnecessary blank lines after method headers.",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c302b68c_e630fe1e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": "Just pushChangeTo. It\u0027s not strictly speaking \"random\", it\u0027s more like \"arbitrary\", and that\u0027s kind of a lot of typing anyway.",
+      "range": {
+        "startLine": 137,
+        "startChar": 23,
+        "endLine": 137,
+        "endChar": 29
+      },
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fdc2c1_65f766da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": "Weird indentation here, how about:\n\n private void createSubscription(\n     TestRepository\u003c?\u003e repo, String branch, String subscribeToRepo,\n     String subscribeToBranch) throws Exception {",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fdc2c1_45f46ad3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": "Since this confused me before, please add a comment that this is what\u0027s used by SubmoduleOp for matching repos, regardless of whether the server actually serving from that URL.",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fdc2c1_25f16ee3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": ".rm(\".gitmodules\")?",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c302b68c_c635020d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": "This seems a little redundant, one would think \"git push origin HEAD:refs/heads/master\" results in refs/heads/master in the remote matching HEAD in the local. Did you have some bug where that wasn\u0027t happening?",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fdc2c1_a5dc3e62",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": "This is overkill, we don\u0027t need to test the platform-dependentness of the config string parsing codepath here.\n\n(Also FYI, as an alternative to getting this system property, you can use %n in a format string for a platform-dependent newline.)",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c302b68c_06031a3e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T08:29:56Z",
+      "side": 1,
+      "message": "Don\u0027t construct this string yourself; use a JGit Config with toText.",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

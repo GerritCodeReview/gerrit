@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "c302b68c_66fc0eb4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T07:52:44Z",
+      "side": 1,
+      "message": "Labels can certainly be different across projects, so your assumption was not correct. A bit more detail on what exactly happens follows.\n\nWithin the same project, I think the min/max values and the label text for a particular label will be the same. But the permitted range (also returned with DETAILED_LABELS) may differ; ranges are set using the permissions system, which means they may be determined by per-ref permissions.\n\nThe values returned by LABELS vary based on Prolog rules, so they may be different even for changes to the same project and branch.\n\nSo basically, yeah, there is some duplicate information but there\u0027s no way to deduplicate it. We don\u0027t deduplicate it on the main change list either.\n\nI don\u0027t think the cost to compute and transfer is all that significant. RefControls and/or ProjectControls should for the most part be cached within a single request. And all the duplicate info compresses very well.",
+      "parentUuid": "43e6c629_321f708c",
+      "revId": "8dc39bf5b8f84e187eb35546004db204f67454a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_12034c3e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
         "patchSetId": 7

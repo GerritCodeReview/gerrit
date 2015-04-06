@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3f25ae5_2f8dc9ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-06T12:47:37Z",
+      "side": 0,
+      "message": "You need to take this instead, the message was modified on stable-2.10 branch after the change was cherry-picked.",
+      "range": {
+        "startLine": 218,
+        "startChar": 22,
+        "endLine": 221,
+        "endChar": 60
+      },
+      "revId": "78532c9500b7a5514a6f6a656588eab93429134c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

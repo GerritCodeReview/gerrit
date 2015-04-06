@@ -583,6 +583,12 @@ public class ChangeScreen extends Screen {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         if (Gerrit.isSignedIn()) {
+          // In Firefox this event is mistakenly called when F5 is pressed so
+          // differentiate F5 from 't' by checking the charCode(F5=0, t=116).
+          if (event.getNativeEvent().getCharCode() == 0) {
+            Window.Location.reload();
+            return;
+          }
           if (topic.canEdit()) {
             topic.onEdit();
           }

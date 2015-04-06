@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c302b68c_a611e68c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T07:42:39Z",
+      "side": 1,
+      "message": "Inheriting from this adds a bunch of @Test methods that are not relevant to what you\u0027re doing here. If you just need the submit() helper method, extract that method to a place you can use it.\n\nHowever, I don\u0027t think you should actually need that method. Look at RevisionIT as an example of using the extension API to submit a change.",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 45
+      },
+      "revId": "59ef9a628727da351a0dc1f83e5b9d85b3ee44b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

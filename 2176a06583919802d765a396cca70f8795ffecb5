@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3fdc2c1_c5e73a29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T07:55:22Z",
+      "side": 1,
+      "message": "While you\u0027re in here, split this up:\n\n msgbuf.append(\"Updated \")\n     .append(subscriber.getParentKey().get())\n     .append(\u0027\\n\u0027);\n\nThe string concatenation syntax is expanded by the compiler into a new StringBuilder expression, which is unnecessary here",
+      "revId": "2176a06583919802d765a396cca70f8795ffecb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

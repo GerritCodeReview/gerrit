@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "43e6c629_b246c02f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-04-06T18:20:51Z",
+      "side": 1,
+      "message": "Is there a reason for the extra push operations? Does it fundamentally alter the state of the repos? If not why add them? If you want to do some fuzz testing then it would be better to make it more explicit and truly make it fuzzy by generating a random number of pushes.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 42
+      },
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c302b68c_e630fe1e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9
@@ -104,6 +127,29 @@
       "writtenOn": "2015-04-06T08:29:56Z",
       "side": 1,
       "message": "This seems a little redundant, one would think \"git push origin HEAD:refs/heads/master\" results in refs/heads/master in the remote matching HEAD in the local. Did you have some bug where that wasn\u0027t happening?",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43e6c629_f2c9e82a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-04-06T18:20:51Z",
+      "side": 1,
+      "message": "This specific error message doesn\u0027t match the more general name of this method. Better to either rename the method or better yet to change the method to be boolean hasSubmodule() and keep the assertion\u0027s error text in the caller.",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 44
+      },
       "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

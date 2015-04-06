@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e3f25ae5_af46592f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-06T15:02:32Z",
+      "side": 1,
+      "message": "Some sshd-core classes(example IOSession, IOAcceptor) also exist in mina-core. I think this deprecation is telling us we should use the ones in mina-core. I do not think this is as trivial as \"use another method instead of this one\" type of deprecation.",
+      "parentUuid": "e3f25ae5_ef4c6153",
+      "range": {
+        "startLine": 335,
+        "startChar": 23,
+        "endLine": 335,
+        "endChar": 30
+      },
+      "revId": "58d4af93bd96388b03676b76f5914c90dabfdb9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3f25ae5_0f5fa5fa",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 1

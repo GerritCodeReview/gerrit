@@ -22,6 +22,23 @@
       "revId": "59ef9a628727da351a0dc1f83e5b9d85b3ee44b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fdc2c1_25d84e71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-06T07:44:19Z",
+      "side": 1,
+      "message": "Use isMergeable here as well?",
+      "revId": "59ef9a628727da351a0dc1f83e5b9d85b3ee44b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

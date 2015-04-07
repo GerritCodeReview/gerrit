@@ -328,8 +328,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   public synchronized void stop() {
     if (acceptor != null) {
       try {
-        acceptor.dispose();
+        acceptor.close(true).await();
         log.info("Stopped Gerrit SSHD");
+      } catch (InterruptedException e) {
+        log.warn("Exception caught while closing", e);
       } finally {
         acceptor = null;
       }

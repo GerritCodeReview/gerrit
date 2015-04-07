@@ -3,11 +3,20 @@ include_defs('//lib/maven.defs')
 # Java client library for Elasticsearch.
 maven_jar(
   name = 'elasticsearch',
-  id = 'org.elasticsearch:elasticsearch:1.5.0',
-  sha1 = 'bbd56ad03d214b6f84ae8ff67c07aec4f533e277',
-  src_sha1 = '2b6695cc48c0d8d9aa2576308856f7763d415a15',
+  id = 'org.elasticsearch:elasticsearch:2.0.0-beta1',
+  sha1 = 'd8d8e380dde478284666e6b8a5d95e82cc335bd0',
+  src_sha1 = '34dbc1c777bedcc46cbd4ff1b56f4a58eef568f1',
+  repository = MAVEN_CENTRAL,
   license = 'Apache2.0',
   deps = [
+    '//lib:compress-lzf',
+    '//lib:hppc',
+    '//lib:jsr166e',
+    '//lib:netty',
+    '//lib:t-digest',
+    '//lib/jackson:jackson-core',
+    '//lib/jackson:jackson-dataformat-smile',
+    '//lib/joda:joda-time',
     '//lib/lucene:codecs',
     '//lib/lucene:core',
     '//lib/lucene:highlighter',
@@ -20,20 +29,18 @@ maven_jar(
 )
 
 # Java REST client for Elasticsearch.
-VERSION = '0.1.5'
+VERSION = '0.1.7'
 maven_jar(
   name = 'jest-common',
   id = 'io.searchbox:jest-common:' + VERSION,
-  sha1 = 'eee9ecd98aab081d264beb48b2e526e8a7bc0955',
-  src_sha1 = '31811ab9f01c5f9879e9e9dac6b51e954f80958c',
+  sha1 = 'ff6e2694405557a3a02b444cb7f7da28c4d99f07',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'jest',
   id = 'io.searchbox:jest:' + VERSION,
-  sha1 = '6ec4ad064469bbb335e0d7788f6ab10ad8a93235',
-  src_sha1 = '82e7744f0b0fc0646cde8f8d96fef6d76c5cb77f',
+  sha1 = '686619c7141edb50b562ad2a39d32ea4cf20b567',
   license = 'Apache2.0',
   deps = [
     ':elasticsearch',

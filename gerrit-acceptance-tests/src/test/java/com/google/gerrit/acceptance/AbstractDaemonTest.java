@@ -105,7 +105,7 @@ public abstract class AbstractDaemonTest {
   protected GerritApi gApi;
 
   @Inject
-  private AcceptanceTestRequestScope atrScope;
+  protected AcceptanceTestRequestScope atrScope;
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;

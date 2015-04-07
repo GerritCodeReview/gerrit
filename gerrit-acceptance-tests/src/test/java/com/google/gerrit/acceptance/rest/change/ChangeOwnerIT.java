@@ -14,24 +14,22 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.Permission.LABEL;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,44 +40,47 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   private TestAccount user2;
 
-  private RestSession sessionOwner;
-  private RestSession sessionDev;
-
   @Before
   public void setUp() throws Exception {
     setApiUser(user);
-    sessionOwner = new RestSession(server, user);
     user2 = accounts.user2();
-    sessionDev = new RestSession(server, user2);
   }
 
   @Test
   @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_OwnerACLNotGranted() throws Exception {
-    approve(sessionOwner, createMyChange(), HttpStatus.SC_FORBIDDEN);
+    assertApproveFails(user, createMyChange());
   }
 
   @Test
   @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_OwnerACLGranted() throws Exception {
     grantApproveToChangeOwner();
-    approve(sessionOwner, createMyChange(), HttpStatus.SC_OK);
+    approve(user, createMyChange());
   }
 
   @Test
   @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_NotOwnerACLGranted() throws Exception {
     grantApproveToChangeOwner();
-    approve(sessionDev, createMyChange(), HttpStatus.SC_FORBIDDEN);
+    assertApproveFails(user2, createMyChange());
   }
 
-  private void approve(RestSession s, String changeId, int expected)
-      throws IOException {
-    RestResponse r =
-        s.post("/changes/" + changeId + "/revisions/current/review",
-            new ReviewInput().label("Code-Review", 2));
-    assertThat(r.getStatusCode()).isEqualTo(expected);
-    r.consume();
+  private void approve(TestAccount a, String changeId) throws Exception {
+    Context old = setApiUser(a);
+    try {
+      gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    } finally {
+      atrScope.set(old);
+    }
+  }
+
+  private void assertApproveFails(TestAccount a, String changeId) throws Exception {
+    try {
+      approve(a, changeId);
+    } catch (AuthException expected) {
+      // Expected.
+    }
   }
 
   private void grantApproveToChangeOwner() throws IOException,

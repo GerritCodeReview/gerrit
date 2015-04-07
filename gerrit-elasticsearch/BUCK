@@ -16,6 +16,7 @@ java_library(
     '//lib/elasticsearch:jest-common',
     '//lib/guice:guice',
     '//lib/jgit:jgit',
+    '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core',

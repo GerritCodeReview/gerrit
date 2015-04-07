@@ -22,6 +22,30 @@
       "revId": "a2f658e272ed8ac2cb412ea459f2fbefec25470f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fdc2c1_0579d2c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-07T11:29:00Z",
+      "side": 1,
+      "message": "If the change is up-to-date and the rebase button on the change screen is clicked, the RebaseDialog is shown and the the \u0027Rebase\u0027 button in the dialog is now disabled [1].\n\nYou can still check the option to change the parent revision [2].\n\nHowerver checking the option and leaving the parent revision field blank and then clicking on the Rebase button would still attempt a normal rebase which results in \"Change is already up to date\".\n\n[1] http://i.imgur.com/aVOQQsA.png\n[2] http://i.imgur.com/PZd0Ay1.png",
+      "parentUuid": "a3fdc2c1_6572c6e3",
+      "range": {
+        "startLine": 18,
+        "startChar": 66,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "a2f658e272ed8ac2cb412ea459f2fbefec25470f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

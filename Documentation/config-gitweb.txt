@@ -215,7 +215,7 @@ gitweb CGI.
 
 The CGI's `$projectroot` should be the same directory as
 gerrit.basePath, or a fairly current replica.  If a replica is
-being used, ensure it uses a full mirror, so the `refs/changes/*`
+being used, ensure it uses a full mirror, so the `+refs/changes/*+`
 namespace is available.
 
 ----

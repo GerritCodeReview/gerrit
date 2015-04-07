@@ -23,29 +23,20 @@ import java.io.IOException;
 public interface OAuthServiceProvider {
 
   /**
-   * Retrieve the request token.
-   *
-   * @return request token
-   */
-  OAuthToken getRequestToken();
-
-  /**
    * Returns the URL where you should redirect your users to authenticate
    * your application.
    *
-   * @param requestToken the request token you need to authorize
-   * @return the URL where you should redirect your users
+   * @return the OAuth service URL to redirect your users for authentication
    */
-  String getAuthorizationUrl(OAuthToken requestToken);
+  String getAuthorizationUrl();
 
   /**
    * Retrieve the access token
    *
-   * @param requestToken request token (obtained previously)
    * @param verifier verifier code
    * @return access token
    */
-  OAuthToken getAccessToken(OAuthToken requestToken, OAuthVerifier verifier);
+  OAuthToken getAccessToken(OAuthVerifier verifier);
 
   /**
    * After establishing of secure communication channel, this method supossed to

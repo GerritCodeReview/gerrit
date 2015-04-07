@@ -1692,7 +1692,7 @@ class HelloServlet extends HttpServlet {
 ----
 
 The auto registration only works for standard servlet mappings like
-`/foo` or `/foo/*`. Regex style bindings must use a Guice ServletModule
+`/foo` or `+/foo/*+`. Regex style bindings must use a Guice ServletModule
 to register the HTTP servlets and declare it explicitly in the manifest
 with the `Gerrit-HttpModule` attribute:
 
@@ -1820,7 +1820,7 @@ BranchWebLinks will appear in the branch list in the last column.
 == Documentation
 
 If a plugin does not register a filter or servlet to handle URLs
-`/Documentation/*` or `/static/*`, the core Gerrit server will
+`+/Documentation/*+` or `+/static/*+`, the core Gerrit server will
 automatically export these resources over HTTP from the plugin JAR.
 
 Static resources under the `static/` directory in the JAR will be

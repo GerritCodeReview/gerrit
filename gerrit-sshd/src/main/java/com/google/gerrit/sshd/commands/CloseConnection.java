@@ -25,8 +25,8 @@ import com.google.gerrit.sshd.SshDaemon;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 
+import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.io.IoAcceptor;
-import org.apache.sshd.common.io.IoCloseFuture;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Argument;
@@ -76,7 +76,7 @@ final class CloseConnection extends SshCommand {
         if (sshSession != null && sshSession.getSessionId() == id) {
           connectionFound = true;
           stdout.println("closing connection " + sessionId + "...");
-          IoCloseFuture future = io.close(true);
+          CloseFuture future = io.close(true);
           if (wait) {
             try {
               future.await();

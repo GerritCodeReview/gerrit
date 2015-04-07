@@ -2621,8 +2621,8 @@ are specified in the link:#container[container section]:
 If set to true, files with the MIME type `<name>` will be sent as
 direct downloads to the user's browser, rather than being wrapped up
 inside of zipped archives.  The type name may be a complete type
-name, e.g. `image/gif`, a generic media type, e.g. `image/*`,
-or the wildcard `*/*` to match all types.
+name, e.g. `image/gif`, a generic media type, e.g. `+image/*+`,
+or the wildcard `+*/*+` to match all types.
 +
 By default, false for all MIME types.
 
@@ -3064,6 +3064,14 @@ namespace. To alias `replication start` to `gerrit replicate`:
 [[sshd]]
 === Section sshd
 
+[[sshd.backend]]sshd.backend::
++
+Starting from version 0.9.0 Apache SSHD project added support for NIO2
+IoSession. To use the new NIO2 session the `backend` option must be set
+to `NIO2`.
++
+By default, `MINA`.
+
 [[sshd.listenAddress]]sshd.listenAddress::
 +
 Specifies the local addresses the internal SSHD should listen
@@ -3264,6 +3272,24 @@ If enabled, a request log file is written out by the SSH daemon.
 programmatic configuration.
 +
 By default, true.
+
+[[sshd.rekeyBytesLimit]]sshd.rekeyBytesLimit::
++
+The SSH daemon will issue a rekeying after a certain amount of data.
+This configuration option allows you to tweak that setting.
++
+By default, 1073741824 (bytes, 1GB).
++
+The rekeyBytesLimit cannot be set to lower than 32.
+
+[[sshd.rekeyTimeLimit]]sshd.rekeyTimeLimit::
++
+The SSH daemon will issue a rekeying after a certain amount of time.
+This configuration option allows you to tweak that setting.
++
+By default, 1h.
++
+Set to 0 to disable this check.
 
 [[suggest]]
 === Section suggest

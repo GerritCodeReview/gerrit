@@ -115,7 +115,6 @@ import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkInfo;
 import com.google.gerrit.server.project.CommentLinkProvider;
-import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -205,7 +204,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
-    factory(PerformCreateProject.Factory.class);
     factory(GarbageCollection.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)

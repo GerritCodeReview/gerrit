@@ -17,13 +17,20 @@ package com.google.gerrit.server.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.ProjectUtil;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -34,8 +41,17 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.ProjectOwnerGroups;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -44,9 +60,24 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject implements RestModifyView<TopLevelResource, ProjectInput> {
@@ -54,30 +85,58 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     CreateProject create(String name);
   }
 
-  private final PerformCreateProject.Factory createProjectFactory;
+  private static final Logger log = LoggerFactory
+      .getLogger(CreateProject.class);
+
   private final Provider<ProjectsCollection> projectsCollection;
   private final Provider<GroupsCollection> groupsCollection;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final ProjectJson json;
   private final ProjectControl.GenericFactory projectControlFactory;
+  private final GitRepositoryManager repoManager;
+  private final DynamicSet<NewProjectCreatedListener> createdListener;
+  private final ProjectCache projectCache;
+  private final GroupBackend groupBackend;
+  private final Set<AccountGroup.UUID> projectOwnerGroups;
+  private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final GitReferenceUpdated referenceUpdated;
+  private final Config cfg;
+  private final PersonIdent serverIdent;
   private final Provider<CurrentUser> currentUser;
   private final Provider<PutConfig> putConfig;
   private final String name;
 
   @Inject
-  CreateProject(PerformCreateProject.Factory performCreateProjectFactory,
-      Provider<ProjectsCollection> projectsCollection,
+  CreateProject(Provider<ProjectsCollection> projectsCollection,
       Provider<GroupsCollection> groupsCollection, ProjectJson json,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       ProjectControl.GenericFactory projectControlFactory,
-      Provider<CurrentUser> currentUser, Provider<PutConfig> putConfig,
+      GitRepositoryManager repoManager,
+      DynamicSet<NewProjectCreatedListener> createdListener,
+      ProjectCache projectCache,
+      GroupBackend groupBackend,
+      @ProjectOwnerGroups Set<AccountGroup.UUID> projectOwnerGroups,
+      MetaDataUpdate.User metaDataUpdateFactory,
+      GitReferenceUpdated referenceUpdated,
+      @GerritServerConfig Config cfg,
+      @GerritPersonIdent PersonIdent serverIdent,
+      Provider<CurrentUser> currentUser,
+      Provider<PutConfig> putConfig,
       @Assisted String name) {
-    this.createProjectFactory = performCreateProjectFactory;
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.json = json;
     this.projectControlFactory = projectControlFactory;
+    this.repoManager = repoManager;
+    this.createdListener = createdListener;
+    this.projectCache = projectCache;
+    this.groupBackend = groupBackend;
+    this.projectOwnerGroups = projectOwnerGroups;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.referenceUpdated = referenceUpdated;
+    this.cfg = cfg;
+    this.serverIdent = serverIdent;
     this.currentUser = currentUser;
     this.putConfig = putConfig;
     this.name = name;
@@ -95,8 +154,9 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       throw new BadRequestException("name must match URL");
     }
 
-    final CreateProjectArgs args = new CreateProjectArgs();
-    args.setProjectName(name);
+    CreateProjectArgs args = new CreateProjectArgs();
+    args.setProjectName(ProjectUtil.stripGitSuffix(name));
+
     if (!Strings.isNullOrEmpty(input.parent)) {
       args.newParent = projectsCollection.get().parse(input.parent).getControl();
     }
@@ -104,14 +164,15 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);
     args.submitType = input.submitType;
-    args.branch = input.branches;
-    if (input.owners != null) {
-      List<AccountGroup.UUID> ownerIds =
-          Lists.newArrayListWithCapacity(input.owners.size());
+    args.branch = normalizeBranchNames(input.branches);
+    if (input.owners == null || input.owners.isEmpty()) {
+      args.ownerIds = new ArrayList<>(projectOwnerGroups);
+    } else {
+      args.ownerIds =
+        Lists.newArrayListWithCapacity(input.owners.size());
       for (String owner : input.owners) {
-        ownerIds.add(groupsCollection.get().parse(owner).getGroupUUID());
+        args.ownerIds.add(groupsCollection.get().parse(owner).getGroupUUID());
       }
-      args.ownerIds = ownerIds;
     }
     args.contributorAgreements =
         MoreObjects.firstNonNull(input.useContributorAgreements,
@@ -144,7 +205,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
     }
 
-    Project p = createProjectFactory.create(args).createProject();
+    Project p = createProject(args);
 
     if (input.pluginConfigValues != null) {
       try {
@@ -159,5 +220,182 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     }
 
     return Response.created(json.format(p));
+  }
+
+  public Project createProject(CreateProjectArgs args) throws ProjectCreationFailedException {
+    final Project.NameKey nameKey = args.getProject();
+    try {
+      final String head =
+          args.permissionsOnly ? RefNames.REFS_CONFIG
+              : args.branch.get(0);
+      Repository repo = repoManager.createRepository(nameKey);
+      try {
+        NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
+          @Override
+          public String getProjectName() {
+            return nameKey.get();
+          }
+
+          @Override
+          public String getHeadName() {
+            return head;
+          }
+        };
+        for (NewProjectCreatedListener l : createdListener) {
+          try {
+            l.onNewProjectCreated(event);
+          } catch (RuntimeException e) {
+            log.warn("Failure in NewProjectCreatedListener", e);
+          }
+        }
+
+        RefUpdate u = repo.updateRef(Constants.HEAD);
+        u.disableRefLog();
+        u.link(head);
+
+        createProjectConfig(args);
+
+        if (!args.permissionsOnly
+            && args.createEmptyCommit) {
+          createEmptyCommits(repo, nameKey, args.branch);
+        }
+
+        return projectCache.get(nameKey).getProject();
+      } finally {
+        repo.close();
+      }
+    } catch (RepositoryCaseMismatchException e) {
+      throw new ProjectCreationFailedException("Cannot create " + nameKey.get()
+          + " because the name is already occupied by another project."
+          + " The other project has the same name, only spelled in a"
+          + " different case.", e);
+    } catch (RepositoryNotFoundException badName) {
+      throw new ProjectCreationFailedException("Cannot create " + nameKey, badName);
+    } catch (IllegalStateException err) {
+      try {
+        Repository repo = repoManager.openRepository(nameKey);
+        try {
+          if (repo.getObjectDatabase().exists()) {
+            throw new ProjectCreationFailedException("project \"" + nameKey + "\" exists");
+          }
+          throw err;
+        } finally {
+          repo.close();
+        }
+      } catch (IOException ioErr) {
+        String msg = "Cannot create " + nameKey;
+        log.error(msg, err);
+        throw new ProjectCreationFailedException(msg, ioErr);
+      }
+    } catch (Exception e) {
+      String msg = "Cannot create " + nameKey;
+      log.error(msg, e);
+      throw new ProjectCreationFailedException(msg, e);
+    }
+  }
+
+  private void createProjectConfig(CreateProjectArgs args) throws IOException, ConfigInvalidException {
+    MetaDataUpdate md =
+        metaDataUpdateFactory.create(args.getProject());
+    try {
+      ProjectConfig config = ProjectConfig.read(md);
+      config.load(md);
+
+      Project newProject = config.getProject();
+      newProject.setDescription(args.projectDescription);
+      newProject.setSubmitType(MoreObjects.firstNonNull(args.submitType,
+          cfg.getEnum("repository", "*", "defaultSubmitType", SubmitType.MERGE_IF_NECESSARY)));
+      newProject
+          .setUseContributorAgreements(args.contributorAgreements);
+      newProject.setUseSignedOffBy(args.signedOffBy);
+      newProject.setUseContentMerge(args.contentMerge);
+      newProject.setCreateNewChangeForAllNotInTarget(args.newChangeForAllNotInTarget);
+      newProject.setRequireChangeID(args.changeIdRequired);
+      newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
+      if (args.newParent != null) {
+        newProject.setParentName(args.newParent.getProject()
+            .getNameKey());
+      }
+
+      if (!args.ownerIds.isEmpty()) {
+        AccessSection all =
+            config.getAccessSection(AccessSection.ALL, true);
+        for (AccountGroup.UUID ownerId : args.ownerIds) {
+          GroupDescription.Basic g = groupBackend.get(ownerId);
+          if (g != null) {
+            GroupReference group = config.resolve(GroupReference.forGroup(g));
+            all.getPermission(Permission.OWNER, true).add(
+                new PermissionRule(group));
+          }
+        }
+      }
+
+      md.setMessage("Created project\n");
+      config.commit(md);
+    } finally {
+      md.close();
+    }
+    projectCache.onCreateProject(args.getProject());
+    repoManager.setProjectDescription(args.getProject(),
+        args.projectDescription);
+  }
+
+  private List<String> normalizeBranchNames(List<String> branches)
+      throws ProjectCreationFailedException {
+    if (branches == null || branches.isEmpty()) {
+      return Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
+    }
+
+    List<String> normalizedBranches = new ArrayList<>();
+    for (String branch : branches) {
+      while (branch.startsWith("/")) {
+        branch = branch.substring(1);
+      }
+      if (!branch.startsWith(Constants.R_HEADS)) {
+        branch = Constants.R_HEADS + branch;
+      }
+      if (!Repository.isValidRefName(branch)) {
+        throw new ProjectCreationFailedException(String.format(
+            "Branch \"%s\" is not a valid name.", branch));
+      }
+      if (!normalizedBranches.contains(branch)) {
+        normalizedBranches.add(branch);
+      }
+    }
+    return normalizedBranches;
+  }
+
+  private void createEmptyCommits(Repository repo, Project.NameKey project,
+      List<String> refs) throws IOException {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
+      cb.setAuthor(metaDataUpdateFactory.getUserPersonIdent());
+      cb.setCommitter(serverIdent);
+      cb.setMessage("Initial empty repository\n");
+
+      ObjectId id = oi.insert(cb);
+      oi.flush();
+
+      for (String ref : refs) {
+        RefUpdate ru = repo.updateRef(ref);
+        ru.setNewObjectId(id);
+        Result result = ru.update();
+        switch (result) {
+          case NEW:
+            referenceUpdated.fire(project, ru);
+            break;
+          default: {
+            throw new IOException(String.format(
+              "Failed to create ref \"%s\": %s", ref, result.name()));
+          }
+        }
+      }
+    } catch (IOException e) {
+      log.error(
+          "Cannot create empty commit for "
+              + project.get(), e);
+      throw e;
+    }
   }
 }

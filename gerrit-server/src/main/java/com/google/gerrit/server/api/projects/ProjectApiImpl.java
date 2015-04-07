@@ -15,7 +15,6 @@
 package com.google.gerrit.server.api.projects;
 
 import com.google.common.base.Preconditions;
-import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -33,6 +32,8 @@ import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 
@@ -106,8 +107,7 @@ public class ProjectApiImpl extends ProjectApi.NotImplemented implements Project
           .apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
     } catch (BadRequestException | UnprocessableEntityException
-        | ResourceNotFoundException | ProjectCreationFailedException
-        | IOException e) {
+        | ResourceNotFoundException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot create project: " + e.getMessage(), e);
     }
   }

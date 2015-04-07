@@ -379,7 +379,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
     }
 
     private class Result {
-      public String _id;
+      public String id;
     }
 
     @Override
@@ -391,7 +391,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
           List<Result> objects = result.getSourceAsObjectList(Result.class);
           results = Lists.newArrayListWithCapacity(objects.size());
           for (Result r : objects) {
-            Integer v = Integer.parseInt(r._id);
+            Integer v = Integer.parseInt(r.id);
             results.add(
                 changeDataFactory.create(db.get(), new Change.Id(v.intValue())));
           }

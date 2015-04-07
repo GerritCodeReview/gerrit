@@ -70,6 +70,30 @@
       "revId": "744e74b90f8ef5d32e1340805432865065914b78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e30b3aa7_c7e73e29",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-07T09:09:17Z",
+      "side": 1,
+      "message": "That\u0027s what I was thinking, but I was also waiting for any comment from Dave since he added this class.\n\nBut we can go ahead and merge it, and then if an update is needed it can be done in a follow-up commit.",
+      "parentUuid": "a3fdc2c1_c535fa0c",
+      "range": {
+        "startLine": 440,
+        "startChar": 4,
+        "endLine": 444,
+        "endChar": 5
+      },
+      "revId": "744e74b90f8ef5d32e1340805432865065914b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

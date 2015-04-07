@@ -94,6 +94,30 @@
       "revId": "744e74b90f8ef5d32e1340805432865065914b78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c302b68c_a667a620",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-07T09:13:44Z",
+      "side": 1,
+      "message": "Doesn\u0027t \"need\" to, but, uh, probably should. \"Insecure\" in this context just means not using a secure PRNG, but we should probably at least make an effort.",
+      "parentUuid": "e30b3aa7_c7e73e29",
+      "range": {
+        "startLine": 440,
+        "startChar": 4,
+        "endLine": 444,
+        "endChar": 5
+      },
+      "revId": "744e74b90f8ef5d32e1340805432865065914b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

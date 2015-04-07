@@ -101,8 +101,10 @@ public class GitUtil {
 
   public static TestRepository<InMemoryRepository> cloneProject(
       Project.NameKey project, String uri) throws Exception {
+    DfsRepositoryDescription desc =
+        new DfsRepositoryDescription("clone of " + project.get());
     InMemoryRepository dest = new InMemoryRepository.Builder()
-        .setRepositoryDescription(new DfsRepositoryDescription(project.get()))
+        .setRepositoryDescription(desc)
         // SshTransport depends on a real FS to read ~/.ssh/config, but
         // InMemoryRepository by default uses a null FS.
         // TODO(dborowitz): Remove when we no longer depend on SSH.

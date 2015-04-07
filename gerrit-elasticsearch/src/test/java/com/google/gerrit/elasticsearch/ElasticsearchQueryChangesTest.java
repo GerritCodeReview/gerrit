@@ -25,7 +25,6 @@ import com.google.inject.Injector;
 
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.io.FileSystemUtils;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -39,16 +38,17 @@ public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
 
   @Before
   public void startElasticsearchNode() throws Exception {
-    Settings settings = ImmutableSettings.settingsBuilder()
+    Settings settings = Settings.settingsBuilder()
       .put("cluster.name", "gerrit")
       .put("node.name", "Gerrit Elasticsearch Test Node")
       .put("node.local", true)
       .put("discovery.zen.ping.multicast.enabled", false)
-      .put("index.store.type", "memory")
+      //.put("index.store.type", "memory")
       .put("index.store.fs.memory.enabled", true)
       .put("index.gateway.type", "none")
       .put("gateway.type", "none")
       .put("discovery.zen.ping.unicast.hosts", "[\"localhost\"]")
+      .put("path.home", "./test_site/elasticsearch")
       .put("path.data", "./test_site/elasticsearch/data")
       .put("path.work", "./test_site/elasticsearch/work")
       .put("path.logs", "./test_site/elasticsearch/logs")
@@ -60,7 +60,7 @@ public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
     try {
       File dataDir = new File(dataPath);
       if (dataDir.exists()) {
-        FileSystemUtils.deleteRecursively(dataDir, true);
+        FileSystemUtils.deleteSubDirectories(dataDir.toPath());
       }
     } catch (Exception e) {
       fail(String.format("Could not delete data folder %s: %s", dataPath, e));
@@ -95,7 +95,6 @@ public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
   @After
   public void stopElasticsearchServer() {
     if (node != null) {
-      node.stop();
       node.close();
       node = null;
     }

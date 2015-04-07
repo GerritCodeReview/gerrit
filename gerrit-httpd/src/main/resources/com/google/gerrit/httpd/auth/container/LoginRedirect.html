@@ -7,10 +7,7 @@
       var p = href.indexOf('#');
       var token;
       if (p >= 0) {
-        token = href.substring(p + 1);
-        if (token.length != 0 && token.charAt(0) == '/') {
-          token = token.substring(1);
-        }
+        token = href.substring(p);
         href = href.substring(0, p);
       } else {
         token = '';

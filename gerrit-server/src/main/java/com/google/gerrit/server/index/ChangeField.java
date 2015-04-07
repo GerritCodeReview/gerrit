@@ -64,7 +64,7 @@ import java.util.Set;
 public class ChangeField {
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
-      new FieldDef.Single<ChangeData, Integer>("_id",
+      new FieldDef.Single<ChangeData, Integer>("id",
           FieldType.INTEGER, true) {
         @Override
         public Integer get(ChangeData input, FillArgs args) {

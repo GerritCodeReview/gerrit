@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ListenableFutureTask;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
@@ -28,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -387,6 +389,26 @@ public class WorkQueue {
 
     @Override
     public String toString() {
+      //This is a workaround to be able to print a proper name when the task
+      //is wrapped into a ListenableFutureTask.
+      if (runnable instanceof ListenableFutureTask<?>) {
+        String errorMessage;
+        try {
+          for (Field field : ListenableFutureTask.class.getSuperclass()
+              .getDeclaredFields()) {
+            if (field.getType().isAssignableFrom(Callable.class)) {
+              field.setAccessible(true);
+              return ((Callable<?>) field.get(runnable)).toString();
+            }
+          }
+          errorMessage = "Cannot find wrapped Callable field";
+        } catch (SecurityException | IllegalArgumentException
+            | IllegalAccessException e) {
+          errorMessage = "Cannot call toString on Callable field";
+        }
+        log.debug("Cannot get a proper name for ListenableFutureTask: {}",
+            errorMessage);
+      }
       return runnable.toString();
     }
   }

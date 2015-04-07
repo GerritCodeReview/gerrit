@@ -44,7 +44,7 @@ public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
       .put("node.name", "Gerrit Elasticsearch Test Node")
       .put("node.local", true)
       .put("discovery.zen.ping.multicast.enabled", false)
-      .put("index.store.type", "memory")
+      //.put("index.store.type", "memory")
       .put("index.store.fs.memory.enabled", true)
       .put("index.gateway.type", "none")
       .put("gateway.type", "none")
@@ -60,7 +60,7 @@ public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
     try {
       File dataDir = new File(dataPath);
       if (dataDir.exists()) {
-        FileSystemUtils.deleteRecursively(dataDir, true);
+        FileSystemUtils.deleteSubDirectories(dataDir.toPath());
       }
     } catch (Exception e) {
       fail(String.format("Could not delete data folder %s: %s", dataPath, e));
@@ -86,7 +86,6 @@ public class ElasticsearchQueryChangesTest extends AbstractQueryChangesTest {
   @After
   public void stopElasticsearchServer() {
     if (node != null) {
-      node.stop();
       node.close();
       node = null;
     }

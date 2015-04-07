@@ -236,13 +236,12 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private String setMappingField(String name, String type){
-    if (name.equals("date")) {
+    if (type.equals("date")) {
         return "\"" + name + "\":{\"type\":\"" + type + "\","
           + "\"format\":\"dateOptionalTime\"}";
-    } else if (name.equals("multi_field")) {
-        return "\"" + name + "\":{\"type\":\"" + type + "\","
-          + "\"fields\":{ \"" + name + "\":{\"type\":\"string\"},"
-          + "\"key\":{\"type\":\"string\",\"index\":\"not_analyzed\"}}}";
+    } else if (type.equals("multi_field")) {
+        return "\"" + name + "\":{\"type\":\"string\","
+          + "\"fields\":{\"key\":{\"type\":\"string\",\"index\":\"not_analyzed\"}}}";
     } else {
         return "\"" + name + "\":{\"type\":\"" + type + "\"}";
     }

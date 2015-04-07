@@ -15,6 +15,7 @@
 from os import path
 
 REPO_ROOTS = {
+  'ELASTIC': 'https://download.elastic.co/lucenesnapshots/1662607',
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
   'GERRIT_API': 'https://gerrit-api.commondatastorage.googleapis.com/release',
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',

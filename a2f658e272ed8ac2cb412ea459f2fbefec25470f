@@ -46,6 +46,30 @@
       "revId": "a2f658e272ed8ac2cb412ea459f2fbefec25470f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fdc2c1_8545c275",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-07T11:36:40Z",
+      "side": 1,
+      "message": "Perfect, that sounds like how it should work.\n\nMy comment was more that this description is incomplete.",
+      "parentUuid": "a3fdc2c1_0579d2c0",
+      "range": {
+        "startLine": 18,
+        "startChar": 66,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "a2f658e272ed8ac2cb412ea459f2fbefec25470f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -7,8 +7,8 @@ EXCLUDE = [
 
 maven_jar(
   name = 'joda-time',
-  id = 'joda-time:joda-time:2.3',
-  sha1 = '56498efd17752898cfcc3868c1b6211a07b12b8f',
+  id = 'joda-time:joda-time:2.7',
+  sha1 = '5599707a3eaad13e889f691b3af78c8c03842195',
   deps = [':joda-convert'],
   license = 'Apache2.0',
   exclude = EXCLUDE,

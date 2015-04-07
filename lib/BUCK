@@ -213,3 +213,31 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE',
 )
 
+maven_jar(
+  name = 'compress-lzf',
+  id = 'com.ning:compress-lzf:1.0.2',
+  sha1 = '62896e6fca184c79cc01a14d143f3ae2b4f4b4ae',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 't-digest',
+  id = 'com.tdunning:t-digest:3.0',
+  sha1 = '84ccf145ac2215e6bfa63baa3101c0af41017cfc',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'hppc',
+  id = 'com.carrotsearch:hppc:0.7.1',
+  sha1 = '8b5057f74ea378c0150a1860874a3ebdcb713767',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'netty',
+  id = 'io.netty:netty:3.10.0.Final',
+  sha1 = 'ad61cd1bba067e6634ddd3e160edf0727391ac30',
+  license = 'Apache2.0',
+)
+

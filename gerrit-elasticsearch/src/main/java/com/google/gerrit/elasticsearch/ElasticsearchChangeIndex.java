@@ -205,6 +205,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
     String properties ="{"
         + setMappingField("_approval", "string") + ","
         + setMappingField("_change", "string") + ","
+        + setMappingField("_patch_set", "string") + ","
         + setMappingField("added", "long") + ","
         + setMappingField("change_id", "string") + ","
         + setMappingField("comment", "string") + ","
@@ -213,6 +214,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
         + setMappingField("delta", "long") + ","
         + setMappingField("file", "multi_field") + ","
         + setMappingField("filepart", "multi_field") + ","
+        + setMappingField("group", "multi_field") + ","
         + setMappingField("hashtag", "string") + ","
         + setMappingField("label", "multi_field") + ","
         + setMappingField("mergeable2", "string") + ","
@@ -222,9 +224,12 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
         + setMappingField("projects", "string") + ","
         + setMappingField("ref", "multi_field") + ","
         + setMappingField("reviewed", "long") + ","
+        + setMappingField("reviewedby", "long") + ","
         + setMappingField("reviewer", "long") + ","
         + setMappingField("status", "string") + ","
         + setMappingField("topic2", "multi_field") + ","
+        + setMappingField("topic4", "multi_field") + ","
+        + setMappingField("topic5", "string") + ","
         + setMappingField("tr", "multi_field") + ","
         + setMappingField("updated2", "date") + "}";
     String mappings =
@@ -238,7 +243,7 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
   private String setMappingField(String name, String type) {
     if (type.equals("date")) {
       return "\"" + name + "\":{\"type\":\"" + type + "\","
-        + "\"format\":\"dateOptionalTime\"}";
+        + "\"format\":\"epoch_millis\"}";
     } else if (type.equals("multi_field")) {
       return "\"" + name + "\":{\"type\":\"string\","
         + "\"fields\":{\"key\":{\"type\":\"string\",\"index\":\"not_analyzed\"}}}";
@@ -355,7 +360,8 @@ class ElasticsearchChangeIndex implements ChangeIndex, LifecycleListener {
         int start, int limit) throws QueryParseException {
       List<Sort> sorts = ImmutableList.of(
           new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),
-          new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
+          new Sort("_uid", Sorting.DESC));
+//          new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
       for (Sort sort : sorts) {
         sort.setIgnoreUnmapped();
       }

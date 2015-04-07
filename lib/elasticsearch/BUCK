@@ -3,11 +3,19 @@ include_defs('//lib/maven.defs')
 # Java client library for Elasticsearch.
 maven_jar(
   name = 'elasticsearch',
-  id = 'org.elasticsearch:elasticsearch:1.5.0',
-  sha1 = 'bbd56ad03d214b6f84ae8ff67c07aec4f533e277',
-  src_sha1 = '2b6695cc48c0d8d9aa2576308856f7763d415a15',
+  id = 'org.elasticsearch:elasticsearch:2.0.0-SNAPSHOT',
+#  sha1 = 'bbd56ad03d214b6f84ae8ff67c07aec4f533e277',
+#  src_sha1 = '2b6695cc48c0d8d9aa2576308856f7763d415a15',
+  repository = MAVEN_LOCAL,
   license = 'Apache2.0',
   deps = [
+    '//lib:compress-lzf',
+    '//lib:hppc',
+    '//lib:netty',
+    '//lib:t-digest',
+    '//lib/jackson:jackson-core',
+    '//lib/jackson:jackson-dataformat-smile',
+    '//lib/joda:joda-time',
     '//lib/lucene:codecs',
     '//lib/lucene:core',
     '//lib/lucene:highlighter',

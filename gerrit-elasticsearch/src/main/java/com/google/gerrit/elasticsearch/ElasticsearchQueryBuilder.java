@@ -122,7 +122,7 @@ public class ElasticsearchQueryBuilder extends QueryBuilder {
       // QueryBuilder encodes integer fields as prefix coded bits,
       // which elasticsearch's queryString can't handle.
       // Create integer terms with string representations instead.
-      return QueryBuilders.queryString(name + ":" + value);
+      return QueryBuilders.queryStringQuery(name + ":" + value);
     } else if (type == FieldType.TIMESTAMP) {
       return timestampQuery(p);
     } else if (type == FieldType.EXACT) {
@@ -178,7 +178,7 @@ public class ElasticsearchQueryBuilder extends QueryBuilder {
           || name.equals("topic2") || name.equals("tr")) {
         return QueryBuilders.termQuery(name + ".key", value);
       } else {
-        return QueryBuilders.queryString(name + ":" + value);
+        return QueryBuilders.queryStringQuery(name + ":" + value);
       }
     }
   }

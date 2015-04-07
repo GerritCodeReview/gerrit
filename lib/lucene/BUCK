@@ -1,11 +1,13 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '5.0.0'
+VERSION = '5.1.0-snapshot-1662607'
+REPO = ELASTIC
 
 maven_jar(
   name = 'core',
   id = 'org.apache.lucene:lucene-core:' + VERSION,
-  sha1 = '4395e5ea987af804c4a9b96131e2ee75db061fdf',
+  repository = REPO,
+  sha1 = '9cb56877f03a1f67abcc6f845cbd208ad69a482f',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -16,7 +18,8 @@ maven_jar(
 maven_jar(
   name = 'analyzers-common',
   id = 'org.apache.lucene:lucene-analyzers-common:' + VERSION,
-  sha1 = '6159cbc5c9631ef75e1f0e97b358ecdd8f1447a9',
+  repository = REPO,
+  sha1 = '6c8abd7f86d0327651b4da11a72c6ea308d23328',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [
@@ -28,7 +31,8 @@ maven_jar(
 maven_jar(
   name = 'backward-codecs',
   id = 'org.apache.lucene:lucene-backward-codecs:' + VERSION,
-  sha1 = '5cd11fc1be436ff96b63f0f76f299a9d25543b0b',
+  repository = REPO,
+  sha1 = '51209a253a9e59aa3f9e076f987b6bf6f2a5136b',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [
@@ -40,7 +44,8 @@ maven_jar(
 maven_jar(
   name = 'misc',
   id = 'org.apache.lucene:lucene-misc:' + VERSION,
-  sha1 = '06bd7cb030e598da81a8228f5c58630e5ce7b84a',
+  repository = REPO,
+  sha1 = 'd20dc45c1db84930642534f83eaa36f9942e42a8',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [
@@ -52,42 +57,48 @@ maven_jar(
 maven_jar(
   name = 'codecs',
   id = 'org.apache.lucene:lucene-codecs:' + VERSION,
-  sha1 = 'e584f68579c1c6392cd3b2a25df79d6c3c8966fb',
+  repository = REPO,
+  sha1 = '9fd30f51f53bdd4396dc9a2abddfe217a8bf12dd',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'highlighter',
   id = 'org.apache.lucene:lucene-highlighter:' + VERSION,
-  sha1 = '91b28a4aa983cc6c370501a37804e900f70b2146',
+  repository = REPO,
+  sha1 = 'b9cbaa40900ccf21a20d8d77571bccb368fc7211',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'join',
   id = 'org.apache.lucene:lucene-join:' + VERSION,
-  sha1 = 'fd810a5b0d4022cf46d16952fa9d735b945ba4e1',
+  repository = REPO,
+  sha1 = 'b31405a4a0254846b4e6a2714dc908625022302f',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'memory',
   id = 'org.apache.lucene:lucene-memory:' + VERSION,
-  sha1 = '41babfa29d7ec1292df1dcabf1bb80761ff18c8f',
+  repository = REPO,
+  sha1 = '5947f0b1201454f918138856d29ef8090785ea44',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'queries',
   id = 'org.apache.lucene:lucene-queries:' + VERSION,
-  sha1 = '083029ac4ab4b6e16fcd629d0ce051be90f52fe9',
+  repository = REPO,
+  sha1 = 'e96ff433a5e61e971561de039df970d99ae1da8c',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'query-parser',
   id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
-  sha1 = 'f459326c0b58bb837612bfeb37f6015c1a8962db',
+  repository = REPO,
+  sha1 = '997fc0dc5b3124540947db4281c1746450ec78f2',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [
@@ -99,13 +110,15 @@ maven_jar(
 maven_jar(
   name = 'sandbox',
   id = 'org.apache.lucene:lucene-sandbox:' + VERSION,
-  sha1 = 'efb1057e7614d54702fab27ef17774e8c0e9d0b8',
+  repository = REPO,
+  sha1 = 'df50f2fa42aacbd54af8eaa185596e666e0a1b2e',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'suggest',
   id = 'org.apache.lucene:lucene-suggest:' + VERSION,
-  sha1 = 'fac5f38bd79f7f9b86e152f7ae78d61da6d2c736',
+  repository = REPO,
+  sha1 = '84c254c9f066f0b463836ce8a6fc95f6f9fedd93',
   license = 'Apache2.0',
 )

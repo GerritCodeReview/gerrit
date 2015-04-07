@@ -1,0 +1,18 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '2.5.1'
+
+maven_jar(
+  name = 'jackson-core',
+  id = 'com.fasterxml.jackson.core:jackson-core:' + VERSION,
+  sha1 = 'e2a00ad1d7e540ec395e9296a34da484c8888d4d',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'jackson-dataformat-smile',
+  id = 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:' + VERSION,
+  sha1 = 'fc7e390a1ed04f37d771585cb0f41406c8aad322',
+  license = 'Apache2.0',
+)
+

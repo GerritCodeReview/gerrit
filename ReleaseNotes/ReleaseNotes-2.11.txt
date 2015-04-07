@@ -818,6 +818,8 @@ Upgrades
 
 * Update ASM to 5.0.3.
 
+* Update Bouncycastle to 1.51.
+
 * Update CodeMirror to 4.10.0-6-gd0a2dda.
 
 * Update Guava to 18.0.
@@ -832,10 +834,12 @@ Upgrades
 
 * Update Jetty to 9.2.9.v20150224.
 
-* Update JGit to 3.6.2.201501210735-r.40-g23ad3a3.
+* Update JGit to 3.7.0.201502260915-r.58-g65c379e.
 
 * Update Lucene to 4.10.2.
 
 * Update Parboiled to 1.1.7.
 
 * Update Pegdown to 1.4.2.
+
+* Update SSHD to 0.14.0.

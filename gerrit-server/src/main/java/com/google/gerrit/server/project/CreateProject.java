@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -143,10 +142,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   }
 
   @Override
-  public Response<ProjectInfo> apply(TopLevelResource resource, ProjectInput input)
-      throws BadRequestException, UnprocessableEntityException,
-      ResourceConflictException, ProjectCreationFailedException,
-      ResourceNotFoundException, IOException {
+  public Response<ProjectInfo> apply(TopLevelResource resource,
+      ProjectInput input) throws BadRequestException,
+      UnprocessableEntityException, ResourceConflictException,
+      ResourceNotFoundException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new ProjectInput();
     }
@@ -222,7 +221,9 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     return Response.created(json.format(p));
   }
 
-  public Project createProject(CreateProjectArgs args) throws ProjectCreationFailedException {
+  public Project createProject(CreateProjectArgs args)
+      throws BadRequestException, ResourceConflictException, IOException,
+      ConfigInvalidException {
     final Project.NameKey nameKey = args.getProject();
     try {
       final String head =
@@ -265,18 +266,18 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         repo.close();
       }
     } catch (RepositoryCaseMismatchException e) {
-      throw new ProjectCreationFailedException("Cannot create " + nameKey.get()
+      throw new ResourceConflictException("Cannot create " + nameKey.get()
           + " because the name is already occupied by another project."
           + " The other project has the same name, only spelled in a"
-          + " different case.", e);
+          + " different case.");
     } catch (RepositoryNotFoundException badName) {
-      throw new ProjectCreationFailedException("Cannot create " + nameKey, badName);
+      throw new BadRequestException("invalid project name: " + nameKey);
     } catch (IllegalStateException err) {
       try {
         Repository repo = repoManager.openRepository(nameKey);
         try {
           if (repo.getObjectDatabase().exists()) {
-            throw new ProjectCreationFailedException("project \"" + nameKey + "\" exists");
+            throw new ResourceConflictException("project \"" + nameKey + "\" exists");
           }
           throw err;
         } finally {
@@ -285,12 +286,12 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       } catch (IOException ioErr) {
         String msg = "Cannot create " + nameKey;
         log.error(msg, err);
-        throw new ProjectCreationFailedException(msg, ioErr);
+        throw ioErr;
       }
-    } catch (Exception e) {
+    } catch (ConfigInvalidException e) {
       String msg = "Cannot create " + nameKey;
       log.error(msg, e);
-      throw new ProjectCreationFailedException(msg, e);
+      throw e;
     }
   }
 
@@ -341,7 +342,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   }
 
   private List<String> normalizeBranchNames(List<String> branches)
-      throws ProjectCreationFailedException {
+      throws BadRequestException {
     if (branches == null || branches.isEmpty()) {
       return Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
     }
@@ -355,7 +356,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         branch = Constants.R_HEADS + branch;
       }
       if (!Repository.isValidRefName(branch)) {
-        throw new ProjectCreationFailedException(String.format(
+        throw new BadRequestException(String.format(
             "Branch \"%s\" is not a valid name.", branch));
       }
       if (!normalizedBranches.contains(branch)) {

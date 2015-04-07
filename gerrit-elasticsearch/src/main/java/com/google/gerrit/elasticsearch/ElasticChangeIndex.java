@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lucene.CustomMappingAnalyzer;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -43,6 +44,9 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -184,6 +188,66 @@ class ElasticChangeIndex implements ChangeIndex, LifecycleListener {
       }
     }
     return builder.endObject().string();
+  }
+
+  private ChangeData toChangeData(JsonElement json) {
+    JsonObject source = json.getAsJsonObject().get("_source").getAsJsonObject();
+    int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
+    ChangeData cd = changeDataFactory.create(db.get(), new Change.Id(id));
+    JsonElement c = source.get(ChangeField.CHANGE.getName());
+
+    if (c == null) {
+      return cd;
+    }
+//    // Change proto.
+//    byte[] cb = c.getAsString().getBytes();
+//    Change change = ChangeProtoField.CODEC.decode(cb);
+//    cd = changeDataFactory.create(db.get(), change);
+
+    // Patch sets.
+//    List<PatchSet> patchSets =
+//        decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoField.CODEC);
+//    if (!patchSets.isEmpty()) {
+//      // Will be an empty list for schemas prior to when this field was stored;
+//      // this cannot be valid since a change needs at least one patch set.
+//      cd.setPatchSets(patchSets);
+//    }
+//
+//    // Approvals.
+//    cd.setCurrentApprovals(
+//        decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoField.CODEC));
+//
+    // Changed lines.
+    int added = source.get(ChangeField.ADDED.getName()).getAsInt();
+    int deleted = source.get(ChangeField.DELETED.getName()).getAsInt();
+    if (added != 0 && deleted != 0) {
+      cd.setChangedLines(added, deleted);
+    }
+
+    // Mergeable.
+    String mergeable = source.get(ChangeField.MERGEABLE.getName()).getAsString();
+    if ("1".equals(mergeable)) {
+      cd.setMergeable(true);
+    } else if ("0".equals(mergeable)) {
+      cd.setMergeable(false);
+    }
+
+    // Reviewed-by.
+    JsonArray reviewedBy = source.get(ChangeField.REVIEWEDBY.getName()).getAsJsonArray();
+    if (reviewedBy.size() > 0) {
+      Set<Account.Id> accounts =
+          Sets.newHashSetWithExpectedSize(reviewedBy.size());
+      for (int i = 0; i < reviewedBy.size() ; i++) {
+        int a_id = reviewedBy.get(i).getAsInt();
+        if (reviewedBy.size() == 1 && a_id == ChangeField.NOT_REVIEWED) {
+          break;
+        }
+        accounts.add(new Account.Id(a_id));
+      }
+      cd.setReviewedBy(accounts);
+    }
+
+    return cd;
   }
 
   private Index insert(String type, ChangeData cd) throws IOException {
@@ -359,27 +423,23 @@ class ElasticChangeIndex implements ChangeIndex, LifecycleListener {
       return 10;
     }
 
-    private class Result {
-      public String _id;
-    }
-
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       try {
-        List<ChangeData> results;
+        List<ChangeData> results = Collections.emptyList();
         JestResult result = client.execute(search);
         if (result.isSucceeded()) {
-          List<Result> objects = result.getSourceAsObjectList(Result.class);
-          results = Lists.newArrayListWithCapacity(objects.size());
-          for (Result r : objects) {
-            Integer v = Integer.parseInt(r._id);
-            results.add(
-                changeDataFactory.create(db.get(), new Change.Id(v.intValue())));
+          JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
+          if (obj.get("hits") != null) {
+            JsonArray json = obj.getAsJsonArray("hits");
+            results = Lists.newArrayListWithCapacity(json.size());
+            for (int i = 0; i < json.size(); i++) {
+              results.add(toChangeData(json.get(i)));
+            }
           }
         } else {
           String error = result.getErrorMessage();
           log.error(error);
-          results = Collections.emptyList();
         }
         final List<ChangeData> r = Collections.unmodifiableList(results);
         return new ResultSet<ChangeData>() {

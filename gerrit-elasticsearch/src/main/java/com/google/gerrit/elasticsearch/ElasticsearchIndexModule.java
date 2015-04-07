@@ -43,7 +43,6 @@ public class ElasticsearchIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     install(new IndexModule(threads));
     bind(ChangeIndex.class).to(ElasticsearchChangeIndex.class);
     listener().to(ElasticsearchChangeIndex.class);
@@ -58,5 +57,11 @@ public class ElasticsearchIndexModule extends LifecycleModule {
       FillArgs fillArgs) {
     return new ElasticsearchChangeIndex(cfg, db, changeDataFactory, fillArgs,
         indexes, ChangeSchemas.getLatest());
+  }
+
+  @Provides
+  @Singleton
+  IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
+    return IndexConfig.fromConfig(cfg);
   }
 }

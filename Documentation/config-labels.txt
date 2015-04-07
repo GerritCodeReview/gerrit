@@ -340,6 +340,7 @@ user permissions.  Assume the configuration below.
 ====
 
 Upon clicking the Reply button:
+
 * Administrators have all scores (-3..+3) available, -3 is set as the default.
 * Project Owners have limited scores (-2..+2) available, -2 is set as the default.
 * Registered Users have limited scores (-1..+1) available, -1 is set as the default.

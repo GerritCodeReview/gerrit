@@ -65,7 +65,20 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse put(String endPoint, Object content) throws IOException {
+    return putWithHeader(endPoint, null, content);
+  }
+
+  public RestResponse putWithHeader(String endPoint, Header header)
+      throws IOException {
+    return putWithHeader(endPoint, header, null);
+  }
+
+  public RestResponse putWithHeader(String endPoint, Header header,
+      Object content) throws IOException {
     HttpPut put = new HttpPut(url + "/a" + endPoint);
+    if (header != null) {
+      put.addHeader(header);
+    }
     if (content != null) {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
       put.setEntity(new StringEntity(

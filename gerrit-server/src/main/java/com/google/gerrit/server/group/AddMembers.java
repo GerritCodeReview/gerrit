@@ -45,8 +45,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class AddMembers implements RestModifyView<GroupResource, Input> {
@@ -75,6 +78,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
+  private final Provider<IdentifiedUser> self;
   private final AccountManager accountManager;
   private final AuthType authType;
   private final AccountsCollection accounts;
@@ -85,7 +89,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AuditService auditService;
 
   @Inject
-  AddMembers(AccountManager accountManager,
+  AddMembers(Provider<IdentifiedUser> self,
+      AccountManager accountManager,
       AuthConfig authConfig,
       AccountsCollection accounts,
       AccountResolver accountResolver,
@@ -93,6 +98,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AccountLoader.Factory infoFactory,
       Provider<ReviewDb> db,
       AuditService auditService) {
+    this.self = self;
     this.accountManager = accountManager;
     this.auditService = auditService;
     this.authType = authConfig.getAuthType();
@@ -114,11 +120,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     input = Input.init(input);
 
     GroupControl control = resource.getControl();
-    Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
-    List<AccountInfo> result = Lists.newLinkedList();
-    Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
-    AccountLoader loader = infoFactory.create(true);
 
+    Set<Account.Id> newMemberIds = new HashSet<>();
     for (String nameOrEmail : input.members) {
       Account a = findAccount(nameOrEmail);
       if (!a.isActive()) {
@@ -129,27 +132,11 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       if (!control.canAddMember()) {
         throw new AuthException("Cannot add member: " + a.getFullName());
       }
-
-      if (!newAccountGroupMembers.containsKey(a.getId())) {
-        AccountGroupMember.Key key =
-            new AccountGroupMember.Key(a.getId(), internalGroup.getId());
-        AccountGroupMember m = db.get().accountGroupMembers().get(key);
-        if (m == null) {
-          m = new AccountGroupMember(key);
-          newAccountGroupMembers.put(m.getAccountId(), m);
-        }
-      }
-      result.add(loader.get(a.getId()));
+      newMemberIds.add(a.getId());
     }
 
-    auditService.dispatchAddAccountsToGroup(me, newAccountGroupMembers.values());
-    db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
-    for (AccountGroupMember m : newAccountGroupMembers.values()) {
-      accountCache.evict(m.getAccountId());
-    }
-
-    loader.fill();
-    return result;
+    addMembers(internalGroup.getId(), newMemberIds);
+    return toAccountInfoList(newMemberIds);
   }
 
   private Account findAccount(String nameOrEmail) throws AuthException,
@@ -177,6 +164,29 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
+  public void addMembers(AccountGroup.Id groupId,
+      Collection<? extends Account.Id> newMemberIds) throws OrmException {
+    Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
+    for (Account.Id accId : newMemberIds) {
+      if (!newAccountGroupMembers.containsKey(accId)) {
+        AccountGroupMember.Key key =
+            new AccountGroupMember.Key(accId, groupId);
+        AccountGroupMember m = db.get().accountGroupMembers().get(key);
+        if (m == null) {
+          m = new AccountGroupMember(key);
+          newAccountGroupMembers.put(m.getAccountId(), m);
+        }
+      }
+    }
+
+    auditService.dispatchAddAccountsToGroup(self.get().getAccountId(),
+        newAccountGroupMembers.values());
+    db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
+    for (AccountGroupMember m : newAccountGroupMembers.values()) {
+      accountCache.evict(m.getAccountId());
+    }
+  }
+
   private Account createAccountByLdap(String user) {
     if (!user.matches(Account.USER_NAME_PATTERN)) {
       return null;
@@ -190,6 +200,17 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     } catch (AccountException e) {
       return null;
     }
+  }
+
+  private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds)
+      throws OrmException {
+    List<AccountInfo> result = Lists.newLinkedList();
+    AccountLoader loader = infoFactory.create(true);
+    for (Account.Id accId : accountIds) {
+      result.add(loader.get(accId));
+    }
+    loader.fill();
+    return result;
   }
 
   static class PutMember implements RestModifyView<GroupResource, PutMember.Input> {

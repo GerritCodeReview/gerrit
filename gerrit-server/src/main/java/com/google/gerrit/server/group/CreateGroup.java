@@ -16,7 +16,6 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
@@ -31,12 +30,10 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
@@ -54,10 +51,7 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
@@ -75,12 +69,11 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   private final Provider<IdentifiedUser> self;
   private final PersonIdent serverIdent;
   private final ReviewDb db;
-  private final AccountCache accountCache;
   private final GroupCache groupCache;
   private final GroupsCollection groups;
   private final GroupJson json;
-  private final AuditService auditService;
   private final DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners;
+  private final AddMembers addMembers;
   private final boolean defaultVisibleToAll;
   private final String name;
 
@@ -89,23 +82,21 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
       Provider<IdentifiedUser> self,
       @GerritPersonIdent PersonIdent serverIdent,
       ReviewDb db,
-      AccountCache accountCache,
       GroupCache groupCache,
       GroupsCollection groups,
       GroupJson json,
-      AuditService auditService,
       DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners,
+      AddMembers addMembers,
       @GerritServerConfig Config cfg,
       @Assisted String name) {
     this.self = self;
     this.serverIdent = serverIdent;
     this.db = db;
-    this.accountCache = accountCache;
     this.groupCache = groupCache;
     this.groups = groups;
     this.json = json;
-    this.auditService = auditService;
     this.groupCreationValidationListeners = groupCreationValidationListeners;
+    this.addMembers = addMembers;
     this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
     this.name = name;
   }
@@ -183,27 +174,10 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     }
     db.accountGroups().insert(Collections.singleton(group));
 
-    addMembers(groupId, createGroupArgs.initialMembers);
+    addMembers.addMembers(groupId, createGroupArgs.initialMembers);
 
     groupCache.onCreateGroup(createGroupArgs.getGroup());
 
     return group;
-  }
-
-  private void addMembers(AccountGroup.Id groupId,
-      Collection<? extends Account.Id> members) throws OrmException {
-    List<AccountGroupMember> memberships = new ArrayList<>();
-    for (Account.Id accountId : members) {
-      AccountGroupMember membership =
-          new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId));
-      memberships.add(membership);
-    }
-    db.accountGroupMembers().insert(memberships);
-    auditService.dispatchAddAccountsToGroup(self.get().getAccountId(),
-        memberships);
-
-    for (Account.Id accountId : members) {
-      accountCache.evict(accountId);
-    }
   }
 }

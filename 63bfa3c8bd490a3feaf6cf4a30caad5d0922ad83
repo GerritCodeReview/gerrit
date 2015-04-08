@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b1d257_b1e2001a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-08T15:34:42Z",
+      "side": 1,
+      "message": "You can avoid changing the body of this method by just changing Collection\u003cRef\u003e -\u003e Iterable\u003cRef\u003e and using Iterables.concat at the call site.",
+      "revId": "63bfa3c8bd490a3feaf6cf4a30caad5d0922ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

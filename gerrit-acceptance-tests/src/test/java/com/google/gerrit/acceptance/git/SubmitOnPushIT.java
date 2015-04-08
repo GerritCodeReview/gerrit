@@ -207,6 +207,25 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
   }
 
+  @Test
+  public void mergeOnPushToBranchWithNewPatchset() throws Exception {
+    grant(Permission.PUSH, project, "refs/heads/master");
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent", r.getChangeId());
+
+    r = push.to(git, "refs/heads/master");
+    r.assertOkStatus();
+
+    assertCommit(project, "refs/heads/master");
+    assertThat(getSubmitter(r.getPatchSetId())).isNull();
+    Change c = db.changes().get(r.getPatchSetId().getParentKey());
+    assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
+  }
+
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
       throws OrmException {
     Change c = db.changes().get(patchSetId.getParentKey());

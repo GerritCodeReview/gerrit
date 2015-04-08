@@ -14,17 +14,21 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.CreateGroupArgs;
-import com.google.gerrit.server.account.PerformCreateGroup;
-import com.google.gerrit.server.validators.GroupCreationValidationListener;
-import com.google.gerrit.server.validators.ValidationException;
+import com.google.gerrit.server.group.AddIncludedGroups;
+import com.google.gerrit.server.group.AddMembers;
+import com.google.gerrit.server.group.CreateGroup;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -71,36 +75,75 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   @Inject
-  private PerformCreateGroup.Factory performCreateGroupFactory;
+  private CreateGroup.Factory createGroupFactory;
 
   @Inject
-  private DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners;
+  private GroupsCollection groups;
+
+  @Inject
+  private AddMembers addMembers;
+
+  @Inject
+  private AddIncludedGroups addIncludedGroups;
 
   @Override
   protected void run() throws Failure, OrmException {
     try {
-      CreateGroupArgs args = new CreateGroupArgs();
-      args.setGroupName(groupName);
-      args.groupDescription = groupDescription;
-      args.visibleToAll = visibleToAll;
-      args.ownerGroupId = ownerGroupId;
-      args.initialMembers = initialMembers;
-      args.initialGroups = initialGroups;
+      GroupResource rsrc = createGroup();
 
-      for (GroupCreationValidationListener l : groupCreationValidationListeners) {
-        try {
-          l.validateNewGroup(args);
-        } catch (ValidationException e) {
-          die(e);
-        }
+      if (!initialMembers.isEmpty()) {
+        addMembers(rsrc);
       }
 
-      performCreateGroupFactory.create(args).createGroup();
-    } catch (PermissionDeniedException e) {
-      throw die(e);
-
-    } catch (NameAlreadyUsedException e) {
+      if (!initialGroups.isEmpty()) {
+        addIncludedGroups(rsrc);
+      }
+    } catch (RestApiException e) {
       throw die(e);
     }
+  }
+
+  private GroupResource createGroup() throws RestApiException, OrmException {
+    CreateGroup.Input input = new CreateGroup.Input();
+    input.description = groupDescription;
+    input.visibleToAll = visibleToAll;
+
+    if (ownerGroupId != null) {
+      input.ownerId = String.valueOf(ownerGroupId.get());
+    }
+
+    GroupInfo group = createGroupFactory.create(groupName)
+        .apply(TopLevelResource.INSTANCE, input);
+    return groups.parse(TopLevelResource.INSTANCE,
+        IdString.fromUrl(group.id));
+  }
+
+  private void addMembers(GroupResource rsrc) throws RestApiException,
+      OrmException {
+    AddMembers.Input input =
+        AddMembers.Input.fromMembers(FluentIterable
+            .from(initialMembers)
+            .transform(new Function<Account.Id, String>() {
+              @Override
+              public String apply(Account.Id id) {
+                return String.valueOf(id.get());
+              }
+            })
+            .toList());
+    addMembers.apply(rsrc, input);
+  }
+
+  private void addIncludedGroups(GroupResource rsrc) throws RestApiException,
+      OrmException {
+    AddIncludedGroups.Input input =
+        AddIncludedGroups.Input.fromGroups(FluentIterable.from(initialGroups)
+            .transform(new Function<AccountGroup.UUID, String>() {
+              @Override
+              public String apply(AccountGroup.UUID id) {
+                return id.get();
+              }
+            }).toList());
+
+    addIncludedGroups.apply(rsrc, input);
   }
 }

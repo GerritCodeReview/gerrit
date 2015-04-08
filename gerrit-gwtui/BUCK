@@ -2,6 +2,7 @@ include_defs('//gerrit-gwtui/gwt.defs')
 include_defs('//tools/gwt-constants.defs')
 from multiprocessing import cpu_count
 
+CPU_COUNT = cpu_count()
 DEPS = GWT_COMMON_DEPS + [
   '//gerrit-gwtexpui:CSS',
   '//lib:gwtjsonrpc',
@@ -29,8 +30,8 @@ gwt_binary(
   name = 'ui_opt',
   modules = [MODULE],
   module_deps = [':ui_module'],
-  deps = DEPS + [':ui_dbg'],
-  local_workers = cpu_count(),
+  deps = DEPS + ([':ui_dbg'] if CPU_COUNT < 8 else []),
+  local_workers = CPU_COUNT,
   strict = True,
   experimental_args = GWT_COMPILER_ARGS,
   vm_args = GWT_JVM_ARGS,
@@ -41,7 +42,7 @@ gwt_binary(
   modules = [MODULE],
   module_deps = [':ui_module'],
   deps = DEPS + [':ui_dbg'],
-  local_workers = cpu_count(),
+  local_workers = CPU_COUNT,
   strict = True,
   experimental_args = GWT_COMPILER_ARGS + ['-compileReport'],
   vm_args = GWT_JVM_ARGS,
@@ -54,7 +55,7 @@ gwt_binary(
   optimize = 0,
   module_deps = [':ui_module'],
   deps = DEPS,
-  local_workers = cpu_count(),
+  local_workers = CPU_COUNT,
   strict = True,
   experimental_args = GWT_COMPILER_ARGS,
   vm_args = GWT_JVM_ARGS,

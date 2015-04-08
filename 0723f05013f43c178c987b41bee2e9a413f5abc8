@@ -22,6 +22,30 @@
       "revId": "0723f05013f43c178c987b41bee2e9a413f5abc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43aec6fa_32f730db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-08T23:32:22Z",
+      "side": 1,
+      "message": "Maybe worth updating the acceptance tests?",
+      "parentUuid": "a39ce2d8_ade29d19",
+      "range": {
+        "startLine": 280,
+        "startChar": 22,
+        "endLine": 280,
+        "endChar": 47
+      },
+      "revId": "0723f05013f43c178c987b41bee2e9a413f5abc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

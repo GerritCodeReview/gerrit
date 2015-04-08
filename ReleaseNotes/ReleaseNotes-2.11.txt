@@ -367,6 +367,10 @@ Allow projects to be configured to create a new change for every uploaded commit
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#container.daemonOpt[
 options to pass to the daemon].
 
+* Allow to configure
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#sshd.rekeyBytesLimit[
+SSHD rekey parameters].
+
 Daemon
 ~~~~~~
 
@@ -388,8 +392,11 @@ a change message on the created change.
 * Don't send 'new patch set' notification emails for trivial rebases.
 
 
-ssh
+SSH
 ~~~
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2797[Issue 2797]:
+Add support for ECDSA based public key authentication.
 
 * Add new commands
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-logging-ls-level.html[
@@ -530,6 +537,21 @@ was stuck in the draft state.
 * link:https://code.google.com/p/gerrit/issues/detail?id=3249[Issue 3249]:
 Fix server error when checking mergeability of a change.
 
+* Workaround Guice bug "getPathInfo not decoded".
++
+Due to link:https://github.com/google/guice/issues/745[Guice issue 745], cloning
+of a repository with a space in its name was impossible.
+
+* Print proper names for tasks in output of `show-queue` command.
++
+Some tasks were not displayed with the proper name.
+
+
+SSH
+~~~
+
+* Prevent double authentication for the same public key.
+
 
 Secondary Index / Search
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -577,6 +599,9 @@ documented.
 
 Web UI
 ~~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3044[Issue 3044]:
+Remove stripping `#` in login redirect.
 
 Change Screen
 ^^^^^^^^^^^^^
@@ -818,6 +843,8 @@ Upgrades
 
 * Update ASM to 5.0.3.
 
+* Update Bouncycastle to 1.51.
+
 * Update CodeMirror to 4.10.0-6-gd0a2dda.
 
 * Update Guava to 18.0.
@@ -832,10 +859,12 @@ Upgrades
 
 * Update Jetty to 9.2.9.v20150224.
 
-* Update JGit to 3.6.2.201501210735-r.40-g23ad3a3.
+* Update JGit to 3.7.0.201502260915-r.58-g65c379e.
 
 * Update Lucene to 4.10.2.
 
 * Update Parboiled to 1.1.7.
 
 * Update Pegdown to 1.4.2.
+
+* Update SSHD to 0.14.0.

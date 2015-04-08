@@ -25,7 +25,6 @@ public class CreateGroupArgs {
   public boolean visibleToAll;
   public AccountGroup.Id ownerGroupId;
   public Collection<? extends Account.Id> initialMembers;
-  public Collection<? extends AccountGroup.UUID> initialGroups;
 
   public AccountGroup.NameKey getGroup() {
     return groupName;

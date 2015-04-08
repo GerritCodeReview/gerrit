@@ -19,7 +19,6 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -45,7 +44,6 @@ public class PerformCreateGroup {
 
   private final ReviewDb db;
   private final AccountCache accountCache;
-  private final GroupIncludeCache groupIncludeCache;
   private final IdentifiedUser currentUser;
   private final PersonIdent serverIdent;
   private final GroupCache groupCache;
@@ -54,12 +52,11 @@ public class PerformCreateGroup {
 
   @Inject
   PerformCreateGroup(ReviewDb db, AccountCache accountCache,
-      GroupIncludeCache groupIncludeCache, IdentifiedUser currentUser,
-      @GerritPersonIdent PersonIdent serverIdent, GroupCache groupCache,
-      @Assisted CreateGroupArgs createGroupArgs, AuditService auditService) {
+      IdentifiedUser currentUser, @GerritPersonIdent PersonIdent serverIdent,
+      GroupCache groupCache, @Assisted CreateGroupArgs createGroupArgs,
+      AuditService auditService) {
     this.db = db;
     this.accountCache = accountCache;
-    this.groupIncludeCache = groupIncludeCache;
     this.currentUser = currentUser;
     this.serverIdent = serverIdent;
     this.groupCache = groupCache;
@@ -114,11 +111,6 @@ public class PerformCreateGroup {
 
     addMembers(groupId, createGroupArgs.initialMembers);
 
-    if (createGroupArgs.initialGroups != null) {
-      addGroups(groupId, createGroupArgs.initialGroups);
-      groupIncludeCache.evictSubgroupsOf(uuid);
-    }
-
     groupCache.onCreateGroup(createGroupArgs.getGroup());
 
     return group;
@@ -137,22 +129,6 @@ public class PerformCreateGroup {
 
     for (Account.Id accountId : members) {
       accountCache.evict(accountId);
-    }
-  }
-
-  private void addGroups(final AccountGroup.Id groupId,
-      final Collection<? extends AccountGroup.UUID> groups) throws OrmException {
-    List<AccountGroupById> includeList = new ArrayList<>();
-    for (AccountGroup.UUID includeUUID : groups) {
-      final AccountGroupById groupInclude =
-        new AccountGroupById(new AccountGroupById.Key(groupId, includeUUID));
-      includeList.add(groupInclude);
-    }
-    db.accountGroupById().insert(includeList);
-    auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), includeList);
-
-    for (AccountGroup.UUID uuid : groups) {
-      groupIncludeCache.evictParentGroupsOf(uuid);
     }
   }
 }

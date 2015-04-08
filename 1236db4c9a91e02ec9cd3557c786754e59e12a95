@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b1d257_11cb0c9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-08T10:58:54Z",
+      "side": 1,
+      "message": "I think this is the wrong canRebase(). This canRebase() on ChangeControl checks only if the user has the permissions to do a rebase, but we want to know whether the change is based on the HEAD of the destination branch. This needs to be done in the same way as in the Rebase class [1] where we decide if the \u0027Rebase\u0027 button should be shown.\n\n[1] https://gerrit-review.googlesource.com/#/c/66543/6/gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+      "revId": "1236db4c9a91e02ec9cd3557c786754e59e12a95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

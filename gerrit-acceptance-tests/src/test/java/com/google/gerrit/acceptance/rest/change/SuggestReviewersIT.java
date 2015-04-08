@@ -25,10 +25,15 @@ import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.CreateGroupArgs;
-import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.group.CreateGroup;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -37,12 +42,14 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject
-  private PerformCreateGroup.Factory createGroupFactory;
+  private CreateGroup.Factory createGroupFactory;
+
+  @Inject
+  private GroupsCollection groups;
 
   private AccountGroup group1;
   private AccountGroup group2;
@@ -218,10 +225,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   private AccountGroup group(String name) throws Exception {
-    CreateGroupArgs args = new CreateGroupArgs();
-    args.setGroupName(name(name));
-    args.initialMembers = Collections.singleton(admin.getId());
-    return createGroupFactory.create(args).createGroup();
+    GroupInfo group = createGroupFactory.create(name(name))
+        .apply(TopLevelResource.INSTANCE, null);
+    GroupDescription.Basic d = groups.parseInternal(Url.decode(group.id));
+    return GroupDescriptions.toAccountGroup(d);
   }
 
   private TestAccount user(String name, AccountGroup... groups) throws Exception {

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e367ba9d_a7c8eaa3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-08T01:33:55Z",
+      "side": 1,
+      "message": "Is there any reason to not use `checkNotNull`?",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 17
+      },
+      "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03ea0e20_a0be3af5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-08T01:33:55Z",
+      "side": 1,
+      "message": "the word \"is\" is missing from this sentence",
+      "range": {
+        "startLine": 140,
+        "startChar": 65,
+        "endLine": 140,
+        "endChar": 66
+      },
+      "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03ea0e20_00c4468f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-08T01:33:55Z",
+      "side": 1,
+      "message": "Is this TODO going to be done in this change or a follow-up?",
+      "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

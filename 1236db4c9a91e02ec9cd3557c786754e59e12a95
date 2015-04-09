@@ -16,6 +16,24 @@
       "revId": "1236db4c9a91e02ec9cd3557c786754e59e12a95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43aec6fa_72f1b8e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-09T01:21:46Z",
+      "side": 1,
+      "message": "Yes, this is wrong...\n\nIn the Rebase class it checks using `rebaseChange.get().canRebase(resource)`.  RebaseChange is injected in Rebase with Provider\u003cRebaseChange\u003e and I can\u0027t find a way to get that into the RevisionResource.",
+      "parentUuid": "23b1d257_11cb0c9f",
+      "revId": "1236db4c9a91e02ec9cd3557c786754e59e12a95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

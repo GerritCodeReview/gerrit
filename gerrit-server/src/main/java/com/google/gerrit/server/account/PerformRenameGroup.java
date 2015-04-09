@@ -58,18 +58,6 @@ public class PerformRenameGroup {
     this.currentUser = currentUser;
   }
 
-  public GroupDetail renameGroup(final String groupName,
-      final String newGroupName) throws OrmException, NameAlreadyUsedException,
-      NoSuchGroupException, InvalidNameException {
-    final AccountGroup.NameKey groupNameKey =
-        new AccountGroup.NameKey(groupName);
-    final AccountGroup group = groupCache.get(groupNameKey);
-    if (group == null) {
-      throw new NoSuchGroupException(groupNameKey);
-    }
-    return renameGroup(group.getId(), newGroupName);
-  }
-
   public GroupDetail renameGroup(final AccountGroup.Id groupId,
       final String newName) throws OrmException, NameAlreadyUsedException,
       NoSuchGroupException, InvalidNameException {

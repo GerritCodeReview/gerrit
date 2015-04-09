@@ -22,6 +22,30 @@
       "revId": "766e363437d3d7f0295f6ae2977c2214b72e97bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03b84e3c_701ff08a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-09T08:21:13Z",
+      "side": 1,
+      "message": "\u003e Is that really true?\n\nIt is true for each folder created by Gerrit. If you manually violate this rule by creating \"*.git\" folders then I would have expected issues. Before showing you a project in the UI, Gerrit needs to check read permission and I guess that this is where the invalid entries are skipped.\n\nStill I would argue that it\u0027s your own fault if you manually create such directories in the git folder and it\u0027s okay to not protect against this. As admin you could also create an invalid Git repository that satisfies the old checks, if you want to do this.\n\nWill update the commit message to make this more clear.",
+      "parentUuid": "a39ce2d8_cdc8c9a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "766e363437d3d7f0295f6ae2977c2214b72e97bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

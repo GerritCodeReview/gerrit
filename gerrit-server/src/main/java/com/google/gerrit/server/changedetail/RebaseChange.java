@@ -383,24 +383,4 @@ public class RebaseChange {
       git.close();
     }
   }
-
-  public static boolean canDoRebase(final ReviewDb db,
-      final Change change, final GitRepositoryManager gitManager,
-      List<PatchSetAncestor> patchSetAncestors,
-      List<PatchSet> depPatchSetList, List<Change> depChangeList)
-      throws OrmException, RepositoryNotFoundException, IOException {
-
-    final Repository git = gitManager.openRepository(change.getProject());
-
-    try {
-      // If no exception is thrown, then we can do a rebase.
-      findBaseRevision(change.currentPatchSetId(), db, change.getDest(), git,
-          patchSetAncestors, depPatchSetList, depChangeList);
-      return true;
-    } catch (IOException e) {
-      return false;
-    } finally {
-      git.close();
-    }
-  }
 }

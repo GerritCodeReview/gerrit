@@ -118,6 +118,30 @@
       "revId": "0723f05013f43c178c987b41bee2e9a413f5abc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03b84e3c_d02fbcb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-09T08:07:27Z",
+      "side": 1,
+      "message": "The new patch sets adds now test cases.\n\nPlease note, that the tests for project creation when the project already exist, never end up here. Either it is handled by PutProject or by RestApiServlet (if the \u0027If-None-Match: *\u0027 header is set). Still in case of a race condition this code may be hit.\n\nBut the new tests that checked for Bad Request in case of unreasonable project name or invalid branch name would fail without the fixes in this change.\n\nDone.",
+      "parentUuid": "23b1d257_31f730db",
+      "range": {
+        "startLine": 280,
+        "startChar": 22,
+        "endLine": 280,
+        "endChar": 47
+      },
+      "revId": "0723f05013f43c178c987b41bee2e9a413f5abc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

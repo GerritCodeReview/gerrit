@@ -52,6 +52,24 @@
       "revId": "1236db4c9a91e02ec9cd3557c786754e59e12a95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b1d257_711ff88a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-04-09T16:06:50Z",
+      "side": 1,
+      "message": "NVM, I injected RebaseChange into a couple of places and it seems to work now. \n\nYou still have to hit F5 to re-render the change, which I think is a (minor) bug considering that the network traffic shows that the change details has been refreshed in the background (every 30s).",
+      "parentUuid": "23b1d257_312570d7",
+      "revId": "1236db4c9a91e02ec9cd3557c786754e59e12a95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

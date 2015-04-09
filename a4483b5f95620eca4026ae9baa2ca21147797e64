@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b1d257_5103d43c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-09T14:49:33Z",
+      "side": 1,
+      "message": "The new message is not much more useful than the old message. If I have a Prolog rule with a syntax error, before this change I got\n\n  \"Cannot consult rules.pl for testProlog\"\n\nand now I\u0027m getting\n\n  \"Cannot load rules.pl for testProlog: Error while consulting rules from rules.pl\"",
+      "revId": "a4483b5f95620eca4026ae9baa2ca21147797e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

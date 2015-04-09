@@ -85,13 +85,18 @@ public class InitPluginStepsLoader {
         return getPluginInjector(jar).getInstance(initStepClass);
       } catch (ClassCastException e) {
         ui.message(
-            "WARN: InitStep from plugin %s does not implement %s (Exception: %s)",
+            "WARN: InitStep from plugin %s does not implement %s (Exception: %s)\n",
             jar.getName(), InitStep.class.getName(), e.getMessage());
+        return null;
+      } catch (NoClassDefFoundError e) {
+        ui.message(
+            "WARN: Failed to run InitStep from plugin %s (Missing class: %s)\n",
+            jar.getName(), e.getMessage());
         return null;
       }
     } catch (Exception e) {
       ui.message(
-          "WARN: Cannot load and get plugin init step for %s (Exception: %s)",
+          "WARN: Cannot load and get plugin init step for %s (Exception: %s)\n",
           jar, e.getMessage());
       return null;
     }

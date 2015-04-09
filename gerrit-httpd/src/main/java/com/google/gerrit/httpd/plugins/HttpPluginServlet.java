@@ -581,6 +581,10 @@ class HttpPluginServlet extends HttpServlet
           && entry.getName().endsWith(".js")) {
         contentType = "application/javascript";
       }
+      else if ("application/x-pointplus".equals(contentType)
+          && entry.getName().endsWith(".css")) {
+        contentType = "text/css";
+      }
     }
 
     long time = entry.getTime();

@@ -34,6 +34,24 @@
       "revId": "1236db4c9a91e02ec9cd3557c786754e59e12a95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b1d257_312570d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-04-09T15:04:49Z",
+      "side": 1,
+      "message": "I\u0027m playing with the idea to turn RebaseChange.canRebase into a utility function (public static). The only thing I could not figure out yet is how to get a ReviewDb instance, which I can pass to it. \n\nThe ChangeControl.*Factories have one (ReviewDb) but I\u0027m not sure whether I would be breaking any architectural rules if I\u0027d pass that instance down to ChangeControl ?",
+      "parentUuid": "43aec6fa_72f1b8e2",
+      "revId": "1236db4c9a91e02ec9cd3557c786754e59e12a95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

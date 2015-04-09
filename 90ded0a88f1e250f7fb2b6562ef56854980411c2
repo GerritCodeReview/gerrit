@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "43aec6fa_d216a481",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-09T06:37:31Z",
+      "side": 1,
+      "message": "I don\u0027t think so.\n\nWe already use ui.message for progress-like messages in other places.\n\nui.header is used for the headers separating the different initialisation steps.  In this case these messages appear under the \"Plugins\" header.",
+      "parentUuid": "03b84e3c_50ee2c00",
+      "revId": "90ded0a88f1e250f7fb2b6562ef56854980411c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03b84e3c_b007984e",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
         "patchSetId": 1

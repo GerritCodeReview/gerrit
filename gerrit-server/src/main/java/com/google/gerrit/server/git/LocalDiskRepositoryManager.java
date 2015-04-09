@@ -382,6 +382,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       || name.contains("/../") // no "foo/../etc/passwd"
       || name.contains("/./") // "foo/./foo" is insane to ask
       || name.contains("//") // windows UNC path can be "//..."
+      || name.contains(".git/") // no path segments that end with '.git' as "foo.git/bar"
       || name.contains("?") // common unix wildcard
       || name.contains("%") // wildcard or string parameter
       || name.contains("*") // wildcard
@@ -428,8 +429,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     private boolean isRepo(Path p) {
-      return !p.getFileName().toString().equals(Constants.DOT_GIT)
-          && FileKey.isGitRepository(p.toFile(), FS.DETECTED);
+      String name = p.getFileName().toString();
+      return !name.equals(Constants.DOT_GIT)
+          && name.endsWith(Constants.DOT_GIT);
     }
 
     private void addProject(Path p) {

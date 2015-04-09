@@ -21,8 +21,10 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -31,6 +33,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -38,6 +41,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -65,10 +69,42 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCreateProjectHttpWhenProjectAlreadyExists_Conflict()
+      throws Exception {
+    RestResponse r = adminSession.put("/projects/" + allProjects.get());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+  }
+
+  @Test
+  public void testCreateProjectHttpWhenProjectAlreadyExists_PreconditionFailed()
+      throws Exception {
+    RestResponse r = adminSession.putWithHeader("/projects/" + allProjects.get(),
+        new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_PRECONDITION_FAILED);
+  }
+
+  @Test
+  @UseLocalDisk
+  public void testCreateProjectHttpWithUnreasonableName_BadRequest()
+      throws Exception {
+    RestResponse r = adminSession.put("/projects/" + Url.encode(name("invalid/../name")));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+  }
+
+  @Test
   public void testCreateProjectHttpWithNameMismatch_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("otherName");
     RestResponse r = adminSession.put("/projects/" + name("someName"), in);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+  }
+
+  @Test
+  public void testCreateProjectHttpWithInvalidRefName_BadRequest()
+      throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.branches = Collections.singletonList(name("invalid ref name"));
+    RestResponse r = adminSession.put("/projects/" + name("newProject"), in);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
   }
 

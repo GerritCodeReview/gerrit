@@ -16,6 +16,24 @@
       "revId": "63bfa3c8bd490a3feaf6cf4a30caad5d0922ad83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a1d60d_ae07374e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-09T07:05:08Z",
+      "side": 1,
+      "message": "Done.  (But the method body still has to be changed anyway to get rid of the if-conditions in the iteration over refs.)",
+      "parentUuid": "23b1d257_b1e2001a",
+      "revId": "63bfa3c8bd490a3feaf6cf4a30caad5d0922ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

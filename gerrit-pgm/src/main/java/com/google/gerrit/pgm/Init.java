@@ -50,7 +50,7 @@ public class Init extends BaseInit {
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
-  @Option(name = "--skip-plugins", usage = "Don't install plugin")
+  @Option(name = "--skip-plugins", usage = "Don't install plugins")
   private boolean skipPlugins = false;
 
   @Option(name = "--list-plugins", usage = "List available plugins")

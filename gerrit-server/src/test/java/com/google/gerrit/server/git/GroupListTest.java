@@ -118,4 +118,8 @@ public class GroupListTest {
         "ebe31c01aec2c9ac3b3c03e87a47450829ff4310")));
   }
 
+  @Test
+  public void testAsText() throws Exception {
+    assertTrue(TEXT.equals(groupList.asText()));
+  }
 }

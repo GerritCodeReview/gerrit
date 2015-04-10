@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83727e8f_b4bea0f5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-10T01:03:46Z",
+      "side": 1,
+      "message": "nit: the `else if` block should start on the same line as the closing brace of the preceding `if` block.",
+      "revId": "9e8029c1b257005ce31c1587f7c65b1abd50ed4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

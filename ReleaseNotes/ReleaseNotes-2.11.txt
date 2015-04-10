@@ -573,6 +573,12 @@ of a repository with a space in its name was impossible.
 +
 Some tasks were not displayed with the proper name.
 
+* Prevent wrong content type for CSS files.
++
+The mime-util library contains two content type mappings for .css files:
+`application/x-pointplus` and `text/css`.  Unfortunately, using the wrong one
+will result in most browsers discarding the file as a CSS file.  Ensure we only
+use the correct type for CSS files.
 
 SSH
 ~~~

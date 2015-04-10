@@ -49,9 +49,8 @@ with an older index version (e.g. if online reindexing to index version
 failed). In this case you first need to successfully migrate your index
 version of your Gerrit 2.10 site to `10` and only then start with the
 2.11 upgrade. If you start the 2.11 upgrade when the schema version of
-your Gerrit 2.10 site is older than `10`, online reindexing is not
-possible anymore and you need to reindex offline by using the `reindex`
-program.
+your Gerrit 2.10 site is older than `10`, online reindexing is no longer
+possible and you need to reindex offline by using the `reindex` program.
 
 *WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.8 (or
 2.9) and then to 2.11.x. If you are upgrading from 2.8.x or later, you may ignore
@@ -147,8 +146,6 @@ different change (on the same destination branch), rather than only onto the
 head of the destination branch or the latest patch set of the predecessor change.
 
 * Show the parent commit's subject as a tooltip.
-
-* Decorate abandoned changes in the 'Related Changes' list with a dark red dot.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2541[Issue 2541],
 link:http://code.google.com/p/gerrit/issues/detail?id=2974[Issue 2974]:

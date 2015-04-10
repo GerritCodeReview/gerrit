@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3730293_b535c00d",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-04-10T15:24:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3730293_b5bea0f5",
+      "range": {
+        "startLine": 13,
+        "startChar": 55,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "b5b24a86cafc0d74fccc19d3a76c8ce090f6f914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3730293_d5c31c88",
         "filename": "Documentation/user-named-queries.txt",
         "patchSetId": 2

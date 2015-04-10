@@ -162,7 +162,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /**
-   * Open an element, appending "<tagName>" to the buffer.
+   * Open an element, appending "{@code <tagName>}" to the buffer.
    * <p>
    * After the element is open the attributes may be manipulated until the next
    * {@code append}, {@code openElement}, {@code closeSelf} or

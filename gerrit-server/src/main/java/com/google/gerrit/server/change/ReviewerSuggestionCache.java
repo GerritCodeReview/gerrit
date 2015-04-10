@@ -36,8 +36,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * The suggest oracle may be called many times in rapid succession during the
  * course of one operation.
- * It would be easy to have a simple Cache<Boolean, List<Account>> with a short
- * expiration time of 30s.
+ * It would be easy to have a simple {@code Cache<Boolean, List<Account>>}
+ * with a short expiration time of 30s.
  * Cache only has a single key we're just using Cache for the expiration behavior.
  */
 @Singleton

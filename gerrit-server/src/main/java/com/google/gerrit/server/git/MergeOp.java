@@ -814,6 +814,19 @@ public class MergeOp {
             potentiallyStillSubmittable.add(commit);
             break;
 
+          case REVISION_GONE:
+            logDebug("Commit not found for change {}", c.getId());
+            ChangeMessage msg = new ChangeMessage(
+                new ChangeMessage.Key(
+                    c.getId(),
+                    ChangeUtil.messageUUID(db)),
+                null,
+                TimeUtil.nowTs(),
+                c.currentPatchSetId());
+            msg.setMessage("Failed to read commit for this patch set");
+            sendMergeFail(commit.notes(), msg, false);
+            break;
+
           default:
             setNew(commit,
                 message(c, "Unspecified merge failure: " + s.name()));

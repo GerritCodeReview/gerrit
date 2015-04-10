@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3730293_955d245a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-10T22:10:26Z",
+      "side": 1,
+      "message": "This information should already be in the reflog for the branch:\n\n  tail $GIT_DIR/logs/refs/heads/$branch",
+      "range": {
+        "startLine": 611,
+        "startChar": 12,
+        "endLine": 616,
+        "endChar": 57
+      },
+      "revId": "383fa6ff17a3e059b67fcd20cc04ebc8ee4851e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,8 +21,8 @@ import com.google.common.collect.Collections2;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.server.group.CreateGroup;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
@@ -87,7 +87,7 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
 
   private String group(String name, String ownerGroup) throws IOException {
     name = name(name);
-    CreateGroup.Input in = new CreateGroup.Input();
+    GroupInput in = new GroupInput();
     in.ownerId = ownerGroup;
     adminSession.put("/groups/" + name, in).consume();
     return name;

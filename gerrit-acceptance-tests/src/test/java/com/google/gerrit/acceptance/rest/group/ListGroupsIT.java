@@ -24,9 +24,9 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.CreateGroup;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
@@ -56,7 +56,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
   @Test
   public void testOnlyVisibleGroupsReturned() throws Exception {
     String newGroupName = "newGroup";
-    CreateGroup.Input in = new CreateGroup.Input();
+    GroupInput in = new GroupInput();
     in.description = "a hidden group";
     in.visibleToAll = false;
     in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators"))

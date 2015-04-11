@@ -20,11 +20,11 @@ import static com.google.gerrit.acceptance.rest.group.GroupAssert.toBoolean;
 import com.google.common.base.Strings;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.PutDescription;
 import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOwner;
@@ -189,7 +189,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
 
   private GroupInfo createGroup(String name) throws IOException {
     name = name(name);
-    CreateGroup.Input in = new CreateGroup.Input();
+    GroupInput in = new GroupInput();
     in.ownerId = "Administrators";
     RestResponse r = adminSession.put("/groups/" + name, in);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);

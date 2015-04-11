@@ -14,13 +14,20 @@
 
 package com.google.gerrit.server.api.groups;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
+
 import com.google.gerrit.extensions.api.groups.GroupApi;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -38,6 +45,8 @@ class GroupsImpl implements Groups {
   private final GroupsCollection groups;
   private final ProjectsCollection projects;
   private final Provider<ListGroups> listGroups;
+  private final Provider<CurrentUser> user;
+  private final CreateGroup.Factory createGroup;
   private final GroupApiImpl.Factory api;
 
   @Inject
@@ -46,11 +55,15 @@ class GroupsImpl implements Groups {
       GroupsCollection groups,
       ProjectsCollection projects,
       Provider<ListGroups> listGroups,
+      Provider<CurrentUser> user,
+      CreateGroup.Factory createGroup,
       GroupApiImpl.Factory api) {
     this.accounts = accounts;
     this.groups = groups;
     this.projects = projects;
     this.listGroups = listGroups;
+    this.user = user;
+    this.createGroup = createGroup;
     this.api = api;
   }
 
@@ -58,6 +71,28 @@ class GroupsImpl implements Groups {
   public GroupApi id(String id) throws RestApiException {
     return api.create(
         groups.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(id)));
+  }
+
+  @Override
+  public GroupApi create(String name) throws RestApiException {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    return create(in);
+  }
+
+  @Override
+  public GroupApi create(GroupInput in) throws RestApiException {
+    if (checkNotNull(in, "GroupInput").name == null) {
+      throw new BadRequestException("GroupInput must specify name");
+    }
+    checkRequiresCapability(user, null, CreateGroup.class);
+    try {
+      GroupInfo info = createGroup.create(in.name)
+          .apply(TopLevelResource.INSTANCE, in);
+      return id(info.id);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot create group " + in.name, e);
+    }
   }
 
   @Override

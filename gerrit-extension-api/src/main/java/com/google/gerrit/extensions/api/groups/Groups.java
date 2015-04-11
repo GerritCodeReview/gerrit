@@ -42,6 +42,12 @@ public interface Groups {
    */
   GroupApi id(String id) throws RestApiException;
 
+  /** Create a new group with the given name and default options. */
+  GroupApi create(String name) throws RestApiException;
+
+  /** Create a new group. */
+  GroupApi create(GroupInput input) throws RestApiException;
+
   /** @return new request for listing groups. */
   ListRequest list();
 

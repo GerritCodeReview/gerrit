@@ -17,95 +17,80 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
+@NoHttpd
 public class ListGroupIncludesIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupIncludes_NotFound() throws Exception {
-    String name = name("non-existing");
-    assertThat(adminSession.get("/groups/" + name + "/groups/").getStatusCode())
-      .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    try {
+      gApi.groups().id("non-existing").includedGroups();
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
   }
 
   @Test
   public void listEmptyGroupIncludes() throws Exception {
-    String gx = group("gx", "Administrators");
-    PUT("/groups/" + gx + "/groups/" + name("emptygroup"));
-    assertThat(GET("/groups/Administrators/groups/")).isEmpty();
+    String gx = group("gx");
+    assertThat(gApi.groups().id(gx).includedGroups()).isEmpty();
+  }
+
+  @Test
+  public void includeNonExistingGroup() throws Exception {
+    String gx = group("gx");
+    try {
+      gApi.groups().id(gx).addGroups("non-existing");
+    } catch (UnprocessableEntityException expecetd) {
+      // Expected.
+    }
   }
 
   @Test
   public void listNonEmptyGroupIncludes() throws Exception {
-    String gx = group("gx", "Administrators");
-    String gy = group("gy", "Administrators");
-    String gz = group("gz", "Administrators");
-    PUT("/groups/" + gx + "/groups/" + gy);
-    PUT("/groups/" + gx + "/groups/" + gz);
-
-    assertIncludes(GET("/groups/" + gx + "/groups/"), gy, gz);
+    String gx = group("gx");
+    String gy = group("gy");
+    String gz = group("gz");
+    gApi.groups().id(gx).addGroups(gy);
+    gApi.groups().id(gx).addGroups(gz);
+    assertIncludes(gApi.groups().id(gx).includedGroups(), gy, gz);
   }
 
   @Test
   public void listOneIncludeMember() throws Exception {
-    String gx = group("gx", "Administrators");
-    String gy = group("gy", "Administrators");
-    PUT("/groups/" + gx + "/groups/" + gy);
-
-    assertThat(GET_ONE("/groups/" + gx + "/groups/" + gy).name).isEqualTo(gy);
+    String gx = group("gx");
+    String gy = group("gy");
+    gApi.groups().id(gx).addGroups(gy);
+    assertIncludes(gApi.groups().id(gx).includedGroups(), gy);
   }
 
-  private List<GroupInfo> GET(String endpoint) throws IOException {
-    RestResponse r = adminSession.get(endpoint);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return newGson().fromJson(r.getReader(),
-        new TypeToken<List<GroupInfo>>() {}.getType());
-  }
-
-  private GroupInfo GET_ONE(String endpoint) throws IOException {
-    RestResponse r = adminSession.get(endpoint);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return newGson().fromJson(r.getReader(), GroupInfo.class);
-  }
-
-  private void PUT(String endpoint) throws IOException {
-    adminSession.put(endpoint).consume();
-  }
-
-  private String group(String name, String ownerGroup) throws IOException {
+  private String group(String name) throws Exception {
     name = name(name);
-    GroupInput in = new GroupInput();
-    in.ownerId = ownerGroup;
-    adminSession.put("/groups/" + name, in).consume();
+    gApi.groups().create(name);
     return name;
   }
 
-  private void assertIncludes(List<GroupInfo> includes, String name,
-      String... names) {
-    Collection<String> includeNames = Collections2.transform(includes,
+  private void assertIncludes(List<GroupInfo> includes, String... names) {
+    Iterable<String> includeNames = Iterables.transform(includes,
         new Function<GroupInfo, String>() {
           @Override
           public String apply(@Nullable GroupInfo info) {
             return info.name;
           }
         });
-    assertThat((Iterable<?>)includeNames).contains(name);
-    for (String n : names) {
-      assertThat((Iterable<?>)includeNames).contains(n);
-    }
-    assertThat(includes).hasSize(names.length + 1);
+    assertThat(includeNames)
+        .containsExactlyElementsIn(Arrays.asList(names)).inOrder();
   }
 }

@@ -18,54 +18,58 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
+@NoHttpd
 public class CreateGroupIT extends AbstractDaemonTest {
   @Test
   public void testCreateGroup() throws Exception {
     String newGroupName = name("newGroup");
-    RestResponse r = adminSession.put("/groups/" + newGroupName);
-    GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
-    assertThat(g.name).isEqualTo(newGroupName);
-    AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));
-    assertThat(group).isNotNull();
-    assertGroupInfo(group, g);
+    GroupInfo g = gApi.groups().create(newGroupName).get();
+    assertGroupInfo(getFromCache(newGroupName), g);
   }
 
   @Test
   public void testCreateGroupWithProperties() throws Exception {
-    String newGroupName = name("newGroup");
     GroupInput in = new GroupInput();
+    in.name = name("newGroup");
     in.description = "Test description";
     in.visibleToAll = true;
-    in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID().get();
-    RestResponse r = adminSession.put("/groups/" + newGroupName, in);
-    GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
-    assertThat(g.name).isEqualTo(newGroupName);
-    AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));
-    assertThat(group.getDescription()).isEqualTo(in.description);
-    assertThat(group.isVisibleToAll()).isEqualTo(in.visibleToAll);
-    assertThat(group.getOwnerGroupUUID().get()).isEqualTo(in.ownerId);
+    in.ownerId = getFromCache("Administrators").getGroupUUID().get();
+    GroupInfo g = gApi.groups().create(in).detail();
+    assertThat(g.description).isEqualTo(in.description);
+    assertThat(g.options.visibleToAll).isEqualTo(in.visibleToAll);
+    assertThat(g.ownerId).isEqualTo(in.ownerId);
   }
 
   @Test
   public void testCreateGroupWithoutCapability_Forbidden() throws Exception {
-    String newGroupName = name("newGroup");
-    RestResponse r = (new RestSession(server, user)).put("/groups/" + newGroupName);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    setApiUser(user);
+    try {
+      gApi.groups().create(name("newGroup"));
+    } catch (AuthException expected) {
+      // Expected.
+    }
   }
 
   @Test
   public void testCreateGroupWhenGroupAlreadyExists_Conflict()
       throws Exception {
-    RestResponse r = adminSession.put("/groups/Administrators");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+    try {
+      gApi.groups().create("Administrators");
+    } catch (ResourceConflictException expected) {
+      // Expected.
+    }
+  }
+
+  private AccountGroup getFromCache(String name) throws Exception {
+    return groupCache.get(new AccountGroup.NameKey(name));
   }
 }

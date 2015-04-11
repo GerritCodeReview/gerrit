@@ -17,34 +17,35 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
+@NoHttpd
 public class ListGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupMembers_NotFound() throws Exception {
-    assertThat(adminSession.get(
-          "/groups/" + name("non-existing") + "/members/").getStatusCode())
-        .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    try {
+      gApi.groups().id("non-existing").members();
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
   }
 
   @Test
   public void listEmptyGroupMembers() throws Exception {
     String group = createGroup("empty");
-    assertThat(GET("/groups/" + group + "/members/")).isEmpty();
+    assertThat(gApi.groups().id(group).members()).isEmpty();
   }
 
   @Test
@@ -52,16 +53,14 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
     String group = createGroup("group");
     String user1 = createAccount("user1", group);
     String user2 = createAccount("user2", group);
-    assertMembers(GET("/groups/" + group + "/members/"), user1, user2);
+    assertMembers(gApi.groups().id(group).members(), user1, user2);
   }
 
   @Test
   public void listOneGroupMember() throws Exception {
     String group = createGroup("group");
     String user = createAccount("user1", group);
-    assertMembers(GET("/groups/" + group + "/members/"), user);
-    assertThat(GET_ONE("/groups/" + group + "/members/" + user).name)
-        .isEqualTo(user);
+    assertMembers(gApi.groups().id(group).members(), user);
   }
 
   @Test
@@ -75,33 +74,18 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
     String gz = createGroup("gz");
     String uz = createAccount("uz", gz);
 
-    PUT("/groups/" + gx + "/groups/" + gy);
-    PUT("/groups/" + gy + "/groups/" + gz);
-    assertMembers(GET("/groups/" + gx + "/members/?recursive"), ux, uy, uz);
+    gApi.groups().id(gx).addGroups(gy);
+    gApi.groups().id(gy).addGroups(gz);
+    assertMembers(gApi.groups().id(gx).members(), ux);
+    assertMembers(gApi.groups().id(gx).members(true), ux, uy, uz);
   }
 
-  private List<AccountInfo> GET(String endpoint) throws IOException {
-    RestResponse r = adminSession.get(endpoint);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return newGson().fromJson(r.getReader(),
-        new TypeToken<List<AccountInfo>>() {}.getType());
-  }
-
-  private AccountInfo GET_ONE(String endpoint) throws IOException {
-    RestResponse r = adminSession.get(endpoint);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return newGson().fromJson(r.getReader(), AccountInfo.class);
-  }
-
-  private void PUT(String endpoint) throws IOException {
-    adminSession.put(endpoint).consume();
-  }
-
-  private String createGroup(String name) throws IOException {
+  private String createGroup(String name) throws Exception {
     name = name(name);
     GroupInput in = new GroupInput();
+    in.name = name;
     in.ownerId = "Administrators";
-    adminSession.put("/groups/" + name, in).consume();
+    gApi.groups().create(in);
     return name;
 
   }
@@ -112,20 +96,15 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
     return name;
   }
 
-  private void assertMembers(List<AccountInfo> members, String name,
-      String... names) {
-    Collection<String> memberNames = Collections2.transform(members,
+  private void assertMembers(List<AccountInfo> members, String... names) {
+    Iterable<String> memberNames = Iterables.transform(members,
         new Function<AccountInfo, String>() {
           @Override
           public String apply(@Nullable AccountInfo info) {
             return info.name;
           }
         });
-
-    assertThat((Iterable<?>)memberNames).contains(name);
-    for (String n : names) {
-      assertThat((Iterable<?>)memberNames).contains(n);
-    }
-    assertThat(members).hasSize(names.length + 1);
+    assertThat(memberNames)
+        .containsExactlyElementsIn(Arrays.asList(names)).inOrder();
   }
 }

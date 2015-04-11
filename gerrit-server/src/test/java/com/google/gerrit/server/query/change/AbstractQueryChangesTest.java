@@ -1001,6 +1001,38 @@ public abstract class AbstractQueryChangesTest {
     assertQuery("from:" + user2, change2);
   }
 
+  @Test
+  public void conflicts() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(
+        repo.commit()
+            .add("file1", "contents1")
+            .add("dir/file2", "contents2")
+            .add("dir/file3", "contents3")
+            .create());
+    RevCommit commit2 = repo.parseBody(
+        repo.commit()
+            .add("file1", "contents1")
+            .create());
+    RevCommit commit3 = repo.parseBody(
+        repo.commit()
+            .add("dir/file2", "contents2 different")
+            .create());
+    RevCommit commit4 = repo.parseBody(
+        repo.commit()
+            .add("file4", "contents4")
+            .create());
+    Change change1 = newChange(repo, commit1, null, null, null).insert();
+    Change change2 = newChange(repo, commit2, null, null, null).insert();
+    Change change3 = newChange(repo, commit3, null, null, null).insert();
+    Change change4 = newChange(repo, commit4, null, null, null).insert();
+
+    assertQuery("conflicts:" + change1.getId().get(), change3);
+    assertQuery("conflicts:" + change2.getId().get());
+    assertQuery("conflicts:" + change3.getId().get(), change1);
+    assertQuery("conflicts:" + change4.getId().get());
+  }
+
   protected ChangeInserter newChange(
       TestRepository<InMemoryRepository> repo,
       @Nullable RevCommit commit, @Nullable String key, @Nullable Integer owner,

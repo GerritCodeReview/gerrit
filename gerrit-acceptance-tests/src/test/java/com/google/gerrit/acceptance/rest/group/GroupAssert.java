@@ -17,9 +17,9 @@ package com.google.gerrit.acceptance.rest.group;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.GroupJson.GroupInfo;
 
 import java.util.Set;
 

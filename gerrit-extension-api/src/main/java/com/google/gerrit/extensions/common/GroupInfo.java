@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.common.GroupOptionsInfo;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import java.util.List;
 
-@Singleton
-public class GetOptions implements RestReadView<GroupResource> {
+public class GroupInfo extends GroupBaseInfo {
+  public String url;
+  public GroupOptionsInfo options;
 
-  @Override
-  public GroupOptionsInfo apply(GroupResource resource) {
-    return GroupJson.createOptions(resource.getGroup());
-  }
+  // These fields are only supplied for internal groups.
+  public String description;
+  public Integer groupId;
+  public String owner;
+  public String ownerId;
+
+  // These fields are only supplied for internal groups, and only if requested.
+  public List<AccountInfo> members;
+  public List<GroupInfo> includes;
 }

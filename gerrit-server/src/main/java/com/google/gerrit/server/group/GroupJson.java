@@ -14,14 +14,15 @@
 
 package com.google.gerrit.server.group;
 
-import static com.google.gerrit.common.groups.ListGroupsOption.INCLUDES;
-import static com.google.gerrit.common.groups.ListGroupsOption.MEMBERS;
+import static com.google.gerrit.extensions.client.ListGroupsOption.INCLUDES;
+import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
-import com.google.gerrit.common.groups.ListGroupsOption;
-import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.client.ListGroupsOption;
+import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -33,9 +34,17 @@ import com.google.inject.Provider;
 
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.List;
 
 public class GroupJson {
+  public static GroupOptionsInfo createOptions(GroupDescription.Basic group) {
+    GroupOptionsInfo options = new GroupOptionsInfo();
+    AccountGroup ag = GroupDescriptions.toAccountGroup(group);
+    if (ag != null && ag.isVisibleToAll()) {
+      options.visibleToAll = true;
+    }
+    return options;
+  }
+
   private final GroupBackend groupBackend;
   private final GroupControl.Factory groupControlFactory;
   private final Provider<ListMembers> listMembers;
@@ -86,7 +95,7 @@ public class GroupJson {
     info.id = Url.encode(group.getGroupUUID().get());
     info.name = Strings.emptyToNull(group.getName());
     info.url = Strings.emptyToNull(group.getUrl());
-    info.options = new GroupOptionsInfo(group);
+    info.options = createOptions(group);
 
     AccountGroup g = GroupDescriptions.toAccountGroup(group);
     if (g != null) {
@@ -124,25 +133,5 @@ public class GroupJson {
       // group we return before
       throw new IllegalStateException(e);
     }
-  }
-
-  public static class GroupInfo extends GroupBaseInfo {
-    public String url;
-    public GroupOptionsInfo options;
-
-    // These fields are only supplied for internal groups.
-    public String description;
-    public Integer groupId;
-    public String owner;
-    public String ownerId;
-
-    // These fields are only supplied for internal groups, but only if requested
-    public List<AccountInfo> members;
-    public List<GroupInfo> includes;
-  }
-
-  public static class GroupBaseInfo {
-    public String id;
-    public String name;
   }
 }

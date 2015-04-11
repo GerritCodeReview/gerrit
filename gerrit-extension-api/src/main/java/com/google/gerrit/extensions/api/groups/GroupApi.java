@@ -14,9 +14,12 @@
 
 package com.google.gerrit.extensions.api.groups;
 
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+
+import java.util.List;
 
 public interface GroupApi {
   /** @return group info with no {@code ListGroupsOption}s set. */
@@ -70,6 +73,23 @@ public interface GroupApi {
   void options(GroupOptionsInfo options) throws RestApiException;
 
   /**
+   * List group members, non-recursively.
+   *
+   * @return group members.
+   * @throws RestApiException
+   */
+  List<AccountInfo> members() throws RestApiException;
+
+  /**
+   * List group members.
+   *
+   * @param recursive whether to recursively included groups.
+   * @return group members.
+   * @throws RestApiException
+   */
+  List<AccountInfo> members(boolean recursive) throws RestApiException;
+
+  /**
    * Add members to a group.
    *
    * @param members list of member identifiers, in any format accepted by
@@ -85,9 +105,17 @@ public interface GroupApi {
    *     {@link com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
    * @throws RestApiException
    */
-  void deleteMembers(String... members) throws RestApiException;
+  void removeMembers(String... members) throws RestApiException;
 
   /**
+   * List included groups.
+   *
+   * @return included groups.
+   * @throws RestApiException
+   */
+  List<GroupInfo> includedGroups() throws RestApiException;
+
+  /*
    * Add groups to be included in this one.
    *
    * @param members list of group identifiers, in any format accepted by
@@ -103,5 +131,5 @@ public interface GroupApi {
    *     {@link Groups#id(String)}
    * @throws RestApiException
    */
-  void deleteGroups(String... groups) throws RestApiException;
+  void removeGroups(String... groups) throws RestApiException;
 }

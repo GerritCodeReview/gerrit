@@ -17,33 +17,25 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import org.junit.Test;
 
-import java.io.IOException;
-
+@NoHttpd
 public class GetGroupIT extends AbstractDaemonTest {
   @Test
   public void testGetGroup() throws Exception {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-
-    // by UUID
-    testGetGroup("/groups/" + adminGroup.getGroupUUID().get(), adminGroup);
-
-    // by name
-    testGetGroup("/groups/" + adminGroup.getName(), adminGroup);
-
-    // by legacy numeric ID
-    testGetGroup("/groups/" + adminGroup.getId().get(), adminGroup);
+    testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
+    testGetGroup(adminGroup.getName(), adminGroup);
+    testGetGroup(adminGroup.getId().get(), adminGroup);
   }
 
-  private void testGetGroup(String url, AccountGroup expectedGroup)
-      throws IOException {
-    RestResponse r = adminSession.get(url);
-    GroupInfo group = newGson().fromJson(r.getReader(), GroupInfo.class);
+  private void testGetGroup(Object id, AccountGroup expectedGroup)
+      throws Exception {
+    GroupInfo group = gApi.groups().id(id.toString()).get();
     assertGroupInfo(expectedGroup, group);
   }
 }

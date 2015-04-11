@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.PutDescription;
 import com.google.gerrit.server.group.PutName;
-import com.google.gerrit.server.group.PutOptions;
 import com.google.gerrit.server.group.PutOwner;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gson.reflect.TypeToken;
@@ -134,7 +133,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     r.consume();
 
     // set options
-    PutOptions.Input in = new PutOptions.Input();
+    GroupOptionsInfo in = new GroupOptionsInfo();
     in.visibleToAll = !toBoolean(group.options.visibleToAll);
     r = adminSession.put(url, in);
     GroupOptionsInfo newOptions = newGson().fromJson(r.getReader(), GroupOptionsInfo.class);

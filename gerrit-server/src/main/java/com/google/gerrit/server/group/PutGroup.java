@@ -14,16 +14,16 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.group.CreateGroup.Input;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutGroup implements RestModifyView<GroupResource, Input> {
+public class PutGroup implements RestModifyView<GroupResource, GroupInput> {
   @Override
-  public Response<?> apply(GroupResource resource, Input input)
+  public Response<?> apply(GroupResource resource, GroupInput input)
       throws ResourceConflictException {
     throw new ResourceConflictException("Group already exists");
   }

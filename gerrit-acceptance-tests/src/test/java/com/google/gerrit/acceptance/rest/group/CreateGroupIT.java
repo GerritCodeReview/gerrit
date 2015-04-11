@@ -20,9 +20,9 @@ import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInf
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.CreateGroup;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
   @Test
   public void testCreateGroupWithProperties() throws Exception {
     String newGroupName = name("newGroup");
-    CreateGroup.Input in = new CreateGroup.Input();
+    GroupInput in = new GroupInput();
     in.description = "Test description";
     in.visibleToAll = true;
     in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID().get();

@@ -24,6 +24,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -32,7 +33,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
-import com.google.gerrit.server.group.CreateGroup;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -157,7 +157,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   private String group(String name) throws IOException {
     name = name(name);
-    CreateGroup.Input in = new CreateGroup.Input();
+    GroupInput in = new GroupInput();
     adminSession.put("/groups/" + name, in).consume();
     return name;
   }

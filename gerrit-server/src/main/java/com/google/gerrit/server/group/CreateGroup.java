@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.group.CreateGroup.Input;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -54,14 +54,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
-public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
-  public static class Input {
-    public String name;
-    public String description;
-    public Boolean visibleToAll;
-    public String ownerId;
-  }
-
+public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
   public static interface Factory {
     CreateGroup create(@Assisted String name);
   }
@@ -102,11 +95,11 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public GroupInfo apply(TopLevelResource resource, Input input)
+  public GroupInfo apply(TopLevelResource resource, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
       ResourceConflictException, OrmException {
     if (input == null) {
-      input = new Input();
+      input = new GroupInput();
     }
     if (input.name != null && !name.equals(input.name)) {
       throw new BadRequestException("name must match URL");
@@ -134,7 +127,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     return json.format(GroupDescriptions.forAccountGroup(createGroup(args)));
   }
 
-  private AccountGroup.Id owner(Input input)
+  private AccountGroup.Id owner(GroupInput input)
       throws UnprocessableEntityException {
     if (input.ownerId != null) {
       GroupDescription.Basic d = groups.parseInternal(Url.decode(input.ownerId));

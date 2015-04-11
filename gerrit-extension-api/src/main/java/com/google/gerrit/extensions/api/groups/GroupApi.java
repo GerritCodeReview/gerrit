@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,25 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group;
+package com.google.gerrit.extensions.api.groups;
 
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.gerrit.extensions.restapi.RestApiException;
 
-@Singleton
-public class GetGroup implements RestReadView<GroupResource> {
-  private final GroupJson json;
-
-  @Inject
-  GetGroup(GroupJson json) {
-    this.json = json;
-  }
-
-  @Override
-  public GroupInfo apply(GroupResource resource) throws OrmException {
-    return json.format(resource.getGroup());
-  }
+public interface GroupApi {
+  GroupInfo get() throws RestApiException;
+  GroupInfo detail() throws RestApiException;
 }

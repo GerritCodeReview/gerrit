@@ -16,12 +16,14 @@ package com.google.gerrit.extensions.api;
 
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 
 public interface GerritApi {
   public Accounts accounts();
   public Changes changes();
+  public Groups groups();
   public Projects projects();
 
   /**
@@ -36,6 +38,11 @@ public interface GerritApi {
 
     @Override
     public Changes changes() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Groups groups() {
       throw new NotImplementedException();
     }
 

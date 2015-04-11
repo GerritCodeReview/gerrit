@@ -119,14 +119,13 @@ public abstract class AbstractQueryChangesTest {
 
   private String systemTimeZone;
 
-  protected abstract Injector createInjector();
+  protected abstract Injector createInjector(LifecycleManager lifecycle);
 
   @Before
   public void setUpInjector() throws Exception {
-    Injector injector = createInjector();
-    injector.injectMembers(this);
     lifecycle = new LifecycleManager();
-    lifecycle.add(injector);
+    Injector injector = createInjector(lifecycle);
+    injector.injectMembers(this);
     lifecycle.start();
 
     db = schemaFactory.open();

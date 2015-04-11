@@ -16,9 +16,9 @@ package com.google.gerrit.server.query.change;
 
 import static org.junit.Assert.assertTrue;
 
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.InMemoryModule;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -29,10 +29,10 @@ import org.junit.Test;
 
 public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   @Override
-  protected Injector createInjector() {
+  protected Injector createInjector(LifecycleManager lifecycle) {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
-    return Guice.createInjector(new InMemoryModule(luceneConfig));
+    return InMemoryModule.createInjector(lifecycle, luceneConfig);
   }
 
   @Test

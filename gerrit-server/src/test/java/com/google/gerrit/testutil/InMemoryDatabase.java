@@ -16,6 +16,7 @@ package com.google.gerrit.testutil;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -25,7 +26,6 @@ import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -46,8 +46,8 @@ import javax.sql.DataSource;
  * the JVM running the unit tests doesn't run out of heap space.
  */
 public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
-  public static InMemoryDatabase newDatabase() {
-    return Guice.createInjector(new InMemoryModule())
+  public static InMemoryDatabase newDatabase(LifecycleManager lifecycle) {
+    return InMemoryModule.createInjector(lifecycle)
         .getInstance(InMemoryDatabase.class);
   }
 

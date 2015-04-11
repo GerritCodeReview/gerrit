@@ -15,195 +15,124 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.api.group.GroupAssert.toBoolean;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.PutDescription;
-import com.google.gerrit.server.group.PutName;
-import com.google.gerrit.server.group.PutOwner;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
+@NoHttpd
 public class GroupPropertiesIT extends AbstractDaemonTest {
-  private GroupInfo group;
-  private String baseUrl;
-
-  @Before
-  public void setUp() throws Exception {
-    group = createGroup("group");
-    baseUrl = "/groups/" + group.id;
-  }
-
   @Test
   public void testGroupName() throws Exception {
-    String url = baseUrl + "/name";
+    String name = name("group");
+    gApi.groups().create(name);
 
     // get name
-    RestResponse r = adminSession.get(url);
-    String name = newGson().fromJson(r.getReader(), String.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(name).isEqualTo(group.name);
-    r.consume();
+    assertThat(gApi.groups().id(name).name()).isEqualTo(name);
 
     // set name with name conflict
-    GroupInfo newGroup = createGroup("newGroup");
-    PutName.Input in = new PutName.Input();
-    in.name = newGroup.name;
-    r = adminSession.put(url, in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
-    r.consume();
+    String other = name("other");
+    gApi.groups().create(other);
+    try {
+      gApi.groups().id(name).name(other);
+    } catch (ResourceConflictException expected) {
+      // Expected.
+    }
 
     // set name to same name
-    in = new PutName.Input();
-    in.name = group.name;
-    r = adminSession.put(url, in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    r.consume();
+    gApi.groups().id(name).name(name);
+    assertThat(gApi.groups().id(name).name()).isEqualTo(name);
 
     // rename
-    in = new PutName.Input();
-    in.name = name("newName");
-    r = adminSession.put(url, in);
-    String newName = newGson().fromJson(r.getReader(), String.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(groupCache.get(new AccountGroup.NameKey(in.name))).isNotNull();
-    assertThat(groupCache.get(new AccountGroup.NameKey(group.name))).isNull();
-    assertThat(newName).isEqualTo(in.name);
-    r.consume();
+    String newName = name("newName");
+    gApi.groups().id(name).name(newName);
+    assertThat(getFromCache(newName)).isNotNull();
+    assertThat(gApi.groups().id(newName).name()).isEqualTo(newName);
+
+    assertThat(getFromCache(name)).isNull();
+    try {
+      gApi.groups().id(name).get();
+    } catch (ResourceNotFoundException expected) {
+      // Expceted.
+    }
   }
 
   @Test
   public void testGroupDescription() throws Exception {
-    String url = baseUrl + "/description";
+    String name = name("group");
+    gApi.groups().create(name);
 
     // get description
-    RestResponse r = adminSession.get(url);
-    String description = newGson().fromJson(r.getReader(), String.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(Strings.emptyToNull(description)).isEqualTo(group.description);
-    r.consume();
+    assertThat(gApi.groups().id(name).description()).isEmpty();
 
     // set description
-    PutDescription.Input in = new PutDescription.Input();
-    in.description = "New description for the group.";
-    r = adminSession.put(url, in);
-    String newDescription = newGson().fromJson(r.getReader(), String.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(newDescription).isEqualTo(in.description);
-    group = getGroup(group.name);
-    assertThat(group.description).isEqualTo(in.description);
-    r.consume();
+    String desc = "New description for the group.";
+    gApi.groups().id(name).description(desc);
+    assertThat(gApi.groups().id(name).description()).isEqualTo(desc);
 
-    // delete description
-    r = adminSession.delete(url);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    group = getGroup(group.name);
-    assertThat(group.description).isNull();
+    // set description to null
+    gApi.groups().id(name).description(null);
+    assertThat(gApi.groups().id(name).description()).isEmpty();
 
     // set description to empty string
-    in = new PutDescription.Input();
-    in.description = "";
-    r = adminSession.put(url, in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    group = getGroup(group.name);
-    assertThat(group.description).isNull();
+    gApi.groups().id(name).description("");
+    assertThat(gApi.groups().id(name).description()).isEmpty();
   }
 
   @Test
   public void testGroupOptions() throws Exception {
-    String url = baseUrl + "/options";
+    String name = name("group");
+    gApi.groups().create(name);
+
     // get options
-    RestResponse r = adminSession.get(url);
-    GroupOptionsInfo options = newGson().fromJson(r.getReader(), GroupOptionsInfo.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(options.visibleToAll).isEqualTo(group.options.visibleToAll);
-    r.consume();
+    assertThat(gApi.groups().id(name).options().visibleToAll).isNull();
 
     // set options
-    GroupOptionsInfo in = new GroupOptionsInfo();
-    in.visibleToAll = !toBoolean(group.options.visibleToAll);
-    r = adminSession.put(url, in);
-    GroupOptionsInfo newOptions = newGson().fromJson(r.getReader(), GroupOptionsInfo.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(newOptions.visibleToAll).isEqualTo(in.visibleToAll);
-    group = getGroup(group.name);
-    assertThat(group.options.visibleToAll).isEqualTo(in.visibleToAll);
-    r.consume();
+    GroupOptionsInfo options = new GroupOptionsInfo();
+    options.visibleToAll = true;
+    gApi.groups().id(name).options(options);
+    assertThat(gApi.groups().id(name).options().visibleToAll).isTrue();
   }
 
   @Test
   public void testGroupOwner() throws Exception {
-    String url = baseUrl + "/owner";
-    String adminGroupUUID = groupCache.get(
-        new AccountGroup.NameKey("Administrators")).getGroupUUID().get();
+    String name = name("group");
+    GroupInfo info = gApi.groups().create(name).get();
+    String adminUUID = getFromCache("Administrators").getGroupUUID().get();
+    String registeredUUID = SystemGroupBackend.REGISTERED_USERS.get();
 
     // get owner
-    RestResponse r = adminSession.get(url);
-    GroupInfo options = newGson().fromJson(r.getReader(), GroupInfo.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(options.ownerId).isEqualTo(adminGroupUUID);
-    r.consume();
+    assertThat(Url.decode(gApi.groups().id(name).owner().id))
+        .isEqualTo(info.id);
 
     // set owner by name
-    PutOwner.Input in = new PutOwner.Input();
-    in.owner = "Registered Users";
-    r = adminSession.put(url, in);
-    GroupInfo newOwner = newGson().fromJson(r.getReader(), GroupInfo.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(newOwner.name).isEqualTo(in.owner);
-    assertThat(newOwner.name).isEqualTo(
-        SystemGroupBackend.getGroup(SystemGroupBackend.REGISTERED_USERS).getName());
-    assertThat(SystemGroupBackend.REGISTERED_USERS.get())
-      .isEqualTo(Url.decode(newOwner.id));
-    r.consume();
+    gApi.groups().id(name).owner("Registered Users");
+    assertThat(Url.decode(gApi.groups().id(name).owner().id))
+        .isEqualTo(registeredUUID);
 
     // set owner by UUID
-    in = new PutOwner.Input();
-    in.owner = adminGroupUUID;
-    r = adminSession.put(url, in);
-    newOwner = newGson().fromJson(r.getReader(), GroupInfo.class);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    assertThat(newOwner.id).isEqualTo(in.owner);
-    r.consume();
+    gApi.groups().id(name).owner(adminUUID);
+    assertThat(Url.decode(gApi.groups().id(name).owner().id))
+        .isEqualTo(adminUUID);
 
     // set non existing owner
-    in = new PutOwner.Input();
-    in.owner = "Non-Existing Group";
-    r = adminSession.put(url, in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
-    r.consume();
+    try {
+      gApi.groups().id(name).owner("Non-Existing Group");
+    } catch (UnprocessableEntityException expected) {
+      // Expected.
+    }
   }
 
-  private GroupInfo createGroup(String name) throws IOException {
-    name = name(name);
-    GroupInput in = new GroupInput();
-    in.ownerId = "Administrators";
-    RestResponse r = adminSession.put("/groups/" + name, in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    return parseGroup(r);
-  }
-
-  private GroupInfo getGroup(String name) throws IOException {
-    RestResponse r = adminSession.get("/groups/" + name);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    return parseGroup(r);
-  }
-
-  private GroupInfo parseGroup(RestResponse r) throws IOException {
-    return newGson().fromJson(r.getReader(),
-        new TypeToken<GroupInfo>() {}.getType());
+  private AccountGroup getFromCache(String name) throws Exception {
+    return groupCache.get(new AccountGroup.NameKey(name));
   }
 }

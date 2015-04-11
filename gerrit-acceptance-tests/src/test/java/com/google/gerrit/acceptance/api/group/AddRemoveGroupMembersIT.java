@@ -15,69 +15,60 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
-import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
+import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.groups.GroupInput;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.server.group.AddIncludedGroups;
-import com.google.gerrit.server.group.AddMembers;
-import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+@NoHttpd
 public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
-    assertThat(PUT("/groups/non-existing/members/admin").getStatusCode())
-      .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    try {
+      gApi.groups().id("non-existing").addMembers("admin");
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
   }
 
   @Test
   public void removeFromNonExistingGroup_NotFound() throws Exception {
-    assertThat(DELETE("/groups/non-existing/members/admin"))
-      .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    try {
+      gApi.groups().id("non-existing").removeMembers("admin");
+    } catch (ResourceNotFoundException expected) {
+      // Expected.
+    }
   }
 
   @Test
   public void addRemoveMember() throws Exception {
     String g = group("users");
-    RestResponse r = PUT("/groups/" + g + "/members/user");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    AccountInfo ai = newGson().fromJson(r.getReader(), AccountInfo.class);
-    assertAccountInfo(user, ai);
+    gApi.groups().id(g).addMembers("user");
     assertMembers(g, admin, user);
-    r.consume();
 
-    assertThat(DELETE("/groups/" + g + "/members/user"))
-      .isEqualTo(HttpStatus.SC_NO_CONTENT);
+    gApi.groups().id(g).removeMembers("user");
     assertMembers(g, admin);
   }
 
   @Test
   public void addExistingMember_OK() throws Exception {
-    assertThat(PUT("/groups/Administrators/members/admin").getStatusCode())
-      .isEqualTo(HttpStatus.SC_OK);
+    String g = "Administrators";
+    assertMembers(g, admin);
+    gApi.groups().id("Administrators").addMembers("admin");
+    assertMembers(g, admin);
   }
 
   @Test
@@ -85,29 +76,18 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     String g = group("users");
     TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
     TestAccount u2 = accounts.create("u2", "u2@example.com", "Full Name 2");
-    List<String> members = Lists.newLinkedList();
-    members.add(u1.username);
-    members.add(u2.username);
-    AddMembers.Input input = AddMembers.Input.fromMembers(members);
-    RestResponse r = POST("/groups/" + g + "/members", input);
-    List<AccountInfo> ai = newGson().fromJson(r.getReader(),
-        new TypeToken<List<AccountInfo>>() {}.getType());
-    assertMembers(ai, u1, u2);
+    gApi.groups().id(g).addMembers(u1.username, u2.username);
+    assertMembers(g, admin, u1, u2);
   }
 
   @Test
   public void includeRemoveGroup() throws Exception {
     String p = group("parent");
     String g = group("newGroup");
-    RestResponse r = PUT("/groups/" + p + "/groups/" + g);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-    GroupInfo i = newGson().fromJson(r.getReader(), GroupInfo.class);
-    r.consume();
-    assertGroupInfo(groupCache.get(new AccountGroup.NameKey(g)), i);
+    gApi.groups().id(p).addGroups(g);
     assertIncludes(p, g);
 
-    assertThat(DELETE("/groups/" + p + "/groups/" + g))
-      .isEqualTo(HttpStatus.SC_NO_CONTENT);
+    gApi.groups().id(p).removeGroups(g);
     assertNoIncludes(p);
   }
 
@@ -115,9 +95,10 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   public void includeExistingGroup_OK() throws Exception {
     String p = group("parent");
     String g = group("newGroup");
-    PUT("/groups/" + p + "/groups/" + g).consume();
-    assertThat(PUT("/groups/" + p + "/groups/" + g).getStatusCode())
-      .isEqualTo(HttpStatus.SC_OK);
+    gApi.groups().id(p).addGroups(g);
+    assertIncludes(p, g);
+    gApi.groups().id(p).addGroups(g);
+    assertIncludes(p, g);
   }
 
   @Test
@@ -128,31 +109,8 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     List<String> groups = Lists.newLinkedList();
     groups.add(g1);
     groups.add(g2);
-    AddIncludedGroups.Input input = AddIncludedGroups.Input.fromGroups(groups);
-    RestResponse r = POST("/groups/" + p + "/groups", input);
-    List<GroupInfo> gi = newGson().fromJson(r.getReader(),
-        new TypeToken<List<GroupInfo>>() {}.getType());
-    assertIncludes(gi, g1, g2);
-  }
-
-  private RestResponse PUT(String endpoint) throws IOException {
-    return adminSession.put(endpoint);
-  }
-
-  private int DELETE(String endpoint) throws IOException {
-    RestResponse r = adminSession.delete(endpoint);
-    r.consume();
-    return r.getStatusCode();
-  }
-
-  private RestResponse POST(String endPoint, AddMembers.Input mi)
-      throws IOException {
-    return adminSession.post(endPoint, mi);
-  }
-
-  private RestResponse POST(String endPoint, AddIncludedGroups.Input gi)
-      throws IOException {
-    return adminSession.post(endPoint, gi);
+    gApi.groups().id(p).addGroups(g1, g2);
+    assertIncludes(p, g1, g2);
   }
 
   private String group(String name) throws IOException {
@@ -163,69 +121,27 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   }
 
   private void assertMembers(String group, TestAccount... members)
-      throws OrmException {
-    AccountGroup g = groupCache.get(new AccountGroup.NameKey(group));
-    Set<Account.Id> ids = Sets.newHashSet();
-    ResultSet<AccountGroupMember> all =
-        db.accountGroupMembers().byGroup(g.getId());
-    for (AccountGroupMember m : all) {
-      ids.add(m.getAccountId());
-    }
-    assertThat((Iterable<?>)ids).hasSize(members.length);
-    for (TestAccount a : members) {
-      assertThat((Iterable<?>)ids).contains(a.id);
-    }
-  }
-
-  private void assertMembers(List<AccountInfo> ai, TestAccount... members) {
-    Map<Integer, AccountInfo> infoById = Maps.newHashMap();
-    for (AccountInfo i : ai) {
-      infoById.put(i._accountId, i);
-    }
-
-    for (TestAccount a : members) {
-      AccountInfo i = infoById.get(a.id.get());
-      assertThat(i).isNotNull();
-      assertAccountInfo(a, i);
-    }
-    assertThat(ai).hasSize(members.length);
+      throws Exception {
+    assertAccountInfos(
+        Arrays.asList(members),
+        gApi.groups().id(group).members());
   }
 
   private void assertIncludes(String group, String... includes)
-      throws OrmException {
-    AccountGroup g = groupCache.get(new AccountGroup.NameKey(group));
-    Set<AccountGroup.UUID> ids = Sets.newHashSet();
-    ResultSet<AccountGroupById> all =
-        db.accountGroupById().byGroup(g.getId());
-    for (AccountGroupById m : all) {
-      ids.add(m.getIncludeUUID());
-    }
-    assertThat((Iterable<?>)ids).hasSize(includes.length);
-    for (String i : includes) {
-      AccountGroup.UUID id = groupCache.get(
-          new AccountGroup.NameKey(i)).getGroupUUID();
-      assertThat((Iterable<?>)ids).contains(id);
-    }
+      throws Exception {
+    Iterable<String> actualNames = Iterables.transform(
+        gApi.groups().id(group).includedGroups(),
+        new Function<GroupInfo, String>() {
+          @Override
+          public String apply(GroupInfo in) {
+            return in.name;
+          }
+        });
+    assertThat(actualNames).containsExactlyElementsIn(Arrays.asList(includes))
+        .inOrder();
   }
 
-  private void assertIncludes(List<GroupInfo> gi, String... includes) {
-    Map<String, GroupInfo> groupsByName = Maps.newHashMap();
-    for (GroupInfo i : gi) {
-      groupsByName.put(i.name, i);
-    }
-
-    for (String name : includes) {
-      GroupInfo i = groupsByName.get(name);
-      assertThat(i).isNotNull();
-      assertGroupInfo(groupCache.get(new AccountGroup.NameKey(name)), i);
-    }
-    assertThat(gi).hasSize(includes.length);
-  }
-
-  private void assertNoIncludes(String group) throws OrmException {
-    AccountGroup g = groupCache.get(new AccountGroup.NameKey(group));
-    Iterator<AccountGroupById> it =
-        db.accountGroupById().byGroup(g.getId()).iterator();
-    assertThat(it.hasNext()).isFalse();
+  private void assertNoIncludes(String group) throws Exception {
+    assertThat(gApi.groups().id(group).includedGroups().isEmpty());
   }
 }

@@ -16,78 +16,71 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
-import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroups;
 
 import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.common.Nullable;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+@NoHttpd
 public class ListGroupsIT extends AbstractDaemonTest {
   @Test
   public void testListAllGroups() throws Exception {
-    Iterable<String> expectedGroups = Iterables.transform(groupCache.all(),
-        new Function<AccountGroup, String>() {
-          @Override
-          @Nullable
-          public String apply(@Nullable AccountGroup group) {
-            return group.getName();
-          }
-        });
-    RestResponse r = adminSession.get("/groups/");
-    Map<String, GroupInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<Map<String, GroupInfo>>() {}.getType());
-    assertGroups(expectedGroups, result.keySet());
+    List<String> expectedGroups = FluentIterable
+          .from(groupCache.all())
+          .transform(new Function<AccountGroup, String>() {
+            @Override
+            public String apply(AccountGroup group) {
+              return group.getName();
+            }
+          }).toSortedList(Ordering.natural());
+    assertThat(expectedGroups.size()).isAtLeast(2);
+    assertThat((Iterable<?>) gApi.groups().list().getAsMap().keySet())
+        .containsExactlyElementsIn(expectedGroups).inOrder();
   }
 
   @Test
   public void testOnlyVisibleGroupsReturned() throws Exception {
-    String newGroupName = "newGroup";
+    String newGroupName = name("newGroup");
     GroupInput in = new GroupInput();
+    in.name = newGroupName;
     in.description = "a hidden group";
     in.visibleToAll = false;
-    in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators"))
-        .getGroupUUID().get();
-    adminSession.put("/groups/" + newGroupName, in).consume();
+    in.ownerId = getFromCache("Administrators").getGroupUUID().get();
+    gApi.groups().create(in);
 
-    Set<String> expectedGroups = Sets.newHashSet(newGroupName);
-    RestResponse r = userSession.get("/groups/");
-    Map<String, GroupInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<Map<String, GroupInfo>>() {}.getType());
-    assertThat(result).isEmpty();
+    setApiUser(user);
+    assertThat(gApi.groups().list().getAsMap())
+        .doesNotContainKey(newGroupName);
 
-    r = adminSession.put(
-        String.format("/groups/%s/members/%s", newGroupName, user.username));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
+    setApiUser(admin);
+    gApi.groups().id(newGroupName).addMembers(user.username);
 
-    r = userSession.get("/groups/");
-    result = newGson().fromJson(r.getReader(),
-        new TypeToken<Map<String, GroupInfo>>() {}.getType());
-    assertGroups(expectedGroups, result.keySet());
+    setApiUser(user);
+    assertThat(gApi.groups().list().getAsMap()).containsKey(newGroupName);
   }
 
   @Test
   public void testAllGroupInfoFieldsSetCorrectly() throws Exception {
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-    RestResponse r = adminSession.get("/groups/?q=" + adminGroup.getName());
-    Map<String, GroupInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<Map<String, GroupInfo>>() {}.getType());
-    GroupInfo adminGroupInfo = result.get(adminGroup.getName());
-    assertGroupInfo(adminGroup, adminGroupInfo);
+    AccountGroup adminGroup = getFromCache("Administrators");
+    Map<String, GroupInfo> groups =
+        gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();
+    assertThat(groups).hasSize(1);
+    assertThat(groups).containsKey("Administrators");
+    assertGroupInfo(adminGroup, Iterables.getOnlyElement(groups.values()));
+  }
+
+  private AccountGroup getFromCache(String name) throws Exception {
+    return groupCache.get(new AccountGroup.NameKey(name));
   }
 }

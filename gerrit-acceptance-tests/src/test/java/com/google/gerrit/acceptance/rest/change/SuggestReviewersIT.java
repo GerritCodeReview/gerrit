@@ -22,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
@@ -34,13 +33,11 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -124,18 +121,18 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
 
-    reviewers = suggestReviewers(new RestSession(server, user1),
-        changeId, user2.fullName, 2);
+    setApiUser(user1);
+    reviewers = suggestReviewers(changeId, user2.fullName, 2);
     assertThat(reviewers).isEmpty();
 
-    reviewers = suggestReviewers(new RestSession(server, user2),
-        changeId, user2.fullName, 2);
+    setApiUser(user2);
+    reviewers = suggestReviewers(changeId, user2.fullName, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
 
-    reviewers = suggestReviewers(new RestSession(server, user3),
-        changeId, user2.fullName, 2);
+    setApiUser(user3);
+    reviewers = suggestReviewers(changeId, user2.fullName, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
@@ -147,14 +144,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
 
-    reviewers = suggestReviewers(new RestSession(server, user1),
-        changeId, user2.fullName, 2);
+    setApiUser(user1);
+    reviewers = suggestReviewers(changeId, user2.fullName, 2);
     assertThat(reviewers).isEmpty();
 
+    setApiUser(user1); // Clear cached group info.
     allowGlobalCapabilities(group1.getGroupUUID(),
         GlobalCapability.VIEW_ALL_ACCOUNTS);
-    reviewers = suggestReviewers(new RestSession(server, user1),
-        changeId, user2.fullName, 2);
+    reviewers = suggestReviewers(changeId, user2.fullName, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
@@ -194,34 +191,20 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersWithoutLimitOptionSpecified() throws Exception {
     String changeId = createChange().getChangeId();
     String query = user3.fullName;
-    List<SuggestedReviewerInfo> suggestedReviewerInfos = newGson().fromJson(
-        adminSession.get("/changes/"
-            + changeId
-            + "/suggest_reviewers?q="
-            + query)
-            .getReader(),
-        new TypeToken<List<SuggestedReviewerInfo>>() {}
-        .getType());
+    List<SuggestedReviewerInfo> suggestedReviewerInfos = gApi.changes()
+        .id(changeId)
+        .suggestReviewers(query)
+        .get();
     assertThat(suggestedReviewerInfos).hasSize(1);
   }
 
-  private List<SuggestedReviewerInfo> suggestReviewers(RestSession session,
-      String changeId, String query, int n) throws IOException {
-    return newGson().fromJson(
-        session.get("/changes/"
-            + changeId
-            + "/suggest_reviewers?q="
-            + query
-            + "&n="
-            + n)
-        .getReader(),
-        new TypeToken<List<SuggestedReviewerInfo>>() {}
-        .getType());
-  }
-
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
-      String query, int n) throws IOException {
-    return suggestReviewers(adminSession, changeId, query, n);
+      String query, int n) throws Exception {
+    return gApi.changes()
+        .id(changeId)
+        .suggestReviewers(query)
+        .withLimit(n)
+        .get();
   }
 
   private AccountGroup group(String name) throws Exception {

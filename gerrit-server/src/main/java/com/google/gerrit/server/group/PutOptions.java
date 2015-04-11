@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -72,6 +73,10 @@ public class PutOptions implements RestModifyView<GroupResource, Input> {
     db.get().accountGroups().update(Collections.singleton(group));
     groupCache.evict(group);
 
-    return new GroupOptionsInfo(group);
+    GroupOptionsInfo options = new GroupOptionsInfo();
+    if (group.isVisibleToAll()) {
+      options.visibleToAll = true;
+    }
+    return options;
   }
 }

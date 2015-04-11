@@ -18,8 +18,8 @@ import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInf
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.GroupJson.GroupInfo;
 
 import org.junit.Test;
 

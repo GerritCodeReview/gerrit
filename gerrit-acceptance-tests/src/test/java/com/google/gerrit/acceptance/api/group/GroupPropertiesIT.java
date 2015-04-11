@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.group;
+package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.rest.group.GroupAssert.toBoolean;
+import static com.google.gerrit.acceptance.api.group.GroupAssert.toBoolean;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.acceptance.AbstractDaemonTest;

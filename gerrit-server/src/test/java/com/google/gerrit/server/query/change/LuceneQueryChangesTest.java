@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import static org.junit.Assert.assertTrue;
-
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.InMemoryModule;
@@ -45,12 +43,12 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
         repo.parseBody(repo.commit().message("one.two.three").create());
     Change change2 = newChange(repo, commit2, null, null, null).insert();
 
-    assertTrue(query("message:foo_ba").isEmpty());
-    assertResultEquals(change1, queryOne("message:bar"));
-    assertResultEquals(change1, queryOne("message:foo_bar"));
-    assertResultEquals(change1, queryOne("message:foo bar"));
-    assertResultEquals(change2, queryOne("message:two"));
-    assertResultEquals(change2, queryOne("message:one.two"));
-    assertResultEquals(change2, queryOne("message:one two"));
+    assertQuery("message:foo_ba");
+    assertQuery("message:bar", change1);
+    assertQuery("message:foo_bar", change1);
+    assertQuery("message:foo bar", change1);
+    assertQuery("message:two", change2);
+    assertQuery("message:one.two", change2);
+    assertQuery("message:one two", change2);
   }
 }

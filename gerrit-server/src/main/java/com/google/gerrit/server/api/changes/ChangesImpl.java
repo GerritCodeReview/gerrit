@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -145,7 +144,7 @@ class ChangesImpl implements Changes {
       List<ChangeInfo> infos = (List<ChangeInfo>) result;
 
       return ImmutableList.copyOf(infos);
-    } catch (BadRequestException | AuthException | OrmException e) {
+    } catch (AuthException | OrmException e) {
       throw new RestApiException("Cannot query changes", e);
     }
   }

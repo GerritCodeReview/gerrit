@@ -21,7 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetDescription implements RestReadView<GroupResource> {
+public class GetDescription implements RestReadView<GroupResource> {
   @Override
   public String apply(GroupResource resource) throws MethodNotAllowedException {
     AccountGroup group = resource.toAccountGroup();

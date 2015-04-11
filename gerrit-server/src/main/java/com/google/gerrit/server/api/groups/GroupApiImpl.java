@@ -14,15 +14,32 @@
 
 package com.google.gerrit.server.api.groups;
 
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.GroupOptionsInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.group.AddIncludedGroups;
+import com.google.gerrit.server.group.AddMembers;
+import com.google.gerrit.server.group.DeleteIncludedGroups;
+import com.google.gerrit.server.group.DeleteMembers;
+import com.google.gerrit.server.group.GetDescription;
 import com.google.gerrit.server.group.GetDetail;
 import com.google.gerrit.server.group.GetGroup;
+import com.google.gerrit.server.group.GetName;
+import com.google.gerrit.server.group.GetOptions;
+import com.google.gerrit.server.group.GetOwner;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.PutDescription;
+import com.google.gerrit.server.group.PutName;
+import com.google.gerrit.server.group.PutOptions;
+import com.google.gerrit.server.group.PutOwner;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import java.util.Arrays;
 
 class GroupApiImpl implements GroupApi {
   interface Factory {
@@ -31,15 +48,51 @@ class GroupApiImpl implements GroupApi {
 
   private final GetGroup getGroup;
   private final GetDetail getDetail;
+  private final GetName getName;
+  private final PutName putName;
+  private final GetOwner getOwner;
+  private final PutOwner putOwner;
+  private final GetDescription getDescription;
+  private final PutDescription putDescription;
+  private final GetOptions getOptions;
+  private final PutOptions putOptions;
+  private final AddMembers addMembers;
+  private final DeleteMembers deleteMembers;
+  private final AddIncludedGroups addGroups;
+  private final DeleteIncludedGroups deleteGroups;
   private final GroupResource rsrc;
 
   @AssistedInject
   GroupApiImpl(
       GetGroup getGroup,
       GetDetail getDetail,
+      GetName getName,
+      PutName putName,
+      GetOwner getOwner,
+      PutOwner putOwner,
+      GetDescription getDescription,
+      PutDescription putDescription,
+      GetOptions getOptions,
+      PutOptions putOptions,
+      AddMembers addMembers,
+      DeleteMembers deleteMembers,
+      AddIncludedGroups addGroups,
+      DeleteIncludedGroups deleteGroups,
       @Assisted GroupResource rsrc) {
     this.getGroup = getGroup;
     this.getDetail = getDetail;
+    this.getName = getName;
+    this.putName = putName;
+    this.getOwner = getOwner;
+    this.putOwner = putOwner;
+    this.getDescription = getDescription;
+    this.putDescription = putDescription;
+    this.getOptions = getOptions;
+    this.putOptions = putOptions;
+    this.addMembers = addMembers;
+    this.deleteMembers = deleteMembers;
+    this.addGroups = addGroups;
+    this.deleteGroups = deleteGroups;
     this.rsrc = rsrc;
   }
 
@@ -58,6 +111,114 @@ class GroupApiImpl implements GroupApi {
       return getDetail.apply(rsrc);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve group", e);
+    }
+  }
+
+  @Override
+  public String name() throws RestApiException {
+    return getName.apply(rsrc);
+  }
+
+  @Override
+  public void name(String name) throws RestApiException {
+    PutName.Input in = new PutName.Input();
+    in.name = name;
+    try {
+      putName.apply(rsrc, in);
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(name, e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot put group name", e);
+    }
+  }
+
+  @Override
+  public GroupInfo owner() throws RestApiException {
+    try {
+      return getOwner.apply(rsrc);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get group owner", e);
+    }
+  }
+
+  @Override
+  public void owner(String owner) throws RestApiException {
+    PutOwner.Input in = new PutOwner.Input();
+    in.owner = owner;
+    try {
+      putOwner.apply(rsrc, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot put group owner", e);
+    }
+  }
+
+  @Override
+  public String description() throws RestApiException {
+    return getDescription.apply(rsrc);
+  }
+
+  @Override
+  public void description(String description) throws RestApiException {
+    PutDescription.Input in = new PutDescription.Input();
+    in.description = description;
+    try {
+      putDescription.apply(rsrc, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot put group description", e);
+    }
+  }
+
+  @Override
+  public GroupOptionsInfo options() throws RestApiException {
+    return getOptions.apply(rsrc);
+  }
+
+  @Override
+  public void options(GroupOptionsInfo options) throws RestApiException {
+    try {
+      putOptions.apply(rsrc, options);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot put group options", e);
+    }
+  }
+
+  @Override
+  public void addMembers(String... members) throws RestApiException {
+    try {
+      addMembers.apply(
+          rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot add group members", e);
+    }
+  }
+
+  @Override
+  public void removeMembers(String... members) throws RestApiException {
+    try {
+      deleteMembers.apply(
+          rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot remove group members", e);
+    }
+  }
+
+  @Override
+  public void addGroups(String... groups) throws RestApiException {
+    try {
+      addGroups.apply(
+          rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot add group members", e);
+    }
+  }
+
+  @Override
+  public void removeGroups(String... groups) throws RestApiException {
+    try {
+      deleteGroups.apply(
+          rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot remove group members", e);
     }
   }
 

@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -51,15 +52,19 @@ import java.util.List;
 import java.util.UUID;
 
 public class SchemaUpdaterTest {
+  private LifecycleManager lifecycle;
   private InMemoryDatabase db;
 
   @Before
   public void setUp() throws Exception {
-    db = InMemoryDatabase.newDatabase();
+    lifecycle = new LifecycleManager();
+    db = InMemoryDatabase.newDatabase(lifecycle);
+    lifecycle.start();
   }
 
   @After
   public void tearDown() throws Exception {
+    lifecycle.stop();
     InMemoryDatabase.drop(db);
   }
 

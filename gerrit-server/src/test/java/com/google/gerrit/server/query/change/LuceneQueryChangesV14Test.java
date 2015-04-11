@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.testutil.InMemoryModule;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import org.eclipse.jgit.lib.Config;
@@ -23,14 +23,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
-
   @Override
-  protected Injector createInjector() {
+  protected Injector createInjector(LifecycleManager lifecycle) {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
     // Latest version with a Lucene 4 index.
     luceneConfig.setInt("index", "lucene", "testVersion", 14);
-    return Guice.createInjector(new InMemoryModule(luceneConfig));
+    return InMemoryModule.createInjector(lifecycle, luceneConfig);
   }
 
   @Override

@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -56,13 +57,20 @@ public class SchemaCreatorTest {
   @Inject
   private InMemoryDatabase db;
 
+  private LifecycleManager lifecycle;
+
   @Before
   public void setUp() throws Exception {
-    new InMemoryModule().inject(this);
+    LifecycleManager lifecycle = new LifecycleManager();
+    InMemoryModule.createInjector(lifecycle).injectMembers(this);
+    lifecycle.start();
   }
 
   @After
   public void tearDown() throws Exception {
+    if (lifecycle != null) {
+      lifecycle.stop();
+    }
     InMemoryDatabase.drop(db);
   }
 

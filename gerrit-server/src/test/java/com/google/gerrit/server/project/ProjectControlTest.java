@@ -33,7 +33,6 @@ import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -63,10 +62,9 @@ public class ProjectControlTest {
 
   @Before
   public void setUp() throws Exception {
-    Injector injector = Guice.createInjector(new InMemoryModule());
-    injector.injectMembers(this);
     lifecycle = new LifecycleManager();
-    lifecycle.add(injector);
+    Injector injector = InMemoryModule.createInjector(lifecycle);
+    injector.injectMembers(this);
     lifecycle.start();
 
     db = schemaFactory.open();

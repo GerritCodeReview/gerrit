@@ -21,6 +21,7 @@ import com.google.common.net.InetAddresses;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -100,13 +101,33 @@ public class InMemoryModule extends FactoryModule {
         ChangeSchemas.getLatest().getVersion());
   }
 
-  private final Config cfg;
-
-  public InMemoryModule() {
-    this(newDefaultConfig());
+  public static Injector createInjector(LifecycleManager lifecycle) {
+    return createInjector(lifecycle, newDefaultConfig());
   }
 
-  public InMemoryModule(Config cfg) {
+  public static Injector createInjector(LifecycleManager lifecycle,
+      Config cfg) {
+    Injector sysInjector = Guice.createInjector(new InMemoryModule(cfg));
+    Injector testInjector = sysInjector.createChildInjector(
+        new AbstractModule() {
+          @Override
+          public void configure() {
+            // These bindings must be in a child injector, because
+            // ChangeMergeQueue creates its own child injector with conflicting
+            // bindings.
+            InetSocketAddress addr = new InetSocketAddress(
+                InetAddresses.forString("127.0.0.1"), 1234);
+            bind(SocketAddress.class).annotatedWith(RemotePeer.class)
+                .toInstance(addr);
+          }
+        });
+    lifecycle.add(sysInjector, testInjector);
+    return testInjector;
+  }
+
+  private final Config cfg;
+
+  private InMemoryModule(Config cfg) {
     this.cfg = cfg;
   }
 
@@ -132,8 +153,6 @@ public class InMemoryModule extends FactoryModule {
     // TODO(dborowitz): Use jimfs.
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
-    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toInstance(
-        new InetSocketAddress(InetAddresses.forString("127.0.0.1"), 1234));
     bind(PersonIdent.class)
         .annotatedWith(GerritPersonIdent.class)
         .toProvider(GerritPersonIdentProvider.class);

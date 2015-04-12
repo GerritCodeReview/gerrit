@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3014ba32_59be03f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-12T19:41:35Z",
+      "side": 1,
+      "message": "get() should always give you the long format.",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "a506fd7ce19c62c9a385eec5f930d0712dbf5985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50112e41_7ab9b90d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +36,23 @@
       "writtenOn": "2015-04-10T23:25:13Z",
       "side": 1,
       "message": "I took this simple approach for some internal code because I wanted a solution now, and I was not willing to potentially break our production environment.  But if people think we should just start enforcing that refs start with \"refs/\" in the Branch.NameKey setter, I will push a change to do that since it is a better long term solution.  I just don\u0027t know how much of our code might break in that case.  Hopefully it won\u0027t actually break anything.  I suspect that everything will just work if we start enforcing this because if a branch gets stored in the db on a change in short form (without the leading \"refs/\"), it generally breaks that change today.  So at least with respect to changes, enforcing it isn\u0027t likely going to break anything.",
+      "revId": "a506fd7ce19c62c9a385eec5f930d0712dbf5985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50112e41_3ac3418c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Branch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-12T19:41:35Z",
+      "side": 1,
+      "message": "This should never be reached. A Branch.NameKey object should always start with refs/.\n\nIts valid for Branch.NameKey to be refs/meta/config. Here you corrupt the name to be refs/heads/refs/meta/config. Which is wrong if we relied on getRefName().",
       "revId": "a506fd7ce19c62c9a385eec5f930d0712dbf5985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

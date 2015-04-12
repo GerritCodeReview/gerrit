@@ -14,10 +14,13 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.errors.InvalidNameException;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.server.account.PerformRenameGroup;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -34,19 +37,20 @@ public class RenameGroupCommand extends SshCommand {
   private String newGroupName;
 
   @Inject
-  private PerformRenameGroup.Factory performRenameGroupFactory;
+  private GroupsCollection groups;
+
+  @Inject
+  private PutName putName;
 
   @Override
   protected void run() throws Failure {
     try {
-      performRenameGroupFactory.create().renameGroup(groupName, newGroupName);
-    } catch (OrmException e) {
-      throw die(e);
-    } catch (InvalidNameException e) {
-      throw die(e);
-    } catch (NameAlreadyUsedException e) {
-      throw die(e);
-    } catch (NoSuchGroupException e) {
+      GroupResource rsrc = groups.parse(TopLevelResource.INSTANCE,
+          IdString.fromDecoded(groupName));
+      PutName.Input input = new PutName.Input();
+      input.name = newGroupName;
+      putName.apply(rsrc, input);
+    } catch (RestApiException | OrmException | NoSuchGroupException e) {
       throw die(e);
     }
   }

@@ -46,6 +46,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 /**
@@ -330,7 +331,7 @@ public class ChangeField {
       };
 
   /** Set true if the change has a non-zero label score. */
-  public static final FieldDef<ChangeData, String> REVIEWED =
+  public static final FieldDef<ChangeData, String> LEGACY_REVIEWED =
       new FieldDef.Single<ChangeData, String>(
           "reviewed", FieldType.EXACT, false) {
         @Override
@@ -338,6 +339,28 @@ public class ChangeField {
             throws OrmException {
           for (PatchSetApproval a : input.currentApprovals()) {
             if (a.getValue() != 0) {
+              return "1";
+            }
+          }
+          return null;
+        }
+      };
+
+  /** True if reviewer has commented more recently than change owner. */
+  public static final FieldDef<ChangeData, String> REVIEWED =
+      new FieldDef.Single<ChangeData, String>(
+          "reviewed2", FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Account.Id owner = input.change().getOwner();
+          List<ChangeMessage> msgs = input.messages();
+          ListIterator<ChangeMessage> i = msgs.listIterator(msgs.size());
+          while (i.hasPrevious()) {
+            ChangeMessage m = i.previous();
+            if (owner.equals(m)) {
+              return null;
+            } else if (m.getAuthor() != null) {
               return "1";
             }
           }

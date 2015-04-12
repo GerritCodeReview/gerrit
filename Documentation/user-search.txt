@@ -252,8 +252,9 @@ and thus is likely to notify the user when it updates.
 
 is:reviewed::
 +
-True if there is at least one non-zero score on the change, in any
-approval category, by any user.
+True if any reviewer has commented more recently than the change owner.
+Automatically set false when the change owner has replied by making
+a comment or uploading a new patch set.
 
 is:owner::
 +

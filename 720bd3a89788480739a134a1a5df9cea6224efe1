@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3014ba32_59372312",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:54:33Z",
+      "side": 1,
+      "message": "Should be a tab?",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "720bd3a89788480739a134a1a5df9cea6224efe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

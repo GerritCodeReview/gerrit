@@ -18,6 +18,7 @@ include_defs('//lib/auto/auto_value.defs')
 include_defs('//tools/gwt-constants.defs')
 include_defs('//tools/java_doc.defs')
 include_defs('//tools/java_sources.defs')
+include_defs('//tools/git.defs')
 import copy
 
 # Set defaults on java rules:
@@ -130,7 +131,7 @@ def gerrit_plugin(
     type = 'plugin',
     visibility = ['PUBLIC']):
   from multiprocessing import cpu_count
-  mf_cmd = 'v=\$(git describe HEAD);'
+  mf_cmd = 'v=%s;' % git_describe(name)
   if manifest_file:
     mf_src = [manifest_file]
     mf_cmd += 'sed "s:@VERSION@:$v:g" $SRCS >$OUT'

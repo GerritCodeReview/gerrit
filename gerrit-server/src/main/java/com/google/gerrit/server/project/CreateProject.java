@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
@@ -352,9 +353,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       while (branch.startsWith("/")) {
         branch = branch.substring(1);
       }
-      if (!branch.startsWith(Constants.R_HEADS)) {
-        branch = Constants.R_HEADS + branch;
-      }
+      branch = RefNames.fullName(branch);
       if (!Repository.isValidRefName(branch)) {
         throw new BadRequestException(String.format(
             "Branch \"%s\" is not a valid name.", branch));

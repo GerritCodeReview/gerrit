@@ -35,6 +35,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +114,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
         case NO_CHANGE:
         case FAST_FORWARD:
         case FORCED:
-          referenceUpdated.fire(rsrc.getNameKey(), u);
+          referenceUpdated.fire(rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE);
           hooks.doRefUpdatedHook(rsrc.getBranchKey(), u, identifiedUser.get().getAccount());
           ResultSet<SubmoduleSubscription> submoduleSubscriptions =
             dbProvider.get().submoduleSubscriptions().bySuperProject(rsrc.getBranchKey());

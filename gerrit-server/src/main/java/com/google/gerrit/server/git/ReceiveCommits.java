@@ -641,8 +641,7 @@ public class ReceiveCommits {
             // We only fire gitRefUpdated for direct refs updates.
             // Events for change refs are fired when they are created.
             //
-            gitRefUpdated.fire(project.getNameKey(), c.getRefName(),
-                c.getOldId(), c.getNewId());
+            gitRefUpdated.fire(project.getNameKey(), c);
             hooks.doRefUpdatedHook(
                 new Branch.NameKey(project.getNameKey(), c.getRefName()),
                 c.getOldId(),

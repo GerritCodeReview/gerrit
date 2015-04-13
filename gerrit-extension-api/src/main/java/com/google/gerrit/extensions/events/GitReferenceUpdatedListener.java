@@ -25,6 +25,9 @@ public interface GitReferenceUpdatedListener {
     String getRefName();
     String getOldObjectId();
     String getNewObjectId();
+    boolean isCreate();
+    boolean isDelete();
+    boolean isNonFastForward();
   }
 
   void onGitReferenceUpdated(Event event);

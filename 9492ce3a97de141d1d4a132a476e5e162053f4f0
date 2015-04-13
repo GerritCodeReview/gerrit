@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04d0a88_05c832a4",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-13T15:47:45Z",
+      "side": 1,
+      "message": "None if you are passing a string when its supplied.",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "9492ce3a97de141d1d4a132a476e5e162053f4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

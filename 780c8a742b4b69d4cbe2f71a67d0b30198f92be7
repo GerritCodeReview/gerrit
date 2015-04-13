@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f042224b_4fbe4df8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-13T12:24:11Z",
+      "side": 1,
+      "message": "I mildly prefer IAE rather than NPE as the thrown exception type. But what the heck, these are tests, and it saves typing.",
+      "parentUuid": "e367ba9d_a7c8eaa3",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 17
+      },
+      "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03ea0e20_a0be3af5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InProcessProtocol.java",
         "patchSetId": 2
@@ -48,6 +72,47 @@
     },
     {
       "key": {
+        "uuid": "f042224b_2fc3098c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-13T12:24:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03ea0e20_a0be3af5",
+      "range": {
+        "startLine": 140,
+        "startChar": 65,
+        "endLine": 140,
+        "endChar": 66
+      },
+      "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c35e36cf_c6b96211",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-13T12:24:11Z",
+      "side": 1,
+      "message": "I feel like this should be merged with AcceptanceTestRequestScope (which does not currently implement true Guice request scoping), but they seem just subtly different enough that this has not been obvious how to do.\n\nI just left a TODO for now.",
+      "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03ea0e20_00c4468f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 2
@@ -59,6 +124,24 @@
       "writtenOn": "2015-04-08T01:33:55Z",
       "side": 1,
       "message": "Is this TODO going to be done in this change or a follow-up?",
+      "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f042224b_0fc845a4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-13T12:24:11Z",
+      "side": 1,
+      "message": "Followup.\n\nThe larger arc of this series is to eliminate HTTP and SSH bindings from almost all tests, excepting those that explicitly test HTTP/SSH behavior. This test will need to include all three.",
+      "parentUuid": "03ea0e20_00c4468f",
       "revId": "780c8a742b4b69d4cbe2f71a67d0b30198f92be7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

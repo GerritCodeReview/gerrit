@@ -67,12 +67,12 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void addRemoveMember() throws Exception {
-    String g = group("users");
+    String g = createGroup("users");
     gApi.groups().id(g).addMembers("user");
-    assertMembers(g, admin, user);
+    assertMembers(g, user);
 
     gApi.groups().id(g).removeMembers("user");
-    assertMembers(g, admin);
+    assertNoMembers(g);
   }
 
   @Test
@@ -85,17 +85,17 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void addMultipleMembers() throws Exception {
-    String g = group("users");
+    String g = createGroup("users");
     TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
     TestAccount u2 = accounts.create("u2", "u2@example.com", "Full Name 2");
     gApi.groups().id(g).addMembers(u1.username, u2.username);
-    assertMembers(g, admin, u1, u2);
+    assertMembers(g, u1, u2);
   }
 
   @Test
   public void includeRemoveGroup() throws Exception {
-    String p = group("parent");
-    String g = group("newGroup");
+    String p = createGroup("parent");
+    String g = createGroup("newGroup");
     gApi.groups().id(p).addGroups(g);
     assertIncludes(p, g);
 
@@ -105,8 +105,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void includeExistingGroup_OK() throws Exception {
-    String p = group("parent");
-    String g = group("newGroup");
+    String p = createGroup("parent");
+    String g = createGroup("newGroup");
     gApi.groups().id(p).addGroups(g);
     assertIncludes(p, g);
     gApi.groups().id(p).addGroups(g);
@@ -115,9 +115,9 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void addMultipleIncludes() throws Exception {
-    String p = group("parent");
-    String g1 = group("newGroup1");
-    String g2 = group("newGroup2");
+    String p = createGroup("parent");
+    String g1 = createGroup("newGroup1");
+    String g2 = createGroup("newGroup2");
     List<String> groups = Lists.newLinkedList();
     groups.add(g1);
     groups.add(g2);
@@ -290,13 +290,13 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void listEmptyGroupIncludes() throws Exception {
-    String gx = group("gx");
+    String gx = createGroup("gx");
     assertThat(gApi.groups().id(gx).includedGroups()).isEmpty();
   }
 
   @Test
   public void includeNonExistingGroup() throws Exception {
-    String gx = group("gx");
+    String gx = createGroup("gx");
     try {
       gApi.groups().id(gx).addGroups("non-existing");
     } catch (UnprocessableEntityException expecetd) {
@@ -306,9 +306,9 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void listNonEmptyGroupIncludes() throws Exception {
-    String gx = group("gx");
-    String gy = group("gy");
-    String gz = group("gz");
+    String gx = createGroup("gx");
+    String gy = createGroup("gy");
+    String gz = createGroup("gz");
     gApi.groups().id(gx).addGroups(gy);
     gApi.groups().id(gx).addGroups(gz);
     assertIncludes(gApi.groups().id(gx).includedGroups(), gy, gz);
@@ -316,8 +316,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void listOneIncludeMember() throws Exception {
-    String gx = group("gx");
-    String gy = group("gy");
+    String gx = createGroup("gx");
+    String gy = createGroup("gy");
     gApi.groups().id(gx).addGroups(gy);
     assertIncludes(gApi.groups().id(gx).includedGroups(), gy);
   }
@@ -422,14 +422,18 @@ public class GroupsIT extends AbstractDaemonTest {
     assertGroupInfo(adminGroup, Iterables.getOnlyElement(groups.values()));
   }
 
-  private void assertMembers(String group, TestAccount... members)
+  private void assertMembers(String group, TestAccount... expectedMembers)
       throws Exception {
+    assertMembers(
+        gApi.groups().id(group).members(),
+        TestAccount.names(expectedMembers).toArray(String.class));
     assertAccountInfos(
-        Arrays.asList(members),
+        Arrays.asList(expectedMembers),
         gApi.groups().id(group).members());
   }
 
-  private void assertMembers(List<AccountInfo> members, String... names) {
+  private void assertMembers(Iterable<AccountInfo> members,
+      String... expectedNames) {
     Iterable<String> memberNames = Iterables.transform(members,
         new Function<AccountInfo, String>() {
           @Override
@@ -438,25 +442,22 @@ public class GroupsIT extends AbstractDaemonTest {
           }
         });
     assertThat(memberNames)
-        .containsExactlyElementsIn(Arrays.asList(names)).inOrder();
+        .containsExactlyElementsIn(Arrays.asList(expectedNames)).inOrder();
   }
 
-  private void assertIncludes(String group, String... includes)
+  private void assertNoMembers(String group) throws Exception {
+    assertThat(gApi.groups().id(group).members().isEmpty());
+  }
+
+  private void assertIncludes(String group, String... expectedNames)
       throws Exception {
-    Iterable<String> actualNames = Iterables.transform(
-        gApi.groups().id(group).includedGroups(),
-        new Function<GroupInfo, String>() {
-          @Override
-          public String apply(GroupInfo in) {
-            return in.name;
-          }
-        });
-    assertThat(actualNames).containsExactlyElementsIn(Arrays.asList(includes))
-        .inOrder();
+    assertIncludes(gApi.groups().id(group).includedGroups(), expectedNames);
   }
 
-  private void assertIncludes(List<GroupInfo> includes, String... names) {
-    Iterable<String> includeNames = Iterables.transform(includes,
+  private static void assertIncludes(
+      Iterable<GroupInfo> includes, String... expectedNames) {
+    Iterable<String> includeNames = Iterables.transform(
+        includes,
         new Function<GroupInfo, String>() {
           @Override
           public String apply(@Nullable GroupInfo info) {
@@ -464,7 +465,7 @@ public class GroupsIT extends AbstractDaemonTest {
           }
         });
     assertThat(includeNames)
-        .containsExactlyElementsIn(Arrays.asList(names)).inOrder();
+        .containsExactlyElementsIn(Arrays.asList(expectedNames)).inOrder();
   }
 
   private void assertNoIncludes(String group) throws Exception {
@@ -475,17 +476,15 @@ public class GroupsIT extends AbstractDaemonTest {
     return groupCache.get(new AccountGroup.NameKey(name));
   }
 
-  private String group(String name) throws Exception {
-    name = name(name);
-    gApi.groups().create(name);
-    return name;
+  private String createGroup(String name) throws Exception {
+    return createGroup(name, "Administrators");
   }
 
-  private String createGroup(String name) throws Exception {
+  private String createGroup(String name, String owner) throws Exception {
     name = name(name);
     GroupInput in = new GroupInput();
     in.name = name;
-    in.ownerId = "Administrators";
+    in.ownerId = owner;
     gApi.groups().create(in);
     return name;
   }

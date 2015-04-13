@@ -74,6 +74,24 @@
       "revId": "a506fd7ce19c62c9a385eec5f930d0712dbf5985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_c5f0dade",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Branch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-13T16:12:36Z",
+      "side": 1,
+      "message": "Sure, we could have the constructor check the name starts with \"refs/\" and if not add \"refs/heads/\" prefix.\n\nBut I think the callers already do this so its probably not going to trigger.",
+      "parentUuid": "b04d0a88_05df1256",
+      "revId": "a506fd7ce19c62c9a385eec5f930d0712dbf5985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

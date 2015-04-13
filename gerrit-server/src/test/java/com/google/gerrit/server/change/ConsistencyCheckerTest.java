@@ -342,7 +342,8 @@ public class ConsistencyCheckerTest {
 
   @Test
   public void missingDestRef() throws Exception {
-    RefUpdate ru = repo.getRepository().updateRef("refs/heads/master");
+    String ref = "refs/heads/master";
+    RefUpdate ru = repo.getRepository().updateRef(ref);
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
     Change c = insertChange();
@@ -351,7 +352,7 @@ public class ConsistencyCheckerTest {
     updatePatchSetRef(ps);
     db.patchSets().insert(singleton(ps));
 
-    assertProblems(c, "Destination ref not found (may be new branch): master");
+    assertProblems(c, "Destination ref not found (may be new branch): " + ref);
   }
 
   @Test
@@ -363,7 +364,8 @@ public class ConsistencyCheckerTest {
 
     assertProblems(c,
         "Patch set 1 (" + rev + ") is not merged into destination ref"
-        + " master (" + tip.name() + "), but change status is MERGED");
+        + " refs/heads/master (" + tip.name()
+        + "), but change status is MERGED");
   }
 
   @Test
@@ -377,7 +379,8 @@ public class ConsistencyCheckerTest {
 
     assertProblems(c,
         "Patch set 1 (" + commit.name() + ") is merged into destination ref"
-        + " master (" + commit.name() + "), but change status is NEW");
+        + " refs/heads/master (" + commit.name()
+        + "), but change status is NEW");
   }
 
   @Test
@@ -394,7 +397,8 @@ public class ConsistencyCheckerTest {
     ProblemInfo p = problems.get(0);
     assertThat(p.message).isEqualTo(
         "Patch set 1 (" + commit.name() + ") is merged into destination ref"
-        + " master (" + commit.name() + "), but change status is NEW");
+        + " refs/heads/master (" + commit.name()
+        + "), but change status is NEW");
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Marked change as merged");
 

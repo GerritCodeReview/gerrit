@@ -17,15 +17,13 @@ package com.google.gerrit.client.projects;
 import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 public class BranchInfo extends JavaScriptObject {
   public final String getShortName() {
-    return ref().startsWith(Branch.R_HEADS)
-        ? ref().substring(Branch.R_HEADS.length())
-        : ref();
+    return RefNames.shortName(ref());
   }
 
   public final native String ref() /*-{ return this.ref; }-*/;

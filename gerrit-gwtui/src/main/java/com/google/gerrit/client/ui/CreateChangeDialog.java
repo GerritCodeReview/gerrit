@@ -19,7 +19,6 @@ import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -91,10 +90,7 @@ public abstract class CreateChangeDialog extends TextAreaActionDialog {
 
     @Override
     public String getDisplayString() {
-      if (branch.ref().startsWith(Branch.R_HEADS)) {
-        return branch.ref().substring(Branch.R_HEADS.length());
-      }
-      return branch.ref();
+      return branch.getShortName();
     }
 
     @Override

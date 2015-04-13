@@ -57,15 +57,7 @@ public final class Branch {
     }
 
     public String getShortName() {
-      final String n = get();
-
-      // Git style branches will tend to start with "refs/heads/".
-      //
-      if (n.startsWith(R_HEADS)) {
-        return n.substring(R_HEADS.length());
-      }
-
-      return n;
+      return RefNames.shortName(get());
     }
   }
 

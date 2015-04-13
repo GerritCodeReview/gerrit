@@ -56,6 +56,12 @@ public class RefNames {
     return (ref.startsWith(REFS) ? "" : REFS_HEADS) + ref;
   }
 
+  public static final String shortName(String ref) {
+    return ref.startsWith(REFS_HEADS)
+        ? ref.substring(REFS_HEADS.length())
+        : ref;
+  }
+
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_USER);

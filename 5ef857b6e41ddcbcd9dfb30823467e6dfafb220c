@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04d0a88_650b665e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-04-13T17:18:26Z",
+      "side": 1,
+      "message": "As discussed at https://gerrit-review.googlesource.com/66822: would it make sense to handle the arity-5 form, too (used by number_chars/2 and number_codes/2)?",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 46
+      },
+      "revId": "5ef857b6e41ddcbcd9dfb30823467e6dfafb220c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

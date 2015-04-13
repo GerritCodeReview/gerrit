@@ -38,7 +38,7 @@ public class TabFile {
 
   protected static List<Row> parse(String text, String filename,
       ValidationError.Sink errors) throws IOException {
-    List<Row> rows = new ArrayList<Row>();
+    List<Row> rows = new ArrayList<>();
     BufferedReader br = new BufferedReader(new StringReader(text));
     String s;
     for (int lineNumber = 1; (s = br.readLine()) != null; lineNumber++) {
@@ -60,7 +60,7 @@ public class TabFile {
   }
 
   protected static Map<String, String> toMap(List<Row> rows) {
-    Map<String, String> map = new HashMap<String, String>(rows.size());
+    Map<String, String> map = new HashMap<>(rows.size());
     for (Row row : rows) {
       map.put(row.left, row.right);
     }
@@ -73,7 +73,7 @@ public class TabFile {
       return null;
     }
 
-    List<Row> rows = new ArrayList<Row>(entries.size());
+    List<Row> rows = new ArrayList<>(entries.size());
     for (String key : sort(entries.keySet())) {
       rows.add(new Row(key, entries.get(key)));
     }
@@ -110,7 +110,7 @@ public class TabFile {
   }
 
   protected static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {
-    ArrayList<T> r = new ArrayList<T>(m);
+    ArrayList<T> r = new ArrayList<>(m);
     Collections.sort(r);
     return r;
   }

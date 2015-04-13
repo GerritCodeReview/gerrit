@@ -82,7 +82,7 @@ public class GroupList extends TabFile {
       return null;
     }
 
-    List<Row> rows = new ArrayList<Row>(byUUID.size());
+    List<Row> rows = new ArrayList<>(byUUID.size());
     for (GroupReference g : sort(byUUID.values())) {
       if (g.getUUID() != null && g.getName() != null) {
         rows.add(new Row(g.getUUID().get(), g.getName()));

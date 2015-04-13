@@ -56,6 +56,24 @@
       "revId": "a506fd7ce19c62c9a385eec5f930d0712dbf5985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_05df1256",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Branch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-04-13T16:09:10Z",
+      "side": 1,
+      "message": "Yes, thanks for pointing out the buggy here, the startsWith() should have only searched for \"refs/\".\n\nI agree that a Branch.NameKey \"should\" always return the fullname, but there is nothing in this class that enforces that.  The enforcement is instead littered all over the code base everytime someone creates a Branch.NameKey.  And everytime someone writes new code to enforce it, they risk making stupid bugs like I just did.  So would it make sense to enforce it in the constructor and setter of this class?  (and by \"enforce it\", I mean allow a short ref to be passed in and then \"upgrade\" it here?)",
+      "parentUuid": "50112e41_3ac3418c",
+      "revId": "a506fd7ce19c62c9a385eec5f930d0712dbf5985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

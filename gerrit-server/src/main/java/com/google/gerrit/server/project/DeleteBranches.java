@@ -165,8 +165,7 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
 
   private void postDeletion(ProjectResource project, ReceiveCommand cmd)
       throws OrmException {
-    referenceUpdated.fire(project.getNameKey(), cmd.getRefName(),
-        cmd.getOldId(), cmd.getNewId());
+    referenceUpdated.fire(project.getNameKey(), cmd);
     Branch.NameKey branchKey =
         new Branch.NameKey(project.getNameKey(), cmd.getRefName());
     hooks.doRefUpdatedHook(branchKey, cmd.getOldId(), cmd.getNewId(),

@@ -45,6 +45,30 @@
       "revId": "40e4725e10b329e740dc9e8f7767a3dd4c3172d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_292c2dc6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-13T22:50:14Z",
+      "side": 1,
+      "message": "It\u0027s called by assertQuery. I don\u0027t think inlining it would be a readability win. Do you think it should just be private?",
+      "parentUuid": "d0527e22_e6fe3eab",
+      "range": {
+        "startLine": 1085,
+        "startChar": 5,
+        "endLine": 1085,
+        "endChar": 61
+      },
+      "revId": "40e4725e10b329e740dc9e8f7767a3dd4c3172d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

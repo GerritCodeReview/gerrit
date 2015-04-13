@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,7 +150,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
-            referenceUpdated.fire(name.getParentKey(), u);
+            referenceUpdated.fire(name.getParentKey(), u, ReceiveCommand.Type.CREATE);
             hooks.doRefUpdatedHook(name, u, identifiedUser.get().getAccount());
             break;
           case LOCK_FAILURE:

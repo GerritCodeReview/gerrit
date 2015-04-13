@@ -457,7 +457,7 @@ public class ChangeUtil {
           throw new IOException("Failed to delete ref " + patch.getRefName() +
               " in " + repo.getDirectory() + ": " + update.getResult());
       }
-      gitRefUpdated.fire(change.getProject(), update);
+      gitRefUpdated.fire(change.getProject(), update, ReceiveCommand.Type.DELETE);
     } finally {
       repo.close();
     }

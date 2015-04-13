@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3014ba32_d9fb33b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAccountQueries.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3014ba32_39158f74",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50112e41_faf389e8",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-13T02:30:18Z",
       "side": 1,
       "message": "Better to use the google truth library here.\n\n assertThat(Q_P.equals(ql.getQuery(N_FOO))).isTrue();",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50112e41_3a158174",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50112e41_faf389e8",
       "range": {
         "startLine": 53,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "50112e41_1a1abda4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3014ba32_191acba4",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3014ba32_f9fef7aa",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2015-04-13T02:30:18Z",
       "side": 1,
       "message": "assertThat(ql.getQuery(N_FOO)).isNull();",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 45
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50112e41_fafee9aa",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3014ba32_f9fef7aa",
       "range": {
         "startLine": 86,
         "startChar": 6,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3014ba32_b9087f5b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50112e41_baed1109",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 18
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50112e41_daf0c5de",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
         "patchSetId": 4
@@ -128,6 +248,30 @@
       "writtenOn": "2015-04-13T02:30:18Z",
       "side": 1,
       "message": "Use `fail()` instead.",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 24
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3014ba32_9905bb43",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50112e41_daf0c5de",
       "range": {
         "startLine": 129,
         "startChar": 6,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "50112e41_dafb25b9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Replaced the assertTrue with an \"Expected\" comment. If possible it would be better to make it so the `expected` can be used in the annotation instead.",
+      "parentUuid": "50112e41_9aea4ded",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50112e41_7a0bf95d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
         "patchSetId": 4
@@ -174,6 +342,30 @@
       "writtenOn": "2015-04-13T02:30:18Z",
       "side": 1,
       "message": "assertThat(asText).isEqualTo(text);",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 38
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3014ba32_7932e723",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-13T02:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50112e41_7a0bf95d",
       "range": {
         "startLine": 141,
         "startChar": 6,

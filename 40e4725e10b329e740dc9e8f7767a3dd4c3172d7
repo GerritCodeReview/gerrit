@@ -22,6 +22,29 @@
       "revId": "40e4725e10b329e740dc9e8f7767a3dd4c3172d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_e6fe3eab",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-13T22:48:03Z",
+      "side": 1,
+      "message": "Why do we need this?",
+      "range": {
+        "startLine": 1085,
+        "startChar": 5,
+        "endLine": 1085,
+        "endChar": 61
+      },
+      "revId": "40e4725e10b329e740dc9e8f7767a3dd4c3172d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

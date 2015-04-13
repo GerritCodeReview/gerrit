@@ -63,6 +63,7 @@ public class ModeInfo extends JavaScriptObject {
       Modes.I.pig(),
       Modes.I.properties(),
       Modes.I.python(),
+      Modes.I.puppet(),
       Modes.I.r(),
       Modes.I.rst(),
       Modes.I.ruby(),
@@ -91,6 +92,7 @@ public class ModeInfo extends JavaScriptObject {
     alias("text/x-java-source", "text/x-java");
     alias("text/x-php", "application/x-httpd-php");
     alias("text/x-scripttcl", "text/x-tcl");
+    alias("text/x-pp", "text/x-puppet");
   }
 
   /** All supported modes. */

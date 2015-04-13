@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -56,9 +57,8 @@ public class BranchesCollection implements
   public BranchResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException, BadRequestException {
     String branchName = id.get();
-    if (!branchName.startsWith(Constants.R_REFS)
-        && !branchName.equals(Constants.HEAD)) {
-      branchName = Constants.R_HEADS + branchName;
+    if (!branchName.equals(Constants.HEAD)) {
+      branchName = RefNames.fullName(branchName);
     }
     List<BranchInfo> branches = list.get().apply(parent);
     for (BranchInfo b : branches) {

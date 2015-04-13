@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.SetHead.Input;
@@ -71,10 +72,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
     if (input == null || Strings.isNullOrEmpty(input.ref)) {
       throw new BadRequestException("ref required");
     }
-    String ref = input.ref;
-    if (!ref.startsWith(Constants.R_REFS)) {
-      ref = Constants.R_HEADS + ref;
-    }
+    String ref = RefNames.fullName(input.ref);
 
     Repository repo = null;
     try {

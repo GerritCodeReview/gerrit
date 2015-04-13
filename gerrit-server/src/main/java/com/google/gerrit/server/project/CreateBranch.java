@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -103,9 +104,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
     while (ref.startsWith("/")) {
       ref = ref.substring(1);
     }
-    if (!ref.startsWith(Constants.R_REFS)) {
-      ref = Constants.R_HEADS + ref;
-    }
+    ref = RefNames.fullName(ref);
     if (!Repository.isValidRefName(ref)) {
       throw new BadRequestException("invalid branch name \"" + ref + "\"");
     }

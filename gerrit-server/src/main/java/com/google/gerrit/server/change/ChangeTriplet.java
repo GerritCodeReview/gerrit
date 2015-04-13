@@ -53,10 +53,6 @@ public abstract class ChangeTriplet {
     String branch = Url.decode(triplet.substring(t1 + 1, t2));
     String changeId = Url.decode(triplet.substring(t2 + 1));
 
-    if (!branch.startsWith(Constants.R_REFS)) {
-      branch = Constants.R_HEADS + branch;
-    }
-
     ChangeTriplet result = new AutoValue_ChangeTriplet(
         new Branch.NameKey(new Project.NameKey(project), branch),
         new Change.Key(changeId));

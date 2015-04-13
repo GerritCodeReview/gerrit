@@ -20,8 +20,37 @@ Important Notes
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
+----
+
+Gerrit 2.11 requires a secondary index, which can be created offline
+by running the `reindex` program:
+
+----
   java -jar gerrit.war reindex -d site_path
 ----
+
+If the site that is upgraded already has a secondary index, the
+secondary index can be upgraded online. This is important for large
+sites since running the `reindex` program can take a long time and
+contributes significantly to the downtime that is required for the
+upgrade.
+
+Gerrit 2.11 supports online reindexing only from the index version `10`
+which is the index version of Gerrit 2.10. This means if you come from
+an older release it makes sense to first upgrade to 2.10 and then do
+the upgrade to 2.11 so that you can profit from online reindexing.
+
+In case you are upgrading from 2.10 it is *important* to check *before*
+the upgrade to 2.11 that the index version of your Gerrit 2.10 site is
+`10`. You can check the index version in
+`$site_path/index/gerrit_index.config`. Your Gerrit 2.10 site may run
+with an older index version (e.g. if online reindexing to index version
+`10` is still running or if online reindexing to version `10` has
+failed). In this case you first need to successfully migrate your index
+version of your Gerrit 2.10 site to `10` and only then start with the
+2.11 upgrade. If you start the 2.11 upgrade when the schema version of
+your Gerrit 2.10 site is older than `10`, online reindexing is no longer
+possible and you need to reindex offline by using the `reindex` program.
 
 *WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.8 (or
 2.9) and then to 2.11.x. If you are upgrading from 2.8.x or later, you may ignore
@@ -117,8 +146,6 @@ different change (on the same destination branch), rather than only onto the
 head of the destination branch or the latest patch set of the predecessor change.
 
 * Show the parent commit's subject as a tooltip.
-
-* Decorate abandoned changes in the 'Related Changes' list with a dark red dot.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2541[Issue 2541],
 link:http://code.google.com/p/gerrit/issues/detail?id=2974[Issue 2974]:
@@ -546,6 +573,12 @@ of a repository with a space in its name was impossible.
 +
 Some tasks were not displayed with the proper name.
 
+* Prevent wrong content type for CSS files.
++
+The mime-util library contains two content type mappings for .css files:
+`application/x-pointplus` and `text/css`.  Unfortunately, using the wrong one
+will result in most browsers discarding the file as a CSS file.  Ensure we only
+use the correct type for CSS files.
 
 SSH
 ~~~
@@ -605,13 +638,6 @@ Remove stripping `#` in login redirect.
 
 Change Screen
 ^^^^^^^^^^^^^
-
-* link:http://code.google.com/p/gerrit/issues/detail?id=2894[Issue 2894]:
-Link to change screen for merged or abandoned changes in the 'Related Changes'
-list.
-+
-For changes in the 'Related Changes' tab that are closed the link was
-bringing the user to GitWeb, and not as expected to the change screen.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3147[Issue 3147]:
 Allow to disable muting of common path prefixes in the file list.

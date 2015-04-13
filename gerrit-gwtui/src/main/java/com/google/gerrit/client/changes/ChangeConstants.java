@@ -166,6 +166,7 @@ public interface ChangeConstants extends Constants {
 
   String buttonRebaseChangeSend();
   String rebaseConfirmMessage();
+  String rebaseNotPossibleMessage();
   String rebasePlaceholderMessage();
   String rebaseTitle();
 

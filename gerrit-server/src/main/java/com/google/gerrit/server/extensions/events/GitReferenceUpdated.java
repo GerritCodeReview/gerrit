@@ -46,16 +46,22 @@ public class GitReferenceUpdated {
     this.listeners = listeners;
   }
 
-  public void fire(Project.NameKey project, RefUpdate refUpdate) {
+  public void fire(Project.NameKey project, RefUpdate refUpdate,
+      ReceiveCommand.Type type) {
     fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId());
+        refUpdate.getNewObjectId(), type);
   }
 
-  public void fire(Project.NameKey project, String ref,
-      ObjectId oldObjectId, ObjectId newObjectId) {
+  public void fire(Project.NameKey project, RefUpdate refUpdate) {
+    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
+        refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE);
+  }
+
+  public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
+      ObjectId newObjectId, ReceiveCommand.Type type) {
     ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
     ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
-    Event event = new Event(project, ref, o.name(), n.name());
+    Event event = new Event(project, ref, o.name(), n.name(), type);
     for (GitReferenceUpdatedListener l : listeners) {
       try {
         l.onGitReferenceUpdated(event);
@@ -65,10 +71,19 @@ public class GitReferenceUpdated {
     }
   }
 
+  public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
+      ObjectId newObjectId) {
+    fire(project, ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE);
+  }
+
+  public void fire(Project.NameKey project, ReceiveCommand cmd) {
+    fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType());
+  }
+
   public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate) {
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId());
+        fire(project, cmd);
       }
     }
   }
@@ -78,13 +93,16 @@ public class GitReferenceUpdated {
     private final String ref;
     private final String oldObjectId;
     private final String newObjectId;
+    private final ReceiveCommand.Type type;
 
     Event(Project.NameKey project, String ref,
-        String oldObjectId, String newObjectId) {
+        String oldObjectId, String newObjectId,
+        ReceiveCommand.Type type) {
       this.projectName = project.get();
       this.ref = ref;
       this.oldObjectId = oldObjectId;
       this.newObjectId = newObjectId;
+      this.type = type;
     }
 
     @Override
@@ -105,6 +123,21 @@ public class GitReferenceUpdated {
     @Override
     public String getNewObjectId() {
       return newObjectId;
+    }
+
+    @Override
+    public boolean isCreate() {
+      return type == ReceiveCommand.Type.CREATE;
+    }
+
+    @Override
+    public boolean isDelete() {
+      return type == ReceiveCommand.Type.DELETE;
+    }
+
+    @Override
+    public boolean isNonFastForward() {
+      return type == ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
     }
 
     @Override

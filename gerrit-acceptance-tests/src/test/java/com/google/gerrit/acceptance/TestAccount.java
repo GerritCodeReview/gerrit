@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Account;
 
 import com.jcraft.jsch.KeyPair;
@@ -25,11 +25,11 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
-
 public class TestAccount {
-  public static Iterable<Account.Id> ids(Iterable<TestAccount> accounts) {
-    return Iterables.transform(accounts,
-        new Function<TestAccount, Account.Id>() {
+  public static FluentIterable<Account.Id> ids(
+      Iterable<TestAccount> accounts) {
+    return FluentIterable.from(accounts)
+        .transform(new Function<TestAccount, Account.Id>() {
           @Override
           public Account.Id apply(TestAccount in) {
             return in.id;
@@ -37,8 +37,22 @@ public class TestAccount {
         });
   }
 
-  public static Iterable<Account.Id> ids(TestAccount... accounts) {
+  public static FluentIterable<Account.Id> ids(TestAccount... accounts) {
     return ids(Arrays.asList(accounts));
+  }
+
+  public static FluentIterable<String> names(Iterable<TestAccount> accounts) {
+    return FluentIterable.from(accounts)
+        .transform(new Function<TestAccount, String>() {
+          @Override
+          public String apply(TestAccount in) {
+            return in.fullName;
+          }
+        });
+  }
+
+  public static FluentIterable<String> names(TestAccount... accounts) {
+    return names(Arrays.asList(accounts));
   }
 
   public final Account.Id id;

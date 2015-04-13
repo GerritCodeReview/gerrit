@@ -16,10 +16,10 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -46,6 +46,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private NotesMigration notesMigration;
 
   protected enum Protocol {
+    // TODO(dborowitz): TEST.
     SSH, HTTP
   }
 
@@ -68,7 +69,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       default:
         throw new IllegalArgumentException("unexpected protocol: " + p);
     }
-    testRepo = cloneProject(project, url + "/" + project.get());
+    testRepo = GitUtil.cloneProject(project, url + "/" + project.get());
   }
 
   @Test

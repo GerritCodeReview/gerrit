@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7019d271_53bee4f7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1460,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-13T05:36:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3730293_b50ce071",
+      "range": {
+        "startLine": 1460,
+        "startChar": 6,
+        "endLine": 1460,
+        "endChar": 36
+      },
+      "revId": "4406001cb65c9fb10febbe9b2dd32a58ea1867e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83727e8f_74eec800",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 21
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "10409641_f0ccc0ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-13T05:36:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3730293_d5115c8c",
+      "range": {
+        "startLine": 1461,
+        "startChar": 21,
+        "endLine": 1461,
+        "endChar": 23
+      },
+      "revId": "4406001cb65c9fb10febbe9b2dd32a58ea1867e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10409641_10c864a4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-13T05:36:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83727e8f_74eec800",
+      "range": {
+        "startLine": 1461,
+        "startChar": 59,
+        "endLine": 1461,
+        "endChar": 66
+      },
+      "revId": "4406001cb65c9fb10febbe9b2dd32a58ea1867e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3730293_f5165881",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
         "patchSetId": 21
@@ -82,6 +154,30 @@
       "writtenOn": "2015-04-10T09:10:46Z",
       "side": 1,
       "message": "In the case of ZIP this error message is wrong.  ZIP format is not unknown; it is known but not allowed/supported.\n\nShould there be a separate error message for that case?\n\nAnd should it still be a 400 bad request, or 405 method not allowed?  (or something else?)",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 5
+      },
+      "revId": "4406001cb65c9fb10febbe9b2dd32a58ea1867e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7019d271_33c3688c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-13T05:36:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3730293_f5165881",
       "range": {
         "startLine": 106,
         "startChar": 4,

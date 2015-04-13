@@ -14,10 +14,9 @@
 
 package com.google.gerrit.server.events;
 
-import static org.eclipse.jgit.lib.Constants.R_HEADS;
-
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.data.ChangeAttribute;
 
 public abstract class ChangeEvent extends RefEvent {
@@ -34,7 +33,7 @@ public abstract class ChangeEvent extends RefEvent {
 
   @Override
   public String getRefName() {
-    return R_HEADS + change.branch;
+    return RefNames.fullName(change.branch);
   }
 
   public Change.Key getChangeKey() {

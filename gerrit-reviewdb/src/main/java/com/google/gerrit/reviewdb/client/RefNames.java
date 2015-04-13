@@ -17,6 +17,10 @@ package com.google.gerrit.reviewdb.client;
 
 /** Constants and utilities for Gerrit-specific ref names. */
 public class RefNames {
+  public static final String REFS = "refs/";
+
+  public static final String REFS_HEADS = "refs/heads/";
+
   public static final String REFS_CHANGES = "refs/changes/";
 
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
@@ -47,6 +51,10 @@ public class RefNames {
 
   /** Suffix of a meta ref in the notedb. */
   public static final String META_SUFFIX = "/meta";
+
+  public static String fullName(String ref) {
+    return (ref.startsWith(REFS) ? "" : REFS_HEADS) + ref;
+  }
 
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();

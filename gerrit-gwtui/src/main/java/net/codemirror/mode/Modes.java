@@ -47,6 +47,7 @@ public interface Modes extends ClientBundle {
   @Source("php.js") @DoNotEmbed DataResource php();
   @Source("pig.js") @DoNotEmbed DataResource pig();
   @Source("properties.js") @DoNotEmbed DataResource properties();
+  @Source("puppet.js") @DoNotEmbed DataResource puppet();
   @Source("python.js") @DoNotEmbed DataResource python();
   @Source("r.js") @DoNotEmbed DataResource r();
   @Source("rst.js") @DoNotEmbed DataResource rst();

@@ -35,6 +35,13 @@ import java.util.Map;
 @NoHttpd
 public class ListGroupsIT extends AbstractDaemonTest {
   @Test
+  public void defaultGroupsCreated() throws Exception {
+    Iterable<String> names = gApi.groups().list().getAsMap().keySet();
+    assertThat(names).containsAllOf("Administrators", "Non-Interactive Users")
+        .inOrder();
+  }
+
+  @Test
   public void testListAllGroups() throws Exception {
     List<String> expectedGroups = FluentIterable
           .from(groupCache.all())

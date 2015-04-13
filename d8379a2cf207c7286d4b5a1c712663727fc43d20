@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "b04d0a88_a5edde08",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-04-13T16:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50112e41_dafb25b9",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "d8379a2cf207c7286d4b5a1c712663727fc43d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50112e41_7a0bf95d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
         "patchSetId": 4

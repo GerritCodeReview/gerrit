@@ -70,6 +70,30 @@
       "revId": "5098a97b1fa95e1cd46aa7632a0f2cd513b9c27f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7019d271_d3c9d4a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-13T05:48:19Z",
+      "side": 1,
+      "message": "Thanks. This was a blind fix. I havn\u0027t used my tomcat environment for a long time, so asking the reporter of the bug to test the fix.",
+      "parentUuid": "3014ba32_795d4756",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "5098a97b1fa95e1cd46aa7632a0f2cd513b9c27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

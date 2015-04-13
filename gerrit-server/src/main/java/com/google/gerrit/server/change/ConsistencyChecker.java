@@ -307,8 +307,7 @@ public class ConsistencyChecker {
       return;
     }
     if (dest == null) {
-      problem("Destination ref not found (may be new branch): "
-          + change.getDest().get());
+      problem("Destination ref not found (may be new branch): " + refName);
       return;
     }
     RevCommit tip = parseCommit(dest.getObjectId(),

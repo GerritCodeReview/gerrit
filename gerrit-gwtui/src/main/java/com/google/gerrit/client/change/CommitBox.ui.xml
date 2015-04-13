@@ -68,7 +68,7 @@ limitations under the License.
       padding: 0;
       width: 560px;
     }
-    .header th { width: 70px; }
+    .header th { width: 72px; }
     .header td { white-space: nowrap; }
     .date { width: 132px; }
 
@@ -106,6 +106,16 @@ limitations under the License.
       height: 16px !important;
       vertical-align: bottom;
     }
+
+    .parent {
+      margin-right: 3px;
+      float: left;
+    }
+    .parentNotCurrent {
+      color: #FFA62F;   <!-- orange -->
+      font-weight: bold;
+    }
+
   </ui:style>
   <g:HTMLPanel>
     <g:ScrollPanel styleName='{style.scroll}' ui:field='scroll'>
@@ -163,7 +173,15 @@ limitations under the License.
         </td>
       </tr>
       <tr ui:field='firstParent' style='display: none'>
-        <th><ui:msg>Parent(s)</ui:msg></th>
+        <th>
+          <div class='{style.parent}'>
+            <ui:msg>Parent(s)</ui:msg>
+          </div>
+          <div ui:field='parentNotCurrentText'
+              title='Not current - rebase possible'
+              class='{style.parentNotCurrent}'
+              style='display: none' aria-hidden='true'/>
+        </th>
         <td>
           <g:FlowPanel ui:field='parentCommits'/>
         </td>

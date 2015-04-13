@@ -583,6 +583,9 @@ class HttpPluginServlet extends HttpServlet
       if ("application/octet-stream".equals(contentType)
           && entry.getName().endsWith(".js")) {
         contentType = "application/javascript";
+      } else if ("application/x-pointplus".equals(contentType)
+          && entry.getName().endsWith(".css")) {
+        contentType = "text/css";
       }
     }
 

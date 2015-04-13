@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -49,6 +50,7 @@ public class ChangesCollection implements
   private final ChangeUtil changeUtil;
   private final CreateChange createChange;
   private final ChangeIndexer changeIndexer;
+  private final RebaseChange rebaseChange;
 
   @Inject
   ChangesCollection(
@@ -58,7 +60,8 @@ public class ChangesCollection implements
       DynamicMap<RestView<ChangeResource>> views,
       ChangeUtil changeUtil,
       CreateChange createChange,
-      ChangeIndexer changeIndexer) {
+      ChangeIndexer changeIndexer,
+      RebaseChange rebaseChange) {
     this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
@@ -66,6 +69,7 @@ public class ChangesCollection implements
     this.changeUtil = changeUtil;
     this.createChange = createChange;
     this.changeIndexer = changeIndexer;
+    this.rebaseChange = rebaseChange;
   }
 
   @Override
@@ -102,7 +106,7 @@ public class ChangesCollection implements
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(id);
     }
-    return new ChangeResource(control);
+    return new ChangeResource(control, rebaseChange);
   }
 
   public ChangeResource parse(Change.Id id)
@@ -112,7 +116,7 @@ public class ChangesCollection implements
   }
 
   public ChangeResource parse(ChangeControl control) {
-    return new ChangeResource(control);
+    return new ChangeResource(control, rebaseChange);
   }
 
   @SuppressWarnings("unchecked")

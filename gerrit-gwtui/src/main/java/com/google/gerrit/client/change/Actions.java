@@ -132,6 +132,12 @@ class Actions extends Composite {
     a2b(actions, "rebase", rebase);
 
     RevisionInfo revInfo = changeInfo.revision(revision);
+
+    if (rebase.isVisible()) {
+      // it is the rebase button in RebaseDialog that the server wants to disable
+      rebase.setEnabled(true);
+    }
+    
     for (String id : filterNonCore(actions)) {
       add(new ActionButton(changeInfo, revInfo, actions.get(id)));
     }
@@ -176,7 +182,16 @@ class Actions extends Composite {
 
   @UiHandler("rebase")
   void onRebase(@SuppressWarnings("unused") ClickEvent e) {
-    RebaseAction.call(rebase, project, changeInfo.branch(), changeId, revision);
+    boolean enabled = true;
+    RevisionInfo revInfo = changeInfo.revision(revision);
+    if (revInfo.has_actions()) {
+        NativeMap<ActionInfo> actions = revInfo.actions();
+        if (actions.containsKey("rebase")) {
+          enabled = actions.get("rebase").enabled();
+        }
+    }
+    RebaseAction.call(rebase, project, changeInfo.branch(), changeId, revision,
+        enabled);
   }
 
   @UiHandler("submit")

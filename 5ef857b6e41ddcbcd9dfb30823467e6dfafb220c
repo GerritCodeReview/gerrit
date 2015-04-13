@@ -22,6 +22,30 @@
       "revId": "5ef857b6e41ddcbcd9dfb30823467e6dfafb220c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_0b1a7da4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-13T23:45:12Z",
+      "side": 1,
+      "message": "Done, turns out this is easy with SyntaxException being thrown from those places.",
+      "parentUuid": "b04d0a88_650b665e",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 46
+      },
+      "revId": "5ef857b6e41ddcbcd9dfb30823467e6dfafb220c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

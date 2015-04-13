@@ -24,8 +24,8 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -446,16 +446,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> branch(String name) {
     if (name.startsWith("^")) {
-      return ref("^" + branchToRef(name.substring(1)));
+      return ref("^" + RefNames.fullName(name.substring(1)));
     }
-    return ref(branchToRef(name));
-  }
-
-  private static String branchToRef(String name) {
-    if (!name.startsWith(Branch.R_HEADS)) {
-      return Branch.R_HEADS + name;
-    }
-    return name;
+    return ref(RefNames.fullName(name));
   }
 
   @Operator

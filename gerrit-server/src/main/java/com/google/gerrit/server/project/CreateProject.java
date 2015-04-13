@@ -352,9 +352,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       while (branch.startsWith("/")) {
         branch = branch.substring(1);
       }
-      if (!branch.startsWith(Constants.R_HEADS)) {
-        branch = Constants.R_HEADS + branch;
-      }
+      branch = RefNames.fullName(branch);
       if (!Repository.isValidRefName(branch)) {
         throw new BadRequestException(String.format(
             "Branch \"%s\" is not a valid name.", branch));

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.reviewdb.client.RefNames;
+
 import com.google.common.collect.ImmutableList;
 
 import org.eclipse.jgit.lib.Constants;
@@ -35,22 +37,14 @@ public class BranchOrderSection {
     } else {
       ImmutableList.Builder<String> builder = ImmutableList.builder();
       for (String b : order) {
-        builder.add(fullName(b));
+        builder.add(RefNames.fullName(b));
       }
       this.order = builder.build();
     }
   }
 
-  private static String fullName(String branch) {
-    if (branch.startsWith(Constants.R_HEADS)) {
-      return branch;
-    } else {
-      return Constants.R_HEADS + branch;
-    }
-  }
-
   public List<String> getMoreStable(String branch) {
-    int i = order.indexOf(fullName(branch));
+    int i = order.indexOf(RefNames.fullName(branch));
     if (0 <= i) {
       return order.subList(i + 1, order.size());
     } else {

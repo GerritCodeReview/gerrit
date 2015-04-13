@@ -64,6 +64,7 @@ CM_MODES = [
   'php',
   'pig',
   'properties',
+  'puppet',
   'python',
   'r',
   'rst',

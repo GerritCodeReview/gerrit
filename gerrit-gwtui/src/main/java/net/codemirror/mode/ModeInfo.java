@@ -62,6 +62,7 @@ public class ModeInfo extends JavaScriptObject {
       Modes.I.php(),
       Modes.I.pig(),
       Modes.I.properties(),
+      Modes.I.puppet(),
       Modes.I.python(),
       Modes.I.r(),
       Modes.I.rst(),

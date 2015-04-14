@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702e3292_ab7a49b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-14T14:23:38Z",
+      "side": 1,
+      "message": "Should use extension API. Done.",
+      "revId": "180989b5cf2f81e6531abebe04f68b5faebfca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

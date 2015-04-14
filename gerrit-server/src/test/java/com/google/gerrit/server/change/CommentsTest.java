@@ -109,7 +109,8 @@ public class CommentsTest  {
   public Config config;
 
   @ConfigSuite.Config
-  public static @GerritServerConfig Config noteDbEnabled() {
+  @GerritServerConfig
+  public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
 

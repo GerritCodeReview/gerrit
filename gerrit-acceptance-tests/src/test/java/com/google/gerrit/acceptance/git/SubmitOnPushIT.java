@@ -54,7 +54,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private ChangeNotes.Factory changeNotesFactory;
 
   @Inject
-  private @GerritPersonIdent PersonIdent serverIdent;
+  @GerritPersonIdent
+  private PersonIdent serverIdent;
 
   @Test
   public void submitOnPush() throws Exception {

@@ -147,13 +147,13 @@ public class IdentifiedUser extends CurrentUser {
         CapabilityControl.Factory capabilityControlFactory,
         final AuthConfig authConfig,
         Realm realm,
-        final @AnonymousCowardName String anonymousCowardName,
-        final @CanonicalWebUrl Provider<String> canonicalUrl,
+        @AnonymousCowardName final String anonymousCowardName,
+        @CanonicalWebUrl final Provider<String> canonicalUrl,
         final AccountCache accountCache,
         final GroupBackend groupBackend,
-        final @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
+        @DisableReverseDnsLookup final Boolean disableReverseDnsLookup,
 
-        final @RemotePeer Provider<SocketAddress> remotePeerProvider,
+        @RemotePeer final Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;

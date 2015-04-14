@@ -41,7 +41,7 @@ public class FromAddressGeneratorProvider implements
 
   @Inject
   FromAddressGeneratorProvider(@GerritServerConfig final Config cfg,
-      final @AnonymousCowardName String anonymousCowardName,
+      @AnonymousCowardName final String anonymousCowardName,
       @GerritPersonIdent final PersonIdent myIdent,
       final AccountCache accountCache) {
 

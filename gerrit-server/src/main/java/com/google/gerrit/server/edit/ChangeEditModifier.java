@@ -390,7 +390,7 @@ public class ChangeEditModifier {
   private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
       ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
       String fileName, @Nullable String newFile,
-      final @Nullable ObjectId content) throws IOException {
+      @Nullable final ObjectId content) throws IOException {
     DirCache newTree = readTree(reader, prevEdit);
     DirCacheEditor dce = newTree.editor();
     switch (op) {

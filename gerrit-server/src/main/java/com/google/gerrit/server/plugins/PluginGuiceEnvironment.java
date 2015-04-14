@@ -518,10 +518,12 @@ public class PluginGuiceEnvironment {
     bindings.remove(Key.get(Injector.class));
     bindings.remove(Key.get(java.util.logging.Logger.class));
 
-    final @Nullable Binding<HttpServletRequest> requestBinding =
+    @Nullable
+    final Binding<HttpServletRequest> requestBinding =
         src.getExistingBinding(Key.get(HttpServletRequest.class));
 
-    final @Nullable Binding<HttpServletResponse> responseBinding =
+    @Nullable
+    final Binding<HttpServletResponse> responseBinding =
         src.getExistingBinding(Key.get(HttpServletResponse.class));
 
     return new AbstractModule() {

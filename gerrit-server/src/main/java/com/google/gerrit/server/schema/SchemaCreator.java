@@ -38,7 +38,8 @@ import java.util.Collections;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
-  private final @SitePath
+  @SitePath
+  private final
   Path site_path;
 
   private final AllProjectsCreator allProjectsCreator;

@@ -47,7 +47,7 @@ public class InitFlags {
   @Inject
   public InitFlags(final SitePaths site,
       final SecureStore secureStore,
-      final @InstallPlugins List<String> installPlugins) throws IOException,
+      @InstallPlugins final List<String> installPlugins) throws IOException,
       ConfigInvalidException {
     sec = secureStore;
     this.installPlugins = installPlugins;

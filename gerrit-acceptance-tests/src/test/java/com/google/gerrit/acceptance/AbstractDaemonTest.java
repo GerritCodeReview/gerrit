@@ -132,7 +132,8 @@ public abstract class AbstractDaemonTest {
   protected Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  protected @GerritServerConfig Config cfg;
+  @GerritServerConfig
+  protected Config cfg;
 
   @Inject
   private InProcessProtocol inProcessProtocol;

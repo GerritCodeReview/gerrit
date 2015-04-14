@@ -68,7 +68,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
       final IdentifiedUser.GenericFactory uf, final PeerDaemonUser.Factory pf,
       final SitePaths site, final KeyPairProvider hostKeyProvider,
-      final @GerritServerConfig Config cfg, final SshScope s) {
+      @GerritServerConfig final Config cfg, final SshScope s) {
     sshKeyCache = skc;
     sshLog = l;
     userFactory = uf;

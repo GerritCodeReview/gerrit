@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GerritServer {
   @AutoValue
-  static abstract class Description {
+  abstract static class Description {
     static Description forTestClass(org.junit.runner.Description testDesc,
         String configName) {
       return new AutoValue_GerritServer_Description(

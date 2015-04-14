@@ -67,7 +67,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       final SshInfo si, final ContactStore cs,
       final ServletContext sc, final DownloadConfig dc,
       final GetArchive.AllowedFormats af,
-      final @AnonymousCowardName String acn) {
+      @AnonymousCowardName final String acn) {
     realm = r;
     cfg = gsc;
     authConfig = ac;

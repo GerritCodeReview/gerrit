@@ -54,7 +54,7 @@ public class SitePathInitializer {
   public SitePathInitializer(final Injector injector, final ConsoleUI ui,
       final InitFlags flags, final SitePaths site,
       final Section.Factory sectionFactory,
-      final @Nullable SecureStoreInitData secureStoreInitData) {
+      @Nullable final SecureStoreInitData secureStoreInitData) {
     this.ui = ui;
     this.flags = flags;
     this.site = site;

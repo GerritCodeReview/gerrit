@@ -68,6 +68,52 @@
       "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_851c2295",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T01:14:28Z",
+      "side": 1,
+      "message": "change to \"remove\" if the method is renamed",
+      "range": {
+        "startLine": 201,
+        "startChar": 41,
+        "endLine": 201,
+        "endChar": 47
+      },
+      "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_655da656",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T01:14:28Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 221,
+        "startChar": 41,
+        "endLine": 221,
+        "endChar": 47
+      },
+      "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "9aa1d5fc8a661e52fc2ac5a04e27a145b7823c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_066cba04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-14T04:32:37Z",
+      "side": 1,
+      "message": "Because I can?  I didn\u0027t really have a great reason for switch vs. if else if. The compiler writes it as if else if for me. At the time I wrote this a switch just felt like the better case because I thought I had more alternatives to consider. Turned it out to only be two.",
+      "parentUuid": "d0527e22_665dae56",
+      "range": {
+        "startLine": 250,
+        "startChar": 8,
+        "endLine": 258,
+        "endChar": 9
+      },
+      "revId": "9aa1d5fc8a661e52fc2ac5a04e27a145b7823c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

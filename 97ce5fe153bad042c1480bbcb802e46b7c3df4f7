@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3062faee_69958515",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T23:59:52Z",
+      "side": 1,
+      "message": "We need to take a look if this is actually submittable (all labels good) or mergable (dry run merge-strategy is good)",
+      "range": {
+        "startLine": 318,
+        "startChar": 41,
+        "endLine": 318,
+        "endChar": 52
+      },
+      "revId": "97ce5fe153bad042c1480bbcb802e46b7c3df4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

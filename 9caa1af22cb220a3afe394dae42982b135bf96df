@@ -236,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "3062faee_29cd4d67",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:24:03Z",
+      "side": 1,
+      "message": "This actually makes the test fail.",
+      "parentUuid": "702e3292_cb86b517",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c302b68c_c635020d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9

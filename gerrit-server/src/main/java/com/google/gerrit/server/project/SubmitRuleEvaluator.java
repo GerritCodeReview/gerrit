@@ -512,8 +512,17 @@ public class SubmitRuleEvaluator {
         env = projectState.newPrologEnvironment("stdin", new StringReader(rule));
       }
     } catch (CompileException err) {
-      throw new RuleEvalException("Cannot consult rules.pl for "
-          + getProjectName(), err);
+      String msg;
+      if (rule == null && control.getProjectControl().isOwner()) {
+        msg = String.format(
+            "Cannot load rules.pl for %s: %s",
+            getProjectName(), err.getMessage());
+      } else if (rule != null) {
+        msg = err.getMessage();
+      } else {
+        msg = String.format("Cannot load rules.pl for %s", getProjectName());
+      }
+      throw new RuleEvalException(msg, err);
     }
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);

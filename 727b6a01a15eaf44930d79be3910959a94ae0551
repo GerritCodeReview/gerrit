@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "702e3292_2b2c19c6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-14T12:47:56Z",
+      "side": 1,
+      "message": "ISTR we tried to turn on the shadowing warning in Eclipse and there were just so many that we gave up and turned it off.",
+      "parentUuid": "b04d0a88_6596c64c",
+      "revId": "727b6a01a15eaf44930d79be3910959a94ae0551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_a6acc69b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
         "patchSetId": 2

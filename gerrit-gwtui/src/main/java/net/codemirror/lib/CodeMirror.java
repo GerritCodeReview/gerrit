@@ -112,9 +112,24 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public enum LineClassWhere {
-    TEXT { @Override String value() { return "text"; } },
-    BACKGROUND { @Override String value() { return "background"; } },
-    WRAP { @Override String value() { return "wrap"; } };
+    TEXT {
+      @Override
+      String value() {
+        return "text";
+      }
+    },
+    BACKGROUND {
+      @Override
+      String value() {
+        return "background";
+      }
+    },
+    WRAP {
+      @Override
+      String value() {
+        return "wrap";
+      }
+    };
     abstract String value();
   }
 

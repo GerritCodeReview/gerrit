@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3062faee_49b401e5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-14T14:27:14Z",
+      "side": 1,
+      "message": "Realized this could just be gApi.groups().create(name). But this passes in this change and gets deleted in a later change, so I\u0027m not going ot bother.",
+      "revId": "100c8f0428b489e8dd175170bf1d7a6e25d3f6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

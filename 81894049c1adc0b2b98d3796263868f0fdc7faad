@@ -22,6 +22,30 @@
       "revId": "81894049c1adc0b2b98d3796263868f0fdc7faad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_0a315b1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-14T11:02:13Z",
+      "side": 1,
+      "message": "With this change we now rely on all repository folders to end with \".git\" If an admin manually copies git repositories into the git folder, it must be taken care that they apply to these naming convention. If this is not acceptable, we need to revert this change.",
+      "parentUuid": "70471268_83053e43",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "81894049c1adc0b2b98d3796263868f0fdc7faad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

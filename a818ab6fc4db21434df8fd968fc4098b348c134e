@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_0abefbc4",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:53:09Z",
+      "side": 1,
+      "message": "unrelated change... please revert",
+      "revId": "a818ab6fc4db21434df8fd968fc4098b348c134e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_43498692",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:53:09Z",
+      "side": 1,
+      "message": "please follow the style from other examples i.e. start with the submit_rule predicate and define helper predicates at the bottom.",
+      "revId": "a818ab6fc4db21434df8fd968fc4098b348c134e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_03438e72",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:53:09Z",
+      "side": 1,
+      "message": "put the cut in the new line as in other predicates",
+      "revId": "a818ab6fc4db21434df8fd968fc4098b348c134e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_233e8ade",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:53:09Z",
+      "side": 1,
+      "message": "other examples here don\u0027t use this indentation style (aligned :- operators)",
+      "revId": "a818ab6fc4db21434df8fd968fc4098b348c134e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_2ab9bfdc",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:53:09Z",
+      "side": 1,
+      "message": "why do we need a different sum_list implementation here (compared to the one in line 954)?",
+      "range": {
+        "startLine": 1008,
+        "startChar": 0,
+        "endLine": 1010,
+        "endChar": 19
+      },
+      "revId": "a818ab6fc4db21434df8fd968fc4098b348c134e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

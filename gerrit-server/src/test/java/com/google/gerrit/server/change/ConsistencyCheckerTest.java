@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -52,6 +53,7 @@ import org.junit.Test;
 import java.util.List;
 
 public class ConsistencyCheckerTest {
+  private LifecycleManager lifecycle;
   private InMemoryDatabase schemaFactory;
   private ReviewDb db;
   private InMemoryRepositoryManager repoManager;
@@ -65,7 +67,9 @@ public class ConsistencyCheckerTest {
   @Before
   public void setUp() throws Exception {
     FakeAccountByEmailCache accountCache = new FakeAccountByEmailCache();
-    schemaFactory = InMemoryDatabase.newDatabase();
+    lifecycle = new LifecycleManager();
+    schemaFactory = InMemoryDatabase.newDatabase(lifecycle);
+    lifecycle.start();
     schemaFactory.create();
     db = schemaFactory.open();
     repoManager = new InMemoryRepositoryManager();
@@ -87,6 +91,9 @@ public class ConsistencyCheckerTest {
   public void tearDown() throws Exception {
     if (db != null) {
       db.close();
+    }
+    if (lifecycle != null) {
+      lifecycle.stop();
     }
     if (schemaFactory != null) {
       InMemoryDatabase.drop(schemaFactory);

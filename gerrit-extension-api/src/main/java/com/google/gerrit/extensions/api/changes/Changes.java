@@ -116,6 +116,23 @@ public interface Changes {
     public EnumSet<ListChangesOption> getOptions() {
       return options;
     }
+
+    @Override
+    public String toString() {
+      StringBuilder sb =  new StringBuilder(getClass().getSimpleName())
+          .append('{')
+          .append(query);
+      if (limit != 0) {
+        sb.append(", limit=").append(limit);
+      }
+      if (start != 0) {
+        sb.append(", start=").append(start);
+      }
+      if (!options.isEmpty()) {
+        sb.append("options=").append(options);
+      }
+      return sb.append('}').toString();
+    }
   }
 
   /**

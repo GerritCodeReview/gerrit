@@ -46,6 +46,30 @@
       "revId": "2cd5ec4fa270f15b1f265a44eb11fb0d9e139c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_a37a7ab3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-14T14:06:27Z",
+      "side": 1,
+      "message": "At least to me it looks okay :-)",
+      "parentUuid": "505f6e27_4a499392",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "2cd5ec4fa270f15b1f265a44eb11fb0d9e139c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

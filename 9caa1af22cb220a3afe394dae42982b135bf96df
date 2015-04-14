@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "702e3292_0b95dd3a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3fdc2c1_85e14216",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e6c629_b246c02f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2015-04-06T18:20:51Z",
       "side": 1,
       "message": "Is there a reason for the extra push operations? Does it fundamentally alter the state of the repos? If not why add them? If you want to do some fuzz testing then it would be better to make it more explicit and truly make it fuzzy by generating a random number of pushes.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 42
+      },
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_09172945",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done, we need to have only one push to the subRepo here to check that it doesn\u0027t get propagated to the super repo.\n\nThis part of the code was the last thing I was touching, so I was in a hurry to get it up for review. Thanks for spotting!",
+      "parentUuid": "43e6c629_b246c02f",
       "range": {
         "startLine": 80,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "702e3292_eb897129",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c302b68c_e630fe1e",
+      "range": {
+        "startLine": 137,
+        "startChar": 23,
+        "endLine": 137,
+        "endChar": 29
+      },
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3fdc2c1_65f766da",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9
@@ -76,6 +142,24 @@
       "writtenOn": "2015-04-06T08:29:56Z",
       "side": 1,
       "message": "Weird indentation here, how about:\n\n private void createSubscription(\n     TestRepository\u003c?\u003e repo, String branch, String subscribeToRepo,\n     String subscribeToBranch) throws Exception {",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_c928f181",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3fdc2c1_65f766da",
       "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "3062faee_e92bb57b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3fdc2c1_45f46ad3",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3fdc2c1_25f16ee3",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "702e3292_cb86b517",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3fdc2c1_25f16ee3",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c302b68c_c635020d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9
@@ -127,6 +247,24 @@
       "writtenOn": "2015-04-06T08:29:56Z",
       "side": 1,
       "message": "This seems a little redundant, one would think \"git push origin HEAD:refs/heads/master\" results in refs/heads/master in the remote matching HEAD in the local. Did you have some bug where that wasn\u0027t happening?",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_8b80adf9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Before I had some problems with that yeah, so I put in as many assumptions to narrow down the area where code did not do what I expected it to do.\n\nAlso these lines helped me get a grasp of the API.\n\nI think we should leave it in as then the method makes sure it performed the work it should have performed.",
+      "parentUuid": "c302b68c_c635020d",
       "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "702e3292_6bf101ad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43e6c629_f2c9e82a",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 44
+      },
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3fdc2c1_a5dc3e62",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "3062faee_49c88157",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3fdc2c1_a5dc3e62",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c302b68c_06031a3e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 9
@@ -184,6 +364,24 @@
       "writtenOn": "2015-04-06T08:29:56Z",
       "side": 1,
       "message": "Don\u0027t construct this string yourself; use a JGit Config with toText.",
+      "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_69c3453d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-14T18:14:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c302b68c_06031a3e",
       "revId": "9caa1af22cb220a3afe394dae42982b135bf96df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
@@ -36,8 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
@@ -53,17 +53,20 @@ class OAuthSession {
   private final String state;
   private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
+  private final CanonicalWebUrl urlProvider;
   private OAuthServiceProvider serviceProvider;
   private OAuthToken token;
   private OAuthUserInfo user;
-  private String redirectUrl;
+  private String redirectToken;
 
   @Inject
   OAuthSession(DynamicItem<WebSession> webSession,
-      AccountManager accountManager) {
+      AccountManager accountManager,
+      CanonicalWebUrl urlProvider) {
     this.state = generateRandomState();
     this.webSession = webSession;
     this.accountManager = accountManager;
+    this.urlProvider = urlProvider;
   }
 
   boolean isLoggedIn() {
@@ -95,7 +98,7 @@ class OAuthSession {
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
-        authenticateAndRedirect(response);
+        authenticateAndRedirect(request, response);
         return true;
       } else {
         response.sendError(SC_UNAUTHORIZED);
@@ -103,15 +106,22 @@ class OAuthSession {
       }
     } else {
       log.debug("Login-PHASE1 " + this);
-      redirectUrl = request.getRequestURI();
+      redirectToken = request.getRequestURI();
+      // We are here in content of filter.
+      // Due to this Jetty limitation:
+      // https://bz.apache.org/bugzilla/show_bug.cgi?id=28323
+      // we cannot use LoginUrlToken.getToken() method,
+      // because it relies on getPathInfo() and it is always null here.
+      redirectToken = redirectToken.substring(
+          request.getContextPath().length());
       response.sendRedirect(oauth.getAuthorizationUrl() +
           "&state=" + state);
       return false;
     }
   }
 
-  private void authenticateAndRedirect(HttpServletResponse rsp)
-      throws IOException {
+  private void authenticateAndRedirect(HttpServletRequest req,
+      HttpServletResponse rsp) throws IOException {
     com.google.gerrit.server.account.AuthRequest areq =
         new com.google.gerrit.server.account.AuthRequest(user.getExternalId());
     AuthResult arsp;
@@ -164,16 +174,17 @@ class OAuthSession {
     }
 
     webSession.get().login(arsp, true);
-    String suffix = redirectUrl.substring(
+    String suffix = redirectToken.substring(
         OAuthWebFilter.GERRIT_LOGIN.length() + 1);
-    suffix = URLDecoder.decode(suffix, StandardCharsets.UTF_8.name());
-    rsp.sendRedirect(suffix);
+    StringBuilder rdr = new StringBuilder(urlProvider.get(req));
+    rdr.append(Url.decode(suffix));
+    rsp.sendRedirect(rdr.toString());
   }
 
   void logout() {
     token = null;
     user = null;
-    redirectUrl = null;
+    redirectToken = null;
     serviceProvider = null;
   }
 

@@ -80,6 +80,28 @@ public class SubmoduleSubscriptionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testSubscriptionUnsubscribeByDeletingGitModules() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    pushChangeTo(subRepo, "master");
+    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+
+    pushChangeTo(subRepo, "master");
+    pushChangeTo(subRepo, "master");
+    ObjectId subHEADbeforeUnsubscribing = pushChangeTo(subRepo, "master");
+
+    deleteGitModulesFile(superRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subHEADbeforeUnsubscribing);
+
+    pushChangeTo(superRepo, "master", "commit after unsubscribe");
+    pushChangeTo(subRepo, "master", "commit after unsubscribe");
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subHEADbeforeUnsubscribing);
+  }
+
+  @Test
   public void testSubscriptionToDifferentBranches() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -165,6 +187,24 @@ public class SubmoduleSubscriptionsIT extends AbstractDaemonTest {
     repo.branch("HEAD").commit().insertChangeId()
       .message("delete contents in .gitmodules")
       .add(".gitmodules", "")
+      .create();
+    repo.git().push().setRemote("origin").setRefSpecs(
+      new RefSpec("HEAD:refs/heads/" + branch)).call();
+
+    ObjectId expectedId = repo.getRepository().resolve("HEAD");
+    ObjectId actualId = repo.git().fetch().setRemote("origin").call()
+      .getAdvertisedRef("refs/heads/master").getObjectId();
+    assertThat(actualId).isEqualTo(expectedId);
+  }
+
+  private void deleteGitModulesFile(TestRepository<?> repo, String branch)
+      throws Exception {
+    repo.git().fetch().setRemote("origin").call();
+    repo.reset("refs/remotes/origin/" + branch);
+
+    repo.branch("HEAD").commit().insertChangeId()
+      .message("delete .gitmodules")
+      .rm(".gitmodules")
       .create();
     repo.git().push().setRemote("origin").setRefSpecs(
       new RefSpec("HEAD:refs/heads/" + branch)).call();

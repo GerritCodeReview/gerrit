@@ -35,21 +35,21 @@ sites since running the `reindex` program can take a long time and
 contributes significantly to the downtime that is required for the
 upgrade.
 
-Gerrit 2.11 supports online reindexing only from the index version `10`
+Gerrit 2.11 supports online reindexing only from the index version `11`
 which is the index version of Gerrit 2.10. This means if you come from
 an older release it makes sense to first upgrade to 2.10 and then do
 the upgrade to 2.11 so that you can profit from online reindexing.
 
 In case you are upgrading from 2.10 it is *important* to check *before*
 the upgrade to 2.11 that the index version of your Gerrit 2.10 site is
-`10`. You can check the index version in
+`11`. You can check the index version in
 `$site_path/index/gerrit_index.config`. Your Gerrit 2.10 site may run
 with an older index version (e.g. if online reindexing to index version
-`10` is still running or if online reindexing to version `10` has
+`11` is still running or if online reindexing to version `11` has
 failed). In this case you first need to successfully migrate your index
-version of your Gerrit 2.10 site to `10` and only then start with the
+version of your Gerrit 2.10 site to `11` and only then start with the
 2.11 upgrade. If you start the 2.11 upgrade when the schema version of
-your Gerrit 2.10 site is older than `10`, online reindexing is no longer
+your Gerrit 2.10 site is older than `11`, online reindexing is no longer
 possible and you need to reindex offline by using the `reindex` program.
 
 *WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.8 (or

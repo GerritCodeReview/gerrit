@@ -152,12 +152,12 @@ public class SubmoduleSubscriptionsIT extends AbstractDaemonTest {
     return repo.getRepository().resolve("HEAD");
   }
 
-  private ObjectId pushChangeTo(TestRepository<?> repo, String branch)
+  protected ObjectId pushChangeTo(TestRepository<?> repo, String branch)
       throws Exception {
     return pushChangeTo(repo, branch, "some change");
   }
 
-  private void createSubscription(
+  protected void createSubscription(
       TestRepository<?> repo, String branch, String subscribeToRepo,
       String subscribeToBranch) throws Exception {
     subscribeToRepo = name(subscribeToRepo);
@@ -251,7 +251,7 @@ public class SubmoduleSubscriptionsIT extends AbstractDaemonTest {
     }
   }
 
-  private static String buildSubmoduleSection(String name,
+  protected static String buildSubmoduleSection(String name,
       String path, String url, String branch) {
     Config cfg = new Config();
     cfg.setString("submodule", name, "path", path);

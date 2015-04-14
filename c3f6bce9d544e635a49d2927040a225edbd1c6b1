@@ -46,6 +46,30 @@
       "revId": "c3f6bce9d544e635a49d2927040a225edbd1c6b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_096cc904",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-14T12:52:23Z",
+      "side": 1,
+      "message": "When I tested, I did not see a case when the project list action is called without the parent folder(pf) parameter.\n\nI think the only situation where the parent folder would not be passed is when you click on the root folder but we already override the root folder link to redirect to Gerrit.",
+      "parentUuid": "505f6e27_aa1fef88",
+      "range": {
+        "startLine": 372,
+        "startChar": 38,
+        "endLine": 372,
+        "endChar": 54
+      },
+      "revId": "c3f6bce9d544e635a49d2927040a225edbd1c6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "b04d0a88_a5acbe9b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-14T05:02:58Z",
+      "side": 1,
+      "message": "This is shadowing the field and thus the tearDown never sees this.",
+      "revId": "727b6a01a15eaf44930d79be3910959a94ae0551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_a6acc69b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-14T05:02:58Z",
+      "side": 1,
+      "message": "shadows field",
+      "revId": "727b6a01a15eaf44930d79be3910959a94ae0551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_c69fc261",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
         "patchSetId": 2

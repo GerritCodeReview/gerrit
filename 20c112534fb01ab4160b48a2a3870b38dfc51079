@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70471268_23c32a8c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.3.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-14T06:12:12Z",
+      "side": 1,
+      "message": "init command must be run because of Bouncycastle upgrade.",
+      "revId": "20c112534fb01ab4160b48a2a3870b38dfc51079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

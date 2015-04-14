@@ -14,7 +14,7 @@
 
 def git_describe(plugin = None):
   import subprocess
-  cmd = ['git', 'describe', '--match', 'v[0-9].*', '--dirty']
+  cmd = ['git', 'describe', '--always', '--match', 'v[0-9].*', '--dirty']
   if not plugin or plugin == '${pluginName}':
     p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
   else:

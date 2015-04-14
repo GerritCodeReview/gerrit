@@ -1,0 +1,68 @@
+Release notes for Gerrit 2.10.3
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.2.html[2.10.2].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.3.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.3.war]
+
+Configuration
+~~~~~~~~~~~~~
+
+* Allow to configure
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10.3/config-gerrit.html#sshd.rekeyBytesLimit[
+SSHD rekey parameters].
+
+SSH
+---
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2797[Issue 2797]:
+Add support for ECDSA based public key authentication.
+
+Bug Fixes
+---------
+
+* Prevent wrong content type for CSS files.
++
+The mime-util library contains two content type mappings for .css files:
+`application/x-pointplus` and `text/css`.  Unfortunately, using the wrong one
+will result in most browsers discarding the file as a CSS file.  Ensure we only
+use the correct type for CSS files.
+
+OAuth extension point
+~~~~~~~~~~~~~~~~~~~~~
+
+* Respect servlet context path in URL for login token
++
+On sites with non empty context path, first redirect was broken and ended up
+with 404 Not found.
+
+* Invalidate OAuth session after web_sessions cache expiration
++
+After web session cache expiration there is no way to re-sign-in into Gerrit.
+
+Daemon
+~~~~~~
+
+* Print proper names for tasks in output of `show-queue` command.
++
+Some tasks were not displayed with the proper name.
+
+Web UI
+~~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3044[Issue 3044]:
+Remove stripping `#` in login redirect.
+
+SSH
+~~~
+
+* Prevent double authentication for the same public key.
+
+Upgrades
+--------
+
+* Update Bouncycastle to 1.51.
+
+* Update SSHD to 0.14.0.

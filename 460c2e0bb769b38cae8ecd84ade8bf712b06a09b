@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0527e22_26fb368f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.3.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T06:32:12Z",
+      "side": 1,
+      "message": "Add a warning about the bouncycastle libs, as in 2.9.4 release notes.\n\n*WARNING:* When upgrading from version 2.8.4 or older with a site that uses\nBouncy Castle Crypto, new versions of the libraries will be downloaded. The old\nlibraries should be manually removed from site\u0027s `lib` folder to prevent the\nstartup failure described in\nlink:https://code.google.com/p/gerrit/issues/detail?id\u003d3084[Issue 3084].",
+      "revId": "460c2e0bb769b38cae8ecd84ade8bf712b06a09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

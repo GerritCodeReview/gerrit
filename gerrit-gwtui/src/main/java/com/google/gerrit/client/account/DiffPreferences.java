@@ -68,12 +68,44 @@ public class DiffPreferences extends JavaScriptObject {
   public final void ignoreWhitespace(Whitespace i) {
     setIgnoreWhitespaceRaw(i.toString());
   }
-  private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;
 
   public final void theme(Theme i) {
     setThemeRaw(i != null ? i.toString() : Theme.DEFAULT.toString());
   }
-  private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
+
+  public final void showLineNumbers(boolean s) {
+    hideLineNumbers(!s);
+  }
+
+  public final Whitespace ignoreWhitespace() {
+    String s = ignoreWhitespaceRaw();
+    return s != null ? Whitespace.valueOf(s) : Whitespace.IGNORE_NONE;
+  }
+
+  public final Theme theme() {
+    String s = themeRaw();
+    return s != null ? Theme.valueOf(s) : Theme.DEFAULT;
+  }
+
+  public final int tabSize() {
+    return get("tab_size", 8);
+  }
+
+  public final int context() {
+    return get("context", 10);
+  }
+
+  public final int lineLength() {
+    return get("line_length", 100);
+  }
+
+  public final boolean showLineNumbers() {
+    return !hideLineNumbers();
+  }
+
+  public final boolean autoReview() {
+    return !manualReview();
+  }
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
@@ -90,23 +122,6 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
   public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
   public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
-  public final void showLineNumbers(boolean s) { hideLineNumbers(!s); }
-
-  public final Whitespace ignoreWhitespace() {
-    String s = ignoreWhitespaceRaw();
-    return s != null ? Whitespace.valueOf(s) : Whitespace.IGNORE_NONE;
-  }
-  private final native String ignoreWhitespaceRaw() /*-{ return this.ignore_whitespace }-*/;
-
-  public final Theme theme() {
-    String s = themeRaw();
-    return s != null ? Theme.valueOf(s) : Theme.DEFAULT;
-  }
-  private final native String themeRaw() /*-{ return this.theme }-*/;
-
-  public final int tabSize() {return get("tab_size", 8); }
-  public final int context() {return get("context", 10); }
-  public final int lineLength() {return get("line_length", 100); }
   public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
@@ -119,11 +134,12 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean manualReview() /*-{ return this.manual_review || false }-*/;
   public final native boolean renderEntireFile() /*-{ return this.render_entire_file || false }-*/;
   public final native boolean hideEmptyPane() /*-{ return this.hide_empty_pane || false }-*/;
-  public final boolean showLineNumbers() { return !hideLineNumbers(); }
-  public final boolean autoReview() { return !manualReview(); }
 
-  private final native int get(String n, int d)
-  /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
+  private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
+  private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;
+  private final native String ignoreWhitespaceRaw() /*-{ return this.ignore_whitespace }-*/;
+  private final native String themeRaw() /*-{ return this.theme }-*/;
+  private final native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
   protected DiffPreferences() {
   }

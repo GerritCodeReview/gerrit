@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

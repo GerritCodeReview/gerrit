@@ -17,8 +17,6 @@ package com.google.gerrit.lucene;
  * limitations under the License.
  */
 
-import java.io.IOException;
-
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FilterDirectoryReader;
 import org.apache.lucene.index.FilterLeafReader;
@@ -28,6 +26,8 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ReferenceManager;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.Directory;
+
+import java.io.IOException;
 
 /**
  * Utility class to safely share {@link IndexSearcher} instances across multiple

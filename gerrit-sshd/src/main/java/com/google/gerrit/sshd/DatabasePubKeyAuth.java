@@ -15,8 +15,8 @@
 package com.google.gerrit.sshd;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import com.google.common.base.Preconditions;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;

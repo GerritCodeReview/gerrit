@@ -22,22 +22,20 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.common.groups.ListGroupsOption;
+import com.google.gerrit.extensions.client.ListGroupsOption;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,53 +49,80 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
 /** List groups visible to the calling user. */
 public class ListGroups implements RestReadView<TopLevelResource> {
 
   protected final GroupCache groupCache;
 
+  private final List<ProjectControl> projects = new ArrayList<>();
+  private final Set<AccountGroup.UUID> groupsToInspect = Sets.newHashSet();
   private final GroupControl.Factory groupControlFactory;
   private final GroupControl.GenericFactory genericGroupControlFactory;
   private final Provider<IdentifiedUser> identifiedUser;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<GetGroups> accountGetGroups;
   private final GroupJson json;
-  private EnumSet<ListGroupsOption> options;
+
+  private EnumSet<ListGroupsOption> options =
+      EnumSet.noneOf(ListGroupsOption.class);
+  private boolean visibleToAll;
+  private Account.Id user;
+  private boolean owned;
+  private int limit;
+  private int start;
+  private String matchSubstring;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
-  private final List<ProjectControl> projects = new ArrayList<>();
+  public void addProject(ProjectControl project) {
+    projects.add(project);
+  }
 
-  @Option(name = "--visible-to-all", usage = "to list only groups that are visible to all registered users")
-  private boolean visibleToAll;
+  @Option(name = "--visible-to-all",
+      usage = "to list only groups that are visible to all registered users")
+  public void setVisibleToAll(boolean visibleToAll) {
+    this.visibleToAll = visibleToAll;
+  }
 
   @Option(name = "--user", aliases = {"-u"},
       usage = "user for which the groups should be listed")
-  private Account.Id user;
+  public void setUser(Account.Id user) {
+    this.user = user;
+  }
 
-  @Option(name = "--owned", usage = "to list only groups that are owned by the specified user"
-      + " or by the calling user if no user was specifed")
-  private boolean owned;
-
-  private Set<AccountGroup.UUID> groupsToInspect = Sets.newHashSet();
+  @Option(name = "--owned", usage = "to list only groups that are owned by the"
+      + " specified user or by the calling user if no user was specifed")
+  public void setOwned(boolean owned) {
+    this.owned = owned;
+  }
 
   @Option(name = "-q", usage = "group to inspect")
-  void addGroup(final AccountGroup.UUID id) {
+  public void addGroup(AccountGroup.UUID id) {
     groupsToInspect.add(id);
   }
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of groups to list")
-  private int limit;
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
+      usage = "maximum number of groups to list")
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
 
-  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT", usage = "number of groups to skip")
-  private int start;
+  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT",
+      usage = "number of groups to skip")
+  public void setStart(int start) {
+    this.start = start;
+  }
 
-  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match group substring")
-  private String matchSubstring;
+  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH",
+      usage = "match group substring")
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
 
   @Option(name = "-o", usage = "Output options per group")
-  public void addOption(ListGroupsOption o) {
+  void addOption(ListGroupsOption o) {
     options.add(o);
   }
 
@@ -120,7 +145,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.userFactory = userFactory;
     this.accountGetGroups = accountGetGroups;
     this.json = json;
-    this.options = EnumSet.noneOf(ListGroupsOption.class);
+  }
+
+  public void setOptions(EnumSet<ListGroupsOption> options) {
+    this.options = options;
   }
 
   public Account.Id getUser() {
@@ -132,16 +160,16 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) throws OrmException {
-    final Map<String, GroupInfo> output = Maps.newTreeMap();
+  public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
+      throws OrmException {
+    SortedMap<String, GroupInfo> output = Maps.newTreeMap();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(
           info.name,
           "Group " + Url.decode(info.id)), info);
       info.name = null;
     }
-    return OutputFormat.JSON.newGson().toJsonTree(output,
-        new TypeToken<Map<String, GroupInfo>>() {}.getType());
+    return output;
   }
 
   public List<GroupInfo> get() throws OrmException {

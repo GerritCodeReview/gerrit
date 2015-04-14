@@ -18,6 +18,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -26,7 +28,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.CreateGroup;
-import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -104,7 +105,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private GroupResource createGroup() throws RestApiException, OrmException {
-    CreateGroup.Input input = new CreateGroup.Input();
+    GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;
 

@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetGroup implements RestReadView<GroupResource> {
+public class GetGroup implements RestReadView<GroupResource> {
   private final GroupJson json;
 
   @Inject

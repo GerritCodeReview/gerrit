@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.groups;
+package com.google.gerrit.extensions.client;
 
 import java.util.EnumSet;
-
 
 /** Output options available when using {@code /groups/} RPCs. */
 public enum ListGroupsOption {

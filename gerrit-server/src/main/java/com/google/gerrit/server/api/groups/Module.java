@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group;
+package com.google.gerrit.server.api.groups;
 
-import com.google.gerrit.extensions.common.GroupOptionsInfo;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import com.google.gerrit.extensions.api.groups.Groups;
+import com.google.gerrit.server.config.FactoryModule;
 
-@Singleton
-public class GetOptions implements RestReadView<GroupResource> {
-
+public class Module extends FactoryModule {
   @Override
-  public GroupOptionsInfo apply(GroupResource resource) {
-    return GroupJson.createOptions(resource.getGroup());
+  protected void configure() {
+    bind(Groups.class).to(GroupsImpl.class);
+
+    factory(GroupApiImpl.Factory.class);
   }
 }

@@ -55,46 +55,20 @@ class QuickApprove extends Button implements ClickHandler {
     String qValueStr = null;
     short qValue = 0;
 
-    for (LabelInfo label : Natives.asList(info.all_labels().values())) {
-      if (!info.permitted_labels().containsKey(label.name())) {
-        continue;
-      }
-
+    int index = info.getMissingLabelIndex();
+    if (index != -1) {
+      LabelInfo label = Natives.asList(info.all_labels().values()).get(index);
       JsArrayString values = info.permitted_values(label.name());
-      if (values.length() == 0) {
-        continue;
-      }
-
-      switch (label.status()) {
-        case NEED: // Label is required for submit.
-          break;
-
-        case OK: // Label already applied.
-        case MAY: // Label is not required.
-          continue;
-
-        case REJECT: // Submit cannot happen, do not quick approve.
-        case IMPOSSIBLE:
-          setVisible(false);
-          return;
-      }
-
       String s = values.get(values.length() - 1);
       short v = LabelInfo.parseValue(s);
       if (v > 0 && s.equals(label.max_value())) {
-        if (qName != null) {
-          // Quick approve is available for one label only.
-          setVisible(false);
-          return;
-        }
-
         qName = label.name();
         qValueStr = s;
         qValue = v;
       }
     }
 
-    if (qName != null)  {
+    if (qName != null) {
       changeId = info.legacy_id();
       revision = commit;
       input = ReviewInput.create();

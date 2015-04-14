@@ -431,7 +431,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     private boolean isRepo(Path p) {
       String name = p.getFileName().toString();
       return !name.equals(Constants.DOT_GIT)
-          && name.endsWith(Constants.DOT_GIT);
+          && name.endsWith(Constants.DOT_GIT_EXT);
     }
 
     private void addProject(Path p) {

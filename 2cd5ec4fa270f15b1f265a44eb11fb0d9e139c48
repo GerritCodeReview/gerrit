@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70471268_036cae04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-14T13:59:42Z",
+      "side": 1,
+      "message": "\u003e The \"RFC:\" is due to the fact that branches can still be \n \u003e created from commits only reachable from non merged \n \u003echanges/patch sets!\n\nWas a different before? Also without this change I can create branches on non-merged changes/patch-sets, can\u0027t I?\n\n \u003e Why does not rw.checkConnectivity() fail in these cases? \n \u003e Ideas?\n\nThe commit of a patch set is based on a commit of the target branch. Hence it is connected and rw.checkConnectivity() will not fail.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "2cd5ec4fa270f15b1f265a44eb11fb0d9e139c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

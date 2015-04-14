@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0527e22_c6fb42b9",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T00:27:46Z",
+      "side": 1,
+      "message": "nit: this list is in alphabetical order, so \u0027puppet\u0027 should be before \u0027python\u0027.",
+      "revId": "a98b079ea55810a1963bb373aad06d13a3544ecb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_e5fe36ab",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T00:27:46Z",
+      "side": 1,
+      "message": "nit: alphabetical order.",
+      "revId": "a98b079ea55810a1963bb373aad06d13a3544ecb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

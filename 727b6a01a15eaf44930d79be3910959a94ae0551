@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b04d0a88_6596c64c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T05:13:43Z",
+      "side": 1,
+      "message": "Ooh.  Findbugs should have found this.\n\nDone.",
+      "parentUuid": "b04d0a88_a5acbe9b",
+      "revId": "727b6a01a15eaf44930d79be3910959a94ae0551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_a6acc69b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d0527e22_469bd272",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T05:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_a6acc69b",
+      "revId": "727b6a01a15eaf44930d79be3910959a94ae0551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_c69fc261",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2015-04-14T04:56:41Z",
       "side": 1,
       "message": "I wonder if we need a null check here too?\n\nIt\u0027s not causing any problem now, but it might in future?",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "727b6a01a15eaf44930d79be3910959a94ae0551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_2690d64a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T05:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_c69fc261",
       "range": {
         "startLine": 67,
         "startChar": 4,

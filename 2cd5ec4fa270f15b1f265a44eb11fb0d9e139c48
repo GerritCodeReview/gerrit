@@ -22,6 +22,30 @@
       "revId": "2cd5ec4fa270f15b1f265a44eb11fb0d9e139c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_4a499392",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-04-14T14:04:26Z",
+      "side": 1,
+      "message": "\u003e Was a different before?\n\nNo. But since I removed the refs/changes/* refs from the revwalk, I figured we could not connect to those commits.\n\nThanks for the explanation, if I understand you correctly, this behavior is expected and this patch should be OK(?).",
+      "parentUuid": "70471268_036cae04",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "2cd5ec4fa270f15b1f265a44eb11fb0d9e139c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

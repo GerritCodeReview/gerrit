@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
@@ -42,6 +43,7 @@ import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -224,7 +226,10 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       } catch (IncorrectObjectTypeException err) {
         throw new InvalidRevisionException();
       }
-      for (final Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
+      RefDatabase refDb = repo.getRefDatabase();
+      for (Ref r : Iterables.concat(
+          refDb.getRefs(Constants.R_HEADS).values(),
+          refDb.getRefs(Constants.R_TAGS).values())) {
         try {
           rw.markUninteresting(rw.parseAny(r.getObjectId()));
         } catch (MissingObjectException err) {

@@ -22,6 +22,30 @@
       "revId": "7d15633c170ef7e19a970265010bdad89e915733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_a5d71ee8",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-04-14T15:57:22Z",
+      "side": 1,
+      "message": "Sorry, it\u0027s only in my head :)  I have removed.",
+      "parentUuid": "702e3292_ebfe11ab",
+      "range": {
+        "startLine": 94,
+        "startChar": 11,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "7d15633c170ef7e19a970265010bdad89e915733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

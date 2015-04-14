@@ -5,6 +5,7 @@ acceptance_tests(
     'DraftChangeBlockedIT.java',
     'SubmitOnPushIT.java',
     'VisibleRefFilterIT.java',
+    'SubmoduleSubscriptionsIT.java',
   ],
   labels = ['git'],
 )

@@ -1,0 +1,330 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_0adf1b56",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "I don\u0027t see this in the UI. Instead the UI only shows the \u0027Any-Label-Name\u0027 in red colored text.",
+      "range": {
+        "startLine": 387,
+        "startChar": 37,
+        "endLine": 387,
+        "endChar": 67
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_2adadf65",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "Instead of the current_user use the \u0027John Doe\u0027 himself?\n\n  submit_rule(submit(Author)) :-\n    gerrit:commit_author(JohnDoe, \u0027John Doe\u0027, _),\n    Author \u003d label(\u0027Author-is-John-Doe\u0027, ok(JohnDoe)).\n\nIt is John Doe\u0027s commit authorship that made it submittable.",
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_23da0a66",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same like above: use the John Doe instead of the current user.",
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_caf0e3de",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same as above.",
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_aaedaf08",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_8aeaebec",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "Again, IMHO it makes also here more sense to use the commit author and not the current_user. After all, it is the commit author who wrote the commit message which contained the \"Fix \" in it and thus made the \u0027Commit-Message-starts-with-Fix\u0027 label satisfied.",
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_03df0e56",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same as above, use the commit author",
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_e3f3d2e8",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_c3f0d6de",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "These changes may make the code more readable but are unrelated to the goal of this change to provide a user to all ok(...) and reject(...) predicates.\n\nAt best do this into an own change.",
+      "range": {
+        "startLine": 688,
+        "startChar": 0,
+        "endLine": 695,
+        "endChar": 62
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_a3edda08",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 702,
+        "startChar": 0,
+        "endLine": 703,
+        "endChar": 79
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_6a0b375e",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "This is also unrelated to the original purpose of this change. If this needs to be fixed or improved do that in a separate change.",
+      "range": {
+        "startLine": 724,
+        "startChar": 0,
+        "endLine": 728,
+        "endChar": 54
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_83eadeec",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "Unrelated to the purpose of this change. Do it in an own change.",
+      "range": {
+        "startLine": 802,
+        "startChar": 0,
+        "endLine": 813,
+        "endChar": 4
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_0a1a7ba4",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "Same as above, if this is necessary to fix do it in an own change.",
+      "range": {
+        "startLine": 821,
+        "startChar": 0,
+        "endLine": 825,
+        "endChar": 54
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_ca546327",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "this is also not directly related to the goal of this change as it refactors/changes the existing working code",
+      "range": {
+        "startLine": 901,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 59
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_aa512f35",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 965,
+        "startChar": 0,
+        "endLine": 976,
+        "endChar": 38
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_8a4e6b95",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-14T15:39:27Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 995,
+        "startChar": 0,
+        "endLine": 1000,
+        "endChar": 32
+      },
+      "revId": "7c1f0476479a922dd73e8dce95ec4071ddab9769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -4,6 +4,7 @@ acceptance_tests(
   srcs = [
     'DraftChangeBlockedIT.java',
     'SubmitOnPushIT.java',
+    'SubmoduleSubscriptionsIT.java',
     'VisibleRefFilterIT.java',
   ],
   labels = ['git'],

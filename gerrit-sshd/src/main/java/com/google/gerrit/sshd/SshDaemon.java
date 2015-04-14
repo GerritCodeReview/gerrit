@@ -445,7 +445,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         if ((n & -n) == n) {
           return (int)((n * (long) next(31)) >> 31);
         }
-        int bits, val;
+        int bits;
+        int val;
         do {
           bits = next(31);
           val = bits % n;
@@ -455,9 +456,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       throw new IllegalArgumentException();
     }
 
-    final protected int next(int numBits) {
+    protected final int next(int numBits) {
       int bytes = (numBits+7)/8;
-      byte next[] = new byte[bytes];
+      byte[] next = new byte[bytes];
       int ret = 0;
       random.nextBytes(next);
       for (int i = 0; i < bytes; i++) {

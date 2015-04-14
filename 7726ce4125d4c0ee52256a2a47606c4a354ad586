@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04d0a88_8580a2f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T05:36:41Z",
+      "side": 1,
+      "message": "Can you add a bit more detail here?  I\u0027m not sure what this is supposed to do without downloading the change and building it.",
+      "revId": "7726ce4125d4c0ee52256a2a47606c4a354ad586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_c686a217",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T05:36:41Z",
+      "side": 1,
+      "message": "nit: don\u0027t use `final` in new code.",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 9
+      },
+      "revId": "7726ce4125d4c0ee52256a2a47606c4a354ad586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_a683a605",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-14T05:36:41Z",
+      "side": 1,
+      "message": "Better:\n\n if (!currentlyViewedPatchSet.equals(Integer.toString(currentPatchSet))",
+      "range": {
+        "startLine": 376,
+        "startChar": 10,
+        "endLine": 376,
+        "endChar": 37
+      },
+      "revId": "7726ce4125d4c0ee52256a2a47606c4a354ad586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

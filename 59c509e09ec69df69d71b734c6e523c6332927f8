@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70471268_a3083a5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-14T10:48:43Z",
+      "side": 1,
+      "message": "getNewId",
+      "range": {
+        "startLine": 80,
+        "startChar": 56,
+        "endLine": 80,
+        "endChar": 64
+      },
+      "revId": "59c509e09ec69df69d71b734c6e523c6332927f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

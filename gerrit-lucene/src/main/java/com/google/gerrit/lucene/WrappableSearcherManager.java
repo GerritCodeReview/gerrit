@@ -204,7 +204,10 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
       }
 
       if (unwrapped != reader) {
-        throw new IllegalStateException("SearcherFactory must wrap the provided reader (got " + searcher.getIndexReader() + " but expected " + reader + ")");
+        throw new IllegalStateException(
+            "SearcherFactory must wrap the provided reader (got " +
+            searcher.getIndexReader() +
+            " but expected " + reader + ")");
       }
       success = true;
     } finally {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_2a12df54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-15T22:08:43Z",
+      "side": 1,
+      "message": "Weird indentation",
+      "range": {
+        "startLine": 146,
+        "startChar": 2,
+        "endLine": 148,
+        "endChar": 26
+      },
+      "revId": "d4a617a0694ccc1a153857a873d7cf04a1cb8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

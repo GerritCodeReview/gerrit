@@ -70,6 +70,30 @@
       "revId": "c3f6bce9d544e635a49d2927040a225edbd1c6b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_85af825e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-15T00:32:04Z",
+      "side": 1,
+      "message": "I think it\u0027s OK to leave it like this, then.  If it turns out to be necessary it can be fixed in a separate commit.",
+      "parentUuid": "3062faee_096cc904",
+      "range": {
+        "startLine": 372,
+        "startChar": 38,
+        "endLine": 372,
+        "endChar": 54
+      },
+      "revId": "c3f6bce9d544e635a49d2927040a225edbd1c6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

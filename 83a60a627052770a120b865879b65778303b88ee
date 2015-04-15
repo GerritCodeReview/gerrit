@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04d0a88_c557bae0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/AddFileBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-15T07:55:37Z",
+      "side": 1,
+      "message": "I guess this is necessary because we can only access a `final` object instance from within the callback?",
+      "range": {
+        "startLine": 68,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 30
+      },
+      "revId": "83a60a627052770a120b865879b65778303b88ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

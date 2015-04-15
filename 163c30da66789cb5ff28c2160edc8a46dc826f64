@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0527e22_067b9a75",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-15T08:25:49Z",
+      "side": 1,
+      "message": "I think it would be better to put this under the acceptance.git package rather than acceptance.rest.change",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "163c30da66789cb5ff28c2160edc8a46dc826f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702e3292_0b003d03",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 10

@@ -22,6 +22,30 @@
       "revId": "83a60a627052770a120b865879b65778303b88ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_c39fb661",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/AddFileBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-15T08:13:23Z",
+      "side": 1,
+      "message": "Yes, but the instance variable is final anyway. The prefix is needed, because instance files variable is eclipsed by FileTable files parameter. Another options are:\n\n* rename the parameter to fileTable (or similar), then files wouldn\u0027t be eclipsed any more and can be used\n* add final to FileTable files parameter, then the parameter files can be used.",
+      "parentUuid": "b04d0a88_c557bae0",
+      "range": {
+        "startLine": 68,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 30
+      },
+      "revId": "83a60a627052770a120b865879b65778303b88ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -136,6 +136,21 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitAfterLabelRemoved() throws Exception {
+    Git git = createProject();
+    PushOneCommit.Result change1 =
+        createChange(git, "Change 1", "a.txt", "content", "test-topic");
+    PushOneCommit.Result change2 =
+        createChange(git, "Change 2", "b.txt", "content", "test-topic");
+    submit(change2.getChangeId(), ChangeStatus.SUBMITTED);
+    dislike(change2.getChangeId());
+    change2.assertChange(Change.Status.NEW, "test-topic", admin);
+    submit(change1.getChangeId());
+    change1.assertChange(Change.Status.MERGED, "test-topic", admin);
+    change2.assertChange(Change.Status.NEW, "test-topic", admin);
+  }
+
+  @Test
   public void submitWholeTopic() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     Git git = createProject();
@@ -232,6 +247,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     indexer.index(db, c);
   }
 
+  private void submit(String changeId, ChangeStatus expectedStatus) throws Exception {
+    approve(changeId);
+    RestResponse r =
+        adminSession.post("/changes/" + changeId + "/submit");
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    ChangeInfo change =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<ChangeInfo>() {}.getType());
+    assertThat(change.status).isEqualTo(expectedStatus);
+    r.consume();
+  }
+
   private void submit(String changeId, int expectedStatus) throws IOException {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
@@ -270,6 +297,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     RestResponse r = adminSession.post(
         "/changes/" + changeId + "/revisions/current/review",
         new ReviewInput().label("Code-Review", 2));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.consume();
+  }
+
+  private void dislike(String changeId) throws Exception {
+    RestResponse r = adminSession.post(
+        "/changes/" + changeId + "/revisions/current/review",
+        new ReviewInput().label("Code-Review", -1));
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
   }

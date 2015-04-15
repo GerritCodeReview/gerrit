@@ -185,7 +185,7 @@ public final class Change {
       return cs;
     }
 
-    static int nextNonDigit(String s, int i) {
+    public static int nextNonDigit(String s, int i) {
       while (i < s.length() && s.charAt(i) >= '0' && s.charAt(i) <= '9') {
         i++;
       }

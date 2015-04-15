@@ -3,6 +3,7 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 acceptance_tests(
   srcs = [
     'DraftChangeBlockedIT.java',
+    'ForcePushIT.java',
     'SubmitOnPushIT.java',
     'VisibleRefFilterIT.java',
   ],

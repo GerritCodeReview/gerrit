@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -50,7 +52,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility functions to manipulate change edits.
@@ -124,6 +129,34 @@ public class ChangeEditUtil {
         PatchSet basePs = getBasePatchSet(change, ref);
         return Optional.of(new ChangeEdit(user, change, ref, commit, basePs));
       }
+    }
+  }
+
+  /**
+   * Retrieve edits for a project and user.
+   *
+   * @param project to retrieve edits for
+   * @param user to retrieve change edits for
+   * @return set of change ids for project and user
+   * @throws IOException
+   */
+  public Set<Change.Id> byProject(Project.NameKey project, IdentifiedUser user)
+      throws IOException {
+    try (Repository repo = gitManager.openRepository(project)) {
+      Map<String, Ref> refs = repo.getRefDatabase().getRefs(
+          RefNames.refsUsers(user.getAccountId()) + "/");
+      if (refs.isEmpty()) {
+        return Collections.emptySet();
+      }
+
+      Set<Change.Id> changes = new HashSet<>(refs.size());
+      for (String ref: refs.keySet()) {
+        Change.Id id = Change.Id.fromEditRef(ref);
+        Preconditions.checkState(id != null);
+        changes.add(id);
+      }
+
+      return changes;
     }
   }
 

@@ -1832,6 +1832,11 @@ Optional filename for the draft published hook, if not specified then
 Optional filename for the hashtags changed hook, if not specified then
 `hashtags-changed` will be used.
 
+[[hooks.projectCreatedHook]]hooks.projectCreatedHook::
++
+Optional filename for the project created hook, if not specified then
+`project-created` will be used.
+
 [[hooks.mergeFailedHook]]hooks.mergeFailedHook::
 +
 Optional filename for the merge failed hook, if not specified then

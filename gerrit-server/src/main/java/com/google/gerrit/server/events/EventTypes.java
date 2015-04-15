@@ -35,6 +35,7 @@ public class EventTypes {
     registerClass(new ReviewerAddedEvent());
     registerClass(new PatchSetCreatedEvent());
     registerClass(new TopicChangedEvent());
+    registerClass(new ProjectCreatedEvent());
   }
 
   /** Register an event.

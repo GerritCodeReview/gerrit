@@ -146,10 +146,26 @@ public class ChangeField {
         }
       };
 
+  @Deprecated
+  /** Topic, a short annotation on the branch. */
+  public static final FieldDef<ChangeData, String> LEGACY_TOPIC =
+      new FieldDef.Single<ChangeData, String>(
+          "topic2", FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return firstNonNull(c.getTopic(), "");
+        }
+      };
+
   /** Topic, a short annotation on the branch. */
   public static final FieldDef<ChangeData, String> TOPIC =
       new FieldDef.Single<ChangeData, String>(
-          "topic2", FieldType.EXACT, false) {
+          "topic3", FieldType.PREFIX, false) {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {

@@ -56,7 +56,7 @@ public class InternalChangeQuery {
   }
 
   private static Predicate<ChangeData> topic(String topic) {
-    return new TopicPredicate(topic);
+    return new TopicPredicate(schema(args.indexes), topic);
   }
 
   private static Predicate<ChangeData> commit(AbbreviatedObjectId id) {

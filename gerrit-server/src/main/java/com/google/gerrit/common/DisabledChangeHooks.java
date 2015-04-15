@@ -114,6 +114,10 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   }
 
   @Override
+  public void doProjectCreatedHook(Project.NameKey project, String headName) {
+  }
+
+  @Override
   public void postEvent(Change change, Event event, ReviewDb db) {
   }
 

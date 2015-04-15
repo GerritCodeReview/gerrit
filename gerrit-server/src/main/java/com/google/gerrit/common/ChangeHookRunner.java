@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
@@ -40,11 +41,11 @@ import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
-import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.HashtagsChangedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
@@ -89,7 +90,7 @@ import java.util.concurrent.TimeoutException;
 /** Spawns local executables when a hook action occurs. */
 @Singleton
 public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
-  EventSource, LifecycleListener {
+  EventSource, LifecycleListener, NewProjectCreatedListener {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
 
@@ -100,6 +101,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         bind(ChangeHooks.class).to(ChangeHookRunner.class);
         bind(EventDispatcher.class).to(ChangeHookRunner.class);
         bind(EventSource.class).to(ChangeHookRunner.class);
+        DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(ChangeHookRunner.class);
         listener().to(ChangeHookRunner.class);
       }
     }
@@ -209,6 +211,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     /** Path of the hashtags changed hook */
     private final Path hashtagsChangedHook;
 
+    /** Path of the project created hook. */
+    private final Path projectCreatedHook;
+
     private final String anonymousCowardName;
 
     /** Repository Manager. */
@@ -282,6 +287,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         claSignedHook = hook(config, hooksPath, "cla-signed");
         refUpdateHook = hook(config, hooksPath, "ref-update");
         hashtagsChangedHook = hook(config, hooksPath, "hashtags-changed");
+        projectCreatedHook = hook(config, hooksPath, "project-created");
 
         syncHookTimeout = config.getInt("hooks", "syncHookTimeout", 30);
         syncHookThreadPool = Executors.newCachedThreadPool(
@@ -344,6 +350,20 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       addArg(args, "--newrev", newId.getName());
 
       return runSyncHook(project.getNameKey(), refUpdateHook, args);
+    }
+
+    @Override
+    public void doProjectCreatedHook(Project.NameKey project, String headName) {
+      ProjectCreatedEvent event = new ProjectCreatedEvent();
+      event.projectName = project.get();
+      event.headName = headName;
+      fireEvent(project, event);
+
+      List<String> args = new ArrayList<>();
+      addArg(args, "--project", project.get());
+      addArg(args, "--head", headName);
+
+      runHook(project, projectCreatedHook, args);
     }
 
     /**
@@ -695,24 +715,24 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     @Override
-    public void postEvent(Change change, Event event, ReviewDb db)
-        throws OrmException {
+    public void postEvent(Change change, com.google.gerrit.server.events.Event event,
+        ReviewDb db) throws OrmException {
       fireEvent(change, event, db);
     }
 
     @Override
-    public void postEvent(Branch.NameKey branchName, Event event) {
+    public void postEvent(Branch.NameKey branchName, com.google.gerrit.server.events.Event event) {
       fireEvent(branchName, event);
     }
 
-    private void fireEventForUnrestrictedListeners(Event event) {
+    private void fireEventForUnrestrictedListeners(com.google.gerrit.server.events.Event event) {
       for (EventListener listener : unrestrictedListeners) {
         listener.onEvent(event);
       }
     }
 
-    private void fireEvent(Change change, Event event, ReviewDb db)
-        throws OrmException {
+    private void fireEvent(Change change, com.google.gerrit.server.events.Event event,
+        ReviewDb db) throws OrmException {
       for (EventListenerHolder holder : listeners.values()) {
         if (isVisibleTo(change, holder.user, db)) {
           holder.listener.onEvent(event);
@@ -722,7 +742,32 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEventForUnrestrictedListeners( event );
     }
 
-    private void fireEvent(Branch.NameKey branchName, Event event) {
+    private void fireEvent(Project.NameKey project, ProjectCreatedEvent event) {
+      for (EventListenerHolder holder : listeners.values()) {
+        if (isVisibleTo(project, event, holder.user)) {
+          holder.listener.onEvent(event);
+        }
+      }
+
+      fireEventForUnrestrictedListeners(event);
+    }
+
+    private void fireEventForUnrestrictedListeners(ProjectCreatedEvent event) {
+      for (EventListener listener : unrestrictedListeners) {
+        listener.onEvent(event);
+      }
+    }
+
+    private boolean isVisibleTo(Project.NameKey project, ProjectCreatedEvent event, CurrentUser user) {
+      ProjectState pe = projectCache.get(project);
+      if (pe == null) {
+        return false;
+      }
+      ProjectControl pc = pe.controlFor(user);
+      return pc.controlForRef(event.getHeadName()).isVisible();
+    }
+
+    private void fireEvent(Branch.NameKey branchName, com.google.gerrit.server.events.Event event) {
       for (EventListenerHolder holder : listeners.values()) {
         if (isVisibleTo(branchName, holder.user)) {
           holder.listener.onEvent(event);
@@ -994,5 +1039,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void run() {
       super.runHook();
     }
+  }
+
+  @Override
+  public void onNewProjectCreated(NewProjectCreatedListener.Event event) {
+    Project.NameKey project = new Project.NameKey(event.getProjectName());
+    doProjectCreatedHook(project, event.getHeadName());
   }
 }

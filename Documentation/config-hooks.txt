@@ -110,6 +110,14 @@ Called whenever a ref has been updated.
   ref-updated --oldrev <old rev> --newrev <new rev> --refname <ref name> --project <project name> --submitter <submitter>
 ====
 
+=== project-created
+
+Called whenever a project has been created.
+
+====
+  project-created --project <project name> --head <head name>
+====
+
 === reviewer-added
 
 Called whenever a reviewer is added to a change.

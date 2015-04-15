@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04d0a88_057b9275",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.3.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-15T00:40:36Z",
+      "side": 1,
+      "message": "This is appearing as a subsection of \"Important Notes\"",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 13
+      },
+      "revId": "210df77136d01ae4a3d2f7d5fb4b2a6a7d385783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

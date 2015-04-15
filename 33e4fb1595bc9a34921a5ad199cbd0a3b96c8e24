@@ -45,6 +45,30 @@
       "revId": "33e4fb1595bc9a34921a5ad199cbd0a3b96c8e24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_e9a8555a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-15T17:08:02Z",
+      "side": 1,
+      "message": "We already had this discussion. The button text is configurable because users can\u0027t agree on \"submit\" vs. \"merge\". Rather than try to add a placeholder that would work grammatically in every possible damn-fool case, we just went with \"the button\". It\u0027s a bit awkward but technically very correct.",
+      "parentUuid": "d0527e22_468192d1",
+      "range": {
+        "startLine": 103,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "33e4fb1595bc9a34921a5ad199cbd0a3b96c8e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

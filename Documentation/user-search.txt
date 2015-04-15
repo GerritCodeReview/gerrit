@@ -326,6 +326,10 @@ lines.
 Valid relations are >=, >, <=, <, or no relation, which will match if the
 number of lines is exactly equal.
 
+[[editsbyproject]]
+editsbyproject:'PROJECT'::
++
+Change edits in 'PROJECT' for logged in user.
 
 == Argument Quoting
 

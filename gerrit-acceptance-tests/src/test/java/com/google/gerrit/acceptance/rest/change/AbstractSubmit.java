@@ -150,6 +150,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertSubmitter(change3);
   }
 
+  @Test
+  public void submitAfterLabelRemoved() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isFalse();
+    assume().that(getSubmitType()).isNotEqualTo(SubmitType.CHERRY_PICK);
+    assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
+    PushOneCommit.Result change1 =
+        createChange("Change 1", "a.txt", "content", "test-topic");
+    PushOneCommit.Result change2 =
+        createChange("Change 2", "b.txt", "content", "test-topic");
+    submit(change2.getChangeId(), ChangeStatus.SUBMITTED);
+    dislike(change2.getChangeId());
+    submit(change1.getChangeId());
+    change1.assertChange(Change.Status.MERGED, "test-topic", admin);
+    change2.assertChange(Change.Status.SUBMITTED, "test-topic", admin);
+  }
+
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {
     ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info.messages).isNotNull();
@@ -210,6 +226,19 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     indexer.index(db, c);
   }
 
+  private void submit(String changeId, ChangeStatus expectedStatus)
+      throws Exception {
+    approve(changeId);
+    RestResponse r =
+        adminSession.post("/changes/" + changeId + "/submit");
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    ChangeInfo change =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<ChangeInfo>() {}.getType());
+    assertThat(change.status).isEqualTo(expectedStatus);
+    r.consume();
+  }
+
   private void submit(String changeId, int expectedStatus) throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
@@ -217,14 +246,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     RestResponse r =
         adminSession.post("/changes/" + changeId + "/submit", subm);
     assertThat(r.getStatusCode()).isEqualTo(expectedStatus);
-    if (expectedStatus == HttpStatus.SC_OK) {
-      ChangeInfo change =
-          newGson().fromJson(r.getReader(),
-              new TypeToken<ChangeInfo>() {}.getType());
-      assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    ChangeInfo change =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<ChangeInfo>() {}.getType());
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
 
-      checkMergeResult(change);
-    }
+    checkMergeResult(change);
     r.consume();
   }
 

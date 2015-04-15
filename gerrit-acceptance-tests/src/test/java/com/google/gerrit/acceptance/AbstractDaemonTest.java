@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
@@ -60,6 +61,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -539,6 +541,14 @@ public abstract class AbstractDaemonTest {
       .id(id)
       .revision("current")
       .review(ReviewInput.approve());
+  }
+
+  protected void dislike(String changeId) throws Exception {
+    RestResponse r = adminSession.post(
+        "/changes/" + changeId + "/revisions/current/review",
+        new ReviewInput().label("Code-Review", -1));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.consume();
   }
 
   protected Map<String, ActionInfo> getActions(String id) throws Exception {

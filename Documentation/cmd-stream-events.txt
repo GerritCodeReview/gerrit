@@ -153,6 +153,20 @@ hashtags:: List of hashtags on the change after tags were added or removed
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+
+=== Project Created
+
+Sent when a new project has been created.
+
+type:: "project-created"
+
+projectName:: The created project name
+
+projectHead:: The created project head name
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 === Merge Failed
 
 Sent when a change has failed to be merged into the git repository.

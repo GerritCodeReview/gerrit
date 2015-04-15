@@ -181,4 +181,12 @@ public interface ChangeHooks {
   public void doHashtagsChangedHook(Change change, Account account,
       Set<String>added, Set<String> removed, Set<String> hashtags,
       ReviewDb db) throws OrmException;
+
+  /**
+   * Fire the project created hook
+   *
+   * @param project The project that was created
+   * @param headName The head name of the created project
+   */
+  public void doProjectCreatedHook(Project.NameKey project, String headName);
 }

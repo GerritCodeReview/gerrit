@@ -38,6 +38,7 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
@@ -93,6 +94,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
   public static final String FIELD_DRAFTBY = "draftby";
+  public static final String FIELD_EDITSBYPROJECT = "editsbyproject";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
@@ -134,6 +136,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
     final FieldDef.FillArgs fillArgs;
+    final ChangeEditUtil editUtil;
     final PatchLineCommentsUtil plcUtil;
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
@@ -161,6 +164,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
+        ChangeEditUtil editUtil,
         PatchLineCommentsUtil plcUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -176,10 +180,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory,
-          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
-          allProjectsName, patchListCache, repoManager, projectCache,
-          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
-          trackingFooters,
+          changeDataFactory, fillArgs, editUtil, plcUtil, accountResolver,
+          groupBackend, allProjectsName, patchListCache, repoManager,
+          projectCache, listChildProjects, indexes, submitStrategyFactory,
+          conflictsCache, trackingFooters,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
@@ -193,6 +197,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
+        ChangeEditUtil editUtil,
         PatchLineCommentsUtil plcUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -215,6 +220,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.changeControlGenericFactory = changeControlGenericFactory;
      this.changeDataFactory = changeDataFactory;
      this.fillArgs = fillArgs;
+     this.editUtil = editUtil;
      this.plcUtil = plcUtil;
      this.accountResolver = accountResolver;
      this.groupBackend = groupBackend;
@@ -234,10 +240,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new Arguments(db, queryProvider, rewriter, userFactory,
           Providers.of(otherUser),
           capabilityControlFactory, changeControlGenericFactory,
-          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
-          allProjectsName, patchListCache, repoManager, projectCache,
-          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
-          trackingFooters, allowsDrafts);
+          changeDataFactory, fillArgs, editUtil, plcUtil, accountResolver,
+          groupBackend, allProjectsName, patchListCache, repoManager,
+          projectCache, listChildProjects, indexes, submitStrategyFactory,
+          conflictsCache, trackingFooters, allowsDrafts);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -440,6 +446,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> parentproject(String name) {
     return new ParentProjectPredicate(args.projectCache, args.listChildProjects,
         args.self, name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> editsbyproject(String name)
+      throws QueryParseException {
+    return new HasEditsByProjectPredicate(args, name);
   }
 
   @Operator

@@ -552,7 +552,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       return results;
     } else if (results.isEmpty()) {
       throw new IllegalStateException(String.format(
-          "ChangeControl.canSubmit returned empty list for %s in %s",
+          "SubmitRuleEvaluator returned empty list for %s in %s",
           patchSet.getId(),
           cd.change().getProject().get()));
     }

@@ -113,7 +113,7 @@ public class ReviewerJson {
           .setPatchSet(ps)
           .setFastEvalLabels(true)
           .setAllowDraft(true)
-          .canSubmit()) {
+          .evaluate()) {
         if (rec.labels == null) {
           continue;
         }

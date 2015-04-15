@@ -48,6 +48,8 @@ public class RefNames {
   /** Suffix of a meta ref in the notedb. */
   public static final String META_SUFFIX = "/meta";
 
+  public static final String EDIT_PREFIX = "edit-";
+
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_USER);
@@ -102,9 +104,10 @@ public class RefNames {
    */
   public static String refsEditPrefix(Account.Id accountId, Change.Id changeId) {
     return new StringBuilder(refsUsers(accountId))
-      .append("/edit-")
+      .append('/')
+      .append(EDIT_PREFIX)
       .append(changeId.get())
-      .append("/")
+      .append('/')
       .toString();
   }
 

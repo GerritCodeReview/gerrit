@@ -69,6 +69,54 @@
       "revId": "33e4fb1595bc9a34921a5ad199cbd0a3b96c8e24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_cbb355d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-15T17:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_667c8e6f",
+      "range": {
+        "startLine": 103,
+        "startChar": 68,
+        "endLine": 103,
+        "endChar": 69
+      },
+      "revId": "33e4fb1595bc9a34921a5ad199cbd0a3b96c8e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_ebb611ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-15T17:20:08Z",
+      "side": 1,
+      "message": "The best kind of correct!",
+      "parentUuid": "3062faee_e9a8555a",
+      "range": {
+        "startLine": 103,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "33e4fb1595bc9a34921a5ad199cbd0a3b96c8e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

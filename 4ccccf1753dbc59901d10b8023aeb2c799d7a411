@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b04d0a88_c5d9faf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-04-15T15:46:48Z",
+      "side": 1,
+      "message": "Yeah, all the \"fixes\" are sort of RFCs.  I can remove the \"?\" and the \"might\" before we merge.",
+      "parentUuid": "d0527e22_e6dd1e0c",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "4ccccf1753dbc59901d10b8023aeb2c799d7a411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_858662e4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

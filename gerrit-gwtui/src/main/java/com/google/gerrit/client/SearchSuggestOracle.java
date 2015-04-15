@@ -80,6 +80,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("commit:");
     suggestions.add("comment:");
     suggestions.add("conflicts:");
+    suggestions.add("editsbyproject:");
     suggestions.add("project:");
     suggestions.add("projects:");
     suggestions.add("parentproject:");

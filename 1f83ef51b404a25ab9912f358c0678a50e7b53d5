@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0527e22_06a4ba83",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-15T02:23:16Z",
+      "side": 1,
+      "message": "I don\u0027t think these belong here.\n\n- The description of the class is \"Gerrit-specific ref names\" while these are standard names in git.\n\n- The same constants are already defined in the Branch class.  It would be better to static import those and use them in the fullName method or instead implement the fullName method in the Branch class.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "1f83ef51b404a25ab9912f358c0678a50e7b53d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

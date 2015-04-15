@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0527e22_269fb637",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-15T01:42:47Z",
+      "side": 1,
+      "message": "Would it be worth making it so this is only done if submitWholeTopic is enabled?",
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e30a5a5c_af7179de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 7
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "Personally \"-\" feels weird as you cannot use it in variable names in many languages whereas \"_\" can be used. \n\nSo when deciding on a topic name by myself I\u0027ll use the underscore to make it look like a variable name. (I did use a white space once, but that is months ago)\n\nFor an automatic topic rewrite, \"-\" makes more sense (at least for gerrit itself, maybe we need to have a config option if people complain later on) as that\u0027s what used by most of the other contributors.",
       "parentUuid": "e30a5a5c_af7179de",
+      "range": {
+        "startLine": 187,
+        "startChar": 48,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_0576f283",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-15T01:42:47Z",
+      "side": 1,
+      "message": "Why would you need to have a variable named with the same name as a topic?\n\nSurely the variable name is going to be \"topic\" and its value a string, which can of course contain \u0027-\u0027 characters.\n\nMaybe I\u0027m missing something?",
+      "parentUuid": "03084e62_d051fc36",
       "range": {
         "startLine": 187,
         "startChar": 48,

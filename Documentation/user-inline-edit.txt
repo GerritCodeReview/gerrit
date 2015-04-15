@@ -143,6 +143,20 @@ command to your terminal. Note: only change edit owners and users that were
 granted the link:access-control.html#capability_accessDatabase[accessDatabase]
 global capability are able to access change edit refs.
 
+[[search-for-change-edits]]
+
+To search change edits from the command line the following command cnan be used:
+
+----
+  $ git ls-remote host | grep "refs/users/23/1011323"
+----
+
+where "UU/UUUUU" is sharded representation of account id.
+
+To search change edits from the UI the following predicate can be used:
+link:user-search.html#editsbyproject[editsbyproject]
+
+
 [[not-implemented-features]]
 == Not Implemented Features
 

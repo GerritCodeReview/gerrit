@@ -360,15 +360,18 @@ class GitWebServlet extends HttpServlet {
     }
 
     final Map<String, String> params = getParameters(req);
-    if (deniedActions.contains(params.get("a"))) {
-      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
-      return;
-    }
+    String a = params.get("a");
+    if (a != null) {
+      if (deniedActions.contains(a)) {
+        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        return;
+      }
 
-    if (params.get("a").equals(PROJECT_LIST_ACTION)) {
-      rsp.sendRedirect(req.getContextPath() + "/#" + PageLinks.ADMIN_PROJECTS
-          + "?filter=" + Url.encode(params.get("pf") + "/"));
-      return;
+      if (a.equals(PROJECT_LIST_ACTION)) {
+        rsp.sendRedirect(req.getContextPath() + "/#" + PageLinks.ADMIN_PROJECTS
+            + "?filter=" + Url.encode(params.get("pf") + "/"));
+        return;
+      }
     }
 
     String name = params.get("p");

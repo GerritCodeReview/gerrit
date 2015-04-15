@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3062faee_c9a59180",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-15T19:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_067b9a75",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "163c30da66789cb5ff28c2160edc8a46dc826f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702e3292_0b003d03",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-14T19:25:02Z",
       "side": 1,
       "message": "Is this extra push needed?",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 36
+      },
+      "revId": "163c30da66789cb5ff28c2160edc8a46dc826f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_8bbd4da6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-15T19:32:30Z",
+      "side": 1,
+      "message": "Of course not, I put there just to be sure. ;)\n\nFixed, thanks!",
+      "parentUuid": "702e3292_0b003d03",
       "range": {
         "startLine": 68,
         "startChar": 0,

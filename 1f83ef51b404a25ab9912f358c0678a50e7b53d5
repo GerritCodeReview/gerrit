@@ -22,6 +22,30 @@
       "revId": "1f83ef51b404a25ab9912f358c0678a50e7b53d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_25d32eda",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-04-15T15:15:10Z",
+      "side": 1,
+      "message": "I think that this class makes more sense than the Branch class because there are several places in Gerrit where refs strings are manipulated without using Branch objects.  Jgit does define some of those constants, but we cannot use jgit everywhere, particularly in GWT, which I suspect is why this class is here in the first place.  We need a good place in Gerrit for these constants, and the Branch object itself is a much higher level object than this simple class (it isn\u0027t only about refs, but rather refs and projects).  These constants feel  more appropriate here to me than in the Branch class.  I have some more changes, which I will push, which move them out of the Branch class completely.  I am willing to update the comment here if need be, but this class feels appropriate to me (based on its name and location) and I don\u0027t think that \"naive\" comment should get in the way of that.",
+      "parentUuid": "d0527e22_06a4ba83",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "1f83ef51b404a25ab9912f358c0678a50e7b53d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

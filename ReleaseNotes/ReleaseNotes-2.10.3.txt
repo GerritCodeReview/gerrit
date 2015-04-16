@@ -29,6 +29,10 @@ be suppressed in batch mode.
 New Features
 ------------
 
+Support hybrid OpenID and OAuth2 authentication
++
+OpenID auth scheme is aware of optional OAuth2 plugin-based authentication.
+
 Configuration
 ~~~~~~~~~~~~~
 

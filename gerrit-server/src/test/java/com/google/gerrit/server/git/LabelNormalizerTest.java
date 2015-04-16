@@ -43,8 +43,10 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -58,7 +60,7 @@ public class LabelNormalizerTest {
   @Inject private AccountManager accountManager;
   @Inject private AllProjectsName allProjects;
   @Inject private GitRepositoryManager repoManager;
-  @Inject private IdentifiedUser.RequestFactory userFactory;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private LabelNormalizer norm;
   @Inject private MetaDataUpdate.User metaDataUpdateFactory;
@@ -73,16 +75,17 @@ public class LabelNormalizerTest {
 
   @Before
   public void setUpInjector() throws Exception {
-    lifecycle = new LifecycleManager();
-    Injector injector = InMemoryModule.createInjector(lifecycle);
+    Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
+    lifecycle = new LifecycleManager();
+    lifecycle.add(injector);
     lifecycle.start();
 
     db = schemaFactory.open();
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
-    user = userFactory.create(userId);
+    user = userFactory.create(Providers.of(db), userId);
 
     configureProject();
     setUpChange();

@@ -33,8 +33,10 @@ import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -48,7 +50,7 @@ import org.junit.Test;
 /** Unit tests for {@link ProjectControl}. */
 public class ProjectControlTest {
   @Inject private AccountManager accountManager;
-  @Inject private IdentifiedUser.RequestFactory userFactory;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private InMemoryRepositoryManager repoManager;
   @Inject private ProjectControl.GenericFactory projectControlFactory;
@@ -62,16 +64,17 @@ public class ProjectControlTest {
 
   @Before
   public void setUp() throws Exception {
-    lifecycle = new LifecycleManager();
-    Injector injector = InMemoryModule.createInjector(lifecycle);
+    Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
+    lifecycle = new LifecycleManager();
+    lifecycle.add(injector);
     lifecycle.start();
 
     db = schemaFactory.open();
     schemaCreator.create(db);
     Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
-    user = userFactory.create(userId);
+    user = userFactory.create(Providers.of(db), userId);
 
     Project.NameKey name = new Project.NameKey("project");
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);

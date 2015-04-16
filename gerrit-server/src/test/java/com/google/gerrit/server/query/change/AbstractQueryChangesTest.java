@@ -93,7 +93,7 @@ public abstract class AbstractQueryChangesTest {
   @Inject protected AccountManager accountManager;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected GerritApi gApi;
-  @Inject protected IdentifiedUser.RequestFactory userFactory;
+  @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected NotesMigration notesMigration;
@@ -109,12 +109,13 @@ public abstract class AbstractQueryChangesTest {
 
   private String systemTimeZone;
 
-  protected abstract Injector createInjector(LifecycleManager lifecycle);
+  protected abstract Injector createInjector();
 
   @Before
   public void setUpInjector() throws Exception {
     lifecycle = new LifecycleManager();
-    Injector injector = createInjector(lifecycle);
+    Injector injector = createInjector();
+    lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
 
@@ -125,12 +126,13 @@ public abstract class AbstractQueryChangesTest {
     Account userAccount = db.accounts().get(userId);
     userAccount.setPreferredEmail("user@example.com");
     db.accounts().update(ImmutableList.of(userAccount));
-    user = userFactory.create(userId);
+    user = userFactory.create(Providers.of(db), userId);
     requestContext.setContext(newRequestContext(userAccount.getId()));
   }
 
   private RequestContext newRequestContext(Account.Id requestUserId) {
-    final CurrentUser requestUser = userFactory.create(requestUserId);
+    final CurrentUser requestUser =
+        userFactory.create(Providers.of(db), requestUserId);
     return new RequestContext() {
       @Override
       public CurrentUser getCurrentUser() {
@@ -1062,8 +1064,9 @@ public abstract class AbstractQueryChangesTest {
 
     Change change = new Change(new Change.Key(key), id, ownerId,
         new Branch.NameKey(project, branch), TimeUtil.nowTs());
+    IdentifiedUser user = userFactory.create(Providers.of(db), ownerId);
     return changeFactory.create(
-        projectControlFactory.controlFor(project, userFactory.create(ownerId)),
+        projectControlFactory.controlFor(project, user),
         change,
         commit);
   }

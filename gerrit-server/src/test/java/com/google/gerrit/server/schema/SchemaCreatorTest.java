@@ -62,7 +62,7 @@ public class SchemaCreatorTest {
   @Before
   public void setUp() throws Exception {
     lifecycle = new LifecycleManager();
-    InMemoryModule.createInjector(lifecycle).injectMembers(this);
+    new InMemoryModule().inject(this);
     lifecycle.start();
   }
 

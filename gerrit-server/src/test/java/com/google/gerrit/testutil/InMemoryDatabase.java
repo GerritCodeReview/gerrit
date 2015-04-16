@@ -26,7 +26,9 @@ import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -47,8 +49,9 @@ import javax.sql.DataSource;
  */
 public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   public static InMemoryDatabase newDatabase(LifecycleManager lifecycle) {
-    return InMemoryModule.createInjector(lifecycle)
-        .getInstance(InMemoryDatabase.class);
+    Injector injector = Guice.createInjector(new InMemoryModule());
+    lifecycle.add(injector);
+    return injector.getInstance(InMemoryDatabase.class);
   }
 
   private static int dbCnt;

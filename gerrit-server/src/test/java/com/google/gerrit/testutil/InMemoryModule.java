@@ -17,16 +17,13 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.common.net.InetAddresses;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
-import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -74,8 +71,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
@@ -101,33 +96,13 @@ public class InMemoryModule extends FactoryModule {
         ChangeSchemas.getLatest().getVersion());
   }
 
-  public static Injector createInjector(LifecycleManager lifecycle) {
-    return createInjector(lifecycle, newDefaultConfig());
-  }
-
-  public static Injector createInjector(LifecycleManager lifecycle,
-      Config cfg) {
-    Injector sysInjector = Guice.createInjector(new InMemoryModule(cfg));
-    Injector testInjector = sysInjector.createChildInjector(
-        new AbstractModule() {
-          @Override
-          public void configure() {
-            // These bindings must be in a child injector, because
-            // ChangeMergeQueue creates its own child injector with conflicting
-            // bindings.
-            InetSocketAddress addr = new InetSocketAddress(
-                InetAddresses.forString("127.0.0.1"), 1234);
-            bind(SocketAddress.class).annotatedWith(RemotePeer.class)
-                .toInstance(addr);
-          }
-        });
-    lifecycle.add(sysInjector, testInjector);
-    return testInjector;
-  }
-
   private final Config cfg;
 
-  private InMemoryModule(Config cfg) {
+  public InMemoryModule() {
+    this(newDefaultConfig());
+  }
+
+  public InMemoryModule(Config cfg) {
     this.cfg = cfg;
   }
 
@@ -137,6 +112,13 @@ public class InMemoryModule extends FactoryModule {
 
   @Override
   protected void configure() {
+    // Do NOT bind @RemotePeer, as it is bound in a child injector of
+    // ChangeMergeQueue (bound via GerritGlobalModule below), so there cannot be
+    // a binding in the parent injector. If you need @RemotePeer, you must bind
+    // it in a child injector of the one containing InMemoryModule. But unless
+    // you really need to test something request-scoped, you likely don't
+    // actually need it.
+
     // For simplicity, don't create child injectors, just use this one to get a
     // few required modules.
     Injector cfgInjector = Guice.createInjector(new AbstractModule() {

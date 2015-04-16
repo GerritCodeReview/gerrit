@@ -229,8 +229,8 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     doReplay();
 
     final SubmoduleSectionParser ssp =
-        new SubmoduleSectionParser(bbc, THIS_SERVER, superProjectBranch,
-            repoManager);
+        new SubmoduleSectionParser(repoManager, bbc, THIS_SERVER,
+            superProjectBranch);
 
     List<SubmoduleSubscription> returnedSubscriptions = ssp.parseAllSections();
 

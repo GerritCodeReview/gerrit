@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
+import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
@@ -204,6 +205,7 @@ public class GerritServer {
         bind(AccountCreator.class);
         factory(PushOneCommit.Factory.class);
         factory(SubmoduleOp.Factory.class);
+        factory(SubmoduleSectionParser.Factory.class);
         install(InProcessProtocol.module());
         install(new NoSshModule());
         install(new AsyncReceiveCommits.Module());

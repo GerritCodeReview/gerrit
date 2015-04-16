@@ -18,6 +18,8 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Constants;
@@ -45,18 +47,26 @@ import java.util.List;
  * </pre>
  */
 public class SubmoduleSectionParser {
+
+  public interface Factory {
+    SubmoduleSectionParser create(BlobBasedConfig bbc, String thisServer,
+        Branch.NameKey superProjectBranch);
+  }
+
+  private final GitRepositoryManager repoManager;
   private final BlobBasedConfig bbc;
   private final String thisServer;
   private final Branch.NameKey superProjectBranch;
-  private final GitRepositoryManager repoManager;
 
-  public SubmoduleSectionParser(final BlobBasedConfig bbc,
-      final String thisServer, final Branch.NameKey superProjectBranch,
-      final GitRepositoryManager repoManager) {
+  @Inject
+  public SubmoduleSectionParser(GitRepositoryManager repoManager,
+      @Assisted BlobBasedConfig bbc,
+      @Assisted String thisServer,
+      @Assisted Branch.NameKey superProjectBranch) {
+    this.repoManager = repoManager;
     this.bbc = bbc;
     this.thisServer = thisServer;
     this.superProjectBranch = superProjectBranch;
-    this.repoManager = repoManager;
   }
 
   public List<SubmoduleSubscription> parseAllSections() {

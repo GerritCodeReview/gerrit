@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_4aef53b5",
+        "filename": ".buckconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-16T06:15:15Z",
+      "side": 1,
+      "message": "Why do we need a alias for this? This meta-rule rule is only supposed to be used from: \n\n* tools/download_all.py:MAIN \u003d [\u0027//tools/eclipse:classpath\u0027]\n* tools/eclipse/project.py:MAIN \u003d [\u0027//tools/eclipse:classpath\u0027]\n\nAnd only used to dynamically generate the classpath with buck audit command:\n\n  buck audit classpath //tools/eclipse:classpath\n\nWth this change you could simplify the tools/eclipse/project.py with rather sonfusing:\n\n  buck audit classpath classpath\n\nIs this what you are after?",
+      "revId": "46652cb80d1e91571f739a2512ff33cd04ce340c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

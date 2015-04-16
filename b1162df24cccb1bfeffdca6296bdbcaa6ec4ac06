@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "702e3292_8b38ad9c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702e3292_ab6489ca",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702e3292_8b61cdba",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-16T18:04:42Z",
       "side": 1,
       "message": "This is fine for now as it\u0027s testing the existing behavior, but I don\u0027t know that I like this behavior. Why does it silently ignore the circular subscription instead of rejecting the push?\n\nIf the cycle were broken by deleting the subscription in superRepo, would it automatically start working?",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_6bc9012c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "Yes these tests are meant to test the current state of the code, which doesn\u0027t reject the push. :(",
+      "parentUuid": "702e3292_8b61cdba",
       "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "702e3292_2bd3f9d9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "Done, by making different commits each time.",
+      "parentUuid": "702e3292_6b4ea14f",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702e3292_4b53e5f1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 14
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-16T18:04:42Z",
       "side": 1,
       "message": "No need for an extra lookup here, repo.branch(\"HEAD\")...create() will return an ObjectId.",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_4bce4536",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702e3292_4b53e5f1",
       "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3062faee_29eaed73",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3062faee_09d849f2",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3062faee_e9dcd5e8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 14
@@ -98,6 +188,24 @@
       "writtenOn": "2015-04-16T18:04:42Z",
       "side": 1,
       "message": ".rm(\".gitmodules\")",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_ab3b6998",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "No, this is very intentional here. See \nhttps://gerrit-review.googlesource.com/#/c/67211/1\n\nIn this change I want to test current behavior, while in the referenced change there is an accompanying bugfix to actually make it work with removing the file.\n\nI tried to add a comment above, but I realize it\u0027s a bit stale as the deleteGitModulesFile is introduced in a later patch.",
+      "parentUuid": "3062faee_e9dcd5e8",
       "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "3062faee_e903b5c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702e3292_2b48993d",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702e3292_eb417118",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 14
@@ -132,6 +258,24 @@
       "writtenOn": "2015-04-16T18:04:42Z",
       "side": 1,
       "message": "I\u0027m a little surprised this works. It looks like get actually tries to look up the SHA-1 it finds in the tree entry, which should fail for submodules I thought.",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_0bd83df2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T18:35:10Z",
+      "side": 1,
+      "message": "I think this is actually only looking for a file name, not a SHA-1. So maybe a more appropriate way would be to rename this as hasFileinBranch(repo, branch, filename).",
+      "parentUuid": "702e3292_eb417118",
       "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

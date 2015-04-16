@@ -238,7 +238,7 @@ To see the options of your project
 === Submit Type
 
 An important decision for a project is the choice of the submit type
-and the content merge setting (aka `Automatically resolve conflicts`).
+and the content merge setting (see the `Allow content merges` option).
 The link:project-configuration.html#submit_type[submit type] is the method
 Gerrit uses to submit a change to the project. The submit type defines
 what Gerrit should do on submit of a change if the destination branch

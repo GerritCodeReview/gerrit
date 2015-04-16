@@ -22,6 +22,30 @@
       "revId": "58124a4d5d35d600a359ec26a6d3ee24a6dee7a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_c6afc20f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-04-16T23:56:14Z",
+      "side": 1,
+      "message": "Probably worth giving the motivating example of \u0027message:\u0027 not matching when the commit message changed in the latest patchset.",
+      "parentUuid": "3062faee_898799a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "58124a4d5d35d600a359ec26a6d3ee24a6dee7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702e3292_cb3eb58a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-16T18:08:40Z",
+      "side": 1,
+      "message": "I got a little worried because I thought you were renaming the actual config option, useContentMerge, which we would have to at least deprecate and keep around for a while before renaming.\n\nBut looking at the code I see this is just changing textual descriptions, which is fine. Maybe update this subject to reflect that?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "41862b45558efb11564c3374d9dc7b9c8c2c994a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class ChangeEditTest {
     Account.Id accountId = new Account.Id(1000042);
     Change.Id changeId = new Change.Id(56414);
     PatchSet.Id psId = new PatchSet.Id(changeId, 50);
-    String refName = ChangeEditUtil.editRefName(accountId, changeId, psId);
+    String refName = RefNames.refsEdit(accountId, changeId, psId);
     assertEquals("refs/users/42/1000042/edit-56414/50", refName);
   }
 }

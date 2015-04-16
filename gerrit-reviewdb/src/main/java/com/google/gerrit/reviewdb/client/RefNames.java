@@ -78,6 +78,34 @@ public class RefNames {
     return r.toString();
   }
 
+  /**
+   * Returns reference for this change edit with sharded user and change number:
+   * refs/users/UU/UUUU/edit-CCCC/P.
+   *
+   * @param accountId account id
+   * @param changeId change number
+   * @param psId patch set number
+   * @return reference for this change edit
+   */
+  public static String editRefName(Account.Id accountId, Change.Id changeId,
+      PatchSet.Id psId) {
+    return editRefPrefix(accountId, changeId) + psId.get();
+  }
+
+  /**
+   * Returns reference prefix for this change edit with sharded user and
+   * change number: refs/users/UU/UUUU/edit-CCCC/.
+   *
+   * @param accountId account id
+   * @param changeId change number
+   * @return reference prefix for this change edit
+   */
+  public static String editRefPrefix(Account.Id accountId, Change.Id changeId) {
+    return String.format("%s/edit-%d/",
+        RefNames.refsUsers(accountId),
+        changeId.get());
+  }
+
   private RefNames() {
   }
 }

@@ -24,7 +24,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -1187,12 +1186,7 @@ public class MergeOp {
       update.commit();
     }
 
-    CheckedFuture<?, IOException> indexFuture;
-    if (change != null) {
-      indexFuture = indexer.indexAsync(change.getId());
-    } else {
-      indexFuture = null;
-    }
+    indexer.index(db, change);
     final PatchSetApproval from = submitter;
     workQueue.getDefaultQueue()
         .submit(requestScopePropagator.wrap(new Runnable() {
@@ -1229,14 +1223,6 @@ public class MergeOp {
         return "send-email merge-failed";
       }
     }));
-
-    if (indexFuture != null) {
-      try {
-        indexFuture.checkedGet();
-      } catch (IOException e) {
-        logError("Failed to index new change message", e);
-      }
-    }
 
     if (submitter != null) {
       try {

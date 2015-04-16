@@ -2206,7 +2206,7 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
-      CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
+      indexer.index(db, change);
       if (changeKind != ChangeKind.TRIVIAL_REBASE) {
         workQueue.getDefaultQueue()
             .submit(requestScopePropagator.wrap(new Runnable() {
@@ -2235,7 +2235,6 @@ public class ReceiveCommits {
           }
         }));
       }
-      f.checkedGet();
 
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);

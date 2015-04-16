@@ -255,8 +255,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
           ImmutableList.of(psa)));
     }
     accountLoaderFactory.create(true).fill(result.reviewers);
-    emailReviewers(rsrc.getChange(), added);
     indexFuture.checkedGet();
+    emailReviewers(rsrc.getChange(), added);
     if (!added.isEmpty()) {
       PatchSet patchSet = dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
       for (PatchSetApproval psa : added) {

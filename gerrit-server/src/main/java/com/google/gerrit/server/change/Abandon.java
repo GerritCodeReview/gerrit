@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -123,8 +122,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     }
     update.commit();
 
-    CheckedFuture<?, IOException> indexFuture =
-        indexer.indexAsync(change.getId());
+    indexer.index(db, change);
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(change.getId());
       cm.setFrom(caller.getAccountId());
@@ -133,7 +131,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getChangeId(), e);
     }
-    indexFuture.checkedGet();
     hooks.doChangeAbandonedHook(change,
         caller.getAccount(),
         db.patchSets().get(change.currentPatchSetId()),

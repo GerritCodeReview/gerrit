@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70471268_634ec24f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-16T10:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70471268_e38f52fc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "95d6a4bc552b412809833bbb2d37489b711133e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_2a489f3d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -36,6 +60,24 @@
       "writtenOn": "2015-04-16T09:16:14Z",
       "side": 1,
       "message": "Reading the comments I see that this was redesigned and now looks like:\n\nhttps://imgur.com/IcCrChN",
+      "revId": "95d6a4bc552b412809833bbb2d37489b711133e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_4353c6f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-16T10:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "505f6e27_2a489f3d",
       "revId": "95d6a4bc552b412809833bbb2d37489b711133e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "70471268_c33e968a",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OAuthSessionOverOpenID.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-16T10:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "505f6e27_0a4ddb4d",
+      "revId": "95d6a4bc552b412809833bbb2d37489b711133e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70471268_c38c560a",
         "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OAuthWebFilterOverOpenID.java",
         "patchSetId": 9
@@ -70,6 +130,24 @@
       "writtenOn": "2015-04-16T09:16:14Z",
       "side": 1,
       "message": "make this javadoc and swap the lines 39,40",
+      "revId": "95d6a4bc552b412809833bbb2d37489b711133e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_aae6cfb0",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OAuthWebFilterOverOpenID.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-16T10:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70471268_c38c560a",
       "revId": "95d6a4bc552b412809833bbb2d37489b711133e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

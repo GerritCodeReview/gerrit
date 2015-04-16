@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3062faee_898799a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T23:53:09Z",
+      "side": 1,
+      "message": "I do not quite follow.\n\nWhy do Project watches need to see the most up-to-date information about a change when evaluating their watch predicates when we talk about sending email?\n\nOr the other way round, what would go wrong with the current behavior?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "58124a4d5d35d600a359ec26a6d3ee24a6dee7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

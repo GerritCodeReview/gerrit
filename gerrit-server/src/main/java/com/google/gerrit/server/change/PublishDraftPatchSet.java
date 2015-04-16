@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -82,13 +81,11 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     if (!updatedPatchSet.isDraft()
         || updatedChange.getStatus() == Change.Status.NEW) {
-      CheckedFuture<?, IOException> indexFuture =
-          indexer.indexAsync(updatedChange.getId());
+      indexer.index(dbProvider.get(), updatedChange);
       sender.send(rsrc.getNotes(), update,
           rsrc.getChange().getStatus() == Change.Status.DRAFT,
           rsrc.getUser(), updatedChange, updatedPatchSet,
           rsrc.getControl().getLabelTypes());
-      indexFuture.checkedGet();
       hooks.doDraftPublishedHook(updatedChange, updatedPatchSet,
           dbProvider.get());
     }

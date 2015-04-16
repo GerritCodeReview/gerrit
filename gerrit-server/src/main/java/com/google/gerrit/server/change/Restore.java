@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -122,7 +121,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     }
     update.commit();
 
-    CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
+    indexer.index(db, change);
 
     try {
       ReplyToChangeSender cm = restoredSenderFactory.create(change.getId());
@@ -132,7 +131,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getChangeId(), e);
     }
-    f.checkedGet();
     hooks.doChangeRestoredHook(change,
         caller.getAccount(),
         db.patchSets().get(change.currentPatchSetId()),

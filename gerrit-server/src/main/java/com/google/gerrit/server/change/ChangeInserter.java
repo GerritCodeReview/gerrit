@@ -233,10 +233,10 @@ public class ChangeInserter {
     }
 
     CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
-
     if (!messageIsForChange()) {
       commitMessageNotForChange();
     }
+    f.checkedGet();
 
     if (sendMail) {
       Runnable sender = new Runnable() {
@@ -266,7 +266,6 @@ public class ChangeInserter {
         sender.run();
       }
     }
-    f.checkedGet();
 
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);

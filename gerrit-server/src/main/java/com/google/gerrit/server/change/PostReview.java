@@ -22,8 +22,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.CheckedFuture;
-import com.google.common.util.concurrent.Futures;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -180,11 +178,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       db.get().rollback();
     }
 
-    CheckedFuture<?, IOException> indexWrite;
     if (dirty) {
-      indexWrite = indexer.indexAsync(change.getId());
-    } else {
-      indexWrite = Futures.<Void, IOException> immediateCheckedFuture(null);
+      indexer.index(db.get(), change);
     }
     if (message != null && input.notify.compareTo(NotifyHandling.NONE) > 0) {
       email.create(
@@ -198,7 +193,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     Output output = new Output();
     output.labels = input.labels;
-    indexWrite.checkedGet();
     if (message != null) {
       fireCommentAddedHook(revision);
     }

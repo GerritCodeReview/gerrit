@@ -152,6 +152,7 @@ public class Daemon extends SiteProgram {
   private Path runFile;
   private boolean test;
   private AbstractModule luceneModule;
+  private Module emailModule;
 
   private Runnable serverStarted;
 
@@ -262,6 +263,12 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
+  public void setEmailModuleForTesting(Module module) {
+    emailModule = module;
+    test = true;
+  }
+
+  @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     test = true;
@@ -322,7 +329,11 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultCacheFactory.Module());
-    modules.add(new SmtpEmailSender.Module());
+    if (emailModule != null) {
+      modules.add(emailModule);
+    } else {
+      modules.add(new SmtpEmailSender.Module());
+    }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());

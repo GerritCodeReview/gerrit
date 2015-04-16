@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.base.MoreObjects;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -23,6 +25,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public abstract class EmailHeader {
   public abstract boolean isEmpty();
@@ -30,7 +33,7 @@ public abstract class EmailHeader {
   public abstract void write(Writer w) throws IOException;
 
   public static class String extends EmailHeader {
-    private java.lang.String value;
+    private final java.lang.String value;
 
     public String(java.lang.String v) {
       value = v;
@@ -52,6 +55,22 @@ public abstract class EmailHeader {
       } else {
         w.write(value);
       }
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return (o instanceof String)
+          && Objects.equals(value, ((String) o).value);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      return MoreObjects.toStringHelper(this).addValue(value).toString();
     }
   }
 
@@ -113,7 +132,7 @@ public abstract class EmailHeader {
   }
 
   public static class Date extends EmailHeader {
-    private java.util.Date value;
+    private final java.util.Date value;
 
     public Date(java.util.Date v) {
       value = v;
@@ -134,6 +153,22 @@ public abstract class EmailHeader {
       // Mon, 1 Jun 2009 10:49:44 -0700
       fmt = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
       w.write(fmt.format(value));
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return (o instanceof Date)
+          && Objects.equals(value, ((Date) o).value);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      return MoreObjects.toStringHelper(this).addValue(value).toString();
     }
   }
 
@@ -190,6 +225,22 @@ public abstract class EmailHeader {
         len += s.length();
         needComma = true;
       }
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(list);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return (o instanceof AddressList)
+          && Objects.equals(list, ((AddressList) o).list);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      return MoreObjects.toStringHelper(this).addValue(list).toString();
     }
   }
 }

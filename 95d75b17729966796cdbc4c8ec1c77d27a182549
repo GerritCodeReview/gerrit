@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70471268_03ef0e84",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T11:21:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70471268_23ea0a74",
+      "range": {
+        "startLine": 332,
+        "startChar": 30,
+        "endLine": 332,
+        "endChar": 44
+      },
+      "revId": "95d75b17729966796cdbc4c8ec1c77d27a182549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_2a253f62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasEditsByProjectPredicate.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-16T11:20:15Z",
       "side": 1,
       "message": "nit: Change.Id",
+      "range": {
+        "startLine": 53,
+        "startChar": 21,
+        "endLine": 53,
+        "endChar": 23
+      },
+      "revId": "95d75b17729966796cdbc4c8ec1c77d27a182549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_ca0b43d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasEditsByProjectPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T11:21:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "505f6e27_2a253f62",
       "range": {
         "startLine": 53,
         "startChar": 21,

@@ -16,6 +16,24 @@
       "revId": "78fb8c7191d8768bfcfe7763692dabe8549bdd34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_6a1b372c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-04-16T11:07:18Z",
+      "side": 1,
+      "message": "I wanted an Iterable. But I\u0027ll create a singleton collection areound getRef (concat() feels more optimal then adding all refs to a new collection)",
+      "parentUuid": "505f6e27_aafdaf36",
+      "revId": "78fb8c7191d8768bfcfe7763692dabe8549bdd34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

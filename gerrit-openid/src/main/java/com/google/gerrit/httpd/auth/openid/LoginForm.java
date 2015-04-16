@@ -22,11 +22,14 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
+import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -61,10 +64,13 @@ class LoginForm extends HttpServlet {
 
   private final ImmutableSet<String> suggestProviders;
   private final Provider<String> urlProvider;
+  private final Provider<OAuthSessionOverOpenID> oauthSessionProvider;
   private final OpenIdServiceImpl impl;
   private final int maxRedirectUrlLength;
   private final String ssoUrl;
   private final SiteHeaderFooter header;
+  private final Provider<CurrentUser> currentUserProvider;
+  private final DynamicMap<OAuthServiceProvider> oauthServiceProviders;
 
   @Inject
   LoginForm(
@@ -72,13 +78,19 @@ class LoginForm extends HttpServlet {
       @GerritServerConfig Config config,
       AuthConfig authConfig,
       OpenIdServiceImpl impl,
-      SiteHeaderFooter header) {
+      SiteHeaderFooter header,
+      Provider<OAuthSessionOverOpenID> oauthSessionProvider,
+      Provider<CurrentUser> currentUserProvider,
+      DynamicMap<OAuthServiceProvider> oauthServiceProviders) {
     this.urlProvider = urlProvider;
     this.impl = impl;
     this.header = header;
     this.maxRedirectUrlLength = config.getInt(
         "openid", "maxRedirectUrlLength",
         10);
+    this.oauthSessionProvider = oauthSessionProvider;
+    this.currentUserProvider = currentUserProvider;
+    this.oauthServiceProviders = oauthServiceProviders;
 
     if (urlProvider == null || Strings.isNullOrEmpty(urlProvider.get())) {
       log.error("gerrit.canonicalWebUrl must be set in gerrit.config");
@@ -152,7 +164,23 @@ class LoginForm extends HttpServlet {
       mode = SignInMode.SIGN_IN;
     }
 
-    discover(req, res, link, id, remember, token, mode);
+    OAuthServiceProvider oauthProvider = lookupOAuthServiceProvider(id);
+
+    if (oauthProvider == null) {
+      discover(req, res, link, id, remember, token, mode);
+    } else {
+      OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
+      if (!currentUserProvider.get().isIdentifiedUser()
+          && oauthSession.isLoggedIn()) {
+        oauthSession.logout();
+      }
+      if ((isGerritLogin(req)
+          || oauthSession.isOAuthFinal(req))
+          && !oauthSession.isLoggedIn()) {
+        oauthSession.setServiceProvider(oauthProvider);
+        oauthSession.login(req, res, oauthProvider);
+      }
+    }
   }
 
   private void discover(HttpServletRequest req, HttpServletResponse res,
@@ -267,6 +295,20 @@ class LoginForm extends HttpServlet {
       }
       a.setAttribute("href", u.toString());
     }
+
+    // OAuth: Add plugin based providers
+    Element providers = HtmlDomUtil.find(doc, "providers");
+    Set<String> plugins = oauthServiceProviders.plugins();
+    for (String pluginName : plugins) {
+      Map<String, Provider<OAuthServiceProvider>> m =
+          oauthServiceProviders.byPlugin(pluginName);
+        for (Map.Entry<String, Provider<OAuthServiceProvider>> e
+            : m.entrySet()) {
+          addProvider(providers, pluginName, e.getKey(),
+              e.getValue().get().getName());
+        }
+    }
+
     sendHtml(res, doc);
   }
 
@@ -285,6 +327,38 @@ class LoginForm extends HttpServlet {
     }
   }
 
+  private static void addProvider(Element form, String pluginName,
+      String id, String serviceName) {
+    Element div = form.getOwnerDocument().createElement("div");
+    div.setAttribute("id", id);
+    Element hyperlink = form.getOwnerDocument().createElement("a");
+    hyperlink.setAttribute("href", String.format("?id=%s_%s",
+        pluginName, id));
+    hyperlink.setTextContent(serviceName +
+        " (" + pluginName + " plugin)");
+    div.appendChild(hyperlink);
+    form.appendChild(div);
+  }
+
+  private OAuthServiceProvider lookupOAuthServiceProvider(String providerId) {
+    if (providerId.startsWith("http://")) {
+      providerId = providerId.substring("http://".length());
+    }
+    Set<String> plugins = oauthServiceProviders.plugins();
+    for (String pluginName : plugins) {
+      Map<String, Provider<OAuthServiceProvider>> m =
+          oauthServiceProviders.byPlugin(pluginName);
+        for (Map.Entry<String, Provider<OAuthServiceProvider>> e
+            : m.entrySet()) {
+          if (providerId.equals(
+              String.format("%s_%s", pluginName, e.getKey()))) {
+            return e.getValue().get();
+          }
+        }
+    }
+    return null;
+  }
+
   private static String getLastId(HttpServletRequest req) {
     Cookie[] cookies = req.getCookies();
     if (cookies != null) {
@@ -295,5 +369,10 @@ class LoginForm extends HttpServlet {
       }
     }
     return null;
+  }
+
+  private static boolean isGerritLogin(HttpServletRequest request) {
+    return request.getRequestURI().indexOf(
+        OAuthSessionOverOpenID.GERRIT_LOGIN) >= 0;
   }
 }

@@ -71,7 +71,8 @@ class UrlModule extends ServletModule {
     }
     serve("/cat/*").with(CatServlet.class);
 
-    if (authConfig.getAuthType() != AuthType.OAUTH) {
+    if (authConfig.getAuthType() != AuthType.OAUTH &&
+        authConfig.getAuthType() != AuthType.OPENID) {
       serve("/logout").with(HttpLogoutServlet.class);
       serve("/signout").with(HttpLogoutServlet.class);
     }

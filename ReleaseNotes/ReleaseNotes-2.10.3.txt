@@ -1,0 +1,124 @@
+Release notes for Gerrit 2.10.3
+===============================
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.3.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.3.war]
+
+Important Notes
+---------------
+
+*WARNING:* There are no schema changes from
+link:ReleaseNotes-2.10.2.html[2.10.2], but Bouncycastle was upgraded to 1.51.
+It is therefore important to upgrade the site with the `init` program, rather
+than only copying the .war file over the existing one.
+
+*WARNING:* When upgrading from version 2.8.4 or older with a site that uses
+Bouncy Castle Crypto, new versions of the libraries will be downloaded. The old
+libraries should be manually removed from site's `lib` folder to prevent the
+startup failure described in
+link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
+
+It is recommended to run the `init` program in interactive mode. Warnings will
+be suppressed in batch mode.
+
+----
+  java -jar gerrit.war init -d site_path
+----
+
+New Features
+------------
+
+Support hybrid OpenID and OAuth2 authentication
++
+OpenID auth scheme is aware of optional OAuth2 plugin-based authentication.
+This feature considered to be experimental and hasn't reached full feature set yet.
+Particularly, linking of user identities accross protocol boundaries and even from
+one OAuth2 identity to another OAuth2 identity wasn't implemented yet.
+
+Configuration
+~~~~~~~~~~~~~
+
+* Allow to configure
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10.3/config-gerrit.html#sshd.rekeyBytesLimit[
+SSHD rekey parameters].
+
+SSH
+---
+
+* Update SSHD to 0.14.0.
++
+This fixes link:https://issues.apache.org/jira/browse/SSHD-348[SSHD-348] which
+was causing ssh threads allocated to stream-events clients to get stuck.
++
+Also update SSHD Mina to 2.0.8 and Bouncycastle to 1.51.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2797[Issue 2797]:
+Add support for ECDSA based public key authentication.
+
+Bug Fixes
+---------
+
+* Prevent wrong content type for CSS files.
++
+The mime-util library contains two content type mappings for .css files:
+`application/x-pointplus` and `text/css`.  Unfortunately, using the wrong one
+will result in most browsers discarding the file as a CSS file.  Ensure we only
+use the correct type for CSS files.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3289[Issue 3289]:
+Prevent NullPointerException in Gitweb servlet.
+
+Replication plugin
+~~~~~~~~~~~~~~~~~~
+
+* Set connection timeout to 120 seconds for SSH remote operations.
+
+The creation of a missing Git, before starting replication, is a blocking
+operation. By setting a timeout, we ensure the operation does not get stuck
+forever, essentially blocking all future remote git creation operations.
+
+OAuth extension point
+~~~~~~~~~~~~~~~~~~~~~
+
+* Respect servlet context path in URL for login token
++
+On sites with non empty context path, first redirect was broken and ended up
+with 404 Not found.
+
+* Invalidate OAuth session after web_sessions cache expiration
++
+After web session cache expiration there is no way to re-sign-in into Gerrit.
+
+Daemon
+~~~~~~
+
+* Print proper names for tasks in output of `show-queue` command.
++
+Some tasks were not displayed with the proper name.
+
+Web UI
+~~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3044[Issue 3044]:
+Remove stripping `#` in login redirect.
+
+SSH
+~~~
+
+* Prevent double authentication for the same public key.
+
+
+Performance
+-----------
+
+* Improved performance when creating a new branch on a repository with a large
+number of changes.
+
+
+Upgrades
+--------
+
+* Update Bouncycastle to 1.51.
+
+* Update SSHD to 0.14.0.

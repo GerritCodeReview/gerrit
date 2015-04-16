@@ -22,6 +22,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.servlet.RequestScoped;
 
 /** Bindings for {@link RequestScoped} entities. */
@@ -36,6 +37,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(ProjectControl.Factory.class).in(SINGLETON);
 
     factory(SubmoduleOp.Factory.class);
+    factory(SubmoduleSectionParser.Factory.class);
     factory(MergeOp.Factory.class);
   }
 }

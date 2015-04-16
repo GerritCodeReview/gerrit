@@ -46,7 +46,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
-import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -88,7 +87,6 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("gerrit", null, "allProjects", "Test-Projects");
     cfg.setString("user", null, "name", "Gerrit Code Review");
     cfg.setString("user", null, "email", "gerrit@localhost");
-    cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setString("cache", null, "directory", null);
     cfg.setString("index", null, "type", "lucene");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
@@ -179,7 +177,7 @@ public class InMemoryModule extends FactoryModule {
       }
     });
     install(new DefaultCacheFactory.Module());
-    install(new SmtpEmailSender.Module());
+    install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
 
     IndexType indexType = null;

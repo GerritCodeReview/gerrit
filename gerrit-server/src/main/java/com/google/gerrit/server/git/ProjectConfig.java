@@ -305,6 +305,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return notifySections.values();
   }
 
+  public void putNotifyConfig(String name, NotifyConfig nc) {
+    notifySections.put(name, nc);
+  }
+
   public Map<String, LabelType> getLabelSections() {
     return labelSections;
   }

@@ -40,15 +40,10 @@ public class EventTypes {
   /** Register an event.
    *
    *  @param event The event to register.
-   *  @throws IllegalArgumentException if the event's type is already
    *  registered.
    **/
   public static void registerClass(Event event) {
     String type = event.getType();
-    if (typesByString.containsKey(type)) {
-      throw new IllegalArgumentException(
-          "Event type already registered: " + type);
-    }
     typesByString.put(type, event.getClass());
   }
 

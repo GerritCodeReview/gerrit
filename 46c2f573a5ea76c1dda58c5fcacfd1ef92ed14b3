@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_ca57c3e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T08:37:22Z",
+      "side": 1,
+      "message": "Should we put this logic into Change.Id as\n\n  public static Id fromEditRef(String ref)\n\n?\n\nThis would be similar to\n\n  PatchSet.Id fromRef(String ref).",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 57
+      },
+      "revId": "46c2f573a5ea76c1dda58c5fcacfd1ef92ed14b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_e3a8725a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T08:37:22Z",
+      "side": 1,
+      "message": "Is it worth having this method just to append a \u0027/\u0027 to RefNames.refsUsers(accountId)?",
+      "revId": "46c2f573a5ea76c1dda58c5fcacfd1ef92ed14b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_c3a57680",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T08:37:22Z",
+      "side": 1,
+      "message": "Should this method rather be in RefNames?\n\n  RefsNames.refsEdit(Account.Id accountId, Change.Id changeId)\n\n?\n\nThis would be similar to RefsNames.refsDraftComments(Account.Id accountId, Change.Id changeId)",
+      "revId": "46c2f573a5ea76c1dda58c5fcacfd1ef92ed14b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_03a4ae83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T08:37:22Z",
+      "side": 1,
+      "message": "If we are already using String.format(...) should it rather be:\n\n  String.format(\"%s%s%d/\", editRefPrefix(accountId), EDIT_PREFIX, changeId.get())\n\n?",
+      "range": {
+        "startLine": 266,
+        "startChar": 1,
+        "endLine": 267,
+        "endChar": 60
+      },
+      "revId": "46c2f573a5ea76c1dda58c5fcacfd1ef92ed14b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0527e22_a68a86b1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T10:47:21Z",
+      "side": 1,
+      "message": "Would it be better to call this on the MetaDataUpdate object before calling this updateProjectConfig method?",
+      "revId": "8d17f7e5e7eb4ec74c6a0702f05f51f8ce24ca26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1911,6 +1911,39 @@ displayed as part of the index page, if present in the manifest:
 |API Version | Gerrit-ApiVersion
 |===================================================
 
+[[buck-in-tree-build]]
+== BUCK in-tree build
+
+In order for a plugin to build in the gerrit tree, ie:
+
+[source,bash]
+----
+../gerrit $ buck build plugins/{plugin-dir}
+----
+
+A plugin needs to supply an Implementation-URL in the manifest_entries.
+
+BUCK
+[source,python]
+----
+manifest_entries = [
+   'Gerrit-PluginName: name',
+   'Implementation-URL: http://my-favorite-place.com/gits/{project name}',
+]
+----
+
+When developing a new plugin the Implementation-URL can be substituted for
+just the plugin directory to enable in-tree build.
+
+BUCK
+[source,python]
+----
+manifest_entries = [
+   'Gerrit-PluginName: name',
+   'Implementation-URL: plugins/{project name}',
+]
+----
+
 [[deployment]]
 == Deployment
 

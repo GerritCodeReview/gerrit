@@ -244,7 +244,7 @@ public class ChangeInserter {
         public void run() {
           try {
             CreateChangeSender cm =
-                createChangeSenderFactory.create(change);
+                createChangeSenderFactory.create(change.getId());
             cm.setFrom(change.getOwner());
             cm.setPatchSet(patchSet, patchSetInfo);
             cm.addReviewers(reviewers);

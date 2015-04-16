@@ -1045,7 +1045,7 @@ public class MergeOp {
         }
 
         try {
-          MergedSender cm = mergedSenderFactory.create(changeControl(c));
+          MergedSender cm = mergedSenderFactory.create(c.getId());
           if (from != null) {
             cm.setFrom(from.getAccountId());
           }
@@ -1212,7 +1212,7 @@ public class MergeOp {
         }
 
         try {
-          MergeFailSender cm = mergeFailSenderFactory.create(c);
+          MergeFailSender cm = mergeFailSenderFactory.create(c.getId());
           if (from != null) {
             cm.setFrom(from.getAccountId());
           }

@@ -17,18 +17,20 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change being reverted. */
 public class RevertedSender extends ReplyToChangeSender {
   public static interface Factory {
-    RevertedSender create(Change change);
+    RevertedSender create(Change.Id id);
   }
 
   @Inject
-  public RevertedSender(EmailArguments ea, @Assisted Change c) {
-    super(ea, c, "revert");
+  public RevertedSender(EmailArguments ea, @Assisted Change.Id id)
+      throws OrmException {
+    super(ea, "revert", newChangeData(ea, id));
   }
 
   @Override

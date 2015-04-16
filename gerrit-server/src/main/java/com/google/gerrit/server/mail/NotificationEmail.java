@@ -19,7 +19,6 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gwtorm.server.OrmException;
 
@@ -33,14 +32,11 @@ public abstract class NotificationEmail extends OutgoingEmail {
   private static final Logger log =
       LoggerFactory.getLogger(NotificationEmail.class);
 
-  protected Project.NameKey project;
   protected Branch.NameKey branch;
 
   protected NotificationEmail(EmailArguments ea,
-      String mc, Project.NameKey project, Branch.NameKey branch) {
+      String mc, Branch.NameKey branch) {
     super(ea, mc);
-
-    this.project = project;
     this.branch = branch;
   }
 
@@ -104,7 +100,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
   @Override
   protected void setupVelocityContext() {
     super.setupVelocityContext();
-    velocityContext.put("projectName", project.get());
+    velocityContext.put("projectName", branch.getParentKey().get());
     velocityContext.put("branch", branch);
   }
 }

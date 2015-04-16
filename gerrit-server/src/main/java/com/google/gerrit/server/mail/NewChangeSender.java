@@ -16,7 +16,8 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,8 +30,9 @@ public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
 
-  protected NewChangeSender(EmailArguments ea, Change c) {
-    super(ea, c, "newchange");
+  protected NewChangeSender(EmailArguments ea, ChangeData cd)
+      throws OrmException {
+    super(ea, "newchange", cd);
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {

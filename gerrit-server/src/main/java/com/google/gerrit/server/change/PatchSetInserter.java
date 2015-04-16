@@ -293,7 +293,7 @@ public class PatchSetInserter {
         try {
           PatchSetInfo info = patchSetInfoFactory.get(commit, patchSet.getId());
           ReplacePatchSetSender cm =
-              replacePatchSetFactory.create(updatedChange);
+              replacePatchSetFactory.create(c.getId());
           cm.setFrom(user.getAccountId());
           cm.setPatchSet(patchSet, info);
           cm.setChangeMessage(changeMessage);

@@ -39,6 +39,7 @@ installed during the link:pgm-init.html[Gerrit initialization].
 The core plugins are developed and maintained by the Gerrit maintainers
 and the Gerrit community.
 
+[[commit-message-length-validator]]
 === commit-message-length-validator
 
 This plugin checks the length of a commit’s commit message subject and
@@ -52,6 +53,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[cookbook-plugin]]
 === cookbook-plugin
 
 Sample plugin to demonstrate features of Gerrit's plugin API.
@@ -61,6 +63,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[download-commands]]
 === download-commands
 
 This plugin defines commands for downloading changes in different
@@ -73,6 +76,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/download-commands/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[replication]]
 === replication
 
 This plugin can automatically push any changes Gerrit Code Review makes
@@ -87,6 +91,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[reviewnotes]]
 === reviewnotes
 
 Stores review information for Gerrit changes in the `refs/notes/review`
@@ -97,6 +102,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/reviewnotes/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[singleusergroup]]
 === singleusergroup
 
 This plugin provides a group per user. This is useful to assign access
@@ -121,6 +127,7 @@ list may not be complete. You may discover more plugins on
 link:https://gerrit-review.googlesource.com/#/admin/projects/?filter=plugins%252F[
 gerrit-review].
 
+[[admin-console]]
 === admin-console
 
 Plugin to provide administrator-only functionality, intended to
@@ -133,6 +140,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/admin-console/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[avatars-external]]
 === avatars/external
 
 This plugin allows to use an external url to load the avatar images
@@ -145,6 +153,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/avatars/external/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[avatars-gravatar]]
 === avatars/gravatar
 
 Plugin to display user icons from Gravatar.
@@ -152,6 +161,7 @@ Plugin to display user icons from Gravatar.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/avatars/gravatar[
 Project]
 
+[[branch-network]]
 === branch-network
 
 This plugin allows the rendering of Git repository branch network in a
@@ -166,6 +176,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/branch-network/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[changemessage]]
 === changemessage
 
 This plugin allows to display a static info message on the change screen.
@@ -177,6 +188,7 @@ Plugin Documenatation] |
 link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[codenvy]]
 === codenvy
 
 Plugin to allow to edit code on-line on either an existing branch or an
@@ -196,6 +208,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/delete-project/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[egit]]
 === egit
 
 This plugin provides extensions for easier usage with EGit.
@@ -209,6 +222,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/egit/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[force-draft]]
 === force-draft
 
 Provides an ssh command to force a change or patch set to draft status.
@@ -218,6 +232,7 @@ delete a change or patch set from the server.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/force-draft[
 Project]
 
+[[gitblit]]
 === gitblit
 
 GitBlit code-viewer plugin with SSO and Security Access Control.
@@ -225,6 +240,7 @@ GitBlit code-viewer plugin with SSO and Security Access Control.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/gitblit[
 Project]
 
+[[github]]
 === github
 
 Plugin to integrate with GitHub: replication, pull-request to Change-Sets
@@ -232,6 +248,7 @@ Plugin to integrate with GitHub: replication, pull-request to Change-Sets
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/github[
 Project]
 
+[[gitiles]]
 === gitiles
 
 Plugin running Gitiles alongside a Gerrit server.
@@ -239,6 +256,7 @@ Plugin running Gitiles alongside a Gerrit server.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/gitiles[
 Project]
 
+[[imagare]]
 === imagare
 
 The imagare plugin allows Gerrit users to upload and share images.
@@ -250,6 +268,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/imagare/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[importer]]
 === importer
 
 The importer plugin allows to import projects from one Gerrit server
@@ -276,6 +295,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/importer/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[its-plugins]]
 === Issue Tracker System Plugins
 
 Plugins to integrate with issue tracker systems (ITS), that (based
@@ -293,6 +313,7 @@ its-base Documentation] |
 link:https://gerrit.googlesource.com/plugins/its-base/+doc/master/src/main/resources/Documentation/config.md[
 its-base Configuration]
 
+[[its-bugzilla]]
 ==== its-bugzilla
 
 Plugin to integrate with Bugzilla.
@@ -302,6 +323,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/its-bugzilla/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[its-jira]]
 ==== its-jira
 
 Plugin to integrate with Jira.
@@ -311,6 +333,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/its-jira/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[its-rtc]]
 ==== its-rtc
 
 Plugin to integrate with IBM Rational Team Concert (RTC).
@@ -320,6 +343,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/its-rtc/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[javamelody]]
 === javamelody
 
 This plugin allows to monitor the Gerrit server.
@@ -334,6 +358,7 @@ Documentation] |
 https://gerrit.googlesource.com/plugins/javamelody/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[menuextender]]
 === menuextender
 
 The menuextender plugin allows Gerrit administrators to configure
@@ -346,6 +371,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/menuextender/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[motd]]
 === motd
 
 This plugin can output messages to clients when pulling/fetching/cloning
@@ -361,6 +387,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/motd/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[project-download-commands]]
 === project-download-commands
 
 This plugin adds support for project specific download commands.
@@ -376,6 +403,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/project-download-commands/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[quota]]
 === quota
 
 This plugin allows to enforce quotas in Gerrit.
@@ -391,6 +419,7 @@ Documentation]
 link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[reviewers]]
 === reviewers
 
 A plugin that allows adding default reviewers to a change.
@@ -402,6 +431,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[reviewers-by-blame]]
 === reviewers-by-blame
 
 A plugin that allows automatically adding reviewers to a change from
@@ -417,6 +447,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/reviewers-by-blame/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[groovy-provider]]
 === scripting/groovy-provider
 
 This plugin provides a Groovy runtime environment for Gerrit plugins in Groovy.
@@ -426,6 +457,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/scripting/groovy-provider/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[scala-provider]]
 === scripting/scala-provider
 
 This plugin provides a Scala runtime environment for Gerrit plugins in Scala.
@@ -435,6 +467,7 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/scripting/scala-provider/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[server-config]]
 === server-config
 
 This plugin enables access (download and upload) to the server config
@@ -446,6 +479,7 @@ get.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/server-config[
 Project]
 
+[[serviceuser]]
 === serviceuser
 
 This plugin allows to create service users in Gerrit.
@@ -462,6 +496,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/serviceuser/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[uploadvalidator]]
 === uploadvalidator
 
 This plugin allows to configure upload validations per project.
@@ -477,6 +512,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[websession-flatfile]]
 === websession-flatfile
 
 This plugin replaces the built-in Gerrit H2 based websession cache with
@@ -491,6 +527,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[wip]]
 === wip
 
 This plugin adds a new button that allows a change owner to set a
@@ -508,6 +545,7 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/wip/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[x-docs]]
 === x-docs
 
 This plugin serves project documentation as HTML pages.

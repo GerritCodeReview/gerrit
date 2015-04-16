@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "505f6e27_6aa6973a",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1017803
+      },
+      "writtenOn": "2015-04-16T14:20:12Z",
+      "side": 1,
+      "message": "[item.split(\u0027/\u0027) for item in manifest_entries if \u0027Implementation-URL\u0027 in item][0][-1]\n\nless ugly ;)",
+      "revId": "af3723536ffefe302e0868c76044e917e42857c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_aabc8f49",
         "filename": "tools/default.defs",
         "patchSetId": 1

@@ -1205,7 +1205,7 @@ Default is 64 entries.
 [[core.useRecursiveMerge]]core.useRecursiveMerge::
 +
 Use JGit's recursive merger for three-way merges. This only affects
-projects configured to automatically resolve conflicts.
+projects that allow content merges.
 +
 As explained in this
 link:http://codicesoftware.blogspot.com/2011/09/merge-recursive-strategy.html[

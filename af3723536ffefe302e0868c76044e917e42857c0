@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_aabc8f49",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-04-16T14:17:17Z",
+      "side": 1,
+      "message": "Is this just obfuscation?\nShould we let the build fail with some useful information like \u0027There is no Implementation-URL in the manifest_entries\u0027 instead?",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 21
+      },
+      "revId": "af3723536ffefe302e0868c76044e917e42857c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

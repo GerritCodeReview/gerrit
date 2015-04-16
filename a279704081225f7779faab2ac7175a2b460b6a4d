@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "702e3292_8bfaed3a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T21:33:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3062faee_e90e15e9",
+      "revId": "a279704081225f7779faab2ac7175a2b460b6a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3062faee_c90b51d7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-16T19:12:50Z",
       "side": 1,
       "message": "Inline this call:\n\n .add(\"a.txt\", \"a contents: \" + contentCounter.incrementAndGet())",
+      "revId": "a279704081225f7779faab2ac7175a2b460b6a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_49476110",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T21:33:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3062faee_c90b51d7",
       "revId": "a279704081225f7779faab2ac7175a2b460b6a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

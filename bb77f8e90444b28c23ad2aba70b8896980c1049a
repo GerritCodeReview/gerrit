@@ -16,6 +16,24 @@
       "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_c39696c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-04-16T14:18:05Z",
+      "side": 1,
+      "message": "I see your point, but if we\u0027re being specific in the merge case we should also be so for all other submit types and say \"rebase pending\", \"cherry-pick pending\" and so on. I think it\u0027s not worth maintaining this if we ever get new submit types, thus I chose the general \"integration\" term.",
+      "parentUuid": "505f6e27_8ab9cb59",
+      "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

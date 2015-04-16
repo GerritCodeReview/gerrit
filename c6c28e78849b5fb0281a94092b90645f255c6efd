@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "70471268_83809ef9",
+        "filename": "gerrit-openid/src/main/resources/com/google/gerrit/httpd/auth/openid/LoginForm.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-16T04:40:14Z",
+      "side": 1,
+      "message": "But the OAuth image corresponds in proportion to OpenID image: [1]?\n\n* [1] http://imgur.com/12bRRzO",
+      "parentUuid": "b04d0a88_052a7232",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "c6c28e78849b5fb0281a94092b90645f255c6efd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_e6dcfee8",
         "filename": "gerrit-openid/src/main/resources/com/google/gerrit/httpd/auth/openid/LoginForm.html",
         "patchSetId": 7

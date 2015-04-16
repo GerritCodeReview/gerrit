@@ -115,10 +115,10 @@ public interface GroupApi {
    */
   List<GroupInfo> includedGroups() throws RestApiException;
 
-  /*
+  /**
    * Add groups to be included in this one.
    *
-   * @param members list of group identifiers, in any format accepted by
+   * @param groups list of group identifiers, in any format accepted by
    *     {@link Groups#id(String)}
    * @throws RestApiException
    */
@@ -127,7 +127,7 @@ public interface GroupApi {
   /**
    * Remove included groups from this one.
    *
-   * @param members list of group identifiers, in any format accepted by
+   * @param groups list of group identifiers, in any format accepted by
    *     {@link Groups#id(String)}
    * @throws RestApiException
    */

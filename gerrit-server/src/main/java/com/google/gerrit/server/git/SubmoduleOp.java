@@ -61,6 +61,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -145,11 +146,15 @@ public class SubmoduleOp {
     }
 
     try {
+      final Set<SubmoduleSubscription> oldSubscriptions =
+          new HashSet<>(schema.submoduleSubscriptions()
+              .bySuperProject(destBranch).toList());
+
+      final List<SubmoduleSubscription> newSubscriptions;
       final TreeWalk tw = TreeWalk.forPath(db, GIT_MODULES, mergeTip.getTree());
       if (tw != null
           && (FileMode.REGULAR_FILE.equals(tw.getRawMode(0)) || FileMode.EXECUTABLE_FILE
               .equals(tw.getRawMode(0)))) {
-
         BlobBasedConfig bbc =
             new BlobBasedConfig(null, db, mergeTip, GIT_MODULES);
 
@@ -158,29 +163,28 @@ public class SubmoduleOp {
         final Branch.NameKey target =
             new Branch.NameKey(new Project.NameKey(destProject.getName()),
                 destBranch.get());
-
-        final Set<SubmoduleSubscription> oldSubscriptions =
-            new HashSet<>(schema.submoduleSubscriptions()
-                .bySuperProject(destBranch).toList());
-        final List<SubmoduleSubscription> newSubscriptions =
+        newSubscriptions =
             new SubmoduleSectionParser(bbc, thisServer, target, repoManager)
                 .parseAllSections();
-
-        final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
-        for (SubmoduleSubscription s : newSubscriptions) {
-          if (oldSubscriptions.contains(s)) {
-            alreadySubscribeds.add(s);
-          }
-        }
-
-        oldSubscriptions.removeAll(newSubscriptions);
-        newSubscriptions.removeAll(alreadySubscribeds);
-
-        if (!oldSubscriptions.isEmpty()) {
-          schema.submoduleSubscriptions().delete(oldSubscriptions);
-        }
-        schema.submoduleSubscriptions().insert(newSubscriptions);
+      } else {
+        newSubscriptions = Collections.emptyList();
       }
+
+      final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
+      for (SubmoduleSubscription s : newSubscriptions) {
+        if (oldSubscriptions.contains(s)) {
+          alreadySubscribeds.add(s);
+        }
+      }
+
+      oldSubscriptions.removeAll(newSubscriptions);
+      newSubscriptions.removeAll(alreadySubscribeds);
+
+      if (!oldSubscriptions.isEmpty()) {
+        schema.submoduleSubscriptions().delete(oldSubscriptions);
+      }
+      schema.submoduleSubscriptions().insert(newSubscriptions);
+
     } catch (OrmException e) {
       logAndThrowSubmoduleException(
           "Database problem at update of subscriptions table from "

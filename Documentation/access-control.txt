@@ -907,7 +907,7 @@ Suggested access rights to grant:
 * xref:category_forge_author[`Forge Author Identity`] to 'refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-2' to '+2' for 'refs/heads/*'
 * link:config-labels.html#label_Verified[`Label: Verified`] with range '-1' to '+1' for 'refs/heads/*'
-* xref:category_submit[`Submit`]
+* xref:category_submit[`Submit`] on 'refs/heads/*'
 
 If the project is small or the developers are seasoned it might make
 sense to give them the freedom to push commits directly to a branch.

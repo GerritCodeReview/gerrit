@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0527e22_46ce3236",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013477
+      },
+      "writtenOn": "2015-04-16T02:47:32Z",
+      "side": 1,
+      "message": "It\u0027s probably a good idea to do a clean-up of -webkit-* and -moz-* definitions - either replace then with or add the CSS3 equivalent.",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "f2f7e89bb2c69e17b64b1da05bb2232f563f8721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_26d336da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013477
+      },
+      "writtenOn": "2015-04-16T02:47:32Z",
+      "side": 1,
+      "message": "It looks like Gerrit can benefit from some basic cross-browser bootstrapping of HTML elements, before trying to hack discrepancies inside CSS classes with more chaos.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "f2f7e89bb2c69e17b64b1da05bb2232f563f8721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

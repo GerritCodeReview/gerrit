@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_6a421702",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.3.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-16T11:25:02Z",
+      "side": 1,
+      "message": "Should we mention that this is experimental feature? And not reached the full feature set yet? Particularly: linking of identities across protocol boarders OpenID -\u003e OAuth and even OAuth -\u003e OAuth  wasn\u0027t implemented yet.",
+      "revId": "8c85760269efe92029898cd86aad2193755e917b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

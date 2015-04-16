@@ -48,6 +48,10 @@ body, table td, select {
   font-family: norm-font;
 }
 
+button {
+  padding: 1px 6px;
+}
+
 .gerritBody {
   font-size: small;
   padding-left: 5px;
@@ -311,8 +315,8 @@ a:hover {
   border-color: rgba(0, 0, 0, 0.15);
   height: 14px;
   background-color: #53A93F;
-  -webkit-border-radius: 2px;
-  -webkit-box-sizing: content-box;
+  border-radius: 2px;
+  box-sizing: content-box;
 }
 .suggestBoxPopup {
   z-index: 200;

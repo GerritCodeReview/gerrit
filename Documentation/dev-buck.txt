@@ -12,7 +12,7 @@ OS are supported.  Buck requires Python version 2.7 to be installed.
 Clone the git and build it:
 
 ----
-  git clone https://gerrit.googlesource.com/buck
+  git clone https://github.com/facebook/buck
   cd buck
   git checkout $(cat ../gerrit/.buckversion)
   ant

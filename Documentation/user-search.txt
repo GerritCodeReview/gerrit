@@ -267,7 +267,7 @@ Same as `reviewer:self`.
 
 is:open, is:pending::
 +
-True if the change is either open or submitted, merge pending.
+True if the change is either open or submitted, integration pending.
 
 is:draft::
 +
@@ -291,7 +291,7 @@ destination branch.
 status:open, status:pending::
 +
 True if the change state is either 'review in progress' or 'submitted,
-merge pending'.
+integration pending'.
 
 status:reviewed::
 +

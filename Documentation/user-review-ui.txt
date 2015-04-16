@@ -53,7 +53,7 @@ outdated patch sets, but only on the current patch set.
 +
 The change has all necessary approvals and may be submitted.
 
-- [[submitted-merge-pending]]`Submitted, Merge Pending`:
+- [[submitted-integration-pending]]`Submitted, Integration Pending`:
 +
 The change was submitted and was added to the merge queue.
 +

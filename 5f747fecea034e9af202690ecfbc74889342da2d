@@ -22,6 +22,30 @@
       "revId": "5f747fecea034e9af202690ecfbc74889342da2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_c97d912f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-16T23:49:51Z",
+      "side": 0,
+      "message": "I honestly have no idea what problem you\u0027re trying to describe.",
+      "parentUuid": "702e3292_4b208552",
+      "range": {
+        "startLine": 1055,
+        "startChar": 42,
+        "endLine": 1055,
+        "endChar": 61
+      },
+      "revId": "5f747fecea034e9af202690ecfbc74889342da2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

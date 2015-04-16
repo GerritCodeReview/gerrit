@@ -16,6 +16,24 @@
       "revId": "9da0147f612434fa97fe2ebd3849425c0960914a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_ca7d832f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-04-16T12:19:41Z",
+      "side": 1,
+      "message": "Sorry. Got another PS around the corner. Just want to test it.",
+      "parentUuid": "70471268_233c4a74",
+      "revId": "9da0147f612434fa97fe2ebd3849425c0960914a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

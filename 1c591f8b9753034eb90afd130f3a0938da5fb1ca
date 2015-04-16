@@ -22,6 +22,30 @@
       "revId": "1c591f8b9753034eb90afd130f3a0938da5fb1ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_c37d762f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T13:26:18Z",
+      "side": 1,
+      "message": "Actually it\u0027s needed in line 504 as well.\n\nIt looks like after an indended bullet list you can have only 1 paragraph which has the same indention level, hence I\u0027m using \u0027--\u0027 to mark a block that should be indended together as 1 paragraph.",
+      "parentUuid": "d0527e22_06539ac0",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 739,
+        "endChar": 2
+      },
+      "revId": "1c591f8b9753034eb90afd130f3a0938da5fb1ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

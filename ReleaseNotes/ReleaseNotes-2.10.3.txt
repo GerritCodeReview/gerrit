@@ -108,6 +108,14 @@ SSH
 
 * Prevent double authentication for the same public key.
 
+
+Performance
+-----------
+
+* Improved performance when creating a new branch on a repository with a large
+number of changes.
+
+
 Upgrades
 --------
 

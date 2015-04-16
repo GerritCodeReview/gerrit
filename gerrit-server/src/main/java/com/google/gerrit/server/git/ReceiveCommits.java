@@ -2011,7 +2011,7 @@ public class ReceiveCommits {
       cmd = new ReceiveCommand(
           ObjectId.zeroId(),
           newCommit,
-          ChangeEditUtil.editRefName(
+          RefNames.refsEdit(
               currentUser.getAccountId(),
               change.getId(),
               newPatchSet.getId()));

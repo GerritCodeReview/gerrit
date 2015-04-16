@@ -131,7 +131,11 @@ def gerrit_plugin(
     type = 'plugin',
     visibility = ['PUBLIC']):
   from multiprocessing import cpu_count
-  mf_cmd = 'v=%s;' % git_describe(name)
+  try:
+    plugin_dir = [item.split('/') for item in manifest_entries if 'Implementation-URL' in item][0][-1]
+  except:
+    plugin_dir = name
+  mf_cmd = 'v=%s;' % git_describe(plugin_dir)
   if manifest_file:
     mf_src = [manifest_file]
     mf_cmd += 'sed "s:@VERSION@:$v:g" $SRCS >$OUT'

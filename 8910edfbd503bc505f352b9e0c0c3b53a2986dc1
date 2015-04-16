@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_aa25afa7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T00:12:45Z",
+      "side": 1,
+      "message": "I was going to suggest changing this to use a glob to collect all *IT.java files, but then noticed that we have two acceptance_test rules - this one and the one on line 13.\n\nThe only difference is that the other one has a dependency on push_for_review.\n\nWould it cause problems to just merge these two together and have a glob?",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "8910edfbd503bc505f352b9e0c0c3b53a2986dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

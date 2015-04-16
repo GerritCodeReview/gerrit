@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_aa3b6f98",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T10:11:09Z",
+      "side": 1,
+      "message": "Should we make the method name consistent with the other methods in this class?\n\n  refsEdit(...)",
+      "revId": "0819ae484e59c8048fff0cbe7090fb8b306c6181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_436ce6b7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T10:11:09Z",
+      "side": 1,
+      "message": "Then I would call this\n\n  refsEditPrefix(...)",
+      "revId": "0819ae484e59c8048fff0cbe7090fb8b306c6181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

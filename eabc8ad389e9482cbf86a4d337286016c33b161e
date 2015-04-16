@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04d0a88_a5bcbe49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-04-16T16:31:08Z",
+      "side": 1,
+      "message": "I am sorry that I introduced this problem.  It is tricky, and if this workaround works well (if the event isn\u0027t unregistered, does it mean that Gerrit still has a reference to the unloaded plugin causing a memory leak?), it might actually be a good solution.  It gets tricky when we want to be able replay older events (as some of my future changes were attempting to do) if the events are not longer registered.  Not unregistering means the events will still be there sometimes after unregistering, so they can still be replayed.  It makes me wonder if the better way to fix this is to have the event types live in another plugin?  So for example, shoudl the replication plugin have another replication-event plugin that could stay loaded, even if the replication plugin is unloaded?",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 37
+      },
+      "revId": "eabc8ad389e9482cbf86a4d337286016c33b161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

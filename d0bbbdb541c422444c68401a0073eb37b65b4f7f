@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3062faee_8961d9ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2831,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-16T12:19:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_851542f1",
+      "range": {
+        "startLine": 2831,
+        "startChar": 36,
+        "endLine": 2831,
+        "endChar": 38
+      },
+      "revId": "d0bbbdb541c422444c68401a0073eb37b65b4f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_65424602",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectOwnerGroupsProvider.java",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3062faee_694ea54f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectOwnerGroupsProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-16T12:19:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_65424602",
+      "range": {
+        "startLine": 27,
+        "startChar": 54,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "d0bbbdb541c422444c68401a0073eb37b65b4f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_45474a10",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
         "patchSetId": 9
@@ -59,6 +107,30 @@
       "writtenOn": "2015-04-16T05:19:35Z",
       "side": 1,
       "message": "matches",
+      "range": {
+        "startLine": 51,
+        "startChar": 57,
+        "endLine": 51,
+        "endChar": 62
+      },
+      "revId": "d0bbbdb541c422444c68401a0073eb37b65b4f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_4953e1f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-16T12:19:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_45474a10",
       "range": {
         "startLine": 51,
         "startChar": 57,

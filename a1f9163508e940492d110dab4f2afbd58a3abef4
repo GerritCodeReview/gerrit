@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0527e22_a6184629",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T07:42:17Z",
+      "side": 1,
+      "message": "Nit: Modifier order should be \"private static final\" according to JLS [1].\n\nAll instances of incorrect ordering were recently fixed on master [2] because Checkstyle will warn about them [3].\n\n[1] http://java.sun.com/docs/books/jls/second_edition/html/classes.doc.html\n\n[2] https://gerrit-review.googlesource.com/#/c/67083/\n\n[3] http://checkstyle.sourceforge.net/config_modifier.html",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "a1f9163508e940492d110dab4f2afbd58a3abef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -244,9 +244,6 @@ public class PatchSetInserter {
             "Change %s is closed", c.getId()));
       }
 
-      ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
-      db.patchSets().insert(Collections.singleton(patchSet));
-
       SetMultimap<ReviewerState, Account.Id> oldReviewers = sendMail
           ? approvalsUtil.getReviewers(db, ctl.getNotes())
           : null;
@@ -274,6 +271,9 @@ public class PatchSetInserter {
         throw new ChangeModifiedException(String.format(
             "Change %s was modified", c.getId()));
       }
+
+      ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+      db.patchSets().insert(Collections.singleton(patchSet));
 
       if (messageIsForChange()) {
         cmUtil.addChangeMessage(db, update, changeMessage);

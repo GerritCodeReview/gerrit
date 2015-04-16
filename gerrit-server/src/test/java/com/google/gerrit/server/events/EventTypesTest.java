@@ -15,7 +15,6 @@
 package com.google.gerrit.server.events;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -23,12 +22,6 @@ public class EventTypesTest {
   public static class TestEvent extends Event {
     public TestEvent() {
       super("test-event");
-    }
-  }
-
-  public static class TestEvent2 extends Event {
-    public TestEvent2() {
-      super("test-event"); // Intentionally same as in TestEvent
     }
   }
 
@@ -45,20 +38,6 @@ public class EventTypesTest {
     assertThat(EventTypes.getClass("test-event")).isEqualTo(TestEvent.class);
     assertThat(EventTypes.getClass("another-test-event"))
       .isEqualTo(AnotherTestEvent.class);
-
-    try {
-      EventTypes.registerClass(new TestEvent());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertThat(EventTypes.getClass("test-event")).isEqualTo(TestEvent.class);
-    }
-
-    try {
-      EventTypes.registerClass(new TestEvent2());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertThat(EventTypes.getClass("test-event")).isEqualTo(TestEvent.class);
-    }
   }
 
   @Test

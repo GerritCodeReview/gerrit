@@ -46,6 +46,30 @@
       "revId": "58124a4d5d35d600a359ec26a6d3ee24a6dee7a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_6b422102",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-16T23:58:21Z",
+      "side": 1,
+      "message": "If you watch a project for \"message:foo\" you want that predicate to be matched against the latest commit message. If a new patch set was pushed whose commit message doesn\u0027t contain \"foo\", you don\u0027t want to be notified. Right now you might be, because the index update to index the new commit message without \"foo\" is racing with the watch predicate evaluation.\n\nThat\u0027s why the watch needs to see the most up to date info on the change.",
+      "parentUuid": "3062faee_898799a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "58124a4d5d35d600a359ec26a6d3ee24a6dee7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

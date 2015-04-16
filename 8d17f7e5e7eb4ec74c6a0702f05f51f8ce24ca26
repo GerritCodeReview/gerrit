@@ -16,6 +16,24 @@
       "revId": "8d17f7e5e7eb4ec74c6a0702f05f51f8ce24ca26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_631b622c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T11:33:05Z",
+      "side": 1,
+      "message": "If it\u0027s here a change ID is only inserted when saving access right modifications for review. If we would call it in ProjectAccessHandler before calling this updateProjectConfig, then each commit that modifies the access rights gets a Change-Id, even if it was saved directly and there is no change. I think we should insert a Change-Id only if there is a change. Hence I would leave it here.",
+      "parentUuid": "d0527e22_a68a86b1",
+      "revId": "8d17f7e5e7eb4ec74c6a0702f05f51f8ce24ca26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

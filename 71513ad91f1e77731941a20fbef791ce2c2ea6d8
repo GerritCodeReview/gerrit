@@ -16,6 +16,24 @@
       "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_69c9052c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T17:29:11Z",
+      "side": 1,
+      "message": "If you have a .gitmodules file with submodule subscriptions,\nthe subscriptions don\u0027t go away with\n\n  rm .gitmodules \u0026\u0026 commit \u0026\u0026 push\n\nThey do however go away if you do a \n  \n  echo \u003e .gitmodules \u0026\u0026 commit \u0026\u0026 push\n\nmaking the .gitmodules file empty.\nThis test however adds the test to \"rm .gitmodules\". The test is ok and not WIP any more, but there is no bugfix for the subscription updating method, so the test fails as it should now.",
+      "parentUuid": "702e3292_2b71b98b",
+      "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

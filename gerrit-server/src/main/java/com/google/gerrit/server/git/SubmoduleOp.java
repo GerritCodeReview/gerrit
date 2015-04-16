@@ -93,6 +93,7 @@ public class SubmoduleOp {
   private final Set<Branch.NameKey> updatedSubscribers;
   private final Account account;
   private final ChangeHooks changeHooks;
+  private final SubmoduleSectionParser.Factory subSecParserFactory;
 
   @Inject
   public SubmoduleOp(@Assisted Branch.NameKey destBranch,
@@ -109,7 +110,8 @@ public class SubmoduleOp {
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       @Nullable @Assisted Account account,
-      ChangeHooks changeHooks) {
+      ChangeHooks changeHooks,
+      SubmoduleSectionParser.Factory subSecParserFactory) {
     this.destBranch = destBranch;
     this.mergeTip = mergeTip;
     this.rw = rw;
@@ -124,6 +126,7 @@ public class SubmoduleOp {
     this.gitRefUpdated = gitRefUpdated;
     this.account = account;
     this.changeHooks = changeHooks;
+    this.subSecParserFactory = subSecParserFactory;
 
     updatedSubscribers = new HashSet<>();
   }
@@ -168,8 +171,8 @@ public class SubmoduleOp {
         final Set<SubmoduleSubscription> oldSubscriptions =
             new HashSet<>(schema.submoduleSubscriptions()
                 .bySuperProject(destBranch).toList());
-        final List<SubmoduleSubscription> newSubscriptions =
-            new SubmoduleSectionParser(bbc, thisServer, target, repoManager)
+        List<SubmoduleSubscription> newSubscriptions =
+            subSecParserFactory.create(bbc, thisServer, target)
                 .parseAllSections();
 
         final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();

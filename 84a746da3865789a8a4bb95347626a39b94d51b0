@@ -52,6 +52,24 @@
       "revId": "84a746da3865789a8a4bb95347626a39b94d51b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_067cba32",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T10:25:17Z",
+      "side": 1,
+      "message": "It\u0027s coming after the tests have finished running.\n\nAfter I broke them with the events fix, I want to be a bit more careful :)",
+      "parentUuid": "505f6e27_2ad3ffd9",
+      "revId": "84a746da3865789a8a4bb95347626a39b94d51b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

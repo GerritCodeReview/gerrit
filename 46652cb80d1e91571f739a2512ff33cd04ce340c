@@ -16,6 +16,24 @@
       "revId": "46652cb80d1e91571f739a2512ff33cd04ce340c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_66f00e62",
+        "filename": ".buckconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T06:17:37Z",
+      "side": 1,
+      "message": "I\u0027m looking for a way to regenerate the classpath without having to regenerate the Eclipse project at the same time.\n\nSee also issue 3305 which is what I was trying to fix eventually.",
+      "parentUuid": "505f6e27_4aef53b5",
+      "revId": "46652cb80d1e91571f739a2512ff33cd04ce340c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

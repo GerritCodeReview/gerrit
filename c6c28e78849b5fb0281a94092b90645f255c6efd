@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "505f6e27_2acd3f67",
+        "filename": "gerrit-openid/src/main/resources/com/google/gerrit/httpd/auth/openid/LoginForm.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-16T04:36:11Z",
+      "side": 1,
+      "message": "It wouldn\u0027t be not completely rendered otherwise?",
+      "parentUuid": "b04d0a88_85fae23a",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "c6c28e78849b5fb0281a94092b90645f255c6efd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_e6dcfee8",
         "filename": "gerrit-openid/src/main/resources/com/google/gerrit/httpd/auth/openid/LoginForm.html",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2015-04-16T04:21:57Z",
       "side": 1,
       "message": "nit: whitespace",
+      "revId": "c6c28e78849b5fb0281a94092b90645f255c6efd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_eab607ca",
+        "filename": "gerrit-openid/src/main/resources/com/google/gerrit/httpd/auth/openid/LoginForm.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-16T04:36:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_e6dcfee8",
       "revId": "c6c28e78849b5fb0281a94092b90645f255c6efd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

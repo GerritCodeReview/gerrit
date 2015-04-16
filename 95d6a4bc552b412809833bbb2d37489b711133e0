@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b04d0a88_a5615e83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T10:42:53Z",
+      "side": 1,
+      "message": "Abbreviated sha1s are not linked in the UI though, which is why the Change-Id format is often used.",
+      "parentUuid": "70471268_634ec24f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "95d6a4bc552b412809833bbb2d37489b711133e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_2a489f3d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

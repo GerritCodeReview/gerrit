@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04d0a88_45c4eae2",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T13:12:28Z",
+      "side": 1,
+      "message": "Both commas in this sentence are not needed.",
+      "range": {
+        "startLine": 258,
+        "startChar": 35,
+        "endLine": 258,
+        "endChar": 36
+      },
+      "revId": "6f288596935161579e259f9decf6a2dcacde2db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_c6646295",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T13:12:28Z",
+      "side": 1,
+      "message": "\"The git repository and all changes of the project, including approvals and review comments, are imported\" sounds better.",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 50
+      },
+      "revId": "6f288596935161579e259f9decf6a2dcacde2db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_25c9eefa",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-16T13:12:28Z",
+      "side": 1,
+      "message": "\"to rename a project\"",
+      "range": {
+        "startLine": 272,
+        "startChar": 22,
+        "endLine": 272,
+        "endChar": 40
+      },
+      "revId": "6f288596935161579e259f9decf6a2dcacde2db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

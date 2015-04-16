@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702e3292_eb0e11e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T23:48:17Z",
+      "side": 1,
+      "message": "Would it make sense to not have the project as a class variable but obtaining it this way when needed in line 107?",
+      "range": {
+        "startLine": 43,
+        "startChar": 19,
+        "endLine": 43,
+        "endChar": 41
+      },
+      "revId": "e994030f008881213f3629c7126c567034c15857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

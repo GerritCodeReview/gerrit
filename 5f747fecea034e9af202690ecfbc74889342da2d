@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702e3292_4b208552",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-16T23:48:17Z",
+      "side": 0,
+      "message": "Unrelated note, more related to workflow issues: we talk about patch sets similar to the things you throw on mailing lists such as the git mailing list. In reality we do have changes/commits here, this may be one of the confusions I still have with gerrit. \n\nThe difference between a commit and a floating patch(set) is that there is an anchoring parent, which makes dealing with it more git-ish, but also more complicated for the review \u0026 integration process. (Why do I need to rebase it? Having all these different symbols indicating staleness for ancestors or other depending commits on top of the one I\u0027d be looking at)\n\nJust a random thought.",
+      "range": {
+        "startLine": 1055,
+        "startChar": 42,
+        "endLine": 1055,
+        "endChar": 61
+      },
+      "revId": "5f747fecea034e9af202690ecfbc74889342da2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

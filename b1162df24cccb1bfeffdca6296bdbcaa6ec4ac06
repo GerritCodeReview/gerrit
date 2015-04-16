@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "702e3292_ebdcd1e8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-16T18:41:36Z",
+      "side": 1,
+      "message": "Ok, a TODO to fix this buggy behavior would have avoided my comment :)",
+      "parentUuid": "702e3292_ab3b6998",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702e3292_2b48993d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 14
@@ -276,6 +294,24 @@
       "side": 1,
       "message": "I think this is actually only looking for a file name, not a SHA-1. So maybe a more appropriate way would be to rename this as hasFileinBranch(repo, branch, filename).",
       "parentUuid": "702e3292_eb417118",
+      "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_cbd915f7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-16T18:41:36Z",
+      "side": 1,
+      "message": "I mean, I believe you that this works, I just think from looking at the code that TestRepository.java:313 would have thrown an exception.\n\nI think the name is fine. Unless you later have some tests that test replacing a submodule with a regular file or something, in which case you would actually want to check the TreeWalk yourself.",
+      "parentUuid": "702e3292_0bd83df2",
       "revId": "b1162df24cccb1bfeffdca6296bdbcaa6ec4ac06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

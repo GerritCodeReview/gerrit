@@ -283,7 +283,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
     if (!toMail.isEmpty()) {
       try {
-        AddReviewerSender cm = addReviewerSenderFactory.create(change);
+        AddReviewerSender cm = addReviewerSenderFactory.create(change.getId());
         cm.setFrom(identifiedUser.getAccountId());
         cm.addReviewers(toMail);
         cm.send();

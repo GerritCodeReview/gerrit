@@ -2214,7 +2214,7 @@ public class ReceiveCommits {
           public void run() {
             try {
               ReplacePatchSetSender cm =
-                  replacePatchSetFactory.create(change);
+                  replacePatchSetFactory.create(change.getId());
               cm.setFrom(me);
               cm.setPatchSet(newPatchSet, info);
               cm.setChangeMessage(msg);
@@ -2594,12 +2594,13 @@ public class ReceiveCommits {
   }
 
   private void sendMergedEmail(final ReplaceRequest result) {
+    final Change.Id id = result.change.getId();
     workQueue.getDefaultQueue()
         .submit(requestScopePropagator.wrap(new Runnable() {
       @Override
       public void run() {
         try {
-          final MergedSender cm = mergedSenderFactory.create(result.changeCtl);
+          final MergedSender cm = mergedSenderFactory.create(id);
           cm.setFrom(currentUser.getAccountId());
           cm.setPatchSet(result.newPatchSet, result.info);
           cm.send();

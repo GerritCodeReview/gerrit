@@ -317,7 +317,7 @@ public class ChangeUtil {
       ins.setMessage(cmsg).insert();
 
       try {
-        RevertedSender cm = revertedSenderFactory.create(change);
+        RevertedSender cm = revertedSenderFactory.create(change.getId());
         cm.setFrom(user().getAccountId());
         cm.setChangeMessage(cmsg);
         cm.send();

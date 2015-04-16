@@ -55,6 +55,10 @@ import java.util.TreeSet;
 public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
+  protected static ChangeData newChangeData(EmailArguments ea, Change.Id id) {
+    return ea.changeDataFactory.create(ea.db.get(), id);
+  }
+
   protected final Change change;
   protected final ChangeData changeData;
   protected PatchSet patchSet;
@@ -65,10 +69,11 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
-  protected ChangeEmail(EmailArguments ea, Change c, String mc) {
-    super(ea, mc, c.getProject(), c.getDest());
-    change = c;
-    changeData = ea.changeDataFactory.create(ea.db.get(), c);
+  protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd)
+      throws OrmException {
+    super(ea, mc, cd.change().getDest());
+    changeData = cd;
+    change = cd.change();
     emailOnlyAuthors = false;
   }
 

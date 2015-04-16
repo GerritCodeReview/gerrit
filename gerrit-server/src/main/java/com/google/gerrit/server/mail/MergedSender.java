@@ -22,8 +22,8 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -31,15 +31,16 @@ import com.google.inject.assistedinject.Assisted;
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
   public static interface Factory {
-    public MergedSender create(ChangeControl change);
+    public MergedSender create(Change.Id id);
   }
 
   private final LabelTypes labelTypes;
 
   @Inject
-  public MergedSender(EmailArguments ea, @Assisted ChangeControl c) {
-    super(ea, c.getChange(), "merged");
-    labelTypes = c.getLabelTypes();
+  public MergedSender(EmailArguments ea, @Assisted Change.Id id)
+      throws OrmException {
+    super(ea, "merged", newChangeData(ea, id));
+    labelTypes = changeData.changeControl().getLabelTypes();
   }
 
   @Override

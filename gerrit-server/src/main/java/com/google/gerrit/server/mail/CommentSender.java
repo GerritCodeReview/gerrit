@@ -50,7 +50,7 @@ public class CommentSender extends ReplyToChangeSender {
       .getLogger(CommentSender.class);
 
   public static interface Factory {
-    public CommentSender create(NotifyHandling notify, Change change);
+    public CommentSender create(NotifyHandling notify, Change.Id id);
   }
 
   private final NotifyHandling notify;
@@ -59,10 +59,10 @@ public class CommentSender extends ReplyToChangeSender {
 
   @Inject
   public CommentSender(EmailArguments ea,
+      PatchLineCommentsUtil plcUtil,
       @Assisted NotifyHandling notify,
-      @Assisted Change c,
-      PatchLineCommentsUtil plcUtil) {
-    super(ea, c, "comment");
+      @Assisted Change.Id id) throws OrmException {
+    super(ea, "comment", newChangeData(ea, id));
     this.notify = notify;
     this.plcUtil = plcUtil;
   }

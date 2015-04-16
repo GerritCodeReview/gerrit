@@ -33,12 +33,13 @@ public class CreateChangeSender extends NewChangeSender {
       LoggerFactory.getLogger(CreateChangeSender.class);
 
   public static interface Factory {
-    public CreateChangeSender create(Change change);
+    public CreateChangeSender create(Change.Id id);
   }
 
   @Inject
-  public CreateChangeSender(EmailArguments ea, @Assisted Change c) {
-    super(ea, c);
+  public CreateChangeSender(EmailArguments ea, @Assisted Change.Id id)
+      throws OrmException {
+    super(ea, newChangeData(ea, id));
   }
 
   @Override

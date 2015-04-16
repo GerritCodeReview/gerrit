@@ -125,7 +125,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
 
     try {
-      ReplyToChangeSender cm = restoredSenderFactory.create(change);
+      ReplyToChangeSender cm = restoredSenderFactory.create(change.getId());
       cm.setFrom(caller.getAccountId());
       cm.setChangeMessage(message);
       cm.send();

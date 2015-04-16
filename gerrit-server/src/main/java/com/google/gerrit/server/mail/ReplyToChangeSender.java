@@ -16,15 +16,18 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 
 /** Alert a user to a reply to a change, usually commentary made during review. */
 public abstract class ReplyToChangeSender extends ChangeEmail {
   public static interface Factory<T extends ReplyToChangeSender> {
-    public T create(Change change);
+    public T create(Change.Id id);
   }
 
-  protected ReplyToChangeSender(EmailArguments ea, Change c, String mc) {
-    super(ea, c, mc);
+  protected ReplyToChangeSender(EmailArguments ea, String mc, ChangeData cd)
+      throws OrmException {
+    super(ea, mc, cd);
   }
 
   @Override

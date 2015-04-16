@@ -100,7 +100,8 @@ public class PatchSetNotificationSender {
             updatedPatchSet, info, recipients.getReviewers(),
             Collections.<Account.Id> emptySet());
         try {
-          CreateChangeSender cm = createChangeSenderFactory.create(updatedChange);
+          CreateChangeSender cm =
+              createChangeSenderFactory.create(updatedChange.getId());
           cm.setFrom(me);
           cm.setPatchSet(updatedPatchSet, info);
           cm.addReviewers(recipients.getReviewers());
@@ -119,7 +120,8 @@ public class PatchSetNotificationSender {
                 updatedPatchSet.getCreatedOn(), updatedPatchSet.getId());
         msg.setMessage("Uploaded patch set " + updatedPatchSet.getPatchSetId() + ".");
         try {
-          ReplacePatchSetSender cm = replacePatchSetFactory.create(updatedChange);
+          ReplacePatchSetSender cm =
+              replacePatchSetFactory.create(updatedChange.getId());
           cm.setFrom(me);
           cm.setPatchSet(updatedPatchSet, info);
           cm.setChangeMessage(msg);

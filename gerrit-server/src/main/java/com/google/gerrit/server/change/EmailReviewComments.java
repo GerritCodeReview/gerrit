@@ -129,7 +129,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         }
       });
 
-      CommentSender cm = commentSenderFactory.create(notify, change);
+      CommentSender cm = commentSenderFactory.create(notify, change.getId());
       cm.setFrom(authorId);
       cm.setPatchSet(patchSet, patchSetInfoFactory.get(change, patchSet));
       cm.setChangeMessage(message);

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3062faee_a9fdbd36",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-16T18:41:32Z",
+      "side": 1,
+      "message": "Newline after this.",
+      "revId": "f509be442da5923a4603c62d3c779a4a0bc20580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3062faee_89faf93a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-16T18:41:32Z",
+      "side": 1,
+      "message": "I would generally use AtomicInteger in this case.",
+      "range": {
+        "startLine": 117,
+        "startChar": 17,
+        "endLine": 117,
+        "endChar": 20
+      },
+      "revId": "f509be442da5923a4603c62d3c779a4a0bc20580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

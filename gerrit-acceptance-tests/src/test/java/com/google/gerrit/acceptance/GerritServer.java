@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
+import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -115,6 +116,7 @@ public class GerritServer {
         }
       }
     });
+    daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
 
     final File site;
     ExecutorService daemonService = null;

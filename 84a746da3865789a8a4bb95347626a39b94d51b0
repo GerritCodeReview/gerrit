@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_6ac9f72b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T10:14:44Z",
+      "side": 1,
+      "message": "I think ee cannot use String.format(...) in this class, since it is also used from the UI where this method is not defined.",
+      "revId": "84a746da3865789a8a4bb95347626a39b94d51b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

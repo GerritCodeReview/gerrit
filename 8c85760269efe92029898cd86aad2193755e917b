@@ -16,6 +16,24 @@
       "revId": "8c85760269efe92029898cd86aad2193755e917b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_0a415bf8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.3.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-16T11:35:57Z",
+      "side": 1,
+      "message": "yes, can you do that?",
+      "parentUuid": "505f6e27_6a421702",
+      "revId": "8c85760269efe92029898cd86aad2193755e917b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_6a4e974f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-16T08:52:32Z",
+      "side": 1,
+      "message": "I think we should also include the \"refs/meta/config\" here to reduce the revWalk when creating branch on top of the refs/meta/config.",
+      "revId": "f9e9319cf7640385229e214b386a703092189e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_4a53d3f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-16T08:52:32Z",
+      "side": 1,
+      "message": "It took me quite some time to understand the meaning of the checkConnectivity method... as it intermixes the \"reachability\" and \"readability\" where it really means to check if all objects found by this ObjectWalk are readable.",
+      "revId": "f9e9319cf7640385229e214b386a703092189e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

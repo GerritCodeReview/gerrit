@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70471268_43474610",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-04-16T12:12:26Z",
+      "side": 1,
+      "message": "I think this will risk a nullpointer exception. Pushed another patchset which handles this (I actually pushed before I noticed yours).",
+      "revId": "f69d644cca997201ef087429fe20939a8a72490b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "505f6e27_8ab9cb59",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T14:14:07Z",
+      "side": 1,
+      "message": "[optional] Not sure about this, but could it make sense to keep \u0027Submitted, Merge Pending\u0027 if merge is used as submit type and only change the text for non-merge submit types?",
+      "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

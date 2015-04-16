@@ -34,6 +34,24 @@
       "revId": "84a746da3865789a8a4bb95347626a39b94d51b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_2ad3ffd9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-16T10:23:53Z",
+      "side": 1,
+      "message": "Did you forget to push the new patch set?",
+      "parentUuid": "d0527e22_4672b262",
+      "revId": "84a746da3865789a8a4bb95347626a39b94d51b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

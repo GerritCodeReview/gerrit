@@ -352,9 +352,7 @@ Push the new Release Tag on the plugins:
 
 * Upload the html files manually via web browser to the
 link:https://console.developers.google.com/project/164060093628/storage/gerrit-documentation/[
-gerrit-documentation] storage bucket. The `gerrit-documentation`
-storage bucket is accessible via the
-link:https://cloud.google.com/console[Google Developers Console].
+gerrit-documentation] storage bucket.
 
 [[update-links]]
 ==== Update Google Code project links

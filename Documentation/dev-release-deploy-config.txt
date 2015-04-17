@@ -74,7 +74,7 @@ It can also be included in the key chain on OS X.
 
 Gerrit Subproject Artifacts are stored on
 link:https://developers.google.com/storage/[Google Cloud Storage].
-Via the link:https://code.google.com/apis/console/?noredirect[API Console] the
+Via the link:https://console.developers.google.com/project/164060093628[Developers Console] the
 Gerrit maintainers have access to the `Gerrit Code Review` project.
 This projects host several buckets for storing Gerrit artifacts:
 
@@ -89,7 +89,8 @@ Bucket to store Gerrit Subproject Artifacts (e.g. `gwtjsonrpc` etc.).
 
 To upload artifacts to a bucket the user must authenticate with a
 username and password. The username and password need to be retrieved
-from the link:https://code.google.com/apis/console/?noredirect[API Console]:
+from the link:https://console.developers.google.com/project/164060093628[
+Google Developers Console]:
 
 * Go to the `Gerrit Code Review` project
 * In the menu on the left select `Google Cloud Storage` >

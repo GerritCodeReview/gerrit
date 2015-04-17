@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d0527e22_e614fec7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-17T13:04:17Z",
+      "side": 1,
+      "message": "The reason they are different in 2.11 is my fault.  I built it with `buck build release` and uploaded that one to the google storage after testing.  Then, because of weird connectivity issues I have with my desktop, I had to do the maven deploy from my laptop.\n\nFor previous releases I\u0027ve only done the plugin API deployment, and it was always with the google maven bucket.  This was the first time I did it with the sonatype repository, and the first time to deploy the war file.\n\nBut still, I think if the deploy steps had been in the order mentioned in this change, this mistake wouldn\u0027t have been made because I would have done the whole process on one machine.",
+      "parentUuid": "70471268_e3519266",
+      "revId": "6d6c11bd0690acd07bd286d38b3270308fc93651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_a51efee3",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 2

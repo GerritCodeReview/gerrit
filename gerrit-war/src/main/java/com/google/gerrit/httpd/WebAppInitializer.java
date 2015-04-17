@@ -25,6 +25,7 @@ import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
+import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
@@ -319,6 +320,7 @@ public class WebAppInitializer extends GuiceServletContextListener
         bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
       }
     });
+    modules.add(new GarbageCollectionLogFile.Module());
     modules.add(GarbageCollectionRunner.module());
     return cfgInjector.createChildInjector(modules);
   }

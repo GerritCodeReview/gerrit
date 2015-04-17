@@ -195,7 +195,6 @@ public class Daemon extends SiteProgram {
       throw die("No services enabled, nothing to do");
     }
 
-    manager.add(GarbageCollectionLogFile.start(getSitePath()));
     if (consoleLog) {
     } else {
       manager.add(ErrorLogFile.start(getSitePath()));
@@ -364,6 +363,7 @@ public class Daemon extends SiteProgram {
         }
       }
     });
+    modules.add(new GarbageCollectionLogFile.Module());
     modules.add(GarbageCollectionRunner.module());
     return cfgInjector.createChildInjector(modules);
   }

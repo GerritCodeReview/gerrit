@@ -18,12 +18,10 @@ import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
-import com.google.inject.Module;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +32,6 @@ import java.util.concurrent.TimeUnit;
 public class GarbageCollectionRunner implements Runnable {
   private static final Logger gcLog = LoggerFactory
       .getLogger(GarbageCollection.LOG_NAME);
-
-  public static Module module() {
-    return new LifecycleModule() {
-
-      @Override
-      protected void configure() {
-        listener().to(Lifecycle.class);
-      }
-    };
-  }
 
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;

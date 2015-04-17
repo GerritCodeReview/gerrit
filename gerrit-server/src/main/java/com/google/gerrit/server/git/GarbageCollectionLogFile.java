@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
 
@@ -29,14 +27,6 @@ import org.apache.log4j.PatternLayout;
 import java.io.File;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
-
-  public static class Module extends LifecycleModule {
-    @Override
-    protected void configure() {
-      bind(GarbageCollectionLogFile.class).asEagerSingleton();
-      listener().to(GarbageCollectionLogFile.class);
-    }
-  }
 
   @Inject
   public GarbageCollectionLogFile(SitePaths sitePaths) {

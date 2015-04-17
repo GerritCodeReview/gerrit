@@ -16,6 +16,24 @@
       "revId": "09a336ee60ad24a3ec622dfe2d10ee226210a0c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50304e12_42b9b20d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-17T21:58:56Z",
+      "side": 1,
+      "message": "schema is a static method on ChangeQueryBuilder. Move it to this class. Give it default visibility so it can be used from the old location as well.\n\nDon\u0027t try to use args. Args is an instance of this weird pattern we have to avoid having to repeat ourselves when we have a lot of similar constructors. But it has a bunch of stuff that is not/should not be available to InternalChangeQuery.\n\nJust inject IndexCollection directly into the InternalChangeQuery constructor and store it in a final field. This method will no longer be able to be static but that\u0027s ok.",
+      "parentUuid": "3062faee_a9893df8",
+      "revId": "09a336ee60ad24a3ec622dfe2d10ee226210a0c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

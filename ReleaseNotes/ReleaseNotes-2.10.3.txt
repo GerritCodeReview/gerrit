@@ -29,10 +29,10 @@ be suppressed in batch mode.
 New Features
 ------------
 
-Support hybrid OpenID and OAuth2 authentication
+* Support hybrid OpenID and OAuth2 authentication
 +
 OpenID auth scheme is aware of optional OAuth2 plugin-based authentication.
-This feature considered to be experimental and hasn't reached full feature set yet.
+This feature is considered to be experimental and hasn't reached full feature set yet.
 Particularly, linking of user identities accross protocol boundaries and even from
 one OAuth2 identity to another OAuth2 identity wasn't implemented yet.
 
@@ -73,7 +73,7 @@ Replication plugin
 ~~~~~~~~~~~~~~~~~~
 
 * Set connection timeout to 120 seconds for SSH remote operations.
-
++
 The creation of a missing Git, before starting replication, is a blocking
 operation. By setting a timeout, we ensure the operation does not get stuck
 forever, essentially blocking all future remote git creation operations.

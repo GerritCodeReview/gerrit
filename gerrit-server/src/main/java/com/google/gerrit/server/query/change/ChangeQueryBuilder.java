@@ -397,7 +397,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new IsMergeablePredicate(schema(args.indexes), args.fillArgs);
+      return new IsMergeablePredicate(
+          InternalChangeQuery.schema(args.indexes), args.fillArgs);
     }
 
     try {
@@ -467,9 +468,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> topic(String name) {
     if (name.startsWith("^")) {
-      return new RegexTopicPredicate(name);
+      return new RegexTopicPredicate(
+          InternalChangeQuery.schema(args.indexes), name);
     }
-    return new TopicPredicate(name);
+    return new TopicPredicate(InternalChangeQuery.schema(args.indexes), name);
   }
 
   @Operator
@@ -863,10 +865,5 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Account.Id self() throws QueryParseException {
     return args.getIdentifiedUser().getAccountId();
-  }
-
-  private static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
-    ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
-    return index != null ? index.getSchema() : null;
   }
 }

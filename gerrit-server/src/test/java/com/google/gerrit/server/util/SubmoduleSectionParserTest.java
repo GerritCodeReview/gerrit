@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -42,7 +42,7 @@ import java.util.TreeSet;
 
 public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
   private static final String THIS_SERVER = "localhost";
-  private GitRepositoryManager repoManager;
+  private ProjectCache projectCache;
   private BlobBasedConfig bbc;
 
   @Override
@@ -50,16 +50,16 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    repoManager = createStrictMock(GitRepositoryManager.class);
+    projectCache = createStrictMock(ProjectCache.class);
     bbc = createStrictMock(BlobBasedConfig.class);
   }
 
   private void doReplay() {
-    replay(repoManager, bbc);
+    replay(projectCache, bbc);
   }
 
   private void doVerify() {
-    verify(repoManager, bbc);
+    verify(projectCache, bbc);
   }
 
   @Test
@@ -214,12 +214,12 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
                 projectNameCandidate.length() - Constants.DOT_GIT_EXT.length());
           }
           if (projectNameCandidate.equals(reposToBeFound.get(id))) {
-            expect(repoManager.list()).andReturn(
+            expect(projectCache.all()).andReturn(
                 new TreeSet<>(Collections.singletonList(
                     new Project.NameKey(projectNameCandidate))));
             break;
           } else {
-            expect(repoManager.list()).andReturn(
+            expect(projectCache.all()).andReturn(
                 new TreeSet<>(Collections.<Project.NameKey> emptyList()));
           }
         }
@@ -230,7 +230,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
 
     final SubmoduleSectionParser ssp =
         new SubmoduleSectionParser(bbc, THIS_SERVER, superProjectBranch,
-            repoManager);
+            projectCache);
 
     List<SubmoduleSubscription> returnedSubscriptions = ssp.parseAllSections();
 

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3033da21_41b9b20d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-17T22:01:16Z",
+      "side": 1,
+      "message": "Extract the body as a static method so it\u0027s clear just the field type changed, the get implementation stays the same.",
+      "revId": "09a336ee60ad24a3ec622dfe2d10ee226210a0c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3062faee_a9893df8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1

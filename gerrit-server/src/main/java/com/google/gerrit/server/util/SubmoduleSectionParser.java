@@ -17,7 +17,7 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -53,17 +53,17 @@ public class SubmoduleSectionParser {
         Branch.NameKey superProjectBranch);
   }
 
-  private final GitRepositoryManager repoManager;
+  private final ProjectCache projectCache;
   private final BlobBasedConfig bbc;
   private final String thisServer;
   private final Branch.NameKey superProjectBranch;
 
   @Inject
-  public SubmoduleSectionParser(GitRepositoryManager repoManager,
+  public SubmoduleSectionParser(ProjectCache projectCache,
       @Assisted BlobBasedConfig bbc,
       @Assisted String thisServer,
       @Assisted Branch.NameKey superProjectBranch) {
-    this.repoManager = repoManager;
+    this.projectCache = projectCache;
     this.bbc = bbc;
     this.thisServer = thisServer;
     this.superProjectBranch = superProjectBranch;
@@ -116,12 +116,10 @@ public class SubmoduleSectionParser {
               projectName = projectName.substring(0, //
                   projectName.length() - Constants.DOT_GIT_EXT.length());
             }
-
-            if (repoManager.list().contains(new Project.NameKey(projectName))) {
-              return new SubmoduleSubscription(
-                  superProjectBranch,
-                  new Branch.NameKey(new Project.NameKey(projectName), branch),
-                  path);
+            Project.NameKey projectKey = new Project.NameKey(projectName);
+            if (projectCache.get(projectKey) != null) {
+              return new SubmoduleSubscription(superProjectBranch,
+                  new Branch.NameKey(projectKey, branch), path);
             }
           }
         }

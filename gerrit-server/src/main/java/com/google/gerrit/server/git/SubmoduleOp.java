@@ -279,7 +279,9 @@ public class SubmoduleOp {
     PersonIdent author = null;
 
     final StringBuilder msgbuf = new StringBuilder();
-    msgbuf.append("Updated " + subscriber.getParentKey().get());
+    msgbuf.append("Updated ")
+      .append(subscriber.getParentKey().get())
+      .append('\n');
     Repository pdb = null;
     RevWalk recRw = null;
 
@@ -351,6 +353,7 @@ public class SubmoduleOp {
       commit.setCommitter(myIdent);
       commit.setMessage(msgbuf.toString());
       oi.insert(commit);
+      oi.flush();
 
       ObjectId commitId = oi.idFor(Constants.OBJ_COMMIT, commit.build());
 

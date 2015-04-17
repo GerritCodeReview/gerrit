@@ -10,12 +10,11 @@ and the Gerrit Extension API) are published on Maven Central in the
 To be able to publish artifacts to Maven Central some preparations must
 be done:
 
-* Create a Sonatype account as described in the
-link:https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-2.Signup[
-Sonatype OSS Maven Repository Usage Guide].
+* Create an account on
+link:https://issues.sonatype.org/secure/Signup!default.jspa[Sonatype's Jira].
 +
 Sonatype is the company that runs Maven Central and you need a Sonatype
-account for uploading artifacts to Maven Central.
+account to be able to upload artifacts to Maven Central.
 
 * Configure your Sonatype user and password in `~/.m2/settings.xml`:
 +

@@ -39,6 +39,30 @@
       "revId": "6d6c11bd0690acd07bd286d38b3270308fc93651",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_e3b87228",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-17T10:39:31Z",
+      "side": 1,
+      "message": "Don\u0027t know, maybe Shawn should answer this.",
+      "parentUuid": "b04d0a88_a51efee3",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 66
+      },
+      "revId": "6d6c11bd0690acd07bd286d38b3270308fc93651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

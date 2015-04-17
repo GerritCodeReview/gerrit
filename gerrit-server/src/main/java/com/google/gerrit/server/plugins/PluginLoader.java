@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.plugins;
 
+import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
@@ -50,6 +53,7 @@ import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -241,7 +245,16 @@ public class PluginLoader implements LifecycleListener {
 
         log.info(String.format("Disabling plugin %s", active.getName()));
         File off = new File(active.getSrcFile() + ".disabled");
-        active.getSrcFile().renameTo(off);
+        try {
+          Files.move(active.getSrcFile().toPath(),
+              off.toPath(),
+              REPLACE_EXISTING, ATOMIC_MOVE);
+        } catch (IOException e) {
+          log.warn(String.format(
+              "Cannot disable plugin %s", active.getName()),
+              e.getCause());
+          continue;
+        }
 
         unloadPlugin(active);
         try {

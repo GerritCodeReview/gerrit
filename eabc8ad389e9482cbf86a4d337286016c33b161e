@@ -22,6 +22,30 @@
       "revId": "eabc8ad389e9482cbf86a4d337286016c33b161e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_65280605",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-17T09:09:18Z",
+      "side": 1,
+      "message": "I haven\u0027t had time to look into this in more detail.  After 2.11 has settled down I\u0027ll spend some time on it.",
+      "parentUuid": "b04d0a88_a5bcbe49",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 37
+      },
+      "revId": "eabc8ad389e9482cbf86a4d337286016c33b161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

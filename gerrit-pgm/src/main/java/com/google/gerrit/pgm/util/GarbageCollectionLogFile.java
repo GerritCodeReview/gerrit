@@ -16,39 +16,46 @@ package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.util.SystemLog;
+import com.google.inject.Inject;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
-public class GarbageCollectionLogFile {
+public class GarbageCollectionLogFile implements LifecycleListener {
 
-  public static LifecycleListener start(File sitePath)
-      throws FileNotFoundException {
-    File logdir = new SitePaths(sitePath).logs_dir;
+  public static class Module extends LifecycleModule {
+    @Override
+    protected void configure() {
+      bind(GarbageCollectionLogFile.class).asEagerSingleton();
+      listener().to(GarbageCollectionLogFile.class);
+    }
+  }
+
+  @Inject
+  public GarbageCollectionLogFile(SitePaths sitePaths) {
+    File logdir = sitePaths.logs_dir;
     if (!logdir.exists() && !logdir.mkdirs()) {
       throw new Die("Cannot create log directory: " + logdir);
     }
     if (SystemLog.shouldConfigure()) {
       initLogSystem(logdir);
     }
+  }
 
-    return new LifecycleListener() {
-      @Override
-      public void start() {
-      }
+  @Override
+  public void start() {
+  }
 
-      @Override
-      public void stop() {
-        LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
-      }
-    };
+  @Override
+  public void stop() {
+    LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
   }
 
   private static void initLogSystem(File logdir) {

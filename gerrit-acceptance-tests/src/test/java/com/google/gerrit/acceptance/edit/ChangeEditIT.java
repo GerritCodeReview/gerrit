@@ -72,6 +72,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -656,21 +657,21 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private String newChange(Git git, PersonIdent ident) throws Exception {
     PushOneCommit push =
         pushFactory.create(db, ident, PushOneCommit.SUBJECT, FILE_NAME,
-            new String(CONTENT_OLD));
+            new String(CONTENT_OLD, StandardCharsets.UTF_8));
     return push.to(git, "refs/for/master").getChangeId();
   }
 
   private String amendChange(Git git, PersonIdent ident, String changeId) throws Exception {
     PushOneCommit push =
         pushFactory.create(db, ident, PushOneCommit.SUBJECT, FILE_NAME2,
-            new String(CONTENT_NEW2), changeId);
+            new String(CONTENT_NEW2, StandardCharsets.UTF_8), changeId);
     return push.to(git, "refs/for/master").getChangeId();
   }
 
   private String newChange2(Git git, PersonIdent ident) throws Exception {
     PushOneCommit push =
         pushFactory.create(db, ident, PushOneCommit.SUBJECT, FILE_NAME,
-            new String(CONTENT_OLD));
+            new String(CONTENT_OLD, StandardCharsets.UTF_8));
     return push.rm(git, "refs/for/master").getChangeId();
   }
 

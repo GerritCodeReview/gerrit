@@ -46,8 +46,10 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Properties;
 
@@ -128,8 +130,9 @@ public class GitUtil {
     if (!p.exists() && !p.mkdirs()) {
       throw new IOException("failed to create dir: " + p.getAbsolutePath());
     }
-    FileWriter w = new FileWriter(f);
-    BufferedWriter out = new BufferedWriter(w);
+    FileOutputStream s = new FileOutputStream(f);
+    BufferedWriter out = new BufferedWriter(
+        new OutputStreamWriter(s, StandardCharsets.UTF_8));
     try {
       out.write(content);
     } finally {

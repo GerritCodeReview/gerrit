@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "505f6e27_eac607c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-17T09:27:29Z",
+      "side": 1,
+      "message": "I fail to see how different binary artifacts problem is related to the deployment order.",
+      "revId": "6d6c11bd0690acd07bd286d38b3270308fc93651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_a51efee3",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 2

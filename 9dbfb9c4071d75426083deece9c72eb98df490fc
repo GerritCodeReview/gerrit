@@ -34,6 +34,24 @@
       "revId": "9dbfb9c4071d75426083deece9c72eb98df490fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505f6e27_6a77b703",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.3.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-17T13:14:01Z",
+      "side": 1,
+      "message": "Thanks, David. This is very confusing, to conduct ReleaseNotes claiming it fixes the bug and even merge it without having the actual fix merged in the first place.",
+      "parentUuid": "b04d0a88_05271233",
+      "revId": "9dbfb9c4071d75426083deece9c72eb98df490fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

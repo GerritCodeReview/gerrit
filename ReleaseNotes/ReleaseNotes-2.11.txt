@@ -8,8 +8,9 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war]
 
 Gerrit 2.11 includes the bug fixes done with
-link:ReleaseNotes-2.10.1.html[Gerrit 2.10.1] and
-link:ReleaseNotes-2.10.2.html[Gerrit 2.10.2].
+link:ReleaseNotes-2.10.1.html[Gerrit 2.10.1],
+link:ReleaseNotes-2.10.2.html[Gerrit 2.10.2] and
+link:ReleaseNotes-2.10.3.html[Gerrit 2.10.3].
 These bug fixes are *not* listed in these release notes.
 
 
@@ -394,10 +395,6 @@ Allow projects to be configured to create a new change for every uploaded commit
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#container.daemonOpt[
 options to pass to the daemon].
 
-* Allow to configure
-link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#sshd.rekeyBytesLimit[
-SSHD rekey parameters].
-
 Daemon
 ~~~~~~
 
@@ -421,9 +418,6 @@ a change message on the created change.
 
 SSH
 ~~~
-
-* link:https://code.google.com/p/gerrit/issues/detail?id=2797[Issue 2797]:
-Add support for ECDSA based public key authentication.
 
 * Add new commands
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-logging-ls-level.html[
@@ -569,22 +563,6 @@ Fix server error when checking mergeability of a change.
 Due to link:https://github.com/google/guice/issues/745[Guice issue 745], cloning
 of a repository with a space in its name was impossible.
 
-* Print proper names for tasks in output of `show-queue` command.
-+
-Some tasks were not displayed with the proper name.
-
-* Prevent wrong content type for CSS files.
-+
-The mime-util library contains two content type mappings for .css files:
-`application/x-pointplus` and `text/css`.  Unfortunately, using the wrong one
-will result in most browsers discarding the file as a CSS file.  Ensure we only
-use the correct type for CSS files.
-
-SSH
-~~~
-
-* Prevent double authentication for the same public key.
-
 
 Secondary Index / Search
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -633,8 +611,11 @@ documented.
 Web UI
 ~~~~~~
 
-* link:http://code.google.com/p/gerrit/issues/detail?id=3044[Issue 3044]:
-Remove stripping `#` in login redirect.
+Change List
+^^^^^^^^^^^
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3304[Issue 3304]:
+Always show a tooltip on the label column entries.
 
 Change Screen
 ^^^^^^^^^^^^^
@@ -869,8 +850,6 @@ Upgrades
 
 * Update ASM to 5.0.3.
 
-* Update Bouncycastle to 1.51.
-
 * Update CodeMirror to 4.10.0-6-gd0a2dda.
 
 * Update Guava to 18.0.
@@ -892,5 +871,3 @@ Upgrades
 * Update Parboiled to 1.1.7.
 
 * Update Pegdown to 1.4.2.
-
-* Update SSHD to 0.14.0.

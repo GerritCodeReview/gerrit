@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70471268_c3ea1620",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-17T08:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_66012e8b",
+      "range": {
+        "startLine": 768,
+        "startChar": 17,
+        "endLine": 768,
+        "endChar": 57
+      },
+      "revId": "ed4bafaa5445fef4485ce2aed99c193160780720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_460632a5",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-17T08:23:09Z",
       "side": 1,
       "message": "\"Alternatively, you can use\"",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 16
+      },
+      "revId": "ed4bafaa5445fef4485ce2aed99c193160780720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_03f94efb",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-17T08:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_460632a5",
       "range": {
         "startLine": 771,
         "startChar": 0,
@@ -82,6 +130,54 @@
       "writtenOn": "2015-04-17T08:23:09Z",
       "side": 1,
       "message": "might be worth emphasizing this sentence in italic?",
+      "range": {
+        "startLine": 773,
+        "startChar": 20,
+        "endLine": 773,
+        "endChar": 48
+      },
+      "revId": "ed4bafaa5445fef4485ce2aed99c193160780720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_a3e71a56",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-17T08:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_260b36ad",
+      "range": {
+        "startLine": 773,
+        "startChar": 41,
+        "endLine": 773,
+        "endChar": 48
+      },
+      "revId": "ed4bafaa5445fef4485ce2aed99c193160780720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70471268_e3ed123a",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-17T08:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_051032d1",
       "range": {
         "startLine": 773,
         "startChar": 20,

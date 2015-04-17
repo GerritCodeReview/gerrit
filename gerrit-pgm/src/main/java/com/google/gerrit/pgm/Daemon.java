@@ -37,7 +37,6 @@ import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
 import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
 import com.google.gerrit.pgm.util.ErrorLogFile;
-import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -54,7 +53,7 @@ import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.contact.ContactStoreModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
-import com.google.gerrit.server.git.GarbageCollectionRunner;
+import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
@@ -363,8 +362,7 @@ public class Daemon extends SiteProgram {
         }
       }
     });
-    modules.add(new GarbageCollectionLogFile.Module());
-    modules.add(GarbageCollectionRunner.module());
+    modules.add(new GarbageCollectionModule());
     return cfgInjector.createChildInjector(modules);
   }
 

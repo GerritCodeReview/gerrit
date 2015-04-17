@@ -25,7 +25,6 @@ import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
-import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
@@ -40,7 +39,7 @@ import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.contact.ContactStoreModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
-import com.google.gerrit.server.git.GarbageCollectionRunner;
+import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
@@ -320,8 +319,7 @@ public class WebAppInitializer extends GuiceServletContextListener
         bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
       }
     });
-    modules.add(new GarbageCollectionLogFile.Module());
-    modules.add(GarbageCollectionRunner.module());
+    modules.add(new GarbageCollectionModule());
     return cfgInjector.createChildInjector(modules);
   }
 

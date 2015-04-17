@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70471268_e3519266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-17T12:38:59Z",
+      "side": 1,
+      "message": "I always first upload to the Google storage and then deploy to the maven central and I get the same version... However, I guess, if you upload to Google then build again and then upload to the maven central then you can get a different sha1 on the two build artifacts.\n\nAnyway, it is a good idea to first upload to the maven central and then to Google as it is possible to overwrite the artifact at Google and not possible on Maven central (once released).",
+      "parentUuid": "505f6e27_eac607c8",
+      "revId": "6d6c11bd0690acd07bd286d38b3270308fc93651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_a51efee3",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 2

@@ -765,6 +765,14 @@ As workaround you may
 . link:#import-history[import the history of the old project]
 . link:#project-deletion[delete the old project]
 
+Please note that a drawback of this workaround is that the whole review
+history (changes, review comments) is lost.
+
+Alternatively, you can use the
+link:https://gerrit.googlesource.com/plugins/importer/[importer] plugin
+to copy the project _including the review history_, and then
+link:#project-deletion[delete the old project].
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

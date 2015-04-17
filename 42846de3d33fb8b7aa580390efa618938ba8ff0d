@@ -16,6 +16,47 @@
       "revId": "42846de3d33fb8b7aa580390efa618938ba8ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_a535de55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-17T13:13:03Z",
+      "side": 1,
+      "message": "Will do this next week if further logging (see below) doesn\u0027t shed light on the actual problem.",
+      "parentUuid": "70471268_8371be08",
+      "revId": "42846de3d33fb8b7aa580390efa618938ba8ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_c538da4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-17T13:13:03Z",
+      "side": 1,
+      "message": "Orgad, can you change this to getMessage and see if that gives a better log?",
+      "range": {
+        "startLine": 255,
+        "startChar": 16,
+        "endLine": 255,
+        "endChar": 24
+      },
+      "revId": "42846de3d33fb8b7aa580390efa618938ba8ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

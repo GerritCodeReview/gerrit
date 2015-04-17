@@ -16,6 +16,24 @@
       "revId": "9dbfb9c4071d75426083deece9c72eb98df490fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b04d0a88_05271233",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.3.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-17T13:10:32Z",
+      "side": 1,
+      "message": "The problem was fixed in [1] on master.   It hasn\u0027t been backported to stable-2.10 and stable-2.11 because there were some issues with it that had to be fixed in follow-up changes [2, 3] and there is still a bug with it that has a fix up for review [4].\n\nThe workaround is to nuke the buck-out and cache folders before making the release build.\n\n[1] https://gerrit-review.googlesource.com/#/c/67043/\n[2] https://gerrit-review.googlesource.com/67080\n[3] https://gerrit-review.googlesource.com/67101\n[4] https://gerrit-review.googlesource.com/#/c/67186/",
+      "parentUuid": "70471268_c39c56b8",
+      "revId": "9dbfb9c4071d75426083deece9c72eb98df490fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

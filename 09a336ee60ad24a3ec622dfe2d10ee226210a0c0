@@ -51,6 +51,24 @@
       "revId": "09a336ee60ad24a3ec622dfe2d10ee226210a0c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3033da21_81c3ba89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-17T22:10:11Z",
+      "side": 1,
+      "message": "Oh and in case you were considering it, don\u0027t eagerly store the result of schema(indexes). IndexCollection stores a volatile pointer to the change schema that may be swapped out at runtime if a schema upgrade occurred. We really want to read that pointer every time we produce a query tree.",
+      "parentUuid": "50304e12_42b9b20d",
+      "revId": "09a336ee60ad24a3ec622dfe2d10ee226210a0c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

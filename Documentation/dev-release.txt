@@ -84,8 +84,8 @@ To create a Gerrit release the following steps have to be done:
 . link:#subproject[Release Subprojects]
 . link:#build-gerrit[Build the Gerrit Release]
 . link:#publish-gerrit[Publish the Gerrit Release]
-.. link:#extension-and-plugin-api[Publish the Extension and Plugin API Jars]
-.. link:#publish-gerrit-war[Publish the Gerrit WAR (with Core Plugins)]
+.. link:#publish-to-maven-central[Publish the Gerrit artifacts to Maven Central]
+.. link:#publish-to-google-storage[Publish the Gerrit WAR to Google Storage]
 .. link:#push-stable[Push the Stable Branch]
 .. link:#push-tag[Push the Release Tag]
 .. link:#upload-documentation[Upload the Documentation]
@@ -166,15 +166,6 @@ Tag the plugins:
 
 [[publish-gerrit]]
 === Publish the Gerrit Release
-
-[[publish-gerrit-war]]
-==== Publish the Gerrit WAR (with Core Plugins)
-
-* Upload the WAR to the Google Cloud Storage
-
-** go to https://console.developers.google.com/project/164060093628/storage/gerrit-releases/
-** make sure you are signed in with your Gmail account
-** manually upload the Gerrit WAR file by using the `Upload` button
 
 [[publish-to-maven-central]]
 ==== Publish the Gerrit artifacts to Maven Central
@@ -304,6 +295,13 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server].
 
 ** Select `com.google.gerrit` as `Project`.
 
+
+[[publish-to-google-storage]]
+==== Publish the Gerrit WAR to the Google Cloud Storage
+
+* go to https://console.developers.google.com/project/164060093628/storage/gerrit-releases/
+* make sure you are signed in with your Gmail account
+* manually upload the Gerrit WAR file by using the `Upload` button
 
 [[push-stable]]
 ==== Push the Stable Branch

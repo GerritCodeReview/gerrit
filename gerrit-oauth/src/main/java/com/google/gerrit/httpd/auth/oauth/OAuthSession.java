@@ -26,11 +26,13 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 
 import org.apache.commons.codec.binary.Base64;
@@ -52,18 +54,22 @@ class OAuthSession {
   private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
   private final DynamicItem<WebSession> webSession;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final AccountManager accountManager;
   private final CanonicalWebUrl urlProvider;
   private OAuthServiceProvider serviceProvider;
   private OAuthToken token;
   private OAuthUserInfo user;
   private String redirectToken;
+  private boolean linkMode;
 
   @Inject
   OAuthSession(DynamicItem<WebSession> webSession,
+      Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider) {
     this.state = generateRandomState();
+    this.identifiedUser = identifiedUser;
     this.webSession = webSession;
     this.accountManager = accountManager;
     this.urlProvider = urlProvider;
@@ -128,6 +134,7 @@ class OAuthSession {
     try {
       String claimedIdentifier = user.getClaimedIdentity();
       Account.Id actualId = accountManager.lookup(user.getExternalId());
+      // Use case 1: claimed identity was provided during handshake phase
       if (!Strings.isNullOrEmpty(claimedIdentifier)) {
         Account.Id claimedId = accountManager.lookup(claimedIdentifier);
         if (claimedId != null && actualId != null) {
@@ -160,8 +167,18 @@ class OAuthSession {
             return;
           }
         }
-      } else {
-        log.debug("OAuth2: claimed identity is empty");
+      } else if (linkMode) {
+        // Use case 2: link mode activated from the UI
+        try {
+          accountManager.link(identifiedUser.get().getAccountId(), areq);
+        } catch (OrmException e) {
+          log.error("Cannot link: " + user.getExternalId()
+              + " to user identity: " + identifiedUser.get().getAccountId());
+          rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+          return;
+        } finally {
+          linkMode = false;
+        }
       }
       areq.setUserName(user.getUserName());
       areq.setEmailAddress(user.getEmailAddress());
@@ -223,5 +240,13 @@ class OAuthSession {
 
   public OAuthServiceProvider getServiceProvider() {
     return serviceProvider;
+  }
+
+  public void setLinkMode(boolean linkMode) {
+    this.linkMode = linkMode;
+  }
+
+  public boolean isLinkMode() {
+    return linkMode;
   }
 }

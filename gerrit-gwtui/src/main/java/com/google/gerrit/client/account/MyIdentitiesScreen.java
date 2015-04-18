@@ -59,7 +59,8 @@ public class MyIdentitiesScreen extends SettingsScreen {
     });
     add(deleteIdentity);
 
-    if (Gerrit.getConfig().getAuthType() == AuthType.OPENID) {
+    if (Gerrit.getConfig().getAuthType() == AuthType.OPENID
+        || Gerrit.getConfig().getAuthType() == AuthType.OAUTH) {
       Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
       linkIdentity.addClickHandler(new ClickHandler() {
         @Override

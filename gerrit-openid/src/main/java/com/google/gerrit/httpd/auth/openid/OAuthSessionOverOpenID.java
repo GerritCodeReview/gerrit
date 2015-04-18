@@ -88,10 +88,6 @@ class OAuthSessionOverOpenID {
 
   boolean login(HttpServletRequest request, HttpServletResponse response,
       OAuthServiceProvider oauth) throws IOException {
-    if (isLoggedIn()) {
-      return true;
-    }
-
     log.debug("Login " + this);
 
     if (isOAuthFinal(request)) {

@@ -70,7 +70,9 @@ class OAuthWebFilterOverOpenID implements Filter {
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpSession httpSession = ((HttpServletRequest) request).getSession(false);
-    if (currentUserProvider.get().isIdentifiedUser()) {
+    OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
+    if (!oauthSession.isLinkMode()
+        && currentUserProvider.get().isIdentifiedUser()) {
       if (httpSession != null) {
         httpSession.invalidate();
       }
@@ -80,7 +82,6 @@ class OAuthWebFilterOverOpenID implements Filter {
 
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-    OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
     OAuthServiceProvider service = ssoProvider == null
         ? oauthSession.getServiceProvider()
         : ssoProvider;

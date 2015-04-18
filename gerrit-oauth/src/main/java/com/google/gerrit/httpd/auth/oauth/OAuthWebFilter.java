@@ -90,7 +90,12 @@ class OAuthWebFilter implements Filter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpSession httpSession = ((HttpServletRequest) request).getSession(false);
     OAuthSession oauthSession = oauthSessionProvider.get();
-    if (currentUserProvider.get().isIdentifiedUser()) {
+    boolean link = request.getParameter("link") != null;
+    if (link) {
+      oauthSession.setLinkMode(link);
+    }
+    if (!oauthSession.isLinkMode()
+        && currentUserProvider.get().isIdentifiedUser()) {
       if (httpSession != null) {
         httpSession.invalidate();
       }

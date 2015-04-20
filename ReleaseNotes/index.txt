@@ -9,6 +9,7 @@ Version 2.11.x
 [[2_10]]
 Version 2.10.x
 --------------
+* link:ReleaseNotes-2.10.3.1.html[2.10.3.1]
 * link:ReleaseNotes-2.10.3.html[2.10.3]
 * link:ReleaseNotes-2.10.2.html[2.10.2]
 * link:ReleaseNotes-2.10.1.html[2.10.1]

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;

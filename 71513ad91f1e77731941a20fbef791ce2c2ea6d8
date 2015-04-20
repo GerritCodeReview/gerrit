@@ -34,6 +34,24 @@
       "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50304e12_a2fb5eb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-20T18:05:36Z",
+      "side": 1,
+      "message": "\"This is an actual bug\" could mean multiple things:\n\n* The current behavior is buggy, and the test added in this change tests the current buggy behavior.\n* The current behavior is buggy, and the test added in this change tests the intended behavior. The test currently fails.\n* The current behavior is buggy, and this change both fixes the bug and adds a test for the intended behavior.\n\nWhich one do you mean?",
+      "parentUuid": "3062faee_69c9052c",
+      "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

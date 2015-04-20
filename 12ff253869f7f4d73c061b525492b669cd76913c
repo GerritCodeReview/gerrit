@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50fe8e70_b2cc40ba",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-20T05:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90664635_94f024de",
+      "range": {
+        "startLine": 55,
+        "startChar": 50,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "12ff253869f7f4d73c061b525492b669cd76913c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90664635_54dfac54",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-20T05:11:23Z",
       "side": 1,
       "message": "I think in previous changes we\u0027ve opted against providing platform-specific instructions.",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 60,
+        "endChar": 4
+      },
+      "revId": "12ff253869f7f4d73c061b525492b669cd76913c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50fe8e70_92c93caa",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-20T05:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90664635_54dfac54",
       "range": {
         "startLine": 56,
         "startChar": 21,

@@ -70,6 +70,24 @@
       "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3033da21_2110ee83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-20T18:16:42Z",
+      "side": 1,
+      "message": "Having a known-broken test hurts bisectability. Squash the bugfix and the test into the same commit?",
+      "parentUuid": "50304e12_e2056642",
+      "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

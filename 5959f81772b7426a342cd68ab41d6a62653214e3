@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3033da21_61df9655",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesV14Test.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-20T16:51:20Z",
+      "side": 1,
+      "message": "Indentation.",
+      "revId": "5959f81772b7426a342cd68ab41d6a62653214e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

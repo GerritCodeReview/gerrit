@@ -52,6 +52,24 @@
       "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50304e12_e2056642",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-20T18:13:20Z",
+      "side": 1,
+      "message": "The current behavior is buggy, and the test added in this change tests the intended behavior. The test currently fails.\n\nThe bugfix is in the same topic, making the test not fail anymore.\n\nWill fix the commit message.",
+      "parentUuid": "50304e12_a2fb5eb9",
+      "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

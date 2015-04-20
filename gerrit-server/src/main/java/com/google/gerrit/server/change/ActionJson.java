@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;

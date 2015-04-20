@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.changedetail;
+package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
@@ -28,10 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeUtil;

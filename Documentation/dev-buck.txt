@@ -7,7 +7,7 @@ Note that you need to use Java 7 for building gerrit.
 
 There is currently no binary distribution of Buck, so it has to be manually
 built and installed.  Apache Ant is required.  Currently only Linux and Mac
-OS are supported.  Buck requires Python version 2.7 to be installed.
+OS are supported.
 
 Clone the git and build it:
 
@@ -50,6 +50,14 @@ To enable autocompletion of buck commands, install the autocompletion
 script from `./scripts/buck_completion.bash` in the buck project.  Refer
 to the script's header comments for installation instructions.
 
+== Prerequisites
+
+Buck requires Python version 2.7 to be installed. Maven download toolchain
+makes use of `curl`. On Fedora it can be installed with:
+
+----
+  yum groupinstall 'Development Tools'
+----
 
 [[eclipse]]
 == Eclipse Integration

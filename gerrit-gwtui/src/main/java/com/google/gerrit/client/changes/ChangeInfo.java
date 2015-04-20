@@ -149,10 +149,11 @@ public class ChangeInfo extends JavaScriptObject {
    *         if no label is missing, or if more than one label is missing.
    */
   public final int getMissingLabelIndex() {
-    int i = 0;
+    int i = -1;
     int ret = -1;
     List<LabelInfo> labels = Natives.asList(all_labels().values());
     for (LabelInfo label : labels) {
+      i++;
       if (!permitted_labels().containsKey(label.name())) {
         continue;
       }
@@ -183,7 +184,6 @@ public class ChangeInfo extends JavaScriptObject {
           set_submittable(false);
           return -1;
       }
-      i++;
     }
     set_submittable(ret == -1);
     return ret;

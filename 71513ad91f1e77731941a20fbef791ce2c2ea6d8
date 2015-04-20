@@ -88,6 +88,24 @@
       "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ccce7c_62c3f68a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-20T20:51:55Z",
+      "side": 1,
+      "message": "Done, though it would have bisected fine (bugfix first and test afterwards as a parent of the bugfix)",
+      "parentUuid": "3033da21_2110ee83",
+      "revId": "71513ad91f1e77731941a20fbef791ce2c2ea6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

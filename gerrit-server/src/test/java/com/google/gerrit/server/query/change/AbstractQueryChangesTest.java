@@ -425,7 +425,8 @@ public abstract class AbstractQueryChangesTest {
     assertQuery("topic:foo");
     assertQuery("topic:feature1", change1);
     assertQuery("topic:feature2", change2);
-    assertQuery("topic:\"\"", change3);
+    assertQuery("topic:feature", change2, change1);
+    assertQuery("topic:\"\"", change3, change2, change1);
   }
 
   @Test

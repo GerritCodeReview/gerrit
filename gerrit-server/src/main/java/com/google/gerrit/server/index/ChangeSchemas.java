@@ -38,7 +38,7 @@ public class ChangeSchemas {
         ChangeField.PROJECT,
         ChangeField.PROJECTS,
         ChangeField.REF,
-        ChangeField.TOPIC,
+        ChangeField.LEGACY_TOPIC,
         ChangeField.UPDATED,
         ChangeField.FILE_PART,
         ChangeField.PATH,
@@ -68,7 +68,7 @@ public class ChangeSchemas {
       ChangeField.PROJECT,
       ChangeField.PROJECTS,
       ChangeField.REF,
-      ChangeField.TOPIC,
+      ChangeField.LEGACY_TOPIC,
       ChangeField.UPDATED,
       ChangeField.FILE_PART,
       ChangeField.PATH,
@@ -88,6 +88,7 @@ public class ChangeSchemas {
       ChangeField.DELTA,
       ChangeField.HASHTAG);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V14 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
@@ -95,7 +96,7 @@ public class ChangeSchemas {
       ChangeField.PROJECT,
       ChangeField.PROJECTS,
       ChangeField.REF,
-      ChangeField.TOPIC,
+      ChangeField.LEGACY_TOPIC,
       ChangeField.UPDATED,
       ChangeField.FILE_PART,
       ChangeField.PATH,
@@ -115,7 +116,36 @@ public class ChangeSchemas {
       ChangeField.DELTA,
       ChangeField.HASHTAG);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V15 = schema(
+      ChangeField.LEGACY_ID,
+      ChangeField.ID,
+      ChangeField.STATUS,
+      ChangeField.PROJECT,
+      ChangeField.PROJECTS,
+      ChangeField.REF,
+      ChangeField.LEGACY_TOPIC,
+      ChangeField.UPDATED,
+      ChangeField.FILE_PART,
+      ChangeField.PATH,
+      ChangeField.OWNER,
+      ChangeField.REVIEWER,
+      ChangeField.COMMIT,
+      ChangeField.TR,
+      ChangeField.LABEL,
+      ChangeField.REVIEWED,
+      ChangeField.COMMIT_MESSAGE,
+      ChangeField.COMMENT,
+      ChangeField.CHANGE,
+      ChangeField.APPROVAL,
+      ChangeField.MERGEABLE,
+      ChangeField.ADDED,
+      ChangeField.DELETED,
+      ChangeField.DELTA,
+      ChangeField.HASHTAG,
+      ChangeField.COMMENTBY);
+
+  static final Schema<ChangeData> V16 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
       ChangeField.STATUS,

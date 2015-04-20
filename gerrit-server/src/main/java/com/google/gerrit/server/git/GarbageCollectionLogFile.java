@@ -12,39 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.util.SystemLog;
+import com.google.inject.Inject;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
-public class GarbageCollectionLogFile {
-  public static LifecycleListener start(Path sitePath) throws IOException {
-    Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
+public class GarbageCollectionLogFile implements LifecycleListener {
+
+  @Inject
+  public GarbageCollectionLogFile(SitePaths sitePaths) {
+    Path logdir = FileUtil.mkdirsOrDie(sitePaths.logs_dir,
         "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {
       initLogSystem(logdir);
     }
+  }
 
-    return new LifecycleListener() {
-      @Override
-      public void start() {
-      }
+  @Override
+  public void start() {
+  }
 
-      @Override
-      public void stop() {
-        LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
-      }
-    };
+  @Override
+  public void stop() {
+    LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
   }
 
   private static void initLogSystem(Path logdir) {

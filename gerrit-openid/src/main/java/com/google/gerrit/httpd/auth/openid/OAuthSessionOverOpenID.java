@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.oauth;
+package com.google.gerrit.httpd.auth.openid;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
+import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
@@ -45,10 +46,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/** OAuth protocol implementation */
 @SessionScoped
-/* OAuth protocol implementation */
-class OAuthSession {
-  private static final Logger log = LoggerFactory.getLogger(OAuthSession.class);
+class OAuthSessionOverOpenID {
+  static final String GERRIT_LOGIN = "/login";
+  private static final Logger log = LoggerFactory.getLogger(
+      OAuthSessionOverOpenID.class);
   private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
   private final DynamicItem<WebSession> webSession;
@@ -60,7 +63,7 @@ class OAuthSession {
   private String redirectToken;
 
   @Inject
-  OAuthSession(DynamicItem<WebSession> webSession,
+  OAuthSessionOverOpenID(DynamicItem<WebSession> webSession,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider) {
     this.state = generateRandomState();
@@ -106,14 +109,7 @@ class OAuthSession {
       }
     } else {
       log.debug("Login-PHASE1 " + this);
-      redirectToken = request.getRequestURI();
-      // We are here in content of filter.
-      // Due to this Jetty limitation:
-      // https://bz.apache.org/bugzilla/show_bug.cgi?id=28323
-      // we cannot use LoginUrlToken.getToken() method,
-      // because it relies on getPathInfo() and it is always null here.
-      redirectToken = redirectToken.substring(
-          request.getContextPath().length());
+      redirectToken = LoginUrlToken.getToken(request);
       response.sendRedirect(oauth.getAuthorizationUrl() +
           "&state=" + state);
       return false;
@@ -124,7 +120,7 @@ class OAuthSession {
       HttpServletResponse rsp) throws IOException {
     com.google.gerrit.server.account.AuthRequest areq =
         new com.google.gerrit.server.account.AuthRequest(user.getExternalId());
-    AuthResult arsp;
+    AuthResult arsp = null;
     try {
       String claimedIdentifier = user.getClaimedIdentity();
       Account.Id actualId = accountManager.lookup(user.getExternalId());
@@ -133,7 +129,6 @@ class OAuthSession {
         if (claimedId != null && actualId != null) {
           if (claimedId.equals(actualId)) {
             // Both link to the same account, that's what we expected.
-            log.debug("OAuth2: claimed identity equals current id");
           } else {
             // This is (for now) a fatal error. There are two records
             // for what might be the same user.
@@ -148,8 +143,6 @@ class OAuthSession {
         } else if (claimedId != null && actualId == null) {
           // Claimed account already exists: link to it.
           //
-          log.info("OAuth2: linking claimed identity to {}",
-              claimedId.toString());
           try {
             accountManager.link(claimedId, areq);
           } catch (OrmException e) {
@@ -160,8 +153,6 @@ class OAuthSession {
             return;
           }
         }
-      } else {
-        log.debug("OAuth2: claimed identity is empty");
       }
       areq.setUserName(user.getUserName());
       areq.setEmailAddress(user.getEmailAddress());
@@ -174,10 +165,8 @@ class OAuthSession {
     }
 
     webSession.get().login(arsp, true);
-    String suffix = redirectToken.substring(
-        OAuthWebFilter.GERRIT_LOGIN.length() + 1);
     StringBuilder rdr = new StringBuilder(urlProvider.get(req));
-    rdr.append(Url.decode(suffix));
+    rdr.append(Url.decode(redirectToken));
     rsp.sendRedirect(rdr.toString());
   }
 

@@ -22,11 +22,13 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.change.RevisionResource;
@@ -356,10 +358,21 @@ public class RebaseChange {
     return objectId;
   }
 
+  public boolean canRebase(ChangeResource r) {
+    Change c = r.getChange();
+    return canRebase(c.getProject(), c.currentPatchSetId(), c.getDest());
+  }
+
   public boolean canRebase(RevisionResource r) {
+    return canRebase(r.getChange().getProject(),
+        r.getPatchSet().getId(), r.getChange().getDest());
+  }
+
+  public boolean canRebase(Project.NameKey project,
+      PatchSet.Id patchSetId, Branch.NameKey branch) {
     Repository git;
     try {
-      git = gitManager.openRepository(r.getChange().getProject());
+      git = gitManager.openRepository(project);
     } catch (RepositoryNotFoundException err) {
       return false;
     } catch (IOException err) {
@@ -367,9 +380,9 @@ public class RebaseChange {
     }
     try {
       findBaseRevision(
-          r.getPatchSet().getId(),
+          patchSetId,
           db.get(),
-          r.getChange().getDest(),
+          branch,
           git,
           null,
           null,

@@ -253,9 +253,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
     col++;
 
-    boolean displayInfo = Gerrit.isSignedIn() && Gerrit.getUserAccount()
-        .getGeneralPreferences().isShowInfoInReviewCategory();
-
     for (int idx = 0; idx < labelNames.size(); idx++, col++) {
       String name = labelNames.get(idx);
 
@@ -276,7 +273,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         user = label.rejected().name();
         info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.rejected());
-        if (displayInfo && info != null) {
+        if (info != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.redNot()));
           panel.add(new InlineLabel(info));
@@ -288,7 +285,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         user = label.approved().name();
         info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.approved());
-        if (displayInfo && info != null) {
+        if (info != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
           panel.add(new InlineLabel(info));
@@ -301,7 +298,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.disliked());
         String vstr = String.valueOf(label._value());
-        if (displayInfo && info != null) {
+        if (info != null) {
           vstr = vstr + " " + info;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
@@ -311,7 +308,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.recommended());
         String vstr = "+" + label._value();
-        if (displayInfo && info != null) {
+        if (info != null) {
           vstr = vstr + " " + info;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
@@ -322,8 +319,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       }
       fmt.addStyleName(row, col, Gerrit.RESOURCES.css().singleLine());
 
-      if ((!displayInfo || reviewCategoryStrategy == ReviewCategoryStrategy.ABBREV)
-          && user != null) {
+      if (user != null) {
         // Some web browsers ignore the embedded newline; some like it;
         // so we include a space before the newline to accommodate both.
         fmt.getElement(row, col).setTitle(name + " \nby " + user);

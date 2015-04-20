@@ -14,8 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
@@ -43,6 +42,7 @@ import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -53,6 +53,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class CreateBranch implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
@@ -224,7 +225,15 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       } catch (IncorrectObjectTypeException err) {
         throw new InvalidRevisionException();
       }
-      for (final Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
+      RefDatabase refDb = repo.getRefDatabase();
+      Iterable<Ref> refs = Iterables.concat(
+          refDb.getRefs(Constants.R_HEADS).values(),
+          refDb.getRefs(Constants.R_TAGS).values());
+      Ref rc = refDb.getRef(RefNames.REFS_CONFIG);
+      if (rc != null) {
+        refs = Iterables.concat(refs, Collections.singleton(rc));
+      }
+      for (Ref r : refs) {
         try {
           rw.markUninteresting(rw.parseAny(r.getObjectId()));
         } catch (MissingObjectException err) {

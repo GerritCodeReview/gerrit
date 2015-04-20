@@ -19,6 +19,7 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 public class RestResponse extends HttpResponse {
 
@@ -29,7 +30,9 @@ public class RestResponse extends HttpResponse {
   @Override
   public Reader getReader() throws IllegalStateException, IOException {
     if (reader == null && response.getEntity() != null) {
-      reader = new InputStreamReader(response.getEntity().getContent());
+      reader =
+          new InputStreamReader(response.getEntity().getContent(),
+              StandardCharsets.UTF_8);
       reader.skip(JSON_MAGIC.length);
     }
     return reader;

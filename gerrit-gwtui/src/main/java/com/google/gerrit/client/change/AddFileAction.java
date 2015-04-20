@@ -28,16 +28,18 @@ class AddFileAction {
   private final RevisionInfo revision;
   private final ChangeScreen.Style style;
   private final Widget addButton;
+  private final FileTable files;
 
   private AddFileBox addBox;
   private PopupPanel popup;
 
   AddFileAction(Change.Id changeId, RevisionInfo revision,
-      ChangeScreen.Style style, Widget addButton) {
+      ChangeScreen.Style style, Widget addButton, FileTable files) {
     this.changeId = changeId;
     this.revision = revision;
     this.style = style;
     this.addButton = addButton;
+    this.files = files;
   }
 
   public void onEdit() {
@@ -46,8 +48,9 @@ class AddFileAction {
       return;
     }
 
+    files.unregisterKeys();
     if (addBox == null) {
-      addBox = new AddFileBox(changeId, revision);
+      addBox = new AddFileBox(changeId, revision, files);
     }
     addBox.clearPath();
 

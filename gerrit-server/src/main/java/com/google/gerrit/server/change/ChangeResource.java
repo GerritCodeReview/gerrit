@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -36,13 +37,16 @@ public class ChangeResource implements RestResource, HasETag {
       new TypeLiteral<RestView<ChangeResource>>() {};
 
   private final ChangeControl control;
+  private final RebaseChange rebaseChange;
 
-  public ChangeResource(ChangeControl control) {
+  public ChangeResource(ChangeControl control, RebaseChange rebaseChange) {
     this.control = control;
+    this.rebaseChange = rebaseChange;
   }
 
   protected ChangeResource(ChangeResource copy) {
     this.control = copy.control;
+    this.rebaseChange = copy.rebaseChange;
   }
 
   public ChangeControl getControl() {
@@ -65,7 +69,8 @@ public class ChangeResource implements RestResource, HasETag {
       .putInt(getChange().getRowVersion())
       .putInt(user.isIdentifiedUser()
           ? ((IdentifiedUser) user).getAccountId().get()
-          : 0);
+          : 0)
+      .putBoolean(rebaseChange != null && rebaseChange.canRebase(this));
     byte[] buf = new byte[20];
     ObjectId noteId;
     try {

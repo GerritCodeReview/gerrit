@@ -8,8 +8,9 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war]
 
 Gerrit 2.11 includes the bug fixes done with
-link:ReleaseNotes-2.10.1.html[Gerrit 2.10.1] and
-link:ReleaseNotes-2.10.2.html[Gerrit 2.10.2].
+link:ReleaseNotes-2.10.1.html[Gerrit 2.10.1],
+link:ReleaseNotes-2.10.2.html[Gerrit 2.10.2] and
+link:ReleaseNotes-2.10.3.html[Gerrit 2.10.3].
 These bug fixes are *not* listed in these release notes.
 
 
@@ -20,8 +21,37 @@ Important Notes
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
+----
+
+Gerrit 2.11 requires a secondary index, which can be created offline
+by running the `reindex` program:
+
+----
   java -jar gerrit.war reindex -d site_path
 ----
+
+If the site that is upgraded already has a secondary index, the
+secondary index can be upgraded online. This is important for large
+sites since running the `reindex` program can take a long time and
+contributes significantly to the downtime that is required for the
+upgrade.
+
+Gerrit 2.11 supports online reindexing only from the index version `11`
+which is the index version of Gerrit 2.10. This means if you come from
+an older release it makes sense to first upgrade to 2.10 and then do
+the upgrade to 2.11 so that you can profit from online reindexing.
+
+In case you are upgrading from 2.10 it is *important* to check *before*
+the upgrade to 2.11 that the index version of your Gerrit 2.10 site is
+`11`. You can check the index version in
+`$site_path/index/gerrit_index.config`. Your Gerrit 2.10 site may run
+with an older index version (e.g. if online reindexing to index version
+`11` is still running or if online reindexing to version `11` has
+failed). In this case you first need to successfully migrate your index
+version of your Gerrit 2.10 site to `11` and only then start with the
+2.11 upgrade. If you start the 2.11 upgrade when the schema version of
+your Gerrit 2.10 site is older than `11`, online reindexing is no longer
+possible and you need to reindex offline by using the `reindex` program.
 
 *WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.8 (or
 2.9) and then to 2.11.x. If you are upgrading from 2.8.x or later, you may ignore
@@ -117,8 +147,6 @@ different change (on the same destination branch), rather than only onto the
 head of the destination branch or the latest patch set of the predecessor change.
 
 * Show the parent commit's subject as a tooltip.
-
-* Decorate abandoned changes in the 'Related Changes' list with a dark red dot.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2541[Issue 2541],
 link:http://code.google.com/p/gerrit/issues/detail?id=2974[Issue 2974]:
@@ -367,10 +395,6 @@ Allow projects to be configured to create a new change for every uploaded commit
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#container.daemonOpt[
 options to pass to the daemon].
 
-* Allow to configure
-link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#sshd.rekeyBytesLimit[
-SSHD rekey parameters].
-
 Daemon
 ~~~~~~
 
@@ -394,9 +418,6 @@ a change message on the created change.
 
 SSH
 ~~~
-
-* link:https://code.google.com/p/gerrit/issues/detail?id=2797[Issue 2797]:
-Add support for ECDSA based public key authentication.
 
 * Add new commands
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-logging-ls-level.html[
@@ -542,16 +563,6 @@ Fix server error when checking mergeability of a change.
 Due to link:https://github.com/google/guice/issues/745[Guice issue 745], cloning
 of a repository with a space in its name was impossible.
 
-* Print proper names for tasks in output of `show-queue` command.
-+
-Some tasks were not displayed with the proper name.
-
-
-SSH
-~~~
-
-* Prevent double authentication for the same public key.
-
 
 Secondary Index / Search
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -600,18 +611,14 @@ documented.
 Web UI
 ~~~~~~
 
-* link:http://code.google.com/p/gerrit/issues/detail?id=3044[Issue 3044]:
-Remove stripping `#` in login redirect.
+Change List
+^^^^^^^^^^^
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3304[Issue 3304]:
+Always show a tooltip on the label column entries.
 
 Change Screen
 ^^^^^^^^^^^^^
-
-* link:http://code.google.com/p/gerrit/issues/detail?id=2894[Issue 2894]:
-Link to change screen for merged or abandoned changes in the 'Related Changes'
-list.
-+
-For changes in the 'Related Changes' tab that are closed the link was
-bringing the user to GitWeb, and not as expected to the change screen.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3147[Issue 3147]:
 Allow to disable muting of common path prefixes in the file list.
@@ -843,8 +850,6 @@ Upgrades
 
 * Update ASM to 5.0.3.
 
-* Update Bouncycastle to 1.51.
-
 * Update CodeMirror to 4.10.0-6-gd0a2dda.
 
 * Update Guava to 18.0.
@@ -866,5 +871,3 @@ Upgrades
 * Update Parboiled to 1.1.7.
 
 * Update Pegdown to 1.4.2.
-
-* Update SSHD to 0.14.0.

@@ -502,15 +502,17 @@ Values should use common unit suffixes to express their setting:
 * y, year, years (`1 year` is treated as `365 days`)
 
 +
+--
 If a unit suffix is not specified, `seconds` is assumed.  If 0 is
 supplied, the maximum age is infinite and items are never purged
 except when the cache is full.
-+
+
 Default is `0`, meaning store forever with no expire, except:
-+
+
 * `"adv_bases"`: default is `10 minutes`
 * `"ldap_groups"`: default is `1 hour`
 * `"web_sessions"`: default is `12 hours`
+--
 
 [[cache.name.memoryLimit]]cache.<name>.memoryLimit::
 +
@@ -735,9 +737,11 @@ Values should use common unit suffixes to express their setting:
 * h, hr, hour, hours
 
 +
+--
 If a unit suffix is not specified, `milliseconds` is assumed.
-+
+
 Default is 5 seconds.
+--
 
 [[cache.diff_intraline.timeout]]cache.diff_intraline.timeout::
 +
@@ -758,9 +762,11 @@ Values should use common unit suffixes to express their setting:
 * h, hr, hour, hours
 
 +
+--
 If a unit suffix is not specified, `milliseconds` is assumed.
-+
+
 Default is 5 seconds.
+--
 
 [[cache.diff_intraline.enabled]]cache.diff_intraline.enabled::
 +
@@ -1345,12 +1351,14 @@ Values should use common unit suffixes to express their setting:
 * h, hr, hour, hours
 
 +
+--
 If a unit suffix is not specified, `milliseconds` is assumed.
-+
+
 Default is `30 seconds`.
-+
+
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
+--
 
 [[database.dataSourceInterceptorClass]]database.dataSourceInterceptorClass::
 
@@ -1947,10 +1955,12 @@ Behaves exactly like proxy-http, but also sets the scheme to assume
 'https://' is the proper URL back to the server.
 
 +
+--
 If multiple values are supplied, the daemon will listen on all
 of them.
-+
+
 By default, http://*:8080.
+--
 
 [[httpd.reuseAddress]]httpd.reuseAddress::
 +
@@ -2078,11 +2088,13 @@ Values should use common unit suffixes to express their setting:
 * y, year, years (`1 year` is treated as `365 days`)
 
 +
+--
 If a unit suffix is not specified, `minutes` is assumed.  If 0
 is supplied, the maximum age is infinite and connections will not
 abort until the client disconnects.
-+
+
 By default, 5 minutes.
+--
 
 [[httpd.filterClass]]httpd.filterClass::
 +
@@ -3082,15 +3094,17 @@ default of 29418.
 * 'hostname':'port' (for example `review.example.com:29418`)
 * 'IPv4':'port' (for example `10.0.0.1:29418`)
 * ['IPv6']:'port' (for example `[ff02::1]:29418`)
-* *:'port' (for example `*:29418`)
+* +*:'port'+ (for example `+*:29418+`)
 
 +
+--
 If multiple values are supplied, the daemon will listen on all
 of them.
-+
+
 To disable the internal SSHD, set listenAddress to `off`.
-+
+
 By default, *:29418.
+--
 
 [[sshd.advertisedAddress]]sshd.advertisedAddress::
 +
@@ -3099,16 +3113,18 @@ This may differ from sshd.listenAddress if a firewall based port
 redirector is being used, making Gerrit appear to answer on port
 22. The following forms may be used to specify an address.  In any
 form, `:'port'` may be omitted to use the default SSH port of 22.
-+
+
 * 'hostname':'port' (for example `review.example.com:22`)
 * 'IPv4':'port' (for example `10.0.0.1:29418`)
 * ['IPv6']:'port' (for example `[ff02::1]:29418`)
 
 +
+--
 If multiple values are supplied, the daemon will advertise all
 of them.
-+
+
 By default, sshd.listenAddress.
+--
 
 [[sshd.tcpKeepAlive]]sshd.tcpKeepAlive::
 +

@@ -213,13 +213,19 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
-    return new UiAction.Description()
+    UiAction.Description descr = new UiAction.Description()
       .setLabel("Rebase")
       .setTitle("Rebase onto tip of branch or parent change")
       .setVisible(resource.getChange().getStatus().isOpen()
           && resource.isCurrent()
           && resource.getControl().canRebase()
           && hasOneParent(resource.getPatchSet().getId()));
+    if (descr.isVisible()) {
+      // Disable the rebase button in the RebaseDialog if
+      // the change cannot be rebased.
+      descr.setEnabled(rebaseChange.get().canRebase(resource));
+    }
+    return descr;
   }
 
   public static class CurrentRevision implements

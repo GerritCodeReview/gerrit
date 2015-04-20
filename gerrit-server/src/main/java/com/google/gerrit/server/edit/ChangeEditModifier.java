@@ -16,8 +16,6 @@ package com.google.gerrit.server.edit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
-import static com.google.gerrit.server.edit.ChangeEditUtil.editRefPrefix;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Strings;
@@ -30,6 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -116,7 +115,7 @@ public class ChangeEditModifier {
     }
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    String refPrefix = editRefPrefix(me.getAccountId(), change.getId());
+    String refPrefix = RefNames.refsEditPrefix(me.getAccountId(), change.getId());
 
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(refPrefix);
@@ -126,7 +125,7 @@ public class ChangeEditModifier {
 
       try (RevWalk rw = new RevWalk(repo)) {
         ObjectId revision = ObjectId.fromString(ps.getRevision().get());
-        String editRefName = editRefName(me.getAccountId(), change.getId(),
+        String editRefName = RefNames.refsEdit(me.getAccountId(), change.getId(),
             ps.getId());
         return update(repo, me, editRefName, rw, ObjectId.zeroId(), revision);
       }
@@ -152,7 +151,7 @@ public class ChangeEditModifier {
 
     Change change = edit.getChange();
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    String refName = editRefName(me.getAccountId(), change.getId(),
+    String refName = RefNames.refsEdit(me.getAccountId(), change.getId(),
         current.getId());
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);

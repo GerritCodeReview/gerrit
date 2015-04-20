@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "30011a3e_315df057",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-20T13:26:00Z",
+      "side": 1,
+      "message": "Great feature!",
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50fe8e70_b22560da",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 2
@@ -13,6 +30,29 @@
       "writtenOn": "2015-04-20T12:55:44Z",
       "side": 1,
       "message": "nit: between other sections it\u0027s only one blank line",
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50fe8e70_f21fe887",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-20T13:26:00Z",
+      "side": 1,
+      "message": "There is no need to copy the javadoc from the method definition in the (implemented) interface. If anything changes then this javadoc has to be maintained in two places.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 7
+      },
       "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +133,23 @@
         "endLine": 724,
         "endChar": 51
       },
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30011a3e_11626c13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-20T13:26:00Z",
+      "side": 1,
+      "message": "nit: line too long",
       "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

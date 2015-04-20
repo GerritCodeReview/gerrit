@@ -22,6 +22,30 @@
       "revId": "f9ac0bce4ed8b9065b5e590d66c5716e0050b476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ccce7c_02d4ea39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-20T21:14:09Z",
+      "side": 1,
+      "message": "My C++ is still strong on this.\n\nSo the Javadoc syntax is the preferred way to express a (classname,method) tuple?",
+      "parentUuid": "50ccce7c_c2c922a9",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "f9ac0bce4ed8b9065b5e590d66c5716e0050b476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

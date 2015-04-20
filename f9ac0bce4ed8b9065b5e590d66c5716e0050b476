@@ -46,6 +46,30 @@
       "revId": "f9ac0bce4ed8b9065b5e590d66c5716e0050b476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ccce7c_22e00e13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-20T21:25:23Z",
+      "side": 1,
+      "message": "Yes. Well, kinda. I prefer # as the separator. Some people use . as the separator. Prior to Java 8, nobody would have thought of using ::.\n\nBut sticking to \"Javadoc syntax\" is a bit too strong. Javadoc syntax requires the types of all arguments as well, which in prose like this is often omitted.\n\nIf you wanted to use :: in a post-Java 8 world, I would omit the (), which are not present in a method reference.",
+      "parentUuid": "50ccce7c_02d4ea39",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "f9ac0bce4ed8b9065b5e590d66c5716e0050b476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

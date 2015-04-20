@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static com.google.gerrit.server.query.change.InternalChangeQuery.schema;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
@@ -467,9 +468,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> topic(String name) {
     if (name.startsWith("^")) {
-      return new RegexTopicPredicate(name);
+      return new RegexTopicPredicate(schema(args.indexes), name);
     }
-    return new TopicPredicate(name);
+    return new TopicPredicate(schema(args.indexes), name);
   }
 
   @Operator
@@ -863,10 +864,5 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Account.Id self() throws QueryParseException {
     return args.getIdentifiedUser().getAccountId();
-  }
-
-  private static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
-    ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
-    return index != null ? index.getSchema() : null;
   }
 }

@@ -45,4 +45,11 @@ public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
   public void byFrom() {
     // Ignore.
   }
+
+  @Override
+  @Ignore
+  @Test
+  public void byTopic() {
+    // Ignore.
+  }
 }

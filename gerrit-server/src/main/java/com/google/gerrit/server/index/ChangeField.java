@@ -146,18 +146,26 @@ public class ChangeField {
         }
       };
 
+  @Deprecated
   /** Topic, a short annotation on the branch. */
-  public static final FieldDef<ChangeData, String> TOPIC =
+  public static final FieldDef<ChangeData, String> LEGACY_TOPIC =
       new FieldDef.Single<ChangeData, String>(
           "topic2", FieldType.EXACT, false) {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
-          if (c == null) {
-            return null;
-          }
-          return firstNonNull(c.getTopic(), "");
+          return getTopic(input);
+        }
+      };
+
+  /** Topic, a short annotation on the branch. */
+  public static final FieldDef<ChangeData, String> TOPIC =
+      new FieldDef.Single<ChangeData, String>(
+          "topic3", FieldType.PREFIX, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return getTopic(input);
         }
       };
 
@@ -522,6 +530,14 @@ public class ChangeField {
           return r;
         }
       };
+
+  private static String getTopic(ChangeData input) throws OrmException {
+    Change c = input.change();
+    if (c == null) {
+      return null;
+    }
+    return firstNonNull(c.getTopic(), "");
+  }
 
   private static <T> List<byte[]> toProtos(ProtobufCodec<T> codec, Collection<T> objs)
       throws OrmException {

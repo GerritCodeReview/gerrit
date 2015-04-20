@@ -17,9 +17,13 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -55,19 +59,18 @@ public class InternalChangeQuery {
     return new ChangeStatusPredicate(status);
   }
 
-  private static Predicate<ChangeData> topic(String topic) {
-    return new TopicPredicate(topic);
-  }
-
   private static Predicate<ChangeData> commit(AbbreviatedObjectId id) {
     return new CommitPredicate(id);
   }
 
   private final QueryProcessor qp;
+  private final IndexCollection indexes;
 
   @Inject
-  InternalChangeQuery(QueryProcessor queryProcessor) {
+  InternalChangeQuery(QueryProcessor queryProcessor,
+      IndexCollection indexes) {
     qp = queryProcessor.enforceVisibility(false);
+    this.indexes = indexes;
   }
 
   public InternalChangeQuery setLimit(int n) {
@@ -78,6 +81,10 @@ public class InternalChangeQuery {
   public InternalChangeQuery enforceVisibility(boolean enforce) {
     qp.enforceVisibility(enforce);
     return this;
+  }
+
+  private Predicate<ChangeData> topic(String topic) {
+    return new TopicPredicate(schema(indexes), topic);
   }
 
   public List<ChangeData> byKey(Change.Key key) throws OrmException {
@@ -144,5 +151,10 @@ public class InternalChangeQuery {
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }
+  }
+
+  static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
+    ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
+    return index != null ? index.getSchema() : null;
   }
 }

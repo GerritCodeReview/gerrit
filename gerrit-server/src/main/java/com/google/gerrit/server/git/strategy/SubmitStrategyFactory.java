@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.changedetail.RebaseChange;
+import com.google.gerrit.server.change.RebaseChange;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;

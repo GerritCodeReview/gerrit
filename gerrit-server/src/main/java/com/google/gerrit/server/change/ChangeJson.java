@@ -92,7 +92,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3033da21_01ee8a03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-20T17:08:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50304e12_c2f302e9",
+      "revId": "5959f81772b7426a342cd68ab41d6a62653214e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3033da21_a1f07edd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-20T16:52:56Z",
       "side": 1,
       "message": "Optional: static import to cut down on the delta.",
+      "revId": "5959f81772b7426a342cd68ab41d6a62653214e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50304e12_e2ea86ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-20T17:08:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3033da21_a1f07edd",
       "revId": "5959f81772b7426a342cd68ab41d6a62653214e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3033da21_e1ea86ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-20T17:08:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50304e12_a2f07edd",
+      "revId": "5959f81772b7426a342cd68ab41d6a62653214e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3033da21_61df9655",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesV14Test.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-20T16:51:20Z",
       "side": 1,
       "message": "Indentation.",
+      "revId": "5959f81772b7426a342cd68ab41d6a62653214e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50304e12_420b725d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesV14Test.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-20T17:08:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3033da21_61df9655",
       "revId": "5959f81772b7426a342cd68ab41d6a62653214e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

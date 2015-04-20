@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "50fe8e70_1210ac83",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-20T12:14:29Z",
+      "side": 1,
+      "message": "Is this really required? Can\u0027t we add a submodule to Gerrit and pull it form GH? GitHub has some pros:\n\n* Non-deprecated issue tracking system\n* Continuos integration (Travis)\n* Upload of binary artifacts\n* Replication to GitHub is a non-issue, as it is already on GH",
+      "parentUuid": "30011a3e_91fbfcb9",
+      "revId": "12ff253869f7f4d73c061b525492b669cd76913c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90664635_54dfac54",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1

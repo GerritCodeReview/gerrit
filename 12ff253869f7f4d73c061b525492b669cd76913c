@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "30011a3e_511a34a5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-20T09:38:50Z",
+      "side": 1,
+      "message": "You see, that they are failing to figure it out on their own? Another option would be to add gerrit-oauth-plugin as core-plugin, so that it mustn\u0027t be compiled at all.",
+      "parentUuid": "90664635_541a0ca5",
+      "revId": "12ff253869f7f4d73c061b525492b669cd76913c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90664635_54dfac54",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1

@@ -105,13 +105,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     private static class EventListenerHolder {
-        final EventListener listener;
-        final CurrentUser user;
+      final EventListener listener;
+      final CurrentUser user;
 
-        EventListenerHolder(EventListener l, CurrentUser u) {
-            listener = l;
-            user = u;
-        }
+      EventListenerHolder(EventListener l, CurrentUser u) {
+        listener = l;
+        user = u;
+      }
     }
 
     /** Container class used to hold the return code and output of script hook execution */
@@ -241,15 +241,15 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      * @param projectCache the project cache instance for the server.
      */
     @Inject
-    public ChangeHookRunner(final WorkQueue queue,
-      final GitRepositoryManager repoManager,
-      @GerritServerConfig final Config config,
-      @AnonymousCowardName final String anonymousCowardName,
-      final SitePaths sitePath,
-      final ProjectCache projectCache,
-      final AccountCache accountCache,
-      final EventFactory eventFactory,
-      final DynamicSet<EventListener> unrestrictedListeners) {
+    public ChangeHookRunner(WorkQueue queue,
+      GitRepositoryManager repoManager,
+      @GerritServerConfig Config config,
+      @AnonymousCowardName String anonymousCowardName,
+      SitePaths sitePath,
+      ProjectCache projectCache,
+      AccountCache accountCache,
+      EventFactory eventFactory,
+      DynamicSet<EventListener> unrestrictedListeners) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -298,12 +298,12 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
     @Override
     public void addEventListener(EventListener listener, CurrentUser user) {
-        listeners.put(listener, new EventListenerHolder(listener, user));
+      listeners.put(listener, new EventListenerHolder(listener, user));
     }
 
     @Override
     public void removeEventListener(EventListener listener) {
-        listeners.remove(listener);
+      listeners.remove(listener);
     }
 
     /**
@@ -312,20 +312,20 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      * @param name Project to get repo for,
      * @return Repository or null.
      */
-    private Repository openRepository(final Project.NameKey name) {
-        try {
-            return repoManager.openRepository(name);
-        } catch (IOException err) {
-            log.warn("Cannot open repository " + name.get(), err);
-            return null;
-        }
+    private Repository openRepository(Project.NameKey name) {
+      try {
+        return repoManager.openRepository(name);
+      } catch (IOException err) {
+        log.warn("Cannot open repository " + name.get(), err);
+        return null;
+      }
     }
 
     private void addArg(List<String> args, String name, String value) {
-        if (value != null) {
-            args.add(name);
-            args.add(value);
-        }
+      if (value != null) {
+        args.add(name);
+        args.add(value);
+      }
     }
 
     /**
@@ -333,10 +333,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      *
      */
     @Override
-    public HookResult doRefUpdateHook(final Project project, final String refname,
-        final Account uploader, final ObjectId oldId, final ObjectId newId) {
+    public HookResult doRefUpdateHook(Project project, String refname,
+        Account uploader, ObjectId oldId, ObjectId newId) {
 
-      final List<String> args = new ArrayList<>();
+      List<String> args = new ArrayList<>();
       addArg(args, "--project", project.getName());
       addArg(args, "--refname", refname);
       addArg(args, "--uploader", getDisplayName(uploader));
@@ -354,219 +354,222 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      * @throws OrmException
      */
     @Override
-    public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet,
-          final ReviewDb db) throws OrmException {
-        final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
-        final AccountState uploader = accountCache.get(patchSet.getUploader());
-        final AccountState owner = accountCache.get(change.getOwner());
+    public void doPatchsetCreatedHook(Change change, PatchSet patchSet,
+          ReviewDb db) throws OrmException {
+      PatchSetCreatedEvent event = new PatchSetCreatedEvent();
+      AccountState uploader = accountCache.get(patchSet.getUploader());
+      AccountState owner = accountCache.get(change.getOwner());
 
-        event.change = eventFactory.asChangeAttribute(change);
-        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
-        fireEvent(change, event, db);
+      event.change = eventFactory.asChangeAttribute(change);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
+      fireEvent(change, event, db);
 
-        final List<String> args = new ArrayList<>();
-        addArg(args, "--change", event.change.id);
-        addArg(args, "--is-draft", String.valueOf(patchSet.isDraft()));
-        addArg(args, "--kind", String.valueOf(event.patchSet.kind));
-        addArg(args, "--change-url", event.change.url);
-        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
-        addArg(args, "--project", event.change.project);
-        addArg(args, "--branch", event.change.branch);
-        addArg(args, "--topic", event.change.topic);
-        addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
-        addArg(args, "--commit", event.patchSet.revision);
-        addArg(args, "--patchset", event.patchSet.number);
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--is-draft", String.valueOf(patchSet.isDraft()));
+      addArg(args, "--kind", String.valueOf(event.patchSet.kind));
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--topic", event.change.topic);
+      addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--patchset", event.patchSet.number);
 
-        runHook(change.getProject(), patchsetCreatedHook, args);
+      runHook(change.getProject(), patchsetCreatedHook, args);
     }
 
     @Override
-    public void doDraftPublishedHook(final Change change, final PatchSet patchSet,
-          final ReviewDb db) throws OrmException {
-        final DraftPublishedEvent event = new DraftPublishedEvent();
-        final AccountState uploader = accountCache.get(patchSet.getUploader());
-        final AccountState owner = accountCache.get(change.getOwner());
+    public void doDraftPublishedHook(Change change, PatchSet patchSet,
+          ReviewDb db) throws OrmException {
+      DraftPublishedEvent event = new DraftPublishedEvent();
+      AccountState uploader = accountCache.get(patchSet.getUploader());
+      AccountState owner = accountCache.get(change.getOwner());
 
-        event.change = eventFactory.asChangeAttribute(change);
-        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
-        fireEvent(change, event, db);
+      event.change = eventFactory.asChangeAttribute(change);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
+      fireEvent(change, event, db);
 
-        final List<String> args = new ArrayList<>();
-        addArg(args, "--change", event.change.id);
-        addArg(args, "--change-url", event.change.url);
-        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
-        addArg(args, "--project", event.change.project);
-        addArg(args, "--branch", event.change.branch);
-        addArg(args, "--topic", event.change.topic);
-        addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
-        addArg(args, "--commit", event.patchSet.revision);
-        addArg(args, "--patchset", event.patchSet.number);
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--topic", event.change.topic);
+      addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--patchset", event.patchSet.number);
 
-        runHook(change.getProject(), draftPublishedHook, args);
+      runHook(change.getProject(), draftPublishedHook, args);
     }
 
     @Override
-    public void doCommentAddedHook(final Change change, final Account account,
-          final PatchSet patchSet, final String comment, final Map<String, Short> approvals,
-          final ReviewDb db) throws OrmException {
-        final CommentAddedEvent event = new CommentAddedEvent();
-        final AccountState owner = accountCache.get(change.getOwner());
+    public void doCommentAddedHook(Change change, Account account,
+          PatchSet patchSet, String comment, Map<String, Short> approvals,
+          ReviewDb db) throws OrmException {
+      CommentAddedEvent event = new CommentAddedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
 
-        event.change = eventFactory.asChangeAttribute(change);
-        event.author =  eventFactory.asAccountAttribute(account);
-        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.comment = comment;
+      event.change = eventFactory.asChangeAttribute(change);
+      event.author =  eventFactory.asAccountAttribute(account);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.comment = comment;
 
-        LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
-        if (approvals.size() > 0) {
-            event.approvals = new ApprovalAttribute[approvals.size()];
-            int i = 0;
-            for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-                event.approvals[i++] = getApprovalAttribute(labelTypes, approval);
-            }
-        }
-
-        fireEvent(change, event, db);
-
-        final List<String> args = new ArrayList<>();
-        addArg(args, "--change", event.change.id);
-        addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
-        addArg(args, "--change-url", event.change.url);
-        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
-        addArg(args, "--project", event.change.project);
-        addArg(args, "--branch", event.change.branch);
-        addArg(args, "--topic", event.change.topic);
-        addArg(args, "--author", getDisplayName(account));
-        addArg(args, "--commit", event.patchSet.revision);
-        addArg(args, "--comment", comment == null ? "" : comment);
+      LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
+      if (approvals.size() > 0) {
+        event.approvals = new ApprovalAttribute[approvals.size()];
+        int i = 0;
         for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-          LabelType lt = labelTypes.byLabel(approval.getKey());
-          if (lt != null) {
-            addArg(args, "--" + lt.getName(), Short.toString(approval.getValue()));
-          }
+          event.approvals[i++] = getApprovalAttribute(labelTypes, approval);
         }
+      }
 
-        runHook(change.getProject(), commentAddedHook, args);
+      fireEvent(change, event, db);
+
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--topic", event.change.topic);
+      addArg(args, "--author", getDisplayName(account));
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--comment", comment == null ? "" : comment);
+      for (Map.Entry<String, Short> approval : approvals.entrySet()) {
+        LabelType lt = labelTypes.byLabel(approval.getKey());
+        if (lt != null) {
+          addArg(args, "--" + lt.getName(), Short.toString(approval.getValue()));
+        }
+      }
+
+      runHook(change.getProject(), commentAddedHook, args);
     }
 
     @Override
-  public void doChangeMergedHook(final Change change, final Account account,
-      final PatchSet patchSet, final ReviewDb db, String mergeResultRev)
-      throws OrmException {
-        final ChangeMergedEvent event = new ChangeMergedEvent();
-        final AccountState owner = accountCache.get(change.getOwner());
+    public void doChangeMergedHook(Change change, Account account,
+        PatchSet patchSet, ReviewDb db, String mergeResultRev)
+        throws OrmException {
+      ChangeMergedEvent event = new ChangeMergedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
 
-        event.change = eventFactory.asChangeAttribute(change);
-        event.submitter = eventFactory.asAccountAttribute(account);
-        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.newRev = mergeResultRev;
-        fireEvent(change, event, db);
+      event.change = eventFactory.asChangeAttribute(change);
+      event.submitter = eventFactory.asAccountAttribute(account);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.newRev = mergeResultRev;
+      fireEvent(change, event, db);
 
-        final List<String> args = new ArrayList<>();
-        addArg(args, "--change", event.change.id);
-        addArg(args, "--change-url", event.change.url);
-        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
-        addArg(args, "--project", event.change.project);
-        addArg(args, "--branch", event.change.branch);
-        addArg(args, "--topic", event.change.topic);
-        addArg(args, "--submitter", getDisplayName(account));
-        addArg(args, "--commit", event.patchSet.revision);
-        addArg(args, "--newrev", mergeResultRev);
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--topic", event.change.topic);
+      addArg(args, "--submitter", getDisplayName(account));
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--newrev", mergeResultRev);
 
-        runHook(change.getProject(), changeMergedHook, args);
+      runHook(change.getProject(), changeMergedHook, args);
     }
 
     @Override
-    public void doMergeFailedHook(final Change change, final Account account,
-          final PatchSet patchSet, final String reason,
-          final ReviewDb db) throws OrmException {
-        final MergeFailedEvent event = new MergeFailedEvent();
-        final AccountState owner = accountCache.get(change.getOwner());
+    public void doMergeFailedHook(Change change, Account account,
+          PatchSet patchSet, String reason,
+          ReviewDb db) throws OrmException {
+      MergeFailedEvent event = new MergeFailedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
 
-        event.change = eventFactory.asChangeAttribute(change);
-        event.submitter = eventFactory.asAccountAttribute(account);
-        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.reason = reason;
-        fireEvent(change, event, db);
+      event.change = eventFactory.asChangeAttribute(change);
+      event.submitter = eventFactory.asAccountAttribute(account);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.reason = reason;
+      fireEvent(change, event, db);
 
-        final List<String> args = new ArrayList<>();
-        addArg(args, "--change", event.change.id);
-        addArg(args, "--change-url", event.change.url);
-        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
-        addArg(args, "--project", event.change.project);
-        addArg(args, "--branch", event.change.branch);
-        addArg(args, "--topic", event.change.topic);
-        addArg(args, "--submitter", getDisplayName(account));
-        addArg(args, "--commit", event.patchSet.revision);
-        addArg(args, "--reason",  reason == null ? "" : reason);
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--topic", event.change.topic);
+      addArg(args, "--submitter", getDisplayName(account));
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--reason",  reason == null ? "" : reason);
 
-        runHook(change.getProject(), mergeFailedHook, args);
+      runHook(change.getProject(), mergeFailedHook, args);
     }
 
     @Override
-    public void doChangeAbandonedHook(final Change change, final Account account,
-          final PatchSet patchSet, final String reason, final ReviewDb db)
+    public void doChangeAbandonedHook(Change change, Account account,
+          PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-        final ChangeAbandonedEvent event = new ChangeAbandonedEvent();
-        final AccountState owner = accountCache.get(change.getOwner());
+      ChangeAbandonedEvent event = new ChangeAbandonedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
 
-        event.change = eventFactory.asChangeAttribute(change);
-        event.abandoner = eventFactory.asAccountAttribute(account);
-        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.reason = reason;
-        fireEvent(change, event, db);
+      event.change = eventFactory.asChangeAttribute(change);
+      event.abandoner = eventFactory.asAccountAttribute(account);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.reason = reason;
+      fireEvent(change, event, db);
 
-        final List<String> args = new ArrayList<>();
-        addArg(args, "--change", event.change.id);
-        addArg(args, "--change-url", event.change.url);
-        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
-        addArg(args, "--project", event.change.project);
-        addArg(args, "--branch", event.change.branch);
-        addArg(args, "--topic", event.change.topic);
-        addArg(args, "--abandoner", getDisplayName(account));
-        addArg(args, "--commit", event.patchSet.revision);
-        addArg(args, "--reason", reason == null ? "" : reason);
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--topic", event.change.topic);
+      addArg(args, "--abandoner", getDisplayName(account));
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--reason", reason == null ? "" : reason);
 
-        runHook(change.getProject(), changeAbandonedHook, args);
+      runHook(change.getProject(), changeAbandonedHook, args);
     }
 
     @Override
-    public void doChangeRestoredHook(final Change change, final Account account,
-          final PatchSet patchSet, final String reason, final ReviewDb db)
+    public void doChangeRestoredHook(Change change, Account account,
+          PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-        final ChangeRestoredEvent event = new ChangeRestoredEvent();
-        final AccountState owner = accountCache.get(change.getOwner());
+      ChangeRestoredEvent event = new ChangeRestoredEvent();
+      AccountState owner = accountCache.get(change.getOwner());
 
-        event.change = eventFactory.asChangeAttribute(change);
-        event.restorer = eventFactory.asAccountAttribute(account);
-        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.reason = reason;
-        fireEvent(change, event, db);
+      event.change = eventFactory.asChangeAttribute(change);
+      event.restorer = eventFactory.asAccountAttribute(account);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.reason = reason;
+      fireEvent(change, event, db);
 
-        final List<String> args = new ArrayList<>();
-        addArg(args, "--change", event.change.id);
-        addArg(args, "--change-url", event.change.url);
-        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
-        addArg(args, "--project", event.change.project);
-        addArg(args, "--branch", event.change.branch);
-        addArg(args, "--topic", event.change.topic);
-        addArg(args, "--restorer", getDisplayName(account));
-        addArg(args, "--commit", event.patchSet.revision);
-        addArg(args, "--reason", reason == null ? "" : reason);
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--topic", event.change.topic);
+      addArg(args, "--restorer", getDisplayName(account));
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--reason", reason == null ? "" : reason);
 
-        runHook(change.getProject(), changeRestoredHook, args);
+      runHook(change.getProject(), changeRestoredHook, args);
     }
 
     @Override
-    public void doRefUpdatedHook(final Branch.NameKey refName, final RefUpdate refUpdate, final Account account) {
-      doRefUpdatedHook(refName, refUpdate.getOldObjectId(), refUpdate.getNewObjectId(), account);
+    public void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
+        Account account) {
+      doRefUpdatedHook(refName, refUpdate.getOldObjectId(),
+          refUpdate.getNewObjectId(), account);
     }
 
     @Override
-    public void doRefUpdatedHook(final Branch.NameKey refName, final ObjectId oldId, final ObjectId newId, final Account account) {
-      final RefUpdatedEvent event = new RefUpdatedEvent();
+    public void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
+        ObjectId newId, Account account) {
+      RefUpdatedEvent event = new RefUpdatedEvent();
 
       if (account != null) {
         event.submitter = eventFactory.asAccountAttribute(account);
@@ -574,7 +577,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       event.refUpdate = eventFactory.asRefUpdateAttribute(oldId, newId, refName);
       fireEvent(refName, event);
 
-      final List<String> args = new ArrayList<>();
+      List<String> args = new ArrayList<>();
       addArg(args, "--oldrev", event.refUpdate.oldRev);
       addArg(args, "--newrev", event.refUpdate.newRev);
       addArg(args, "--refname", event.refUpdate.refName);
@@ -587,17 +590,17 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     @Override
-    public void doReviewerAddedHook(final Change change, final Account account,
-        final PatchSet patchSet, final ReviewDb db) throws OrmException {
-      final ReviewerAddedEvent event = new ReviewerAddedEvent();
-      final AccountState owner = accountCache.get(change.getOwner());
+    public void doReviewerAddedHook(Change change, Account account,
+        PatchSet patchSet, ReviewDb db) throws OrmException {
+      ReviewerAddedEvent event = new ReviewerAddedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(change);
       event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
       event.reviewer = eventFactory.asAccountAttribute(account);
       fireEvent(change, event, db);
 
-      final List<String> args = new ArrayList<>();
+      List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
       addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
@@ -609,18 +612,18 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     @Override
-    public void doTopicChangedHook(final Change change, final Account account,
-        final String oldTopic, final ReviewDb db)
+    public void doTopicChangedHook(Change change, Account account,
+        String oldTopic, ReviewDb db)
             throws OrmException {
-      final TopicChangedEvent event = new TopicChangedEvent();
-      final AccountState owner = accountCache.get(change.getOwner());
+      TopicChangedEvent event = new TopicChangedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(change);
       event.changer = eventFactory.asAccountAttribute(account);
       event.oldTopic = oldTopic;
       fireEvent(change, event, db);
 
-      final List<String> args = new ArrayList<>();
+      List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", event.change.project);
@@ -655,7 +658,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       fireEvent(change, event, db);
 
-      final List<String> args = new ArrayList<>();
+      List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", event.change.project);
@@ -682,7 +685,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doClaSignupHook(Account account, ContributorAgreement cla) {
       if (account != null) {
-        final List<String> args = new ArrayList<>();
+        List<String> args = new ArrayList<>();
         addArg(args, "--submitter", getDisplayName(account));
         addArg(args, "--user-id", account.getId().toString());
         addArg(args, "--cla-name", cla.getName());
@@ -692,60 +695,60 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     @Override
-    public void postEvent(final Change change, final Event event,
-        final ReviewDb db) throws OrmException {
+    public void postEvent(Change change, Event event, ReviewDb db)
+        throws OrmException {
       fireEvent(change, event, db);
     }
 
     @Override
-    public void postEvent(final Branch.NameKey branchName,
-        final Event event) {
+    public void postEvent(Branch.NameKey branchName, Event event) {
       fireEvent(branchName, event);
     }
 
-    private void fireEventForUnrestrictedListeners(final Event event) {
+    private void fireEventForUnrestrictedListeners(Event event) {
       for (EventListener listener : unrestrictedListeners) {
-          listener.onEvent(event);
+        listener.onEvent(event);
       }
     }
 
-    private void fireEvent(final Change change, final Event event,
-        final ReviewDb db) throws OrmException {
+    private void fireEvent(Change change, Event event, ReviewDb db)
+        throws OrmException {
       for (EventListenerHolder holder : listeners.values()) {
-          if (isVisibleTo(change, holder.user, db)) {
-              holder.listener.onEvent(event);
-          }
-      }
-
-      fireEventForUnrestrictedListeners( event );
-    }
-
-    private void fireEvent(Branch.NameKey branchName, final Event event) {
-      for (EventListenerHolder holder : listeners.values()) {
-          if (isVisibleTo(branchName, holder.user)) {
-              holder.listener.onEvent(event);
-          }
-      }
-
-      fireEventForUnrestrictedListeners( event );
-    }
-
-    private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db) throws OrmException {
-        final ProjectState pe = projectCache.get(change.getProject());
-        if (pe == null) {
-          return false;
+        if (isVisibleTo(change, holder.user, db)) {
+          holder.listener.onEvent(event);
         }
-        final ProjectControl pc = pe.controlFor(user);
-        return pc.controlFor(change).isVisible(db);
+      }
+
+      fireEventForUnrestrictedListeners( event );
+    }
+
+    private void fireEvent(Branch.NameKey branchName, Event event) {
+      for (EventListenerHolder holder : listeners.values()) {
+        if (isVisibleTo(branchName, holder.user)) {
+          holder.listener.onEvent(event);
+        }
+      }
+
+      fireEventForUnrestrictedListeners(event);
+    }
+
+    private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)
+        throws OrmException {
+      ProjectState pe = projectCache.get(change.getProject());
+      if (pe == null) {
+        return false;
+      }
+      ProjectControl pc = pe.controlFor(user);
+      return pc.controlFor(change).isVisible(db);
     }
 
     private boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
-        final ProjectState pe = projectCache.get(branchName.getParentKey());
-        if (pe == null) {
-          return false;
-        }
-        final ProjectControl pc = pe.controlFor(user);
-        return pc.controlForRef(branchName).isVisible();
+      ProjectState pe = projectCache.get(branchName.getParentKey());
+      if (pe == null) {
+        return false;
+      }
+      ProjectControl pc = pe.controlFor(user);
+      return pc.controlForRef(branchName).isVisible();
     }
 
     /**
@@ -755,14 +758,14 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      */
     private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
             Entry<String, Short> approval) {
-        ApprovalAttribute a = new ApprovalAttribute();
-        a.type = approval.getKey();
-        LabelType lt = labelTypes.byLabel(approval.getKey());
-        if (lt != null) {
-          a.description = lt.getName();
-        }
-        a.value = Short.toString(approval.getValue());
-        return a;
+      ApprovalAttribute a = new ApprovalAttribute();
+      a.type = approval.getKey();
+      LabelType lt = labelTypes.byLabel(approval.getKey());
+      if (lt != null) {
+        a.description = lt.getName();
+      }
+      a.value = Short.toString(approval.getValue());
+      return a;
     }
 
     /**
@@ -771,16 +774,18 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      * @param account Account to get name for.
      * @return Name for this account.
      */
-    private String getDisplayName(final Account account) {
-        if (account != null) {
-            String result = (account.getFullName() == null) ? anonymousCowardName : account.getFullName();
-            if (account.getPreferredEmail() != null) {
-                result += " (" + account.getPreferredEmail() + ")";
-            }
-            return result;
+    private String getDisplayName(Account account) {
+      if (account != null) {
+        String result = (account.getFullName() == null)
+            ? anonymousCowardName
+            : account.getFullName();
+        if (account.getPreferredEmail() != null) {
+          result += " (" + account.getPreferredEmail() + ")";
         }
+        return result;
+      }
 
-        return anonymousCowardName;
+      return anonymousCowardName;
     }
 
   /**
@@ -850,9 +855,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
   }
 
   private class HookTask {
-    private final Project.NameKey project;
-    private final Path hook;
-    private final List<String> args;
+    private Project.NameKey project;
+    private Path hook;
+    private List<String> args;
     private StringWriter output;
     private Process ps;
 
@@ -871,18 +876,18 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       HookResult result = null;
       try {
 
-        final List<String> argv = new ArrayList<>(1 + args.size());
+        List<String> argv = new ArrayList<>(1 + args.size());
         argv.add(hook.toAbsolutePath().toString());
         argv.addAll(args);
 
-        final ProcessBuilder pb = new ProcessBuilder(argv);
+        ProcessBuilder pb = new ProcessBuilder(argv);
         pb.redirectErrorStream(true);
 
         if (project != null) {
           repo = openRepository(project);
         }
 
-        final Map<String, String> env = pb.environment();
+        Map<String, String> env = pb.environment();
         env.put("GERRIT_SITE", sitePaths.site_path.toAbsolutePath().toString());
 
         if (repo != null) {
@@ -916,7 +921,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       }
 
       if (result != null) {
-        final int exitValue = result.getExitValue();
+        int exitValue = result.getExitValue();
         if (exitValue == 0) {
           log.debug("hook[" + getName() + "] exitValue:" + exitValue);
         } else {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30011a3e_1110ac83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1016837
+      },
+      "writtenOn": "2015-04-20T08:53:09Z",
+      "side": 1,
+      "message": "ChangeHookRunner implements NewProjectCreatedListener, so all class Event are recognized as NewProjectCreatedListener.Event.",
+      "range": {
+        "startLine": 724,
+        "startChar": 45,
+        "endLine": 724,
+        "endChar": 51
+      },
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

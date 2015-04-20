@@ -435,7 +435,7 @@ public class ChangeScreen extends Screen {
         reviewMode.setVisible(!editMode.isVisible());
         addFileAction = new AddFileAction(
             changeId, info.revision(revision),
-            style, addFile);
+            style, addFile, files);
         deleteFileAction = new DeleteFileAction(
             changeId, info.revision(revision),
             style, addFile);

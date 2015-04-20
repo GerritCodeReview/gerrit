@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -39,14 +40,17 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   private final ActionJson delegate;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Config config;
+  private final RebaseChange rebaseChange;
   @Inject
   GetRevisionActions(
       ActionJson delegate,
       Provider<InternalChangeQuery> queryProvider,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      RebaseChange rebaseChange) {
     this.delegate = delegate;
     this.queryProvider = queryProvider;
     this.config = config;
+    this.rebaseChange = rebaseChange;
   }
 
   @Override
@@ -65,7 +69,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
     CurrentUser user = rsrc.getControl().getCurrentUser();
     try {
       for (ChangeData c : queryProvider.get().byTopicOpen(topic)) {
-        new ChangeResource(c.changeControl()).prepareETag(h, user);
+        new ChangeResource(c.changeControl(), rebaseChange).prepareETag(h, user);
       }
     } catch (OrmException e){
       throw new OrmRuntimeException(e);

@@ -21,7 +21,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -110,7 +109,7 @@ public class ChangeEditUtil {
   public Optional<ChangeEdit> byChange(Change change, IdentifiedUser user)
       throws IOException {
     try (Repository repo = gitManager.openRepository(change.getProject())) {
-      String editRefPrefix = editRefPrefix(user.getAccountId(), change.getId());
+      String editRefPrefix = RefNames.refsEditPrefix(user.getAccountId(), change.getId());
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(editRefPrefix);
       if (refs.isEmpty()) {
         return Optional.absent();
@@ -188,34 +187,6 @@ public class ChangeEditUtil {
     } catch (OrmException | NumberFormatException e) {
       throw new IOException(e);
     }
-  }
-
-  /**
-   * Returns reference for this change edit with sharded user and change number:
-   * refs/users/UU/UUUU/edit-CCCC/P.
-   *
-   * @param accountId accout id
-   * @param changeId change number
-   * @param psId patch set number
-   * @return reference for this change edit
-   */
-  public static String editRefName(Account.Id accountId, Change.Id changeId,
-      PatchSet.Id psId) {
-    return editRefPrefix(accountId, changeId) + psId.get();
-  }
-
-  /**
-   * Returns reference prefix for this change edit with sharded user and
-   * change number: refs/users/UU/UUUU/edit-CCCC/.
-   *
-   * @param accountId accout id
-   * @param changeId change number
-   * @return reference prefix for this change edit
-   */
-  static String editRefPrefix(Account.Id accountId, Change.Id changeId) {
-    return String.format("%s/edit-%d/",
-        RefNames.refsUsers(accountId),
-        changeId.get());
   }
 
   private RevCommit squashEdit(RevWalk rw, ObjectInserter inserter,

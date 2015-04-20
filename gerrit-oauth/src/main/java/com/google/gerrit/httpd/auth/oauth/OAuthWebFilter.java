@@ -89,18 +89,22 @@ class OAuthWebFilter implements Filter {
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpSession httpSession = ((HttpServletRequest) request).getSession(false);
+    OAuthSession oauthSession = oauthSessionProvider.get();
     if (currentUserProvider.get().isIdentifiedUser()) {
       if (httpSession != null) {
         httpSession.invalidate();
       }
       chain.doFilter(request, response);
       return;
+    } else {
+      if (oauthSession.isLoggedIn()) {
+        oauthSession.logout();
+      }
     }
 
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
     String provider = httpRequest.getParameter("provider");
-    OAuthSession oauthSession = oauthSessionProvider.get();
     OAuthServiceProvider service = ssoProvider == null
         ? oauthSession.getServiceProvider()
         : ssoProvider;

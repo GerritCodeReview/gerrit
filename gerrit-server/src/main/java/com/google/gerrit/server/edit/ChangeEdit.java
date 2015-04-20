@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -71,7 +72,7 @@ public class ChangeEdit {
   }
 
   public String getRefName() {
-    return ChangeEditUtil.editRefName(user.getAccountId(), change.getId(),
+    return RefNames.refsEdit(user.getAccountId(), change.getId(),
         basePatchSet.getId());
   }
 

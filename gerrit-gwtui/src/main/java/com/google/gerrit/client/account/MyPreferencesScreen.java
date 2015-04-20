@@ -210,6 +210,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(legacycidInChangeTable);
     e.listenTo(muteCommonPathPrefixes);
     e.listenTo(diffView);
+    e.listenTo(reviewCategoryStrategy);
   }
 
   @Override

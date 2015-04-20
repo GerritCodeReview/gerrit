@@ -22,6 +22,30 @@
       "revId": "b0c9622d5aebb1975cab482d5f2c40671ba7fb07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90664635_74158873",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-20T08:20:32Z",
+      "side": 1,
+      "message": "This was an unintentional edit with find/replace.  Done.",
+      "parentUuid": "30011a3e_91f01cde",
+      "range": {
+        "startLine": 858,
+        "startChar": 1,
+        "endLine": 860,
+        "endChar": 30
+      },
+      "revId": "b0c9622d5aebb1975cab482d5f2c40671ba7fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

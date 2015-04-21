@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "70e472f7_bbc9a7a9",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-21T05:53:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50fe8e70_b22560da",
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50fe8e70_f21fe887",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 2
@@ -47,6 +65,30 @@
       "writtenOn": "2015-04-20T13:26:00Z",
       "side": 1,
       "message": "There is no need to copy the javadoc from the method definition in the (implemented) interface. If anything changes then this javadoc has to be maintained in two places.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 7
+      },
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e472f7_dbd67344",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-21T05:53:44Z",
+      "side": 1,
+      "message": "Done.  Although note that there are Javadocs for other methods in this class.",
+      "parentUuid": "50fe8e70_f21fe887",
       "range": {
         "startLine": 355,
         "startChar": 0,
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "70e472f7_fbd32f51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-21T05:53:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50fe8e70_9222dccd",
+      "range": {
+        "startLine": 362,
+        "startChar": 62,
+        "endLine": 362,
+        "endChar": 67
+      },
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30011a3e_9122dccd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 2
@@ -99,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "50b5aed8_5ac3358a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-21T05:53:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30011a3e_9122dccd",
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30011a3e_f11fe887",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 2
@@ -110,6 +194,24 @@
       "writtenOn": "2015-04-20T12:55:44Z",
       "side": 1,
       "message": "nit: no final",
+      "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b5aed8_7ac8f9a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-21T05:53:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30011a3e_f11fe887",
       "revId": "4088086875b86e9dd05c372c6959d2fd2130c7f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

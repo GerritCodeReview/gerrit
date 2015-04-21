@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "70e472f7_9bfeabaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-21T08:21:11Z",
+      "side": 1,
+      "message": "See Sven\u0027s comments on [1].  It breaks for plugins where the git name is different to the plugin name, for example plugins/avatar/external\n\n[1] https://gerrit-review.googlesource.com/#/c/67043/",
+      "parentUuid": "90e9e6d1_1ce0d512",
+      "revId": "af3723536ffefe302e0868c76044e917e42857c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_6aa6973a",
         "filename": "tools/default.defs",
         "patchSetId": 1

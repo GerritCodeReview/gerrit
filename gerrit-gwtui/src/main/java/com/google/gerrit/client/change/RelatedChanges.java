@@ -332,7 +332,7 @@ public class RelatedChanges extends TabPanel {
           c.set_revision_number(currentRevision._number());
           c.set_branch(i.branch());
           c.set_project(i.project());
-          c.set_submittable(i.submittable());
+          c.set_submittable(i.submittable() && i.mergeable());
           arr.push(c);
         }
       }

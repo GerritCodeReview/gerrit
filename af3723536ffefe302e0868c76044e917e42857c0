@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "30b83ad4_f9d33751",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-21T08:17:24Z",
+      "side": 1,
+      "message": "looks like this is one sentence and should be \", p\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "af3723536ffefe302e0868c76044e917e42857c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e9e6d1_1ce0d512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-21T08:17:24Z",
+      "side": 1,
+      "message": "Can you elaborate a bit more on this? Are you talking about the core plugins? Can you give an example?",
+      "revId": "af3723536ffefe302e0868c76044e917e42857c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_6aa6973a",
         "filename": "tools/default.defs",
         "patchSetId": 1

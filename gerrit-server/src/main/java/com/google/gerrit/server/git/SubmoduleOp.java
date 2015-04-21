@@ -95,15 +95,21 @@ public class SubmoduleOp {
   private final ChangeHooks changeHooks;
 
   @Inject
-  public SubmoduleOp(@Assisted final Branch.NameKey destBranch,
-      @Assisted RevCommit mergeTip, @Assisted RevWalk rw,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final SchemaFactory<ReviewDb> sf, @Assisted Repository db,
-      @Assisted Project destProject, @Assisted List<Change> submitted,
-      @Assisted final Map<Change.Id, CodeReviewCommit> commits,
-      @GerritPersonIdent final PersonIdent myIdent,
-      GitRepositoryManager repoManager, GitReferenceUpdated gitRefUpdated,
-      @Nullable @Assisted Account account, ChangeHooks changeHooks) {
+  public SubmoduleOp(@Assisted Branch.NameKey destBranch,
+      @Assisted RevCommit mergeTip,
+      @Assisted RevWalk rw,
+      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      SchemaFactory<ReviewDb> sf,
+      @Assisted Repository db,
+      @Assisted Project destProject,
+      @Assisted List<Change> submitted,
+      @Assisted Map<Change.Id,
+      CodeReviewCommit> commits,
+      @GerritPersonIdent PersonIdent myIdent,
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      @Nullable @Assisted Account account,
+      ChangeHooks changeHooks) {
     this.destBranch = destBranch;
     this.mergeTip = mergeTip;
     this.rw = rw;

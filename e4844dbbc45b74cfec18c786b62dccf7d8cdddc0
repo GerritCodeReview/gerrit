@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b83ad4_39e5af23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-21T08:23:47Z",
+      "side": 1,
+      "message": "We keep the @Assisted parameters at the end of the parameter list. Make the GitRepositoryManager the first parameter.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 41
+      },
+      "revId": "e4844dbbc45b74cfec18c786b62dccf7d8cdddc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -84,6 +84,7 @@ import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.uninverting.UninvertingReader;
 import org.apache.lucene.util.BytesRef;
@@ -270,7 +271,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         ChangeField.UPDATED.getName(), UninvertingReader.Type.LONG);
     return new SearcherFactory() {
       @Override
-      public IndexSearcher newSearcher(IndexReader reader) {
+      public IndexSearcher newSearcher(IndexReader reader) throws IOException {
         checkState(reader instanceof DirectoryReader,
             "expected DirectoryReader, found %s", reader.getClass().getName());
         return new IndexSearcher(
@@ -411,7 +412,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
         int realLimit = start + limit;
-        TopDocs[] hits = new TopDocs[indexes.size()];
+        TopFieldDocs[] hits = new TopFieldDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
           searchers[i] = indexes.get(i).acquire();
           hits[i] = searchers[i].search(query, realLimit, sort);

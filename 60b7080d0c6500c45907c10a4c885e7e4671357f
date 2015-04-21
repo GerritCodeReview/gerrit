@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b83ad4_59da6366",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-21T08:39:23Z",
+      "side": 1,
+      "message": "If already having the projectCache then why not directly check for that project:\n\n  if (projectCache.get(projectKey) !\u003d null) {\n  ...\n  }",
+      "revId": "60b7080d0c6500c45907c10a4c885e7e4671357f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10afb690_58c33d8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-21T14:26:19Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to go in GerritRequestModule, it\u0027s not injecting any request scoped args. I think it would be fine in GerritGlobalModule.",
+      "revId": "809f088371fbe200d6205a053b5af7ce56345ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

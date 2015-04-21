@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.util;
 
+import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -23,7 +24,8 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -33,16 +35,14 @@ import org.junit.Test;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
   private static final String THIS_SERVER = "localhost";
-  private GitRepositoryManager repoManager;
+  private ProjectCache projectCache;
   private BlobBasedConfig bbc;
 
   @Override
@@ -50,16 +50,16 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    repoManager = createStrictMock(GitRepositoryManager.class);
+    projectCache = createStrictMock(ProjectCache.class);
     bbc = createStrictMock(BlobBasedConfig.class);
   }
 
   private void doReplay() {
-    replay(repoManager, bbc);
+    replay(projectCache, bbc);
   }
 
   private void doVerify() {
-    verify(repoManager, bbc);
+    verify(projectCache, bbc);
   }
 
   @Test
@@ -214,13 +214,12 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
                 projectNameCandidate.length() - Constants.DOT_GIT_EXT.length());
           }
           if (projectNameCandidate.equals(reposToBeFound.get(id))) {
-            expect(repoManager.list()).andReturn(
-                new TreeSet<>(Collections.singletonList(
-                    new Project.NameKey(projectNameCandidate))));
+            expect(projectCache.get(new Project.NameKey(projectNameCandidate)))
+                .andReturn(createNiceMock(ProjectState.class));
             break;
           } else {
-            expect(repoManager.list()).andReturn(
-                new TreeSet<>(Collections.<Project.NameKey> emptyList()));
+            expect(projectCache.get(new Project.NameKey(projectNameCandidate)))
+                .andReturn(null);
           }
         }
       }
@@ -229,8 +228,8 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     doReplay();
 
     final SubmoduleSectionParser ssp =
-        new SubmoduleSectionParser(bbc, THIS_SERVER, superProjectBranch,
-            repoManager);
+        new SubmoduleSectionParser(projectCache, bbc, THIS_SERVER,
+            superProjectBranch);
 
     List<SubmoduleSubscription> returnedSubscriptions = ssp.parseAllSections();
 

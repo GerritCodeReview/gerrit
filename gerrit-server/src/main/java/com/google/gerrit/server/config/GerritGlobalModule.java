@@ -123,6 +123,7 @@ import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
@@ -294,6 +295,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
+    factory(SubmoduleSectionParser.Factory.class);
 
     bind(AccountManager.class);
     bind(ChangeUserName.CurrentUser.class);

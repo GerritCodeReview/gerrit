@@ -24,6 +24,9 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 public class RepositoryConfigTest {
@@ -143,5 +146,68 @@ public class RepositoryConfigTest {
       List<String> ownerGroups) {
     cfg.setStringList(RepositoryConfig.SECTION_NAME, projectFilter,
         RepositoryConfig.OWNER_GROUP_NAME, ownerGroups);
+  }
+
+  @Test
+  public void testBasePathWhenNotConfigured() {
+    assertThat((Object)repoCfg.getBasePath(new NameKey("someProject"))).isNull();
+  }
+
+  @Test
+  public void testBasePathForStarFilter() {
+    String basePath = "/someAbsolutePath/someDirectory";
+    configureBasePath("*", basePath);
+    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString())
+        .isEqualTo(basePath);
+  }
+
+  @Test
+  public void testBasePathForSpecificFilter() {
+    String basePath = "/someAbsolutePath/someDirectory";
+    configureBasePath("someProject", basePath);
+    assertThat((Object) repoCfg.getBasePath(new NameKey("someOtherProject")))
+        .isNull();
+    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString())
+        .isEqualTo(basePath);
+  }
+
+  @Test
+  public void testBasePathForStartWithFilter() {
+    String basePath1 = "/someAbsolutePath1/someDirectory";
+    String basePath2 = "someRelativeDirectory2";
+    String basePath3 = "/someAbsolutePath3/someDirectory";
+    String basePath4 = "/someAbsolutePath4/someDirectory";
+
+    configureBasePath("pro*", basePath1);
+    configureBasePath("project/project/*", basePath2);
+    configureBasePath("project/*", basePath3);
+    configureBasePath("*", basePath4);
+
+    assertThat(repoCfg.getBasePath(new NameKey("project1")).toString())
+        .isEqualTo(basePath1);
+    assertThat(repoCfg.getBasePath(new NameKey("project/project/someProject"))
+        .toString()).isEqualTo(basePath2);
+    assertThat(
+        repoCfg.getBasePath(new NameKey("project/someProject")).toString())
+            .isEqualTo(basePath3);
+    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString())
+        .isEqualTo(basePath4);
+  }
+
+  @Test
+  public void testAllBasePath() {
+    List<Path> allBasePaths = Arrays.asList(Paths.get("/someBasePath1"),
+        Paths.get("/someBasePath2"), Paths.get("/someBasePath2"));
+
+    configureBasePath("*", allBasePaths.get(0).toString());
+    configureBasePath("project/*", allBasePaths.get(1).toString());
+    configureBasePath("project/project/*", allBasePaths.get(2).toString());
+
+    assertThat(repoCfg.getAllBasePaths()).isEqualTo(allBasePaths);
+  }
+
+  private void configureBasePath(String projectFilter, String basePath) {
+    cfg.setString(RepositoryConfig.SECTION_NAME, projectFilter,
+        RepositoryConfig.BASE_PATH_NAME, basePath);
   }
 }

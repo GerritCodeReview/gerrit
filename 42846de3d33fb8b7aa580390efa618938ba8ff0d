@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "309bda8e_41d7b240",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-04-22T12:09:24Z",
+      "side": 1,
+      "message": "I may be completely off here, but: you\u0027re trying to disable an active plugin here, so there will be a JarScanner on the original source jar, (see JarPluginProvider, lines 145ff) which as far as I can see opens the src jar (by creating a JarFile) in its constructor and then never closes it. So that\u0027d be the culprit still using the file you\u0027re trying to rename. On Unixes you wouldn\u0027t notice that since you usually can rename open files as long as file descriptors/inodes don\u0027t change; but Windows will balk at that.\n\nPossible remedies I see:\n* Why does that jar scanner use the original src jar instead of the copied jar the plugin actually runs from? If possible, set it up on the copied jar. On that you already have a JarFile open (JarPluginProvider line 124) which is used only locally, but then kept open until plugin cleanup.\n* Make that JarScanner record only the path in the constructor and then properly open and close the jar file for each of its public operations (and fail if there\u0027s no file at that path anymore).",
+      "parentUuid": "b04d0a88_a535de55",
+      "revId": "42846de3d33fb8b7aa580390efa618938ba8ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_c538da4f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 1

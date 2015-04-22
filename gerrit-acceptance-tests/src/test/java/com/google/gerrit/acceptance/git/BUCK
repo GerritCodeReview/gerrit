@@ -8,6 +8,7 @@ acceptance_tests(
     'SubmoduleSubscriptionsIT.java',
     'VisibleRefFilterIT.java',
   ],
+  deps = [':submodule_util'],
   labels = ['git'],
 )
 
@@ -21,4 +22,10 @@ java_library(
   name = 'push_for_review',
   srcs = ['AbstractPushForReview.java'],
   deps = ['//gerrit-acceptance-tests:lib'],
+)
+
+java_library(
+  name = 'submodule_util',
+  srcs = ['AbstractSubmoduleSubscription.java',],
+  deps = ['//gerrit-acceptance-tests:lib',]
 )

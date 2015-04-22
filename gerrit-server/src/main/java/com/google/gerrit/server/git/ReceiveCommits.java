@@ -2367,9 +2367,12 @@ public class ReceiveCommits {
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
-      walk.markStart(walk.parseCommit(cmd.getNewId()));
+      RevObject parsedObject = walk.parseAny(cmd.getNewId());
+      if (!(parsedObject instanceof RevCommit)) {
+        return;
+      }
+      walk.markStart((RevCommit)parsedObject);
       markHeadsAsUninteresting(walk, cmd.getRefName());
-
       Set<ObjectId> existing = changeRefsById().keySet();
       for (RevCommit c; (c = walk.next()) != null;) {
         if (existing.contains(c)) {

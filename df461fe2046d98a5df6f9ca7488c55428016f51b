@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70b0f209_9bc76b95",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-22T21:30:11Z",
+      "side": 1,
+      "message": "This class only has one method? That\u0027s crazy, we want fewer test classes, not more. Just put it back in the other test class.",
+      "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

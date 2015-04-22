@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f0a4e2cc_ffdf7f55",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-22T21:44:13Z",
+      "side": 1,
+      "message": "This name is a bit long.\n\nIMHO the defining feature of this class is the submitWholeTopic part, not the complicated merge part.",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 53
+      },
+      "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70b0f209_9bc76b95",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
         "patchSetId": 28
@@ -31,6 +54,41 @@
       "side": 1,
       "message": "So what are the performance trade offs here?\n\nWhen I put it back in the other class and adding the submitWholeTopicEnabled(); method, I\u0027d double the tests (as all tests are tested with and without the config enabled.)\n\nFor this test I already have the shortcut below with\n\n    if (!isSubmitWholeTopicEnabled())\n        return;\n\nto stop right away.\n\nAre you implying it\u0027s more expensive to start a test suite for a class than running 5 tests twice?",
       "parentUuid": "70b0f209_9bc76b95",
+      "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_1fd46339",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-22T21:44:13Z",
+      "side": 1,
+      "message": "The thing that takes for freaking ever is starting up a new test server, not running an individual test. Like, 6s if you have nothing else going on on your workstation. More like 15-20s if you\u0027re running with the parallelism that \"buck test\" uses. Running a single test method once the server is already started takes \u003c100ms unloaded, maybe 200-300ms loaded.\n\nSo, the thing we want to minimize is number of test server startups.\n\nThat said I missed the fact that this test has a different server config from the other class. So even if you put them in the same class, it still needs to start two servers. At that point I guess it doesn\u0027t matter whether they\u0027re in the same class or different classes.",
+      "parentUuid": "70b0f209_3bd73742",
+      "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70b0f209_bbd90773",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-22T21:44:13Z",
+      "side": 1,
+      "message": "Ok, I didn\u0027t notice this part. Three things.\n\nOne, don\u0027t do this. This is not a PASS. This should be an ASSUME. Use TruthJUnit.assume.\n\nTwo, don\u0027t have two configs here. Annotate the config method with @ConfigSuite.Default instead, so the tests are only run once, with only one config. (This makes point one moot.)\n\nThree, even easier than using a @ConfigSuite.{Default,Config} would be to annotate just the method with @GerritConfig. The only downside to that is you can\u0027t reuse the existing submitWholeTopicEnabledConfig method. (Even if you did this, it would still start up a second server.)",
       "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

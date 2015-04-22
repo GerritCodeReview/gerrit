@@ -50,13 +50,18 @@ public class SolrIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     install(new IndexModule(threads));
     bind(ChangeIndex.class).to(SolrChangeIndex.class);
     listener().to(SolrChangeIndex.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);
     }
+  }
+
+  @Provides
+  @Singleton
+  IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
+    return IndexConfig.fromConfig(cfg);
   }
 
   @Provides

@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
 
+import org.eclipse.jgit.lib.Config;
+
 /**
  * Implementation-specific configuration for secondary indexes.
  * <p>
@@ -28,11 +30,19 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class IndexConfig {
   public static IndexConfig createDefault() {
-    return create(Integer.MAX_VALUE);
+    return create(0);
+  }
+
+  public static IndexConfig fromConfig(Config cfg) {
+    return create(cfg.getInt("index", null, "maxLimit", 0));
   }
 
   public static IndexConfig create(int maxLimit) {
-    checkArgument(maxLimit > 0, "maxLimit must be positive: %s", maxLimit);
+    if (maxLimit == 0) {
+      maxLimit = Integer.MAX_VALUE;
+    } else {
+      checkArgument(maxLimit > 0, "maxLimit must be positive: %s", maxLimit);
+    }
     return new AutoValue_IndexConfig(maxLimit);
   }
 

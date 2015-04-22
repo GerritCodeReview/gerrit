@@ -16,6 +16,7 @@ package com.google.gerrit.lucene;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
@@ -25,6 +26,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends LifecycleModule {
   private final Integer singleVersion;
@@ -44,7 +47,6 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     factory(LuceneChangeIndex.Factory.class);
     install(new IndexModule(threads));
     if (singleVersion == null && base == null) {
@@ -52,6 +54,12 @@ public class LuceneIndexModule extends LifecycleModule {
     } else {
       install(new SingleVersionModule());
     }
+  }
+
+  @Provides
+  @Singleton
+  IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
+    return IndexConfig.fromConfig(cfg);
   }
 
   private static class MultiVersionModule extends LifecycleModule {

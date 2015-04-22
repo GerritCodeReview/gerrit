@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a4e2cc_3fd72742",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-22T21:31:57Z",
+      "side": 1,
+      "message": "This name is a little confusing. Oh well.",
+      "revId": "5c8c4925ed3baeea2ac73803ef04d6578e0d6c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
@@ -66,6 +67,11 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
 import org.junit.Rule;
@@ -311,6 +317,14 @@ public abstract class AbstractDaemonTest {
     return new Project.NameKey(in.name);
   }
 
+  protected TestRepository<?> createProjectWithPush(String name)
+      throws Exception {
+    Project.NameKey project = createProject(name);
+    grant(Permission.PUSH, project, "refs/heads/*");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
+    return cloneProject(project);
+  }
+
   /**
    * Modify a project input before creating the initial test project.
    *
@@ -529,5 +543,47 @@ public abstract class AbstractDaemonTest {
       .id(id)
       .revision(1)
       .actions();
+  }
+
+  protected void createSubscription(
+      TestRepository<?> repo, String branch, String subscribeToRepo,
+      String subscribeToBranch) throws Exception {
+    subscribeToRepo = name(subscribeToRepo);
+
+    // The submodule subscription module checks for gerrit.canonicalWebUrl to
+    // detect if it's configured for automatic updates. It doesn't matter if
+    // it serves from that URL.
+    String url = cfg.getString("gerrit", null, "canonicalWebUrl") + "/"
+        + subscribeToRepo;
+
+    Config cfg = new Config();
+    cfg.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
+    cfg.setString("submodule", subscribeToRepo, "url", url);
+    cfg.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+
+    repo.branch("HEAD").commit().insertChangeId()
+      .message("subject: adding new subscription")
+      .add(".gitmodules", cfg.toText().toString())
+      .create();
+
+    repo.git().push().setRemote("origin").setRefSpecs(
+        new RefSpec("HEAD:refs/heads/" + branch)).call();
+  }
+
+  protected void expectToHaveSubmoduleState(TestRepository<?> repo,
+      String branch, String submodule, ObjectId expectedId) throws Exception {
+
+    submodule = name(submodule);
+    ObjectId commitId = repo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/" + branch).getObjectId();
+
+    RevWalk rw = repo.getRevWalk();
+    RevCommit c = rw.parseCommit(commitId);
+    rw.parseBody(c.getTree());
+
+    RevTree tree = c.getTree();
+    RevObject actualId = repo.get(tree, submodule);
+
+    assertThat(actualId).isEqualTo(expectedId);
   }
 }

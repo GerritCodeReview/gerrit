@@ -41,7 +41,7 @@ import com.google.gerrit.server.contact.ContactStoreModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ChangeCacheImplModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
@@ -275,7 +275,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new SchemaModule());
-    modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(dbInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);

@@ -1,5 +1,6 @@
 = Gerrit Code Review - Dashboards
 
+[[custom-dashboards]]
 == Custom Dashboards
 
 A custom dashboard is shown in a layout similar to the per-user

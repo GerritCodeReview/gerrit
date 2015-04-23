@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0bdc2e6_37d75842",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T18:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bdc2e6_b7c24885",
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0bdc2e6_97c74495",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 30
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f0a4e2cc_ff31bf1e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T18:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bdc2e6_97c74495",
+      "range": {
+        "startLine": 56,
+        "startChar": 53,
+        "endLine": 56,
+        "endChar": 62
+      },
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0bdc2e6_77cdd0b3",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 30
@@ -53,6 +95,30 @@
       "writtenOn": "2015-04-23T17:44:45Z",
       "side": 1,
       "message": "Nit: missing space",
+      "range": {
+        "startLine": 84,
+        "startChar": 40,
+        "endLine": 84,
+        "endChar": 42
+      },
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_df36fb14",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T18:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bdc2e6_77cdd0b3",
       "range": {
         "startLine": 84,
         "startChar": 40,

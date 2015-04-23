@@ -287,10 +287,7 @@ public class SubmoduleOp {
       throws SubmoduleException {
     PersonIdent author = null;
 
-    final StringBuilder msgbuf = new StringBuilder();
-    msgbuf.append("Updated ")
-      .append(subscriber.getParentKey().get())
-      .append('\n');
+    final StringBuilder msgbuf = new StringBuilder("Updated git submodules\n");
     Repository pdb = null;
     RevWalk recRw = null;
 

@@ -61,7 +61,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
-public class LocalDiskRepositoryManager implements GitRepositoryManager {
+public class LocalDiskRepositoryManager implements GitRepositoryManager,
+    LifecycleListener {
   private static final Logger log =
       LoggerFactory.getLogger(LocalDiskRepositoryManager.class);
 
@@ -72,6 +73,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     @Override
     protected void configure() {
       bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
+      listener().to(LocalDiskRepositoryManager.class);
       listener().to(LocalDiskRepositoryManager.Lifecycle.class);
     }
   }
@@ -125,7 +127,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private final NotesMigration notesMigration;
   private final Path noteDbPath;
   private final Lock namesUpdateLock;
-  private volatile SortedSet<Project.NameKey> names;
+  private volatile SortedSet<Project.NameKey> names = new TreeSet<>();
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site,
@@ -140,18 +142,31 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     noteDbPath = site.resolve(MoreObjects.firstNonNull(
         cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
     namesUpdateLock = new ReentrantLock(true /* fair */);
+  }
+
+  @Override
+  public void start() {
     names = list();
   }
 
-  /** @return base directory under which all projects are stored. */
-  public Path getBasePath() {
+  @Override
+  public void stop() {
+  }
+
+  /**
+   * Return the basePath under which the specified project is stored.
+   *
+   * @param name the name of the project
+   * @return base directory
+   */
+  public Path getBasePath(Project.NameKey name) {
     return basePath;
   }
 
   @Override
   public Repository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
-    return openRepository(basePath, name);
+    return openRepository(getBasePath(name), name);
   }
 
   private Repository openRepository(Path path, Project.NameKey name)
@@ -198,7 +213,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
-    Repository repo = createRepository(basePath, name);
+    Repository repo = createRepository(getBasePath(name), name);
     if (notesMigration.writeChanges() && !noteDbPath.equals(basePath)) {
       createRepository(noteDbPath, name);
     }
@@ -374,27 +389,40 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     // scanning the filesystem. Don't rely on the cached names collection.
     namesUpdateLock.lock();
     try {
-      ProjectVisitor visitor = new ProjectVisitor();
-      try {
-        Files.walkFileTree(basePath, EnumSet.of(FileVisitOption.FOLLOW_LINKS),
-            Integer.MAX_VALUE, visitor);
-      } catch (IOException e) {
-        log.error("Error walking repository tree " + basePath.toAbsolutePath(),
-            e);
-      }
+      ProjectVisitor visitor = new ProjectVisitor(basePath);
+      scanProjects(visitor);
       return Collections.unmodifiableSortedSet(visitor.found);
     } finally {
       namesUpdateLock.unlock();
     }
   }
 
-  private class ProjectVisitor extends SimpleFileVisitor<Path> {
+  protected void scanProjects(ProjectVisitor visitor) {
+    try {
+      Files.walkFileTree(visitor.startFolder,
+          EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, visitor);
+    } catch (IOException e) {
+      log.error("Error walking repository tree "
+          + visitor.startFolder.toAbsolutePath(), e);
+    }
+  }
+
+  protected class ProjectVisitor extends SimpleFileVisitor<Path> {
     private final SortedSet<Project.NameKey> found = new TreeSet<>();
+    private Path startFolder;
+
+    public ProjectVisitor(Path startFolder) {
+      setStartFolder(startFolder);
+    }
+
+    public void setStartFolder(Path startFolder) {
+      this.startFolder = startFolder;
+    }
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir,
         BasicFileAttributes attrs) throws IOException {
-      if (!dir.equals(basePath) && isRepo(dir)) {
+      if (!dir.equals(startFolder) && isRepo(dir)) {
         addProject(dir);
         return FileVisitResult.SKIP_SUBTREE;
       }
@@ -409,16 +437,18 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
     private void addProject(Path p) {
       Project.NameKey nameKey = getProjectName(p);
-      if (isUnreasonableName(nameKey)) {
-        log.warn(
-            "Ignoring unreasonably named repository " + p.toAbsolutePath());
-      } else {
-        found.add(nameKey);
+      if (getBasePath(nameKey).equals(startFolder)) {
+        if (isUnreasonableName(nameKey)) {
+          log.warn(
+              "Ignoring unreasonably named repository " + p.toAbsolutePath());
+        } else {
+          found.add(nameKey);
+        }
       }
     }
 
     private Project.NameKey getProjectName(Path p) {
-      String projectName = basePath.relativize(p).toString();
+      String projectName = startFolder.relativize(p).toString();
       if (File.separatorChar != '/') {
         projectName = projectName.replace(File.separatorChar, '/');
       }

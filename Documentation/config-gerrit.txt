@@ -2205,6 +2205,24 @@ advantage of new search features without restarting the server.
 +
 Defaults to true.
 
+[[index.maxLimit]]index.maxLimit::
++
+Maximum limit to allow for search queries. Requesting results above this
+limit will truncate the list (but will still set `_more_changes` on
+result lists). Set to 0 for no limit.
++
+Defaults to no limit.
+
+[[index.maxPages]]index.maxPages::
++
+Maximum number of pages of search results to allow, as index
+implementations may have to scan through large numbers of skipped
+results when searching with an offset. Requesting results starting past
+this threshold times the requested limit will result in an error. Set to
+0 for no limit.
++
+Defaults to no limit.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

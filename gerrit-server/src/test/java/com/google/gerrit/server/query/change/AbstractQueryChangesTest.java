@@ -84,9 +84,19 @@ import java.util.concurrent.atomic.AtomicLong;
 @Ignore
 @RunWith(ConfigSuite.class)
 public abstract class AbstractQueryChangesTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    return updateConfig(new Config());
+  }
+
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
-    return NotesMigration.allEnabledConfig();
+    return updateConfig(NotesMigration.allEnabledConfig());
+  }
+
+  private static Config updateConfig(Config cfg) {
+    cfg.setInt("index", null, "maxPages", 10);
+    return cfg;
   }
 
   @ConfigSuite.Parameter public Config config;
@@ -554,6 +564,19 @@ public abstract class AbstractQueryChangesTest {
         changes.get(1), changes.get(0));
     assertQuery(newQuery("status:new limit:2").withStart(2), changes.get(0));
     assertQuery(newQuery("status:new limit:2").withStart(3));
+  }
+
+  @Test
+  public void maxPages() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change = newChange(repo, null, null, null, null).insert();
+
+    QueryRequest query = newQuery("status:new").withLimit(10);
+    assertQuery(query, change);
+    assertQuery(query.withStart(1));
+    assertQuery(query.withStart(99));
+    assertBadQuery(query.withStart(100));
+    assertQuery(query.withLimit(100).withStart(100));
   }
 
   @Test
@@ -1073,8 +1096,12 @@ public abstract class AbstractQueryChangesTest {
   }
 
   protected void assertBadQuery(Object query) throws Exception {
+    assertBadQuery(newQuery(query));
+  }
+
+  protected void assertBadQuery(QueryRequest query) throws Exception {
     try {
-      newQuery(query).get();
+      query.get();
       fail("expected BadRequestException for query: " + query);
     } catch (BadRequestException e) {
       // Expected.

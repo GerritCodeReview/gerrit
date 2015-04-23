@@ -56,6 +56,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     repoManager =
         new LocalDiskRepositoryManager(site, cfg,
             createNiceMock(NotesMigration.class));
+    repoManager.start();
   }
 
   @Test(expected = IllegalStateException.class)
@@ -165,8 +166,8 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
 
   @Test
   public void testOpenRepositoryCreatedDirectlyOnDisk() throws Exception {
-    createRepository(repoManager.getBasePath(), "projectA");
     Project.NameKey projectA = new Project.NameKey("projectA");
+    createRepository(repoManager.getBasePath(projectA), projectA.get());
     assertThat(repoManager.openRepository(projectA)).isNotNull();
     assertThat((Iterable<?>) repoManager.list()).containsExactly(projectA);
   }
@@ -179,17 +180,17 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
   @Test
   public void testList() throws Exception {
     Project.NameKey projectA = new Project.NameKey("projectA");
-    createRepository(repoManager.getBasePath(), projectA.get());
+    createRepository(repoManager.getBasePath(projectA), projectA.get());
 
     Project.NameKey projectB = new Project.NameKey("path/projectB");
-    createRepository(repoManager.getBasePath(), projectB.get());
+    createRepository(repoManager.getBasePath(projectB), projectB.get());
 
     Project.NameKey projectC = new Project.NameKey("anotherPath/path/projectC");
-    createRepository(repoManager.getBasePath(), projectC.get());
+    createRepository(repoManager.getBasePath(projectC), projectC.get());
     //create an invalid git repo named only .git
-    repoManager.getBasePath().resolve(".git").toFile().mkdir();
+    repoManager.getBasePath(null).resolve(".git").toFile().mkdir();
     //create an invalid repo name
-    createRepository(repoManager.getBasePath(), "project?A");
+    createRepository(repoManager.getBasePath(null), "project?A");
     assertThat((Iterable<?>) repoManager.list()).containsExactly(projectA,
         projectB, projectC);
   }

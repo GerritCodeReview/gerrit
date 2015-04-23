@@ -45,7 +45,9 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.testutil.ConfigSuite;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Before;
@@ -63,6 +65,11 @@ import java.util.Map;
 public class RevisionIT extends AbstractDaemonTest {
 
   private TestAccount admin2;
+
+  @ConfigSuite.Config
+  public static Config submitWholeTopicEnabled() {
+    return submitWholeTopicEnabledConfig();
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -174,7 +181,11 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryIt.next().message).isEqualTo(expectedMessage);
 
     assertThat(cherry.get().subject).contains(in.message);
-    assertThat(cherry.get().topic).isEqualTo("someTopic");
+    if (isSubmitWholeTopicEnabled()) {
+      assertThat(cherry.get().topic).isEqualTo("someTopic-foo");
+    } else {
+      assertThat(cherry.get().topic).isEqualTo("someTopic");
+    }
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
   }

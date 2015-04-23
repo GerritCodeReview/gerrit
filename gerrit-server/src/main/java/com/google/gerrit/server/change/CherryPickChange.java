@@ -27,6 +27,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
@@ -52,6 +53,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -81,6 +83,7 @@ public class CherryPickChange {
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeUpdate.Factory updateFactory;
+  private final boolean submitWholeTopic;
 
   @Inject
   CherryPickChange(Provider<ReviewDb> db,
@@ -93,7 +96,8 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      ChangeUpdate.Factory updateFactory) {
+      ChangeUpdate.Factory updateFactory,
+      @GerritServerConfig Config cfg) {
     this.db = db;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -105,6 +109,7 @@ public class CherryPickChange {
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.updateFactory = updateFactory;
+    this.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
   }
 
   public Change.Id cherryPick(Change change, PatchSet patch,
@@ -182,9 +187,17 @@ public class CherryPickChange {
       } else {
         // Change key not found on destination branch. We can create a new
         // change.
+
+        String topic;
+        if (submitWholeTopic) {
+          topic = change.getTopic() + "-" + newDest.getShortName();
+        } else {
+          topic = change.getTopic();
+        }
+
         Change newChange = createNewChange(git, revWalk, changeKey, project,
             destRef, cherryPickCommit, refControl,
-            identifiedUser, change.getTopic());
+            identifiedUser, topic);
 
         addMessageToSourceChange(change, patch.getId(), destinationBranch,
             cherryPickCommit, identifiedUser, refControl);

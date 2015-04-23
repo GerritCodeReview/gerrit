@@ -70,6 +70,30 @@
       "revId": "b82fbcb5847b2a6ea5273ce95fb85f11fa86f2c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_df615b10",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2870,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T18:46:38Z",
+      "side": 1,
+      "message": "Yes well we know it\u0027s in theory possible to eliminate hunks that are due the rebase but it\u0027s tricky enough that nobody\u0027s tried to implement it, so here we are.\n\nProtip, if you think something is completely unrelated to the series, try comparing to the base revision to see if it goes away. If so, then yes, rebase.",
+      "parentUuid": "f0bdc2e6_f70a0059",
+      "range": {
+        "startLine": 2855,
+        "startChar": 0,
+        "endLine": 2870,
+        "endChar": 76
+      },
+      "revId": "b82fbcb5847b2a6ea5273ce95fb85f11fa86f2c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

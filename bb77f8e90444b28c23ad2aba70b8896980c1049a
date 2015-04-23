@@ -81,6 +81,30 @@
       "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a6ead3_5dcafb9d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-23T08:42:42Z",
+      "side": 1,
+      "message": "I don\u0027t think we\u0027re going to find a term that satisfies everyone\u0027s interpretation.\n\n#bikeshed",
+      "parentUuid": "309bda8e_c114e279",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 25
+      },
+      "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

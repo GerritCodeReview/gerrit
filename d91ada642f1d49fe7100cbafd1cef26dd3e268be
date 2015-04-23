@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "309bda8e_015d2a56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-23T14:20:58Z",
+      "side": 1,
+      "message": "OK, makes sense to me :-)",
+      "parentUuid": "f0a4e2cc_3fee0704",
+      "range": {
+        "startLine": 19,
+        "startChar": 47,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "d91ada642f1d49fe7100cbafd1cef26dd3e268be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "309bda8e_c1d98272",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
         "patchSetId": 11

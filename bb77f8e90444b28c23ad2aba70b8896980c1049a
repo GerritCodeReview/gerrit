@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f0a4e2cc_ff0adf58",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T15:58:44Z",
+      "side": 1,
+      "message": "Maybe each submit strategy comes with its own configurable string, so we don\u0027t have to bikeshed a lot on the defaults, but the administrators need to roll the dice?",
+      "parentUuid": "505f6e27_8ab9cb59",
+      "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10a256bf_20eb8af4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 1

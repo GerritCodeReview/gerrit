@@ -39,6 +39,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
+import com.google.gerrit.server.git.ChangeCacheImplModule;
 import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -128,6 +129,7 @@ public class InMemoryModule extends FactoryModule {
       }
     });
     install(cfgInjector.getInstance(GerritGlobalModule.class));
+    install(new ChangeCacheImplModule(false));
     factory(GarbageCollection.Factory.class);
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);

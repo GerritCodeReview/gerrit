@@ -76,7 +76,6 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -158,7 +157,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(authModule);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
-    install(SearchingChangeCacheImpl.module());
     install(ChangeKindCacheImpl.module());
     install(ConflictsCacheImpl.module());
     install(GroupCacheImpl.module());
@@ -257,7 +255,6 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), UsageDataPublishedListener.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(SearchingChangeCacheImpl.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterUpdate.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);

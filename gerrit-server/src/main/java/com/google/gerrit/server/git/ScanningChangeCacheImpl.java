@@ -48,7 +48,7 @@ import java.util.concurrent.ExecutionException;
 @Singleton
 public class ScanningChangeCacheImpl implements ChangeCache {
   private static final Logger log =
-      LoggerFactory.getLogger(SearchingChangeCacheImpl.class);
+      LoggerFactory.getLogger(ScanningChangeCacheImpl.class);
 
   public static Module module() {
     return new CacheModule() {

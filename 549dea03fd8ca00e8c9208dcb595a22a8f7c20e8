@@ -163,6 +163,24 @@
       "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_1f78e3ba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T19:34:12Z",
+      "side": 1,
+      "message": "* Get HEAD and HEAD~ in the superproject.\n* Read a submodule in both commits.\n* Compare the SHA-1s; you should know what the old/new values are.\n\nI don\u0027t think you need to bother in this change though. Really, all you care about is the new state.",
+      "parentUuid": "f0a4e2cc_7f712fd9",
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

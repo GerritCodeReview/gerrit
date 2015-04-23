@@ -22,3 +22,4 @@
 *.swp
 *.asc
 /bin/
+/UNIT_TEST_GERRIT_SITE

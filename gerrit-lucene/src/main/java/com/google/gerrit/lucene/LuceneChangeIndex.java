@@ -554,7 +554,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         doc.add(new StoredField(name, (byte[]) value));
       }
     } else {
-      throw QueryBuilder.badFieldType(type);
+      throw FieldType.badFieldType(type);
     }
   }
 

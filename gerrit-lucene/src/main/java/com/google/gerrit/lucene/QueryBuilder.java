@@ -148,7 +148,7 @@ public class QueryBuilder {
     } else if (p.getType() == FieldType.FULL_TEXT) {
       return fullTextQuery(p);
     } else {
-      throw badFieldType(p.getType());
+      throw FieldType.badFieldType(p.getType());
     }
   }
 
@@ -248,9 +248,5 @@ public class QueryBuilder {
 
   public int toIndexTimeInMinutes(Date ts) {
     return (int) (ts.getTime() / 60000);
-  }
-
-  public static IllegalArgumentException badFieldType(FieldType<?> t) {
-    return new IllegalArgumentException("unknown index field type " + t);
   }
 }

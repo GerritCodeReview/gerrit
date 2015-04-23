@@ -65,4 +65,8 @@ public class FieldType<T> {
   public String toString() {
     return name;
   }
+
+  public static IllegalArgumentException badFieldType(FieldType<?> t) {
+    return new IllegalArgumentException("unknown index field type " + t);
+  }
 }

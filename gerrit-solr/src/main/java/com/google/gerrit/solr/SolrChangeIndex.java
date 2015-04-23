@@ -319,7 +319,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
         doc.addField(name, value);
       }
     } else {
-      throw QueryBuilder.badFieldType(type);
+      throw FieldType.badFieldType(type);
     }
   }
 

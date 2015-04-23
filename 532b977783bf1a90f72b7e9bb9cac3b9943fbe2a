@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "f0a4e2cc_bfb8d7d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-04-23T19:54:57Z",
+      "side": 1,
+      "message": "I would prefer that, yes.",
+      "parentUuid": "f0a4e2cc_ffae5f98",
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e30a5a5c_af7179de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 7

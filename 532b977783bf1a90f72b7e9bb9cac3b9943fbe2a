@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "f0bdc2e6_d7613c10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T19:54:36Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "f0a4e2cc_ffae5f98",
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e30a5a5c_af7179de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 7
@@ -222,6 +240,30 @@
       "side": 1,
       "message": "I cannot parse the meaning of that comment.\n\nYes, I am getting used to the \"-\" character for topics by now. My comment was directed at David Pursehouse explaining why I answered to you in the first place and why I used to have the underscore in topics.",
       "parentUuid": "f0bdc2e6_7726f0e5",
+      "range": {
+        "startLine": 187,
+        "startChar": 48,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_dfb39bfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T19:54:36Z",
+      "side": 1,
+      "message": "I understand the context of your comment.\n\nIn your tests you use camelCase topic names. After this change, those topic names now mix camel case and dashes, which is visually rather jarring. I think this is an argument why you should stop using camelCase in topic names.",
+      "parentUuid": "f0bdc2e6_171d748f",
       "range": {
         "startLine": 187,
         "startChar": 48,

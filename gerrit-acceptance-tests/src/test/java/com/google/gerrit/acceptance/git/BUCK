@@ -5,6 +5,7 @@ acceptance_tests(
     'DraftChangeBlockedIT.java',
     'ForcePushIT.java',
     'SubmitOnPushIT.java',
+    'SubmoduleSubscriptionsWholeTopicMergeIT.java',
     'SubmoduleSubscriptionsIT.java',
     'VisibleRefFilterIT.java',
   ],

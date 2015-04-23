@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f0bdc2e6_f731e01e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T18:59:19Z",
+      "side": 1,
+      "message": "I did that change, though I personally feel it\u0027s a slight step backwards (adding complexity to the code base and to the user because it\u0027s behaving differently for different servers now).",
+      "parentUuid": "d0527e22_269fb637",
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e30a5a5c_af7179de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 7

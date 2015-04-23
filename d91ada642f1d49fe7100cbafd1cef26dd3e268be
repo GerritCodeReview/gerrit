@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0a4e2cc_3fee0704",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-23T14:16:37Z",
+      "side": 1,
+      "message": "I would prefer to keep \u0027*\u0027 rather than /*, here is why:\n\nWhen a group/organization is starting to use Gerrit, we normally give them a reserved namespace in Gerrit. We do this by creating a parent project and every project of that organization will inherit that parent and the name will start with the parent name, example:\n\nparent: someOrganization\nproject: someOrganization/projectA\n\nThe \u0027*\u0027 allows me to configure ownerGroup and/or defaultSubmitType (and/or any other configuration that gets added later, e.g, alternateBasePath) in only one section:\n\n[repository \"someOrganization*\"]\n  ownerGroup \u003d ...\n  defaultSubmitType \u003d ...\n\notherwise I would need two with \u0027/*\u0027:\n\n[repository \"someOrganization\"]\n  ownerGroup \u003d ...\n  defaultSubmitType \u003d ...\n\n[repository \"someOrganization/*\"]\n  ownerGroup \u003d ...\n  defaultSubmitType \u003d ...",
+      "parentUuid": "309bda8e_21d4ae39",
+      "range": {
+        "startLine": 19,
+        "startChar": 47,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "d91ada642f1d49fe7100cbafd1cef26dd3e268be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "309bda8e_c1d98272",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-23T07:06:21Z",
       "side": 1,
       "message": "no final",
+      "range": {
+        "startLine": 34,
+        "startChar": 46,
+        "endLine": 34,
+        "endChar": 51
+      },
+      "revId": "d91ada642f1d49fe7100cbafd1cef26dd3e268be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_5ff1cbdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-23T14:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "309bda8e_c1d98272",
       "range": {
         "startLine": 34,
         "startChar": 46,

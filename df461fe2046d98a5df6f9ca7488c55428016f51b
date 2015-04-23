@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0a4e2cc_bfd9f772",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T17:04:10Z",
+      "side": 1,
+      "message": "I think it is a combination of both submitting a whole topic and having submodule subscription involved. I\u0027ll try to come up with a better name.",
+      "parentUuid": "f0a4e2cc_ffdf7f55",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 53
+      },
+      "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70b0f209_9bc76b95",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
         "patchSetId": 28
@@ -89,6 +113,24 @@
       "writtenOn": "2015-04-22T21:44:13Z",
       "side": 1,
       "message": "Ok, I didn\u0027t notice this part. Three things.\n\nOne, don\u0027t do this. This is not a PASS. This should be an ASSUME. Use TruthJUnit.assume.\n\nTwo, don\u0027t have two configs here. Annotate the config method with @ConfigSuite.Default instead, so the tests are only run once, with only one config. (This makes point one moot.)\n\nThree, even easier than using a @ConfigSuite.{Default,Config} would be to annotate just the method with @GerritConfig. The only downside to that is you can\u0027t reuse the existing submitWholeTopicEnabledConfig method. (Even if you did this, it would still start up a second server.)",
+      "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bdc2e6_d7bdbcfa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsComplicatedMergeIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T17:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b0f209_bbd90773",
       "revId": "df461fe2046d98a5df6f9ca7488c55428016f51b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

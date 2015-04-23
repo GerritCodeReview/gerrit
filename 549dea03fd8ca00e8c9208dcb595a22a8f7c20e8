@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bdc2e6_b7c24885",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T17:44:45Z",
+      "side": 1,
+      "message": "I think you want this in @ConfigSuite.Default. Based on the test name, every test method in this class should have this same config.\n\n(It would only be if you were combining some methods with/without this config that @GerritConfig is useful.)",
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bdc2e6_97c74495",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T17:44:45Z",
+      "side": 1,
+      "message": "Your topic names should also be munged with name()",
+      "range": {
+        "startLine": 56,
+        "startChar": 53,
+        "endLine": 56,
+        "endChar": 62
+      },
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bdc2e6_77cdd0b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T17:44:45Z",
+      "side": 1,
+      "message": "Nit: missing space",
+      "range": {
+        "startLine": 84,
+        "startChar": 40,
+        "endLine": 84,
+        "endChar": 42
+      },
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_1f06a34d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-23T17:44:45Z",
+      "side": 1,
+      "message": "Good, I like this. We can see that we\u0027re just testing the final state right now. In a future where we can update hte superproject atomically, you would also check the diff introduced by the latest superproject commit.",
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

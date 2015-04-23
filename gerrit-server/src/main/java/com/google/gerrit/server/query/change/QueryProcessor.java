@@ -132,6 +132,13 @@ public class QueryProcessor {
       if (limit == getBackendSupportedLimit()) {
         limit--;
       }
+
+      int page = (start / limit) + 1;
+      if (page > indexConfig.maxPages()) {
+        throw new QueryParseException(
+            "Cannot go beyond page " + indexConfig.maxPages() + "of results");
+      }
+
       Predicate<ChangeData> s = queryRewriter.rewrite(q, start, limit + 1);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(open(), q);

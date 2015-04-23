@@ -30,13 +30,17 @@ import org.eclipse.jgit.lib.Config;
 @AutoValue
 public abstract class IndexConfig {
   public static IndexConfig fromConfig(Config cfg) {
-    return create(cfg.getInt("index", null, "maxLimit", Integer.MAX_VALUE));
+    return create(
+        cfg.getInt("index", null, "maxLimit", Integer.MAX_VALUE),
+        cfg.getInt("index", null, "maxPages", Integer.MAX_VALUE));
   }
 
-  public static IndexConfig create(int maxLimit) {
+  public static IndexConfig create(int maxLimit, int maxPages) {
     checkArgument(maxLimit > 0, "maxLimit must be positive: %s", maxLimit);
-    return new AutoValue_IndexConfig(maxLimit);
+    return new AutoValue_IndexConfig(maxLimit, maxPages);
   }
 
   public abstract int maxLimit();
+
+  public abstract int maxPages();
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b0a6ead3_bdc21f85",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-23T02:37:16Z",
+      "side": 1,
+      "message": "numbers of skipped",
+      "range": {
+        "startLine": 2219,
+        "startChar": 47,
+        "endLine": 2219,
+        "endChar": 62
+      },
+      "revId": "4547eb5b13fdbc585e5d3eeb57288b536bf650b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a4e2cc_9fde3357",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "Integer.MAX_VALUE. So maybe I should just say that here?",
       "parentUuid": "f0a4e2cc_9fde3357",
+      "range": {
+        "startLine": 2223,
+        "startChar": 0,
+        "endLine": 2223,
+        "endChar": 21
+      },
+      "revId": "4547eb5b13fdbc585e5d3eeb57288b536bf650b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a6ead3_9dc76395",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-04-23T02:37:16Z",
+      "side": 1,
+      "message": "We usually use 0 for no limit.",
+      "parentUuid": "70b0f209_5bf1e3df",
       "range": {
         "startLine": 2223,
         "startChar": 0,

@@ -57,6 +57,30 @@
       "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309bda8e_c114e279",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-23T08:24:40Z",
+      "side": 1,
+      "message": "Not sure, if we can find a better term. Maybe \"Submitted, not yet applied\"?",
+      "parentUuid": "10a256bf_20eb8af4",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 25
+      },
+      "revId": "bb77f8e90444b28c23ad2aba70b8896980c1049a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

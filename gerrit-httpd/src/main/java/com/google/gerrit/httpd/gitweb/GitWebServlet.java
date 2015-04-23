@@ -305,8 +305,7 @@ class GitWebServlet extends HttpServlet {
         p.print("}\n");
       }
 
-      Path root = repoManager.getBasePath();
-      p.print("$projectroot = " + quoteForPerl(root) + ";\n");
+      p.print("$projectroot = $ENV{'GITWEB_PROJECTROOT'};\n");
 
       // Permit exporting only the project we were started for.
       // We use the name under $projectroot in case symlinks
@@ -552,6 +551,10 @@ class GitWebServlet extends HttpServlet {
 
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", project.getProject().getName());
+
+    env.set("GITWEB_PROJECTROOT",
+        repoManager.getBasePath(project.getProject().getNameKey())
+            .toAbsolutePath().toString());
 
     if (project.forUser(anonymousUserProvider.get()).isVisible()) {
       env.set("GERRIT_ANONYMOUS_READ", "1");

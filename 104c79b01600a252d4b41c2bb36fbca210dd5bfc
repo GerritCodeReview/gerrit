@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a4e2cc_bf145778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T16:10:09Z",
+      "side": 1,
+      "message": "I agree that the subscriber.getParentKey().get() is not the best as you\u0027d usually know which project you look at, so it\u0027s redundant information. This string however is not improving the information flow *a lot* (it\u0027s still just communicating the information of a submodule update, which you had before as well once you\u0027ve seen this commit message header a few times).\n\nSo maybe \"Updated git submodule: \" + subscriber.name()\nor similar?\n\nCurrently it is only one submodule at a time, but in the near future I want to rewrite the MergeOp/SubmoduleOp in a way such that many submodules can be updated within one commit.\n\nSo I\u0027d personally favor a behavior similar to the Merge commits (\u003cMerge \u003ccommit title\u003e\", \"Merge \u003clist of change ids\u003e\", \"Merge \u003ctopic\u003e\", \"Merge \u003cbranch\u003e\". That\u0027s what I found so far in the Gerrit history itself.)",
+      "range": {
+        "startLine": 290,
+        "startChar": 51,
+        "endLine": 290,
+        "endChar": 77
+      },
+      "revId": "104c79b01600a252d4b41c2bb36fbca210dd5bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

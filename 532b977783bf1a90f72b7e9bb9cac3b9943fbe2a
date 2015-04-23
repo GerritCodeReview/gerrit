@@ -105,6 +105,30 @@
       "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bdc2e6_d70ffc66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T18:50:06Z",
+      "side": 1,
+      "message": "I was speaking in a more general sense to explain myself here. You cannot have a variable \u0027foo-bar\u0027 in say java or C, because the language is defined to interpret that as 2 literals, one subtracted from the other (you usually put white spaces and surroundings like \"x \u003d foo - bar;\".\n\nThis is why I was abstaining from the \"-\" character in my own\ntopic names for some time now as my unconsciousness tells me a topic in gerrit is similar to a variable name in a programming language. \n\nOf course I do know \"-\" can be part of the topic in Gerrit, I am not just used to it.",
+      "parentUuid": "b04d0a88_0576f283",
+      "range": {
+        "startLine": 187,
+        "startChar": 48,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

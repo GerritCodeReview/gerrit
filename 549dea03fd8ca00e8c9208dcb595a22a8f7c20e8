@@ -145,6 +145,24 @@
       "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_7f712fd9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T19:09:33Z",
+      "side": 1,
+      "message": "What is the easiest way to look at the diff and making sure it behaves correctly?\n\nMy first thought was to have an equivalent of\n\"git log --oneline from..to |wc -l\", i.e. just counting the commits which have been applied on top of the old state.\nI\u0027m not quite sure how this is done easiest with the TestRepositories though. \n\nMaybe verifying the end state first and then going to the parent commit (recursively) until the old state is found?\nOr do you know off hand a better trick to count that?",
+      "parentUuid": "f0a4e2cc_1f06a34d",
+      "revId": "549dea03fd8ca00e8c9208dcb595a22a8f7c20e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

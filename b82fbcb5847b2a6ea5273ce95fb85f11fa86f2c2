@@ -46,6 +46,30 @@
       "revId": "b82fbcb5847b2a6ea5273ce95fb85f11fa86f2c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bdc2e6_f70a0059",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2870,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T18:39:20Z",
+      "side": 1,
+      "message": "Heh, I missed that again.\n\nI saw it when diffing revision 2 to 1.\n\nThe problem with including this in the diff, is the rebase is not obvious as it\u0027s not included fully, but only in those files which are affected by either revision 2 or 1.",
+      "parentUuid": "f0bdc2e6_37ee3804",
+      "range": {
+        "startLine": 2855,
+        "startChar": 0,
+        "endLine": 2870,
+        "endChar": 76
+      },
+      "revId": "b82fbcb5847b2a6ea5273ce95fb85f11fa86f2c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

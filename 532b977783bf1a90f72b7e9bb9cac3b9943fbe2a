@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "f0a4e2cc_ffae5f98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T19:44:19Z",
+      "side": 1,
+      "message": "Are you suggesting to revert the latest revision changes and stick with -topic all the time?",
+      "parentUuid": "f0a4e2cc_9f42b36c",
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e30a5a5c_af7179de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 7
@@ -180,6 +198,30 @@
       "side": 1,
       "message": "Not to put too fine a point on it, but I think you should just get used to it.\n\nNow in the tests you have \"sameTopic-foo\" which just looks crazy.",
       "parentUuid": "f0bdc2e6_d70ffc66",
+      "range": {
+        "startLine": 187,
+        "startChar": 48,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "532b977783bf1a90f72b7e9bb9cac3b9943fbe2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bdc2e6_171d748f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-23T19:44:19Z",
+      "side": 1,
+      "message": "I cannot parse the meaning of that comment.\n\nYes, I am getting used to the \"-\" character for topics by now. My comment was directed at David Pursehouse explaining why I answered to you in the first place and why I used to have the underscore in topics.",
+      "parentUuid": "f0bdc2e6_7726f0e5",
       "range": {
         "startLine": 187,
         "startChar": 48,

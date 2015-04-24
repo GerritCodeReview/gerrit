@@ -77,21 +77,23 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsTwoChangeChangesInTopic_conflicting() throws Exception {
+    // collide with this change:
+    String collidingChange = createChangeWithTopic(testRepo, "off_topic",
+        "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage").getChangeId();
+    approve(collidingChange);
+    gApi.changes().id(collidingChange).current().submit();
+
+    // create a non conflicting change:
+    testRepo.reset("HEAD~1");
     String changeId = createChangeWithTopic().getChangeId();
     approve(changeId);
 
-    // create another change with the same topic
+    // create the conflicting change with the same topic:
     String changeId2 = createChangeWithTopic(testRepo, "foo2", "touching b",
         "b.txt", "real content").getChangeId();
     approve(changeId2);
 
-    // collide with the other change in the same topic
-    testRepo.reset("HEAD~2");
-    String collidingChange = createChangeWithTopic(testRepo, "off_topic",
-        "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage").getChangeId();
-    gApi.changes().id(collidingChange).current().review(ReviewInput.approve());
-    gApi.changes().id(collidingChange).current().submit();
-
+    // look at the submit button of the non colliding change
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {

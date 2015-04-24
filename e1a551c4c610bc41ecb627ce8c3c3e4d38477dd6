@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a4e2cc_5f02eb0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-24T15:22:42Z",
+      "side": 1,
+      "message": "Do you need to mkdir in the body here?\n\nI think we would still be ok as far as tests go, since shouldConfigure() would return false after your next change, right?",
+      "revId": "e1a551c4c610bc41ecb627ce8c3c3e4d38477dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -260,6 +260,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (!changeControl.canSubmit()) {
           return BLOCKED_TOPIC_TOOLTIP;
         }
+        // Recheck mergeability rather than using value stored in the index,
+        // which may be stale.
+        // TODO(dborowitz): This is ugly; consider providing a way to not read
+        // stored fields from the index in the first place.
+        c.setMergeable(null);
         if (!c.isMergeable()) {
           return CLICK_FAILURE_OTHER_TOOLTIP;
         }

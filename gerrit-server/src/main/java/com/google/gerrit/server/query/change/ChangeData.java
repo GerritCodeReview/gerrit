@@ -602,7 +602,7 @@ public class ChangeData {
     return submitRecords;
   }
 
-  public void setMergeable(boolean mergeable) {
+  public void setMergeable(Boolean mergeable) {
     this.mergeable = mergeable;
   }
 

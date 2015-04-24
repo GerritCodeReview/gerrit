@@ -18,13 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.testutil.ConfigSuite;
 
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -38,7 +34,7 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
-    String changeId = createChangeWithTopic().getChangeId();
+    String changeId = createChangeWithTopic(name("foo1")).getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
     assertThat(actions).containsKey("cherrypick");
     assertThat(actions).containsKey("rebase");
@@ -47,7 +43,7 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsOneChangePerTopic() throws Exception {
-    String changeId = createChangeWithTopic().getChangeId();
+    String changeId = createChangeWithTopic(name("foo1")).getChangeId();
     approve(changeId);
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
@@ -58,10 +54,10 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsTwoChangeChangesInTopic() throws Exception {
-    String changeId = createChangeWithTopic().getChangeId();
+    String changeId = createChangeWithTopic(name("foo2")).getChangeId();
     approve(changeId);
     // create another change with the same topic
-    createChangeWithTopic().getChangeId();
+    createChangeWithTopic(name("foo2")).getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
@@ -76,42 +72,11 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revisionActionsTwoChangeChangesInTopic_conflicting() throws Exception {
-    String changeId = createChangeWithTopic().getChangeId();
-    approve(changeId);
-
-    // create another change with the same topic
-    String changeId2 = createChangeWithTopic(testRepo, "foo2", "touching b",
-        "b.txt", "real content").getChangeId();
-    approve(changeId2);
-
-    // collide with the other change in the same topic
-    testRepo.reset("HEAD~2");
-    String collidingChange = createChangeWithTopic(testRepo, "off_topic",
-        "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage").getChangeId();
-    gApi.changes().id(collidingChange).current().review(ReviewInput.approve());
-    gApi.changes().id(collidingChange).current().submit();
-
-    Map<String, ActionInfo> actions = getActions(changeId);
-    commonActionsAssertions(actions);
-    if (isSubmitWholeTopicEnabled()) {
-      ActionInfo info = actions.get("submit");
-      assertThat(info.enabled).isNull();
-      assertThat(info.label).isEqualTo("Submit whole topic");
-      assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo(
-          "Clicking the button would fail for other changes in the topic");
-    } else {
-      noSubmitWholeTopicAssertions(actions);
-    }
-  }
-
-  @Test
   public void revisionActionsTwoChangeChangesInTopicReady() throws Exception {
-    String changeId = createChangeWithTopic().getChangeId();
+    String changeId = createChangeWithTopic(name("foo2")).getChangeId();
     approve(changeId);
     // create another change with the same topic
-    String changeId2 = createChangeWithTopic().getChangeId();
+    String changeId2 = createChangeWithTopic(name("foo2")).getChangeId();
     approve(changeId2);
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
@@ -141,18 +106,10 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(actions).containsKey("rebase");
   }
 
-  private PushOneCommit.Result createChangeWithTopic(
-      TestRepository<InMemoryRepository> repo, String topic,
-      String commitMsg, String fileName, String content) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
-        repo, commitMsg, fileName, content);
-    assertThat(topic).isNotEmpty();
-    return push.to("refs/for/master/" + name(topic));
-  }
-
-  private PushOneCommit.Result createChangeWithTopic()
+  private PushOneCommit.Result createChangeWithTopic(String topic)
       throws Exception {
-    return createChangeWithTopic(testRepo, "foo2",
-        "a message", "a.txt", "content\n");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    assertThat(topic).isNotEmpty();
+    return push.to("refs/for/master/" + topic);
   }
 }

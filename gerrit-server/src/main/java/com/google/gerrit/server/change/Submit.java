@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -99,8 +100,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "Other changes in this topic are not ready";
   private static final String BLOCKED_HIDDEN_TOPIC_TOOLTIP =
       "Other hidden changes in this topic are not ready";
-  private static final String CLICK_FAILURE_OTHER_TOOLTIP =
-      "Clicking the button would fail for other changes in the topic";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -135,6 +134,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<Mergeable> mergeableProvider;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -151,7 +151,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer,
       @GerritServerConfig Config cfg,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      Provider<Mergeable> mergeableProvider) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
@@ -179,6 +180,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         cfg.getString("change", null, "submitTopicTooltip"),
         DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
+    this.mergeableProvider = mergeableProvider;
   }
 
   @Override
@@ -243,15 +245,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   /**
-   * @param changeList list of changes to be submitted at once
+   * @param changes list of changes to be submitted at once
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChanges(
-      List<ChangeData> changeList,
+  private String problemsForSubmittingChanges(List<ChangeData> changes,
       IdentifiedUser identifiedUser) {
-    try {
-      for (ChangeData c : changeList) {
+    for (ChangeData c : changes) {
+      try {
         ChangeControl changeControl = c.changeControl().forUser(
             identifiedUser);
         if (!changeControl.isVisible(dbProvider.get())) {
@@ -260,16 +261,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (!changeControl.canSubmit()) {
           return BLOCKED_TOPIC_TOOLTIP;
         }
-        if (!c.isMergeable()) {
-          return CLICK_FAILURE_OTHER_TOOLTIP;
-        }
         checkSubmitRule(c, c.currentPatchSet(), false);
+      } catch (OrmException e) {
+        log.error("Error checking if change is submittable", e);
+        throw new OrmRuntimeException(e);
+      } catch (ResourceConflictException e) {
+        return BLOCKED_TOPIC_TOOLTIP;
       }
-    } catch (ResourceConflictException e) {
-      return BLOCKED_TOPIC_TOOLTIP;
-    } catch (OrmException e) {
-      log.error("Error checking if change is submittable", e);
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
     return null;
   }
@@ -282,16 +280,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && resource.getChange().getStatus().isOpen()
         && resource.getPatchSet().getId().equals(current)
         && resource.getControl().canSubmit();
+
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
-
-    try {
-      checkSubmitRule(cd, cd.currentPatchSet(), false);
-    } catch (ResourceConflictException e) {
+    if (problemsForSubmittingChanges(Arrays.asList(cd), resource.getUser())
+        != null) {
       visible = false;
-    } catch (OrmException e) {
-      log.error("Error checking if change is submittable", e);
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
     if (!visible) {
@@ -303,8 +297,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     boolean enabled;
     try {
-      enabled = cd.isMergeable();
-    } catch (OrmException e) {
+      enabled = mergeableProvider.get().apply(resource).mergeable;
+    } catch (RestApiException | OrmException | IOException e) {
       throw new OrmRuntimeException("Could not determine mergeability", e);
     }
 

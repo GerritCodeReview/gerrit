@@ -1,0 +1,28 @@
+Release notes for Gerrit 2.10.4
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.3.1.html[2.10.3.1].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.4.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.4.war]
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3300[Issue 3300]:
+Fix >10x performance degradation for Git push and replication operations.
++
+A link:https://bugs.eclipse.org/bugs/show_bug.cgi?id=465509[regression in jgit]
+caused a performance degradation.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3312[Issue 3300]:
+Flush padding on patches downloaded as base64.
++
+The padding was not flushed, which caused the downloaded patch to not be
+valid base64.
+
+Updates
+-------
+
+* Update jgit to 3.7.1.201504261725-r.

@@ -58,7 +58,10 @@ public enum ListChangesOption {
   CHECK(15),
 
   /** Include allowed change actions client could perform. */
-  CHANGE_ACTIONS(16);
+  CHANGE_ACTIONS(16),
+
+  /** Include a copy of commit messages including review footers. */
+  COMMIT_FOOTERS(17);
 
   private final int value;
 

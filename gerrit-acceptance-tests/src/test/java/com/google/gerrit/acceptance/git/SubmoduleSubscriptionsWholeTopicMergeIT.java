@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
@@ -86,5 +87,51 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subRepoId);
+  }
+
+  @Test
+  public void testUpdateManySubmodules() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> sub1 = createProjectWithPush("sub1");
+    TestRepository<?> sub2 = createProjectWithPush("sub2");
+    TestRepository<?> sub3 = createProjectWithPush("sub3");
+
+    Config config = new Config();
+    addSubmoduleSubscription(config, "sub1", "master");
+    addSubmoduleSubscription(config, "sub2", "master");
+    addSubmoduleSubscription(config, "sub3", "master");
+    pushSubscriptionConfig(superRepo, "master", config);
+
+    ObjectId superPreviousId = pushChangeTo(superRepo, "master");
+
+    ObjectId sub1Id = uploadChangeTo(sub1, "master");
+    ObjectId sub2Id = uploadChangeTo(sub2, "master");
+    ObjectId sub3Id = uploadChangeTo(sub3, "master");
+    gApi.changes().id(getChangeId(sub1, sub1Id).get()).current().submit();
+
+    expectToHaveSubmoduleState(superRepo, "master", "sub1", sub1Id);
+    expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2Id);
+    expectToHaveSubmoduleState(superRepo, "master", "sub3", sub3Id);
+
+    superRepo.git().fetch().setRemote("origin").call()
+      .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    assertWithMessage("submodule subscription update should have made one commit")
+    .that(superRepo.getRepository().resolve("origin/master^"))
+    .isEqualTo(superPreviousId);
+  }
+
+  private ObjectId uploadChangeTo(TestRepository<?> repo, String branch)
+      throws Exception {
+    RevCommit c1 = repo.branch("HEAD").commit().insertChangeId()
+      .message("qwerty")
+      .add("qwerty", "qwerty")
+      .create();
+    repo.git().push().setRemote("origin")
+      .setRefSpecs(new RefSpec("HEAD:refs/for/" + branch + "/" + name("topic-foo")))
+      .call();
+    String ChangeId = getChangeId(repo, c1).get();
+    approve(ChangeId);
+    return c1;
   }
 }

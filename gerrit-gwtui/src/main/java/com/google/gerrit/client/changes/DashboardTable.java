@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class DashboardTable extends ChangeTable {
+  private boolean highlight;
   private List<Section> sections;
   private String title;
   private List<String> titles;
@@ -51,6 +52,8 @@ public class DashboardTable extends ChangeTable {
         title = URL.decodeQueryString(kv[1]);
       } else if ("foreach".equals(kv[0])) {
         foreach = URL.decodeQueryString(kv[1]);
+      } else if ("highlight".equals(kv[0])) {
+        highlight = Boolean.parseBoolean(kv[1]);
       } else {
         titles.add(URL.decodeQueryString(kv[0]));
         queries.add(URL.decodeQueryString(kv[1]));
@@ -72,6 +75,7 @@ public class DashboardTable extends ChangeTable {
       Section s = new Section();
       String query = removeLimitAndAge(queries.get(i++));
       s.setTitleWidget(new InlineHyperlink(title, PageLinks.toChangeQuery(query)));
+      s.setHighlightUnreviewed(highlight);
       addSection(s);
       sections.add(s);
     }
@@ -115,7 +119,8 @@ public class DashboardTable extends ChangeTable {
               sections.get(0).display(result);
               finishDisplay();
             }
-        });
+        },
+        highlight ? EnumSet.of(ListChangesOption.REVIEWED) : EnumSet.noneOf(ListChangesOption.class));
     } else if (! queries.isEmpty()) {
       ChangeList.query(
           new GerritCallback<JsArray<ChangeList>>() {
@@ -129,7 +134,7 @@ public class DashboardTable extends ChangeTable {
               finishDisplay();
             }
           },
-          EnumSet.noneOf(ListChangesOption.class),
+          highlight ? EnumSet.of(ListChangesOption.REVIEWED) : EnumSet.noneOf(ListChangesOption.class),
           queries.toArray(new String[queries.size()]));
     }
   }

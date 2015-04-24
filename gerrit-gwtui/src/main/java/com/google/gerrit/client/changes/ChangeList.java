@@ -53,11 +53,13 @@ public class ChangeList extends JsArray<ChangeInfo> {
 
   public static void next(String query,
       int start, int limit,
-      AsyncCallback<ChangeList> callback) {
+      AsyncCallback<ChangeList> callback,
+      EnumSet<ListChangesOption> options) {
     RestApi call = newQuery(query);
     if (limit > 0) {
       call.addParameter("n", limit);
     }
+    OPTIONS.addAll(options);
     addOptions(call, OPTIONS);
     if (start != 0) {
       call.addParameter("S", start);

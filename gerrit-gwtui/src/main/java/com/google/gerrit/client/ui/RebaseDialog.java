@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -29,6 +30,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
+import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,7 +86,7 @@ public abstract class RebaseDialog extends CommentedActionDialog {
                   changes = Natives.asList(result);
                   updateControls(true);
                 }
-              });
+              }, EnumSet.noneOf(ListChangesOption.class));
         } else {
           updateControls(false);
         }

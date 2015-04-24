@@ -17,10 +17,13 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
+
+import java.util.EnumSet;
 
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
@@ -74,7 +77,7 @@ public class QueryScreen extends PagedSingleListScreen implements
   @Override
   protected void onLoad() {
     super.onLoad();
-    ChangeList.next(query, start, pageSize, loadCallback());
+    ChangeList.next(query, start, pageSize, loadCallback(), EnumSet.noneOf(ListChangesOption.class));
   }
 
   private static boolean isSingleQuery(String query) {

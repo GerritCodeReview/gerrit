@@ -18,7 +18,9 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JsArray;
@@ -61,10 +63,13 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     incoming = new ChangeTable.Section();
     closed = new ChangeTable.Section();
 
-    outgoing.setTitleText(Util.C.outgoingReviews());
-    incoming.setTitleText(Util.C.incomingReviews());
+    outgoing.setTitleWidget(new InlineHyperlink(Util.C.outgoingReviews(),
+        PageLinks.toChangeQuery("is:open owner:self")));
+    incoming.setTitleWidget(new InlineHyperlink(Util.C.incomingReviews(),
+        PageLinks.toChangeQuery("is:open reviewer:self -owner:self")));
     incoming.setHighlightUnreviewed(mine);
-    closed.setTitleText(Util.C.recentlyClosed());
+    closed.setTitleWidget(new InlineHyperlink(Util.C.recentlyClosed(),
+        PageLinks.toChangeQuery("is:closed (owner:self OR reviewer:self)")));
 
     table.addSection(outgoing);
     table.addSection(incoming);

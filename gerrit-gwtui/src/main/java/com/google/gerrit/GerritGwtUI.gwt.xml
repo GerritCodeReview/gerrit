@@ -40,5 +40,8 @@
 
   <set-property name='gwt.logging.logLevel' value='SEVERE'/>
 
+  <!-- Disable GSS -->
+  <set-property name='CssResource.enableGss' value='false'/>
+
   <entry-point class='com.google.gerrit.client.Gerrit'/>
 </module>

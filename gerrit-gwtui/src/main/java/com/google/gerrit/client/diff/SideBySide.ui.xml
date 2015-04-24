@@ -17,7 +17,7 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style>
+  <ui:style gss="false">
     .sbs {
       margin-left: -5px;
       margin-right: -5px;

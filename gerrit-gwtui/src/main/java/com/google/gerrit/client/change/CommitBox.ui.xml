@@ -21,7 +21,7 @@ limitations under the License.
     xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:image field="toggle" src="moreLess.png"/>
-  <ui:style type='com.google.gerrit.client.change.CommitBox.Style'>
+  <ui:style gss="false" type='com.google.gerrit.client.change.CommitBox.Style'>
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
     .collapsed .scroll { height: 250px }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70c9d29b_73cde0b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-24T15:06:17Z",
+      "side": 1,
+      "message": "Have you tried to put it into \"$gerrit_site\"/lib directory?",
+      "revId": "878953f4b1d9e8633539b5b9677227944a495ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

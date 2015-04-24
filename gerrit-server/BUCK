@@ -60,6 +60,7 @@ java_library(
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/log:log4j',
+    '//lib/log:jsonevent-layout',
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core',
     '//lib/lucene:query-parser',

@@ -41,7 +41,7 @@ public class SystemLog {
 
   private static final org.slf4j.Logger log = LoggerFactory
       .getLogger(SystemLog.class);
-  private static final String LOG4J_CONFIGURATION = "log4j.configuration";
+  public static final String LOG4J_CONFIGURATION = "log4j.configuration";
   private final SitePaths site;
   private final Config config;
 

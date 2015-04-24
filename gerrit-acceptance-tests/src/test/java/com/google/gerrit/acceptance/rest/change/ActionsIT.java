@@ -77,6 +77,15 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   public void revisionActionsTwoChangeChangesInTopic_conflicting() throws Exception {
+
+    // collide with the other change in the same topic
+    String collidingChange = createChangeWithTopic(testRepo, "off_topic",
+        "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage").getChangeId();
+    approve(collidingChange);
+    gApi.changes().id(collidingChange).current().submit();
+
+
+    testRepo.reset("HEAD~1");
     String changeId = createChangeWithTopic().getChangeId();
     approve(changeId);
 
@@ -84,13 +93,6 @@ public class ActionsIT extends AbstractDaemonTest {
     String changeId2 = createChangeWithTopic(testRepo, "foo2", "touching b",
         "b.txt", "real content").getChangeId();
     approve(changeId2);
-
-    // collide with the other change in the same topic
-    testRepo.reset("HEAD~2");
-    String collidingChange = createChangeWithTopic(testRepo, "off_topic",
-        "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage").getChangeId();
-    gApi.changes().id(collidingChange).current().review(ReviewInput.approve());
-    gApi.changes().id(collidingChange).current().submit();
 
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);

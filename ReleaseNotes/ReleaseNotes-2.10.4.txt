@@ -1,0 +1,13 @@
+Release notes for Gerrit 2.10.4
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.3.1.html[2.10.3.1].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.4.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.4.war]
+
+Bug Fixes
+---------
+
+* Work around >10x performance degradation for Git operations, compared to Gerrit Release 2.9.

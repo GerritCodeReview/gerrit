@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.util.SocketUtil;
+import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -70,6 +71,9 @@ public class GerritServer {
     if (memory) {
       site = null;
       mergeTestConfig(cfg);
+      // Set the log4j configuration to an invalid one to prevent system logs
+      // from getting configured and creating log files.
+      System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
       cfg.setBoolean("index", "lucene", "testInmemory", true);

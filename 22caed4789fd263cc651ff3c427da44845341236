@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10a256bf_20aa6a7f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-24T08:04:06Z",
+      "side": 1,
+      "message": "Does it make sense? It would be sufficient to induce the plugin directory for `git describe` to succeed, but the consumer of this plugin wouldn\u0027t be able to induce the full URL. See line 1901 above, where it\u0027s used.",
+      "range": {
+        "startLine": 1935,
+        "startChar": 0,
+        "endLine": 1936,
+        "endChar": 50
+      },
+      "revId": "22caed4789fd263cc651ff3c427da44845341236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a256bf_0096464a",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-24T08:04:06Z",
+      "side": 1,
+      "message": "When Implementation-URL wasn\u0027t defined and the directory name doesn\u0027t exist, this would still fail.",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 21
+      },
+      "revId": "22caed4789fd263cc651ff3c427da44845341236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a256bf_e09a426e",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-24T08:04:06Z",
+      "side": 1,
+      "message": "When directory exists, but plugin was just created and wasn\u0027t added to Git yet, this command would fail. The process of writing plugin is very error-prone. I\u0027m getting dozens error reports, because folks is failing to build plugins. That why I think that such a central place should just work in every situation. \n\nAlso check what gerrit_plugin.bucklet is doing. If all other options failed, how about to use Gerrits own VERSION or even \"N/A\"?",
+      "range": {
+        "startLine": 138,
+        "startChar": 21,
+        "endLine": 138,
+        "endChar": 45
+      },
+      "revId": "22caed4789fd263cc651ff3c427da44845341236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

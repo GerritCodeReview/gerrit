@@ -41,18 +41,27 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   protected void createSubscription(
       TestRepository<?> repo, String branch, String subscribeToRepo,
       String subscribeToBranch) throws Exception {
-    subscribeToRepo = name(subscribeToRepo);
 
+    Config cfg = new Config();
+    addSubmoduleSubscription(cfg, subscribeToRepo, subscribeToBranch);
+    pushSubscriptionConfig(repo, branch, cfg);
+  }
+
+  protected void addSubmoduleSubscription(Config cfg, String subscribeToRepo,
+      String subscribeToBranch) {
+    subscribeToRepo = name(subscribeToRepo);
     // The submodule subscription module checks for gerrit.canonicalWebUrl to
     // detect if it's configured for automatic updates. It doesn't matter if
     // it serves from that URL.
     String url = cfg.getString("gerrit", null, "canonicalWebUrl") + "/"
         + subscribeToRepo;
-
-    Config cfg = new Config();
     cfg.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
     cfg.setString("submodule", subscribeToRepo, "url", url);
     cfg.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+  }
+
+  protected void pushSubscriptionConfig(TestRepository<?> repo,
+      String branch, Config cfg) throws Exception {
 
     repo.branch("HEAD").commit().insertChangeId()
       .message("subject: adding new subscription")

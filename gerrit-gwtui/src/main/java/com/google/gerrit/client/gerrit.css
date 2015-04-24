@@ -512,8 +512,9 @@ a:hover {
   color: #444444;
   text-decoration: none;
 }
-.accountDashboard.changeTable .needsReview,
-.accountDashboard.changeTable .needsReview a {
+
+.changeTable .needsReview,
+.changeTable .needsReview a {
   font-weight: bold;
   color: textColor;
 }

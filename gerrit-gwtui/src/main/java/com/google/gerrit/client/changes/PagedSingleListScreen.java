@@ -28,6 +28,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 public abstract class PagedSingleListScreen extends Screen {
   protected final int pageSize;
   protected final int start;
+  private boolean highlight;
   private final String anchorPrefix;
 
   protected ChangeList changes;
@@ -36,9 +37,10 @@ public abstract class PagedSingleListScreen extends Screen {
   private Hyperlink prev;
   private Hyperlink next;
 
-  protected PagedSingleListScreen(String anchorToken, int start) {
+  protected PagedSingleListScreen(String anchorToken, int start, boolean highlight) {
     anchorPrefix = anchorToken;
     this.start = start;
+    this.highlight = highlight;
 
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
@@ -78,6 +80,7 @@ public abstract class PagedSingleListScreen extends Screen {
       }
     };
     section = new ChangeTable.Section();
+    section.setHighlightUnreviewed(highlight);
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);
     add(table);
@@ -109,14 +112,14 @@ public abstract class PagedSingleListScreen extends Screen {
     if (changes.length() != 0) {
       if (start > 0) {
         int p = start - pageSize;
-        prev.setTargetHistoryToken(anchorPrefix + (p > 0 ? "," + p : ""));
+        prev.setTargetHistoryToken(anchorPrefix + (p > 0 ? "," + p : "") + (highlight ? ",highlight" : ""));
         prev.setVisible(true);
       } else {
         prev.setVisible(false);
       }
 
       int n = start + changes.length();
-      next.setTargetHistoryToken(anchorPrefix + "," + n);
+      next.setTargetHistoryToken(anchorPrefix + "," + n + (highlight ? ",highlight" : ""));
       next.setVisible(changes.get(changes.length() - 1)._more_changes());
     }
     table.updateColumnsForLabels(result);

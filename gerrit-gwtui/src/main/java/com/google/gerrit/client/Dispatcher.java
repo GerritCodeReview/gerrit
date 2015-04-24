@@ -96,6 +96,8 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.util.*;
+
 public class Dispatcher {
   public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id) {
     return toPatch("", diffBase, id);
@@ -397,14 +399,18 @@ public class Dispatcher {
     Screen screen;
     if (c >= 0) {
       String prefix = s.substring(0, c);
-      if (s.substring(c).equals(",n,z")) {
-        // Respect legacy token with max sortkey.
-        screen = new QueryScreen(prefix, 0);
-      } else {
-        screen = new QueryScreen(prefix, Integer.parseInt(s.substring(c + 1)));
+      List<String> params = new ArrayList<>(Arrays.asList(s.substring(c+1).split(",")));
+      // Respect legacy token with max sortkey.
+      params.remove("n");
+      params.remove("z");
+      boolean highlight = params.remove("highlight");
+      int start = 0;
+      if (!params.isEmpty()) {
+        start = Integer.parseInt(params.get(0));
       }
+      screen = new QueryScreen(prefix, start, highlight);
     } else {
-      screen = new QueryScreen(s, 0);
+      screen = new QueryScreen(s, 0, false);
     }
     Gerrit.display(token, screen);
   }

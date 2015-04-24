@@ -27,18 +27,21 @@ import java.util.EnumSet;
 
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
+
   public static QueryScreen forQuery(String query) {
     return forQuery(query, 0);
   }
 
   public static QueryScreen forQuery(String query, int start) {
-    return new QueryScreen(KeyUtil.encode(query), start);
+    return new QueryScreen(KeyUtil.encode(query), start, false);
   }
 
+  private boolean highlight;
   private final String query;
 
-  public QueryScreen(String encQuery, int start) {
-    super(PageLinks.QUERY + encQuery, start);
+  public QueryScreen(String encQuery, int start, boolean highlight) {
+    super(PageLinks.QUERY + encQuery, start, highlight);
+    this.highlight = highlight;
     query = KeyUtil.decode(encQuery);
   }
 
@@ -77,7 +80,10 @@ public class QueryScreen extends PagedSingleListScreen implements
   @Override
   protected void onLoad() {
     super.onLoad();
-    ChangeList.next(query, start, pageSize, loadCallback(), EnumSet.noneOf(ListChangesOption.class));
+    ChangeList.next(query, start, pageSize, loadCallback(),
+     highlight ?
+        EnumSet.of(ListChangesOption.REVIEWED) :
+        EnumSet.noneOf(ListChangesOption.class));
   }
 
   private static boolean isSingleQuery(String query) {

@@ -16,6 +16,24 @@
       "revId": "e1a551c4c610bc41ecb627ce8c3c3e4d38477dd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_1f0c633c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-24T15:29:08Z",
+      "side": 1,
+      "message": "\u003e Do you need to mkdir in the body here?\n\nNo, I tested it and log4j will create it.\n\nThe gc_log code was inspired from the error_log and I think that is why we ended up with code that \"mkdir logs\".\n\n\u003e shouldConfigure() would return false after your next change, right?\n\nYes but I still think we do not need the mkdir.",
+      "parentUuid": "f0a4e2cc_5f02eb0c",
+      "revId": "e1a551c4c610bc41ecb627ce8c3c3e4d38477dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

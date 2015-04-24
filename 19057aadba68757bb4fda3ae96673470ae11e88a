@@ -22,6 +22,30 @@
       "revId": "19057aadba68757bb4fda3ae96673470ae11e88a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bdc2e6_17aa147f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-24T17:51:32Z",
+      "side": 1,
+      "message": "I think so as well, though as David said please squash them all together. (I think they are all tackling the same problem)",
+      "parentUuid": "d0527e22_26c9f6fa",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "19057aadba68757bb4fda3ae96673470ae11e88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
@@ -30,12 +29,8 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Inject
   public GarbageCollectionLogFile(SitePaths sitePaths) {
-    File logdir = sitePaths.logs_dir;
-    if (!logdir.exists() && !logdir.mkdirs()) {
-      throw new Die("Cannot create log directory: " + logdir);
-    }
     if (SystemLog.shouldConfigure()) {
-      initLogSystem(logdir);
+      initLogSystem(sitePaths.logs_dir);
     }
   }
 

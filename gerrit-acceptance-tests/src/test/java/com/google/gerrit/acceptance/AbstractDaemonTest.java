@@ -42,6 +42,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -130,6 +131,10 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected Provider<InternalChangeQuery> queryProvider;
+
+  @Inject
+  @CanonicalWebUrl
+  protected Provider<String> canonicalWebUrl;
 
   @Inject
   @GerritServerConfig

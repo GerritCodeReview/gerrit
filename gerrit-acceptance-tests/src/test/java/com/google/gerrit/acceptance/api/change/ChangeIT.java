@@ -15,6 +15,11 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.project.Util.category;
+import static com.google.gerrit.server.project.Util.value;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -22,6 +27,8 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -33,8 +40,12 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
@@ -375,5 +386,61 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .get(EnumSet.of(ListChangesOption.CHECK))
         .problems).isEmpty();
+  }
+
+  @Test
+  public void commitFooters() throws Exception {
+    LabelType verified = category("Verified",
+        value(1, "Failed"), value(0, "No score"), value(-1, "Passes"));
+    LabelType custom1 = category("Custom1",
+        value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+    LabelType custom2 = category("Custom2",
+        value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().put(verified.getName(), verified);
+    cfg.getLabelSections().put(custom1.getName(), verified);
+    cfg.getLabelSections().put(custom2.getName(), verified);
+    String heads = "refs/heads/*";
+    AccountGroup.UUID anon =
+        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    Util.allow(cfg, Permission.forLabel("Verified"), -1, 1, anon, heads);
+    Util.allow(cfg, Permission.forLabel("Custom1"), -1, 1, anon, heads);
+    Util.allow(cfg, Permission.forLabel("Custom2"), -1, 1, anon, heads);
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result r1 = createChange();
+    r1.assertOkStatus();
+    PushOneCommit.Result r2 = pushFactory.create(
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content",
+          r1.getChangeId())
+        .to("refs/for/master");
+    r2.assertOkStatus();
+
+    ReviewInput in = new ReviewInput();
+    in.label("Code-Review", 1);
+    in.label("Verified", 1);
+    in.label("Custom1", -1);
+    in.label("Custom2", 1);
+    gApi.changes().id(r2.getChangeId()).current().review(in);
+
+    EnumSet<ListChangesOption> options = EnumSet.of(
+        ListChangesOption.ALL_REVISIONS, ListChangesOption.COMMIT_FOOTERS);
+    ChangeInfo actual = gApi.changes().id(r2.getChangeId()).get(options);
+    assertThat(actual.revisions).hasSize(2);
+
+    // No footers except on latest patch set.
+    assertThat(actual.revisions.get(r1.getCommit().getName()).commitWithFooters)
+        .isNull();
+
+    String expected = SUBJECT + "\n"
+        + "\n"
+        + "Change-Id: " + r2.getChangeId() + "\n"
+        + "Reviewed-on: "
+            + canonicalWebUrl.get() + r2.getChange().getId() + "\n"
+        + "Reviewed-by: Administrator <admin@example.com>\n"
+        + "Custom2: Administrator <admin@example.com>\n"
+        + "Tested-by: Administrator <admin@example.com>\n";
+    assertThat(actual.revisions.get(r2.getCommit().getName()).commitWithFooters)
+        .isEqualTo(expected);
   }
 }

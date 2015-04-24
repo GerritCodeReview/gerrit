@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHECK;
+import static com.google.gerrit.extensions.client.ListChangesOption.COMMIT_FOOTERS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_FILES;
@@ -92,9 +93,11 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -133,6 +136,8 @@ public class ChangeJson {
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
   private final GitRepositoryManager repoManager;
+  private final ProjectCache projectCache;
+  private final MergeUtil.Factory mergeUtilFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeData.Factory changeDataFactory;
   private final FileInfoJson fileInfoJson;
@@ -157,6 +162,8 @@ public class ChangeJson {
       Provider<CurrentUser> user,
       AnonymousUser au,
       GitRepositoryManager repoManager,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
       IdentifiedUser.GenericFactory uf,
       ChangeData.Factory cdf,
       FileInfoJson fileInfoJson,
@@ -173,9 +180,11 @@ public class ChangeJson {
     this.labelNormalizer = ln;
     this.userProvider = user;
     this.anonymous = au;
-    this.userFactory = uf;
     this.changeDataFactory = cdf;
     this.repoManager = repoManager;
+    this.userFactory = uf;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
@@ -882,14 +891,22 @@ public class ChangeJson {
 
     boolean setCommit = has(ALL_COMMITS)
         || (out.isCurrent && has(CURRENT_COMMIT));
-    if (setCommit) {
+    boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
+    if (setCommit || addFooters) {
       Project.NameKey project = c.getProject();
       try (Repository repo = repoManager.openRepository(project);
           RevWalk rw = new RevWalk(repo)) {
         String rev = in.getRevision().get();
         RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
         rw.parseBody(commit);
-        out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS));
+        if (setCommit) {
+          out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS));
+        }
+        if (addFooters) {
+          out.commitWithFooters = mergeUtilFactory
+              .create(projectCache.get(project))
+              .createCherryPickCommitMessage(commit, ctl, in.getId());
+        }
       }
     }
 

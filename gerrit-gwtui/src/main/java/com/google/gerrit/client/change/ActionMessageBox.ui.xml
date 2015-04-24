@@ -19,7 +19,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
-  <ui:style type='com.google.gerrit.client.change.ActionMessageBox.Style'>
+  <ui:style gss="false" type='com.google.gerrit.client.change.ActionMessageBox.Style'>
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
     .popup { background-color: trimColor; }

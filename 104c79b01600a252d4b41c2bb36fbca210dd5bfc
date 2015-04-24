@@ -70,6 +70,30 @@
       "revId": "104c79b01600a252d4b41c2bb36fbca210dd5bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a6ead3_7df497d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-24T00:31:57Z",
+      "side": 1,
+      "message": "OK, I see.  In that case I think it\u0027s fine to leave it as I have done it.  It\u0027s only going to get changed again later when/if you reimplement it to include multiple submodules.\n\nSo if you are OK with that, I will submit this as is?",
+      "parentUuid": "f0a4e2cc_9f94f33f",
+      "range": {
+        "startLine": 290,
+        "startChar": 51,
+        "endLine": 290,
+        "endChar": 77
+      },
+      "revId": "104c79b01600a252d4b41c2bb36fbca210dd5bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

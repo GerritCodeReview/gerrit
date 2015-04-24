@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "309bda8e_81a37aac",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-04-24T09:09:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you are referring to.\n\nI\u0027m talking about a local context, developer starting to fool around with a new plugin and wanting to build it using buck.\n\nConsidering that the only Implementation-URL in this case is the local plugin folder it makes sense.\n\nWhen pushing the plugin to a distributed repository the Implementation-URL should of course be changed to point to this repository.\n\nThis is my reasoning behind it at least...",
+      "parentUuid": "10a256bf_20aa6a7f",
+      "range": {
+        "startLine": 1935,
+        "startChar": 0,
+        "endLine": 1936,
+        "endChar": 50
+      },
+      "revId": "22caed4789fd263cc651ff3c427da44845341236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10a256bf_0096464a",
         "filename": "tools/default.defs",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "309bda8e_41ad7295",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-04-24T09:09:44Z",
+      "side": 1,
+      "message": "Agree I\u0027m not happy with this fall-back. I thought about just supplying the default git_describe() but that would silently bring back the cache issue if all else fails.\n\nIt would be impossible to consider all cases, as I said before I think the only way to make it work is to force plugin developers to supply the information of where the plugin-dir is situated. \n\nEither obscured:\nLike in the Implementation-URL case, which works if they have cloned the plugin repository and don\u0027t rename the directory.\n\nOr directly:\n\n Plugin-location: plugins/my-plugin \n\nbut that feels awkward...",
+      "parentUuid": "10a256bf_0096464a",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 21
+      },
+      "revId": "22caed4789fd263cc651ff3c427da44845341236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10a256bf_e09a426e",
         "filename": "tools/default.defs",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2015-04-24T08:04:06Z",
       "side": 1,
       "message": "When directory exists, but plugin was just created and wasn\u0027t added to Git yet, this command would fail. The process of writing plugin is very error-prone. I\u0027m getting dozens error reports, because folks is failing to build plugins. That why I think that such a central place should just work in every situation. \n\nAlso check what gerrit_plugin.bucklet is doing. If all other options failed, how about to use Gerrits own VERSION or even \"N/A\"?",
+      "range": {
+        "startLine": 138,
+        "startChar": 21,
+        "endLine": 138,
+        "endChar": 45
+      },
+      "revId": "22caed4789fd263cc651ff3c427da44845341236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309bda8e_e19a466e",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-04-24T09:09:44Z",
+      "side": 1,
+      "message": "I like the \"N/A\" or equivalent.\n\nI think that maybe there should be some sort of info in the build output like:\n\n Can\u0027t get version, falling-back to default.\n\nBut in a readable and concise format.",
+      "parentUuid": "10a256bf_e09a426e",
       "range": {
         "startLine": 138,
         "startChar": 21,

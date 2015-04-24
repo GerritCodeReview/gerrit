@@ -24,8 +24,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
@@ -122,27 +120,6 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "subscribed-to-project", subHEAD);
 
     assertThat(hasSubmodule(subRepo, "master", "super-project")).isFalse();
-  }
-
-  private static AtomicInteger contentCounter = new AtomicInteger(0);
-
-  private ObjectId pushChangeTo(TestRepository<?> repo, String branch, String message)
-      throws Exception {
-
-    ObjectId ret = repo.branch("HEAD").commit().insertChangeId()
-      .message(message)
-      .add("a.txt", "a contents: " + contentCounter.addAndGet(1))
-      .create();
-
-    repo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/" + branch)).call();
-
-    return ret;
-  }
-
-  private ObjectId pushChangeTo(TestRepository<?> repo, String branch)
-      throws Exception {
-    return pushChangeTo(repo, branch, "some change");
   }
 
   private void deleteAllSubscriptions(TestRepository<?> repo, String branch)

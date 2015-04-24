@@ -41,8 +41,8 @@ maven_jar(
 
 maven_jar(
   name = 'lang',
-  id = 'commons-lang:commons-lang:2.5',
-  sha1 = 'b0236b252e86419eef20c31a44579d2aee2f0a69',
+  id = 'commons-lang:commons-lang:2.6',
+  sha1 = '0ce1edb914c94ebc388f086c6827e8bdeec71ac2',
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
 )

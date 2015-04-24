@@ -1,0 +1,49 @@
+Release notes for Gerrit 2.10.4
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.3.1.html[2.10.3.1].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.4.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.4.war]
+
+New Features
+------------
+
+* Support identity linking in hybrid OpenID and OAuth2 authentication.
++
+Linking of user identities accross protocol boundaries and from one OAuth2
+identity to another OAuth2 identity is supported.
+
+* Support identity linking in OAuth2 extension point.
++
+Linking of user identities from one OAuth2 identity to another OAuth2
+identity is supported.
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3300[Issue 3300]:
+Fix >10x performance degradation for Git push and replication operations.
++
+A link:https://bugs.eclipse.org/bugs/show_bug.cgi?id=465509[regression in jgit]
+caused a performance degradation.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3312[Issue 3312]:
+Flush padding on patches downloaded as base64.
++
+The padding was not flushed, which caused the downloaded patch to not be
+valid base64.
+
+OAuth extension point
+~~~~~~~~~~~~~~~~~~~~~
+
+* Check for session validity during logout.
++
+When user was trying to log out, after Gerrit restart, the session was
+invalidated and IllegalStateException was recorded in the error_log.
+
+Updates
+-------
+
+* Update jgit to 4.0.0.201505050340-m2.

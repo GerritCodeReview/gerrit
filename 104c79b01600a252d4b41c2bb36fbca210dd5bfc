@@ -46,6 +46,30 @@
       "revId": "104c79b01600a252d4b41c2bb36fbca210dd5bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a4e2cc_9f94f33f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-24T00:29:38Z",
+      "side": 1,
+      "message": "It includes multiple commits in one submodule. My goal is to have just one update even across different submodules.",
+      "parentUuid": "b0a6ead3_dde4cb28",
+      "range": {
+        "startLine": 290,
+        "startChar": 51,
+        "endLine": 290,
+        "endChar": 77
+      },
+      "revId": "104c79b01600a252d4b41c2bb36fbca210dd5bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

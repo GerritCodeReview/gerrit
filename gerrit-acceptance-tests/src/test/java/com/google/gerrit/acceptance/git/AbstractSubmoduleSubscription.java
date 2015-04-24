@@ -29,6 +29,8 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   protected TestRepository<?> createProjectWithPush(String name)
       throws Exception {
@@ -36,6 +38,27 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/heads/*");
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
     return cloneProject(project);
+  }
+
+  private static AtomicInteger contentCounter = new AtomicInteger(0);
+
+  protected ObjectId pushChangeTo(TestRepository<?> repo, String branch, String message)
+      throws Exception {
+
+    ObjectId ret = repo.branch("HEAD").commit().insertChangeId()
+      .message(message)
+      .add("a.txt", "a contents: " + contentCounter.addAndGet(1))
+      .create();
+
+    repo.git().push().setRemote("origin").setRefSpecs(
+        new RefSpec("HEAD:refs/heads/" + branch)).call();
+
+    return ret;
+  }
+
+  protected ObjectId pushChangeTo(TestRepository<?> repo, String branch)
+      throws Exception {
+    return pushChangeTo(repo, branch, "some change");
   }
 
   protected void createSubscription(

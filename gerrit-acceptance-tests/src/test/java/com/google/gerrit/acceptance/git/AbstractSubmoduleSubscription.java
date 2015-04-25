@@ -41,22 +41,31 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   protected void createSubscription(
       TestRepository<?> repo, String branch, String subscribeToRepo,
       String subscribeToBranch) throws Exception {
-    subscribeToRepo = name(subscribeToRepo);
 
+    Config config = new Config();
+    addSubmoduleSubscription(config, subscribeToRepo, subscribeToBranch);
+    pushSubscriptionConfig(repo, branch, config);
+  }
+
+  protected void addSubmoduleSubscription(Config config, String subscribeToRepo,
+      String subscribeToBranch) {
+    subscribeToRepo = name(subscribeToRepo);
     // The submodule subscription module checks for gerrit.canonicalWebUrl to
     // detect if it's configured for automatic updates. It doesn't matter if
     // it serves from that URL.
     String url = cfg.getString("gerrit", null, "canonicalWebUrl") + "/"
         + subscribeToRepo;
+    config.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
+    config.setString("submodule", subscribeToRepo, "url", url);
+    config.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+  }
 
-    Config cfg = new Config();
-    cfg.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
-    cfg.setString("submodule", subscribeToRepo, "url", url);
-    cfg.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+  protected void pushSubscriptionConfig(TestRepository<?> repo,
+      String branch, Config config) throws Exception {
 
     repo.branch("HEAD").commit().insertChangeId()
       .message("subject: adding new subscription")
-      .add(".gitmodules", cfg.toText().toString())
+      .add(".gitmodules", config.toText().toString())
       .create();
 
     repo.git().push().setRemote("origin").setRefSpecs(

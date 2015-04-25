@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bdc2e6_7705d012",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-04-25T00:35:47Z",
+      "side": 1,
+      "message": "(optional) \"who\" is vague --- it only tells me that it\u0027s a person or other agent. Perhaps \"owner\"?",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 14
+      },
+      "revId": "6e50a35b0ce64665f8598f3ebbccc8ddf8636563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

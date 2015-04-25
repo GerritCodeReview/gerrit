@@ -18,7 +18,9 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JsArray;
@@ -61,16 +63,32 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     incoming = new ChangeTable.Section();
     closed = new ChangeTable.Section();
 
-    outgoing.setTitleText(Util.C.outgoingReviews());
-    incoming.setTitleText(Util.C.incomingReviews());
+    String who = mine ? "self" : ownerId.toString();
+    outgoing.setTitleWidget(new InlineHyperlink(Util.C.outgoingReviews(),
+        PageLinks.toChangeQuery(queryOutgoing(who))));
+    incoming.setTitleWidget(new InlineHyperlink(Util.C.incomingReviews(),
+        PageLinks.toChangeQuery(queryIncoming(who))));
     incoming.setHighlightUnreviewed(mine);
-    closed.setTitleText(Util.C.recentlyClosed());
+    closed.setTitleWidget(new InlineHyperlink(Util.C.recentlyClosed(),
+        PageLinks.toChangeQuery(queryClosed(who))));
 
     table.addSection(outgoing);
     table.addSection(incoming);
     table.addSection(closed);
     add(table);
     table.setSavePointerId("owner:" + ownerId);
+  }
+
+  private static String queryOutgoing(String who) {
+    return "is:open owner:" + who;
+  }
+
+  private static String queryIncoming(String who) {
+    return "is:open reviewer:" + who + " -owner:" + who;
+  }
+
+  private static String queryClosed(String who) {
+    return "is:closed (owner:" + who + " OR reviewer:" + who + ")";
   }
 
   @Override
@@ -88,9 +106,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
         mine
           ? EnumSet.of(ListChangesOption.REVIEWED)
           : EnumSet.noneOf(ListChangesOption.class),
-        "is:open owner:" + who,
-        "is:open reviewer:" + who + " -owner:" + who,
-        "is:closed (owner:" + who + " OR reviewer:" + who + ") -age:4w limit:10");
+        queryOutgoing(who),
+        queryIncoming(who),
+        queryClosed(who) + " -age:4w limit:10");
   }
 
   @Override

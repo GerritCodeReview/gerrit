@@ -370,9 +370,6 @@ public abstract class QueryBuilder<T> {
       } catch (IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {
-        if (e.getCause() instanceof QueryParseException) {
-          throw (QueryParseException) e.getCause();
-        }
         throw error("Error in operator " + name + ":" + value, e.getCause());
       }
     }

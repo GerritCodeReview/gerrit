@@ -46,6 +46,30 @@
       "revId": "4b978e08dd2ea0225db669037e6f6518a32e0c1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f04062d5_ffe43f28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-04-26T14:07:38Z",
+      "side": 1,
+      "message": "But it isn\u0027t applied in gerrit yet, or is it?",
+      "parentUuid": "309bda8e_21814efd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "4b978e08dd2ea0225db669037e6f6518a32e0c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

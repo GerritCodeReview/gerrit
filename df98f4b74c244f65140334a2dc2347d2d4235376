@@ -46,6 +46,30 @@
       "revId": "df98f4b74c244f65140334a2dc2347d2d4235376",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_9ac2ed85",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T05:21:25Z",
+      "side": 1,
+      "message": "Sure, renamed (it was built correctly, just the name was wrong). That\u0027s what happen when one start to do something with computer before drinking coffee ;-)",
+      "parentUuid": "b0426adc_1dd7b341",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "df98f4b74c244f65140334a2dc2347d2d4235376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

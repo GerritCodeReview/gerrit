@@ -19,6 +19,7 @@ DEPS = [
     '//lib/jgit:jgit',
     '//lib/log:api',
     '//lib/log:log4j',
+    '//lib/log:jsonevent-layout'
 ]
 
 java_library(

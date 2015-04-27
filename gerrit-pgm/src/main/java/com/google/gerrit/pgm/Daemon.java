@@ -167,6 +167,18 @@ public class Daemon extends SiteProgram {
     httpd = enable;
   }
 
+  private void setupInjectors() {
+    // If test, then DB is already set up.
+    if (dbInjector == null) {
+      dbInjector = createDbInjector(MULTI_USER);
+    }
+    cfgInjector = createCfgInjector();
+    sysInjector = createSysInjector();
+    sysInjector.getInstance(PluginGuiceEnvironment.class)
+      .setDbCfgInjector(dbInjector, cfgInjector);
+    manager.add(dbInjector, cfgInjector, sysInjector);
+  }
+
   @Override
   public int run() throws Exception {
     if (doInit) {
@@ -196,8 +208,11 @@ public class Daemon extends SiteProgram {
       throw die("No services enabled, nothing to do");
     }
 
+    setupInjectors();
+
     if (!consoleLog) {
-      manager.add(ErrorLogFile.start(getSitePath()));
+      manager.add(ErrorLogFile.start(getSitePath(),
+          cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class))));
     }
 
     try {
@@ -258,6 +273,7 @@ public class Daemon extends SiteProgram {
     dbInjector = Guice.createInjector(Stage.PRODUCTION, modules);
     test = true;
     headless = true;
+    setupInjectors();
   }
 
   @VisibleForTesting
@@ -273,15 +289,6 @@ public class Daemon extends SiteProgram {
 
   @VisibleForTesting
   public void start() {
-    if (dbInjector == null) {
-      dbInjector = createDbInjector(MULTI_USER);
-    }
-    cfgInjector = createCfgInjector();
-    sysInjector = createSysInjector();
-    sysInjector.getInstance(PluginGuiceEnvironment.class)
-      .setDbCfgInjector(dbInjector, cfgInjector);
-    manager.add(dbInjector, cfgInjector, sysInjector);
-
     sshd &= !sshdOff();
     if (sshd) {
       initSshd();

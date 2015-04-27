@@ -2648,6 +2648,22 @@ are specified in the link:#container[container section]:
   javaOptions = -Dcom.sun.jndi.ldap.connect.pool.timeout=300000
 ----
 
+[[log]]
+=== Section log
+
+[[log.jsonLogging]]log.jsonLogging::
++
+If set to true, enables error logging in JSON format (file name: "logs/error_log.json").
++
+Defaults to false.
+
+[[log.textLogging]]log.textLogging::
++
+If set to true, enables error logging in regular plain text format. Can only be disabled
+if `jsonLogging` is enabled.
++
+Defaults to true.
+
 [[mimetype]]
 === Section mimetype
 

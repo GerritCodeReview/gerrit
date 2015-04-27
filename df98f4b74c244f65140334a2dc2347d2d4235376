@@ -22,6 +22,30 @@
       "revId": "df98f4b74c244f65140334a2dc2347d2d4235376",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0426adc_1dd7b341",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T05:06:18Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be 2.10.4?",
+      "parentUuid": "30203a2d_f9bd37fa",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "df98f4b74c244f65140334a2dc2347d2d4235376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

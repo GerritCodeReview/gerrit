@@ -46,6 +46,30 @@
       "revId": "ce554db44ef809436f9c0da1cb2e6e3596a27341",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f019420f_972ba4af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-27T23:20:00Z",
+      "side": 1,
+      "message": "I don\u0027t know if it\u0027s changing. The documentation on getShortMessage explicitly mentions that it\u0027s looking for 2 LFs (There must be an empty line between subject and message body to follow the right format; I don\u0027t know if that is the case with the `subject` as well. So my concern is mostly about malformed commits not having an empty line between subject and message body. And I don\u0027t know if we do explicit tests on broken commit messages.)",
+      "parentUuid": "1017b6d9_d80aad59",
+      "range": {
+        "startLine": 928,
+        "startChar": 4,
+        "endLine": 928,
+        "endChar": 44
+      },
+      "revId": "ce554db44ef809436f9c0da1cb2e6e3596a27341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

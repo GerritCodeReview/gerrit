@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1017b6d9_78ca819e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-27T13:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "501daef5_dadf0556",
+      "revId": "205ff00a622b5ac8011395c3bc59ce0f17e842c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0426adc_9d142379",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
         "patchSetId": 1
@@ -60,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "1017b6d9_b8c7b994",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-27T13:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0426adc_9d142379",
+      "range": {
+        "startLine": 189,
+        "startChar": 6,
+        "endLine": 189,
+        "endChar": 12
+      },
+      "revId": "205ff00a622b5ac8011395c3bc59ce0f17e842c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0426adc_fd0f6766",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
         "patchSetId": 1
@@ -71,6 +113,30 @@
       "writtenOn": "2015-04-27T09:10:04Z",
       "side": 1,
       "message": "Move this either to the top of the list of methods, or the bottom, so it\u0027s not in the middle of the @Test annotated methods?\n\n(I\u0027m not sure if the convention is to put private methods at the top or bottom)",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 3
+      },
+      "revId": "205ff00a622b5ac8011395c3bc59ce0f17e842c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1017b6d9_58cd3db3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-04-27T13:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0426adc_fd0f6766",
       "range": {
         "startLine": 197,
         "startChar": 0,

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30203a2d_d9171345",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T22:11:14Z",
+      "side": 1,
+      "message": "Mention that Gerrit is pre-commit review tool, compared to post-commit or hybrid review tools (that support both).",
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_9acc2d6c",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T22:11:14Z",
+      "side": 1,
+      "message": "administrtors",
+      "range": {
+        "startLine": 317,
+        "startChar": 49,
+        "endLine": 317,
+        "endChar": 62
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_f91c576b",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T22:11:14Z",
+      "side": 1,
+      "message": "re-executed?",
+      "range": {
+        "startLine": 328,
+        "startChar": 60,
+        "endLine": 328,
+        "endChar": 70
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_bad1f100",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T22:11:14Z",
+      "side": 1,
+      "message": "collaborate",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 11
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_5ab775c6",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T22:11:14Z",
+      "side": 1,
+      "message": "Username",
+      "range": {
+        "startLine": 604,
+        "startChar": 9,
+        "endLine": 604,
+        "endChar": 16
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_7ab4b9c0",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T22:11:14Z",
+      "side": 1,
+      "message": "Abbreviated",
+      "range": {
+        "startLine": 609,
+        "startChar": 9,
+        "endLine": 609,
+        "endChar": 20
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

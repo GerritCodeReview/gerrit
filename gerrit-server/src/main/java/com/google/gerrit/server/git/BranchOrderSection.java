@@ -18,8 +18,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 
 import com.google.common.collect.ImmutableList;
 
-import org.eclipse.jgit.lib.Constants;
-
 import java.util.List;
 
 public class BranchOrderSection {

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9051e6aa_1ceed503",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCacheImplModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T06:42:21Z",
+      "side": 1,
+      "message": "make this final?",
+      "revId": "1bb8f55b111c09977e9a9df39b61640b91bc2642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9051e6aa_7cf119e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCacheImplModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T06:42:21Z",
+      "side": 1,
+      "message": "nit: missing space after `if`",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "1bb8f55b111c09977e9a9df39b61640b91bc2642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9051e6aa_3ceb91f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCacheImplModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T06:42:21Z",
+      "side": 1,
+      "message": "wrap this before the `.to` instead?",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 80
+      },
+      "revId": "1bb8f55b111c09977e9a9df39b61640b91bc2642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

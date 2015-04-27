@@ -48,6 +48,8 @@ or links will redirect to incorrect locations.
 	  <Proxy *>
 	    Order deny,allow
 	    Allow from all
+	    # Use following line instead of the previous two on Apache >= 2.4
+	    # Require all granted
 	  </Proxy>
 
 	  AllowEncodedSlashes On

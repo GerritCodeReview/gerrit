@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9051e6aa_3cd4f139",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.4.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T02:06:51Z",
+      "side": 1,
+      "message": "Mention that this degradation was introduced due to a regression in jgit.",
+      "revId": "98767d2a2165796ca4283180bc5e7dd8e85bb373",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0426adc_5dcd3bb3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.4.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T02:06:51Z",
+      "side": 1,
+      "message": "Mention the new jgit version.\n\nAlso, if Sasa accepts the commits, mention the fix for issue 3312.",
+      "revId": "98767d2a2165796ca4283180bc5e7dd8e85bb373",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

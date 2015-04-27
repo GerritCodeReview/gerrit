@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "501daef5_1ad7bd41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T06:37:34Z",
+      "side": 1,
+      "message": "It wouldn\u0027t hurt to list the commits, that contained in this fork, compared to official 3.7.0.201502260915-r release. See also discussion on this change: [1]. Even when this change was uploaded to master, you can never know if it can be cherry-picked to stable releases. And in fact this one was cherry-pciked to stable-2.10 and further changes that depends on patched JGit features were cherry-picked on stable branches: [2].\n\nAfter bugfix of official 3.7.0.201502260915-r and release of 3.7.1.201504261725-r stable-2.11 cannot be built anymore.\n\nOnly guessing that forked JGit must contain this commit: [3]. But who knows what other commits were cherry-picked from upcoming 4.0 JGit release into this forked JGit released on Google storage bucket. IOW we should stop uploading magic binary forks with commit message like \"Bump JGit to foo\" and list all cherry-picked commits. Otherwise Gerrit is not hot-fixable.\n\n* [1] https://gerrit-review.googlesource.com/67465\n* [2] https://gerrit-review.googlesource.com/66624\n* [3] https://git.eclipse.org/r/40463",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "9d89ae88e261ad765dbe213135c6e69bd6ab83b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

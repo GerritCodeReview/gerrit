@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1017b6d9_58f45dd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-27T18:38:24Z",
+      "side": 0,
+      "message": "Why do you replace this with a `new ArrayList\u003c\u003e(expectedsize)` ?",
+      "range": {
+        "startLine": 915,
+        "startChar": 21,
+        "endLine": 915,
+        "endChar": 78
+      },
+      "revId": "1a0c7a7d31fa809e94150be64368f48b79053e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

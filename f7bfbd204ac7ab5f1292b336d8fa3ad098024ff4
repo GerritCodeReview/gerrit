@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1017b6d9_98143579",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-27T20:45:21Z",
+      "side": 1,
+      "message": "I was wrong about this behavior, there is already a check for positive values. This tests the current behavior with no modifications.",
+      "parentUuid": "f019420f_f7e46028",
+      "range": {
+        "startLine": 422,
+        "startChar": 4,
+        "endLine": 422,
+        "endChar": 28
+      },
+      "revId": "f7bfbd204ac7ab5f1292b336d8fa3ad098024ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f019420f_d7dfdc55",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-04-27T18:47:02Z",
       "side": 1,
       "message": "Is that assumption elsewere in the test suite as well already? Would it make sense to ask for gerrit.canonicalWebURL here?",
+      "range": {
+        "startLine": 438,
+        "startChar": 24,
+        "endLine": 438,
+        "endChar": 42
+      },
+      "revId": "f7bfbd204ac7ab5f1292b336d8fa3ad098024ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1017b6d9_b819f9b1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-27T20:45:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f019420f_d7dfdc55",
       "range": {
         "startLine": 438,
         "startChar": 24,

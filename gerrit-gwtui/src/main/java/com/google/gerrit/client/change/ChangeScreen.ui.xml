@@ -21,7 +21,7 @@ limitations under the License.
     xmlns:x='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
-  <ui:style type='com.google.gerrit.client.change.ChangeScreen.Style'>
+  <ui:style gss="false" type='com.google.gerrit.client.change.ChangeScreen.Style'>
     @eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 

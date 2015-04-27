@@ -17,7 +17,7 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:x='urn:import:com.google.gerrit.client.ui'>
-  <ui:style type='com.google.gerrit.client.diff.PreferencesBox.Style'>
+  <ui:style gss="false" type='com.google.gerrit.client.diff.PreferencesBox.Style'>
     @external .gwt-TextBox;
     @external .gwt-ToggleButton .html-face;
     @external .gwt-ToggleButton-up;

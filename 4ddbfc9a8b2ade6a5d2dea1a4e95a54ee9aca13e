@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "501daef5_fa0f6966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-27T07:56:28Z",
+      "side": 1,
+      "message": "Okay, we now ensure that \u0027branchName\u0027 in the Branch.NameKey entity is always a full ref name, but this applies only for new db entries. What about old entries in the db, can they still have non-qualified branch names, so that the \"correcting\" code is still needed. Or do we need a migration to fix these as well?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "4ddbfc9a8b2ade6a5d2dea1a4e95a54ee9aca13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

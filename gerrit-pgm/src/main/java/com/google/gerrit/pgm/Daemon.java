@@ -196,10 +196,6 @@ public class Daemon extends SiteProgram {
       throw die("No services enabled, nothing to do");
     }
 
-    if (!consoleLog) {
-      manager.add(ErrorLogFile.start(getSitePath()));
-    }
-
     try {
       start();
       RuntimeShutdown.add(new Runnable() {
@@ -272,7 +268,7 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void start() {
+  public void start() throws IOException {
     if (dbInjector == null) {
       dbInjector = createDbInjector(MULTI_USER);
     }
@@ -281,6 +277,11 @@ public class Daemon extends SiteProgram {
     sysInjector.getInstance(PluginGuiceEnvironment.class)
       .setDbCfgInjector(dbInjector, cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
+
+    if (!consoleLog) {
+      manager.add(ErrorLogFile.start(getSitePath(),
+          cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class))));
+    }
 
     sshd &= !sshdOff();
     if (sshd) {

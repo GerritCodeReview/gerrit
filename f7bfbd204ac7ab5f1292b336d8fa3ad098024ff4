@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f019420f_37d4183a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-27T18:47:02Z",
+      "side": 1,
+      "message": "When using the submit path in Submit.java the submit rule is evaluated at the time of the submission, but not in the transaction itself. :(",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 51
+      },
+      "revId": "f7bfbd204ac7ab5f1292b336d8fa3ad098024ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f019420f_f7e46028",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-27T18:47:02Z",
+      "side": 1,
+      "message": "You don\u0027t want to have the -1 recorded now?\n\nIt might be useful for \"I told you so\" arguments later when problems arise with a given patch. ;)",
+      "range": {
+        "startLine": 422,
+        "startChar": 4,
+        "endLine": 422,
+        "endChar": 28
+      },
+      "revId": "f7bfbd204ac7ab5f1292b336d8fa3ad098024ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f019420f_d7dfdc55",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-27T18:47:02Z",
+      "side": 1,
+      "message": "Is that assumption elsewere in the test suite as well already? Would it make sense to ask for gerrit.canonicalWebURL here?",
+      "range": {
+        "startLine": 438,
+        "startChar": 24,
+        "endLine": 438,
+        "endChar": 42
+      },
+      "revId": "f7bfbd204ac7ab5f1292b336d8fa3ad098024ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,10 +22,12 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextAreaActionDialog;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 class RevertAction {
-  static void call(Button b, final Change.Id id, final String revision,
+  static void call(final Button b, final Change.Id id, final String revision,
       final String commitSubject) {
     // TODO Replace ActionDialog with a nicer looking display.
     b.setEnabled(false);
@@ -55,6 +57,12 @@ class RevertAction {
                 super.onFailure(caught);
               }
             });
+      }
+
+      @Override
+      public void onClose(CloseEvent<PopupPanel> event) {
+        super.onClose(event);
+        b.setEnabled(true);
       }
     }.center();
   }

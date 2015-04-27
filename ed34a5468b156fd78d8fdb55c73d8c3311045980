@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0426adc_9dc2e385",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T02:04:43Z",
+      "side": 1,
+      "message": "Please add a short explanation of what this version fixes.",
+      "revId": "ed34a5468b156fd78d8fdb55c73d8c3311045980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

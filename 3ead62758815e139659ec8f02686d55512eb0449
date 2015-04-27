@@ -22,6 +22,23 @@
       "revId": "3ead62758815e139659ec8f02686d55512eb0449",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_19eeeb03",
+        "filename": "tools/util.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-27T08:01:50Z",
+      "side": 1,
+      "message": "this doesn\u0027t exist any longer since I promoted the staged build and it should now be replicated to Maven central. It should appear there soon (according to Sonatype replication can take up to a few hours)",
+      "revId": "3ead62758815e139659ec8f02686d55512eb0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

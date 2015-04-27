@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0426adc_bddebf56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T07:29:29Z",
+      "side": 1,
+      "message": "no longer used.",
+      "revId": "85f6fc88cbcef0a304b59ac33eb590801d817e99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

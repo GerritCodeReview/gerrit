@@ -65,9 +65,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
 
     String who = mine ? "self" : ownerId.toString();
     outgoing.setTitleWidget(new InlineHyperlink(Util.C.outgoingReviews(),
-        PageLinks.toChangeQuery(queryOutGoing(who))));
+        PageLinks.toChangeQuery(queryOutgoing(who))));
     incoming.setTitleWidget(new InlineHyperlink(Util.C.incomingReviews(),
-        PageLinks.toChangeQuery(queryInComing(who))));
+        PageLinks.toChangeQuery(queryIncoming(who))));
     incoming.setHighlightUnreviewed(mine);
     closed.setTitleWidget(new InlineHyperlink(Util.C.recentlyClosed(),
         PageLinks.toChangeQuery(queryClosed(who))));
@@ -79,11 +79,11 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     table.setSavePointerId("owner:" + ownerId);
   }
 
-  private static String queryOutGoing(String who) {
+  private static String queryOutgoing(String who) {
     return "is:open owner:" + who;
   }
 
-  private static String queryInComing(String who) {
+  private static String queryIncoming(String who) {
     return "is:open reviewer:" + who + " -owner:" + who;
   }
 
@@ -106,8 +106,8 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
         mine
           ? EnumSet.of(ListChangesOption.REVIEWED)
           : EnumSet.noneOf(ListChangesOption.class),
-        queryOutGoing(who),
-        queryInComing(who),
+        queryOutgoing(who),
+        queryIncoming(who),
         queryClosed(who) + " -age:4w limit:10");
   }
 

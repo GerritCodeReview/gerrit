@@ -22,6 +22,30 @@
       "revId": "4ddbfc9a8b2ade6a5d2dea1a4e95a54ee9aca13e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0426adc_3deb8ff4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T09:05:23Z",
+      "side": 1,
+      "message": "Hmm, that\u0027s a good point.",
+      "parentUuid": "501daef5_fa0f6966",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "4ddbfc9a8b2ade6a5d2dea1a4e95a54ee9aca13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

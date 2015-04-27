@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "501daef5_1a26ddb2",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-27T19:36:15Z",
+      "side": 1,
+      "message": "Just AuthRequest.",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 48
+      },
+      "revId": "7084d3bf636781487dd0215307b44414647d0abc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30203a2d_5971c3d8",
         "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
         "patchSetId": 1

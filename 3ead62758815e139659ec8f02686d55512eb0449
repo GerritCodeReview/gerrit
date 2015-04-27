@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "501daef5_ba19f1b1",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-27T08:00:46Z",
+      "side": 1,
+      "message": "This repository is probably already deleted as Matthias released it.\nThe new JGit version will appear soon in the MAVEN_CENTRAL.",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "3ead62758815e139659ec8f02686d55512eb0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

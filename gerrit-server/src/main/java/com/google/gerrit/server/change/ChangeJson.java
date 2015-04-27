@@ -31,6 +31,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
+import static com.google.gerrit.server.CommonConverters.toGitPerson;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
@@ -65,7 +66,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
-import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -80,10 +80,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -92,11 +89,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -106,10 +102,16 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -129,9 +131,9 @@ public class ChangeJson {
   private final LabelNormalizer labelNormalizer;
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
+  private final GitRepositoryManager repoManager;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeData.Factory changeDataFactory;
-  private final PatchSetInfoFactory patchSetInfoFactory;
   private final FileInfoJson fileInfoJson;
   private final AccountLoader.Factory accountLoaderFactory;
   private final DynamicMap<DownloadScheme> downloadSchemes;
@@ -153,9 +155,9 @@ public class ChangeJson {
       LabelNormalizer ln,
       Provider<CurrentUser> user,
       AnonymousUser au,
+      GitRepositoryManager repoManager,
       IdentifiedUser.GenericFactory uf,
       ChangeData.Factory cdf,
-      PatchSetInfoFactory psi,
       FileInfoJson fileInfoJson,
       AccountLoader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
@@ -172,7 +174,7 @@ public class ChangeJson {
     this.anonymous = au;
     this.userFactory = uf;
     this.changeDataFactory = cdf;
-    this.patchSetInfoFactory = psi;
+    this.repoManager = repoManager;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
@@ -404,7 +406,7 @@ public class ChangeJson {
     if (has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
         || limitToPsId.isPresent()) {
-      out.revisions = revisions(ctl, cd, src);
+      out.revisions = revisions(ctl, src);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -819,14 +821,14 @@ public class ChangeJson {
     return false;
   }
 
-  private Map<String, RevisionInfo> revisions(ChangeControl ctl, ChangeData cd,
+  private Map<String, RevisionInfo> revisions(ChangeControl ctl,
       Map<PatchSet.Id, PatchSet> map) throws OrmException {
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : map.values()) {
       if ((has(ALL_REVISIONS)
-          || in.getId().equals(cd.change().currentPatchSetId()))
+          || in.getId().equals(ctl.getChange().currentPatchSetId()))
           && ctl.isPatchVisible(in, db.get())) {
-        res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in));
+        res.put(in.getRevision().get(), toRevisionInfo(ctl, in));
       }
     }
     return res;
@@ -860,10 +862,11 @@ public class ChangeJson {
     return map;
   }
 
-  private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd,
-      PatchSet in) throws OrmException {
+  private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
+      throws OrmException {
+    Change c = ctl.getChange();
     RevisionInfo out = new RevisionInfo();
-    out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
+    out.isCurrent = in.getId().equals(c.currentPatchSetId());
     out._number = in.getId().get();
     out.ref = in.getRefName();
     out.created = in.getCreatedOn();
@@ -871,17 +874,24 @@ public class ChangeJson {
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
 
-    if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
-      try {
-        out.commit = toCommit(in, cd.change().getProject(), has(WEB_LINKS));
-      } catch (PatchSetInfoNotAvailableException e) {
+    boolean setCommit = has(ALL_COMMITS)
+        || (out.isCurrent && has(CURRENT_COMMIT));
+    if (setCommit) {
+      Project.NameKey project = c.getProject();
+      try (Repository repo = repoManager.openRepository(project);
+          RevWalk rw = new RevWalk(repo)) {
+        String rev = in.getRevision().get();
+        RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
+        rw.parseBody(commit);
+        out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS));
+      } catch (IOException e) {
         throw new OrmException(e);
       }
     }
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
       try {
-        out.files = fileInfoJson.toFileInfoMap(cd.change(), in);
+        out.files = fileInfoJson.toFileInfoMap(c, in);
         out.files.remove(Patch.COMMIT_MSG);
       } catch (PatchListNotAvailableException e) {
         throw new OrmException(e);
@@ -908,34 +918,38 @@ public class ChangeJson {
     return out;
   }
 
-  CommitInfo toCommit(PatchSet in, Project.NameKey project, boolean addLinks)
-      throws PatchSetInfoNotAvailableException {
-    PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
-    CommitInfo commit = new CommitInfo();
-    commit.parents = Lists.newArrayListWithCapacity(info.getParents().size());
-    commit.author = toGitPerson(info.getAuthor());
-    commit.committer = toGitPerson(info.getCommitter());
-    commit.subject = info.getSubject();
-    commit.message = info.getMessage();
+  CommitInfo toCommit(ChangeControl ctl, RevWalk rw, RevCommit commit,
+      boolean addLinks) throws OrmException {
+    Project.NameKey project = ctl.getChange().getProject();
+    CommitInfo info = new CommitInfo();
+    info.parents = new ArrayList<>(commit.getParentCount());
+    info.author = toGitPerson(commit.getAuthorIdent());
+    info.committer = toGitPerson(commit.getCommitterIdent());
+    info.subject = commit.getShortMessage();
 
     if (addLinks) {
       FluentIterable<WebLinkInfo> links =
-          webLinks.getPatchSetLinks(project, in.getRevision().get());
-      commit.webLinks = links.isEmpty() ? null : links.toList();
+          webLinks.getPatchSetLinks(project, commit.name());
+      info.webLinks = links.isEmpty() ? null : links.toList();
     }
 
-    for (ParentInfo parent : info.getParents()) {
-      CommitInfo i = new CommitInfo();
-      i.commit = parent.id.get();
-      i.subject = parent.shortMessage;
-      if (addLinks) {
-        FluentIterable<WebLinkInfo> parentLinks =
-            webLinks.getPatchSetLinks(project, parent.id.get());
-        i.webLinks = parentLinks.isEmpty() ? null : parentLinks.toList();
+    try {
+      for (RevCommit parent : commit.getParents()) {
+        rw.parseBody(parent);
+        CommitInfo i = new CommitInfo();
+        i.commit = parent.name();
+        i.subject = parent.getShortMessage();
+        if (addLinks) {
+          FluentIterable<WebLinkInfo> parentLinks =
+              webLinks.getPatchSetLinks(project, parent.name());
+          i.webLinks = parentLinks.isEmpty() ? null : parentLinks.toList();
+        }
+        info.parents.add(i);
       }
-      commit.parents.add(i);
+    } catch (IOException e) {
+      throw new OrmException(e);
     }
-    return commit;
+    return info;
   }
 
   private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in)
@@ -989,15 +1003,6 @@ public class ChangeJson {
       fetchInfo.commands = Maps.newTreeMap();
     }
     fetchInfo.commands.put(commandName, c);
-  }
-
-  private static GitPerson toGitPerson(UserIdentity committer) {
-    GitPerson p = new GitPerson();
-    p.name = committer.getName();
-    p.email = committer.getEmail();
-    p.date = committer.getDate();
-    p.tz = committer.getTimeZone();
-    return p;
   }
 
   static void finish(ChangeInfo info) {

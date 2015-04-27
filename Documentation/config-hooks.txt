@@ -75,7 +75,7 @@ This is called whenever a comment is added to a change.
 Called whenever a change has been merged.
 
 ====
-  change-merged --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1>
+  change-merged --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1> --newrev <sha1>
 ====
 
 === merge-failed

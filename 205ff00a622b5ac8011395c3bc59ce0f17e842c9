@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "501daef5_dadf0556",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-27T07:29:51Z",
+      "side": 1,
+      "message": "Should we take care to close the repositories, even in a test?",
+      "revId": "205ff00a622b5ac8011395c3bc59ce0f17e842c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

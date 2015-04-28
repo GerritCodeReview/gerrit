@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,33 +14,47 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.List;
+import java.util.Map;
+
 @Singleton
-public class ListComments extends ListDraftComments {
+public class ListRevisionDrafts implements RestReadView<RevisionResource> {
+  protected final Provider<ReviewDb> db;
+  protected CommentJson commentJson;
+  protected final PatchLineCommentsUtil plcUtil;
+
   @Inject
-  ListComments(Provider<ReviewDb> db,
+  ListRevisionDrafts(Provider<ReviewDb> db,
       CommentJson commentJson,
       PatchLineCommentsUtil plcUtil) {
-    super(db, commentJson, plcUtil);
+    this.db = db;
+    this.commentJson = commentJson;
+    this.plcUtil = plcUtil;
   }
 
-  @Override
-  protected boolean includeAuthorInfo() {
-    return true;
-  }
-
-  @Override
   protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
       throws OrmException {
-    ChangeNotes notes = rsrc.getNotes();
-    return plcUtil.publishedByPatchSet(db.get(), notes, rsrc.getPatchSet().getId());
+    return plcUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
+        rsrc.getAccountId(), rsrc.getNotes());
+  }
+
+  protected boolean includeAuthorInfo() {
+    return false;
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
+      throws OrmException {
+    return commentJson.format(listComments(rsrc), includeAuthorInfo());
   }
 }

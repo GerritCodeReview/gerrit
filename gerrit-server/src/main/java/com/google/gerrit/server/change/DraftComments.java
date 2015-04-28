@@ -33,14 +33,14 @@ import com.google.inject.Singleton;
 public class DraftComments implements ChildCollection<RevisionResource, DraftCommentResource> {
   private final DynamicMap<RestView<DraftCommentResource>> views;
   private final Provider<CurrentUser> user;
-  private final ListDraftComments list;
+  private final ListRevisionDrafts list;
   private final Provider<ReviewDb> dbProvider;
   private final PatchLineCommentsUtil plcUtil;
 
   @Inject
   DraftComments(DynamicMap<RestView<DraftCommentResource>> views,
       Provider<CurrentUser> user,
-      ListDraftComments list,
+      ListRevisionDrafts list,
       Provider<ReviewDb> dbProvider,
       PatchLineCommentsUtil plcUtil) {
     this.views = views;
@@ -56,7 +56,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
   }
 
   @Override
-  public ListDraftComments list() throws AuthException {
+  public ListRevisionDrafts list() throws AuthException {
     checkIdentifiedUser();
     return list;
   }

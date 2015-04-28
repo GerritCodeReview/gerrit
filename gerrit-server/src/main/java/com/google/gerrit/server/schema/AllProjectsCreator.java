@@ -226,6 +226,7 @@ public class AllProjectsCreator {
         new LabelValue((short) -1, "I would prefer this is not merged as is"),
         new LabelValue((short) -2, "This shall not be merged")));
     type.setCopyMinScore(true);
+    type.setCopyAllScoresOnTrivialRebase(true);
     c.getLabelSections().put(type.getName(), type);
     return type;
   }

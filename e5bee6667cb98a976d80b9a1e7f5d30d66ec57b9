@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30203a2d_f9c77745",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-28T07:27:18Z",
+      "side": 1,
+      "message": "Remove this?\n\nJust throw the IOException without wrapping it in an OrmException.",
+      "range": {
+        "startLine": 950,
+        "startChar": 4,
+        "endLine": 952,
+        "endChar": 5
+      },
+      "revId": "e5bee6667cb98a976d80b9a1e7f5d30d66ec57b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

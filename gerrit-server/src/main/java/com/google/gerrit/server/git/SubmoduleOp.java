@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -61,6 +62,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -154,42 +156,47 @@ public class SubmoduleOp {
     }
 
     try {
-      final TreeWalk tw = TreeWalk.forPath(db, GIT_MODULES, mergeTip.getTree());
-      if (tw != null
-          && (FileMode.REGULAR_FILE.equals(tw.getRawMode(0)) || FileMode.EXECUTABLE_FILE
-              .equals(tw.getRawMode(0)))) {
+      Set<SubmoduleSubscription> oldSubscriptions =
+          Sets.newHashSet(schema.submoduleSubscriptions()
+              .bySuperProject(destBranch));
 
+      List<SubmoduleSubscription> newSubscriptions;
+      TreeWalk tw = TreeWalk.forPath(db, GIT_MODULES, mergeTip.getTree());
+      if (tw != null
+          && (FileMode.REGULAR_FILE.equals(tw.getRawMode(0)) ||
+              FileMode.EXECUTABLE_FILE.equals(tw.getRawMode(0)))) {
         BlobBasedConfig bbc =
             new BlobBasedConfig(null, db, mergeTip, GIT_MODULES);
 
-        final String thisServer = new URI(urlProvider.get()).getHost();
+        String thisServer = new URI(urlProvider.get()).getHost();
 
-        final Branch.NameKey target =
+        Branch.NameKey target =
             new Branch.NameKey(new Project.NameKey(destProject.getName()),
                 destBranch.get());
 
-        final Set<SubmoduleSubscription> oldSubscriptions =
-            new HashSet<>(schema.submoduleSubscriptions()
-                .bySuperProject(destBranch).toList());
-        List<SubmoduleSubscription> newSubscriptions =
-            subSecParserFactory.create(bbc, thisServer, target)
-                .parseAllSections();
+        newSubscriptions = subSecParserFactory.create(bbc, thisServer, target)
+            .parseAllSections();
+      } else {
+        newSubscriptions = Collections.emptyList();
+      }
 
-        final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
-        for (SubmoduleSubscription s : newSubscriptions) {
-          if (oldSubscriptions.contains(s)) {
-            alreadySubscribeds.add(s);
-          }
+      Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
+      for (SubmoduleSubscription s : newSubscriptions) {
+        if (oldSubscriptions.contains(s)) {
+          alreadySubscribeds.add(s);
         }
+      }
 
-        oldSubscriptions.removeAll(newSubscriptions);
-        newSubscriptions.removeAll(alreadySubscribeds);
+      oldSubscriptions.removeAll(newSubscriptions);
+      newSubscriptions.removeAll(alreadySubscribeds);
 
-        if (!oldSubscriptions.isEmpty()) {
-          schema.submoduleSubscriptions().delete(oldSubscriptions);
-        }
+      if (!oldSubscriptions.isEmpty()) {
+        schema.submoduleSubscriptions().delete(oldSubscriptions);
+      }
+      if (!newSubscriptions.isEmpty()) {
         schema.submoduleSubscriptions().insert(newSubscriptions);
       }
+
     } catch (OrmException e) {
       logAndThrowSubmoduleException(
           "Database problem at update of subscriptions table from "

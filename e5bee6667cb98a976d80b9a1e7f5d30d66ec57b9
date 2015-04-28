@@ -22,6 +22,30 @@
       "revId": "e5bee6667cb98a976d80b9a1e7f5d30d66ec57b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f019420f_5758ac5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-28T16:27:37Z",
+      "side": 1,
+      "message": "Good point. I actually went through and just let a bunch more exceptions propagate.",
+      "parentUuid": "30203a2d_f9c77745",
+      "range": {
+        "startLine": 950,
+        "startChar": 4,
+        "endLine": 952,
+        "endChar": 5
+      },
+      "revId": "e5bee6667cb98a976d80b9a1e7f5d30d66ec57b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

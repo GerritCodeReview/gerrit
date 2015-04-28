@@ -50,6 +50,8 @@ class OAuthOverOpenIDLogoutServlet extends HttpLogoutServlet {
   protected void doLogout(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     super.doLogout(req, rsp);
-    oauthSession.get().logout();
+    if (req.getSession(false) != null) {
+      oauthSession.get().logout();
+    }
   }
 }

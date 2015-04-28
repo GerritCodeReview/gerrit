@@ -18,20 +18,21 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GetDraftComment implements RestReadView<DraftCommentResource> {
 
-  private final CommentJson commentJson;
+  private final Provider<CommentJson> commentJson;
 
   @Inject
-  GetDraftComment(CommentJson commentJson) {
+  GetDraftComment(Provider<CommentJson> commentJson) {
     this.commentJson = commentJson;
   }
 
   @Override
   public CommentInfo apply(DraftCommentResource rsrc) throws OrmException {
-    return commentJson.format(rsrc.getComment());
+    return commentJson.get().format(rsrc.getComment());
   }
 }

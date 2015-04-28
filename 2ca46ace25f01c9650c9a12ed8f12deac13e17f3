@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30203a2d_198a6bec",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-28T14:38:29Z",
+      "side": 1,
+      "message": "The init program runs standalone and it shouldn\u0027t have any dependency to the ProjectConfig class.",
+      "parentUuid": "f019420f_177b14bb",
+      "revId": "2ca46ace25f01c9650c9a12ed8f12deac13e17f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1017b6d9_187b45bb",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-28T14:09:00Z",
       "side": 1,
       "message": "Similar (comment/question) to above, here considering DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE def and usage in LabelType(?)",
+      "revId": "2ca46ace25f01c9650c9a12ed8f12deac13e17f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_39872fe3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-28T14:38:29Z",
+      "side": 1,
+      "message": "I don\u0027t think that the default for copyAllScoresIfNoCodeChange should be set to true. It depends on the semantics of the label, whether it should be set or not. E.g. it shouldn\u0027t be set for the Code-Review label.",
+      "parentUuid": "1017b6d9_187b45bb",
       "revId": "2ca46ace25f01c9650c9a12ed8f12deac13e17f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

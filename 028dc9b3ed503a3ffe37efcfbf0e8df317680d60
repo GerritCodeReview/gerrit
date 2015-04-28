@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02b4a16_d5311c1f",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T07:49:30Z",
+      "side": 1,
+      "message": "nit: keep alphabetical order",
+      "revId": "028dc9b3ed503a3ffe37efcfbf0e8df317680d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

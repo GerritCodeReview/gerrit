@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "501daef5_9ad2edd3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InMemoryTestingDatabaseModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "Can this go into the DefaultCacheFactoryModule() ?",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_bad7b1c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/CacheOperationsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "The project_list cache is not gone. Why does the test have to be changed?",
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_3962cfbe",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "Can this go into the DefaultCacheFactory.Module() ?",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_9970bb89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "An onRemoveProject method was actually missing before. I think it should be introduced in a predecessor change.",
+      "range": {
+        "startLine": 332,
+        "startChar": 2,
+        "endLine": 344,
+        "endChar": 3
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_1a3c9d8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "good but unrelated change",
+      "range": {
+        "startLine": 417,
+        "startChar": 10,
+        "endLine": 417,
+        "endChar": 16
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_3a3961a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "Why not rather make this a nested class of the Lister. Then you can have access to the basePath in the Lister.",
+      "range": {
+        "startLine": 476,
+        "startChar": 10,
+        "endLine": 476,
+        "endChar": 16
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_dac8652b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 478,
+        "startChar": 3,
+        "endLine": 478,
+        "endChar": 32
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_79584712",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "Can this go into the DefaultCacheFactoryModule() ?",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_595b0310",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "You should implement this.",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_facd2938",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "You should implement this.",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 3
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30203a2d_19658bc5",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-04-28T16:27:46Z",
+      "side": 1,
+      "message": "Can this go into the DefaultCacheFactoryModule() ?",
+      "range": {
+        "startLine": 260,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

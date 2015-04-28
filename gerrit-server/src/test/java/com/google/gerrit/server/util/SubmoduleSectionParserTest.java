@@ -21,6 +21,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
@@ -34,10 +35,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
@@ -87,7 +88,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("super-project"),
             "refs/heads/master");
 
-    List<SubmoduleSubscription> expectedSubscriptions = new ArrayList<>();
+    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
     expectedSubscriptions
         .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
             new Project.NameKey("a"), "refs/heads/master"), "a"));
@@ -134,7 +135,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("super-project"),
             "refs/heads/master");
 
-    List<SubmoduleSubscription> expectedSubscriptions = new ArrayList<>();
+    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
     expectedSubscriptions
         .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
             new Project.NameKey("a"), "refs/heads/master"), "a"));
@@ -159,9 +160,10 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     sectionsToReturn.put("a", new SubmoduleSection("ssh://review.source.com/a",
         "a", "."));
 
+    Set<SubmoduleSubscription> expectedSubscriptions = Collections.emptySet();
     execute(new Branch.NameKey(new Project.NameKey("super-project"),
         "refs/heads/master"), sectionsToReturn, new HashMap<String, String>(),
-        new ArrayList<SubmoduleSubscription>());
+        expectedSubscriptions);
   }
 
   @Test
@@ -170,9 +172,10 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     sectionsToReturn.put("a", new SubmoduleSection("ssh://localhost/a", "a",
         "."));
 
+    Set<SubmoduleSubscription> expectedSubscriptions = Collections.emptySet();
     execute(new Branch.NameKey(new Project.NameKey("super-project"),
         "refs/heads/master"), sectionsToReturn, new HashMap<String, String>(),
-        new ArrayList<SubmoduleSubscription>());
+        expectedSubscriptions);
   }
 
   @Test
@@ -181,15 +184,16 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     sectionsToReturn.put("project", new SubmoduleSection(
         "ssh://localhost/company/tools/project", "project", "."));
 
+    Set<SubmoduleSubscription> expectedSubscriptions = Collections.emptySet();
     execute(new Branch.NameKey(new Project.NameKey("super-project"),
         "refs/heads/master"), sectionsToReturn, new HashMap<String, String>(),
-        new ArrayList<SubmoduleSubscription>());
+        expectedSubscriptions);
   }
 
   private void execute(final Branch.NameKey superProjectBranch,
       final Map<String, SubmoduleSection> sectionsToReturn,
       final Map<String, String> reposToBeFound,
-      final List<SubmoduleSubscription> expectedSubscriptions) throws Exception {
+      final Set<SubmoduleSubscription> expectedSubscriptions) throws Exception {
     expect(bbc.getSubsections("submodule"))
         .andReturn(sectionsToReturn.keySet());
 
@@ -231,7 +235,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new SubmoduleSectionParser(projectCache, bbc, THIS_SERVER,
             superProjectBranch);
 
-    List<SubmoduleSubscription> returnedSubscriptions = ssp.parseAllSections();
+    Set<SubmoduleSubscription> returnedSubscriptions = ssp.parseAllSections();
 
     doVerify();
 

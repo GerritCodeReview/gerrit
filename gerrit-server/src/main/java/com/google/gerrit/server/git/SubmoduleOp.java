@@ -160,7 +160,7 @@ public class SubmoduleOp {
           Sets.newHashSet(schema.submoduleSubscriptions()
               .bySuperProject(destBranch));
 
-      List<SubmoduleSubscription> newSubscriptions;
+      Set<SubmoduleSubscription> newSubscriptions;
       TreeWalk tw = TreeWalk.forPath(db, GIT_MODULES, mergeTip.getTree());
       if (tw != null
           && (FileMode.REGULAR_FILE.equals(tw.getRawMode(0)) ||
@@ -177,7 +177,7 @@ public class SubmoduleOp {
         newSubscriptions = subSecParserFactory.create(bbc, thisServer, target)
             .parseAllSections();
       } else {
-        newSubscriptions = Collections.emptyList();
+        newSubscriptions = Collections.emptySet();
       }
 
       Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();

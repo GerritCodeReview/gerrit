@@ -33,6 +33,7 @@ import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 class ReplyAction {
   private final PatchSet.Id psId;
   private final String revision;
+  private final boolean hasDraftComments;
   private final ChangeScreen.Style style;
   private final CommentLinkProcessor clp;
   private final Widget replyButton;
@@ -47,6 +48,7 @@ class ReplyAction {
   ReplyAction(
       ChangeInfo info,
       String revision,
+      boolean hasDraftComments,
       ChangeScreen.Style style,
       CommentLinkProcessor clp,
       Widget replyButton,
@@ -55,6 +57,7 @@ class ReplyAction {
         info.legacy_id(),
         info.revisions().get(revision)._number());
     this.revision = revision;
+    this.hasDraftComments = hasDraftComments;
     this.style = style;
     this.clp = clp;
     this.replyButton = replyButton;
@@ -111,11 +114,15 @@ class ReplyAction {
       public void onClose(CloseEvent<PopupPanel> event) {
         if (popup == p) {
           popup = null;
+          if (hasDraftComments || replyBox.hasMessage()) {
+            replyButton.setStyleName(style.highlight());
+          }
         }
       }
     });
     p.add(replyBox);
     Window.scrollTo(0, 0);
+    replyButton.removeStyleName(style.highlight());
     p.showRelativeTo(replyButton);
     GlobalKey.dialog(p);
     popup = p;

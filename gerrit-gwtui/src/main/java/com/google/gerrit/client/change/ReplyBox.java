@@ -180,6 +180,10 @@ class ReplyBox extends Composite {
     postReview();
   }
 
+  boolean hasMessage() {
+    return !message.getText().trim().isEmpty();
+  }
+
   private void postReview() {
     in.message(message.getText().trim());
     in.prePost();

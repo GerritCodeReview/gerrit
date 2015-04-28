@@ -388,7 +388,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
           return b;
         }
       } catch (SQLException e) {
-        log.warn("Cannot build BloomFilter for " + url, e);
+        log.warn("Cannot build BloomFilter for " + url + ": " + e.getMessage());
         c = close(c);
         return null;
       } finally {

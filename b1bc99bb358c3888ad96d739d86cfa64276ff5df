@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02b4a16_95140479",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.4.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T06:42:34Z",
+      "side": 1,
+      "message": "nit: missing period at the end of the sentence.",
+      "revId": "b1bc99bb358c3888ad96d739d86cfa64276ff5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_b51900b2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.4.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T06:42:34Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "b1bc99bb358c3888ad96d739d86cfa64276ff5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -101,8 +101,6 @@ public class SubmoduleSectionParser {
           // Subscription really related to this running server.
           if (branch.equals(".")) {
             branch = superProjectBranch.get();
-          } else if (!branch.startsWith(Constants.R_REFS)) {
-            branch = Constants.R_HEADS + branch;
           }
 
           final String urlExtractedPath = new URI(url).getPath();

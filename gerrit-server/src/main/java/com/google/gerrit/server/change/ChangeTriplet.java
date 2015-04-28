@@ -21,8 +21,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
-import org.eclipse.jgit.lib.Constants;
-
 @AutoValue
 public abstract class ChangeTriplet {
   public static String format(Change change) {
@@ -52,10 +50,6 @@ public abstract class ChangeTriplet {
     String project = Url.decode(triplet.substring(0, t1));
     String branch = Url.decode(triplet.substring(t1 + 1, t2));
     String changeId = Url.decode(triplet.substring(t2 + 1));
-
-    if (!branch.startsWith(Constants.R_REFS)) {
-      branch = Constants.R_HEADS + branch;
-    }
 
     ChangeTriplet result = new AutoValue_ChangeTriplet(
         new Branch.NameKey(new Project.NameKey(project), branch),

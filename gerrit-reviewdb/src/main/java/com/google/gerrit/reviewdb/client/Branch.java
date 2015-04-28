@@ -36,9 +36,9 @@ public final class Branch {
       projectName = new Project.NameKey();
     }
 
-    public NameKey(final Project.NameKey proj, final String n) {
+    public NameKey(final Project.NameKey proj, final String branchName) {
       projectName = proj;
-      branchName = n;
+      set(branchName);
     }
 
     @Override
@@ -48,7 +48,7 @@ public final class Branch {
 
     @Override
     protected void set(String newValue) {
-      branchName = newValue;
+      branchName = RefNames.fullName(newValue);
     }
 
     @Override

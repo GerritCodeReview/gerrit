@@ -30,12 +30,12 @@ import java.util.Map;
 @Singleton
 public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
-  protected CommentJson commentJson;
+  protected final Provider<CommentJson> commentJson;
   protected final PatchLineCommentsUtil plcUtil;
 
   @Inject
   ListRevisionDrafts(Provider<ReviewDb> db,
-      CommentJson commentJson,
+      Provider<CommentJson> commentJson,
       PatchLineCommentsUtil plcUtil) {
     this.db = db;
     this.commentJson = commentJson;
@@ -55,6 +55,8 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   @Override
   public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
       throws OrmException {
-    return commentJson.format(listComments(rsrc), includeAuthorInfo());
+    return commentJson.get()
+        .setFillAccounts(includeAuthorInfo())
+        .format(listComments(rsrc));
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "707ab234_abc74994",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InMemoryTestingDatabaseModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "501daef5_9ad2edd3",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "501daef5_bad7b1c2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/CacheOperationsIT.java",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "707ab234_cbb8950d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/CacheOperationsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "I described that in the commit message, the test environment doesn\u0027t use LocalDiskRepositoryManager but InMemoryRepositoryManager for performance reasons and in this change the latter one doesn\u0027t have a project list cache",
+      "parentUuid": "501daef5_bad7b1c2",
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30203a2d_3962cfbe",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
         "patchSetId": 5
@@ -53,6 +95,30 @@
       "writtenOn": "2015-04-28T16:27:46Z",
       "side": 1,
       "message": "Can this go into the DefaultCacheFactory.Module() ?",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_aac74f94",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30203a2d_3962cfbe",
       "range": {
         "startLine": 163,
         "startChar": 0,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "506bee69_cab8830d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "no, only LocalDiskRepositoryManager missed this method but ProjectCacheImpl had this implementation and when moving the project list cache to this class I also moved the remove() implementation from ProjectCacheImpl to LocalDiskRepositoryManager",
+      "parentUuid": "30203a2d_9970bb89",
+      "range": {
+        "startLine": 332,
+        "startChar": 2,
+        "endLine": 344,
+        "endChar": 3
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "501daef5_1a3c9d8f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 5
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "707ab234_ebbd51fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "this is related since if this method isn\u0027t static ProjectVisitor can\u0027t use it",
+      "parentUuid": "501daef5_1a3c9d8f",
+      "range": {
+        "startLine": 417,
+        "startChar": 10,
+        "endLine": 417,
+        "endChar": 16
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "501daef5_3a3961a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 5
@@ -122,6 +236,30 @@
       "writtenOn": "2015-04-28T16:27:46Z",
       "side": 1,
       "message": "Why not rather make this a nested class of the Lister. Then you can have access to the basePath in the Lister.",
+      "range": {
+        "startLine": 476,
+        "startChar": 10,
+        "endLine": 476,
+        "endChar": 16
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_4bcd85b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "501daef5_3a3961a0",
       "range": {
         "startLine": 476,
         "startChar": 10,
@@ -180,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "707ab234_8bc28d85",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30203a2d_79584712",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30203a2d_595b0310",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
         "patchSetId": 5
@@ -191,6 +353,30 @@
       "writtenOn": "2015-04-28T16:27:46Z",
       "side": 1,
       "message": "You should implement this.",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_eabd47fa",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "why ? It was already missing before this change",
+      "parentUuid": "30203a2d_595b0310",
       "range": {
         "startLine": 40,
         "startChar": 1,
@@ -237,6 +423,30 @@
       "writtenOn": "2015-04-28T16:27:46Z",
       "side": 1,
       "message": "Can this go into the DefaultCacheFactoryModule() ?",
+      "range": {
+        "startLine": 260,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 7
+      },
+      "revId": "dfb22189334649d7d11e9d3bbff26146ce059444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_8ac28b85",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-28T22:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30203a2d_19658bc5",
       "range": {
         "startLine": 260,
         "startChar": 4,

@@ -113,6 +113,7 @@ public class ChangeScreen extends Screen {
     String label_need();
     String replyBox();
     String selected();
+    String highlight();
     String hashtagName();
   }
 
@@ -131,6 +132,7 @@ public class ChangeScreen extends Screen {
   private String base;
   private String revision;
   private ChangeInfo changeInfo;
+  private boolean hasDraftComments;
   private CommentLinkProcessor commentLinkProcessor;
   private EditInfo edit;
 
@@ -300,6 +302,9 @@ public class ChangeScreen extends Screen {
         .openDiv()
         .append(Gerrit.getConfig().getReplyLabel())
         .closeDiv());
+      if (hasDraftComments) {
+        reply.setStyleName(style.highlight());
+      }
       reply.setVisible(true);
     }
   }
@@ -932,6 +937,7 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
             r.add(result);
+            hasDraftComments = !result.isEmpty();
           }
 
           @Override

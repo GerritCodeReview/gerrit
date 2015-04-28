@@ -70,6 +70,30 @@
       "revId": "4ddbfc9a8b2ade6a5d2dea1a4e95a54ee9aca13e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501daef5_baa3317d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-28T07:40:09Z",
+      "side": 1,
+      "message": "Okay, then a migration seems to be unneeded.",
+      "parentUuid": "b0426adc_7d2357d4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "4ddbfc9a8b2ade6a5d2dea1a4e95a54ee9aca13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

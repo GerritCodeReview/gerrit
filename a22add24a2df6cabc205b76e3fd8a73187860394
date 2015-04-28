@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f019420f_17523439",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-28T18:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d030be80_56cd14b3",
+      "range": {
+        "startLine": 160,
+        "startChar": 41,
+        "endLine": 160,
+        "endChar": 50
+      },
+      "revId": "a22add24a2df6cabc205b76e3fd8a73187860394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d030be80_76ca909e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 18
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1017b6d9_58a3fdac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-28T18:17:54Z",
+      "side": 1,
+      "message": "Yes it would. I will make this change in a separate thread, as I would need to change the signature of SubmoduleSectionParser.parseAllSections() which is tested in a mock test.",
+      "parentUuid": "d030be80_76ca909e",
+      "revId": "a22add24a2df6cabc205b76e3fd8a73187860394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b02b4a16_55cd0cb3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 18
@@ -53,6 +95,24 @@
       "writtenOn": "2015-04-28T00:44:40Z",
       "side": 1,
       "message": "if (!newSubscriptions.isEmpty()) ?",
+      "revId": "a22add24a2df6cabc205b76e3fd8a73187860394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1017b6d9_f8b3f1fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-28T18:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b02b4a16_55cd0cb3",
       "revId": "a22add24a2df6cabc205b76e3fd8a73187860394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

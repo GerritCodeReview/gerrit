@@ -24,7 +24,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ListComments extends ListDraftComments {
+public class ListComments extends ListRevisionDrafts {
   @Inject
   ListComments(Provider<ReviewDb> db,
       CommentJson commentJson,

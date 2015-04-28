@@ -27,7 +27,7 @@ import com.google.inject.Singleton;
 public class ListRevisionComments extends ListRevisionDrafts {
   @Inject
   ListRevisionComments(Provider<ReviewDb> db,
-      CommentJson commentJson,
+      Provider<CommentJson> commentJson,
       PatchLineCommentsUtil plcUtil) {
     super(db, commentJson, plcUtil);
   }

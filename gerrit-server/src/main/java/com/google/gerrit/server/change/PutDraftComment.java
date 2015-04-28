@@ -45,7 +45,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final DeleteDraftComment delete;
   private final PatchLineCommentsUtil plcUtil;
   private final ChangeUpdate.Factory updateFactory;
-  private final CommentJson commentJson;
+  private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
 
   @Inject
@@ -53,7 +53,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       DeleteDraftComment delete,
       PatchLineCommentsUtil plcUtil,
       ChangeUpdate.Factory updateFactory,
-      CommentJson commentJson,
+      Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
     this.db = db;
     this.delete = delete;
@@ -102,7 +102,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
           Collections.singleton(update(c, in)));
     }
     update.commit();
-    return Response.ok(commentJson.format(c, false));
+    return Response.ok(commentJson.get().setFillAccounts(false).format(c));
   }
 
   private PatchLineComment update(PatchLineComment e, DraftInput in) {

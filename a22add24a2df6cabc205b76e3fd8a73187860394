@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "1017b6d9_d895cd3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-28T18:57:36Z",
+      "side": 1,
+      "message": "Sigh, mocks.",
+      "parentUuid": "1017b6d9_58a3fdac",
+      "revId": "a22add24a2df6cabc205b76e3fd8a73187860394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b02b4a16_55cd0cb3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 18

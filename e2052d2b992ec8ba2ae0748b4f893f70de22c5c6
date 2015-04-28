@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "d030be80_16d79c41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "adapted",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_15d79441",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "client",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 11
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_35d4103a",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "protocols",
+      "range": {
+        "startLine": 53,
+        "startChar": 47,
+        "endLine": 53,
+        "endChar": 55
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30203a2d_d9171345",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 2
@@ -13,6 +82,207 @@
       "writtenOn": "2015-04-27T22:11:14Z",
       "side": 1,
       "message": "Mention that Gerrit is pre-commit review tool, compared to post-commit or hybrid review tools (that support both).",
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_d5dfdc55",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "link to the user-upload page?",
+      "range": {
+        "startLine": 64,
+        "startChar": 13,
+        "endLine": 64,
+        "endChar": 30
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d030be80_36d4183a",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "maybe explicitly add \"under the refs/changes/ namespace\" here to avoid potential confusion?",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 32
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d030be80_d6dfe455",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure what is meant here.",
+      "range": {
+        "startLine": 146,
+        "startChar": 56,
+        "endLine": 148,
+        "endChar": 7
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_f5e45828",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "Maybe worth mentioning it\u0027s possible to push to refs/changes/ in the case where the project does not want Change-Id in the commit message?",
+      "range": {
+        "startLine": 176,
+        "startChar": 45,
+        "endLine": 183,
+        "endChar": 8
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_95d96473",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "apostrophe is not needed here",
+      "range": {
+        "startLine": 195,
+        "startChar": 9,
+        "endLine": 195,
+        "endChar": 11
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_b5dee056",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "Mention that a Change-id must be unique in a branch?",
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d030be80_f6e46028",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "\"a new\"",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 227,
+        "endChar": 11
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_55f42cd1",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 269,
+        "startChar": 64,
+        "endLine": 269,
+        "endChar": 66
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_75f128e0",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "explicitly",
+      "range": {
+        "startLine": 310,
+        "startChar": 0,
+        "endLine": 310,
+        "endChar": 11
+      },
       "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -42,6 +312,30 @@
     },
     {
       "key": {
+        "uuid": "b02b4a16_15eeb403",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "or administrators",
+      "parentUuid": "501daef5_9acc2d6c",
+      "range": {
+        "startLine": 317,
+        "startChar": 49,
+        "endLine": 317,
+        "endChar": 62
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30203a2d_f91c576b",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 2
@@ -58,6 +352,98 @@
         "startChar": 60,
         "endLine": 328,
         "endChar": 70
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d030be80_96d96c73",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "descriptive",
+      "range": {
+        "startLine": 333,
+        "startChar": 60,
+        "endLine": 333,
+        "endChar": 70
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d030be80_b6dee856",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "Remove this.",
+      "range": {
+        "startLine": 341,
+        "startChar": 20,
+        "endLine": 341,
+        "endChar": 24
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d030be80_56f434d1",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "\"must first be\"",
+      "range": {
+        "startLine": 372,
+        "startChar": 35,
+        "endLine": 372,
+        "endChar": 48
+      },
+      "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02b4a16_35ebb0f4",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-28T01:06:21Z",
+      "side": 1,
+      "message": "Working",
+      "range": {
+        "startLine": 475,
+        "startChar": 3,
+        "endLine": 475,
+        "endChar": 7
       },
       "revId": "e2052d2b992ec8ba2ae0748b4f893f70de22c5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

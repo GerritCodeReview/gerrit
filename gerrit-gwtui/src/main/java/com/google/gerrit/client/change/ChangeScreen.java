@@ -1128,13 +1128,12 @@ public class ChangeScreen extends Screen {
   private void renderRevisionInfo(ChangeInfo info,
       NativeMap<ActionInfo> actionMap) {
     RevisionInfo revisionInfo = info.revision(revision);
-    boolean current = info.status().isOpen()
-        && revision.equals(info.current_revision())
+    boolean current = revision.equals(info.current_revision())
         && !revisionInfo.is_edit();
 
     if (revisionInfo.is_edit()) {
       statusText.setInnerText(Util.C.changeEdit());
-    } else if (!current && info.status() == Change.Status.NEW) {
+    } else if (!current) {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {
@@ -1149,7 +1148,7 @@ public class ChangeScreen extends Screen {
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
 
-    if (current) {
+    if (current && info.status().isOpen()) {
       quickApprove.set(info, revision, replyAction);
       loadSubmitType(info.status(), isSubmittable(info));
     } else {

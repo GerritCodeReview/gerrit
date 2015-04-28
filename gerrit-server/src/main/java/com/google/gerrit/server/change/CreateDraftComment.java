@@ -45,14 +45,14 @@ import java.util.Collections;
 public class CreateDraftComment implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
   private final ChangeUpdate.Factory updateFactory;
-  private final CommentJson commentJson;
+  private final Provider<CommentJson> commentJson;
   private final PatchLineCommentsUtil plcUtil;
   private final PatchListCache patchListCache;
 
   @Inject
   CreateDraftComment(Provider<ReviewDb> db,
       ChangeUpdate.Factory updateFactory,
-      CommentJson commentJson,
+      Provider<CommentJson> commentJson,
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache) {
     this.db = db;
@@ -93,6 +93,6 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
     plcUtil.insertComments(db.get(), update, Collections.singleton(c));
     update.commit();
-    return Response.created(commentJson.format(c, false));
+    return Response.created(commentJson.get().setFillAccounts(false).format(c));
   }
 }

@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,36 +34,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-@Singleton
 class CommentJson {
 
   private final AccountLoader.Factory accountLoaderFactory;
+
+  private boolean fillAccounts = true;
 
   @Inject
   CommentJson(AccountLoader.Factory accountLoaderFactory) {
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
-  CommentInfo format(PatchLineComment c) throws OrmException {
-    return format(c, true);
+  CommentJson setFillAccounts(boolean fillAccounts) {
+    this.fillAccounts = fillAccounts;
+    return this;
   }
 
-  CommentInfo format(PatchLineComment c, boolean fill) throws OrmException {
+  CommentInfo format(PatchLineComment c) throws OrmException {
     AccountLoader loader = null;
-    if (fill) {
+    if (fillAccounts) {
       loader = accountLoaderFactory.create(true);
     }
     CommentInfo commentInfo = toCommentInfo(c, loader);
-    if (fill) {
+    if (fillAccounts) {
       loader.fill();
     }
     return commentInfo;
   }
 
-  Map<String, List<CommentInfo>> format(Iterable<PatchLineComment> l,
-      boolean fill) throws OrmException {
+  Map<String, List<CommentInfo>> format(Iterable<PatchLineComment> l)
+      throws OrmException {
     Map<String, List<CommentInfo>> out = new TreeMap<>();
-    AccountLoader accountLoader = fill
+    AccountLoader accountLoader = fillAccounts
         ? accountLoaderFactory.create(true)
         : null;
 

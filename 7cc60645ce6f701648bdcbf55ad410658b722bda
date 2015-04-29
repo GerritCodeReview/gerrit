@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "506bee69_ca5c035d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-29T10:09:44Z",
+      "side": 1,
+      "message": "Done, improved the message to better fit this failure situation",
+      "parentUuid": "707ab234_4bffc5a7",
+      "range": {
+        "startLine": 326,
+        "startChar": 28,
+        "endLine": 326,
+        "endChar": 37
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_6bfc01b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-29T09:04:31Z",
       "side": 1,
       "message": "available",
+      "range": {
+        "startLine": 340,
+        "startChar": 28,
+        "endLine": 340,
+        "endChar": 37
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_ea61c70f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-29T10:09:44Z",
+      "side": 1,
+      "message": "Done, improved the message to better fit this failure situation",
+      "parentUuid": "707ab234_6bfc01b2",
       "range": {
         "startLine": 340,
         "startChar": 28,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "506bee69_4a71f3d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-29T10:09:44Z",
+      "side": 1,
+      "message": "done, this was just moved from ProjectCacheImpl",
+      "parentUuid": "506bee69_ea36a714",
+      "range": {
+        "startLine": 446,
+        "startChar": 30,
+        "endLine": 446,
+        "endChar": 74
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_0b09bd5e",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
         "patchSetId": 8
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "506bee69_8a660b25",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-29T10:09:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ab234_0b09bd5e",
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_2b06f94d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
         "patchSetId": 8
@@ -99,6 +189,30 @@
       "writtenOn": "2015-04-29T09:04:31Z",
       "side": 1,
       "message": "Project.NameKey",
+      "range": {
+        "startLine": 40,
+        "startChar": 30,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_aa6bcfed",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-04-29T10:09:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ab234_2b06f94d",
       "range": {
         "startLine": 40,
         "startChar": 30,

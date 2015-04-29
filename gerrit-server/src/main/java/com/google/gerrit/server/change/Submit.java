@@ -53,6 +53,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeQueue;
@@ -83,8 +84,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
@@ -210,19 +213,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    List<Change> submittedChanges = submit(rsrc, caller, false);
+    Set<Change> submittedChanges = new HashSet<>(submit(rsrc, caller, false));
 
     if (input.waitForMerge) {
-      for (Change c : submittedChanges) {
-        // TODO(sbeller): We should make schedule return a Future, then we
-        // could do these all in parallel and still block until they're done.
-        mergeQueue.merge(c.getDest());
-      }
+      mergeQueue.merge(ChangeSet.create(submittedChanges));
       change = dbProvider.get().changes().get(change.getId());
     } else {
-      for (Change c : submittedChanges) {
-        mergeQueue.schedule(c.getDest());
-      }
+      mergeQueue.schedule(ChangeSet.create(submittedChanges));
     }
 
     if (change == null) {

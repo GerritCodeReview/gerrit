@@ -185,6 +185,24 @@
     },
     {
       "key": {
+        "uuid": "907f2621_4c26ffe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-29T21:43:38Z",
+      "side": 1,
+      "message": "I agree line 108 is off and wrong here (most likely a leftover from the current state where you\u0027d get the Merge entry first and check for non null).",
+      "parentUuid": "b070aa50_ad6bdded",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b070aa50_6dcad59e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 15
@@ -281,6 +299,30 @@
       "writtenOn": "2015-04-29T00:11:49Z",
       "side": 1,
       "message": "MoreObjects.ToStringHelper h \u003d new MoreObjects.toStringHelper(this);\n for (Change c : changes) {\n   h.addValue(c.getId() + \":\" + c.getDest());\n }\n return h.toString();",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 42
+      },
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_ec36cb14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-29T21:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907f2621_acc76394",
       "range": {
         "startLine": 258,
         "startChar": 0,

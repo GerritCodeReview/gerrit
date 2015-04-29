@@ -19,8 +19,8 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 
@@ -34,8 +34,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 
 class DraftCommentNotesParser implements AutoCloseable {
-  final Multimap<PatchSet.Id, PatchLineComment> draftBaseComments;
-  final Multimap<PatchSet.Id, PatchLineComment> draftPsComments;
+  final Multimap<RevId, PatchLineComment> comments;
   NoteMap noteMap;
 
   private final Change.Id changeId;
@@ -53,8 +52,7 @@ class DraftCommentNotesParser implements AutoCloseable {
     this.repo = repoManager.openMetadataRepository(draftsProject);
     this.author = author;
 
-    draftBaseComments = ArrayListMultimap.create();
-    draftPsComments = ArrayListMultimap.create();
+    comments = ArrayListMultimap.create();
   }
 
   @Override
@@ -66,7 +64,6 @@ class DraftCommentNotesParser implements AutoCloseable {
     walk.markStart(walk.parseCommit(tip));
     noteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
         RefNames.refsDraftComments(author, changeId),
-        walk, changeId, draftBaseComments,
-        draftPsComments, PatchLineComment.Status.DRAFT);
+        walk, changeId, comments, PatchLineComment.Status.DRAFT);
   }
 }

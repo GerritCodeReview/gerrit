@@ -370,8 +370,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);
         e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
-        setCommentRevId(e, patchListCache, rsrc.getChange(),
-            rsrc.getPatchSet());
+        setCommentRevId(e, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
         e.setMessage(c.message);
         if (c.range != null) {
           e.setRange(new CommentRange(
@@ -396,8 +395,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         for (PatchLineComment e : drafts.values()) {
           e.setStatus(PatchLineComment.Status.PUBLISHED);
           e.setWrittenOn(timestamp);
-          setCommentRevId(e, patchListCache, rsrc.getChange(),
-              rsrc.getPatchSet());
+          setCommentRevId(e, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
           ups.add(e);
         }
         break;

@@ -17,6 +17,13 @@ package com.google.gerrit.extensions.client;
 import java.sql.Timestamp;
 
 public abstract class Comment {
+  /**
+   * Patch set number containing this commit.
+   * <p>
+   * Only set in contexts where comments may come from multiple patch sets.
+   */
+  public Integer patchSet;
+
   public String id;
   public String path;
   public Side side;

@@ -64,4 +64,9 @@ public final class RevId {
   public boolean equals(Object o) {
     return (o instanceof RevId) && id.equals(((RevId) o).id);
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" + id + "}";
+  }
 }

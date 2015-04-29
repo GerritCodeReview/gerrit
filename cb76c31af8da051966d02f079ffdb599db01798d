@@ -22,6 +22,30 @@
       "revId": "cb76c31af8da051966d02f079ffdb599db01798d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_aa42ef6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T12:17:57Z",
+      "side": 1,
+      "message": "I guess it\u0027s assumed that the IOException was due to a LOCK_FAILURE, due to concurrent update.",
+      "parentUuid": "d0751e3f_4ecd93b3",
+      "range": {
+        "startLine": 196,
+        "startChar": 20,
+        "endLine": 196,
+        "endChar": 45
+      },
+      "revId": "cb76c31af8da051966d02f079ffdb599db01798d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

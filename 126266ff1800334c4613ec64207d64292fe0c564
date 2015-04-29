@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "907f2621_8c2b87af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T18:01:22Z",
+      "side": 1,
+      "message": "I see. So the goals are:\n\n* _not_ immediately merge C\n* start a merge of [B, C] ASAP after the merge of [A, B] is finished.",
+      "parentUuid": "b070aa50_2d1dad8f",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 74
+      },
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907f2621_4ccd9fb3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 15
@@ -137,6 +161,24 @@
       "side": 1,
       "message": "How are you convinced it has no effect?\n\nThe decision is made based on the branches intersecting with the already processing branches, so there may be other change sets in flight.",
       "parentUuid": "907f2621_4ccd9fb3",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_ad6bdded",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T18:01:22Z",
+      "side": 1,
+      "message": "I think I misread currentBranches as set.touchedBranches().\n\nBut I still don\u0027t think this is right. Going back to the example above, if set1 is active, then we would have called schedule from l. 97 above, because branch B is in common.\n\nBut then this e will be null, because set2.hash is not in active. Did you want e to somehow be the MergeEntry from set1?\n\nEven if you did that, setting needMerge on set1\u0027s MergeEntry will be insufficient, because that will tell it to recheck A and B once that merge is finished, in which case you\u0027re missing C.",
+      "parentUuid": "b070aa50_4d26f9e5",
       "revId": "126266ff1800334c4613ec64207d64292fe0c564",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

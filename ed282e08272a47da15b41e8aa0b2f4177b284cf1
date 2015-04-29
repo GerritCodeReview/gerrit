@@ -46,6 +46,30 @@
       "revId": "ed282e08272a47da15b41e8aa0b2f4177b284cf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_aa30af17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T09:09:52Z",
+      "side": 1,
+      "message": "Nobody was talking about cleaning \"all this up\". My objection was against this change, that claimed to improve thing, but made it even worth.",
+      "parentUuid": "506bee69_8ad92b73",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "ed282e08272a47da15b41e8aa0b2f4177b284cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

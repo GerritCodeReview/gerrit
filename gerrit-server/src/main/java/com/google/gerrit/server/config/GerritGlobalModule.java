@@ -72,6 +72,7 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
+import com.google.gerrit.server.git.MergeOpMapper;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
@@ -221,6 +222,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ApprovalsUtil.class);
     bind(ChangeMergeQueue.class).in(SINGLETON);
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
+    factory(MergeOpMapper.Factory.class);
 
     bind(RuntimeInstance.class)
         .toProvider(VelocityRuntimeProvider.class)

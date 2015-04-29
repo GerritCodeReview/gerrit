@@ -1146,6 +1146,53 @@ Adds or updates the change in the secondary index.
   HTTP/1.1 204 No Content
 ----
 
+[[list-change-drafts]]
+=== List Change Drafts
+--
+'GET /changes/link:#change-id[\{change-id\}]/drafts'
+--
+
+Lists the draft comments of all revisions of the change that belong to
+the calling user.
+
+Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+entries. The entries in the map are sorted by file path, and the
+comments for each path are sorted by patch set number. Each comment has
+the `patch_set` field set.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/drafts HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "patch_set": 1,
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "[nit] trailing whitespace",
+        "updated": "2013-02-26 15:40:43.986000000"
+      },
+      {
+        "patch_set": 2,
+        "id": "TveXwFiA",
+        "line": 49,
+        "in_reply_to": "TfYX-Iuo",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000"
+      }
+    ]
+  }
+----
+
 [[check-change]]
 === Check change
 --
@@ -2594,9 +2641,8 @@ all LFs are included in the Prolog code:
 Lists the draft comments of a revision that belong to the calling
 user.
 
-As result a map is returned that maps the file path to a list of
-link:#comment-info[CommentInfo] entries. The entries in the map are
-sorted by file path.
+Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+entries. The entries in the map are sorted by file path.
 
 .Request
 ----
@@ -3494,6 +3540,9 @@ The `CommentInfo` entity contains information about an inline comment.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
+|`patch_set`   |optional|
+The patch set number for the comment; only set in contexts where +
+comments may be returned for multiple patch sets.
 |`id`          ||The URL encoded UUID of the comment.
 |`path`        |optional|
 The path of the file for which the inline comment was done. +

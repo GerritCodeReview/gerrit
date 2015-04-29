@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506bee69_cadf2356",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:11:39Z",
+      "side": 1,
+      "message": "Mention that this bug only affected reviewdb codepath and not notedb?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_ebe47128",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:11:39Z",
+      "side": 1,
+      "message": "content",
+      "range": {
+        "startLine": 391,
+        "startChar": 67,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_8bd92d73",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:11:39Z",
+      "side": 1,
+      "message": "We had some issues in notedb codepath depending if line was 0 (file comment) or not. May be we should handle both cases here? For example pass this attribute as parameter to this function.",
+      "range": {
+        "startLine": 427,
+        "startChar": 4,
+        "endLine": 427,
+        "endChar": 16
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_0aee9b03",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:11:39Z",
+      "side": 1,
+      "message": "Make this API extension in own change?",
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_eae46728",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:11:39Z",
+      "side": 1,
+      "message": "Sure, you have introduced this field in this change. But the CommentInfo and Comment classes has dozen other fields. I don\u0027t think it worth mentioning all or some of them in this description.",
+      "range": {
+        "startLine": 114,
+        "startChar": 51,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_4bf4a5d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:11:39Z",
+      "side": 1,
+      "message": "com.google.common.collect.ComparisonChain",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 70
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_2aeb5ff4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeDrafts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:11:39Z",
+      "side": 1,
+      "message": "Disambiguate this name? Change drafts or comment drafts?",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 29
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.PatchLineCommentsUtil.getRevId;
 
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -60,7 +60,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
     ChangeUpdate update = updateFactory.create(rsrc.getControl());
 
     PatchLineComment c = rsrc.getComment();
-    setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
+    getRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
     plcUtil.deleteComments(db.get(), update, Collections.singleton(c));
     update.commit();
     return Response.none();

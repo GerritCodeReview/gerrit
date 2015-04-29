@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.PatchLineCommentsUtil.getRevId;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -91,13 +91,12 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
           c.getLine(),
           rsrc.getAuthorId(),
           c.getParentUuid(), TimeUtil.nowTs());
-      setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
+      getRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
       plcUtil.insertComments(db.get(), update,
           Collections.singleton(update(c, in)));
     } else {
       if (c.getRevId() == null) {
-        setCommentRevId(c, patchListCache, rsrc.getChange(),
-            rsrc.getPatchSet());
+        getRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
       }
       plcUtil.updateComments(db.get(), update,
           Collections.singleton(update(c, in)));

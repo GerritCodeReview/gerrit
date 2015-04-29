@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.PatchLineCommentsUtil.getRevId;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.base.MoreObjects;
@@ -317,14 +317,14 @@ public class ChangeRebuilder {
     void apply(ChangeUpdate update) throws OrmException {
       checkUpdate(update);
       if (c.getRevId() == null) {
-        setCommentRevId(c, cache, change, ps);
+        getRevId(c, cache, change, ps);
       }
       update.insertComment(c);
     }
 
     void applyDraft(ChangeDraftUpdate draftUpdate) throws OrmException {
       if (c.getRevId() == null) {
-        setCommentRevId(c, cache, change, ps);
+        getRevId(c, cache, change, ps);
       }
       draftUpdate.insertComment(c);
     }

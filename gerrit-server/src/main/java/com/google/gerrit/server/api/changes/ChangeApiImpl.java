@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetTopic;
+import com.google.gerrit.server.change.ListChangeDrafts;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PutTopic;
@@ -56,6 +58,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 class ChangeApiImpl implements ChangeApi {
@@ -78,6 +81,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<ChangeJson> changeJson;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
+  private final ListChangeDrafts listDrafts;
   private final Check check;
   private final ChangeEdits.Detail editDetail;
 
@@ -96,6 +100,7 @@ class ChangeApiImpl implements ChangeApi {
       Provider<ChangeJson> changeJson,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
+      ListChangeDrafts listDrafts,
       Check check,
       ChangeEdits.Detail editDetail,
       @Assisted ChangeResource change) {
@@ -113,6 +118,7 @@ class ChangeApiImpl implements ChangeApi {
     this.changeJson = changeJson;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
+    this.listDrafts = listDrafts;
     this.check = check;
     this.editDetail = editDetail;
     this.change = change;
@@ -294,6 +300,15 @@ class ChangeApiImpl implements ChangeApi {
       return getHashtags.apply(change).value();
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot get hashtags", e);
+    }
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+    try {
+      return listDrafts.apply(change);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get drafts", e);
     }
   }
 

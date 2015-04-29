@@ -531,7 +531,7 @@ public class CommentsInNotesUtil {
         "No comments to write; to delete, use removeNoteFromNoteMap().");
     ObjectId commit =
         ObjectId.fromString(allComments.get(0).getRevId().get());
-    Collections.sort(allComments, ChangeNotes.PatchLineCommentComparator);
+    Collections.sort(allComments, ChangeNotes.PLC_ORDER);
     noteMap.set(commit, inserter.insert(OBJ_BLOB, buildNote(allComments)));
   }
 

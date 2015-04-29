@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -23,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface ChangeApi {
@@ -105,6 +107,24 @@ public interface ChangeApi {
    * @throws RestApiException
    */
   Set<String> getHashtags() throws RestApiException;
+
+  /**
+   * Get all published comments on a change.
+   *
+   * @return comments in a map keyed by path; comments have the {@code revision}
+   *     field set to indicate their patch set.
+   * @throws RestApiException
+   */
+  Map<String, List<CommentInfo>> comments() throws RestApiException;
+
+  /**
+   * Get all draft comments for the current user on a change.
+   *
+   * @return drafts in a map keyed by path; comments have the {@code revision}
+   *     field set to indicate their patch set.
+   * @throws RestApiException
+   */
+  Map<String, List<CommentInfo>> drafts() throws RestApiException;
 
   ChangeInfo check() throws RestApiException;
   ChangeInfo check(FixInput fix) throws RestApiException;
@@ -246,6 +266,16 @@ public interface ChangeApi {
 
     @Override
     public Set<String> getHashtags() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> comments() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> drafts() throws RestApiException {
       throw new NotImplementedException();
     }
 

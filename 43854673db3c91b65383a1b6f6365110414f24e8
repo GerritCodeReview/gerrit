@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "707ab234_eb36b114",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T09:36:00Z",
+      "side": 1,
+      "message": "+1\n\nThe most (all?) clients (Change Screen, Reply panel) would always want to list the drafts grouped by patch set anyway. I guess that organizing the output this way would simplify the life on the client side.",
+      "parentUuid": "506bee69_aa198fb1",
+      "range": {
+        "startLine": 1158,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 26
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_ebe47128",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2

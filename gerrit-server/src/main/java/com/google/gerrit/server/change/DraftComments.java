@@ -56,7 +56,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
   }
 
   @Override
-  public RestView<RevisionResource> list() throws AuthException {
+  public ListDraftComments list() throws AuthException {
     checkIdentifiedUser();
     return list;
   }

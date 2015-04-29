@@ -456,6 +456,30 @@
       "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_ac6be3ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeDrafts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T22:41:51Z",
+      "side": 1,
+      "message": "I agree, a cleanup for another day.",
+      "parentUuid": "b070aa50_4dffd9a7",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 78
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

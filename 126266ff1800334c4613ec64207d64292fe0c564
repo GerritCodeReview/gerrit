@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "907f2621_6cfc1bb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-29T17:12:41Z",
+      "side": 1,
+      "message": "I\u0027ll add more information.",
+      "parentUuid": "b070aa50_4dcd99b3",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_ad30bd17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-29T17:12:41Z",
+      "side": 1,
+      "message": "\u003e I just looked at ChangeMergeQueue. It is not clear to me what you\n \u003e intend to happen if callers pass in two partially-overlapping\n \u003e ChangeSets.\n\nBy partially overlapping you mean overlapping in the project/branch dimension?\n\nThe idea is to have a lock on each branch (via a set containing all locked branches, `currentBranches`), so no overlapping change sets should be allowed at the same time.\nWe also need to track the individual groups which are asked to be merged or scheduled. That\u0027s why we\u0027ll have the `active` and `recheck` maps.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 74
+      },
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907f2621_4ccd9fb3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 15
@@ -30,6 +71,24 @@
       "writtenOn": "2015-04-29T00:11:49Z",
       "side": 1,
       "message": "This has no effect. The ChangeSet will only be present in the active map only if there is a set in active containing exactly the changes in this set. Which will of course have the same branch set.\n\nIf you want this to avoid doing extra work here, you need a more complex data structure that maps branch -\u003e MergeEntry for all branches in the set.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_4d26f9e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-29T17:12:41Z",
+      "side": 1,
+      "message": "How are you convinced it has no effect?\n\nThe decision is made based on the branches intersecting with the already processing branches, so there may be other change sets in flight.",
+      "parentUuid": "907f2621_4ccd9fb3",
       "revId": "126266ff1800334c4613ec64207d64292fe0c564",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

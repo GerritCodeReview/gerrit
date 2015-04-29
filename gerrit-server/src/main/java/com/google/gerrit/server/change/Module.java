@@ -52,6 +52,8 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     get(CHANGE_KIND, "in").to(IncludedIn.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
+    get(CHANGE_KIND, "comments").to(ListChangeComments.class);
+    get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
     get(CHANGE_KIND, "check").to(Check.class);
     post(CHANGE_KIND, "check").to(Check.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);

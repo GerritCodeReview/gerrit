@@ -15,7 +15,11 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -184,6 +188,98 @@ public class CommentsIT extends AbstractDaemonTest {
       assertCommentInfo(comment, actual);
       assertThat(comment.updated).isEqualTo(timestamp);
     }
+  }
+
+  @Test
+  public void listChangeDrafts() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    PushOneCommit.Result r2 = pushFactory.create(
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent",
+          r1.getChangeId())
+        .to("refs/for/master");
+
+
+    setApiUser(admin);
+    addDraft(r1.getChangeId(), r1.getCommit().getName(),
+        newDraft(FILE_NAME, Side.REVISION, 1, "nit: trailing whitespace"));
+    addDraft(r2.getChangeId(), r2.getCommit().getName(),
+        newDraft(FILE_NAME, Side.REVISION, 1, "typo: content"));
+
+    setApiUser(user);
+    addDraft(r2.getChangeId(), r2.getCommit().getName(),
+        newDraft(FILE_NAME, Side.REVISION, 1, "+1, please fix"));
+
+    setApiUser(admin);
+    Map<String, List<CommentInfo>> actual =
+        gApi.changes().id(r1.getChangeId()).drafts();
+    assertThat((Iterable<?>) actual.keySet()).containsExactly(FILE_NAME);
+    List<CommentInfo> comments = actual.get(FILE_NAME);
+    assertThat(comments).hasSize(2);
+
+    CommentInfo c1 = comments.get(0);
+    assertThat(c1.author).isNull();
+    assertThat(c1.patchSet).isEqualTo(1);
+    assertThat(c1.message).isEqualTo("nit: trailing whitespace");
+    assertThat(c1.side).isNull();
+    assertThat(c1.line).isEqualTo(1);
+
+    CommentInfo c2 = comments.get(1);
+    assertThat(c2.author).isNull();
+    assertThat(c2.patchSet).isEqualTo(2);
+    assertThat(c2.message).isEqualTo("typo: content");
+    assertThat(c2.side).isNull();
+    assertThat(c2.line).isEqualTo(1);
+  }
+
+  @Test
+  public void listChangeComments() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    PushOneCommit.Result r2 = pushFactory.create(
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent",
+          r1.getChangeId())
+        .to("refs/for/master");
+
+    addComment(r1, "nit: trailing whitespace");
+    addComment(r2, "typo: content");
+
+    Map<String, List<CommentInfo>> actual = gApi.changes()
+        .id(r2.getChangeId())
+        .comments();
+    assertThat(actual.keySet()).containsExactly(FILE_NAME);
+
+    List<CommentInfo> comments = actual.get(FILE_NAME);
+    assertThat(comments).hasSize(2);
+
+    CommentInfo c1 = comments.get(0);
+    assertThat(c1.author._accountId).isEqualTo(user.getId().get());
+    assertThat(c1.patchSet).isEqualTo(1);
+    assertThat(c1.message).isEqualTo("nit: trailing whitespace");
+    assertThat(c1.side).isNull();
+    assertThat(c1.line).isEqualTo(1);
+
+    CommentInfo c2 = comments.get(1);
+    assertThat(c2.author._accountId).isEqualTo(user.getId().get());
+    assertThat(c2.patchSet).isEqualTo(2);
+    assertThat(c2.message).isEqualTo("typo: content");
+    assertThat(c2.side).isNull();
+    assertThat(c2.line).isEqualTo(1);
+  }
+
+  private void addComment(PushOneCommit.Result r, String message)
+      throws Exception {
+    CommentInput c = new CommentInput();
+    c.line = 1;
+    c.message = message;
+    c.path = FILE_NAME;
+    ReviewInput in = new ReviewInput();
+    in.comments = ImmutableMap.<String, List<CommentInput>> of(
+        FILE_NAME, ImmutableList.of(c));
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(in);
   }
 
   private CommentInfo addDraft(String changeId, String revId, DraftInput in)

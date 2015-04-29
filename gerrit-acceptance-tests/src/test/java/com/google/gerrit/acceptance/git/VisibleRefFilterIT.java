@@ -280,7 +280,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     }
 
     Splitter s = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
-    assertThat(filtered).containsSequence(
-        Ordering.natural().sortedCopy(s.split(out)));
+    assertThat(filtered).containsExactlyElementsIn(
+        Ordering.natural().sortedCopy(s.split(out))).inOrder();
   }
 }

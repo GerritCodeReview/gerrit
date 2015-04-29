@@ -1126,8 +1126,7 @@ public abstract class AbstractQueryChangesTest {
 
   protected void assertQuery(QueryRequest query, Change... changes)
       throws Exception {
-    assertThat((Iterable<Integer>) query(query))
-        .named(query.toString())
+    assertThat(query(query)).named(query.toString())
         .containsExactlyElementsIn(ids(changes)).inOrder();
   }
 

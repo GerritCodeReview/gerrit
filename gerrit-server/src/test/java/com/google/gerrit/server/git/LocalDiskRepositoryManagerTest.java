@@ -73,7 +73,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     try (Repository repo = repoManager.openRepository(projectA)) {
       assertThat(repo).isNotNull();
     }
-    assertThat((Iterable<?>) repoManager.list()).containsExactly(projectA);
+    assertThat(repoManager.list()).containsExactly(projectA);
   }
 
   @Test(expected = RepositoryNotFoundException.class)
@@ -174,7 +174,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     try (Repository repo = repoManager.openRepository(projectA)) {
       assertThat(repo).isNotNull();
     }
-    assertThat((Iterable<?>) repoManager.list()).containsExactly(projectA);
+    assertThat(repoManager.list()).containsExactly(projectA);
   }
 
   @Test(expected = RepositoryNotFoundException.class)
@@ -196,8 +196,8 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     repoManager.getBasePath().resolve(".git").toFile().mkdir();
     // create an invalid repo name
     createRepository(repoManager.getBasePath(), "project?A");
-    assertThat((Iterable<?>) repoManager.list()).containsExactly(projectA,
-        projectB, projectC);
+    assertThat(repoManager.list())
+        .containsExactly(projectA, projectB, projectC);
   }
 
   @Test

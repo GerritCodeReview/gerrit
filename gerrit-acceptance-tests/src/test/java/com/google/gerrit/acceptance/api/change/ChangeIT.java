@@ -60,9 +60,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.mergeable).isTrue();
     assertThat(c.changeId).isEqualTo(r.getChangeId());
     assertThat(c.created).isEqualTo(c.updated);
-    assertThat(c._number).is(r.getChange().getId().get());
+    assertThat(c._number).isEqualTo(r.getChange().getId().get());
 
-    assertThat(c.owner._accountId).is(admin.getId().get());
+    assertThat(c.owner._accountId).isEqualTo(admin.getId().get());
     assertThat(c.owner.name).isNull();
     assertThat(c.owner.email).isNull();
     assertThat(c.owner.username).isNull();
@@ -128,7 +128,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r3.getCommit().name())
         .rebase(ri);
     PatchSet ps3 = r3.getPatchSet();
-    assertThat(ps3.getId().get()).is(2);
+    assertThat(ps3.getId().get()).isEqualTo(2);
 
     // rebase r2 onto r3 (referenced by ref)
     ri.base = ps3.getId().toRefName();
@@ -137,7 +137,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r2.getCommit().name())
         .rebase(ri);
     PatchSet ps2 = r2.getPatchSet();
-    assertThat(ps2.getId().get()).is(2);
+    assertThat(ps2.getId().get()).isEqualTo(2);
 
     // rebase r1 onto r2 (referenced by commit)
     ri.base = ps2.getRevision().get();
@@ -146,7 +146,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r1.getCommit().name())
         .rebase(ri);
     PatchSet ps1 = r1.getPatchSet();
-    assertThat(ps1.getId().get()).is(2);
+    assertThat(ps1.getId().get()).isEqualTo(2);
 
     // rebase r1 onto r3 (referenced by change number)
     ri.base = String.valueOf(r3.getChange().getId().get());
@@ -154,7 +154,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r1.getChangeId())
         .revision(ps1.getRevision().get())
         .rebase(ri);
-    assertThat(r1.getPatchSetId().get()).is(3);
+    assertThat(r1.getPatchSetId().get()).isEqualTo(3);
   }
 
   @Test(expected = ResourceConflictException.class)
@@ -190,7 +190,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .addReviewer(in);
 
-    assertThat((Iterable<?>)getReviewers(r.getChangeId()))
+    assertThat(getReviewers(r.getChangeId()))
         .containsExactlyElementsIn(ImmutableSet.of(user.id));
   }
 
@@ -206,7 +206,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .submit();
 
-    assertThat((Iterable<?>)getReviewers(r.getChangeId()))
+    assertThat(getReviewers(r.getChangeId()))
       .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
 
     AddReviewerInput in = new AddReviewerInput();
@@ -214,7 +214,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .addReviewer(in);
-    assertThat((Iterable<?>)getReviewers(r.getChangeId()))
+    assertThat(getReviewers(r.getChangeId()))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.id));
   }
 
@@ -293,7 +293,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ChangeInfo result = Iterables.getOnlyElement(query(r.getChangeId()));
     assertThat(result.labels).isNull();
-    assertThat((Iterable<?>)result.messages).isNull();
+    assertThat(result.messages).isNull();
     assertThat(result.revisions).isNull();
     assertThat(result.actions).isNull();
   }
@@ -307,13 +307,13 @@ public class ChangeIT extends AbstractDaemonTest {
         .get());
     assertThat(Iterables.getOnlyElement(result.labels.keySet()))
         .isEqualTo("Code-Review");
-    assertThat((Iterable<?>)result.messages).hasSize(1);
+    assertThat(result.messages).hasSize(1);
     assertThat(result.actions).isNotEmpty();
 
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
     assertThat(rev._number).isEqualTo(r.getPatchSetId().get());
     assertThat(rev.created).isNotNull();
-    assertThat(rev.uploader._accountId).is(admin.getId().get());
+    assertThat(rev.uploader._accountId).isEqualTo(admin.getId().get());
     assertThat(rev.ref).isEqualTo(r.getPatchSetId().toRefName());
     assertThat(rev.actions).isNotEmpty();
   }

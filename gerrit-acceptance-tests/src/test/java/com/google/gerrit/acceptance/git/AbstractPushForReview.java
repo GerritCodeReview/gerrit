@@ -175,7 +175,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
-    assertThat(cr.all.get(0).value).is(1);
+    assertThat(cr.all.get(0).value).isEqualTo(1);
 
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
@@ -186,7 +186,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
-    assertThat(cr.all.get(0).value).is(2);
+    assertThat(cr.all.get(0).value).isEqualTo(2);
   }
 
   @Test
@@ -233,7 +233,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, null);
 
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
 
     // specify a single hashtag as option in new patch set
     String hashtag2 = "tag2";
@@ -244,7 +244,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
   }
 
   @Test
@@ -263,7 +263,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, null);
 
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
 
     // specify multiple hashtags as options in new patch set
     String hashtag3 = "tag3";
@@ -275,7 +275,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2, hashtag3, hashtag4);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
   }
 
   @Test

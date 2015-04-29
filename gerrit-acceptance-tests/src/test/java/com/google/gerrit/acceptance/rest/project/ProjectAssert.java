@@ -75,6 +75,6 @@ public class ProjectAssert {
     for (AccountGroup.UUID g : state.getOwners()) {
       assertThat(expectedOwners.remove(g)).isTrue();
     }
-    assertThat((Iterable<?>)expectedOwners).isEmpty();
+    assertThat(expectedOwners).isEmpty();
   }
 }

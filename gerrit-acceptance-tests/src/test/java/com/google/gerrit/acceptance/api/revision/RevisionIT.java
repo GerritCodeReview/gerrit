@@ -153,10 +153,10 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes()
         .id(project.get() + "~master~" + r.getChangeId());
 
-    assertThat((Iterable<?>)orig.get().messages).hasSize(1);
+    assertThat(orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertThat((Iterable<?>)orig.get().messages).hasSize(2);
+    assertThat(orig.get().messages).hasSize(2);
 
     String cherryPickedRevision = cherry.get().currentRevision;
     String expectedMessage = String.format(
@@ -168,7 +168,7 @@ public class RevisionIT extends AbstractDaemonTest {
     origIt.next();
     assertThat(origIt.next().message).isEqualTo(expectedMessage);
 
-    assertThat((Iterable<?>)cherry.get().messages).hasSize(1);
+    assertThat(cherry.get().messages).hasSize(1);
     Iterator<ChangeMessageInfo> cherryIt = cherry.get().messages.iterator();
     expectedMessage = "Patch Set 1: Cherry Picked from branch master.";
     assertThat(cherryIt.next().message).isEqualTo(expectedMessage);
@@ -190,7 +190,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .cherryPick(in)
         .get();
-    assertThat((Iterable<?>)cherryInfo.messages).hasSize(2);
+    assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
@@ -228,7 +228,7 @@ public class RevisionIT extends AbstractDaemonTest {
     in.message = subject;
     ChangeApi cherry = orig.revision(r2.getCommit().name()).cherryPick(in);
     ChangeInfo cherryInfo = cherry.get();
-    assertThat((Iterable<?>)cherryInfo.messages).hasSize(2);
+    assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
@@ -253,10 +253,10 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes()
         .id(project.get() + "~master~" + r.getChangeId());
 
-    assertThat((Iterable<?>)orig.get().messages).hasSize(1);
+    assertThat(orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertThat((Iterable<?>)orig.get().messages).hasSize(2);
+    assertThat(orig.get().messages).hasSize(2);
 
     assertThat(cherry.get().subject).contains(in.message);
     cherry.current().review(ReviewInput.approve());
@@ -288,7 +288,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     String triplet = project.get() + "~master~" + r.getChangeId();
     ChangeApi orig = gApi.changes().id(triplet);
-    assertThat((Iterable<?>)orig.get().messages).hasSize(1);
+    assertThat(orig.get().messages).hasSize(1);
 
     try {
       orig.revision(r.getCommit().name()).cherryPick(in);
@@ -345,7 +345,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .current()
         .setReviewed(PushOneCommit.FILE_NAME, false);
 
-    assertThat((Iterable<?>)gApi.changes().id(r.getChangeId()).current().reviewed())
+    assertThat(gApi.changes().id(r.getChangeId()).current().reviewed())
         .isEmpty();
   }
 

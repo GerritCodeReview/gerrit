@@ -73,15 +73,15 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     postMessage(changeId, "Some nits need to be fixed.");
     ChangeInfo c = info(changeId);
-    assertThat((Iterable<?>)c.messages).isNull();
+    assertThat(c.messages).isNull();
   }
 
   @Test
   public void defaultMessage() throws Exception {
     String changeId = createChange().getChangeId();
     ChangeInfo c = get(changeId);
-    assertThat((Iterable<?>)c.messages).isNotNull();
-    assertThat((Iterable<?>)c.messages).hasSize(1);
+    assertThat(c.messages).isNotNull();
+    assertThat(c.messages).hasSize(1);
     assertThat(c.messages.iterator().next().message)
       .isEqualTo("Uploaded patch set 1.");
   }
@@ -94,8 +94,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
     ChangeInfo c = get(changeId);
-    assertThat((Iterable<?>)c.messages).isNotNull();
-    assertThat((Iterable<?>)c.messages).hasSize(3);
+    assertThat(c.messages).isNotNull();
+    assertThat(c.messages).hasSize(3);
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
     assertThat(it.next().message).isEqualTo("Uploaded patch set 1.");
     assertMessage(firstMessage, it.next().message);

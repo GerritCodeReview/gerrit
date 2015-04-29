@@ -196,7 +196,7 @@ public class HashtagsIT extends AbstractDaemonTest {
         ? extends IterableSubject<?, String, Iterable<String>>,
         String, Iterable<String>>
       assertThatGet(PushOneCommit.Result r) throws Exception {
-    return assertThat((Iterable<String>) gApi.changes()
+    return assertThat(gApi.changes()
         .id(r.getChange().getId().get())
         .getHashtags());
   }

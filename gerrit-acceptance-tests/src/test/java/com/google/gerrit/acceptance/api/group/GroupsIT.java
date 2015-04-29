@@ -387,7 +387,7 @@ public class GroupsIT extends AbstractDaemonTest {
             }
           }).toSortedList(Ordering.natural());
     assertThat(expectedGroups.size()).isAtLeast(2);
-    assertThat((Iterable<?>) gApi.groups().list().getAsMap().keySet())
+    assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups).inOrder();
   }
 

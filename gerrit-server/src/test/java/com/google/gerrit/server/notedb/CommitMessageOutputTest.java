@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.notedb.ReviewerState.CC;
 import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
-import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
@@ -43,7 +43,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.putReviewer(otherUser.getAccount().getId(), CC);
     update.commit();
-    assertEquals("refs/changes/01/1/meta", update.getRefName());
+    assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
     RevCommit commit = parseCommit(update.getRevision());
     assertBodyEquals("Update patch set 1\n"
@@ -56,17 +56,18 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertEquals("Change Owner", author.getName());
-    assertEquals("1@gerrit", author.getEmailAddress());
-    assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
-        author.getWhen());
-    assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
+    assertThat(author.getName()).isEqualTo("Change Owner");
+    assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
+    assertThat(author.getWhen())
+        .isEqualTo(new Date(c.getCreatedOn().getTime() + 1000));
+    assertThat(author.getTimeZone())
+        .isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
 
     PersonIdent committer = commit.getCommitterIdent();
-    assertEquals("Gerrit Server", committer.getName());
-    assertEquals("noreply@gerrit.com", committer.getEmailAddress());
-    assertEquals(author.getWhen(), committer.getWhen());
-    assertEquals(author.getTimeZone(), committer.getTimeZone());
+    assertThat(committer.getName()).isEqualTo("Gerrit Server");
+    assertThat(committer.getEmailAddress()).isEqualTo("noreply@gerrit.com");
+    assertThat(committer.getWhen()).isEqualTo(author.getWhen());
+    assertThat(committer.getTimeZone()).isEqualTo(author.getTimeZone());
   }
 
   @Test
@@ -76,7 +77,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.setChangeMessage("Just a little code change.\n"
         + "How about a new line");
     update.commit();
-    assertEquals("refs/changes/01/1/meta", update.getRefName());
+    assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
     assertBodyEquals("Update patch set 1\n"
         + "\n"
@@ -130,17 +131,18 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertEquals("Change Owner", author.getName());
-    assertEquals("1@gerrit", author.getEmailAddress());
-    assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
-        author.getWhen());
-    assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
+    assertThat(author.getName()).isEqualTo("Change Owner");
+    assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
+    assertThat(author.getWhen())
+        .isEqualTo(new Date(c.getCreatedOn().getTime() + 1000));
+    assertThat(author.getTimeZone())
+        .isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
 
     PersonIdent committer = commit.getCommitterIdent();
-    assertEquals("Gerrit Server", committer.getName());
-    assertEquals("noreply@gerrit.com", committer.getEmailAddress());
-    assertEquals(author.getWhen(), committer.getWhen());
-    assertEquals(author.getTimeZone(), committer.getTimeZone());
+    assertThat(committer.getName()).isEqualTo("Gerrit Server");
+    assertThat(committer.getEmailAddress()).isEqualTo("noreply@gerrit.com");
+    assertThat(committer.getWhen()).isEqualTo(author.getWhen());
+    assertThat(committer.getTimeZone()).isEqualTo(author.getTimeZone());
   }
 
   @Test
@@ -161,8 +163,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertEquals("Anonymous Coward (3)", author.getName());
-    assertEquals("3@gerrit", author.getEmailAddress());
+    assertThat(author.getName()).isEqualTo("Anonymous Coward (3)");
+    assertThat(author.getEmailAddress()).isEqualTo("3@gerrit");
   }
 
   @Test
@@ -252,6 +254,6 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   private void assertBodyEquals(String expected, ObjectId commitId)
       throws Exception {
     RevCommit commit = parseCommit(commitId);
-    assertEquals(expected, commit.getFullMessage());
+    assertThat(commit.getFullMessage()).isEqualTo(expected);
   }
 }

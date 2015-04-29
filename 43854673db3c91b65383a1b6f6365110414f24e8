@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "506bee69_8a8feb2e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T14:07:39Z",
+      "side": 1,
+      "message": "That\u0027s kind of unexpected to me. I would always go with grouping by patch set. That\u0027s how new (old) change screen is (was) organized.\n\nBut I agree, that the JSON structure should correlate with UI that consumes it. When you can convince the folks that listing of drafts across patch set boundaries in confirmation box, grouped by file name, is a good thing, go for it.",
+      "parentUuid": "d0751e3f_aede7756",
+      "range": {
+        "startLine": 1158,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 26
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_ebe47128",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2

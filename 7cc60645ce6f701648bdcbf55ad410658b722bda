@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707ab234_4bffc5a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T09:04:31Z",
+      "side": 1,
+      "message": "available\n\nor just remove this word",
+      "range": {
+        "startLine": 326,
+        "startChar": 28,
+        "endLine": 326,
+        "endChar": 37
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_6bfc01b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T09:04:31Z",
+      "side": 1,
+      "message": "available",
+      "range": {
+        "startLine": 340,
+        "startChar": 28,
+        "endLine": 340,
+        "endChar": 37
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_ea36a714",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T09:04:31Z",
+      "side": 1,
+      "message": "remove this? I don\u0027t think that we need anything better in an exception case.",
+      "range": {
+        "startLine": 446,
+        "startChar": 30,
+        "endLine": 446,
+        "endChar": 74
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_0b09bd5e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T09:04:31Z",
+      "side": 1,
+      "message": "Do not import NameKey class.",
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_2b06f94d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T09:04:31Z",
+      "side": 1,
+      "message": "Project.NameKey",
+      "range": {
+        "startLine": 40,
+        "startChar": 30,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "7cc60645ce6f701648bdcbf55ad410658b722bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

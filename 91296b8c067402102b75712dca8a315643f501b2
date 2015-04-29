@@ -34,6 +34,24 @@
       "revId": "91296b8c067402102b75712dca8a315643f501b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_cb0ad559",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T06:26:36Z",
+      "side": 1,
+      "message": "I tend to agree today. Remember your and Edwin\u0027s objection on  removal of \"Edit message\" button in CS2: [1], that lead to rejection of my removal of this function? Couple of weeks later Shawn removed the button in another change [2]...\n\nSo yes, backwards compatibility is a fine thing, but sometimes it hurts more than it helps.\n\n* [1] https://gerrit-review.googlesource.com/61114\n* [2] https://gerrit-review.googlesource.com/63111",
+      "parentUuid": "b070aa50_6df175e0",
+      "revId": "91296b8c067402102b75712dca8a315643f501b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

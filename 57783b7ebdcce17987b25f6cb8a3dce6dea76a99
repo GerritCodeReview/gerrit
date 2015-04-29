@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506bee69_2a811ffd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/CacheOperationsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T16:52:16Z",
+      "side": 1,
+      "message": "I had a test failure here once, but I can\u0027t reproduce it. This might be an issue which depends on the order in which the tests are executed. Since [1] a running deamon may be reused. Maybe better use \u0027isGreaterThan\u0027 here to be on the safe side?\n\n[1] https://gerrit-review.googlesource.com/60631\n\nFAIL     41.7s  7 Passed   0 Skipped   1 Failed   com.google.gerrit.acceptance.rest.config.CacheOperationsIT\nFAILURE flushAll: Not true that \u003c7\u003e is equal to \u003c2\u003e\njava.lang.AssertionError: Not true that \u003c7\u003e is equal to \u003c2\u003e\n\tat com.google.common.truth.FailureStrategy.fail(FailureStrategy.java:27)\n\tat com.google.common.truth.FailureStrategy.fail(FailureStrategy.java:23)\n\tat com.google.common.truth.Subject.fail(Subject.java:230)\n\tat com.google.common.truth.Subject.isEqualTo(Subject.java:98)\n\tat com.google.common.truth.LongSubject.isEqualTo(LongSubject.java:57)\n\tat com.google.common.truth.LongSubject.is(LongSubject.java:69)\n\tat com.google.gerrit.acceptance.rest.config.CacheOperationsIT.flushAll(CacheOperationsIT.java:39)\n  ...",
+      "revId": "57783b7ebdcce17987b25f6cb8a3dce6dea76a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_6ba0819f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T16:52:16Z",
+      "side": 1,
+      "message": "This comment seems to be unneeded now.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 48
+      },
+      "revId": "57783b7ebdcce17987b25f6cb8a3dce6dea76a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

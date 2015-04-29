@@ -52,6 +52,24 @@
       "revId": "91296b8c067402102b75712dca8a315643f501b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f067829d_07d77641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T13:50:28Z",
+      "side": 1,
+      "message": "Yeah. It\u0027s a behavior change but not all behavior changes are bad. And unlike removing the \"Edit message\" button, this one leads to fewer clicks in all cases :)",
+      "parentUuid": "707ab234_cb0ad559",
+      "revId": "91296b8c067402102b75712dca8a315643f501b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

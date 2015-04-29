@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.inject.Scopes.SINGLETON;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
@@ -358,10 +357,10 @@ public class CommentsTest  {
         Lists.newArrayList(plc1, plc2, plc3);
     List<PatchLineComment> draftExpected =
         Lists.newArrayList(plc4, plc5);
-    assertEquals(publishedExpected.size(), publishedActual.size());
-    assertEquals(draftExpected.size(), draftActual.size());
-    assertEquals(publishedExpected, publishedActual);
-    assertEquals(draftExpected, draftActual);
+    assertThat(publishedActual.size()).isEqualTo(publishedExpected.size());
+    assertThat(draftActual.size()).isEqualTo(draftExpected.size());
+    assertThat(publishedActual).isEqualTo(publishedExpected);
+    assertThat(draftActual).isEqualTo(draftExpected);
   }
 
   private static IAnswer<ResultSet<PatchLineComment>> results(
@@ -396,14 +395,14 @@ public class CommentsTest  {
     @SuppressWarnings("unchecked")
     Map<String, List<CommentInfo>> actual =
         (Map<String, List<CommentInfo>>) listView.apply(res);
-    assertNotNull(actual);
-    assertEquals(expected.size(), actual.size());
-    assertEquals(expected.keySet(), actual.keySet());
+    assertThat(actual).isNotNull();
+    assertThat(actual.size()).isEqualTo(expected.size());
+    assertThat(actual.keySet()).isEqualTo(expected.keySet());
     for (Map.Entry<String, ArrayList<PatchLineComment>> entry : expected.entrySet()) {
       List<PatchLineComment> expectedComments = entry.getValue();
       List<CommentInfo> actualComments = actual.get(entry.getKey());
-      assertNotNull(actualComments);
-      assertEquals(expectedComments.size(), actualComments.size());
+      assertThat(actualComments).isNotNull();
+      assertThat(actualComments.size()).isEqualTo(expectedComments.size());
       for (int i = 0; i < expectedComments.size(); i++) {
         assertComment(expectedComments.get(i), actualComments.get(i), true);
       }
@@ -417,14 +416,14 @@ public class CommentsTest  {
     @SuppressWarnings("unchecked")
     Map<String, List<CommentInfo>> actual =
         (Map<String, List<CommentInfo>>) listView.apply(res);
-    assertNotNull(actual);
-    assertEquals(expected.size(), actual.size());
-    assertEquals(expected.keySet(), actual.keySet());
+    assertThat(actual).isNotNull();
+    assertThat(actual.size()).isEqualTo(expected.size());
+    assertThat(actual.keySet()).isEqualTo(expected.keySet());
     for (Map.Entry<String, ArrayList<PatchLineComment>> entry : expected.entrySet()) {
       List<PatchLineComment> expectedComments = entry.getValue();
       List<CommentInfo> actualComments = actual.get(entry.getKey());
-      assertNotNull(actualComments);
-      assertEquals(expectedComments.size(), actualComments.size());
+      assertThat(actualComments).isNotNull();
+      assertThat(actualComments.size()).isEqualTo(expectedComments.size());
       for (int i = 0; i < expectedComments.size(); i++) {
         assertComment(expectedComments.get(i), actualComments.get(i), false);
       }
@@ -433,23 +432,26 @@ public class CommentsTest  {
 
   private static void assertComment(PatchLineComment plc, CommentInfo ci,
       boolean isPublished) {
-    assertEquals(plc.getKey().get(), ci.id);
-    assertEquals(plc.getParentUuid(), ci.inReplyTo);
-    assertEquals(plc.getMessage(), ci.message);
+    assertThat(ci.id).isEqualTo(plc.getKey().get());
+    assertThat(ci.inReplyTo).isEqualTo(plc.getParentUuid());
+    assertThat(ci.message).isEqualTo(plc.getMessage());
     if (isPublished) {
-      assertNotNull(ci.author);
-      assertEquals(plc.getAuthor(), new Account.Id(ci.author._accountId));
+      assertThat(ci.author).isNotNull();
+      assertThat(new Account.Id(ci.author._accountId))
+          .isEqualTo(plc.getAuthor());
     }
-    assertEquals(plc.getLine(), (int) ci.line);
-    assertEquals(plc.getSide() == 0 ? Side.PARENT : Side.REVISION,
-        MoreObjects.firstNonNull(ci.side, Side.REVISION));
-    assertEquals(TimeUtil.roundToSecond(plc.getWrittenOn()),
-        TimeUtil.roundToSecond(ci.updated));
-    assertEquals(plc.getWrittenOn(), ci.updated);
-    assertEquals(plc.getRange().getStartLine(), ci.range.startLine);
-    assertEquals(plc.getRange().getStartCharacter(), ci.range.startCharacter);
-    assertEquals(plc.getRange().getEndLine(), ci.range.endLine);
-    assertEquals(plc.getRange().getEndCharacter(), ci.range.endCharacter);
+    assertThat((int) ci.line).isEqualTo(plc.getLine());
+    assertThat(MoreObjects.firstNonNull(ci.side, Side.REVISION))
+        .isEqualTo(plc.getSide() == 0 ? Side.PARENT : Side.REVISION);
+    assertThat(TimeUtil.roundToSecond(ci.updated))
+        .isEqualTo(TimeUtil.roundToSecond(plc.getWrittenOn()));
+    assertThat(ci.updated).isEqualTo(plc.getWrittenOn());
+    assertThat(ci.range.startLine).isEqualTo(plc.getRange().getStartLine());
+    assertThat(ci.range.startCharacter)
+        .isEqualTo(plc.getRange().getStartCharacter());
+    assertThat(ci.range.endLine).isEqualTo(plc.getRange().getEndLine());
+    assertThat(ci.range.endCharacter)
+        .isEqualTo(plc.getRange().getEndCharacter());
   }
 
   private static PatchLineComment newPatchLineComment(PatchSet.Id psId,

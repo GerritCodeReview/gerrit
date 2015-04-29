@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b070aa50_8dd94173",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:52:43Z",
+      "side": 1,
+      "message": "I feel like based on the rest of the ChangeInfo structure, this should be a revision SHA-1 rather than a number. However, for the purposes of populating the reply box, a SHA-1 does not provide useful information to the user.\n\nOne might argue the client could use the existing revision map to map SHA-1 to patch set number and display the number, but that doesn\u0027t work if the side is PARENT, particularly if it\u0027s the result of an automerge. The client has no way of knowing which patch set the automerge is the base of. (The server does, but it hasn\u0027t sent that information anywhere.)\n\nSo if we were to provide the revision SHA-1 instead of the patch set number, it would literally not be used by the client.",
+      "revId": "8c9b8a80586541ba6b62ce609a7af5be83dd30b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

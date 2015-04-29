@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b070aa50_4dcd99b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "I\u0027m all for descriptive javadoc but this adds no information we didn\u0027t already have from the class name.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_4ccd9fb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "This has no effect. The ChangeSet will only be present in the active map only if there is a set in active containing exactly the changes in this set. Which will of course have the same branch set.\n\nIf you want this to avoid doing extra work here, you need a more complex data structure that maps branch -\u003e MergeEntry for all branches in the set.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_6dcad59e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "The only time to use Key is if it\u0027s going in a gwtorm db, this is unnecessary.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_ecbd6bfa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "You\u0027re reimplementing the perfectly good system Java already has for hashing. Don\u0027t do that. Use the Java system.\n\nIn the ChangeSet constructor, save all the Change.Ids in an ImmutableSet\u003cChange.Id\u003e. Implement equals and hashCode in terms of equals and hashCode on that set.\n\nIf after benchmarking you can prove that iterating the set on demand is too expensive, then you can cache the result of hashCode in a field. But that field should only be accessed from within the hashCode implementation.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_cddf4956",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "Defensively copy this into an ImmutableList.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_0dd79141",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "Way overkill.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_8cc2a785",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "This is reasonably cheap to construct, so doing it lazily is premature optimization.",
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_acc76394",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:11:49Z",
+      "side": 1,
+      "message": "MoreObjects.ToStringHelper h \u003d new MoreObjects.toStringHelper(this);\n for (Change c : changes) {\n   h.addValue(c.getId() + \":\" + c.getDest());\n }\n return h.toString();",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 42
+      },
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

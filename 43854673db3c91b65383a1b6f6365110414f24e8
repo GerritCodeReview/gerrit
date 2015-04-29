@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "707ab234_2beb59f4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T06:35:27Z",
+      "side": 1,
+      "message": "1. Capitalize to be consistent with other section titles.\n\n2. Should this be \"List Change Drafts\"? Otherwise we have 2 \"List Drafts\" sections.",
+      "range": {
+        "startLine": 1150,
+        "startChar": 9,
+        "endLine": 1150,
+        "endChar": 10
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_aa198fb1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T06:35:27Z",
+      "side": 1,
+      "message": "Have you considered grouping the comments by patch set, instead of having the optional patch_set field in CommentInfo?",
+      "range": {
+        "startLine": 1158,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 26
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_ebe47128",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2
@@ -99,6 +145,30 @@
       "writtenOn": "2015-04-29T06:11:39Z",
       "side": 1,
       "message": "Sure, you have introduced this field in this change. But the CommentInfo and Comment classes has dozen other fields. I don\u0027t think it worth mentioning all or some of them in this description.",
+      "range": {
+        "startLine": 114,
+        "startChar": 51,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_4affb3a7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T06:35:27Z",
+      "side": 1,
+      "message": "I think this info is important and should be kept here :-)",
+      "parentUuid": "506bee69_eae46728",
       "range": {
         "startLine": 114,
         "startChar": 51,

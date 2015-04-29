@@ -345,7 +345,7 @@ public class PatchLineCommentsUtil {
   }
 
   private static List<PatchLineComment> sort(List<PatchLineComment> comments) {
-    Collections.sort(comments, ChangeNotes.PatchLineCommentComparator);
+    Collections.sort(comments, ChangeNotes.PLC_ORDER);
     return comments;
   }
 }

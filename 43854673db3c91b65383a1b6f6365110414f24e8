@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "506bee69_4a8a531f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-29T14:19:48Z",
+      "side": 1,
+      "message": "\u003e But without a UI example to look at, it\u0027s hard to say \n \u003e which I like better. Maybe we punt on this until I get \n \u003e the UI wired up?\n\nYes, I think what\u0027s best here depends on the UI. My initial expectation was that comments would be grouped by patch set in the UI, but I\u0027m open to any other proposal. So let\u0027s come back to this when we are decided about the UI :-)",
+      "parentUuid": "506bee69_8a8feb2e",
+      "range": {
+        "startLine": 1158,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 26
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_ebe47128",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2

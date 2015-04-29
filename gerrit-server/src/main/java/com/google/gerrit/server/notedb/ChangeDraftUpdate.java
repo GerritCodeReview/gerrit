@@ -18,12 +18,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Table;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -48,6 +49,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -190,74 +193,37 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       noteMap = NoteMap.newEmptyMap();
     }
 
-    Table<PatchSet.Id, String, PatchLineComment> baseDrafts =
-        draftNotes.getDraftBaseComments();
-    Table<PatchSet.Id, String, PatchLineComment> psDrafts =
-        draftNotes.getDraftPsComments();
+    ListMultimap<RevId, PatchLineComment> allComments =
+        ArrayListMultimap.create();
 
-    boolean draftsEmpty = baseDrafts.isEmpty() && psDrafts.isEmpty();
-
-    // There is no need to rewrite the note for one of the sides of the patch
-    // set if all of the modifications were made to the comments of one side,
-    // so we set these flags to potentially save that extra work.
-    boolean baseSideChanged = false;
-    boolean revisionSideChanged = false;
-
-    // We must define these RevIds so that if this update deletes all
-    // remaining comments on a given side, then we can remove that note.
-    // However, if this update doesn't delete any comments, it is okay for these
-    // to be null because they won't be used.
-    RevId baseRevId = null;
-    RevId psRevId = null;
-
+    int n = deleteComments.size() + upsertComments.size();
+    Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(n);
+    Set<PatchLineComment.Key> updatedKeys = Sets.newHashSetWithExpectedSize(n);
     for (PatchLineComment c : deleteComments) {
-      if (c.getSide() == (short) 0) {
-        baseSideChanged = true;
-        baseRevId = c.getRevId();
-        baseDrafts.remove(psId, c.getKey().get());
-      } else {
-        revisionSideChanged = true;
-        psRevId = c.getRevId();
-        psDrafts.remove(psId, c.getKey().get());
-      }
+      updatedRevs.add(c.getRevId());
+      updatedKeys.add(c.getKey());
     }
 
     for (PatchLineComment c : upsertComments) {
-      if (c.getSide() == (short) 0) {
-        baseSideChanged = true;
-        baseDrafts.put(psId, c.getKey().get(), c);
-      } else {
-        revisionSideChanged = true;
-        psDrafts.put(psId, c.getKey().get(), c);
+      allComments.put(c.getRevId(), c);
+      updatedRevs.add(c.getRevId());
+      updatedKeys.add(c.getKey());
+    }
+
+    for (Map.Entry<RevId, PatchLineComment> e
+        : draftNotes.getComments().entries()) {
+      PatchLineComment c = e.getValue();
+      if (updatedRevs.contains(c.getRevId())
+          && !updatedKeys.contains(c.getKey())) {
+        // Re-add old comments for updated revisions so the new note contains
+        // both old and new comments. Unmodified revisions are left alone.
+        allComments.put(e.getKey(), e.getValue());
       }
     }
 
-    List<PatchLineComment> newBaseDrafts =
-        Lists.newArrayList(baseDrafts.row(psId).values());
-    List<PatchLineComment> newPsDrafts =
-        Lists.newArrayList(psDrafts.row(psId).values());
-
-    updateNoteMap(baseSideChanged, noteMap, newBaseDrafts,
-        baseRevId);
-    updateNoteMap(revisionSideChanged, noteMap, newPsDrafts,
-        psRevId);
-
-    removedAllComments.set(
-        baseDrafts.isEmpty() && psDrafts.isEmpty() && !draftsEmpty);
-
+    commentsUtil.writeCommentsToNoteMap(noteMap, allComments, inserter);
+    removedAllComments.set(allComments.isEmpty());
     return noteMap.writeTree(inserter);
-  }
-
-  private void updateNoteMap(boolean changed, NoteMap noteMap,
-      List<PatchLineComment> comments, RevId commitId)
-      throws IOException {
-    if (changed) {
-      if (comments.isEmpty()) {
-        commentsUtil.removeNote(noteMap, commitId);
-      } else {
-        commentsUtil.writeCommentsToNoteMap(noteMap, comments, inserter);
-      }
-    }
   }
 
   public RevCommit commit() throws IOException {

@@ -25,17 +25,18 @@ import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -56,7 +57,6 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -91,8 +91,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String subject;
   private List<SubmitRecord> submitRecords;
   private final CommentsInNotesUtil commentsUtil;
-  private List<PatchLineComment> commentsForBase;
-  private List<PatchLineComment> commentsForPs;
+  private List<PatchLineComment> comments;
   private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
@@ -161,8 +160,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.commentsUtil = commentsUtil;
     this.approvals = Maps.newTreeMap(labelNameComparator);
     this.reviewers = Maps.newLinkedHashMap();
-    this.commentsForPs = Lists.newArrayList();
-    this.commentsForBase = Lists.newArrayList();
+    this.comments = Lists.newArrayList();
   }
 
   public void setStatus(Change.Status status) {
@@ -238,11 +236,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           "A comment already exists with the same key as the following comment,"
           + " so we cannot insert this comment: %s", c);
     }
-    if (c.getSide() == 0) {
-      commentsForBase.add(c);
-    } else {
-      commentsForPs.add(c);
-    }
+    comments.add(c);
   }
 
   private void insertDraftComment(PatchLineComment c) throws OrmException {
@@ -263,11 +257,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       checkArgument(!notes.containsCommentPublished(c),
           "Cannot update a comment that has already been published and saved");
     }
-    if (c.getSide() == 0) {
-      commentsForBase.add(c);
-    } else {
-      commentsForPs.add(c);
-    }
+    comments.add(c);
   }
 
   private void upsertDraftComment(PatchLineComment c) {
@@ -286,11 +276,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       checkArgument(!notes.containsCommentPublished(c),
           "Cannot update a comment that has already been published and saved");
     }
-    if (c.getSide() == 0) {
-      commentsForBase.add(c);
-    } else {
-      commentsForPs.add(c);
-    }
+    comments.add(c);
   }
 
   private void updateDraftComment(PatchLineComment c) throws OrmException {
@@ -356,31 +342,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (noteMap == null) {
       noteMap = NoteMap.newEmptyMap();
     }
-    if (commentsForPs.isEmpty() && commentsForBase.isEmpty()) {
+    if (comments.isEmpty()) {
       return null;
     }
 
-    Multimap<PatchSet.Id, PatchLineComment> allCommentsOnBases =
-        notes.getBaseComments();
-    Multimap<PatchSet.Id, PatchLineComment> allCommentsOnPs =
-        notes.getPatchSetComments();
-
-    // This writes all comments for the base of this PS to the note map.
-    if (!commentsForBase.isEmpty()) {
-      List<PatchLineComment> baseCommentsForThisPs =
-          new ArrayList<>(allCommentsOnBases.get(psId));
-      baseCommentsForThisPs.addAll(commentsForBase);
-      commentsUtil.writeCommentsToNoteMap(noteMap, baseCommentsForThisPs,
-          inserter);
+    ListMultimap<RevId, PatchLineComment> allComments =
+        ArrayListMultimap.create(notes.getComments());
+    for (PatchLineComment c : comments) {
+      allComments.put(c.getRevId(), c);
     }
-
-    // This write all comments for this PS to the note map.
-    if (!commentsForPs.isEmpty()) {
-      List<PatchLineComment> commentsForThisPs =
-          new ArrayList<>(allCommentsOnPs.get(psId));
-      commentsForThisPs.addAll(commentsForPs);
-      commentsUtil.writeCommentsToNoteMap(noteMap, commentsForThisPs, inserter);
-    }
+    commentsUtil.writeCommentsToNoteMap(noteMap, allComments, inserter);
     return noteMap.writeTree(inserter);
   }
 
@@ -504,8 +475,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean isEmpty() {
     return approvals.isEmpty()
         && changeMessage == null
-        && commentsForBase.isEmpty()
-        && commentsForPs.isEmpty()
+        && comments.isEmpty()
         && reviewers.isEmpty()
         && status == null
         && subject == null

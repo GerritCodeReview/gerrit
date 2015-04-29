@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
@@ -63,9 +64,11 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Utility functions to parse PatchLineComments out of a note byte array and
@@ -86,8 +89,7 @@ public class CommentsInNotesUtil {
 
   public static NoteMap parseCommentsFromNotes(Repository repo, String refName,
       RevWalk walk, Change.Id changeId,
-      Multimap<PatchSet.Id, PatchLineComment> commentsForBase,
-      Multimap<PatchSet.Id, PatchLineComment> commentsForPs,
+      Multimap<RevId, PatchLineComment> comments,
       Status status)
       throws IOException, ConfigInvalidException {
     Ref ref = repo.getRef(refName);
@@ -99,20 +101,14 @@ public class CommentsInNotesUtil {
     RevCommit commit = walk.parseCommit(ref.getObjectId());
     NoteMap noteMap = NoteMap.read(reader, commit);
 
-    for (Note note: noteMap) {
+    for (Note note : noteMap) {
       byte[] bytes =
           reader.open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
       List<PatchLineComment> result = parseNote(bytes, changeId, status);
       if (result == null || result.isEmpty()) {
         continue;
       }
-      PatchSet.Id psId = result.get(0).getKey().getParentKey().getParentKey();
-      short side = result.get(0).getSide();
-      if (side == 0) {
-        commentsForBase.putAll(psId, result);
-      } else {
-        commentsForPs.putAll(psId, result);
-      }
+      comments.putAll(new RevId(note.name()), result);
     }
     return noteMap;
   }
@@ -525,18 +521,21 @@ public class CommentsInNotesUtil {
   }
 
   public void writeCommentsToNoteMap(NoteMap noteMap,
-      List<PatchLineComment> allComments, ObjectInserter inserter)
-        throws IOException {
-    checkArgument(!allComments.isEmpty(),
-        "No comments to write; to delete, use removeNoteFromNoteMap().");
-    ObjectId commit =
-        ObjectId.fromString(allComments.get(0).getRevId().get());
-    Collections.sort(allComments, ChangeNotes.PLC_ORDER);
-    noteMap.set(commit, inserter.insert(OBJ_BLOB, buildNote(allComments)));
-  }
-
-  public void removeNote(NoteMap noteMap, RevId commitId)
+      ListMultimap<RevId, PatchLineComment> allComments, ObjectInserter inserter)
       throws IOException {
-    noteMap.remove(ObjectId.fromString(commitId.get()));
+    for (Map.Entry<RevId, Collection<PatchLineComment>> e :
+        allComments.asMap().entrySet()) {
+      List<PatchLineComment> comments = (List<PatchLineComment>) e.getValue();
+      ObjectId commit = ObjectId.fromString(e.getKey().get());
+      if (comments.isEmpty()) {
+        noteMap.remove(commit);
+        continue;
+      }
+      Collections.sort(comments, ChangeNotes.PLC_ORDER);
+      // We allow comments for multiple commits to be written in the same
+      // update, even though the rest of the metadata update is associated with
+      // a single patch set.
+      noteMap.set(commit, inserter.insert(OBJ_BLOB, buildNote(comments)));
+    }
   }
 }

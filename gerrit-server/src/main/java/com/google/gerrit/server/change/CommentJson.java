@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gwt.thirdparty.guava.common.collect.ComparisonChain;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -39,7 +41,7 @@ class CommentJson {
   private final AccountLoader.Factory accountLoaderFactory;
 
   private boolean fillAccounts = true;
-  private boolean fillRevision;
+  private boolean fillPatchSet;
 
   @Inject
   CommentJson(AccountLoader.Factory accountLoaderFactory) {
@@ -48,6 +50,11 @@ class CommentJson {
 
   CommentJson setFillAccounts(boolean fillAccounts) {
     this.fillAccounts = fillAccounts;
+    return this;
+  }
+
+  CommentJson setFillPatchSet(boolean fillPatchSet) {
+    this.fillPatchSet = fillPatchSet;
     return this;
   }
 
@@ -82,20 +89,7 @@ class CommentJson {
     }
 
     for (List<CommentInfo> list : out.values()) {
-      Collections.sort(list, new Comparator<CommentInfo>() {
-        @Override
-        public int compare(CommentInfo a, CommentInfo b) {
-          int c = firstNonNull(a.side, Side.REVISION).ordinal()
-                - firstNonNull(b.side, Side.REVISION).ordinal();
-          if (c == 0) {
-            c = firstNonNull(a.line, 0) - firstNonNull(b.line, 0);
-          }
-          if (c == 0) {
-            c = a.id.compareTo(b.id);
-          }
-          return c;
-        }
-      });
+      Collections.sort(list, COMPARATOR);
     }
 
     if (accountLoader != null) {
@@ -105,8 +99,31 @@ class CommentJson {
     return out;
   }
 
+  private static final Comparator<CommentInfo> COMPARATOR =
+      new Comparator<CommentInfo>() {
+        private final Comparator<Comparable<?>> ORDER =
+            Ordering.natural().nullsFirst();
+
+        @Override
+        public int compare(CommentInfo a, CommentInfo b) {
+          return ComparisonChain.start()
+              .compare(a.patchSet, b.patchSet, ORDER)
+              .compare(side(a), side(b))
+              .compare(a.line, b.line, ORDER)
+              .compare(a.id, b.id)
+              .result();
+        }
+
+        private int side(CommentInfo c) {
+          return firstNonNull(c.side, Side.REVISION).ordinal();
+        }
+      };
+
   private CommentInfo toCommentInfo(PatchLineComment c, AccountLoader loader) {
     CommentInfo r = new CommentInfo();
+    if (fillPatchSet) {
+      r.patchSet = c.getKey().getParentKey().getParentKey().get();
+    }
     r.id = Url.encode(c.getKey().get());
     r.path = c.getKey().getParentKey().getFileName();
     if (c.getSide() == 0) {

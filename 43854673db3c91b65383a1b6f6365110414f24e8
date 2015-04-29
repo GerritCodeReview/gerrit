@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f067829d_67caf29e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T13:49:15Z",
+      "side": 1,
+      "message": "Good plan. I didn\u0027t think this was called but it actually is.",
+      "parentUuid": "f067829d_c7b87e0d",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_2beb59f4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -119,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "d0751e3f_aede7756",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T13:49:15Z",
+      "side": 1,
+      "message": "I did consider it but I actually figured int he reply box we would want to list drafts by name rather than patch set.\n\nThe other reason to have a grouping by path is that\u0027s what the existing revision draft endpoint does, which is more consistent and allows us to reuse more code. We could use a nested map but that\u0027s uglier JSON for a questionable benefit (but not ruling it out).\n\nBut without a UI example to look at, it\u0027s hard to say which I like better. Maybe we punt on this until I get the UI wired up?",
+      "parentUuid": "707ab234_eb36b114",
+      "range": {
+        "startLine": 1158,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 26
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_ebe47128",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2
@@ -165,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d0751e3f_eee47f28",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T13:49:15Z",
+      "side": 1,
+      "message": "I think we should have more thorough acceptance tests for adding inline comments, but this test is just for the new functionality in this change. It\u0027s easy to extract an argument later.",
+      "parentUuid": "707ab234_8bd92d73",
+      "range": {
+        "startLine": 427,
+        "startChar": 4,
+        "endLine": 427,
+        "endChar": 16
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "506bee69_0aee9b03",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 2
@@ -176,6 +248,24 @@
       "writtenOn": "2015-04-29T06:11:39Z",
       "side": 1,
       "message": "Make this API extension in own change?",
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0751e3f_8ed93b73",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T13:49:15Z",
+      "side": 1,
+      "message": "I\u0027ve been working hard to convert acceptance tests to use the API wherever possible. This means if a new feature is added, my preferred way of testing it is through the API, which means if we want the test in the same change as the implementation, we need the API method too.",
+      "parentUuid": "506bee69_0aee9b03",
       "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0751e3f_4ecd93b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-29T12:11:16Z",
+      "side": 1,
+      "message": "unrelated to this change, but why do we throw a resource conflict here rather than bad request?",
+      "range": {
+        "startLine": 196,
+        "startChar": 20,
+        "endLine": 196,
+        "endChar": 45
+      },
+      "revId": "cb76c31af8da051966d02f079ffdb599db01798d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

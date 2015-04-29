@@ -41,7 +41,7 @@ public class DeltaQueue<T> {
             next = next.next;
         }
         if (next == null) {
-            throw new IllegalStateException("Element not found in the delay queue");
+            return 0;
         }
         return ret;
     }

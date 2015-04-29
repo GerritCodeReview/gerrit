@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "b070aa50_2d1dad8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-04-29T17:31:46Z",
+      "side": 1,
+      "message": "`cmq.merge(changes1);` would lock branches A and B, so on `cmq.merge(changes2);` B is already locked and we cannot schedule it right away. (As we don\u0027t know that it\u0027s change2 in both cases. it could have been a change4 which also is meant to go to B), this is the safest, but slowest thing to do. Once the first set is finished, (and B is released,) we can run the merge on the second set of changes.",
+      "parentUuid": "907f2621_0c09d75e",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 74
+      },
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907f2621_4ccd9fb3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 15

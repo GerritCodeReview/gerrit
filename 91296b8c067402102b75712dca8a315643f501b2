@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b070aa50_6df175e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T00:57:08Z",
+      "side": 1,
+      "message": "Personally, I think we should just make this the only behavior available through the web UI. It will simplify the client code considerably.\n\nIf there is in fact anybody out there who really really doesn\u0027t want to publish all drafts when they hit reply, I\u0027m interested in talking to them to understand their use case better, because right now I just can\u0027t picture it :)",
+      "revId": "91296b8c067402102b75712dca8a315643f501b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

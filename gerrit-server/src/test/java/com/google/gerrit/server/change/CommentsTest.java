@@ -234,23 +234,23 @@ public class CommentsTest  {
     plc1 = newPatchLineComment(psId1, "Comment1", null,
         "FileOne.txt", Side.REVISION, 3, ownerId, timeBase,
         "First Comment", new CommentRange(1, 2, 3, 4));
-    plc1.setRevId(new RevId("ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD"));
+    plc1.setRevId(new RevId("abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"));
     plc2 = newPatchLineComment(psId1, "Comment2", "Comment1",
         "FileOne.txt", Side.REVISION, 3, otherUserId, timeBase + 1000,
         "Reply to First Comment",  new CommentRange(1, 2, 3, 4));
-    plc2.setRevId(new RevId("ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD"));
+    plc2.setRevId(new RevId("abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"));
     plc3 = newPatchLineComment(psId1, "Comment3", "Comment1",
         "FileOne.txt", Side.PARENT, 3, ownerId, timeBase + 2000,
         "First Parent Comment",  new CommentRange(1, 2, 3, 4));
-    plc3.setRevId(new RevId("CDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEF"));
+    plc3.setRevId(new RevId("cdefcdefcdefcdefcdefcdefcdefcdefcdefcdef"));
     plc4 = newPatchLineComment(psId2, "Comment4", null, "FileOne.txt",
         Side.REVISION, 3, ownerId, timeBase + 3000, "Second Comment",
         new CommentRange(1, 2, 3, 4), Status.DRAFT);
-    plc4.setRevId(new RevId("BCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDE"));
+    plc4.setRevId(new RevId("bcdebcdebcdebcdebcdebcdebcdebcdebcdebcde"));
     plc5 = newPatchLineComment(psId2, "Comment5", null, "FileOne.txt",
         Side.REVISION, 5, ownerId, timeBase + 4000, "Third Comment",
         new CommentRange(3, 4, 5, 6), Status.DRAFT);
-    plc5.setRevId(new RevId("BCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDE"));
+    plc5.setRevId(new RevId("bcdebcdebcdebcdebcdebcdebcdebcdebcdebcde"));
 
     List<PatchLineComment> commentsByOwner = Lists.newArrayList();
     commentsByOwner.add(plc1);

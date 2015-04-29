@@ -96,8 +96,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
           Collections.singleton(update(c, in)));
     } else {
       if (c.getRevId() == null) {
-        setCommentRevId(c, patchListCache, rsrc.getChange(),
-            rsrc.getPatchSet());
+        setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
       }
       plcUtil.updateComments(db.get(), update,
           Collections.singleton(update(c, in)));

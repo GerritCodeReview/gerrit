@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f067829d_c7b87e0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-29T12:03:40Z",
+      "side": 1,
+      "message": "Does this bug have impact outside the scope of this change?  If so can it be split off into a separate change and submitted to one of the stable branches?",
+      "parentUuid": "506bee69_cadf2356",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_2beb59f4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

@@ -132,5 +132,11 @@ public class MergeOpMapper {
         throw new MergeException(e);
       }
     }
+    // start submodule subscriptions here
+    //SubmoduleOp subOp =
+    //    subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
+    //        destProject.getProject(),
+    //        getAccount(mergeTip.getCurrentTip()));
+    //subOp.updateSuperProjects()
   }
 }

@@ -51,7 +51,7 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
   }
 
   @Override
-  public RestView<RevisionResource> list() {
+  public ListComments list() {
     return list;
   }
 

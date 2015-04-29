@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -23,12 +25,15 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -42,6 +47,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @NoHttpd
@@ -375,5 +381,56 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .get(EnumSet.of(ListChangesOption.CHECK))
         .problems).isEmpty();
+  }
+
+  @Test
+  public void drafts() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    PushOneCommit.Result r2 = pushFactory.create(
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent",
+          r1.getChangeId())
+        .to("refs/for/master");
+
+    setApiUser(admin);
+    createDraft(r1, "nit: trailing whitespace");
+    createDraft(r2, "typo: content");
+
+    setApiUser(user);
+    createDraft(r2, "+1, please fix");
+
+    setApiUser(admin);
+    Map<String, List<CommentInfo>> actual =
+        gApi.changes().id(r1.getChangeId()).drafts();
+    assertThat((Iterable<?>) actual.keySet()).containsExactly(FILE_NAME);
+    List<CommentInfo> comments = actual.get(FILE_NAME);
+    assertThat(comments).hasSize(2);
+
+    CommentInfo c1 = comments.get(0);
+    assertThat(c1.author).isNull();
+    assertThat(c1.patchSet).isEqualTo(1);
+    assertThat(c1.message).isEqualTo("nit: trailing whitespace");
+    assertThat(c1.side).isNull();
+    assertThat(c1.line).isEqualTo(1);
+
+    CommentInfo c2 = comments.get(1);
+    assertThat(c2.author).isNull();
+    assertThat(c2.patchSet).isEqualTo(2);
+    assertThat(c2.message).isEqualTo("typo: content");
+    assertThat(c2.side).isNull();
+    assertThat(c2.line).isEqualTo(1);
+  }
+
+  private void createDraft(PushOneCommit.Result r, String message)
+      throws Exception {
+    DraftInput in = new DraftInput();
+    in.line = 1;
+    in.message = message;
+    in.path = FILE_NAME;
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommitId().name())
+        .createDraft(in);
   }
 }

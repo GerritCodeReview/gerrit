@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <ui:style gss="false">
+  <ui:style gss='false'>
     .header {
       position: relative;
       height: 16px;

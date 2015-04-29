@@ -18,7 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
-  <ui:style gss="false">
+  <ui:style gss='false'>
     .bubble {
       z-index: 150;
       white-space: nowrap;

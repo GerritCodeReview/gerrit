@@ -19,7 +19,7 @@ limitations under the License.
   xmlns:g='urn:import:com.google.gwt.user.client.ui'
   >
 <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
-<ui:style gss="false">
+<ui:style gss='false'>
   .panel {
     position: relative;
     white-space: nowrap;

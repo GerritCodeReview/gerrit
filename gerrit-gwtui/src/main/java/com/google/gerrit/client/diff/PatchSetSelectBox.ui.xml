@@ -20,7 +20,7 @@ limitations under the License.
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='patchConstants'
       type='com.google.gerrit.client.patches.PatchConstants'/>
-  <ui:style gss="false" type='com.google.gerrit.client.diff.PatchSetSelectBox.BoxStyle'>
+  <ui:style gss='false' type='com.google.gerrit.client.diff.PatchSetSelectBox.BoxStyle'>
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
     .table {

@@ -18,7 +18,7 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
-  <ui:style gss="false" type='com.google.gerrit.client.patches.PatchSetSelectBox.BoxStyle'>
+  <ui:style gss='false' type='com.google.gerrit.client.patches.PatchSetSelectBox.BoxStyle'>
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
     @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 

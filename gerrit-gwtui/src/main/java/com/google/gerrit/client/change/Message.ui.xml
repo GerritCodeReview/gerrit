@@ -18,7 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gerrit.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <ui:style gss="false" type='com.google.gerrit.client.change.Message.Style'>
+  <ui:style gss='false' type='com.google.gerrit.client.change.Message.Style'>
     .messageBox {
       position: relative;
       width: 1168px;

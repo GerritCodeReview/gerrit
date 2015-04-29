@@ -20,7 +20,7 @@ limitations under the License.
     xmlns:e='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
-  <ui:style gss="false">
+  <ui:style gss='false'>
     .draft {
       width: 45px;
       text-align: center;

@@ -22,7 +22,7 @@ limitations under the License.
   ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
   ui:generateLocales='default,en'
   >
-<ui:style gss="false">
+<ui:style gss='false'>
   @external .gwt-TextBox;
   @external .gwt-ListBox;
 

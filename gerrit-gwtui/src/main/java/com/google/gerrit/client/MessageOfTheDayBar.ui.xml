@@ -18,7 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <ui:style gss="false">
+  <ui:style gss='false'>
     .popup {
       position: fixed;
       top: 5px;

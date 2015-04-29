@@ -19,7 +19,7 @@ limitations under the License.
   xmlns:g='urn:import:com.google.gwt.user.client.ui'
   xmlns:gerrit='urn:import:com.google.gerrit.client'
   xmlns:u='urn:import:com.google.gerrit.client.ui'>
-  <ui:style gss="false">
+  <ui:style gss='false'>
     .panel {
       padding: 8px;
     }

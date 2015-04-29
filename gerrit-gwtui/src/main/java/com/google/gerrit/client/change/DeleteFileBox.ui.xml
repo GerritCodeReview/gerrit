@@ -19,7 +19,7 @@ limitations under the License.
     xmlns:u='urn:import:com.google.gerrit.client.ui'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
-  <ui:style gss="false">
+  <ui:style gss='false'>
     .cancel { float: right; }
   </ui:style>
   <g:HTMLPanel>

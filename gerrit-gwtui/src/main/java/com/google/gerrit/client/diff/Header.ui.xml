@@ -20,7 +20,7 @@ limitations under the License.
     xmlns:x='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
-  <ui:style gss="false">
+  <ui:style gss='false'>
   .header {
     position: relative;
     height: 16px;

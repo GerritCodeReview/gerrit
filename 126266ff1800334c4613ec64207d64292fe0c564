@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "907f2621_0c09d75e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-29T17:22:08Z",
+      "side": 1,
+      "message": "Say change1, change2, and change3 are all on different branches A, B, and C.\n\n List\u003cChange\u003e changes1 \u003d Lists.newArrayList(change1, change2);\n List\u003cChange\u003e changes2 \u003d Lists.newArrayList(change2, change3);\n cmq.merge(changes1);\n cmq.merge(changes2);\n\nWhat should happen?",
+      "parentUuid": "b070aa50_ad30bd17",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 74
+      },
+      "revId": "126266ff1800334c4613ec64207d64292fe0c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907f2621_4ccd9fb3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 15

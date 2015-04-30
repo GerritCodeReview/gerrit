@@ -39,6 +39,7 @@ import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.contact.ContactStoreModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
+import com.google.gerrit.server.git.ChangeCacheImplModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
@@ -288,6 +289,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new ChangeCacheImplModule(false));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());

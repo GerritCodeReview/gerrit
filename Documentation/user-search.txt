@@ -239,6 +239,10 @@ has:star::
 Same as 'is:starred', true if the change has been starred by the
 current user.
 
+has:edit::
++
+True if the change has inline edit created by the current user.
+
 [[is]]
 is:starred::
 +
@@ -338,7 +342,6 @@ from:'USER'::
 +
 Changes containing a top-level or inline comment by 'USER', or owned by
 'USER'. Equivalent to `(owner:USER OR commentby:USER)`.
-
 
 == Argument Quoting
 

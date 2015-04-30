@@ -911,13 +911,26 @@ public class ChangeScreen extends Screen {
       RevisionInfo rev, CallbackGroup group) {
     final int id = rev._number();
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
-    ChangeApi.revision(changeId.get(), rev.name())
-      .view("comments")
+    ChangeApi.comments(changeId.get())
       .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
         @Override
         public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-          r.add(result);
-          history.addComments(id, result);
+          NativeMap<JsArray<CommentInfo>> filtered = NativeMap.create();
+          for (String k : result.keySet()) {
+            JsArray<CommentInfo> allRevisions = result.get(k);
+            JsArray<CommentInfo> thisRevision = JsArray.createArray().cast();
+            for (int i = 0; i < allRevisions.length(); i++) {
+              CommentInfo c = allRevisions.get(i);
+              if (!c.has_patch_set() || c.patch_set() == id) {
+                thisRevision.push(c);
+              }
+            }
+            filtered.put(k, thisRevision);
+          }
+          // Only count comments for the current revision in the file table, but
+          // include all comments in the history table below.
+          r.add(filtered);
+          history.addComments(result);
         }
 
         @Override
@@ -1129,10 +1142,7 @@ public class ChangeScreen extends Screen {
     initRevisionsAction(info, revision, emptyMap);
     quickApprove.setVisible(false);
     actions.reloadRevisionActions(emptyMap);
-  }
 
-  private void renderRevisionInfo(ChangeInfo info,
-      NativeMap<ActionInfo> actionMap) {
     RevisionInfo revisionInfo = info.revision(revision);
     boolean current = revision.equals(info.current_revision())
         && !revisionInfo.is_edit();
@@ -1146,8 +1156,6 @@ public class ChangeScreen extends Screen {
       statusText.setInnerText(Util.toLongString(info.status()));
     }
 
-    initRevisionsAction(info, revision, actionMap);
-
     if (Gerrit.isSignedIn()) {
       replyAction = new ReplyAction(info, revision, hasDraftComments,
           style, commentLinkProcessor, reply, quickApprove);
@@ -1160,6 +1168,11 @@ public class ChangeScreen extends Screen {
     } else {
       quickApprove.setVisible(false);
     }
+  }
+
+  private void renderRevisionInfo(ChangeInfo info,
+      NativeMap<ActionInfo> actionMap) {
+    initRevisionsAction(info, revision, actionMap);
     actions.reloadRevisionActions(actionMap);
   }
 

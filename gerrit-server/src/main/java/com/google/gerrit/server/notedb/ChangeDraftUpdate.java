@@ -16,8 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.PatchLineCommentsUtil.getCommentPsId;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;

@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ArrayListMultimap;
@@ -33,6 +32,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -306,7 +306,7 @@ public class ChangeRebuilder {
 
     PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps,
         PatchListCache cache) {
-      super(getCommentPsId(c), c.getAuthor(), c.getWrittenOn());
+      super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(), c.getWrittenOn());
       this.c = c;
       this.change = change;
       this.ps = ps;

@@ -657,24 +657,16 @@ public class ReceiveCommits {
           case CREATE:
           case UPDATE:
           case UPDATE_NONFASTFORWARD:
-            final RevWalk rw = rp.getRevWalk();
             Branch.NameKey branch =
                 new Branch.NameKey(project.getNameKey(), c.getRefName());
             try {
-              RevCommit newTip = rw.parseCommit(c.getNewId());
-               // Update superproject gitlinks if required.
-               subOpFactory.create(
-                   branch, newTip, rw, repo, project,
-                   new ArrayList<Change>(),
-                   new HashMap<Change.Id, CodeReviewCommit>(),
-                   currentUser.getAccount()).update();
-
-            } catch (MissingObjectException e) {
-              log.error("Can't scan for changes to close", e);
+              // Update superproject gitlinks if required.
+               SubmoduleOp op = subOpFactory.create();
+               Set<Branch.NameKey> branches = Sets.newHashSet(branch);
+               op.updateSubmoduleSubscriptions(branches);
+               op.updateSuperProjects(branches);
             } catch (SubmoduleException e) {
               log.error("Can't complete git links check", e);
-            } catch (IOException e) {
-              log.error("Can't scan for changes to close", e);
             }
 
             break;

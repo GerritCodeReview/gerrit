@@ -21,9 +21,9 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
-import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInput;
+import com.google.gerrit.client.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -140,19 +140,20 @@ class ReplyBox extends Composite {
   protected void onLoad() {
     commentsPanel.setVisible(false);
     post.setEnabled(false);
-    CommentApi.drafts(psId, new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
-      @Override
-      public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-        attachComments(result);
-        displayComments(result);
-        post.setEnabled(true);
-      }
+    ChangeApi.drafts(psId.getParentKey().get())
+        .get(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+          @Override
+          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+            attachComments(result);
+            displayComments(result);
+            post.setEnabled(true);
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        post.setEnabled(true);
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            post.setEnabled(true);
+          }
+        });
 
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
@@ -182,6 +183,7 @@ class ReplyBox extends Composite {
 
   private void postReview() {
     in.message(message.getText().trim());
+    in.drafts(DraftHandling.PUBLISH_ALL_REVISIONS);
     in.prePost();
     ChangeApi.revision(psId.getParentKey().get(), revision)
       .view("review")

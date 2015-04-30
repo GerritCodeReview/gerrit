@@ -33,13 +33,28 @@ class LineComment extends Composite {
   interface Binder extends UiBinder<HTMLPanel, LineComment> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  @UiField Element psLoc;
+  @UiField Element psNum;
   @UiField Element fileLoc;
   @UiField Element lineLoc;
   @UiField InlineHyperlink line;
   @UiField Element message;
 
-  LineComment(CommentLinkProcessor clp, PatchSet.Id ps, CommentInfo info) {
+  LineComment(CommentLinkProcessor clp,
+      PatchSet.Id defaultPs,
+      CommentInfo info) {
     initWidget(uiBinder.createAndBindUi(this));
+
+    PatchSet.Id ps;
+    if (info.has_patch_set() && info.patch_set() != defaultPs.get()) {
+      ps = new PatchSet.Id(defaultPs.getParentKey(), info.patch_set());
+      psNum.setInnerText(Integer.toString(info.patch_set()));
+    } else {
+      ps = defaultPs;
+      psLoc.removeFromParent();
+      psLoc = null;
+      psNum= null;
+    }
 
     if (info.has_line()) {
       fileLoc.removeFromParent();

@@ -55,6 +55,7 @@ import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -68,6 +69,7 @@ import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -654,6 +656,33 @@ public class ChangeEditIT extends AbstractDaemonTest {
     List<ApprovalInfo> approvals = info.labels.get(cr).all;
     assertThat(approvals).hasSize(1);
     assertThat(approvals.get(0).value).isEqualTo(1);
+  }
+
+  @Test
+  @Ignore("TODO(davido): why this test is failing from the command line?")
+  public void testEditByPredicate() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    List<ChangeData> changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(1);
+
+    PatchSet current = getCurrentPatchSet(changeId2);
+    assertThat(modifier.createEdit(change2, current)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(2);
+
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    editUtil.delete(editUtil.byChange(change).get());
+    changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(1);
+
+    editUtil.publish(editUtil.byChange(change2).get());
+    changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(0);
   }
 
   private String newChange(PersonIdent ident) throws Exception {

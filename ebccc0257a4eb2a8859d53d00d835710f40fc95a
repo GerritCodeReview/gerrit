@@ -180,6 +180,29 @@
     },
     {
       "key": {
+        "uuid": "707ab234_cb7bb576",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-30T14:22:18Z",
+      "side": 1,
+      "message": "Why to combine ctor- and field-injecotr types? Can\u0027t you just add  @Nullable EmailSender emailSender to ctor, around line 56 above?",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 26
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f067829d_47580e5b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1

@@ -121,13 +121,9 @@ class Message extends Composite {
   }
 
   void setOpen(boolean open) {
-    if (open && info._revisionNumber() > 0) {
-      if (commentList == null) {
-        history.load(info._revisionNumber());
-      } else if (!commentList.isEmpty()) {
-        renderComments(commentList);
-        commentList = Collections.emptyList();
-      }
+    if (open && info._revisionNumber() > 0 && !commentList.isEmpty()) {
+      renderComments(commentList);
+      commentList = Collections.emptyList();
     }
     setName(open);
 
@@ -156,7 +152,6 @@ class Message extends Composite {
   void autoOpen() {
     if (commentList == null) {
       autoOpen = true;
-      history.load(info._revisionNumber());
     } else if (!commentList.isEmpty()) {
       setOpen(true);
     }

@@ -26,8 +26,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 class FileComments extends Composite {
@@ -38,22 +36,15 @@ class FileComments extends Composite {
   @UiField FlowPanel comments;
 
   FileComments(CommentLinkProcessor clp,
-      PatchSet.Id ps,
+      PatchSet.Id defaultPs,
       String title,
       List<CommentInfo> list) {
     initWidget(uiBinder.createAndBindUi(this));
 
-    path.setTargetHistoryToken(url(ps, list.get(0)));
+    path.setTargetHistoryToken(url(defaultPs, list.get(0)));
     path.setText(title);
-
-    Collections.sort(list, new Comparator<CommentInfo>() {
-      @Override
-      public int compare(CommentInfo a, CommentInfo b) {
-        return a.line() - b.line();
-      }
-    });
     for (CommentInfo c : list) {
-      comments.add(new LineComment(clp, ps, c));
+      comments.add(new LineComment(clp, defaultPs, c));
     }
   }
 

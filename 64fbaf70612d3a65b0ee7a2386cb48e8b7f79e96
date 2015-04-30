@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "506bee69_aaee6f84",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3299,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-30T14:50:31Z",
+      "side": 1,
+      "message": "I guess no... and will remove this text",
+      "parentUuid": "f067829d_a76b0aee",
+      "range": {
+        "startLine": 3299,
+        "startChar": 0,
+        "endLine": 3299,
+        "endChar": 72
+      },
+      "revId": "64fbaf70612d3a65b0ee7a2386cb48e8b7f79e96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f067829d_676e72fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "707ab234_0b8a1dec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-30T14:50:31Z",
+      "side": 1,
+      "message": "Yes the LUCENE_4_10_1",
+      "parentUuid": "f067829d_676e72fe",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "64fbaf70612d3a65b0ee7a2386cb48e8b7f79e96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f067829d_4771eed8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2015-04-30T13:58:36Z",
       "side": 1,
       "message": "In the DocIndexer we construct the IndexWriterConfig without an explicit version. Would doing the same here be a problem?",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 30
+      },
+      "revId": "64fbaf70612d3a65b0ee7a2386cb48e8b7f79e96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_8ae92b81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-30T14:50:31Z",
+      "side": 1,
+      "message": "Hmm.. looking in the DocIndexer I still find the LUCENE_4_10_1 with the SuppressWarnings annotation:\n\n  @SuppressWarnings(\"deprecation\")\n  private static final Version LUCENE_VERSION \u003d Version.LUCENE_4_10_1;\n\nSo it looks like the IndexWriterConfig avoids that but it uses just one more level of indirection :-)",
+      "parentUuid": "f067829d_4771eed8",
       "range": {
         "startLine": 91,
         "startChar": 8,
@@ -106,6 +178,30 @@
       "side": 1,
       "message": "Yes, it does make sense. I will fix that.",
       "parentUuid": "506bee69_aa7aef6e",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 42
+      },
+      "revId": "64fbaf70612d3a65b0ee7a2386cb48e8b7f79e96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_6adab7ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-30T14:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ab234_abe8a9aa",
       "range": {
         "startLine": 293,
         "startChar": 4,

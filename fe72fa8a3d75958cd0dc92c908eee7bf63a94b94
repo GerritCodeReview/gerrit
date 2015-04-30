@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "907f2621_8c3dc7e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:10Z",
+      "side": 1,
+      "message": "Yeah, I thought when making this change I was going to use it directly as a getter in more cases, but that turned out not to happen. Reverted the name change.",
+      "parentUuid": "707ab234_eb1c716b",
+      "range": {
+        "startLine": 294,
+        "startChar": 22,
+        "endLine": 294,
+        "endChar": 30
+      },
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_8b112d52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-30T07:05:51Z",
       "side": 1,
       "message": "That\u0027s why it\u0027s confusing to call a setter-method a get-method.",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 72
+      },
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_4da359ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ab234_8b112d52",
       "range": {
         "startLine": 94,
         "startChar": 6,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "b070aa50_6da0959f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:10Z",
+      "side": 1,
+      "message": "Thanks, I was unnecessarily confused.",
+      "parentUuid": "506bee69_ca172345",
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_4b2ca594",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2015-04-30T07:05:51Z",
       "side": 1,
       "message": "Have you tried hard to avoid this construct?",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 9
+      },
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_edb325fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:10Z",
+      "side": 1,
+      "message": "Not hard enough. Done. I was also able to eliminate the TODO below.",
+      "parentUuid": "707ab234_4b2ca594",
       "range": {
         "startLine": 210,
         "startChar": 4,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "907f2621_ac42036c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:10Z",
+      "side": 1,
+      "message": "Fixed later in the series (not pushed yet), but I don\u0027t mind removing this now. Done.",
+      "parentUuid": "707ab234_0b845d0c",
+      "range": {
+        "startLine": 310,
+        "startChar": 4,
+        "endLine": 311,
+        "endChar": 26
+      },
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_2b8119fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 1
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "b070aa50_8db861da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:10Z",
+      "side": 1,
+      "message": "Huh...nor do I.",
+      "parentUuid": "707ab234_2b8119fd",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 37
+      },
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_6b02c10d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 1
@@ -145,6 +283,30 @@
       "writtenOn": "2015-04-30T07:05:51Z",
       "side": 1,
       "message": "This branch is not covered by any unit test. Can we fix it?",
+      "range": {
+        "startLine": 531,
+        "startChar": 6,
+        "endLine": 534,
+        "endChar": 7
+      },
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_0dad5196",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ab234_6b02c10d",
       "range": {
         "startLine": 531,
         "startChar": 6,

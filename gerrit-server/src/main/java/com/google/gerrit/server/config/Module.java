@@ -35,6 +35,7 @@ public class Module extends RestApiModule {
     delete(TASK_KIND).to(DeleteTask.class);
     child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
     get(CONFIG_KIND, "version").to(GetVersion.class);
+    get(CONFIG_KIND, "info").to(GetServerInfo.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
   }

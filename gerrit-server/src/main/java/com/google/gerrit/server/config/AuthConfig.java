@@ -44,6 +44,7 @@ public class AuthConfig {
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
   private final boolean gitBasicAuth;
+  private final boolean useContributorAgreements;
   private final String loginUrl;
   private final String logoutUrl;
   private final String openIdSsoUrl;
@@ -75,6 +76,8 @@ public class AuthConfig {
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
     gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
+    useContributorAgreements =
+        cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
 
 
@@ -192,6 +195,11 @@ public class AuthConfig {
   /** Whether git-over-http should use Gerrit basic authentication scheme. */
   public boolean isGitBasicAuth() {
     return gitBasicAuth;
+  }
+
+  /** Whether contributor agreements are used. */
+  public boolean isUseContributorAgreements() {
+    return useContributorAgreements;
   }
 
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {

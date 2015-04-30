@@ -21,6 +21,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -50,7 +52,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility functions to manipulate change edits.
@@ -63,6 +67,7 @@ public class ChangeEditUtil {
   private final GitRepositoryManager gitManager;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeIndexer indexer;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
 
@@ -70,11 +75,13 @@ public class ChangeEditUtil {
   ChangeEditUtil(GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeIndexer indexer,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.changeControlFactory = changeControlFactory;
+    this.indexer = indexer;
     this.db = db;
     this.user = user;
   }
@@ -95,6 +102,28 @@ public class ChangeEditUtil {
       throw new AuthException("Authentication required");
     }
     return byChange(change, (IdentifiedUser)currentUser);
+  }
+
+  /**
+   * Retrieve all edits for a change.
+   *
+   * @param change
+   * @return user accounts that have change edits for this change, if present.
+   * @throws IOException
+   */
+  public Set<Account.Id> accountsByChange(Change change)
+      throws IOException {
+    Set<Account.Id> ids = new HashSet<>();
+    Change.Id id = change.getId();
+    try (Repository repo = gitManager.openRepository(change.getProject())) {
+      for (String ref
+          : repo.getRefDatabase().getRefs(RefNames.REFS_USER).keySet()) {
+        if (Change.Id.fromEditRefPart(ref).equals(id)) {
+          ids.add(Account.Id.fromRefPart(ref));
+        }
+      }
+    }
+    return ids;
   }
 
   /**
@@ -152,10 +181,12 @@ public class ChangeEditUtil {
             "only edit for current patch set can be published");
       }
 
-      insertPatchSet(edit, change, repo, rw, basePatchSet,
-          squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
+      Change updatedChange =
+          insertPatchSet(edit, change, repo, rw, basePatchSet,
+              squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
       // TODO(davido): This should happen in the same BatchRefUpdate.
       deleteRef(repo, edit);
+      indexer.index(db.get(), updatedChange);
     }
   }
 
@@ -174,6 +205,7 @@ public class ChangeEditUtil {
     } finally {
       repo.close();
     }
+    indexer.index(db.get(), change);
   }
 
   private PatchSet getBasePatchSet(Change change, Ref ref)
@@ -201,7 +233,7 @@ public class ChangeEditUtil {
     return writeSquashedCommit(rw, inserter, parent, edit);
   }
 
-  private void insertPatchSet(ChangeEdit edit, Change change,
+  private Change insertPatchSet(ChangeEdit edit, Change change,
       Repository repo, RevWalk rw, PatchSet basePatchSet, RevCommit squashed)
       throws NoSuchChangeException, InvalidChangeOperationException,
       OrmException, IOException {
@@ -215,7 +247,7 @@ public class ChangeEditUtil {
         patchSetInserterFactory.create(repo, rw,
             changeControlFactory.controlFor(change, edit.getUser()),
             squashed);
-    insr.setPatchSet(ps)
+    return insr.setPatchSet(ps)
         .setDraft(change.getStatus() == Status.DRAFT ||
             basePatchSet.isDraft())
         .setMessage(

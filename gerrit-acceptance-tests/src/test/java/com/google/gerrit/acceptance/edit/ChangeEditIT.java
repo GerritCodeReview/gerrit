@@ -55,6 +55,7 @@ import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -208,6 +209,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
     assertThat(beforeRebase.equals(afterRebase)).isFalse();
+    editUtil.publish(edit);
   }
 
   @Test
@@ -232,6 +234,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
     assertThat(afterRebase).isNotEqualTo(beforeRebase);
+    editUtil.publish(edit);
   }
 
   @Test
@@ -250,6 +253,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     push.to("refs/for/master").assertOkStatus();
     RestResponse r = adminSession.post(urlRebase());
     assertThat(r.getStatusCode()).isEqualTo(SC_CONFLICT);
+    editUtil.delete(editUtil.byChange(change2).get());
   }
 
   @Test
@@ -285,6 +289,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -342,6 +347,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -376,6 +382,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     List<String> l = Lists.newArrayList(info.files.keySet());
     assertThat(l.get(0)).isEqualTo("/COMMIT_MSG");
     assertThat(l.get(1)).isEqualTo("foo");
+    editUtil.delete(editUtil.byChange(change).get());
   }
 
   @Test
@@ -391,6 +398,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       fail("ResourceNotFoundException expected");
     } catch (ResourceNotFoundException rnfe) {
     }
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -408,6 +416,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       fail("ResourceNotFoundException expected");
     } catch (ResourceNotFoundException rnfe) {
     }
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -421,6 +430,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       fail("ResourceNotFoundException expected");
     } catch (ResourceNotFoundException rnfe) {
     }
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -441,6 +451,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       fail("ResourceNotFoundException expected");
     } catch (ResourceNotFoundException rnfe) {
     }
+    editUtil.delete(editUtil.byChange(change).get());
   }
 
   @Test
@@ -453,6 +464,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change2);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_OLD);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -472,6 +484,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       fail("ResourceNotFoundException expected");
     } catch (ResourceNotFoundException rnfe) {
     }
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -483,6 +496,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change2);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_OLD);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -499,6 +513,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW2);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -516,6 +531,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW2);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -528,6 +544,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -538,6 +555,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), "".getBytes());
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -547,6 +565,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_OLD);
+    editUtil.delete(editUtil.byChange(change).get());
   }
 
   @Test
@@ -563,6 +582,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(r.getStatusCode()).isEqualTo(SC_OK);
     assertThat(readContentFromJson(r)).isEqualTo(
         StringUtils.newStringUtf8(CONTENT_NEW2));
+    editUtil.delete(editUtil.byChange(change).get());
   }
 
   @Test
@@ -579,6 +599,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     }
     RestResponse r = adminSession.get(urlEditFile());
     assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
+    editUtil.delete(editUtil.byChange(change).get());
   }
 
   @Test
@@ -590,6 +611,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME2), CONTENT_NEW);
+    editUtil.delete(edit.get());
   }
 
   @Test
@@ -606,6 +628,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME2), CONTENT_NEW2);
+    editUtil.delete(editUtil.byChange(change).get());
   }
 
   @Test
@@ -620,6 +643,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     } catch (InvalidChangeOperationException e) {
       assertThat(e.getMessage()).isEqualTo("no changes were made");
     }
+    editUtil.delete(editUtil.byChange(change).get());
   }
 
   @Test
@@ -654,6 +678,32 @@ public class ChangeEditIT extends AbstractDaemonTest {
     List<ApprovalInfo> approvals = info.labels.get(cr).all;
     assertThat(approvals).hasSize(1);
     assertThat(approvals.get(0).value).isEqualTo(1);
+  }
+
+  @Test
+  public void testEditByPredicate() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    List<ChangeData> changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(1);
+
+    PatchSet current = getCurrentPatchSet(changeId2);
+    assertThat(modifier.createEdit(change2, current)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(2);
+
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    editUtil.delete(editUtil.byChange(change).get());
+    changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(1);
+
+    editUtil.publish(editUtil.byChange(change2).get());
+    changes = queryProvider.get().byEditsByUser(admin.id);
+    assertThat(changes).hasSize(0);
   }
 
   private String newChange(PersonIdent ident) throws Exception {

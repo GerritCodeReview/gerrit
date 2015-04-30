@@ -20,7 +20,7 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
@@ -110,7 +110,7 @@ public class LsUserRefs extends SshCommand {
               db, true).filter(repo.getRefDatabase().getRefs(ALL), false);
 
       for (final String ref : refsMap.keySet()) {
-        if (!onlyRefsHeads || ref.startsWith(Branch.R_HEADS)) {
+        if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
           stdout.println(ref);
         }
       }

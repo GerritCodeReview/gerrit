@@ -19,9 +19,6 @@ import com.google.gwtorm.client.StringKey;
 
 /** Line of development within a {@link Project}. */
 public final class Branch {
-  public static final String R_HEADS = "refs/heads/";
-  public static final String R_REFS = "refs/";
-
   /** Branch name key */
   public static class NameKey extends StringKey<Project.NameKey> {
     private static final long serialVersionUID = 1L;

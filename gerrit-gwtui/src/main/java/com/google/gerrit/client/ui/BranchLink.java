@@ -17,9 +17,9 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 /** Link to the open changes of a project. */
 public class BranchLink extends InlineHyperlink {
@@ -61,10 +61,10 @@ public class BranchLink extends InlineHyperlink {
       String branch, String topic) {
     String query = PageLinks.projectQuery(project, status);
 
-    if (branch.startsWith(Branch.R_REFS)) {
-      if (branch.startsWith(Branch.R_HEADS)) {
+    if (branch.startsWith(RefNames.REFS)) {
+      if (branch.startsWith(RefNames.REFS_HEADS)) {
         query += " " + PageLinks.op("branch", //
-            branch.substring(Branch.R_HEADS.length()));
+            branch.substring(RefNames.REFS_HEADS.length()));
       } else {
         query += " " + PageLinks.op("ref", branch);
       }

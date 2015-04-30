@@ -550,6 +550,23 @@ public class ChangeField {
   /** Serialized patch set object, used for pre-populating results. */
   public static final PatchSetProtoField PATCH_SET = new PatchSetProtoField();
 
+  /** Users who have edits on this change. */
+  public static final FieldDef<ChangeData, Iterable<Integer>> EDITBY =
+      new FieldDef.Repeatable<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_EDITBY, FieldType.INTEGER, false) {
+        @Override
+        public Iterable<Integer> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return ImmutableSet.copyOf(Iterables.transform(input.editsByUser(),
+              new Function<Account.Id, Integer>() {
+            @Override
+            public Integer apply(Account.Id account) {
+              return account.get();
+            }
+          }));
+        }
+      };
+
   private static String getTopic(ChangeData input) throws OrmException {
     Change c = input.change();
     if (c == null) {

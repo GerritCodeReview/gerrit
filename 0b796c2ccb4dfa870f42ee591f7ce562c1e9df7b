@@ -22,6 +22,30 @@
       "revId": "0b796c2ccb4dfa870f42ee591f7ce562c1e9df7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_adbd1dc9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T15:55:29Z",
+      "side": 1,
+      "message": "Done, plus some additional cleanup.",
+      "parentUuid": "d0751e3f_ae30b717",
+      "range": {
+        "startLine": 360,
+        "startChar": 4,
+        "endLine": 360,
+        "endChar": 75
+      },
+      "revId": "0b796c2ccb4dfa870f42ee591f7ce562c1e9df7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

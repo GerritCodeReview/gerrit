@@ -146,15 +146,15 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 
-    final Set<Account.FieldName> fields = new HashSet<>();
-    for (final Account.FieldName n : Account.FieldName.values()) {
+    Set<Account.FieldName> fields = new HashSet<>();
+    for (Account.FieldName n : Account.FieldName.values()) {
       if (realm.allowsEdit(n)) {
+        if (n == Account.FieldName.REGISTER_NEW_EMAIL
+            && (emailSender == null || !emailSender.isEnabled())) {
+          continue;
+        }
         fields.add(n);
       }
-    }
-    if (emailSender != null && emailSender.isEnabled()
-        && realm.allowsEdit(Account.FieldName.REGISTER_NEW_EMAIL)) {
-      fields.add(Account.FieldName.REGISTER_NEW_EMAIL);
     }
     config.setEditableAccountFields(fields);
 

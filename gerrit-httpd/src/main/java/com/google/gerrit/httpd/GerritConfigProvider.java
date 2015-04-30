@@ -118,8 +118,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         break;
     }
     config.setSwitchAccountUrl(cfg.getString("auth", null, "switchAccountUrl"));
-    config.setUseContributorAgreements(cfg.getBoolean("auth",
-        "contributoragreements", false));
+    config.setUseContributorAgreements(authConfig.isUseContributorAgreements());
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setGitHttpUrl(cfg.getString("gerrit", null, "gitHttpUrl"));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());

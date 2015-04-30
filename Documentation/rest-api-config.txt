@@ -30,6 +30,87 @@ Returns the version of the Gerrit server.
   "2.7"
 ----
 
+[[get-info]]
+=== Get Server Info
+--
+'GET /config/server/info'
+--
+
+Returns the information about of the Gerrit server configuration.
+
+.Request
+----
+  GET /config/server/info HTTP/1.0
+----
+
+As result a link:#server-info[ServerInfo] entity is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "auth": {
+      "auth_type": "LDAP",
+      "editable_account_fields": [
+        "FULL_NAME",
+        "REGISTER_NEW_EMAIL"
+      ]
+    },
+    "download": {
+      "schemes": [
+        {
+          "name": "ssh",
+          "url": "ssh://jdoe@gerrithost:29418/${project}",
+          "is_auth_required": true,
+          "is_auth_supported": true,
+          "commands": {
+            "Checkout": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git checkout FETCH_HEAD",
+            "Format Patch": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+            "Pull": "git pull ssh://jdoe@gerrithost:29418/${project} ${ref}",
+            "Cherry Pick": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          }
+        },
+        {
+          "name": "http",
+          "url": "http://jdoe@gerrithost:8080/${project}",
+          "is_auth_required": true,
+          "is_auth_supported": true,
+          "commands": {
+            "Checkout": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git checkout FETCH_HEAD",
+            "Format Patch": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+            "Pull": "git pull http://jdoe@gerrithost:8080/${project} ${ref}",
+            "Cherry Pick": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          }
+        },
+        {
+          "name": "anonymous http",
+          "url": "http://gerrithost:8080/${project}",
+          "commands": {
+            "Checkout": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git checkout FETCH_HEAD",
+            "Format Patch": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+            "Pull": "git pull http://gerrithost:8080/${project} ${ref}",
+            "Cherry Pick": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          }
+        }
+      ],
+      "archives": [
+        "TGZ",
+        "TAR",
+        "TBZ2",
+        "TXZ"
+      ]
+    },
+    "gerrit": {
+      "all_projects": "All-Projects",
+      "all_users": "All-Users"
+    }
+  }
+----
+
+
 [[list-caches]]
 === List Caches
 --
@@ -822,6 +903,27 @@ The ID of the task (hex string).
 [[json-entities]]
 == JSON Entities
 
+[[auth-info]]
+=== AuthInfo
+The `AuthInfo` entity contains information about the authentication
+configuration of the of Gerrit server.
+
+[options="header",cols="1,^1,5"]
+|==========================================
+|Field Name                   ||Description
+|`type`                       ||
+The link:config-gerrit.html#auth.type[authetication type] that is
+configured on the server. Can be `OPENID`, `OPENID_SSO`, `OAUTH`,
+`HTTP`, `HTTP_LDAP`, `CLIENT_SSL_CERT_LDAP`, `LDAP`, `LDAP_BIND`,
+`CUSTOM_EXTENSION` and `DEVELOPMENT_BECOME_ANY_ACCOUNT`.
+|`use_contributor_agreements` |not set if `false`|
+Whether link:config-gerrit.html#auth.contributorAgreements[contributor
+agreements] are used.
+|`editable_account_fields`    ||
+List of account fields that are editable. Possible values are
+`FULL_NAME`, `USER_NAME` and `REGISTER_NEW_EMAIL`.
+|==========================================
+
 [[cache-info]]
 === CacheInfo
 The `CacheInfo` entity contains information about a cache.
@@ -878,6 +980,60 @@ The `CapabilityInfo` entity contains information about a capability.
 |`name`               |capability name
 |=================================
 
+[[contact-store-info]]
+=== ContactStoreInfo
+The `ContactStoreInfo` entity contains information about the contact
+store.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`url`      |
+The link:config-gerrit.html#contactstore.url[URL of the contact store].
+|=======================
+
+[[download-info]]
+=== DownloadInfo
+The `DownloadInfo` entity contains information about supported download
+options.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`schemes`  |
+The supported download schemes as list of link:#download-scheme-info[
+DownloadSchemeInfo] entities.
+|`archives` |
+List of supported archive formats. Possible values are `TGZ`, `TAR`,
+`TBZ2` and `TXZ`.
+|=======================
+
+[[download-scheme-info]]
+=== DownloadSchemeInfo
+The `DownloadSchemeInfo` entity contains information about a supported
+download scheme and its commands.
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`name`              ||
+The name of the download scheme.
+|`url`               ||
+The URL of the download scheme, where '${project}' is used as
+placeholder for the project name.
+|`is_auth_required`  |not set if `false`|
+Whether this download scheme requires authentication.
+|`is_auth_supported` |not set if `false`|
+Whether this download scheme supports authentication.
+|`commands`          ||
+List of download commands, where  '${project}' is used as
+placeholder for the project name, and '${ref}' is used as
+placeholder for the (change) ref.
+
+Empty, if accessed anonymously and the download scheme requires
+authentication.
+|=================================
+
 [[entries-info]]
 === EntriesInfo
 The `EntriesInfo` entity contains information about the entries in a
@@ -895,6 +1051,21 @@ The space that is consumed by the cache on disk. The value is returned
 with a unit abbreviation (`k`: kilobytes, `m`: megabytes,
 `g`: gigabytes). Only set for disk caches.
 |==================================
+
+[[gerrit-info]]
+=== GerritInfo
+The `GerritInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#gerrit[gerrit] section.
+
+[options="header",cols="1,6"]
+|================================
+|Field Name          |Description
+|`all_projects_name` |
+Name of the link:config-gerrit.html#gerrit.allProjects[root project].
+|`all_users_name`    |
+Name of the link:config-gerrit.html#gerrit.allUsers[project in which
+meta data of all users is stored].
+|================================
 
 [[hit-ration-info]]
 === HitRatioInfo
@@ -957,6 +1128,30 @@ The maximal memory size. The value is returned with a unit abbreviation
 |`open_files`   |optional|
 The number of open files.
 |============================
+
+[[server-info]]
+=== ServerInfo
+The `ServerInfo` entity contains information about the configuration of
+the of Gerrit server.
+
+[options="header",cols="1,^1,5"]
+|=======================================
+|Field Name                ||Description
+|`auth`                    ||
+Information about the authentication configuration as
+link:#auth-info[AuthInfo] entity.
+|`contact_store`           |optional|
+Information about the contact store configuration as
+link:#contact-store-info[ContactStoreInfo] entity.
+|`download`                ||
+Information about the configured download options as
+link:#download-info[DownloadInfo] entity.
+information about Gerrit
+|`gerrit`                  ||
+Information about the configuration from the
+link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
+GerritInfo] entity.
+|=======================================
 
 [[summary-info]]
 === SummaryInfo

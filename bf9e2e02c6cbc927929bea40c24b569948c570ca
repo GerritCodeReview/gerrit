@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506bee69_aaa3cf7c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-30T10:21:11Z",
+      "side": 1,
+      "message": "Shorter:\n\n  if (n \u003d\u003d Account.FieldName.REGISTER_NEW_EMAIL\n    \u0026\u0026 (emailSender \u003d\u003d null || !emailSender.isEnabled())) {\n      continue;\n    }\n    fields.add(n);\n  }",
+      "range": {
+        "startLine": 152,
+        "startChar": 8,
+        "endLine": 158,
+        "endChar": 9
+      },
+      "revId": "bf9e2e02c6cbc927929bea40c24b569948c570ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

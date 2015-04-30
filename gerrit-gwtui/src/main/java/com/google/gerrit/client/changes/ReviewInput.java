@@ -24,7 +24,7 @@ public class ReviewInput extends JavaScriptObject {
   }
 
   public static enum DraftHandling {
-    DELETE, PUBLISH, KEEP
+    DELETE, PUBLISH, KEEP, PUBLISH_ALL_REVISIONS
   }
 
   public static ReviewInput create() {

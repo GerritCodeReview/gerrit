@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0751e3f_ae30b717",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T02:36:12Z",
+      "side": 1,
+      "message": "Use the hasSize() assertion instead?\n\n  assertThat(publishedActual).hasSize(publishedExpected.size());\n\nOr since we\u0027re comparing contents of lists, why not use the `containsExactlyElementsIn` assertion instead of checking the size and then the contents?",
+      "range": {
+        "startLine": 360,
+        "startChar": 4,
+        "endLine": 360,
+        "endChar": 75
+      },
+      "revId": "0b796c2ccb4dfa870f42ee591f7ce562c1e9df7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

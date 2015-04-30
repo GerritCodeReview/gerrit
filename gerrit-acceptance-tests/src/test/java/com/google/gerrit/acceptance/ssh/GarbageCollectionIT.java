@@ -93,7 +93,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     GarbageCollectionResult result = garbageCollectionFactory.create().run(
         Arrays.asList(allProjects, project, project2, project3));
     assertThat(result.hasErrors()).isTrue();
-    assertThat(result.getErrors().size()).isEqualTo(1);
+    assertThat(result.getErrors()).hasSize(1);
     GarbageCollectionResult.Error error = result.getErrors().get(0);
     assertThat(error.getType()).isEqualTo(
         GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED);

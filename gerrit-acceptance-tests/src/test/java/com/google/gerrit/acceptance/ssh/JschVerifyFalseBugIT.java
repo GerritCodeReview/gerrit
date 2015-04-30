@@ -62,6 +62,6 @@ public class JschVerifyFalseBugIT extends AbstractDaemonTest {
     for (Future<Void> future : futures) {
       future.get();
     }
-    assertThat(futures.size()).isEqualTo(threads);
+    assertThat(futures).hasSize(threads);
   }
 }

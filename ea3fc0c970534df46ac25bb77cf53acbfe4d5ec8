@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "907f2621_6c02db0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T23:47:11Z",
+      "side": 1,
+      "message": "Map of empty lists is not an empty map. Fixed.",
+      "parentUuid": "907f2621_ccf0afac",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "ea3fc0c970534df46ac25bb77cf53acbfe4d5ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_6bdac1ec",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 2

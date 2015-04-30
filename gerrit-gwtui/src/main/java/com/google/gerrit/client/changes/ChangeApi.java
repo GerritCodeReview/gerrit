@@ -102,6 +102,14 @@ public class ChangeApi {
     return call(id, revision, "actions");
   }
 
+  public static RestApi comments(int id) {
+    return call(id, "comments");
+  }
+
+  public static RestApi drafts(int id) {
+    return call(id, "drafts");
+  }
+
   public static void edit(int id, AsyncCallback<EditInfo> cb) {
     edit(id).get(cb);
   }

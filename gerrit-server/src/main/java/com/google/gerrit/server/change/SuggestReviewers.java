@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -279,41 +280,20 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   }
 
   private List<AccountInfo> suggestAccountFullTextSearch(
-      VisibilityControl visibilityControl) throws OrmException {
-    String str = query.toLowerCase();
-    Map<Account.Id, AccountInfo> accountMap = new LinkedHashMap<>();
-    List<Account> fullNameMatches = new ArrayList<>(fullTextMaxMatches);
-    List<Account> emailMatches = new ArrayList<>(fullTextMaxMatches);
+      VisibilityControl visibilityControl) throws IOException, OrmException {
+    List<AccountInfo> results = reviewerSuggestionCache.search(
+        query, fullTextMaxMatches);
 
-    for (Account a : reviewerSuggestionCache.get()) {
-      if (a.getFullName() != null
-          && a.getFullName().toLowerCase().contains(str)) {
-        fullNameMatches.add(a);
-      } else if (a.getPreferredEmail() != null
-          && emailMatches.size() < fullTextMaxMatches
-          && a.getPreferredEmail().toLowerCase().contains(str)) {
-        emailMatches.add(a);
-      }
-      if (fullNameMatches.size() >= fullTextMaxMatches) {
-        break;
+    Iterator<AccountInfo> it = results.iterator();
+    while (it.hasNext()) {
+      Account.Id accountId = new Account.Id(it.next()._accountId);
+      if (!(visibilityControl.isVisibleTo(accountId)
+          && accountControl.canSee(accountId))) {
+        it.remove();
       }
     }
-    for (Account a : fullNameMatches) {
-      addSuggestion(accountMap, a.getId(), visibilityControl);
-      if (accountMap.size() >= limit) {
-        break;
-      }
-    }
-    if (accountMap.size() < limit) {
-      for (Account a : emailMatches) {
-        addSuggestion(accountMap, a.getId(), visibilityControl);
-        if (accountMap.size() >= limit) {
-          break;
-        }
-      }
-    }
-    accountLoader.fill();
-    return Lists.newArrayList(accountMap.values());
+
+    return results;
   }
 
   private boolean addSuggestion(Map<Account.Id, AccountInfo> map,

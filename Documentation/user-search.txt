@@ -240,6 +240,10 @@ has:star::
 Same as 'is:starred', true if the change has been starred by the
 current user.
 
+has:edit::
++
+True if the change has inline edit created by the current user.
+
 [[is]]
 is:starred::
 +

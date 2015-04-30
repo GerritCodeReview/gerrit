@@ -29,10 +29,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -54,6 +56,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
@@ -86,13 +89,19 @@ public class ChangeEditModifier {
   }
   private final TimeZone tz;
   private final GitRepositoryManager gitManager;
+  private final ChangeIndexer indexer;
+  private final Provider<ReviewDb> reviewDb;
   private final Provider<CurrentUser> currentUser;
 
   @Inject
   ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
       GitRepositoryManager gitManager,
+      ChangeIndexer indexer,
+      Provider<ReviewDb> reviewDb,
       Provider<CurrentUser> currentUser) {
     this.gitManager = gitManager;
+    this.indexer = indexer;
+    this.reviewDb = reviewDb;
     this.currentUser = currentUser;
     this.tz = gerritIdent.getTimeZone();
   }
@@ -127,7 +136,10 @@ public class ChangeEditModifier {
         ObjectId revision = ObjectId.fromString(ps.getRevision().get());
         String editRefName = RefNames.refsEdit(me.getAccountId(), change.getId(),
             ps.getId());
-        return update(repo, me, editRefName, rw, ObjectId.zeroId(), revision);
+        Result res =
+            update(repo, me, editRefName, rw, ObjectId.zeroId(), revision);
+        indexer.index(reviewDb.get(), change);
+        return res;
       }
     }
   }

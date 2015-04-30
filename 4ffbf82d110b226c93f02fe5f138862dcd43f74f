@@ -22,6 +22,30 @@
       "revId": "4ffbf82d110b226c93f02fe5f138862dcd43f74f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_6a02b70d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-04-30T05:10:28Z",
+      "side": 1,
+      "message": "Ah, I should know this, but didn\u0027t pay attention when I copied this from the issue.\n\nDone",
+      "parentUuid": "f067829d_8714c678",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "4ffbf82d110b226c93f02fe5f138862dcd43f74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

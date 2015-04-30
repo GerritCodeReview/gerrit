@@ -58,9 +58,11 @@ public class MergeOpMapper {
   private final Iterable<Change> changes;
   private final Provider<MergeOp.Factory> bgFactory;
   private final PerThreadRequestScope.Scoper threadScoper;
+  private final Provider<SubmoduleOp.Factory> subOpFactory;
 
   @Inject
-  MergeOpMapper(Injector parent, @Assisted Iterable<Change> changes) {
+  MergeOpMapper(Injector parent,
+      @Assisted Iterable<Change> changes) {
     Injector child = parent.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
@@ -111,6 +113,7 @@ public class MergeOpMapper {
     this.threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
     this.bgFactory = child.getProvider(MergeOp.Factory.class);
     this.changes = changes;
+    this.subOpFactory = child.getProvider(SubmoduleOp.Factory.class);
   }
 
   public void merge() throws MergeException {
@@ -131,6 +134,15 @@ public class MergeOpMapper {
         log.error("Merge attempt for " + branch + " failed", e);
         throw new MergeException(e);
       }
+    }
+
+    // start submodule subscriptions here
+    SubmoduleOp subOp = subOpFactory.get().create();
+    try {
+      subOp.updateSuperProjects(set);
+    } catch (SubmoduleException e) {
+      // TODO(sbeller): Auto-generated catch block
+      e.printStackTrace();
     }
   }
 }

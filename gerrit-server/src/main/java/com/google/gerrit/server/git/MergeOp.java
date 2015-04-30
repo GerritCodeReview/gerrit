@@ -840,17 +840,16 @@ public class MergeOp {
     }
   }
 
-  private void updateSubscriptions(List<Change> submitted) {
+  protected void updateSubscriptions(List<Change> submitted) {
+    logDebug("Call to updateSubscriptions for {}", submitted.toString());
     if (mergeTip != null
         && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
       logDebug("Updating submodule subscriptions for {} changes",
           submitted.size());
       SubmoduleOp subOp =
-          subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
-              destProject.getProject(), submitted, commits,
-              getAccount(mergeTip.getCurrentTip()));
+          subOpFactory.create();
       try {
-        subOp.update();
+        subOp.updateSubmoduleSubscriptions(destBranch);
       } catch (SubmoduleException e) {
         logError(
             "The gitLinks were not updated according to the subscriptions" , e);

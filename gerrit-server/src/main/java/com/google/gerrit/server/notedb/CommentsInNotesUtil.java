@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.inject.Inject;
@@ -145,10 +146,6 @@ public class CommentsInNotesUtil {
     // TODO(dborowitz): Use a ThreadLocal or use Joda.
     PersonIdent newIdent = new PersonIdent(ident, t);
     return dateFormatter.formatDate(newIdent);
-  }
-
-  public static PatchSet.Id getCommentPsId(PatchLineComment plc) {
-    return plc.getKey().getParentKey().getParentKey();
   }
 
   private static PatchLineComment parseComment(byte[] note, MutableInteger curr,
@@ -444,7 +441,7 @@ public class CommentsInNotesUtil {
     PatchLineComment first = comments.get(0);
 
     short side = first.getSide();
-    PatchSet.Id psId = getCommentPsId(first);
+    PatchSet.Id psId = PatchLineCommentsUtil.getCommentPsId(first);
     appendHeaderField(writer, side == 0
         ? BASE_PATCH_SET
         : PATCH_SET,
@@ -454,7 +451,7 @@ public class CommentsInNotesUtil {
     String currentFilename = null;
 
     for (PatchLineComment c : comments) {
-      PatchSet.Id currentPsId = getCommentPsId(c);
+      PatchSet.Id currentPsId = PatchLineCommentsUtil.getCommentPsId(c);
       checkArgument(psId.equals(currentPsId),
           "All comments being added must all have the same PatchSet.Id. The"
           + "comment below does not have the same PatchSet.Id as the others "

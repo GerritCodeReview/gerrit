@@ -17,7 +17,6 @@ package com.google.gerrit.client.download;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
@@ -27,8 +26,6 @@ import java.util.Set;
 public abstract class DownloadPanel extends FlowPanel {
   protected String projectName;
 
-  protected Set<DownloadScheme> allowedSchemes =
-      Gerrit.getConfig().getDownloadSchemes();
   protected Set<DownloadCommand> allowedCommands =
       Gerrit.getConfig().getDownloadCommands();
   protected DownloadCommandLink.CopyableCommandLinkFactory cmdLinkfactory;

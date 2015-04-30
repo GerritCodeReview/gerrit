@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f067829d_c7439e73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "third",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 9
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0751e3f_2e4fe793",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 39,
+        "startChar": 30,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f067829d_e7482292",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 909,
+        "startChar": 21,
+        "endLine": 909,
+        "endChar": 23
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f067829d_873da6e2",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "authentication",
+      "range": {
+        "startLine": 915,
+        "startChar": 38,
+        "endLine": 915,
+        "endChar": 51
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0751e3f_ceae6399",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "or",
+      "range": {
+        "startLine": 918,
+        "startChar": 19,
+        "endLine": 918,
+        "endChar": 22
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0751e3f_eeb31ffc",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "\"required\"?",
+      "range": {
+        "startLine": 921,
+        "startChar": 16,
+        "endLine": 921,
+        "endChar": 20
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f067829d_a7422a6c",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "Does this render as expected with a blank line here?",
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0751e3f_8eb85bda",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 1135,
+        "startChar": 4,
+        "endLine": 1135,
+        "endChar": 6
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f067829d_47580e5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T14:14:13Z",
+      "side": 1,
+      "message": "This same code is in GerritConfigProvider.  Factor it out to a utility method?",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 130,
+        "endChar": 8
+      },
+      "revId": "ebccc0257a4eb2a8859d53d00d835710f40fc95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

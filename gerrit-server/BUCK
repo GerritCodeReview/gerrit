@@ -59,6 +59,7 @@ java_library(
     '//lib/jgit:jgit-archive',
     '//lib/joda:joda-time',
     '//lib/log:api',
+    '//lib/log:jsonevent-layout',
     '//lib/log:log4j',
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core',

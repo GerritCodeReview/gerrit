@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -71,8 +72,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ChangeData {
   public static List<Change> asChanges(List<ChangeData> changeDatas)
@@ -215,6 +218,7 @@ public class ChangeData {
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
   private Boolean mergeable;
+  private Set<Account.Id> editsByUser;
 
   @AssistedInject
   private ChangeData(
@@ -643,6 +647,28 @@ public class ChangeData {
       }
     }
     return mergeable;
+  }
+
+  public Set<Account.Id> editsByUser() throws OrmException {
+    if (editsByUser == null) {
+      Change c = change();
+      if (c == null) {
+        return Collections.emptySet();
+      }
+      editsByUser = new HashSet<>();
+      Change.Id id = change.getId();
+      try (Repository repo = repoManager.openRepository(change.getProject())) {
+        for (String ref
+            : repo.getRefDatabase().getRefs(RefNames.REFS_USER).keySet()) {
+          if (Change.Id.fromEditRefPart(ref).equals(id)) {
+            editsByUser.add(Account.Id.fromRefPart(ref));
+          }
+        }
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+    }
+    return editsByUser;
   }
 
   @Override

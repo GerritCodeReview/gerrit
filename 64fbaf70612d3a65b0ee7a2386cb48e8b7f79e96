@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506bee69_aa7aef6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-30T12:20:52Z",
+      "side": 1,
+      "message": "Why this internal implementation of reviewerSuggestionCache should be leaked to its callers? Wouldn\u0027t make sense to hide the actual cache implementation and provide a method, like\n\n  List\u003cAccountInfo\u003e reviewerSuggestionCache.findAccountsByQuery(query)\n\nor similar in the cache itself?",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 42
+      },
+      "revId": "64fbaf70612d3a65b0ee7a2386cb48e8b7f79e96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

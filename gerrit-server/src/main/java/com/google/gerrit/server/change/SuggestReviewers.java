@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -48,6 +49,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.PrefixQuery;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -56,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -279,41 +289,44 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   }
 
   private List<AccountInfo> suggestAccountFullTextSearch(
-      VisibilityControl visibilityControl) throws OrmException {
-    String str = query.toLowerCase();
-    Map<Account.Id, AccountInfo> accountMap = new LinkedHashMap<>();
-    List<Account> fullNameMatches = new ArrayList<>(fullTextMaxMatches);
-    List<Account> emailMatches = new ArrayList<>(fullTextMaxMatches);
+      VisibilityControl visibilityControl) throws IOException, OrmException {
+    List<String> segments = Splitter.on(' ').omitEmptyStrings().splitToList(
+        query.toLowerCase());
+    BooleanQuery q = new BooleanQuery();
+    for (String field : new String[] {"name", "email", "username"}) {
+      BooleanQuery and = new BooleanQuery();
+      for (String s : segments) {
+        and.add(new PrefixQuery(new Term(field, s)), Occur.MUST);
+      }
+      q.add(and, Occur.SHOULD);
+    }
 
-    for (Account a : reviewerSuggestionCache.get()) {
-      if (a.getFullName() != null
-          && a.getFullName().toLowerCase().contains(str)) {
-        fullNameMatches.add(a);
-      } else if (a.getPreferredEmail() != null
-          && emailMatches.size() < fullTextMaxMatches
-          && a.getPreferredEmail().toLowerCase().contains(str)) {
-        emailMatches.add(a);
-      }
-      if (fullNameMatches.size() >= fullTextMaxMatches) {
-        break;
+    IndexSearcher searcher = reviewerSuggestionCache.get();
+    if (searcher == null) {
+      return Collections.emptyList();
+    }
+
+    TopDocs results = searcher.search(q, fullTextMaxMatches);
+    ScoreDoc[] hits = results.scoreDocs;
+
+    List<AccountInfo> result = new LinkedList<>();
+
+    for (ScoreDoc h : hits) {
+      Document doc = searcher.doc(h.doc);
+
+      int id = doc.getField("id").numericValue().intValue();
+      Account.Id accountId = new Account.Id(id);
+      AccountInfo info = new AccountInfo(id);
+      info.name = doc.get("name");
+      info.email = doc.get("email");
+      info.username = doc.get("username");
+      if (visibilityControl.isVisibleTo(accountId)
+          && accountControl.canSee(accountId)) {
+        result.add(info);
       }
     }
-    for (Account a : fullNameMatches) {
-      addSuggestion(accountMap, a.getId(), visibilityControl);
-      if (accountMap.size() >= limit) {
-        break;
-      }
-    }
-    if (accountMap.size() < limit) {
-      for (Account a : emailMatches) {
-        addSuggestion(accountMap, a.getId(), visibilityControl);
-        if (accountMap.size() >= limit) {
-          break;
-        }
-      }
-    }
-    accountLoader.fill();
-    return Lists.newArrayList(accountMap.values());
+
+    return result;
   }
 
   private boolean addSuggestion(Map<Account.Id, AccountInfo> map,

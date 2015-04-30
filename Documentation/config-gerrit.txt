@@ -3300,6 +3300,12 @@ Making this number too high could have a negative impact on performance.
 +
 By default 100.
 
+[[suggest.fullTextSearchRefresh]]suggest.fullTextSearchRefresh::
++
+Refresh interval for the in-memory account search index.
++
+By default 1 hour.
+
 
 [[theme]]
 === Section theme

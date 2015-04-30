@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "907f2621_2c4ff393",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T22:44:06Z",
+      "side": 1,
+      "message": "Done in a separate change.",
+      "parentUuid": "f067829d_67caf29e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_2beb59f4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "writtenOn": "2015-04-29T06:35:27Z",
       "side": 1,
       "message": "1. Capitalize to be consistent with other section titles.\n\n2. Should this be \"List Change Drafts\"? Otherwise we have 2 \"List Drafts\" sections.",
+      "range": {
+        "startLine": 1150,
+        "startChar": 9,
+        "endLine": 1150,
+        "endChar": 10
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_ccae6f99",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T22:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ab234_2beb59f4",
       "range": {
         "startLine": 1150,
         "startChar": 9,
@@ -238,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "907f2621_ecb32bfc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T22:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907f2621_8c662725",
+      "range": {
+        "startLine": 1165,
+        "startChar": 79,
+        "endLine": 1165,
+        "endChar": 82
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_ebe47128",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2
@@ -249,6 +321,30 @@
       "writtenOn": "2015-04-29T06:11:39Z",
       "side": 1,
       "message": "content",
+      "range": {
+        "startLine": 391,
+        "startChar": 67,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_ed9a456e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T22:44:06Z",
+      "side": 1,
+      "message": "Intentional, see createDraft call below.",
+      "parentUuid": "707ab234_ebe47128",
       "range": {
         "startLine": 391,
         "startChar": 67,
@@ -401,6 +497,30 @@
       "writtenOn": "2015-04-29T06:11:39Z",
       "side": 1,
       "message": "com.google.common.collect.ComparisonChain",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 70
+      },
+      "revId": "43854673db3c91b65383a1b6f6365110414f24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_8d8f012f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T22:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707ab234_4bf4a5d1",
       "range": {
         "startLine": 28,
         "startChar": 7,

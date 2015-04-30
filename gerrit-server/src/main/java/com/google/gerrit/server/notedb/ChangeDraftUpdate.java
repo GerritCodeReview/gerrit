@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.PatchLineCommentsUtil.getCommentPsId;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
 
 import com.google.common.collect.ListMultimap;
@@ -170,11 +169,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   private void verifyComment(PatchLineComment comment) {
-    checkState(psId != null,
-        "setPatchSetId must be called first");
-    checkArgument(getCommentPsId(comment).equals(psId),
-        "Comment on %s does not match configured patch set %s",
-        getCommentPsId(comment), psId);
     if (migration.writeChanges()) {
       checkArgument(comment.getRevId() != null);
     }
@@ -283,7 +277,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     }
     commit.setAuthor(newIdent(getUser().getAccount(), when));
     commit.setCommitter(new PersonIdent(serverIdent, when));
-    commit.setMessage(String.format("Comment on patch set %d", psId.get()));
+    commit.setMessage("Update draft comments");
     return true;
   }
 

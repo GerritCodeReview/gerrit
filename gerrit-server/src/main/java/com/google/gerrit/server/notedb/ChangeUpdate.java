@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.PatchLineCommentsUtil.getCommentPsId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -241,7 +240,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void insertDraftComment(PatchLineComment c) throws OrmException {
-    createDraftUpdateIfNull(c);
+    createDraftUpdateIfNull();
     draftUpdate.insertComment(c);
   }
 
@@ -262,7 +261,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void upsertDraftComment(PatchLineComment c) {
-    createDraftUpdateIfNull(c);
+    createDraftUpdateIfNull();
     draftUpdate.upsertComment(c);
   }
 
@@ -281,38 +280,28 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void updateDraftComment(PatchLineComment c) throws OrmException {
-    createDraftUpdateIfNull(c);
+    createDraftUpdateIfNull();
     draftUpdate.updateComment(c);
   }
 
   private void deleteDraftComment(PatchLineComment c) throws OrmException {
-    createDraftUpdateIfNull(c);
+    createDraftUpdateIfNull();
     draftUpdate.deleteComment(c);
   }
 
   private void deleteDraftCommentIfPresent(PatchLineComment c)
       throws OrmException {
-    createDraftUpdateIfNull(c);
+    createDraftUpdateIfNull();
     draftUpdate.deleteCommentIfPresent(c);
   }
 
-  private void createDraftUpdateIfNull(PatchLineComment c) {
+  private void createDraftUpdateIfNull() {
     if (draftUpdate == null) {
       draftUpdate = draftUpdateFactory.create(ctl, when);
-      if (psId != null) {
-        draftUpdate.setPatchSetId(psId);
-      } else {
-        draftUpdate.setPatchSetId(getCommentPsId(c));
-      }
     }
   }
 
   private void verifyComment(PatchLineComment c) {
-    checkArgument(psId != null,
-        "setPatchSetId must be called first");
-    checkArgument(getCommentPsId(c).equals(psId),
-        "Comment on %s doesn't match previous patch set %s",
-        getCommentPsId(c), psId);
     checkArgument(c.getRevId() != null);
     checkArgument(c.getStatus() == Status.PUBLISHED,
         "Cannot add a draft comment to a ChangeUpdate. Use a ChangeDraftUpdate"

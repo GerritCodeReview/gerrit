@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f067829d_4726cee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-30T08:48:14Z",
+      "side": 1,
+      "message": "And also \u0027junio-gpg-pub\u0027 on git.",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "853157fb09aab8c3e486922c714fd3caeba79e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

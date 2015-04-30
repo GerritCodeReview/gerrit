@@ -149,6 +149,9 @@ global capability are able to access change edit refs.
 To search change edits from the UI the link:user-search.html#has[has:edit]
 predicate can be used.
 
+Alternatively change edits can be accessed through "My => Change Edits"
+dashboard.
+
 [[not-implemented-features]]
 == Not Implemented Features
 

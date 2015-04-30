@@ -18,6 +18,7 @@ import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -61,6 +62,10 @@ public class InternalChangeQuery {
 
   private static Predicate<ChangeData> commit(AbbreviatedObjectId id) {
     return new CommitPredicate(id);
+  }
+
+  private static Predicate<ChangeData> editBy(Account.Id user) {
+    return new EditByPredicate(user);
   }
 
   private final QueryProcessor qp;
@@ -125,6 +130,11 @@ public class InternalChangeQuery {
         ref(branch),
         project(branch.getParentKey()),
         open()));
+  }
+
+  public List<ChangeData> byEditsByUser(Account.Id user)
+      throws OrmException {
+    return query(editBy(user));
   }
 
   public List<ChangeData> byProjectOpen(Project.NameKey project)

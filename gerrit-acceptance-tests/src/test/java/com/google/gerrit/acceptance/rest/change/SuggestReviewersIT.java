@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.PerformCreateGroup;
@@ -57,9 +58,11 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     group("users2");
     group("users3");
 
-    user1 = accounts.create("user1", "user1@example.com", "User1", "users1");
-    user2 = accounts.create("user2", "user2@example.com", "User2", "users2");
-    user3 = accounts.create("user3", "user3@example.com", "User3",
+    user1 = accounts.create("user1", "user1@example.com", "First1 Last1",
+        "users1");
+    user2 = accounts.create("user2", "user2@example.com", "First2 Last2",
+        "users2");
+    user3 = accounts.create("user3", "user3@example.com", "First3 Last3",
         "users1", "users2");
   }
 
@@ -110,7 +113,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     reviewers = suggestReviewers(changeId, "user2", 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(
+        "First2 Last2");
 
     reviewers = suggestReviewers(new RestSession(server, user1),
         changeId, "user2", 2);
@@ -119,12 +123,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(new RestSession(server, user2),
         changeId, "user2", 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(
+        "First2 Last2");
 
     reviewers = suggestReviewers(new RestSession(server, user3),
         changeId, "user2", 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(
+        "First2 Last2");
   }
 
   @Test
@@ -141,7 +147,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(new RestSession(server, user1),
         changeId, "user2", 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(
+        "First2 Last2");
   }
 
   @Test
@@ -157,9 +164,49 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfig(name = "suggest.fullTextSearch", value = "true")
   public void suggestReviewersFullTextSearch() throws Exception {
     String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, "ser", 5);
-    assertThat(reviewers).hasSize(4);
+    List<SuggestedReviewerInfo> reviewers;
+
+    reviewers = suggestReviewers(changeId, "first", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "first1", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "last", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "last1", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "fi la", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "la fi", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "first1 la", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "fi last1", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "first1 last2", 1);
+    assertThat(reviewers).hasSize(0);
+
+    reviewers = suggestReviewers(changeId, "user", 8);
+    assertThat(reviewers).hasSize(7);
+
+    reviewers = suggestReviewers(changeId, "user1", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "example.com", 6);
+    assertThat(reviewers).hasSize(5);
+
+    reviewers = suggestReviewers(changeId, "user1@example.com", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "user1 example", 2);
+    assertThat(reviewers).hasSize(1);
   }
 
   @Test
@@ -170,8 +217,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersFullTextSearchLimitMaxMatches() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, "ser", 3);
-    assertThat(reviewers).hasSize(2);
+        suggestReviewers(changeId, "user", 3);
+    assertThat(reviewers).hasSize(3);
   }
 
   @Test
@@ -195,7 +242,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
         session.get("/changes/"
             + changeId
             + "/suggest_reviewers?q="
-            + query
+            + Url.encode(query)
             + "&n="
             + n)
         .getReader(),

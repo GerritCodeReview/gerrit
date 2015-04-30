@@ -46,7 +46,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.audit.HttpAuditEvent;
+import com.google.gerrit.audit.HttpExtendedAuditEvent;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -204,6 +204,8 @@ public class RestApiServlet extends HttpServlet {
     Object result = null;
     Multimap<String, String> params = LinkedHashMultimap.create();
     Object inputRequestBody = null;
+    RestResource rsrc = TopLevelResource.INSTANCE;
+    ViewData viewData = null;
 
     try {
       checkUserSession(req);
@@ -213,8 +215,8 @@ public class RestApiServlet extends HttpServlet {
       CapabilityUtils.checkRequiresCapability(globals.currentUser,
           null, rc.getClass());
 
-      RestResource rsrc = TopLevelResource.INSTANCE;
-      ViewData viewData = new ViewData(null, null);
+      viewData = new ViewData(null, null);
+
       if (path.isEmpty()) {
         if (isGetOrHead(req)) {
           viewData = new ViewData(null, rc.list());
@@ -386,10 +388,10 @@ public class RestApiServlet extends HttpServlet {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);
     } finally {
-      globals.auditService.dispatch(new HttpAuditEvent(globals.webSession.get()
-          .getSessionId(), globals.currentUser.get(), req.getRequestURI(),
-          auditStartTs, params, req.getMethod(), inputRequestBody, status,
-          result));
+      globals.auditService.dispatch(new HttpExtendedAuditEvent(globals.webSession.get()
+          .getSessionId(), globals.currentUser.get(), req,
+          auditStartTs, params, inputRequestBody, status,
+          result, rsrc, viewData.view));
     }
   }
 

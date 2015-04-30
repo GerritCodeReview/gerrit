@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707ab234_cb31751f",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-04-30T09:50:02Z",
+      "side": 1,
+      "message": "missing \u0027in\u0027 or \u0027to\u0027",
+      "range": {
+        "startLine": 112,
+        "startChar": 50,
+        "endLine": 112,
+        "endChar": 54
+      },
+      "revId": "3cb4d8c5a02e681ca4f93e6269354ea2291f7009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_abbd09c9",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-04-30T09:50:02Z",
+      "side": 1,
+      "message": "Maybe reword to:\nGerrit checks if this Change-ID already exists for this ...",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 170,
+        "endChar": 41
+      },
+      "revId": "3cb4d8c5a02e681ca4f93e6269354ea2291f7009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_6bb401c1",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-04-30T09:50:02Z",
+      "side": 1,
+      "message": "Maybe reword to:\nMost projects already [require a Change-ID] when pushing the very first Patch-Set. This reduces the risk of accidentally creating a new Change instead of uploading a new Patch-Set.\nAny push without Change-Id then fails with [missing Change-Id in commit message footer]",
+      "range": {
+        "startLine": 178,
+        "startChar": 50,
+        "endLine": 179,
+        "endChar": 9
+      },
+      "revId": "3cb4d8c5a02e681ca4f93e6269354ea2291f7009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506bee69_ea99c752",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-04-30T09:50:02Z",
+      "side": 1,
+      "message": "Maybe reword to:\nNew patchsets can always be uploaded to a specific change (even without any Change-ID) by pushing to the change ref ...",
+      "range": {
+        "startLine": 183,
+        "startChar": 9,
+        "endLine": 183,
+        "endChar": 63
+      },
+      "revId": "3cb4d8c5a02e681ca4f93e6269354ea2291f7009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

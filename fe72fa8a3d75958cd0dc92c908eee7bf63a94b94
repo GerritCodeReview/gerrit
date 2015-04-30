@@ -316,6 +316,30 @@
       "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_0be77daf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-30T19:25:07Z",
+      "side": 1,
+      "message": "Nope. This branch is still not covered by any unit tests and the removal of draft comments is broken. See my other comments with unit test suggestion on the next ps.",
+      "parentUuid": "b070aa50_0dad5196",
+      "range": {
+        "startLine": 531,
+        "startChar": 6,
+        "endLine": 534,
+        "endChar": 7
+      },
+      "revId": "fe72fa8a3d75958cd0dc92c908eee7bf63a94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

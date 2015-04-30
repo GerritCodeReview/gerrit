@@ -1159,4 +1159,48 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getComments()).containsExactly(
         ImmutableMultimap.of(new RevId(rev), comment));
   }
+
+  @Test
+  public void updateCommentsForMultipleRevisions() throws Exception {
+    Change c = newChange();
+    String uuid = "uuid";
+    String rev1 = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+    String rev2 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id ps1 = c.currentPatchSetId();
+    String filename = "filename1";
+    short side = (short) 1;
+
+    incrementPatchSet(c);
+    PatchSet.Id ps2 = c.currentPatchSetId();
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(ps2);
+    Timestamp now = TimeUtil.nowTs();
+    PatchLineComment comment1 = newComment(ps1, filename,
+        uuid, range, range.getEndLine(), otherUser, null, now, "comment on ps1",
+        side, rev1, Status.DRAFT);
+    PatchLineComment comment2 = newComment(ps2, filename,
+        uuid, range, range.getEndLine(), otherUser, null, now, "comment on ps2",
+        side, rev2, Status.DRAFT);
+    update.upsertComment(comment1);
+    update.upsertComment(comment2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getDraftComments(otherUserId)).hasSize(2);
+    assertThat(notes.getComments()).isEmpty();
+
+    update = newUpdate(c, otherUser);
+    update.setPatchSetId(ps2);
+    comment1.setStatus(Status.PUBLISHED);
+    comment2.setStatus(Status.PUBLISHED);
+    update.upsertComment(comment1);
+    update.upsertComment(comment2);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+    assertThat(notes.getComments()).hasSize(2);
+  }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
@@ -222,7 +223,17 @@ public class PatchLineCommentsUtil {
       ChangeNotes notes, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      return sort(db.patchComments().byChange(notes.getChangeId()).toList());
+      final Change.Id matchId = notes.getChangeId();
+      return FluentIterable
+          .from(db.patchComments().draftByAuthor(author))
+          .filter(new Predicate<PatchLineComment>() {
+            @Override
+            public boolean apply(PatchLineComment in) {
+              Change.Id changeId =
+                  in.getKey().getParentKey().getParentKey().getParentKey();
+              return changeId.equals(matchId);
+            }
+          }).toSortedList(ChangeNotes.PLC_ORDER);
     }
     List<PatchLineComment> comments = Lists.newArrayList();
     comments.addAll(notes.getDraftBaseComments(author).values());

@@ -93,6 +93,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
   public static final String FIELD_DRAFTBY = "draftby";
+  public static final String FIELD_EDITBY = "editby";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
@@ -366,6 +367,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new HasDraftByPredicate(args, self());
     }
 
+    if ("edit".equalsIgnoreCase(value)) {
+      return new EditByPredicate(self());
+    }
     throw new IllegalArgumentException();
   }
 
@@ -754,6 +758,20 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     List<CommentByPredicate> p = Lists.newArrayListWithCapacity(who.size());
     for (Account.Id id : who) {
       p.add(new CommentByPredicate(id));
+    }
+    return Predicate.or(p);
+  }
+
+  @Operator
+  public Predicate<ChangeData> editby(String who)
+      throws QueryParseException, OrmException {
+    return editby(parseAccount(who));
+  }
+
+  private Predicate<ChangeData> editby(Set<Account.Id> who) {
+    List<EditByPredicate> p = Lists.newArrayListWithCapacity(who.size());
+    for (Account.Id id : who) {
+      p.add(new EditByPredicate(id));
     }
     return Predicate.or(p);
   }

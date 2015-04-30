@@ -38,6 +38,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -73,6 +74,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ChangeData {
   public static List<Change> asChanges(List<ChangeData> changeDatas)
@@ -179,7 +181,7 @@ public class ChangeData {
    */
   static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
-        null, null, null, null, null, null, id);
+        null, null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -197,6 +199,7 @@ public class ChangeData {
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
   private final MergeabilityCache mergeabilityCache;
+  private final ChangeEditUtil editUtils;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
@@ -215,6 +218,7 @@ public class ChangeData {
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
   private Boolean mergeable;
+  private Set<Account.Id> editsByUser;
 
   @AssistedInject
   private ChangeData(
@@ -230,6 +234,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      ChangeEditUtil editUtils,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     this.db = db;
@@ -245,6 +250,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.editUtils = editUtils;
     legacyId = id;
   }
 
@@ -262,6 +268,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      ChangeEditUtil editUtils,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -277,6 +284,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.editUtils = editUtils;
     legacyId = c.getId();
     change = c;
   }
@@ -295,6 +303,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      ChangeEditUtil editUtils,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -310,6 +319,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.editUtils = editUtils;
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
@@ -639,6 +649,21 @@ public class ChangeData {
       }
     }
     return mergeable;
+  }
+
+  public Set<Account.Id> editsByUser() throws OrmException {
+    if (editsByUser == null) {
+      Change c = change();
+      if (c == null) {
+        return Collections.emptySet();
+      }
+      try {
+        editsByUser = editUtils.accountsByChange(c);
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+    }
+    return editsByUser;
   }
 
   @Override

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "b070aa50_8dfaa188",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T22:43:52Z",
+      "side": 1,
+      "message": "Good catch, thank you.\n\nThere was another bug, due to the fact that removing all values for a key from the multimap means the key doesn\u0027t show up during iteration.\n\nUnfortunately this means we actually need a Map\u003cRevId, List\u003cPatchLineComment\u003e\u003e here. Changed the signature of writeCommentsToNoteMap to reflect this, and added javadoc.\n\nFixed and tests (including your test for this path) pass.",
+      "parentUuid": "506bee69_6a3397a2",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "ea3fc0c970534df46ac25bb77cf53acbfe4d5ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_6bdac1ec",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 2
@@ -108,6 +132,30 @@
       "writtenOn": "2015-04-30T19:26:18Z",
       "side": 1,
       "message": "While removal of all draft comments seems to work, removal of only some of them is broken, e.g.: [1].\n\n* [1]: http://paste.openstack.org/show/213861/",
+      "range": {
+        "startLine": 1085,
+        "startChar": 2,
+        "endLine": 1119,
+        "endChar": 3
+      },
+      "revId": "ea3fc0c970534df46ac25bb77cf53acbfe4d5ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_0cad5796",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-04-30T22:43:52Z",
+      "side": 1,
+      "message": "Thanks for this, I was being a little lazy I admit.",
+      "parentUuid": "707ab234_6bdac1ec",
       "range": {
         "startLine": 1085,
         "startChar": 2,

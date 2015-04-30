@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707ab234_ab750978",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-04-30T14:53:07Z",
+      "side": 1,
+      "message": "Note for reviewers: Yes I tried to Iterables.filter but the ugly thing is that the visibilityControl.isVisibleTo throws OrmException and I am forced to catch it inside the Predicate.apply method. This makes a functional style solution look quite verbose and non-elegant.",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 5
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -114,13 +114,16 @@ public class CommentsTest  {
   private Injector injector;
   private ReviewDb db;
   private Project.NameKey project;
+  private Account.Id ownerId;
   private RevisionResource revRes1;
   private RevisionResource revRes2;
+  private RevisionResource revRes3;
   private PatchLineComment plc1;
   private PatchLineComment plc2;
   private PatchLineComment plc3;
   private PatchLineComment plc4;
   private PatchLineComment plc5;
+  private PatchLineComment plc6;
   private IdentifiedUser changeOwner;
 
   @Inject private AllUsersNameProvider allUsers;
@@ -157,7 +160,7 @@ public class CommentsTest  {
     co.setFullName("Change Owner");
     co.setPreferredEmail("change@owner.com");
     accountCache.put(co);
-    final Account.Id ownerId = co.getId();
+    ownerId = co.getId();
 
     Account ou = new Account(new Account.Id(2), TimeUtil.nowTs());
     ou.setFullName("Other Account");
@@ -224,11 +227,15 @@ public class CommentsTest  {
     PatchLineCommentAccess plca = createMock(PatchLineCommentAccess.class);
     expect(db.patchComments()).andReturn(plca).anyTimes();
 
-    Change change = newChange();
-    PatchSet.Id psId1 = new PatchSet.Id(change.getId(), 1);
+    Change change1 = newChange();
+    PatchSet.Id psId1 = new PatchSet.Id(change1.getId(), 1);
     PatchSet ps1 = new PatchSet(psId1);
-    PatchSet.Id psId2 = new PatchSet.Id(change.getId(), 2);
+    PatchSet.Id psId2 = new PatchSet.Id(change1.getId(), 2);
     PatchSet ps2 = new PatchSet(psId2);
+
+    Change change2 = newChange();
+    PatchSet.Id psId3 = new PatchSet.Id(change2.getId(), 1);
+    PatchSet ps3 = new PatchSet(psId3);
 
     long timeBase = TimeUtil.roundToSecond(TimeUtil.nowTs()).getTime();
     plc1 = newPatchLineComment(psId1, "Comment1", null,
@@ -251,21 +258,29 @@ public class CommentsTest  {
         Side.REVISION, 5, ownerId, timeBase + 4000, "Third Comment",
         new CommentRange(3, 4, 5, 6), Status.DRAFT);
     plc5.setRevId(new RevId("bcdebcdebcdebcdebcdebcdebcdebcdebcdebcde"));
+    plc6 = newPatchLineComment(psId3, "Comment6", null, "FileOne.txt",
+        Side.REVISION, 5, ownerId, timeBase + 5000, "Sixth Comment",
+        new CommentRange(3, 4, 5, 6), Status.DRAFT);
+    plc6.setRevId(new RevId("1234123412341234123412341234123412341234"));
 
     List<PatchLineComment> commentsByOwner = Lists.newArrayList();
     commentsByOwner.add(plc1);
     commentsByOwner.add(plc3);
     List<PatchLineComment> commentsByReviewer = Lists.newArrayList();
     commentsByReviewer.add(plc2);
-    List<PatchLineComment> drafts = Lists.newArrayList();
-    drafts.add(plc4);
-    drafts.add(plc5);
+    List<PatchLineComment> drafts1 = Lists.newArrayList();
+    drafts1.add(plc4);
+    drafts1.add(plc5);
+    List<PatchLineComment> drafts2 = Lists.newArrayList();
+    drafts2.add(plc6);
 
     plca.upsert(commentsByOwner);
     expectLastCall().anyTimes();
     plca.upsert(commentsByReviewer);
     expectLastCall().anyTimes();
-    plca.upsert(drafts);
+    plca.upsert(drafts1);
+    expectLastCall().anyTimes();
+    plca.upsert(drafts2);
     expectLastCall().anyTimes();
 
     expect(plca.publishedByPatchSet(psId1))
@@ -276,28 +291,36 @@ public class CommentsTest  {
         .andAnswer(results()).anyTimes();
     expect(plca.draftByPatchSetAuthor(psId2, ownerId))
         .andAnswer(results(plc4, plc5)).anyTimes();
-    expect(plca.byChange(change.getId()))
+    expect(plca.byChange(change1.getId()))
         .andAnswer(results(plc1, plc2, plc3, plc4, plc5)).anyTimes();
+    expect(plca.draftByAuthor(ownerId))
+        .andAnswer(results(plc4, plc5, plc6)).anyTimes();
     replay(db, plca);
 
-    ChangeUpdate update = newUpdate(change, changeOwner);
+    ChangeUpdate update = newUpdate(change1, changeOwner);
     update.setPatchSetId(psId1);
     plcUtil.upsertComments(db, update, commentsByOwner);
     update.commit();
 
-    update = newUpdate(change, otherUser);
+    update = newUpdate(change1, otherUser);
     update.setPatchSetId(psId1);
     plcUtil.upsertComments(db, update, commentsByReviewer);
     update.commit();
 
-    update = newUpdate(change, changeOwner);
+    update = newUpdate(change1, changeOwner);
     update.setPatchSetId(psId2);
-    plcUtil.upsertComments(db, update, drafts);
+    plcUtil.upsertComments(db, update, drafts1);
     update.commit();
 
-    ChangeControl ctl = stubChangeControl(change);
+    update = newUpdate(change2, changeOwner);
+    update.setPatchSetId(psId3);
+    plcUtil.upsertComments(db, update, drafts2);
+    update.commit();
+
+    ChangeControl ctl = stubChangeControl(change1);
     revRes1 = new RevisionResource(new ChangeResource(ctl, null), ps1);
     revRes2 = new RevisionResource(new ChangeResource(ctl, null), ps2);
+    revRes3 = new RevisionResource(new ChangeResource(stubChangeControl(change2), null), ps3);
   }
 
   private ChangeControl stubChangeControl(Change c) throws OrmException {
@@ -351,6 +374,14 @@ public class CommentsTest  {
         .containsExactly(plc1, plc2, plc3).inOrder();
     assertThat(plcUtil.draftByChange(db, revRes2.getNotes()))
         .containsExactly(plc4, plc5).inOrder();
+  }
+
+  @Test
+  public void testPatchLineCommentsUtilDraftByChangeAuthor() throws Exception {
+    assertThat(plcUtil.draftByChangeAuthor(db, revRes1.getNotes(), ownerId))
+        .containsExactly(plc4, plc5).inOrder();
+    assertThat(plcUtil.draftByChangeAuthor(db, revRes3.getNotes(), ownerId))
+        .containsExactly(plc6);
   }
 
   private static IAnswer<ResultSet<PatchLineComment>> results(

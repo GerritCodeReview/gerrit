@@ -14,9 +14,12 @@ plugin ls - List the installed plugins.
 List the installed plugins and show their version and status.
 
 == ACCESS
-* Caller must be a member of the privileged 'Administrators' group.
+* The caller must be a member of a group that is granted the
+  link:access-control.html#capability_viewPlugins[View Plugins]
+  capability or the link:access-control.html#capability_administrateServer[
+  Administrate Server] capability.
 * link:config-gerrit.html#plugins.allowRemoteAdmin[plugins.allowRemoteAdmin]
-must be enabled in `$site_path/etc/gerrit.config`.
+  must be enabled in `$site_path/etc/gerrit.config`.
 
 == SCRIPTING
 This command is intended to be used in scripts.

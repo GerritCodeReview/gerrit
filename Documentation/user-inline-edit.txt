@@ -159,6 +159,9 @@ To search change edits from the UI the following predicate can be used:
 link:user-search.html#editsby[editsby]. To search change edits that were
 created by th current user, `has:edit` operator can be used.
 
+Alternatively change edits can be accessed through "My => Change Edits"
+dashboard.
+
 [[not-implemented-features]]
 == Not Implemented Features
 

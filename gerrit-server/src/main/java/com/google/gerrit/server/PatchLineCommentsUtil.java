@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server;
 
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -64,6 +62,10 @@ import java.util.Set;
  */
 @Singleton
 public class PatchLineCommentsUtil {
+  public static PatchSet.Id getCommentPsId(PatchLineComment plc) {
+    return plc.getKey().getParentKey().getParentKey();
+  }
+
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final DraftCommentNotes.Factory draftFactory;
@@ -295,7 +297,7 @@ public class PatchLineCommentsUtil {
       PatchSet.Id psId) {
     List<PatchLineComment> result = new ArrayList<>(allComments.size());
     for (PatchLineComment c : allComments) {
-      if (getCommentPsId(c).equals(psId)) {
+      if (PatchLineCommentsUtil.getCommentPsId(c).equals(psId)) {
         result.add(c);
       }
     }

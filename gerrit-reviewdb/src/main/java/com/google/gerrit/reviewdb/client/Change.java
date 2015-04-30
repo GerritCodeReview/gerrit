@@ -145,6 +145,14 @@ public final class Change {
       return null;
     }
 
+    public static Id fromEditRefPart(String ref) {
+      int startChangeId = ref.indexOf(RefNames.EDIT_PREFIX) +
+          RefNames.EDIT_PREFIX.length();
+      int endChangeId = nextNonDigit(ref, startChangeId);
+      String id = ref.substring(startChangeId, endChangeId);
+      return new Change.Id(Integer.parseInt(id));
+    }
+
     static int startIndex(String ref) {
       if (ref == null || !ref.startsWith(REFS_CHANGES)) {
         return -1;

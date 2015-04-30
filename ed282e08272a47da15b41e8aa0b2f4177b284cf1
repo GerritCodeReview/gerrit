@@ -142,6 +142,30 @@
       "revId": "ed282e08272a47da15b41e8aa0b2f4177b284cf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_abd749c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-30T17:41:02Z",
+      "side": 1,
+      "message": "Fine for you, if it\u0027s immediately clear what is PatchSet Drafts and what is Revision Comment Drafts. To me it\u0027s broken naming convention. But may be it\u0027s very obvious to native english speakers...",
+      "parentUuid": "907f2621_4c583f5b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "ed282e08272a47da15b41e8aa0b2f4177b284cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

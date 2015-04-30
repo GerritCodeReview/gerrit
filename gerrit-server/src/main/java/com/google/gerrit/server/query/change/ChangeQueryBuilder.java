@@ -93,6 +93,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
   public static final String FIELD_DRAFTBY = "draftby";
+  public static final String FIELD_EDITBY = "editby";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
@@ -366,6 +367,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new HasDraftByPredicate(args, self());
     }
 
+    if ("edit".equalsIgnoreCase(value)) {
+      return new EditByPredicate(self());
+    }
     throw new IllegalArgumentException();
   }
 

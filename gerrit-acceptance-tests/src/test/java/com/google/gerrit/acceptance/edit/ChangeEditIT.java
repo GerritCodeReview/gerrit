@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -654,6 +655,32 @@ public class ChangeEditIT extends AbstractDaemonTest {
     List<ApprovalInfo> approvals = info.labels.get(cr).all;
     assertThat(approvals).hasSize(1);
     assertThat(approvals.get(0).value).isEqualTo(1);
+  }
+
+  @Test
+  public void testHasEditPredicate() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(queryEdits()).hasSize(1);
+
+    PatchSet current = getCurrentPatchSet(changeId2);
+    assertThat(modifier.createEdit(change2, current)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    assertThat(queryEdits()).hasSize(2);
+
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    editUtil.delete(editUtil.byChange(change).get());
+    assertThat(queryEdits()).hasSize(1);
+
+    editUtil.publish(editUtil.byChange(change2).get());
+    assertThat(queryEdits()).hasSize(0);
+  }
+
+  private List<ChangeInfo> queryEdits() throws RestApiException {
+    return query("project:{" + project.get() + "} has:edit");
   }
 
   private String newChange(PersonIdent ident) throws Exception {

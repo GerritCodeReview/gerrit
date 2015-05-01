@@ -52,6 +52,7 @@ public class MergeOpMapper {
   private final ChangeSet changes;
   private final Provider<MergeOp.Factory> bgFactory;
   private final PerThreadRequestScope.Scoper threadScoper;
+  private final Provider<SubmoduleOp.Factory> subOpFactory;
 
   @Inject
   MergeOpMapper(Injector parent, ChangeSet changes) {
@@ -105,6 +106,7 @@ public class MergeOpMapper {
     this.threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
     this.bgFactory = child.getProvider(MergeOp.Factory.class);
     this.changes = changes;
+    this.subOpFactory = child.getProvider(SubmoduleOp.Factory.class);
   }
 
   public void merge() {
@@ -120,6 +122,16 @@ public class MergeOpMapper {
         }).call();
       } catch (Throwable e) {
         log.error("Merge attempt for " + branch + " failed", e);
+      }
+    }
+    // start submodule subscriptions here
+    SubmoduleOp subOp = subOpFactory.get().create();
+    try {
+      subOp.updateSuperProjects(set);
+    } catch (SubmoduleException e) {
+      if (log.isErrorEnabled()) {
+        log.error(
+            "The gitLinks were not updated according to the subscriptions", e);
       }
     }
   }

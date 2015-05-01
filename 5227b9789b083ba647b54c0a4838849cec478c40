@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b070aa50_ada3dd7c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-01T00:32:47Z",
+      "side": 1,
+      "message": "This is now dead code?\n\nI didn\u0027t use PUBLISH because I wanted to only publish what you see in the web UI. If you open a new tab, add a comment to a file, then come back to reply box in a stale tab, do you expect that draft to be published since it doesn\u0027t appear below the textarea?",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b070aa50_0dc1d12d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-01T00:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b070aa50_0d26b1b2",
+      "revId": "c1c4c7737bcbc2788ab7f92104b36fd894b00684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b070aa50_2d236da3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-30T23:41:48Z",
       "side": 1,
       "message": "blank line between header and package",
+      "revId": "c1c4c7737bcbc2788ab7f92104b36fd894b00684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_4c2cbf94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-01T00:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b070aa50_2d236da3",
       "revId": "c1c4c7737bcbc2788ab7f92104b36fd894b00684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "907f2621_6c297b83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-01T00:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907f2621_acff6377",
+      "revId": "c1c4c7737bcbc2788ab7f92104b36fd894b00684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907f2621_8cfaa788",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "b070aa50_2dbe0da1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-01T00:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907f2621_8cfaa788",
+      "revId": "c1c4c7737bcbc2788ab7f92104b36fd894b00684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907f2621_2c8133fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2015-04-30T23:41:48Z",
       "side": 1,
       "message": "resource?",
+      "revId": "c1c4c7737bcbc2788ab7f92104b36fd894b00684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907f2621_0c26b7b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpExtendedAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-01T00:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907f2621_2c8133fd",
       "revId": "c1c4c7737bcbc2788ab7f92104b36fd894b00684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

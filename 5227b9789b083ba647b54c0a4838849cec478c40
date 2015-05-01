@@ -34,6 +34,24 @@
       "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_2db04dba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T00:38:40Z",
+      "side": 1,
+      "message": "A counterexample, of sorts: say I edit a draft in another tab while the reply box is open, then save that draft. I would be surprised if the send button did *not* contain my most recent edits to that draft, but I\u0027m pretty sure that\u0027s what would happen today. \"But that\u0027s not what the preview in the reply box said\" is not a very satisfying explanation from a user\u0027s point of view.",
+      "parentUuid": "b070aa50_6da6558d",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

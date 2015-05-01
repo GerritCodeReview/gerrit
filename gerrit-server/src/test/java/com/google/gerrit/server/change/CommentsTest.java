@@ -262,6 +262,7 @@ public class CommentsTest  {
         Side.REVISION, 5, ownerId, timeBase + 5000, "Sixth Comment",
         new CommentRange(3, 4, 5, 6), Status.DRAFT);
     plc6.setRevId(new RevId("1234123412341234123412341234123412341234"));
+    plc6.setRevId(new RevId("1234123412341234123412341234123412341234"));
 
     List<PatchLineComment> commentsByOwner = Lists.newArrayList();
     commentsByOwner.add(plc1);

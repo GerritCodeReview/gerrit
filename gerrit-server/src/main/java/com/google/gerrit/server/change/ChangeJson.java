@@ -433,7 +433,7 @@ public class ChangeJson {
     cd.setSubmitRecords(new SubmitRuleEvaluator(cd).setPatchSet(ps)
         .setFastEvalLabels(true)
         .setAllowDraft(true)
-        .canSubmit());
+        .evaluate());
     return cd.getSubmitRecords();
   }
 

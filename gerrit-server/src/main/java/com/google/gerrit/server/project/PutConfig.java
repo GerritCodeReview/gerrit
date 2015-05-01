@@ -115,11 +115,16 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   public ConfigInfo apply(ProjectResource rsrc, Input input)
       throws ResourceNotFoundException, BadRequestException,
       ResourceConflictException {
-    Project.NameKey projectName = rsrc.getNameKey();
     if (!rsrc.getControl().isOwner()) {
-      throw new ResourceNotFoundException(projectName.get());
+      throw new ResourceNotFoundException(rsrc.getName());
     }
+    return apply(rsrc.getControl(), input);
+  }
 
+  public ConfigInfo apply(ProjectControl ctrl, Input input)
+      throws ResourceNotFoundException, BadRequestException,
+      ResourceConflictException {
+    Project.NameKey projectName = ctrl.getProject().getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
     }
@@ -169,7 +174,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(rsrc.getControl().getProjectState(),
+        setPluginConfigValues(ctrl.getProjectState(),
             projectConfig, input.pluginConfigValues);
       }
 

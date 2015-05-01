@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a63229_8bbd0dfc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-01T05:38:31Z",
+      "side": 1,
+      "message": "Gah, this line was added twice.",
+      "range": {
+        "startLine": 259,
+        "startChar": 4,
+        "endLine": 260,
+        "endChar": 73
+      },
+      "revId": "f38c1c5c1aba5789e9ce5d2d05ce2fe2ff03b2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

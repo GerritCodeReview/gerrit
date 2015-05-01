@@ -32,6 +32,7 @@ is configured, the password can be obtained by clicking on `Obtain Password`
 and then following the site-specific instructions.  On sites where this URL is
 not configured, the password can be obtained by clicking on `Generate Password`.
 
+[[ssh]]
 == SSH
 
 Each user uploading changes to Gerrit must configure one or more SSH
@@ -145,6 +146,7 @@ Other users (e.g. project owners) who have configured Gerrit to
 notify them of new changes will be automatically sent an email
 message when the push is completed.
 
+[[topic]]
 To include a short tag associated with all of the changes in the
 same group, such as the local topic branch name, append it after
 the destination branch name. In this example the short topic tag

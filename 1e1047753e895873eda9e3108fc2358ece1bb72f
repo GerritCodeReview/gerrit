@@ -16,6 +16,24 @@
       "revId": "1e1047753e895873eda9e3108fc2358ece1bb72f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_cd94291c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T00:16:21Z",
+      "side": 1,
+      "message": "Done. The Eclipse refactoring to move this method was truly abysmal. Not counting this, which at least compiles, it completely failed to remove the old (now broken) static imports in some classes, and even tried to do \"import com.google...getCommentPsId;\" with no \"static.\"",
+      "parentUuid": "b070aa50_4ddef908",
+      "revId": "1e1047753e895873eda9e3108fc2358ece1bb72f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

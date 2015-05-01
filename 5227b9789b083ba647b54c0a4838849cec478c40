@@ -52,6 +52,24 @@
       "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a63229_4bd4c53a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-01T17:00:44Z",
+      "side": 1,
+      "message": "OK, then this method can disappear altogether in this commit and we will publish all saved drafts using in.drafts(DraftHandling.PUBLISH_ALL_REVISIONS) above.",
+      "parentUuid": "b070aa50_2db04dba",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

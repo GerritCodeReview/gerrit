@@ -16,6 +16,24 @@
       "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b070aa50_6da6558d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T00:36:41Z",
+      "side": 1,
+      "message": "Oh interesting, I didn\u0027t realize that was the current behavior.\n\nHonestly...I would be ok with publishing drafts added in another tab even if they weren\u0027t displayed in the UI. Since the drafts are loaded when the reply box opens, the race window should be fairly short. (Except maybe they aren\u0027t reloaded if the box is dismissed and then reopened?)",
+      "parentUuid": "b070aa50_ada3dd7c",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

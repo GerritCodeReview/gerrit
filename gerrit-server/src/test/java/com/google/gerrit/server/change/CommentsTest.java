@@ -371,7 +371,7 @@ public class CommentsTest  {
   @Test
   public void testPatchLineCommentsUtilByCommentStatus() throws OrmException {
     assertThat(plcUtil.publishedByChange(db, revRes2.getNotes()))
-        .containsExactly(plc1, plc2, plc3).inOrder();
+        .containsExactly(plc3, plc1, plc2).inOrder();
     assertThat(plcUtil.draftByChange(db, revRes2.getNotes()))
         .containsExactly(plc4, plc5).inOrder();
   }

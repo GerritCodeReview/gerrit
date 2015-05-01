@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.PatchLineCommentsUtil.COMMENT_INFO_ORDER;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -31,7 +29,6 @@ import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -89,7 +86,7 @@ class CommentJson {
     }
 
     for (List<CommentInfo> list : out.values()) {
-      Collections.sort(list, COMPARATOR);
+      Collections.sort(list, COMMENT_INFO_ORDER);
     }
 
     if (accountLoader != null) {
@@ -98,26 +95,6 @@ class CommentJson {
 
     return out;
   }
-
-  private static final Comparator<CommentInfo> COMPARATOR =
-      new Comparator<CommentInfo>() {
-        private final Comparator<Comparable<?>> ORDER =
-            Ordering.natural().nullsFirst();
-
-        @Override
-        public int compare(CommentInfo a, CommentInfo b) {
-          return ComparisonChain.start()
-              .compare(a.patchSet, b.patchSet, ORDER)
-              .compare(side(a), side(b))
-              .compare(a.line, b.line, ORDER)
-              .compare(a.id, b.id)
-              .result();
-        }
-
-        private int side(CommentInfo c) {
-          return firstNonNull(c.side, Side.REVISION).ordinal();
-        }
-      };
 
   private CommentInfo toCommentInfo(PatchLineComment c, AccountLoader loader) {
     CommentInfo r = new CommentInfo();

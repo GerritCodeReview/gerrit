@@ -14,12 +14,18 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
+import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -62,9 +68,46 @@ import java.util.Set;
  */
 @Singleton
 public class PatchLineCommentsUtil {
+  public static Ordering<PatchLineComment> PLC_ORDER =
+      new Ordering<PatchLineComment>() {
+    @Override
+    public int compare(PatchLineComment c1, PatchLineComment c2) {
+      String filename1 = c1.getKey().getParentKey().get();
+      String filename2 = c2.getKey().getParentKey().get();
+      return ComparisonChain.start()
+          .compare(filename1, filename2)
+          .compare(getCommentPsId(c1).get(), getCommentPsId(c2).get())
+          .compare(c1.getSide(), c2.getSide())
+          .compare(c1.getLine(), c2.getLine())
+          .compare(c1.getWrittenOn(), c2.getWrittenOn())
+          .result();
+    }
+  };
+
+  public static final Ordering<CommentInfo> COMMENT_INFO_ORDER =
+      new Ordering<CommentInfo>() {
+        @Override
+        public int compare(CommentInfo a, CommentInfo b) {
+          return ComparisonChain.start()
+              .compare(a.path, b.path, NULLS_FIRST)
+              .compare(a.patchSet, b.patchSet, NULLS_FIRST)
+              .compare(side(a), side(b))
+              .compare(a.line, b.line, NULLS_FIRST)
+              .compare(a.id, b.id)
+              .result();
+        }
+
+        private int side(CommentInfo c) {
+          return firstNonNull(c.side, Side.REVISION).ordinal();
+        }
+      };
+
   public static PatchSet.Id getCommentPsId(PatchLineComment plc) {
     return plc.getKey().getParentKey().getParentKey();
   }
+
+  private static final Ordering<Comparable<?>> NULLS_FIRST =
+      Ordering.natural().nullsFirst();
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
@@ -219,7 +262,7 @@ public class PatchLineCommentsUtil {
                   in.getKey().getParentKey().getParentKey().getParentKey();
               return changeId.equals(matchId);
             }
-          }).toSortedList(ChangeNotes.PLC_ORDER);
+          }).toSortedList(PLC_ORDER);
     }
     List<PatchLineComment> comments = Lists.newArrayList();
     comments.addAll(notes.getDraftComments(author).values());
@@ -350,7 +393,7 @@ public class PatchLineCommentsUtil {
   }
 
   private static List<PatchLineComment> sort(List<PatchLineComment> comments) {
-    Collections.sort(comments, ChangeNotes.PLC_ORDER);
+    Collections.sort(comments, PLC_ORDER);
     return comments;
   }
 }

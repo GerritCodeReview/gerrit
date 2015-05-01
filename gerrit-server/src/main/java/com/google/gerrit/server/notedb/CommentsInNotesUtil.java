@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -541,7 +542,7 @@ public class CommentsInNotesUtil {
         noteMap.remove(commit);
         continue;
       }
-      Collections.sort(comments, ChangeNotes.PLC_ORDER);
+      Collections.sort(comments, PLC_ORDER);
       // We allow comments for multiple commits to be written in the same
       // update, even though the rest of the metadata update is associated with
       // a single patch set.

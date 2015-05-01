@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
@@ -61,6 +62,10 @@ import java.util.Set;
  */
 @Singleton
 public class PatchLineCommentsUtil {
+  public static PatchSet.Id getCommentPsId(PatchLineComment plc) {
+    return plc.getKey().getParentKey().getParentKey();
+  }
+
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final DraftCommentNotes.Factory draftFactory;
@@ -105,8 +110,7 @@ public class PatchLineCommentsUtil {
 
     notes.load();
     List<PatchLineComment> comments = Lists.newArrayList();
-    comments.addAll(notes.getBaseComments().values());
-    comments.addAll(notes.getPatchSetComments().values());
+    comments.addAll(notes.getComments().values());
     return sort(comments);
   }
 
@@ -165,13 +169,7 @@ public class PatchLineCommentsUtil {
       return sort(
           db.patchComments().publishedByChangeFile(changeId, file).toList());
     }
-    notes.load();
-    List<PatchLineComment> comments = Lists.newArrayList();
-
-    addCommentsOnFile(comments, notes.getBaseComments().values(), file);
-    addCommentsOnFile(comments, notes.getPatchSetComments().values(),
-        file);
-    return sort(comments);
+    return commentsOnFile(notes.load().getComments().values(), file);
   }
 
   public List<PatchLineComment> publishedByPatchSet(ReviewDb db,
@@ -180,11 +178,7 @@ public class PatchLineCommentsUtil {
       return sort(
           db.patchComments().publishedByPatchSet(psId).toList());
     }
-    notes.load();
-    List<PatchLineComment> comments = new ArrayList<>();
-    comments.addAll(notes.getPatchSetComments().get(psId));
-    comments.addAll(notes.getBaseComments().get(psId));
-    return sort(comments);
+    return commentsOnPatchSet(notes.load().getComments().values(), psId);
   }
 
   public List<PatchLineComment> draftByPatchSetAuthor(ReviewDb db,
@@ -194,11 +188,8 @@ public class PatchLineCommentsUtil {
       return sort(
           db.patchComments().draftByPatchSetAuthor(psId, author).toList());
     }
-
-    List<PatchLineComment> comments = Lists.newArrayList();
-    comments.addAll(notes.getDraftBaseComments(author).row(psId).values());
-    comments.addAll(notes.getDraftPsComments(author).row(psId).values());
-    return sort(comments);
+    return commentsOnPatchSet(
+        notes.load().getDraftComments(author).values(), psId);
   }
 
   public List<PatchLineComment> draftByChangeFileAuthor(ReviewDb db,
@@ -210,23 +201,28 @@ public class PatchLineCommentsUtil {
             .draftByChangeFileAuthor(notes.getChangeId(), file, author)
             .toList());
     }
-    List<PatchLineComment> comments = Lists.newArrayList();
-    addCommentsOnFile(comments, notes.getDraftBaseComments(author).values(),
-        file);
-    addCommentsOnFile(comments, notes.getDraftPsComments(author).values(),
-        file);
-    return sort(comments);
+    return commentsOnFile(
+        notes.load().getDraftComments(author).values(), file);
   }
 
   public List<PatchLineComment> draftByChangeAuthor(ReviewDb db,
       ChangeNotes notes, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      return sort(db.patchComments().byChange(notes.getChangeId()).toList());
+      final Change.Id matchId = notes.getChangeId();
+      return FluentIterable
+          .from(db.patchComments().draftByAuthor(author))
+          .filter(new Predicate<PatchLineComment>() {
+            @Override
+            public boolean apply(PatchLineComment in) {
+              Change.Id changeId =
+                  in.getKey().getParentKey().getParentKey().getParentKey();
+              return changeId.equals(matchId);
+            }
+          }).toSortedList(ChangeNotes.PLC_ORDER);
     }
     List<PatchLineComment> comments = Lists.newArrayList();
-    comments.addAll(notes.getDraftBaseComments(author).values());
-    comments.addAll(notes.getDraftPsComments(author).values());
+    comments.addAll(notes.getDraftComments(author).values());
     return sort(comments);
   }
 
@@ -236,9 +232,8 @@ public class PatchLineCommentsUtil {
       return sort(db.patchComments().draftByAuthor(author).toList());
     }
 
-    Set<String> refNames =
-        getRefNamesAllUsers(RefNames.REFS_DRAFT_COMMENTS);
-
+    // TODO(dborowitz): Just scan author space.
+    Set<String> refNames = getRefNamesAllUsers(RefNames.REFS_DRAFT_COMMENTS);
     List<PatchLineComment> comments = Lists.newArrayList();
     for (String refName : refNames) {
       Account.Id id = Account.Id.fromRefPart(refName);
@@ -246,10 +241,8 @@ public class PatchLineCommentsUtil {
         continue;
       }
       Change.Id changeId = Change.Id.parse(refName);
-      DraftCommentNotes draftNotes =
-          draftFactory.create(changeId, author).load();
-      comments.addAll(draftNotes.getDraftBaseComments().values());
-      comments.addAll(draftNotes.getDraftPsComments().values());
+      comments.addAll(
+          draftFactory.create(changeId, author).load().getComments().values());
     }
     return sort(comments);
   }
@@ -286,33 +279,45 @@ public class PatchLineCommentsUtil {
     db.patchComments().delete(comments);
   }
 
-  private static Collection<PatchLineComment> addCommentsOnFile(
-      Collection<PatchLineComment> commentsOnFile,
+  private static List<PatchLineComment> commentsOnFile(
       Collection<PatchLineComment> allComments,
       String file) {
+    List<PatchLineComment> result = new ArrayList<>(allComments.size());
     for (PatchLineComment c : allComments) {
       String currentFilename = c.getKey().getParentKey().getFileName();
       if (currentFilename.equals(file)) {
-        commentsOnFile.add(c);
+        result.add(c);
       }
     }
-    return commentsOnFile;
+    return sort(result);
   }
 
-  public static void setCommentRevId(PatchLineComment c,
+  private static List<PatchLineComment> commentsOnPatchSet(
+      Collection<PatchLineComment> allComments,
+      PatchSet.Id psId) {
+    List<PatchLineComment> result = new ArrayList<>(allComments.size());
+    for (PatchLineComment c : allComments) {
+      if (getCommentPsId(c).equals(psId)) {
+        result.add(c);
+      }
+    }
+    return sort(result);
+  }
+
+  public static RevId setCommentRevId(PatchLineComment c,
       PatchListCache cache, Change change, PatchSet ps) throws OrmException {
-    if (c.getRevId() != null) {
-      return;
+    if (c.getRevId() == null) {
+      try {
+        // TODO(dborowitz): Bypass cache if side is REVISION.
+        PatchList patchList = cache.get(change, ps);
+        c.setRevId((c.getSide() == (short) 0)
+          ? new RevId(ObjectId.toString(patchList.getOldId()))
+          : new RevId(ObjectId.toString(patchList.getNewId())));
+      } catch (PatchListNotAvailableException e) {
+        throw new OrmException(e);
+      }
     }
-    PatchList patchList;
-    try {
-      patchList = cache.get(change, ps);
-    } catch (PatchListNotAvailableException e) {
-      throw new OrmException(e);
-    }
-    c.setRevId((c.getSide() == (short) 0)
-      ? new RevId(ObjectId.toString(patchList.getOldId()))
-      : new RevId(ObjectId.toString(patchList.getNewId())));
+    return c.getRevId();
   }
 
   private Set<String> getRefNamesAllUsers(String prefix) throws OrmException {
@@ -345,7 +350,7 @@ public class PatchLineCommentsUtil {
   }
 
   private static List<PatchLineComment> sort(List<PatchLineComment> comments) {
-    Collections.sort(comments, ChangeNotes.PatchLineCommentComparator);
+    Collections.sort(comments, ChangeNotes.PLC_ORDER);
     return comments;
   }
 }

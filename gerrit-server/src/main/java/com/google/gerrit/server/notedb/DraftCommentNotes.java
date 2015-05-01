@@ -14,18 +14,14 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
-
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Table;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -70,8 +66,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final AllUsersName draftsProject;
   private final Account.Id author;
 
-  private final Table<PatchSet.Id, String, PatchLineComment> draftBaseComments;
-  private final Table<PatchSet.Id, String, PatchLineComment> draftPsComments;
+  private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private NoteMap noteMap;
 
   DraftCommentNotes(GitRepositoryManager repoManager, NotesMigration migration,
@@ -79,9 +74,6 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     super(repoManager, migration, changeId);
     this.draftsProject = draftsProject;
     this.author = author;
-
-    this.draftBaseComments = HashBasedTable.create();
-    this.draftPsComments = HashBasedTable.create();
   }
 
   public NoteMap getNoteMap() {
@@ -92,32 +84,18 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return author;
   }
 
-  /**
-   * @return a defensive copy of the table containing all draft comments
-   *    on this change with side == 0. The row key is the comment's PatchSet.Id,
-   *    the column key is the comment's UUID, and the value is the comment.
-   */
-  public Table<PatchSet.Id, String, PatchLineComment>
-      getDraftBaseComments() {
-    return HashBasedTable.create(draftBaseComments);
-  }
-
-  /**
-   * @return a defensive copy of the table containing all draft comments
-   *    on this change with side == 1. The row key is the comment's PatchSet.Id,
-   *    the column key is the comment's UUID, and the value is the comment.
-   */
-  public Table<PatchSet.Id, String, PatchLineComment>
-      getDraftPsComments() {
-    return HashBasedTable.create(draftPsComments);
+  public ImmutableListMultimap<RevId, PatchLineComment> getComments() {
+    // TODO(dborowitz): Defensive copy?
+    return comments;
   }
 
   public boolean containsComment(PatchLineComment c) {
-    Table<PatchSet.Id, String, PatchLineComment> t =
-        c.getSide() == (short) 0
-        ? getDraftBaseComments()
-        : getDraftPsComments();
-    return t.contains(getCommentPsId(c), c.getKey().get());
+    for (PatchLineComment existing : comments.values()) {
+      if (c.getKey().equals(existing.getKey())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
@@ -129,6 +107,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   protected void onLoad() throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
     if (rev == null) {
+      loadDefaults();
       return;
     }
 
@@ -137,8 +116,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
           getChangeId(), walk, rev, repoManager, draftsProject, author)) {
       parser.parseDraftComments();
 
-      buildCommentTable(draftBaseComments, parser.draftBaseComments);
-      buildCommentTable(draftPsComments, parser.draftPsComments);
+      comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.noteMap;
     }
   }
@@ -152,20 +130,11 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @Override
   protected void loadDefaults() {
-    // Do nothing; tables are final and initialized in constructor.
+    comments = ImmutableListMultimap.of();
   }
 
   @Override
   protected Project.NameKey getProjectName() {
     return draftsProject;
   }
-
-  private void buildCommentTable(
-      Table<PatchSet.Id, String, PatchLineComment> commentTable,
-      Multimap<PatchSet.Id, PatchLineComment> allComments) {
-    for (PatchLineComment c : allComments.values()) {
-      commentTable.put(getCommentPsId(c), c.getKey().get(), c);
-    }
-  }
-
 }

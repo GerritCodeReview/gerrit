@@ -42,8 +42,8 @@ import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
 import com.google.gerrit.server.change.GetRevisionActions;
-import com.google.gerrit.server.change.ListComments;
-import com.google.gerrit.server.change.ListDraftComments;
+import com.google.gerrit.server.change.ListRevisionComments;
+import com.google.gerrit.server.change.ListRevisionDrafts;
 import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
@@ -82,8 +82,8 @@ class RevisionApiImpl implements RevisionApi {
   private final Provider<PostReview> review;
   private final Provider<Mergeable> mergeable;
   private final FileApiImpl.Factory fileApi;
-  private final ListComments listComments;
-  private final ListDraftComments listDrafts;
+  private final ListRevisionComments listComments;
+  private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
   private final DraftComments drafts;
   private final DraftApiImpl.Factory draftFactory;
@@ -106,8 +106,8 @@ class RevisionApiImpl implements RevisionApi {
       Provider<PostReview> review,
       Provider<Mergeable> mergeable,
       FileApiImpl.Factory fileApi,
-      ListComments listComments,
-      ListDraftComments listDrafts,
+      ListRevisionComments listComments,
+      ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
       DraftComments drafts,
       DraftApiImpl.Factory draftFactory,

@@ -31,13 +31,13 @@ import com.google.inject.Singleton;
 @Singleton
 public class Comments implements ChildCollection<RevisionResource, CommentResource> {
   private final DynamicMap<RestView<CommentResource>> views;
-  private final ListComments list;
+  private final ListRevisionComments list;
   private final Provider<ReviewDb> dbProvider;
   private final PatchLineCommentsUtil plcUtil;
 
   @Inject
   Comments(DynamicMap<RestView<CommentResource>> views,
-      ListComments list, Provider<ReviewDb> dbProvider,
+      ListRevisionComments list, Provider<ReviewDb> dbProvider,
       PatchLineCommentsUtil plcUtil) {
     this.views = views;
     this.list = list;
@@ -51,7 +51,7 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
   }
 
   @Override
-  public RestView<RevisionResource> list() {
+  public ListRevisionComments list() {
     return list;
   }
 

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -26,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Table;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -36,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -53,7 +52,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
@@ -76,7 +74,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           }
         });
 
-  public static Comparator<PatchLineComment> PatchLineCommentComparator =
+  public static Comparator<PatchLineComment> PLC_ORDER =
       new Comparator<PatchLineComment>() {
     @Override
     public int compare(PatchLineComment c1, PatchLineComment c2) {
@@ -138,8 +136,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableList<Account.Id> allPastReviewers;
   private ImmutableList<SubmitRecord> submitRecords;
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessages;
-  private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase;
-  private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS;
+  private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
   NoteMap noteMap;
 
@@ -194,28 +191,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return changeMessages;
   }
 
-  /** @return inline comments on each patchset's base (side == 0). */
-  public ImmutableListMultimap<PatchSet.Id, PatchLineComment>
-      getBaseComments() {
-    return commentsForBase;
+  /** @return inline comments on each revision. */
+  public ImmutableListMultimap<RevId, PatchLineComment> getComments() {
+    return comments;
   }
 
-  /** @return inline comments on each patchset (side == 1). */
-  public ImmutableListMultimap<PatchSet.Id, PatchLineComment>
-      getPatchSetComments() {
-    return commentsForPS;
-  }
-
-  public Table<PatchSet.Id, String, PatchLineComment> getDraftBaseComments(
+  public ImmutableListMultimap<RevId, PatchLineComment> getDraftComments(
       Account.Id author) throws OrmException {
     loadDraftComments(author);
-    return draftCommentNotes.getDraftBaseComments();
-  }
-
-  public Table<PatchSet.Id, String, PatchLineComment> getDraftPsComments(
-      Account.Id author) throws OrmException {
-    loadDraftComments(author);
-    return draftCommentNotes.getDraftPsComments();
+    return draftCommentNotes.getComments();
   }
 
   /**
@@ -234,6 +218,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
+  @VisibleForTesting
+  DraftCommentNotes getDraftCommentNotes() {
+    return draftCommentNotes;
+  }
+
   public boolean containsComment(PatchLineComment c) throws OrmException {
     if (containsCommentPublished(c)) {
       return true;
@@ -243,11 +232,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public boolean containsCommentPublished(PatchLineComment c) {
-    PatchSet.Id psId = getCommentPsId(c);
-    List<PatchLineComment> list = (c.getSide() == (short) 0)
-        ? getBaseComments().get(psId)
-        : getPatchSetComments().get(psId);
-    for (PatchLineComment l : list) {
+    for (PatchLineComment l : getComments().values()) {
       if (c.getKey().equals(l.getKey())) {
         return true;
       }
@@ -282,8 +267,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
       approvals = parser.buildApprovals();
       changeMessages = parser.buildMessages();
-      commentsForBase = ImmutableListMultimap.copyOf(parser.commentsForBase);
-      commentsForPS = ImmutableListMultimap.copyOf(parser.commentsForPs);
+      comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
 
       if (parser.hashtags != null) {
@@ -310,8 +294,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     reviewers = ImmutableSetMultimap.of();
     submitRecords = ImmutableList.of();
     changeMessages = ImmutableListMultimap.of();
-    commentsForBase = ImmutableListMultimap.of();
-    commentsForPS = ImmutableListMultimap.of();
+    comments = ImmutableListMultimap.of();
     hashtags = ImmutableSet.of();
   }
 

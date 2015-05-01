@@ -203,16 +203,16 @@ public class AbstractChangeNotesTest {
     return label;
   }
 
-  protected PatchLineComment newPublishedPatchLineComment(PatchSet.Id psId,
+  protected PatchLineComment newPublishedComment(PatchSet.Id psId,
       String filename, String UUID, CommentRange range, int line,
       IdentifiedUser commenter, String parentUUID, Timestamp t,
       String message, short side, String commitSHA1) {
-    return newPatchLineComment(psId, filename, UUID, range, line, commenter,
+    return newComment(psId, filename, UUID, range, line, commenter,
         parentUUID, t, message, side, commitSHA1,
         PatchLineComment.Status.PUBLISHED);
   }
 
-  protected PatchLineComment newPatchLineComment(PatchSet.Id psId,
+  protected PatchLineComment newComment(PatchSet.Id psId,
       String filename, String UUID, CommentRange range, int line,
       IdentifiedUser commenter, String parentUUID, Timestamp t,
       String message, short side, String commitSHA1,

@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
 
@@ -72,8 +73,7 @@ class ChangeNotesParser implements AutoCloseable {
   final Map<Account.Id, ReviewerState> reviewers;
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
-  final Multimap<PatchSet.Id, PatchLineComment> commentsForPs;
-  final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
+  final Multimap<RevId, PatchLineComment> comments;
   NoteMap commentNoteMap;
   Change.Status status;
   Set<String> hashtags;
@@ -99,8 +99,7 @@ class ChangeNotesParser implements AutoCloseable {
     allPastReviewers = Lists.newArrayList();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     changeMessages = LinkedListMultimap.create();
-    commentsForPs = ArrayListMultimap.create();
-    commentsForBase = ArrayListMultimap.create();
+    comments = ArrayListMultimap.create();
   }
 
   @Override
@@ -275,7 +274,7 @@ class ChangeNotesParser implements AutoCloseable {
       throws IOException, ConfigInvalidException {
     commentNoteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
         ChangeNoteUtil.changeRefName(changeId), walk, changeId,
-        commentsForBase, commentsForPs, PatchLineComment.Status.PUBLISHED);
+        comments, PatchLineComment.Status.PUBLISHED);
   }
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,

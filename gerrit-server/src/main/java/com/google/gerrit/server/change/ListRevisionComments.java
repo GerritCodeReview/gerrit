@@ -24,10 +24,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ListComments extends ListDraftComments {
+public class ListRevisionComments extends ListRevisionDrafts {
   @Inject
-  ListComments(Provider<ReviewDb> db,
-      CommentJson commentJson,
+  ListRevisionComments(Provider<ReviewDb> db,
+      Provider<CommentJson> commentJson,
       PatchLineCommentsUtil plcUtil) {
     super(db, commentJson, plcUtil);
   }

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "70a63229_cbc71594",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-01T06:05:10Z",
+      "side": 1,
+      "message": "I was looking at it on master, where it was removed as part of the upgrade to Lucene 5.\n\nSo it should be OK here, but this will need a slight rework when merged up to master.",
+      "parentUuid": "506bee69_8ae92b81",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 30
+      },
+      "revId": "64fbaf70612d3a65b0ee7a2386cb48e8b7f79e96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "506bee69_aa7aef6e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 4

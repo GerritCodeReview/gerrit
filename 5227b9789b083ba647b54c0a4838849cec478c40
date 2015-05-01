@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "50d76e7e_4a1dd38e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T18:44:50Z",
+      "side": 1,
+      "message": "Extract helper method, e.g. filterCommentForCurrentRevision() instead of this comment?",
+      "range": {
+        "startLine": 918,
+        "startChar": 10,
+        "endLine": 932,
+        "endChar": 26
+      },
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_0a23dbd4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T18:44:50Z",
+      "side": 1,
+      "message": "Another option is to always show the patch set number, even for the daft comments for the current patch set, or at least when comments from non curent patch set also present. I figured that when multidrafts across patch set boundaries exist, it is somehow confusing that some comments are prefixed by PS_NUM and other (for current revision not).\n\nI also extended the patch num with patch set count info, known from the change screen in upper right corner (Patch Set (1/2). Screen shot: [1] and diff (quick and durty) on top of this ps: [2].\n\n* [1] http://imgur.com/KhCraxe\n* [2] http://paste.openstack.org/show/214528",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 31
+      },
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b070aa50_ada3dd7c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
         "patchSetId": 5
@@ -67,6 +113,52 @@
       "side": 1,
       "message": "OK, then this method can disappear altogether in this commit and we will publish all saved drafts using in.drafts(DraftHandling.PUBLISH_ALL_REVISIONS) above.",
       "parentUuid": "b070aa50_2db04dba",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_2926ade4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T18:44:50Z",
+      "side": 1,
+      "message": "Why this check is needed? Shouldn\u0027t patch_set attribute always present in response of all related REST endpoints now, and is mandatory in this codepath? If yes why bother?",
+      "range": {
+        "startLine": 86,
+        "startChar": 58,
+        "endLine": 86,
+        "endChar": 90
+      },
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_0923e9d4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ReviewInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T18:44:50Z",
+      "side": 1,
+      "message": "Can unused enum values be dropped?",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 27,
+        "endChar": 25
+      },
       "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_31ff30a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T21:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a63229_4bd4c53a",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_2926ade4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
         "patchSetId": 5

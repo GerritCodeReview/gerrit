@@ -573,7 +573,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           throws ResourceConflictException, OrmException {
     List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
         .setPatchSet(patchSet)
-        .canSubmit();
+        .evaluate();
     Optional<SubmitRecord> ok = findOkRecord(results);
     if (ok.isPresent()) {
       // Rules supplied a valid solution.
@@ -582,7 +582,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       return results;
     } else if (results.isEmpty()) {
       throw new IllegalStateException(String.format(
-          "ChangeControl.canSubmit returned empty list for %s in %s",
+          "SubmitRuleEvaluator.evaluate returned empty list for %s in %s",
           patchSet.getId(),
           cd.change().getProject().get()));
     }

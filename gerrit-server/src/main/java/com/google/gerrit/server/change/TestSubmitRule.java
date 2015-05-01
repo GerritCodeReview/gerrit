@@ -85,7 +85,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
           .setLogErrors(false)
           .setSkipSubmitFilters(input.filters == Filters.SKIP)
           .setRule(input.rule)
-          .canSubmit();
+          .evaluate();
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {

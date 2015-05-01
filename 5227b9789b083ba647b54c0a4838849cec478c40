@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_2a717fda",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T21:14:25Z",
+      "side": 1,
+      "message": "+1. We always let a comment in this case. Can you add one?",
+      "parentUuid": "d0a19e0d_eec2df85",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_4a1dd38e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 5

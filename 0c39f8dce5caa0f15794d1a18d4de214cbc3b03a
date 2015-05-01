@@ -16,6 +16,24 @@
       "revId": "0c39f8dce5caa0f15794d1a18d4de214cbc3b03a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_f1c2c885",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T03:45:29Z",
+      "side": 1,
+      "message": "I have somehow failed to grok this loop, I see misordered comments like:\n\n Patch Set 1:\n \n (3 comments)\n \n http://localhost:8080/#/c/2/1/foo\n File foo:\n \n Line 1\n \u003e reply to ps1\n reply on ps1 base\n \n \n http://localhost:8080/#/c/2/2/foo\n File foo:\n \n PS2, Line 1: foo line \n \u003e reply on ps1\n reply on ps2\n \n \n http://localhost:8080/#/c/2/1/foo\n File foo:\n \n Line 2: another line, shouldn\u0027t conflict\n \u003e reply to ps1\n reply on ps1",
+      "parentUuid": "30b11a58_b1b8400c",
+      "revId": "0c39f8dce5caa0f15794d1a18d4de214cbc3b03a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

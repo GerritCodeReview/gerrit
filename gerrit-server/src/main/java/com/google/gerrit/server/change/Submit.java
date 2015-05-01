@@ -101,6 +101,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "Other hidden changes in this topic are not ready";
   private static final String CLICK_FAILURE_OTHER_TOOLTIP =
       "Clicking the button would fail for other changes in the topic";
+  private static final String CLICK_FAILURE_TOOLTIP =
+      "Clicking the button would fail.";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -272,6 +274,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_TOPIC_TOOLTIP;
+    } catch (NullPointerException e) {
+      // generated when auto unboxing the returned Boolean of isMergable is null
+      log.error("Error checking if change is submittable", e);
+      return CLICK_FAILURE_TOOLTIP;
     } catch (OrmException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
@@ -309,6 +315,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     boolean enabled;
     try {
       enabled = cd.isMergeable();
+    } catch (NullPointerException e) {
+      // generated when auto unboxing the returned Boolean of isMergable is null
+      enabled = false;
     } catch (OrmException e) {
       throw new OrmRuntimeException("Could not determine mergeability", e);
     }

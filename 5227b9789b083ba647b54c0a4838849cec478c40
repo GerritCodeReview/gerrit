@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0a19e0d_eec2df85",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T20:56:57Z",
+      "side": 1,
+      "message": "A further cleanup could eliminate this request entirely by making it a ListChangesOption and getting them all in the ChangeInfo.",
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_4a1dd38e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 5
@@ -25,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_51ebd4f2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T20:56:57Z",
+      "side": 1,
+      "message": "Extracted a helper method so this callback body is shorter. But I think the comment is still necessary; it\u0027s not obvious just looking at this method that the value we store in r is used by the history table.",
+      "parentUuid": "50d76e7e_4a1dd38e",
+      "range": {
+        "startLine": 918,
+        "startChar": 10,
+        "endLine": 932,
+        "endChar": 26
+      },
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_0a23dbd4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.java",
         "patchSetId": 5
@@ -36,6 +77,30 @@
       "writtenOn": "2015-05-01T18:44:50Z",
       "side": 1,
       "message": "Another option is to always show the patch set number, even for the daft comments for the current patch set, or at least when comments from non curent patch set also present. I figured that when multidrafts across patch set boundaries exist, it is somehow confusing that some comments are prefixed by PS_NUM and other (for current revision not).\n\nI also extended the patch num with patch set count info, known from the change screen in upper right corner (Patch Set (1/2). Screen shot: [1] and diff (quick and durty) on top of this ps: [2].\n\n* [1] http://imgur.com/KhCraxe\n* [2] http://paste.openstack.org/show/214528",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 31
+      },
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_b10a0058",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T20:56:57Z",
+      "side": 1,
+      "message": "I think that\u0027s too much information about the patch set relative to the comment text, which is more important in this context. What I have in this change was bikeshedded slightly with our team, but I would like to put this in front of real users before we spend a lot more time tweaking it.",
+      "parentUuid": "50d76e7e_0a23dbd4",
       "range": {
         "startLine": 54,
         "startChar": 6,
@@ -142,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_cec72394",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T20:56:57Z",
+      "side": 1,
+      "message": "A relic from when the history table was still populated from the revision comments endpoint. Removed.",
+      "parentUuid": "30dafaa9_2926ade4",
+      "range": {
+        "startLine": 86,
+        "startChar": 58,
+        "endLine": 86,
+        "endChar": 90
+      },
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_0923e9d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ReviewInput.java",
         "patchSetId": 5
@@ -153,6 +242,30 @@
       "writtenOn": "2015-05-01T18:44:50Z",
       "side": 1,
       "message": "Can unused enum values be dropped?",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "5227b9789b083ba647b54c0a4838849cec478c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_2ecd07b5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ReviewInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-01T20:56:57Z",
+      "side": 1,
+      "message": "Personally I prefer when the enum contains all the same values as the corresponding server-side enum.",
+      "parentUuid": "30dafaa9_0923e9d4",
       "range": {
         "startLine": 27,
         "startChar": 12,

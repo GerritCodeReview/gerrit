@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dafaa9_096e49fc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T21:35:52Z",
+      "side": 1,
+      "message": "Looks like it interferes with other tests: [1]. No issues when the all tests in this file or this single test is executed in Eclipse.\n\n* [1] http://paste.openstack.org/show/214596/",
+      "range": {
+        "startLine": 662,
+        "startChar": 2,
+        "endLine": 662,
+        "endChar": 74
+      },
+      "revId": "42c079880d2fa913569a41b50c98db0cf3d32a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

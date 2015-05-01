@@ -2,6 +2,161 @@
   "comments": [
     {
       "key": {
+        "uuid": "50d76e7e_cac70394",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:29:10Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_8abd0bfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:29:10Z",
+      "side": 1,
+      "message": "Right, that way we can efficiently remove accounts in the filter.",
+      "range": {
+        "startLine": 119,
+        "startChar": 35,
+        "endLine": 119,
+        "endChar": 47
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_e9c2d585",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:29:10Z",
+      "side": 1,
+      "message": "Optional: Can be inlined:\n\n  return new IndexSearcher(DirectoryReader.open(idx));",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 56
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_a9b8dd0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:29:10Z",
+      "side": 1,
+      "message": "Nit: unneeded blank.",
+      "range": {
+        "startLine": 162,
+        "startChar": 26,
+        "endLine": 162,
+        "endChar": 27
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_89bd19fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:29:10Z",
+      "side": 1,
+      "message": "private static",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 166,
+        "endChar": 9
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_eac2c785",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:29:10Z",
+      "side": 1,
+      "message": "DRY: we try to declare constant variables, when they more then once: id, name, email, username should be constants, because they used (multiple times) in search() method above.",
+      "range": {
+        "startLine": 169,
+        "startChar": 25,
+        "endLine": 169,
+        "endChar": 29
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_aab8cf0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:29:10Z",
+      "side": 1,
+      "message": "Shorter:\n\n  for (Iterator\u003cAccountInfo\u003e it \u003d r.iterator(); it.hasNext();) {\n  [...]",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 290,
+        "endChar": 26
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "707ab234_ab750978",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 6

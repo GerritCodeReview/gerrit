@@ -134,6 +134,30 @@
     },
     {
       "key": {
+        "uuid": "30dafaa9_29cd0db5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-01T06:30:50Z",
+      "side": 1,
+      "message": "Typo: \"... when they used more than once ...\"",
+      "parentUuid": "50d76e7e_eac2c785",
+      "range": {
+        "startLine": 169,
+        "startChar": 25,
+        "endLine": 169,
+        "endChar": 29
+      },
+      "revId": "857c20105a725e608f747fe8979d0cdc453b83e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_aab8cf0b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 6

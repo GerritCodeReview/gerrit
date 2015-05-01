@@ -25,6 +25,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -48,9 +49,12 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @EmailReviewCommentsExecutor
-  public WorkQueue.Executor createEmailReviewCommentsExecutor(
+  public ExecutorService createEmailReviewCommentsExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
+    if (poolSize == 0) {
+      return MoreExecutors.newDirectExecutorService();
+    }
     return queues.createQueue(poolSize, "EmailReviewComments");
   }
 

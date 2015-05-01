@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
-import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.util.RequestContext;
@@ -43,6 +42,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class EmailReviewComments implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailReviewComments.class);
@@ -57,7 +57,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         List<PatchLineComment> comments);
   }
 
-  private final Executor sendEmailsExecutor;
+  private final ExecutorService sendEmailsExecutor;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -73,7 +73,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
 
   @Inject
   EmailReviewComments (
-      @EmailReviewCommentsExecutor final Executor executor,
+      @EmailReviewCommentsExecutor ExecutorService executor,
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
@@ -103,8 +103,8 @@ public class EmailReviewComments implements Runnable, RequestContext {
 
   @Override
   public void run() {
+    RequestContext old = requestContext.setContext(this);
     try {
-      requestContext.setContext(this);
 
       comments = Lists.newArrayList(comments);
       Collections.sort(comments, new Comparator<PatchLineComment>() {
@@ -138,7 +138,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     } catch (Exception e) {
       log.error("Cannot email comments for " + patchSet.getId(), e);
     } finally {
-      requestContext.setContext(null);
+      requestContext.setContext(old);
       if (db != null) {
         db.close();
         db = null;

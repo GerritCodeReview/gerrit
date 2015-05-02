@@ -68,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -312,12 +313,13 @@ public class CommentsInNotesUtil {
     Timestamp commentTime;
     String dateString =
         RawParseUtils.decode(enc, note, curr.value, endOfLine - 1);
+    Date dateParsed;
     try {
-      commentTime =
-          new Timestamp(GitDateParser.parse(dateString, null).getTime());
+      dateParsed = GitDateParser.parse(dateString, null, Locale.US);
     } catch (ParseException e) {
       throw new ConfigInvalidException("could not parse comment timestamp", e);
     }
+    commentTime = new Timestamp(dateParsed.getTime());
     curr.value = endOfLine;
     return checkResult(commentTime, "comment timestamp", changeId);
   }

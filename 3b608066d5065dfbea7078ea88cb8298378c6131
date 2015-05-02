@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dafaa9_494fa192",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-05-02T23:39:58Z",
+      "side": 1,
+      "message": "I tore that assignment out of the try/catch, as otherwise the\nbroken line in the try/catch block would again get \u003e80 chars\nlong, and the exception is only thrown in the `parse` method\nanyways.",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 15
+      },
+      "revId": "3b608066d5065dfbea7078ea88cb8298378c6131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

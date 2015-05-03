@@ -140,7 +140,7 @@ public class ChangeEdits implements
     return deleteFileFactory.create(id.get());
   }
 
-  static class Create implements
+  public static class Create implements
       RestModifyView<ChangeResource, Put.Input> {
 
     interface Factory {
@@ -195,7 +195,7 @@ public class ChangeEdits implements
     }
   }
 
-  static class DeleteFile implements
+  public static class DeleteFile implements
       RestModifyView<ChangeResource, DeleteFile.Input> {
     public static class Input {
     }
@@ -407,7 +407,7 @@ public class ChangeEdits implements
    * as reverting or restoring a file to its previous contents.
    */
   @Singleton
-  static class DeleteContent implements
+  public static class DeleteContent implements
       RestModifyView<ChangeEditResource, DeleteContent.Input> {
     public static class Input {
     }
@@ -432,7 +432,7 @@ public class ChangeEdits implements
   }
 
   @Singleton
-  static class Get implements RestReadView<ChangeEditResource> {
+  public static class Get implements RestReadView<ChangeEditResource> {
     private final FileContentUtil fileContentUtil;
 
     @Inject
@@ -455,7 +455,7 @@ public class ChangeEdits implements
   }
 
   @Singleton
-  static class GetMeta implements RestReadView<ChangeEditResource> {
+  public static class GetMeta implements RestReadView<ChangeEditResource> {
     private final WebLinks webLinks;
 
     @Inject
@@ -481,7 +481,7 @@ public class ChangeEdits implements
       return r;
     }
 
-    static class FileInfo {
+    public static class FileInfo {
       List<DiffWebLinkInfo> webLinks;
     }
   }

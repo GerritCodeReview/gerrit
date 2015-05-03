@@ -44,7 +44,7 @@ public class FileResource implements RestResource {
     return rev.getAccountId();
   }
 
-  RevisionResource getRevision() {
+  public RevisionResource getRevision() {
     return rev;
   }
 }

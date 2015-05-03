@@ -92,7 +92,7 @@ public class RevisionResource implements RestResource, HasETag {
     return this;
   }
 
-  Optional<ChangeEdit> getEdit() {
+  public Optional<ChangeEdit> getEdit() {
     return edit;
   }
 

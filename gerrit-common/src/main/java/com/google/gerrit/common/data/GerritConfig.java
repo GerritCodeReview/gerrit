@@ -38,7 +38,6 @@ public class GerritConfig implements Cloneable {
   protected GitwebConfig gitweb;
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
-  protected boolean allowRegisterNewEmail;
   protected AuthType authType;
   protected Set<DownloadScheme> downloadSchemes;
   protected Set<DownloadCommand> downloadCommands;

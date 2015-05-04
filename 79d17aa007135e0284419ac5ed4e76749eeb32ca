@@ -94,6 +94,30 @@
       "revId": "79d17aa007135e0284419ac5ed4e76749eeb32ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_89999954",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T14:46:54Z",
+      "side": 0,
+      "message": "Looks like your change is still submittable without doing any conflict resolution.",
+      "parentUuid": "50d76e7e_8a998b54",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "79d17aa007135e0284419ac5ed4e76749eeb32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

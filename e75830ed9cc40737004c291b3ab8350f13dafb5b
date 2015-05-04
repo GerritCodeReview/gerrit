@@ -22,6 +22,30 @@
       "revId": "e75830ed9cc40737004c291b3ab8350f13dafb5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_6e09cf5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsExecutorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T17:35:47Z",
+      "side": 1,
+      "message": "I don\u0027t really want to encourage this...\n\nAt some point I think we should redo all the executor stuff for all email tasks in a consistent way. That is when we would document all this stuff.",
+      "parentUuid": "30dafaa9_690f0534",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "e75830ed9cc40737004c291b3ab8350f13dafb5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

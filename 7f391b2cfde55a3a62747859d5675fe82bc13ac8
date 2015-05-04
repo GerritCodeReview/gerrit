@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_caff0377",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2657,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-05-04T09:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d76e7e_cabd43c9",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_c9bd51c9",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2015-05-04T07:54:18Z",
       "side": 1,
       "message": "split into two sentences:\n\n  Can only be disabled in `jsonLogging` is enabled.\n  +\n  Defaults to true.",
+      "range": {
+        "startLine": 2661,
+        "startChar": 67,
+        "endLine": 2662,
+        "endChar": 49
+      },
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_2a05ff13",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2662,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-05-04T09:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dafaa9_c9bd51c9",
       "range": {
         "startLine": 2661,
         "startChar": 67,
@@ -95,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_eafac788",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-05-04T09:53:16Z",
+      "side": 1,
+      "message": "Not needed.",
+      "parentUuid": "50d76e7e_0a875b14",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_09a0099e",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5
@@ -124,6 +184,24 @@
       "side": 1,
       "message": "The other injectors are set up \"from\", and are dependent on, the db-injector.\n\nIf the method name would read \u0027setUpDbInjectorForTesting\u0027 I would agree with you. But in this case it sets up the dbInjector and the dbInjector creates the cfgInjector which in turn injects the GerritGlobalModule \"into\" the sysInjector...\n\nSo setting the DB for testing means altering the dbInjector, the cfgInjector and the sysInjector.",
       "parentUuid": "30dafaa9_09a0099e",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_89f5199b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-05-04T09:53:16Z",
+      "side": 1,
+      "message": "Going with Ostrovskys suggestion. Thanks for your comments.",
+      "parentUuid": "30dafaa9_a9957d3f",
       "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

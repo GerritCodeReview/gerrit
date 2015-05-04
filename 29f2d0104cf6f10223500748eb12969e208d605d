@@ -1,0 +1,439 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b11a58_f1112851",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "This is really not going to hash well. Change has no hashCode, which means it defaults to identity hashing, which means the only way something is going to exist in this map is if you pass in exactly the same Change objects. Which seems pretty unlikely.\n\nThe key type needs to be Set\u003cChange.Id\u003e or something. Either use that explicitly, which is kind of verbose, or encapsulate it in ChangeSet like you did before.",
+      "range": {
+        "startLine": 46,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_5123d4a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "I\u0027m not seeing anywhere in this file where you add to this set.",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_d116a446",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "As discussed in IM, do not use this as it makes Guice unhappy. Store the injector in a field in this class and call the MergeOpMapper constructor directly.",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_6e526f3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "How would throwing an exception work from the perspective of a caller in Submit?",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_7126d8b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "s/being //",
+      "range": {
+        "startLine": 76,
+        "startChar": 25,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_4e4fb392",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "return Sets.intersection(w.getBranches(), currentBranches).isEmpty();",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_312c5094",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "getOrCreateWaitingEntry",
+      "range": {
+        "startLine": 114,
+        "startChar": 23,
+        "endLine": 114,
+        "endChar": 43
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_cebd63c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "synchronized?",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_aeae1797",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "Not sure if this is what you mean by \"content check\" but this should definitely be using IDs instead of Changes.",
+      "range": {
+        "startLine": 115,
+        "startChar": 35,
+        "endLine": 115,
+        "endChar": 48
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_31b730c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure why you\u0027re inserting a 1s sleep here. If there is no entry in the recheck set for this set of changes, why not just run it immediately?",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_91c7fc46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "Move this catch block into MergeOpMapper?\n\nActually there already is one. merge() catches it, logs, and converts it to a MergeException...which is then re-logged and dropped on the floor by this method.\n\nProbably merge() could just not throw MergeException.",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_8eb35bfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "If you kept the ChangeSet abstraction around, this would be a method on that. It would also be a natural place to memoize/precompute the result if this repeated iteration turns out to be too expensive",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_11294c84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "This is redundant, I believe.",
+      "range": {
+        "startLine": 196,
+        "startChar": 12,
+        "endLine": 196,
+        "endChar": 34
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_2ea347ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "This comment makes very little sense if you don\u0027t understand the whole context of ChangeMergeQueue, MergeOp, and MergeOpMapper. Either expand it enough that it is at least a little self-contained, or drop it.",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_0ea00b9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "This class surely doesn\u0027t need to be public.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_f1cc886c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "I think we can come up with a better name for this.\n\nMaybe ChangeSetMerger? It\u0027s the thing that merges a set of changes.",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_b1c20037",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "Wrong class.",
+      "range": {
+        "startLine": 52,
+        "startChar": 30,
+        "endLine": 52,
+        "endChar": 52
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_d1d18400",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "Is there any reason this has to go in the constructor?\n\nWhy not just pass the change set into merge()? Then you don\u0027t even have to go creating a new instance each time in ChangeMergeQueue.",
+      "range": {
+        "startLine": 63,
+        "startChar": 33,
+        "endLine": 63,
+        "endChar": 67
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_6ead4f96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "This is exactly the loop you already have in a static method in ChangeMergeQueue. Another reason it would be nice to encapsulate in a ChangeSet type with methods on it.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 5
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_11b4acbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadSubmitQueueOp.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "I don\u0027t follow. What is dependent on what?",
+      "range": {
+        "startLine": 58,
+        "startChar": 68,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_4eaa1380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadSubmitQueueOp.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T21:57:38Z",
+      "side": 1,
+      "message": "Sets.newHashSet(cd.change())",
+      "range": {
+        "startLine": 60,
+        "startChar": 30,
+        "endLine": 60,
+        "endChar": 73
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

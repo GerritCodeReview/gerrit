@@ -39,7 +39,6 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
@@ -71,10 +70,6 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Inject
   private Provider<PostReview> postReview;
-
-  @Inject
-  @CanonicalWebUrl
-  private Provider<String> urlProvider;
 
   @Inject
   private FakeEmailSender email;
@@ -334,7 +329,7 @@ public class CommentsIT extends AbstractDaemonTest {
     ImmutableList<Message> messages =
         email.getMessages(r2.getChangeId(), "comment");
     assertThat(messages).hasSize(1);
-    String url = urlProvider.get();
+    String url = canonicalWebUrl.get();
     int c = r1.getChange().getId().get();
     assertThat(messages.get(0).body()).contains(
         "\n"

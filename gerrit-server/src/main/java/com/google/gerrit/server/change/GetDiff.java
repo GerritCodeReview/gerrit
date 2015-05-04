@@ -168,6 +168,7 @@ public class GetDiff implements RestReadView<FileResource> {
           projectCache.get(resource.getRevision().getChange().getProject());
 
       DiffInfo result = new DiffInfo();
+
       // TODO referring to the parent commit by refs/changes/12/60012/1^1
       // will likely not work for inline edits
       String revA = basePatchSet != null
@@ -201,6 +202,7 @@ public class GetDiff implements RestReadView<FileResource> {
           result.metaA.lines = ps.getA().size();
           result.metaA.webLinks =
               getFileWebLinks(state.getProject(), revA, result.metaA.name);
+          result.metaA.commitId = content.commitIdA;
         }
 
         if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
@@ -211,6 +213,7 @@ public class GetDiff implements RestReadView<FileResource> {
           result.metaB.lines = ps.getB().size();
           result.metaB.webLinks =
               getFileWebLinks(state.getProject(), revB, result.metaB.name);
+          result.metaB.commitId = content.commitIdB;
         }
 
         if (intraline) {
@@ -264,6 +267,8 @@ public class GetDiff implements RestReadView<FileResource> {
     final SparseFileContent fileA;
     final SparseFileContent fileB;
     final boolean ignoreWS;
+    final String commitIdA;
+    final String commitIdB;
 
     int nextA;
     int nextB;
@@ -273,6 +278,8 @@ public class GetDiff implements RestReadView<FileResource> {
       fileA = ps.getA();
       fileB = ps.getB();
       ignoreWS = ps.isIgnoreWhitespace();
+      commitIdA = ps.getCommitIdA();
+      commitIdB = ps.getCommitIdB();
     }
 
     void addCommon(int end) {

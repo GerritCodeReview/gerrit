@@ -33,7 +33,7 @@ public class DiffInfo {
   // Links to the file diff in external sites
   public List<DiffWebLinkInfo> webLinks;
   // Binary file
-  public Boolean binary;
+  public transient Boolean binary;
 
   public static enum IntraLineStatus {
     OK,
@@ -42,6 +42,8 @@ public class DiffInfo {
   }
 
   public static class FileMeta {
+    // The ID of the commit containing the file
+    public transient String commitId;
     // The name of the file
     public String name;
     // The content type of the file

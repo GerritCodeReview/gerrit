@@ -57,6 +57,8 @@ public class PatchScript {
   protected boolean intralineFailure;
   protected boolean intralineTimeout;
   protected boolean binary;
+  protected transient String commitIdA;
+  protected transient String commitIdB;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final FileMode om, final FileMode nm,
@@ -65,7 +67,8 @@ public class PatchScript {
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
       final String mta, final String mtb, final CommentDetail cd,
       final List<Patch> hist, final boolean hf, final boolean id,
-      final boolean idf, final boolean idt, boolean bin) {
+      final boolean idf, final boolean idt, boolean bin,
+      final String cma, final String cmb) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -88,6 +91,8 @@ public class PatchScript {
     intralineFailure = idf;
     intralineTimeout = idt;
     binary = bin;
+    commitIdA = cma;
+    commitIdB = cmb;
   }
 
   protected PatchScript() {
@@ -199,5 +204,13 @@ public class PatchScript {
 
   public boolean isBinary() {
     return binary;
+  }
+
+  public String getCommitIdA() {
+    return commitIdA;
+  }
+
+  public String getCommitIdB() {
+    return commitIdB;
   }
 }

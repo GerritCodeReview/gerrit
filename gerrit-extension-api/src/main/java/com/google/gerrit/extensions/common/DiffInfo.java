@@ -34,6 +34,10 @@ public class DiffInfo {
   public List<DiffWebLinkInfo> webLinks;
   // Binary file
   public Boolean binary;
+  // Commit ID for the file on side A
+  transient public String commitIdA;
+  // Commit ID for the file on side B
+  transient public String commitIdB;
 
   public static enum IntraLineStatus {
     OK,

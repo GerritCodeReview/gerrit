@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_d16b44ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T17:36:53Z",
+      "side": 1,
+      "message": "It linkifies fine as-is. Our commentlink section says:\n\n \"([Bb]ug|[Ii]ssue):?\\\\s*#?(\\\\d+)\"\n\nSo I chose the shortest matching string.",
+      "parentUuid": "50d76e7e_2a2cdf93",
+      "revId": "99c47843bc3ec1628ddfe0a06fdbbb59b7c469cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_8ac7cb46",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.java",
         "patchSetId": 8

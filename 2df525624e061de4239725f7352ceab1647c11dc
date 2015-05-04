@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "30dafaa9_4987a1e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T18:58:26Z",
+      "side": 1,
+      "message": "Any format is fine with me, we should just agree on one that we use in the commit messages. I always found \u0027Bug: issue \u003cID\u003e\u0027 a bit weird. I would actually keep the colon, because commit message footers are always in the format \u0027\u003ckey\u003e: \u003cvalue\u003e\u0027, arent\u0027t they? I think indexing tracking IDs also depends on this format. So I would go with \"Bug: \u003cID\u003e\", but I don\u0027t have any strong opinion about this, as long as we keep it consistent over all changes.\n\nI just realised that we have the \"Bug: Issue \u003cID\u003e\" even documented in dev-contributing.txt.",
+      "parentUuid": "d0a19e0d_2e26a7e4",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "2df525624e061de4239725f7352ceab1647c11dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_891cf96a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 13

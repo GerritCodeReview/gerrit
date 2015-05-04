@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dafaa9_09876914",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-04T08:59:24Z",
+      "side": 0,
+      "message": "So this code was extracted to setupInjectors() method. Why the invocation of  setupInjectors() was moved from start() to run()? Wouldn\u0027t be sufficient to move:\n\n  if (!consoleLog) {\n      manager.add(ErrorLogFile.start(getSitePath(),\n          cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class))));\n    }\n\nfrom run() to start() after setupInjectors() was invoked here?",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 54
+      },
+      "revId": "d00e9e7b99bd2281e657a57539e23a6848011e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

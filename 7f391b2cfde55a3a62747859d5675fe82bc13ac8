@@ -77,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_0a875b14",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-04T08:59:24Z",
+      "side": 1,
+      "message": "Mention this fact in the commit message?",
+      "parentUuid": "30dafaa9_49aa0180",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_09a0099e",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5

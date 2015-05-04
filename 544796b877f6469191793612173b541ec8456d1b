@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50d76e7e_aaae0f97",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T08:09:06Z",
+      "side": 1,
+      "message": "Should the index.txt file be updated to link to this new documentation page?",
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_89b359fd",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T08:09:06Z",
+      "side": 1,
+      "message": "Format this as:\n\n  `All-Users`",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_4a4f9392",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T08:09:06Z",
+      "side": 1,
+      "message": "For now, it\u0027s okay to have this here, but in the long run, we should have some extra documentation about the All-Users project and how the user refs are structured.",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_8ab34bfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T08:09:06Z",
+      "side": 1,
+      "message": "Repository now implements AutoCloseable and you can make use of it:\n\n try (Repository git \u003d args.repoManager.openRepository(allUsers)) {\n   VersionedAccountQueries q \u003d VersionedAccountQueries.forUser(self());\n   q.load(git);\n   String query \u003d q.getQueryList().getQuery(name);\n   if (query !\u003d null) {\n     return parse(query);\n   }\n } catch (RepositoryNotFoundException e) {\n   ...",
+      "range": {
+        "startLine": 791,
+        "startChar": 4,
+        "endLine": 803,
+        "endChar": 45
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_e9b815db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T08:09:06Z",
+      "side": 1,
+      "message": "Write this as a single catch block:\n\n  } catch (IOException | ConfigInvalidException e) {\n    throw new QueryParseException(\"Error parsing named query: \" + name, e);\n  }",
+      "range": {
+        "startLine": 806,
+        "startChar": 4,
+        "endLine": 810,
+        "endChar": 5
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_29a34dae",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T08:09:06Z",
+      "side": 1,
+      "message": "This should be:\n\n  assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_P);\n  assertThat(ql.getQuery(N_BAR)).isEqualTo(Q_B);\n\nThe same should be done for the other asserts below.",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 56
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_0aa0fb9d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T08:09:06Z",
+      "side": 1,
+      "message": "remove \u0027final\u0027 here",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 9
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

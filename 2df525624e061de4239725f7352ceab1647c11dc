@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_4a8793e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T18:42:30Z",
+      "side": 1,
+      "message": "I know that linkifying works, but it\u0027s not only about linkifying, e.g. the \u0027tools/gitlog2asciidoc.py\u0027script assumes the old format. Either we should adapt the script then, or drop it if it isn\u0027t used anymore.\n\nAt least I wasn\u0027t aware that we changed the footer for linking issues.",
+      "parentUuid": "d0a19e0d_ae31f71f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "2df525624e061de4239725f7352ceab1647c11dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_891cf96a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 13

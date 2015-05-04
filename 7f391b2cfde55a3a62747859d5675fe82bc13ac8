@@ -173,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_aa172f45",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-05-04T10:20:48Z",
+      "side": 1,
+      "message": "I figured the placing would only affect the tests, not production, hence less of importance. But fair enough, commit message updated.",
+      "parentUuid": "50d76e7e_6a0ff733",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_09a0099e",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5

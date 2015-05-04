@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "30dafaa9_e975b580",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T18:35:49Z",
+      "side": 1,
+      "message": "Ah, okay :-)",
+      "parentUuid": "30b11a58_3171f0da",
+      "range": {
+        "startLine": 198,
+        "startChar": 67,
+        "endLine": 198,
+        "endChar": 73
+      },
+      "revId": "23fec2b441cfe9d63fcf1bfadbe7d11a17aa64fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_8af50b9b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 8

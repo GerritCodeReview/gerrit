@@ -155,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_6a0ff733",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-04T10:11:23Z",
+      "side": 1,
+      "message": "I disagree. Check Shawn\u0027s down voting from today morning: [1]. And check the reference to proper commit message he left there. Basically good commit message should answer three questions:\n\n* what was changed\n* why was it changed\n* side effects of this change\n\nI think that changed Guice injection chain order is important detail here and should be mentioned in the commit message.\n\n* [1] https://gerrit-review.googlesource.com/67620",
+      "parentUuid": "50d76e7e_eafac788",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_09a0099e",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5

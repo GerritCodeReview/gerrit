@@ -169,6 +169,7 @@ branch first and for review to another branch for example. Or in cases
 where a commit is already merged into a branch and you want to create
 a new open change for that commit on another branch.
 
+[[require-change-id]]
 === Require Change-Id
 
 The `Require Change-Id in commit message` option defines whether a

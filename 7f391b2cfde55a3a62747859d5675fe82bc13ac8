@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "30dafaa9_49aa0180",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-05-04T08:37:07Z",
+      "side": 1,
+      "message": "Because the config was previously injected _after_ logging was set up.\nIn order to choose appender(s) in gerrit.config we needed to created cfgInjector before log initialization.",
+      "parentUuid": "50d76e7e_2aa33fae",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_09a0099e",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5
@@ -70,6 +88,24 @@
       "writtenOn": "2015-05-04T07:54:18Z",
       "side": 1,
       "message": "The method name says \"set database for testing\"... however, now it is setting the complete guice environment from this method. Why is this necessary? And if it is justified then the method name surely has to be changed accordingly.",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_a9957d3f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-05-04T08:37:07Z",
+      "side": 1,
+      "message": "The other injectors are set up \"from\", and are dependent on, the db-injector.\n\nIf the method name would read \u0027setUpDbInjectorForTesting\u0027 I would agree with you. But in this case it sets up the dbInjector and the dbInjector creates the cfgInjector which in turn injects the GerritGlobalModule \"into\" the sysInjector...\n\nSo setting the DB for testing means altering the dbInjector, the cfgInjector and the sysInjector.",
+      "parentUuid": "30dafaa9_09a0099e",
       "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -38,6 +38,7 @@ text and let Gerrit figure out the meaning:
 |=============================================================
 
 
+[[search-operators]]
 == Search Operators
 
 Operators act as restrictions on the search.  As more operators
@@ -489,6 +490,7 @@ draft text, or even how many drafts there are. The special case
 of `draftby:self` will find changes where the caller has created
 a draft comment.
 
+[[limit]]
 limit:'CNT'::
 +
 Limit the returned results to no more than 'CNT' records.  This is

@@ -482,6 +482,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_b17b2077",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T23:34:13Z",
+      "side": 1,
+      "message": "The unique ID for the set of changes is the set of change IDs in the set.\n\n @AutoValue\n static abstract class ChangeSet {\n   private static ChangeSet create(Iterable\u003cChange\u003e changes) {\n     ImmutableSet.Builder\u003cBranch, NameKey\u003e bb \u003d ImmutableSet.newBuilder();\n     ImmutableSet.Builder\u003cChange.Id\u003e ib \u003d ImmutableSet.newBuilder();\n     for (Change c : changes) {\n       bb.add(c.getDest());\n       ib.add(c.getId());\n     }\n     return new AutoValue_ChangeMergeQueue_ChangeSet(\n         branches.build(), ids.build());\n   }\n\n   abstract ImmutableSet\u003cBranch.NameKey\u003e branches();\n   abstract ImmutableSet\u003cChange.Id\u003e ids();\n\n\n   @Override\n   public int hashCode() {\n     return ids.hashCode();\n   }\n }",
+      "parentUuid": "30b11a58_71d89819",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_11294c84",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21

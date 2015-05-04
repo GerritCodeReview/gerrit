@@ -87,7 +87,7 @@ public class FileTable extends FlowPanel {
     String deltaColumn2();
     String inserted();
     String deleted();
-    String removeButton();
+    String restoreDelete();
   }
 
   public static enum Mode {
@@ -548,7 +548,7 @@ public class FileTable extends FlowPanel {
       if (mode == Mode.REVIEW) {
         sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       } else {
-        sb.openTh().setStyleName(R.css().removeButton()).closeTh();
+        sb.openTh().setStyleName(R.css().restoreDelete()).closeTh();
       }
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
@@ -592,20 +592,26 @@ public class FileTable extends FlowPanel {
     }
 
     private void columnDeleteRestore(SafeHtmlBuilder sb, FileInfo info) {
-      sb.openTd().setStyleName(R.css().removeButton());
+      sb.openTd().setStyleName(R.css().restoreDelete());
       if (hasUser) {
         if (!Patch.COMMIT_MSG.equals(info.path())) {
           boolean editable = isEditable(info);
-          sb.openElement("button")
-            .setAttribute("title", editable
-                ? Resources.C.removeFileInline()
-                : Resources.C.restoreFileInline())
-            .setAttribute("onclick", (editable ? DELETE : RESTORE)
-                + "(event," + info._row() + ")")
-            .append(new ImageResourceRenderer().render(editable
-                ? Gerrit.RESOURCES.redNot()
-                : Gerrit.RESOURCES.editUndo()))
+          sb.openDiv()
+            .openElement("button")
+            .setAttribute("title", Resources.C.restoreFileInline())
+            .setAttribute("onclick", RESTORE + "(event," + info._row() + ")")
+            .append(new ImageResourceRenderer().render(
+                Gerrit.RESOURCES.editUndo()))
             .closeElement("button");
+          if (editable) {
+            sb.openElement("button")
+              .setAttribute("title", Resources.C.removeFileInline())
+              .setAttribute("onclick", DELETE + "(event," + info._row() + ")")
+              .append(new ImageResourceRenderer().render(
+                  Gerrit.RESOURCES.redNot()))
+              .closeElement("button");
+          }
+          sb.closeDiv();
         }
       }
       sb.closeTd();
@@ -786,7 +792,7 @@ public class FileTable extends FlowPanel {
       if (mode == Mode.REVIEW) {
         sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       } else {
-        sb.openTh().setStyleName(R.css().removeButton()).closeTh();
+        sb.openTh().setStyleName(R.css().restoreDelete()).closeTh();
       }
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTd().closeTd(); // path

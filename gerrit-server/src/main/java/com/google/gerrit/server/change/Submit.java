@@ -101,6 +101,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "Other hidden changes in this topic are not ready";
   private static final String CLICK_FAILURE_OTHER_TOOLTIP =
       "Clicking the button would fail for other changes in the topic";
+  private static final String CLICK_FAILURE_TOOLTIP =
+      "Clicking the button would fail.";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -265,7 +267,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         // TODO(dborowitz): This is ugly; consider providing a way to not read
         // stored fields from the index in the first place.
         c.setMergeable(null);
-        if (!c.isMergeable()) {
+        Boolean mergeable = c.isMergeable();
+        if (mergeable == null) {
+          log.error("Ephemeral error checking if change is submittable");
+          return CLICK_FAILURE_TOOLTIP;
+        }
+        if (!mergeable) {
           return CLICK_FAILURE_OTHER_TOOLTIP;
         }
         checkSubmitRule(c, c.currentPatchSet(), false);
@@ -306,7 +313,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setVisible(false);
     }
 
-    boolean enabled;
+    Boolean enabled;
     try {
       enabled = cd.isMergeable();
     } catch (OrmException e) {
@@ -336,7 +343,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           .setTitle(Strings.emptyToNull(
               submitTopicTooltip.replace(params)))
           .setVisible(true)
-          .setEnabled(enabled);
+          .setEnabled(Boolean.TRUE.equals(enabled));
       }
     } else {
       RevId revId = resource.getPatchSet().getRevision();
@@ -348,7 +355,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setLabel(label)
         .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
         .setVisible(true)
-        .setEnabled(enabled);
+        .setEnabled(Boolean.TRUE.equals(enabled));
     }
   }
 

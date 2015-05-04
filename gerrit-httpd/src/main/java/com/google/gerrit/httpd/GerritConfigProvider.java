@@ -20,7 +20,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
@@ -31,7 +30,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.contact.ContactStore;
-import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,8 +38,6 @@ import com.google.inject.ProvisionException;
 import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContext;
@@ -56,7 +52,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final AllProjectsName wildProject;
   private final SshInfo sshInfo;
 
-  private EmailSender emailSender;
   private final ContactStore contactStore;
   private final ServletContext servletContext;
   private final String anonymousCowardName;
@@ -79,11 +74,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     contactStore = cs;
     servletContext = sc;
     anonymousCowardName = acn;
-  }
-
-  @Inject(optional = true)
-  void setEmailSender(final EmailSender d) {
-    emailSender = d;
   }
 
   private GerritConfig create() throws MalformedURLException {
@@ -118,8 +108,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         break;
     }
     config.setSwitchAccountUrl(cfg.getString("auth", null, "switchAccountUrl"));
-    config.setUseContributorAgreements(cfg.getBoolean("auth",
-        "contributoragreements", false));
+    config.setUseContributorAgreements(authConfig.isUseContributorAgreements());
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setGitHttpUrl(cfg.getString("gerrit", null, "gitHttpUrl"));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
@@ -146,17 +135,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 
-    Set<Account.FieldName> fields = new HashSet<>();
-    for (Account.FieldName n : Account.FieldName.values()) {
-      if (realm.allowsEdit(n)) {
-        if (n == Account.FieldName.REGISTER_NEW_EMAIL
-            && (emailSender == null || !emailSender.isEnabled())) {
-          continue;
-        }
-        fields.add(n);
-      }
-    }
-    config.setEditableAccountFields(fields);
+    config.setEditableAccountFields(realm.getEditableFields());
 
     if (gitWebConfig.getUrl() != null) {
       config.setGitwebLink(new GitwebConfig(gitWebConfig.getUrl(), gitWebConfig

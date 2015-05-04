@@ -702,6 +702,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_f175a880",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T23:36:56Z",
+      "side": 1,
+      "message": "You can\u0027t get rid of them unless you also get rid of SubmitInput#waitForMerge\n\n    if (input.waitForMerge) {\n      for (Change c : submittedChanges) {\n        // TODO(sbeller): We should make schedule return a Future, then we\n        // could do these all in parallel and still block until they\u0027re done.\n        mergeQueue.merge(c.getDest());\n      }\n      change \u003d dbProvider.get().changes().get(change.getId());\n    } else {\n      for (Change c : submittedChanges) {\n        mergeQueue.schedule(c.getDest());\n      }\n    }\n\n\n(PS, I don\u0027t remember if I told you this at the time, but fixing that TODO is a lot of work. I tried converting WorkQueue to use a ListeningExecutorService and gave up after a few hours.)",
+      "parentUuid": "d0a19e0d_0e876b14",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_11b4acbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadSubmitQueueOp.java",
         "patchSetId": 21

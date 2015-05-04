@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_d1bd04c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T19:01:09Z",
+      "side": 1,
+      "message": "I agree we want to start commit footers with \"Bug:\" including the colon. But the commentlink config today does not linkify the whole footer, it just linkifies \"issue X.\" What I\u0027m proposing is to _not_ linkify \"Bug: X\" or \"Issue: X\", and _only_ linkify \"Bug X\" or \"Issue X\".",
+      "parentUuid": "30dafaa9_4987a1e1",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "2df525624e061de4239725f7352ceab1647c11dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_891cf96a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 13

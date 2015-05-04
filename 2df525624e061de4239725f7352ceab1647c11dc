@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_2e26a7e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T18:47:38Z",
+      "side": 1,
+      "message": "I guess I can change these, I didn\u0027t realize something was actively depending on the existing format.\n\nOne problem is that we want linkifying to work both in the commit message case and in normal comments. In the former we have a strict requirement, while in the latter it\u0027s much looser.\n\nMaybe we should leave out the \":?\" in the pattern. That way \"Issue: 100\" or \"Bug: 100\" are not linkified, indicating that the author may have done something wrong.",
+      "parentUuid": "50d76e7e_4a8793e1",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "2df525624e061de4239725f7352ceab1647c11dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_891cf96a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 13

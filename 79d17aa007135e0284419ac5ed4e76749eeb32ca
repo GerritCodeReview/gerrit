@@ -46,6 +46,30 @@
       "revId": "79d17aa007135e0284419ac5ed4e76749eeb32ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_4ad5d3dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-04T13:52:52Z",
+      "side": 0,
+      "message": "May be someone can push Submit button on another change, so that the change owner of this change would merge the conflict and not /me?\n\n;-)",
+      "parentUuid": "506bee69_0ae77baf",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "79d17aa007135e0284419ac5ed4e76749eeb32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

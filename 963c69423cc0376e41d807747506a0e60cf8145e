@@ -34,6 +34,24 @@
       "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_29a98d5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-04T14:51:33Z",
+      "side": 1,
+      "message": "This can be reproduced even without this change. Checkout the stable-2.11 then add the following fragment:\n\n  ReviewDb reviewDb \u003d dbProvider.get();\n  reviewDb.close();\n\nto the SuggestReviewers class at the line 185.\nRun the SuggestReviewersIT and check the server log. There will be many NPEs.",
+      "parentUuid": "50d76e7e_6ad89719",
+      "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

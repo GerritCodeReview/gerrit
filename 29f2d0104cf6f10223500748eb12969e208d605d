@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_31a9f05d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_f1112851",
+      "range": {
+        "startLine": 46,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_5123d4a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21
@@ -36,6 +60,24 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "I\u0027m not seeing anywhere in this file where you add to this set.",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_b194c01a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_5123d4a1",
       "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_11a66c8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_d116a446",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_6e526f3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21
@@ -70,6 +130,24 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "How would throwing an exception work from the perspective of a caller in Submit?",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_b1e960b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "That\u0027s the problem, I don\u0027t have a solution for yet.\nIt feels like bad style, to just tell the user: \"\nOh we had an ephemeral congestion, why don\u0027t you try again in some time?\" as the user would wonder why we would not schedule it (we know the solution to the problem already, just wait and try again, there is nothing we can do about it.)\n\nSo maybe we can reschedule within a few milliseconds and once it takes too long, just tell the user: \"Ok, we could not merge it within the last half second, so we will try again in $time. Click here to cancel the future scheduled attempt\"",
+      "parentUuid": "d0a19e0d_6e526f3a",
       "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_91eedcb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_7126d8b3",
+      "range": {
+        "startLine": 76,
+        "startChar": 25,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_4e4fb392",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21
@@ -110,6 +212,24 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "return Sets.intersection(w.getBranches(), currentBranches).isEmpty();",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_ae95773f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a19e0d_4e4fb392",
       "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -162,6 +282,54 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_f1e3e8cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_312c5094",
+      "range": {
+        "startLine": 114,
+        "startChar": 23,
+        "endLine": 114,
+        "endChar": 43
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_d1e864ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "I\u0027ll fix it, though it\u0027s not really necessary as the only caller (recheckAfter) is synchronized already.",
+      "parentUuid": "d0a19e0d_cebd63c9",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_aeae1797",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21
@@ -173,6 +341,30 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "Not sure if this is what you mean by \"content check\" but this should definitely be using IDs instead of Changes.",
+      "range": {
+        "startLine": 115,
+        "startChar": 35,
+        "endLine": 115,
+        "endChar": 48
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_8e9a3b6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Yeah that\u0027s what I mean. Currently we\u0027re using a reference of the change, but what we really want is an identifier for this kind of set of changes.",
+      "parentUuid": "d0a19e0d_aeae1797",
       "range": {
         "startLine": 115,
         "startChar": 35,
@@ -202,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_31de1008",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_31b730c8",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_91c7fc46",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21
@@ -213,6 +423,24 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "Move this catch block into MergeOpMapper?\n\nActually there already is one. merge() catches it, logs, and converts it to a MergeException...which is then re-logged and dropped on the floor by this method.\n\nProbably merge() could just not throw MergeException.",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_11db0c18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_91c7fc46",
       "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -236,6 +464,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_71d89819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "Right.\n\nOne of the problems seems with the ChangeSet abstraction was how to compute a unique ID for the set of changes, which I kind of papered over now to the next patch.\n\nSo you\u0027re thinking about getting the change set back?",
+      "parentUuid": "d0a19e0d_8eb35bfd",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_11294c84",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21
@@ -247,6 +493,30 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "This is redundant, I believe.",
+      "range": {
+        "startLine": 196,
+        "startChar": 12,
+        "endLine": 196,
+        "endChar": 34
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_51d594dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:26:56Z",
+      "side": 1,
+      "message": "mergeIfPossible is non static, so it needs to be called from one actual instance of the class, and this is how the compiler doesn\u0027t complain about the call to a non static function without a object context.",
+      "parentUuid": "30b11a58_11294c84",
       "range": {
         "startLine": 196,
         "startChar": 12,

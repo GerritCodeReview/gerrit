@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50d76e7e_aae9efb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-04T13:17:42Z",
+      "side": 1,
+      "message": "Needed to change from Provider\u003cReviewDb\u003e to the request scoped ReviewDb injection due to a strange bug: when using dbProvider.get().close() then the closed ReviewDb instance is (re)used by the request scoped injection and is giving a NPE when trying to fetch something from the database. I am puzzled about this and am not sure if this is a bug in guice or in Gerrit.",
+      "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

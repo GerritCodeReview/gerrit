@@ -117,7 +117,7 @@ public class SubmitRuleEvaluator {
 
   /**
    * @param ps patch set of the change to evaluate. If not set, the current
-   * patch set will be loaded from {@link #canSubmit()} or {@link
+   * patch set will be loaded from {@link #evaluate()} or {@link
    * #getSubmitType}.
    * @return this
    */
@@ -139,7 +139,7 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param allow whether to allow {@link #canSubmit()} on closed changes.
+   * @param allow whether to allow {@link #evaluate()} on closed changes.
    * @return this
    */
   public SubmitRuleEvaluator setAllowClosed(boolean allow) {
@@ -148,7 +148,7 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param allow whether to allow {@link #canSubmit()} on closed changes.
+   * @param allow whether to allow {@link #evaluate()} on draft changes.
    * @return this
    */
   public SubmitRuleEvaluator setAllowDraft(boolean allow) {
@@ -194,7 +194,7 @@ public class SubmitRuleEvaluator {
    * @return List of {@link SubmitRecord} objects returned from the evaluated
    *     rules, including any errors.
    */
-  public List<SubmitRecord> canSubmit() {
+  public List<SubmitRecord> evaluate() {
     try {
       initPatchSet();
     } catch (OrmException e) {

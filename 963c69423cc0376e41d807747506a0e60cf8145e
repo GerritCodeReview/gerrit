@@ -70,6 +70,24 @@
       "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_ca7a6370",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-04T15:12:04Z",
+      "side": 1,
+      "message": "It turns out that the SuggestReviewers.dbProvider is a request scoped Provider\u003cReviewDb\u003e and will always return the same ReviewDb instance from its get() method. Means, I could still have used the Provider\u003cReviewDb\u003e here but make sure NOT to close the ReviewDb instance.",
+      "parentUuid": "30dafaa9_a97bbd76",
+      "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

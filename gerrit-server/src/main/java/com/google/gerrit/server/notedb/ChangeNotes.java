@@ -18,7 +18,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -51,7 +50,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.Map;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
@@ -73,20 +71,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
             return input.getWrittenOn();
           }
         });
-
-  public static Comparator<PatchLineComment> PLC_ORDER =
-      new Comparator<PatchLineComment>() {
-    @Override
-    public int compare(PatchLineComment c1, PatchLineComment c2) {
-      String filename1 = c1.getKey().getParentKey().get();
-      String filename2 = c2.getKey().getParentKey().get();
-      return ComparisonChain.start()
-          .compare(filename1, filename2)
-          .compare(c1.getLine(), c2.getLine())
-          .compare(c1.getWrittenOn(), c2.getWrittenOn())
-          .result();
-    }
-  };
 
   public static ConfigInvalidException parseException(Change.Id changeId,
       String fmt, Object... args) {

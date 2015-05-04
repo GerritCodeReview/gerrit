@@ -1146,6 +1146,109 @@ Adds or updates the change in the secondary index.
   HTTP/1.1 204 No Content
 ----
 
+[[list-change-comments]]
+=== List Change Comments
+--
+'GET /changes/link:#change-id[\{change-id\}]/comments'
+--
+
+Lists the published comments of all revisions of the change.
+
+Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+entries. The entries in the map are sorted by file path, and the
+comments for each path are sorted by patch set number. Each comment has
+the `patch_set` and `author` fields set.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/comments HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "patch_set": 1,
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "[nit] trailing whitespace",
+        "updated": "2013-02-26 15:40:43.986000000"
+        "author": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com"
+        }
+      },
+      {
+        "patch_set": 2,
+        "id": "TveXwFiA",
+        "line": 49,
+        "in_reply_to": "TfYX-Iuo",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000"
+        "author": {
+          "_account_id": 1000097,
+          "name": "Jane Roe",
+          "email": "jane.roe@example.com"
+        }
+      }
+    ]
+  }
+----
+
+[[list-change-drafts]]
+=== List Change Drafts
+--
+'GET /changes/link:#change-id[\{change-id\}]/drafts'
+--
+
+Lists the draft comments of all revisions of the change that belong to
+the calling user.
+
+Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+entries. The entries in the map are sorted by file path, and the
+comments for each path are sorted by patch set number. Each comment has
+the `patch_set` field set, and no `author`.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/drafts HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "patch_set": 1,
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "[nit] trailing whitespace",
+        "updated": "2013-02-26 15:40:43.986000000"
+      },
+      {
+        "patch_set": 2,
+        "id": "TveXwFiA",
+        "line": 49,
+        "in_reply_to": "TfYX-Iuo",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000"
+      }
+    ]
+  }
+----
+
 [[check-change]]
 === Check change
 --
@@ -2586,7 +2689,7 @@ all LFs are included in the Prolog code:
 ----
 
 [[list-drafts]]
-=== List Drafts
+=== List Revision Drafts
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/'
 --
@@ -2594,9 +2697,8 @@ all LFs are included in the Prolog code:
 Lists the draft comments of a revision that belong to the calling
 user.
 
-As result a map is returned that maps the file path to a list of
-link:#comment-info[CommentInfo] entries. The entries in the map are
-sorted by file path.
+Returns a map of file paths to lists of link:#comment-info[CommentInfo]
+entries. The entries in the map are sorted by file path.
 
 .Request
 ----
@@ -2765,7 +2867,7 @@ Deletes a draft comment from a revision.
 ----
 
 [[list-comments]]
-=== List Comments
+=== List Revision Comments
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/'
 --
@@ -3494,6 +3596,9 @@ The `CommentInfo` entity contains information about an inline comment.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
+|`patch_set`   |optional|
+The patch set number for the comment; only set in contexts where +
+comments may be returned for multiple patch sets.
 |`id`          ||The URL encoded UUID of the comment.
 |`path`        |optional|
 The path of the file for which the inline comment was done. +
@@ -4013,7 +4118,9 @@ will be modified to be the "best" value allowed by the access controls.
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this
 input. +
-Allowed values are `DELETE`, `PUBLISH` and `KEEP`. +
+Allowed values are `DELETE`, `PUBLISH`, `PUBLISH_ALL_REVISIONS` and
+`KEEP`. All values except `PUBLISH_ALL_REVISIONS` operate only on drafts
+for a single revision. +
 If not set, the default is `DELETE`.
 |`notify`      |optional|
 Notify handling that defines to whom email notifications should be sent

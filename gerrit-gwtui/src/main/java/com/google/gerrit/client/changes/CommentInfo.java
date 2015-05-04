@@ -82,6 +82,7 @@ public class CommentInfo extends JavaScriptObject {
   public final native String path() /*-{ return this.path }-*/;
   public final native String id() /*-{ return this.id }-*/;
   public final native String in_reply_to() /*-{ return this.in_reply_to }-*/;
+  public final native int patch_set() /*-{ return this.patch_set }-*/;
 
   public final Side side() {
     String s = sideRaw();

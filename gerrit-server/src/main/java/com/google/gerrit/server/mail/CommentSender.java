@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import static com.google.gerrit.server.PatchLineCommentsUtil.getCommentPsId;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
@@ -175,7 +177,8 @@ public class CommentSender extends ReplyToChangeSender {
     short side = comment.getSide();
     CommentRange range = comment.getRange();
     if (range != null) {
-      String prefix = String.format("Line %d: ", range.getStartLine());
+      String prefix = "PS" + getCommentPsId(comment).get()
+        + ", Line " + range.getStartLine() + ": ";
       for (int n = range.getStartLine(); n <= range.getEndLine(); n++) {
         out.append(n == range.getStartLine()
             ? prefix

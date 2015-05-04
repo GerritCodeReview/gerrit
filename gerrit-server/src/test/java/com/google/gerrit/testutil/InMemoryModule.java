@@ -44,7 +44,6 @@ import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
@@ -94,6 +93,7 @@ public class InMemoryModule extends FactoryModule {
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setInt("index", "lucene", "testVersion",
         ChangeSchemas.getLatest().getVersion());
+    cfg.setInt("sendemail", null, "threadPoolSize", 0);
   }
 
   private final Config cfg;
@@ -205,10 +205,8 @@ public class InMemoryModule extends FactoryModule {
   @Provides
   @Singleton
   @EmailReviewCommentsExecutor
-  public WorkQueue.Executor createEmailReviewCommentsExecutor(
-      @GerritServerConfig Config config, WorkQueue queues) {
-    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
-    return queues.createQueue(poolSize, "EmailReviewComments");
+  public ExecutorService createEmailReviewCommentsExecutor() {
+    return MoreExecutors.newDirectExecutorService();
   }
 
   @Provides

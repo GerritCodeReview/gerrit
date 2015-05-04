@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.PatchLineCommentsUtil.COMMENT_INFO_ORDER;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.Comment.Range;
@@ -29,7 +29,6 @@ import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,6 +38,7 @@ class CommentJson {
   private final AccountLoader.Factory accountLoaderFactory;
 
   private boolean fillAccounts = true;
+  private boolean fillPatchSet;
 
   @Inject
   CommentJson(AccountLoader.Factory accountLoaderFactory) {
@@ -47,6 +47,11 @@ class CommentJson {
 
   CommentJson setFillAccounts(boolean fillAccounts) {
     this.fillAccounts = fillAccounts;
+    return this;
+  }
+
+  CommentJson setFillPatchSet(boolean fillPatchSet) {
+    this.fillPatchSet = fillPatchSet;
     return this;
   }
 
@@ -81,20 +86,7 @@ class CommentJson {
     }
 
     for (List<CommentInfo> list : out.values()) {
-      Collections.sort(list, new Comparator<CommentInfo>() {
-        @Override
-        public int compare(CommentInfo a, CommentInfo b) {
-          int c = firstNonNull(a.side, Side.REVISION).ordinal()
-                - firstNonNull(b.side, Side.REVISION).ordinal();
-          if (c == 0) {
-            c = firstNonNull(a.line, 0) - firstNonNull(b.line, 0);
-          }
-          if (c == 0) {
-            c = a.id.compareTo(b.id);
-          }
-          return c;
-        }
-      });
+      Collections.sort(list, COMMENT_INFO_ORDER);
     }
 
     if (accountLoader != null) {
@@ -106,6 +98,9 @@ class CommentJson {
 
   private CommentInfo toCommentInfo(PatchLineComment c, AccountLoader loader) {
     CommentInfo r = new CommentInfo();
+    if (fillPatchSet) {
+      r.patchSet = c.getKey().getParentKey().getParentKey().get();
+    }
     r.id = Url.encode(c.getKey().get());
     r.path = c.getKey().getParentKey().getFileName();
     if (c.getSide() == 0) {

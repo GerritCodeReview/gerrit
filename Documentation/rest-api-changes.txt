@@ -310,6 +310,12 @@ default. Optional fields are:
 * `CHECK`: include potential problems with the change.
 --
 
+[[commit-footers]]
+--
+* `COMMIT_FOOTERS`: include the full commit message with
+  Gerrit-specific commit footers in the
+  link:#revision-info[RevisionInfo].
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -4215,6 +4221,12 @@ entities.
 |`reviewed`     |optional|
 Indicates whether the caller is authenticated and has commented on the
 current revision. Only set if link:#reviewed[REVIEWED] option is requested.
+|`messageWithFooter` |optional|
+If the link:#commit-footers[COMMIT_FOOTERS] option is requested and
+this is the current patch set, contains the full commit message with
+Gerrit-specific commit footers, as if this revision were submitted
+using the link:project-configuration.html#cherry_pick[Cherry Pick]
+submit type.
 |===========================
 
 [[rule-input]]

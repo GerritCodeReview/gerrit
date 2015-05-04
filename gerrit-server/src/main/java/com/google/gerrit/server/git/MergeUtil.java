@@ -25,13 +25,16 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -195,7 +198,9 @@ public class MergeUtil {
     }
   }
 
-  public String createCherryPickCommitMessage(final CodeReviewCommit n) {
+  public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
+      PatchSet.Id psId) {
+    Change c = ctl.getChange();
     final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
     msgbuf.append(n.getFullMessage());
@@ -215,16 +220,16 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    if (!contains(footers, FooterConstants.CHANGE_ID, n.change().getKey().get())) {
+    if (!contains(footers, FooterConstants.CHANGE_ID, c.getKey().get())) {
       msgbuf.append(FooterConstants.CHANGE_ID.getName());
       msgbuf.append(": ");
-      msgbuf.append(n.change().getKey().get());
+      msgbuf.append(c.getKey().get());
       msgbuf.append('\n');
     }
 
     final String siteUrl = urlProvider.get();
     if (siteUrl != null) {
-      final String url = siteUrl + n.getPatchsetId().getParentKey().get();
+      final String url = siteUrl + c.getId().get();
       if (!contains(footers, FooterConstants.REVIEWED_ON, url)) {
         msgbuf.append(FooterConstants.REVIEWED_ON.getName());
         msgbuf.append(": ");
@@ -235,7 +240,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (final PatchSetApproval a : safeGetApprovals(n)) {
+    for (final PatchSetApproval a : safeGetApprovals(ctl, psId)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -301,6 +306,10 @@ public class MergeUtil {
     return msgbuf.toString();
   }
 
+  public String createCherryPickCommitMessage(final CodeReviewCommit n) {
+    return createCherryPickCommitMessage(n, n.getControl(), n.getPatchsetId());
+  }
+
   private static boolean isCodeReview(LabelId id) {
     return "Code-Review".equalsIgnoreCase(id.get());
   }
@@ -309,11 +318,12 @@ public class MergeUtil {
     return "Verified".equalsIgnoreCase(id.get());
   }
 
-  private Iterable<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {
+  private Iterable<PatchSetApproval> safeGetApprovals(
+      ChangeControl ctl, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), n.getControl(), n.getPatchsetId());
+      return approvalsUtil.byPatchSet(db.get(), ctl, psId);
     } catch (OrmException e) {
-      log.error("Can't read approval records for " + n.getPatchsetId(), e);
+      log.error("Can't read approval records for " + psId, e);
       return Collections.emptyList();
     }
   }

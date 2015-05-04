@@ -18,38 +18,47 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class GetCommit implements RestReadView<RevisionResource> {
+  private final GitRepositoryManager repoManager;
   private final ChangeJson json;
 
   @Option(name = "--links", usage = "Add weblinks")
   private boolean addLinks;
 
   @Inject
-  GetCommit(ChangeJson json) {
+  GetCommit(GitRepositoryManager repoManager,
+      ChangeJson json) {
+    this.repoManager = repoManager;
     this.json = json;
   }
 
   @Override
-  public Response<CommitInfo> apply(RevisionResource resource)
-      throws OrmException {
-    try {
-      Response<CommitInfo> r =
-          Response.ok(json.toCommit(resource.getPatchSet(), resource
-              .getChange().getProject(), addLinks));
-      if (resource.isCacheable()) {
+  public Response<CommitInfo> apply(RevisionResource rsrc) throws IOException {
+    Project.NameKey p = rsrc.getChange().getProject();
+    try (Repository repo = repoManager.openRepository(p);
+        RevWalk rw = new RevWalk(repo)) {
+      String rev = rsrc.getPatchSet().getRevision().get();
+      RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
+      rw.parseBody(commit);
+      Response<CommitInfo> r = Response.ok(
+          json.toCommit(rsrc.getControl(), rw, commit, addLinks));
+      if (rsrc.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }
       return r;
-    } catch (PatchSetInfoNotAvailableException e) {
-      throw new OrmException(e);
     }
   }
 }

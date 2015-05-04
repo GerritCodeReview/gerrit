@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50d76e7e_2a2cdf93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T11:33:00Z",
+      "side": 1,
+      "message": "Should this be \"Bug: issue 1100\"?",
+      "revId": "99c47843bc3ec1628ddfe0a06fdbbb59b7c469cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_8ac7cb46",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T11:33:00Z",
+      "side": 1,
+      "message": "Maybe we make another improvement here. If there is a comment on the base it gets treated the same way as a comment on the current patch set. Could we display \u0027Base\u0027 as patch set in this case? Could be done in another change of course.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "99c47843bc3ec1628ddfe0a06fdbbb59b7c469cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_6a26d7b3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.ui.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T11:33:00Z",
+      "side": 1,
+      "message": "This now overlaps with the comment:\n  http://i.imgur.com/Uh1LfXG.png",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 67
+      },
+      "revId": "99c47843bc3ec1628ddfe0a06fdbbb59b7c469cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

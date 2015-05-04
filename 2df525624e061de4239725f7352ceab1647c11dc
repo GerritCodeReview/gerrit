@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_5178f4bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-04T17:36:43Z",
+      "side": 1,
+      "message": "Intentional.",
+      "parentUuid": "30dafaa9_891cf96a",
+      "range": {
+        "startLine": 286,
+        "startChar": 68,
+        "endLine": 286,
+        "endChar": 74
+      },
+      "revId": "2df525624e061de4239725f7352ceab1647c11dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_491de18e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 13

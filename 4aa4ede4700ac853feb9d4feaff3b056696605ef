@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_4eeb33f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-04T05:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a63229_cbdef557",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "4aa4ede4700ac853feb9d4feaff3b056696605ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70a63229_ebd93172",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-04T03:11:53Z",
       "side": 1,
       "message": "Seems odd we make the class public but not its field?",
+      "range": {
+        "startLine": 484,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 37
+      },
+      "revId": "4aa4ede4700ac853feb9d4feaff3b056696605ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_ae0a9757",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-04T05:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a63229_ebd93172",
       "range": {
         "startLine": 484,
         "startChar": 4,

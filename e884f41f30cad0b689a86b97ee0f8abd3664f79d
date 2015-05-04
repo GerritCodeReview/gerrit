@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30dafaa9_e9e3f5cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T14:02:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dafaa9_69c1c52d",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 59
+      },
+      "revId": "e884f41f30cad0b689a86b97ee0f8abd3664f79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_cae8a3ac",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-04T13:49:14Z",
       "side": 1,
       "message": "optional: remove this text",
+      "range": {
+        "startLine": 29,
+        "startChar": 57,
+        "endLine": 30,
+        "endChar": 19
+      },
+      "revId": "e884f41f30cad0b689a86b97ee0f8abd3664f79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_c9e8b1ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T14:02:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d76e7e_cae8a3ac",
       "range": {
         "startLine": 29,
         "startChar": 57,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_ea9e4738",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T14:02:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d76e7e_eae3e7cc",
+      "range": {
+        "startLine": 31,
+        "startChar": 23,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "e884f41f30cad0b689a86b97ee0f8abd3664f79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_2ade9f07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2015-05-04T13:49:14Z",
       "side": 1,
       "message": "nit: this and all other public static classes below should be defined on top of this class.",
+      "revId": "e884f41f30cad0b689a86b97ee0f8abd3664f79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_29dead07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-04T14:02:22Z",
+      "side": 1,
+      "message": "Hmm, all REST endpoint implementation classes define the *Info classes that describe the result at the end of the class, e.g. see GetRelated or GetSummary. So for consistency I would leave it here.",
+      "parentUuid": "50d76e7e_2ade9f07",
       "revId": "e884f41f30cad0b689a86b97ee0f8abd3664f79d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

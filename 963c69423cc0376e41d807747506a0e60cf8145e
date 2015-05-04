@@ -52,6 +52,24 @@
       "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_a97bbd76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-04T15:00:34Z",
+      "side": 1,
+      "message": "Interesting. I will look into it.",
+      "parentUuid": "30dafaa9_29a98d5d",
+      "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

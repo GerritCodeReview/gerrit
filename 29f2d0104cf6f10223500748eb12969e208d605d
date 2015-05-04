@@ -661,6 +661,29 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_0e876b14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-04T23:29:09Z",
+      "side": 1,
+      "message": "What I found irritating during this change is the distinction between merge() and schedule(). \n\nThey both do the same thing, with schedule() focussing more on `eventually` instead(?). Maybe it\u0027s time to remove one of the methods.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_11b4acbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadSubmitQueueOp.java",
         "patchSetId": 21

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50d76e7e_cabd43c9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2657,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-04T07:54:18Z",
+      "side": 1,
+      "message": "As in other places there should be an empty line above:\n\n  ...\n  +\n  Defaults to false.",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_c9bd51c9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2662,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-04T07:54:18Z",
+      "side": 1,
+      "message": "split into two sentences:\n\n  Can only be disabled in `jsonLogging` is enabled.\n  +\n  Defaults to true.",
+      "range": {
+        "startLine": 2661,
+        "startChar": 67,
+        "endLine": 2662,
+        "endChar": 49
+      },
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d76e7e_2aa33fae",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-04T07:54:18Z",
+      "side": 1,
+      "message": "When reading the commit message I expected to see the changes only in the ErrorLog.java file. Why do we need to change the way we initialize injectors?",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_09a0099e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-04T07:54:18Z",
+      "side": 1,
+      "message": "The method name says \"set database for testing\"... however, now it is setting the complete guice environment from this method. Why is this necessary? And if it is justified then the method name surely has to be changed accordingly.",
+      "revId": "7f391b2cfde55a3a62747859d5675fe82bc13ac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

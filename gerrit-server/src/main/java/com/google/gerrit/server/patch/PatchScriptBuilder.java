@@ -214,7 +214,9 @@ class PatchScriptBuilder {
         a.displayMethod, b.displayMethod, a.mimeType.toString(),
         b.mimeType.toString(), comments, history, hugeFile,
         intralineDifferenceIsPossible, intralineFailure, intralineTimeout,
-        content.getPatchType() == Patch.PatchType.BINARY);
+        content.getPatchType() == Patch.PatchType.BINARY,
+        aId == null ? null : aId.getName(),
+        bId == null ? null : bId.getName());
   }
 
   private static boolean isModify(PatchListEntry content) {

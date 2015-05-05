@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b11a58_f170088a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:35:06Z",
+      "side": 1,
+      "message": "Not used. Please organize imports in Eclipse.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_916b7ca0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:35:06Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this method anymore; it\u0027s functionally identical to ChangeSet#hashCode().",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_ceff2377",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:35:06Z",
+      "side": 1,
+      "message": "I don\u0027t think this class or its static constructor method should be public. They are pretty much internal implementation details of the merge queue stuff.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_518754e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:35:06Z",
+      "side": 1,
+      "message": "Join lines.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_b16680d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:35:06Z",
+      "side": 1,
+      "message": "Blank line after method.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_2e050714",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:35:06Z",
+      "side": 1,
+      "message": "See my previous comments on this class.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "b9f32a144eba583706c2d80543385cf6673c007e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_31dd70e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-05-05T03:52:24Z",
+      "side": 1,
+      "message": "Rewritten; I hope this clarifies the purpose.",
+      "parentUuid": "90aba6ef_acdf4356",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "b9f32a144eba583706c2d80543385cf6673c007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

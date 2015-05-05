@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_718a58ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T00:21:24Z",
+      "side": 1,
+      "message": "I am talking about Submit.java looking like:\n\n    if (waitForMerge) {\n        boolean retry \u003d false;\n        do {\n            try{\n             CMQ.merge(changes)\n            } catch(CongestionException e) {\n              Thread.sleep(some backoff time);\n              retry \u003d true for the first \u003cn\u003e tries, false afterwards\n              After \u003cn\u003e tries: rethrow CongestionException, shoving it into the users face      \n            }\n        } while(retry);\n    } else {\n     CMQ.schedule(changes)\n    }\n\nand here in the ChangeMergeQueue we actually have a different behavior of merge() and schedule(). merge() will throw the CongestionException if it doesn\u0027t work. schedule never will, and be silently trying until it succeeds. Currently they do exactly the same, just with different timing.",
+      "parentUuid": "30b11a58_3190d019",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_7126d8b3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21
@@ -530,6 +548,24 @@
       "side": 1,
       "message": "The unique ID for the set of changes is the set of change IDs in the set.\n\n @AutoValue\n static abstract class ChangeSet {\n   private static ChangeSet create(Iterable\u003cChange\u003e changes) {\n     ImmutableSet.Builder\u003cBranch, NameKey\u003e bb \u003d ImmutableSet.newBuilder();\n     ImmutableSet.Builder\u003cChange.Id\u003e ib \u003d ImmutableSet.newBuilder();\n     for (Change c : changes) {\n       bb.add(c.getDest());\n       ib.add(c.getId());\n     }\n     return new AutoValue_ChangeMergeQueue_ChangeSet(\n         branches.build(), ids.build());\n   }\n\n   abstract ImmutableSet\u003cBranch.NameKey\u003e branches();\n   abstract ImmutableSet\u003cChange.Id\u003e ids();\n\n\n   @Override\n   public int hashCode() {\n     return ids.hashCode();\n   }\n }",
       "parentUuid": "30b11a58_71d89819",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_8ef51b9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T00:21:24Z",
+      "side": 1,
+      "message": "I moved it to its own class, not just a subclass of the ChangeMergeQueue, so the MergeOpMapper class can take advantage of the already calculated branches() method.\n\nWhile doing so I needed to drop the static.",
+      "parentUuid": "30b11a58_b17b2077",
       "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

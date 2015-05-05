@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "2deb8164_21c78e98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:40:10Z",
+      "side": 1,
+      "message": "I think that would make most sense as a followup so it can be reviewed independently along with the caller changes.",
+      "parentUuid": "30b11a58_91cd3c3a",
+      "range": {
+        "startLine": 48,
+        "startChar": 28,
+        "endLine": 48,
+        "endChar": 43
+      },
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_713c1891",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 24

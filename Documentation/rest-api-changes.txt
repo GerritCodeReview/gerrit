@@ -315,6 +315,7 @@ default. Optional fields are:
 * `COMMIT_FOOTERS`: include the full commit message with
   Gerrit-specific commit footers in the
   link:#revision-info[RevisionInfo].
+--
 
 .Request
 ----

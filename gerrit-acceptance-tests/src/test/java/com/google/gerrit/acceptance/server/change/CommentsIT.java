@@ -289,6 +289,17 @@ public class CommentsIT extends AbstractDaemonTest {
     addDraft(r2.getChangeId(), r2.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 2, "typo: content"));
 
+    PushOneCommit.Result other = createChange();
+    // Drafts on other changes aren't returned.
+    addDraft(other.getChangeId(), other.getCommit().getName(),
+        newDraft(FILE_NAME, Side.REVISION, 1, "unrelated comment"));
+
+    setApiUser(admin);
+    // Drafts by other users aren't returned.
+    addDraft(r2.getChangeId(), r2.getCommit().getName(),
+        newDraft(FILE_NAME, Side.REVISION, 2, "oops"));
+    setApiUser(user);
+
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
     reviewInput.message = "comments";

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dafaa9_e9e93580",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthWebFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-05T11:56:42Z",
+      "side": 1,
+      "message": "optional: the link variable is only used here so it could be inlined:\n\n  if (request.getParameter(\"link\") !\u003d null) {\n    oauthSession.setLinkMode(true);\n  }",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 5
+      },
+      "revId": "e0db8eff2f883e4b8c78578e9dfd7e5ccb30da0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

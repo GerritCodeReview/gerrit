@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "702e3292_ab1fe988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:37Z",
+      "side": 1,
+      "message": "Done in previous.",
+      "parentUuid": "b04d0a88_0531521a",
+      "range": {
+        "startLine": 228,
+        "startChar": 41,
+        "endLine": 228,
+        "endChar": 47
+      },
+      "revId": "af8e6c46372c10ae1f190c8608989cb45a031a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_e52516d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-14T01:14:46Z",
       "side": 1,
       "message": "\"remove\"",
+      "range": {
+        "startLine": 257,
+        "startChar": 41,
+        "endLine": 257,
+        "endChar": 47
+      },
+      "revId": "af8e6c46372c10ae1f190c8608989cb45a031a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_8b1c2d95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_e52516d9",
       "range": {
         "startLine": 257,
         "startChar": 41,

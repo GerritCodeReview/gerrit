@@ -414,8 +414,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private Map<String, PatchLineComment> changeDrafts(RevisionResource rsrc)
       throws OrmException {
     Map<String, PatchLineComment> drafts = Maps.newHashMap();
-    for (PatchLineComment c
-        : plcUtil.draftByChange(db.get(), rsrc.getNotes())) {
+    for (PatchLineComment c : plcUtil.draftByChangeAuthor(
+        db.get(), rsrc.getNotes(), rsrc.getAccountId())) {
       drafts.put(c.getKey().get(), c);
     }
     return drafts;

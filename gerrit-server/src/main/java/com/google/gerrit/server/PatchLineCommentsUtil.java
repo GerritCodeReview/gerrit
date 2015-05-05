@@ -253,8 +253,10 @@ public class PatchLineCommentsUtil {
       throws OrmException {
     if (!migration.readChanges()) {
       final Change.Id matchId = notes.getChangeId();
+      Iterable<PatchLineComment> comments =
+          db.patchComments().draftByAuthor(author).toList();
       return FluentIterable
-          .from(db.patchComments().draftByAuthor(author))
+          .from(comments)
           .filter(new Predicate<PatchLineComment>() {
             @Override
             public boolean apply(PatchLineComment in) {

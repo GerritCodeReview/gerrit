@@ -384,6 +384,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_11582c11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:34:38Z",
+      "side": 1,
+      "message": "It makes the method easier to read in isolation. I don\u0027t have to perform reachability analysis when reviewing to see that all callers are synchronized.\n\nReentering the lock is basically free.",
+      "parentUuid": "30b11a58_f1e3e8cc",
+      "range": {
+        "startLine": 114,
+        "startChar": 23,
+        "endLine": 114,
+        "endChar": 43
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_aeae1797",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21

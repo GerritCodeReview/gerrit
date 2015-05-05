@@ -298,11 +298,29 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
+  public List<CommentInfo> commentsAsList() throws RestApiException {
+    try {
+      return listComments.getComments(revision);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve comments", e);
+    }
+  }
+
+  @Override
   public Map<String, List<CommentInfo>> drafts() throws RestApiException {
     try {
       return listDrafts.apply(revision);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve drafts", e);
+    }
+  }
+
+  @Override
+  public List<CommentInfo> draftsAsList() throws RestApiException {
+    try {
+      return listDrafts.getComments(revision);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve comments", e);
     }
   }
 

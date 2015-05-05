@@ -515,6 +515,47 @@ public class RevisionIT extends AbstractDaemonTest {
       .isEqualTo(in.message);
   }
 
+  @Test
+  public void commentsAsList() throws Exception {
+    PushOneCommit.Result r = createChange();
+    CommentInput in = new CommentInput();
+    in.line = 1;
+    in.message = "nit: trailing whitespace";
+    in.path = FILE_NAME;
+    ReviewInput reviewInput = new ReviewInput();
+    Map<String, List<CommentInput>> comments = new HashMap<>();
+    comments.put(FILE_NAME, Collections.singletonList(in));
+    reviewInput.comments = comments;
+    reviewInput.message = "comment test";
+    gApi.changes()
+       .id(r.getChangeId())
+       .current()
+       .review(reviewInput);
+
+    List<CommentInfo> out = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .commentsAsList();
+    assertThat(out).hasSize(1);
+    CommentInfo comment = Iterables.find(out, new Predicate<CommentInfo>() {
+      @Override
+      public boolean apply(CommentInfo input) {
+        return FILE_NAME.equals(input.path);
+      }
+    });
+    assertThat(comment).isNotNull();
+    assertThat(comment.message).isEqualTo(in.message);
+    assertThat(comment.author.email).isEqualTo(admin.email);
+
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .comment(comment.id)
+        .get()
+        .message)
+      .isEqualTo(in.message);
+  }
+
   private void merge(PushOneCommit.Result r) throws Exception {
     revision(r).review(ReviewInput.approve());
     revision(r).submit();

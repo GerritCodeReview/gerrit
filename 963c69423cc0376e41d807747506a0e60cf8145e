@@ -106,6 +106,24 @@
       "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dafaa9_c94c3154",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-05T08:22:31Z",
+      "side": 1,
+      "message": "Because I was (wrongly) believing that dbProvider.get() opens a new connection, always...",
+      "parentUuid": "50d76e7e_0a8d9b03",
+      "revId": "963c69423cc0376e41d807747506a0e60cf8145e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

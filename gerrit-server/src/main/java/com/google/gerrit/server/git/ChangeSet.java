@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 
 @AutoValue
-abstract class ChangeSet {
+public abstract class ChangeSet {
   public static ChangeSet create(Iterable<Change> changes) {
     ImmutableSet.Builder<Branch.NameKey> bb = ImmutableSet.builder();
     ImmutableSet.Builder<Change.Id> ib = ImmutableSet.builder();
@@ -31,8 +31,8 @@ abstract class ChangeSet {
     return new AutoValue_ChangeSet(bb.build(), ib.build());
   }
 
-  abstract ImmutableSet<Branch.NameKey> branches();
-  abstract ImmutableSet<Change.Id> ids();
+  public abstract ImmutableSet<Branch.NameKey> branches();
+  public abstract ImmutableSet<Change.Id> ids();
 
   @Override
   public int hashCode() {

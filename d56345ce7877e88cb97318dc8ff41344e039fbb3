@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3062faee_293e6dde",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:07Z",
+      "side": 1,
+      "message": "Yes, that was a bad rebase. Done.",
+      "parentUuid": "d0527e22_46375212",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 88,
+        "endChar": 20
+      },
+      "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_c5221acf",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-14T01:13:06Z",
       "side": 1,
       "message": "Remove",
+      "range": {
+        "startLine": 100,
+        "startChar": 5,
+        "endLine": 100,
+        "endChar": 11
+      },
+      "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0527e22_e62bde7b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_c5221acf",
       "range": {
         "startLine": 100,
         "startChar": 5,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b04d0a88_451d0a65",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_262c56c6",
+      "range": {
+        "startLine": 106,
+        "startChar": 7,
+        "endLine": 106,
+        "endChar": 19
+      },
+      "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_851c2295",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "3062faee_0943a972",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_851c2295",
+      "range": {
+        "startLine": 201,
+        "startChar": 41,
+        "endLine": 201,
+        "endChar": 47
+      },
+      "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b04d0a88_655da656",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2015-04-14T01:14:28Z",
       "side": 1,
       "message": "and here",
+      "range": {
+        "startLine": 221,
+        "startChar": 41,
+        "endLine": 221,
+        "endChar": 47
+      },
+      "revId": "d56345ce7877e88cb97318dc8ff41344e039fbb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_cb2235cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b04d0a88_655da656",
       "range": {
         "startLine": 221,
         "startChar": 41,

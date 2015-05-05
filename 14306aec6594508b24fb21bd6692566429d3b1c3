@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdfbc532_bed5f93a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T17:26:37Z",
+      "side": 1,
+      "message": "This was the undocumented feature David Pursehouse was talking about? 0 having a special meaning here?",
+      "range": {
+        "startLine": 194,
+        "startChar": 15,
+        "endLine": 194,
+        "endChar": 53
+      },
+      "revId": "14306aec6594508b24fb21bd6692566429d3b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "8de44952_e1ea061d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:39:22Z",
+      "side": 1,
+      "message": "You\u0027re right, my mistake, I didn\u0027t look at the definition of JSON_COMPACT.newGson.",
+      "parentUuid": "ad6aed63_aa3c2fdf",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5481b3_e3e01242",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
         "patchSetId": 4

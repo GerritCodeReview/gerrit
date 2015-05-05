@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
@@ -169,6 +170,12 @@ public class PatchSetInserter {
   public PatchSet.Id getPatchSetId() throws IOException {
     init();
     return patchSet.getId();
+  }
+
+  public PatchSet getPatchSet() {
+    checkState(patchSet != null,
+        "getPatchSet() only valid after patch set is created");
+    return patchSet;
   }
 
   public PatchSetInserter setMessage(String message) throws OrmException {

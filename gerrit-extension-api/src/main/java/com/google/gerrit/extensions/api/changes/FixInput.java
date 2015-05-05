@@ -16,4 +16,6 @@ package com.google.gerrit.extensions.api.changes;
 
 public class FixInput {
   public boolean deletePatchSetIfCommitMissing;
+
+  public String expectMergedAs;
 }

@@ -17,10 +17,12 @@ package com.google.gerrit.server.change;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
@@ -28,13 +30,18 @@ import com.google.gerrit.extensions.common.ProblemInfo.Status;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -60,6 +67,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Checks changes for various kinds of inconsistency and corruption.
@@ -93,7 +101,9 @@ public class ConsistencyChecker {
   private final GitRepositoryManager repoManager;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
 
   private FixInput fix;
   private Change change;
@@ -112,12 +122,16 @@ public class ConsistencyChecker {
       GitRepositoryManager repoManager,
       Provider<CurrentUser> user,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      PatchSetInfoFactory patchSetInfoFactory) {
+      ChangeControl.GenericFactory changeControlFactory,
+      PatchSetInfoFactory patchSetInfoFactory,
+      PatchSetInserter.Factory patchSetInserterFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.user = user;
     this.serverIdent = serverIdent;
+    this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.patchSetInserterFactory = patchSetInserterFactory;
     reset();
   }
 
@@ -313,15 +327,20 @@ public class ConsistencyChecker {
     if (tip == null) {
       return;
     }
-    boolean merged;
-    try {
-      merged = rw.isMergedInto(currPsCommit, tip);
-    } catch (IOException e) {
-      problem("Error checking whether patch set " + currPs.getId().get()
-          + " is merged");
-      return;
+
+    if (fix != null && fix.expectMergedAs != null) {
+      checkExpectMergedAs();
+    } else {
+      boolean merged;
+      try {
+        merged = rw.isMergedInto(currPsCommit, tip);
+      } catch (IOException e) {
+        problem("Error checking whether patch set " + currPs.getId().get()
+            + " is merged");
+        return;
+      }
+      checkMergedBitMatchesStatus(currPs, currPsCommit, merged);
     }
-    checkMergedBitMatchesStatus(currPs, currPsCommit, merged);
   }
 
   private void checkMergedBitMatchesStatus(PatchSet ps, RevCommit commit,
@@ -340,6 +359,104 @@ public class ConsistencyChecker {
             + " destination ref %s (%s), but change status is %s",
             currPs.getId().get(), commit.name(), refName, tip.name(),
             change.getStatus()));
+    }
+  }
+
+  private void checkExpectMergedAs() {
+    ObjectId objId = parseObjectId(fix.expectMergedAs, "expected merge commit");
+    RevCommit commit = parseCommit(objId, "expected merged commit");
+    if (commit == null) {
+      return;
+    }
+    if (Objects.equals(commit, currPsCommit)) {
+      // Caller gave us latest patch set SHA-1; verified in checkPatchSets.
+      return;
+    }
+
+    try {
+      if (!rw.isMergedInto(commit, tip)) {
+        problem(String.format("Expected merged commit %s is not merged into"
+              + " destination ref %s (%s)",
+              commit.name(), change.getDest().get(), tip.name()));
+        return;
+      }
+
+      RevId revId = new RevId(commit.name());
+      List<PatchSet> patchSets = db.get().patchSets().byRevision(revId).toList();
+      switch (patchSets.size()) {
+        case 0:
+          // No patch set for this commit; insert one.
+          rw.parseBody(commit);
+          String changeId = Iterables.getFirst(
+              commit.getFooterLines(FooterConstants.CHANGE_ID), null);
+          // Missing Change-Id footer is ok, but mismatched is not.
+          if (changeId != null && !changeId.equals(change.getKey().get())) {
+            problem(String.format("Expected merge commit %s has Change-Id: %s,"
+                  + " but expected %s",
+                  commit.name(), changeId, change.getKey().get()));
+            return;
+          }
+          PatchSet ps = insertPatchSet(commit);
+          if (ps != null) {
+            checkMergedBitMatchesStatus(ps, commit, true);
+          }
+          break;
+
+        case 1:
+          // Existing patch set of this commit; check that it is the current
+          // patch set.
+          // TODO(dborowitz): This could be fixed if it's an older patch set of
+          // the current change.
+          PatchSet.Id id = patchSets.get(0).getId();
+          if (!id.getParentKey().equals(change.getId())) {
+            problem(String.format("Expected merge commit %s corresponds to"
+                  + " patch set %s, which is not the current patch set %s",
+                  commit.name(), id, change.currentPatchSetId()));
+          }
+          break;
+
+        default:
+          problem(String.format(
+                "Multiple patch sets for expected merged commit %s: %s",
+                commit.name(), patchSets));
+          break;
+      }
+    } catch (OrmException | IOException e) {
+      error("Error looking up expected merge commit " + fix.expectMergedAs,
+          e);
+    }
+  }
+
+  private PatchSet insertPatchSet(RevCommit commit) {
+    ProblemInfo p = new ProblemInfo();
+    p.message = "No patch set found for merged commit " + commit.name();
+    if (!user.get().isIdentifiedUser()) {
+      p.status = Status.FIX_FAILED;
+      p.outcome =
+          "Must be called by an identified user to insert new patch set";
+      return null;
+    }
+
+    try {
+      ChangeControl ctl = changeControlFactory.controlFor(change, user.get());
+      PatchSetInserter inserter =
+          patchSetInserterFactory.create(repo, rw, ctl, commit);
+      change = inserter.setValidatePolicy(ValidatePolicy.NONE)
+          .setRunHooks(false)
+          .setSendMail(false)
+          .setUploader(((IdentifiedUser) user).getAccountId())
+          .setMessage(
+              "Patch set for merged commit inserted by consistency checker")
+          .insert();
+      p.status = Status.FIXED;
+      p.outcome = "Inserted as patch set " + change.currentPatchSetId().get();
+      return inserter.getPatchSet();
+    } catch (InvalidChangeOperationException | OrmException | IOException
+        | NoSuchChangeException e) {
+      warn(e);
+      p.status = Status.FIX_FAILED;
+      p.outcome = "Error inserting new patch set";
+      return null;
     }
   }
 
@@ -496,7 +613,11 @@ public class ConsistencyChecker {
   private boolean error(String msg, Throwable t) {
     problem(msg);
     // TODO(dborowitz): Expose stack trace to administrators.
-    log.warn("Error in consistency check of change " + change.getId(), t);
+    warn(t);
     return false;
+  }
+
+  private void warn(Throwable t) {
+    log.warn("Error in consistency check of change " + change.getId(), t);
   }
 }

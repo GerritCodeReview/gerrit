@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d146132_59e60332",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T21:26:17Z",
+      "side": 1,
+      "message": "This still doesn\u0027t quite work, as the compiler still complains about missing visibility. How do I mark this as a \u0027Test\u0027 for the @VisibleForTesting attribute?",
+      "range": {
+        "startLine": 41,
+        "startChar": 35,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

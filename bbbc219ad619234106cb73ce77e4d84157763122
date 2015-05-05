@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90aba6ef_2cf4f3d0",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchScript.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-05T04:39:04Z",
+      "side": 1,
+      "message": "Make these transient. IIRC this is still sent to the browser for the old UI?",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "bbbc219ad619234106cb73ce77e4d84157763122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90aba6ef_ecd94b72",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-05T04:39:04Z",
+      "side": 1,
+      "message": "coding standard is \"public transient\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "bbbc219ad619234106cb73ce77e4d84157763122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a63229_6beee104",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-05T04:39:04Z",
+      "side": 1,
+      "message": "public transient",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "bbbc219ad619234106cb73ce77e4d84157763122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90aba6ef_ccde0f58",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-05T04:39:04Z",
+      "side": 1,
+      "message": "I think the commitId belongs inside FileMeta. E.g. the path is name here.",
+      "revId": "bbbc219ad619234106cb73ce77e4d84157763122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a63229_0bf11de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-05T04:39:04Z",
+      "side": 1,
+      "message": "other parts of this code assume aId could be null. I wonder if that is true. If it is we can\u0027t just call getName() here.",
+      "range": {
+        "startLine": 218,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 21
+      },
+      "revId": "bbbc219ad619234106cb73ce77e4d84157763122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30166401_f4c2b85f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:37:50Z",
+      "side": 1,
+      "message": "Copied from old code, but sure. (Martin has told me he prefers this style; to each his own. But I agree with you here :)",
+      "parentUuid": "30166401_545d6c34",
+      "range": {
+        "startLine": 164,
+        "startChar": 23,
+        "endLine": 165,
+        "endChar": 72
+      },
+      "revId": "e268fa531bbecb2d38086ab658cc5aee743af615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30166401_746068f0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "701c5c1f_f67480c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:37:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_746068f0",
+      "range": {
+        "startLine": 259,
+        "startChar": 21,
+        "endLine": 261,
+        "endChar": 55
+      },
+      "revId": "e268fa531bbecb2d38086ab658cc5aee743af615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30166401_1463f4fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2014-10-17T18:09:37Z",
       "side": 1,
       "message": "e \u003d\u003d null",
+      "range": {
+        "startLine": 274,
+        "startChar": 10,
+        "endLine": 274,
+        "endChar": 21
+      },
+      "revId": "e268fa531bbecb2d38086ab658cc5aee743af615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_14aad492",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:37:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_1463f4fe",
       "range": {
         "startLine": 274,
         "startChar": 10,

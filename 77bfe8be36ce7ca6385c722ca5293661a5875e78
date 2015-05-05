@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d146132_196bebee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T23:20:56Z",
+      "side": 1,
+      "message": "Would it make sense to pass the PatchSet and psNum into the new method? (I haven\u0027t looked at the later changes)",
+      "range": {
+        "startLine": 244,
+        "startChar": 24,
+        "endLine": 244,
+        "endChar": 46
+      },
+      "revId": "77bfe8be36ce7ca6385c722ca5293661a5875e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -190,7 +190,8 @@ public class GerritServer {
     cfg.setBoolean("sshd", null, "testUseInsecureRandom", true);
     cfg.setString("cache", null, "directory", null);
     cfg.setString("gerrit", null, "basePath", "git");
-    cfg.setBoolean("sendemail", null, "enable", false);
+    cfg.setBoolean("sendemail", null, "enable", true);
+    cfg.setInt("sendemail", null, "threadPoolSize", 0);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
 

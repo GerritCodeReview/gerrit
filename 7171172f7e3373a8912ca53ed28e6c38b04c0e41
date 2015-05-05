@@ -22,6 +22,30 @@
       "revId": "7171172f7e3373a8912ca53ed28e6c38b04c0e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdfbc532_fef4a1d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T17:34:08Z",
+      "side": 1,
+      "message": "For debugging. It is not an improvement, it generates an extra garbage list. Reverted.",
+      "parentUuid": "cdfbc532_5ee6f531",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 25
+      },
+      "revId": "7171172f7e3373a8912ca53ed28e6c38b04c0e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

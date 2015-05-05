@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90aba6ef_acdf4356",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-05-05T01:34:41Z",
+      "side": 1,
+      "message": "I asked about this privately (since \"comprehensive ___ solution\" makes me think of salespeople and makes it hard for me to think) and learned:\n\n* this is about making it easier to make a read access audit log using the AuditListener interface\n* on REST calls, onAuditableAction is called but parsing out which commits were being diffed from the ExtendedHttpAuditEvent is fussy\n* in some code path, we can get a DiffInfo from the ExtendedHttpAuditEvent, and it would then be useful for the (in-memory, unserialized) DiffInfo to remember the commits being diffed.\n\nCan you flesh out the above for me? That is, I\u0027m more interested in how the new fields would be used (the \"why\") than how they get populated (the \"how\"), since I can learn the latter by reading the patch.",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "b9f32a144eba583706c2d80543385cf6673c007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,13 +1,13 @@
 include_defs('//lib/maven.defs')
 
 REPO = MAVEN_CENTRAL # Leave here even if set to MAVEN_CENTRAL.
-VERS = '3.7.1.201504261725-r'
+VERS = '4.0.0.201505050340-m2'
 
 maven_jar(
   name = 'jgit',
   id = 'org.eclipse.jgit:org.eclipse.jgit:' + VERS,
-  bin_sha1 = '28bae05826c1a34381826fb1d9ea5fd0ec47cc67',
-  src_sha1 = 'ef46620a8981d49eef2b27090ada4ca80a2b9766',
+  bin_sha1 = '1cc3120d39ed2b55584e631634e65c5d2e6c1cf7',
+  src_sha1 = '425f578cc9d5ccb8f3b050a5ab1e2d7a0becb25d',
   license = 'jgit',
   repository = REPO,
   unsign = True,
@@ -22,7 +22,7 @@ maven_jar(
 maven_jar(
   name = 'jgit-servlet',
   id = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + VERS,
-  sha1 = '874137fe9417c23cd0225ee6b86a13366b58b16e',
+  sha1 = '2a9f55d1d92afef795542b995db6ab261007857f',
   license = 'jgit',
   repository = REPO,
   deps = [':jgit'],
@@ -36,7 +36,7 @@ maven_jar(
 maven_jar(
   name = 'jgit-archive',
   id = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + VERS,
-  sha1 = '8aab2d5d8deeaa8345d6df456de215b3d973c4b2',
+  sha1 = 'ee3954753067818f8f734981a01c13ac33425f2c',
   license = 'jgit',
   repository = REPO,
   deps = [':jgit',
@@ -53,7 +53,7 @@ maven_jar(
 maven_jar(
   name = 'junit',
   id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,
-  sha1 = '7ab2c3f5f40d07c84e7305b0fd60a8006257639c',
+  sha1 = '6cc19f8f0a1791e26d4225625ecba6a31d9b830e',
   license = 'DO_NOT_DISTRIBUTE',
   repository = REPO,
   unsign = True,

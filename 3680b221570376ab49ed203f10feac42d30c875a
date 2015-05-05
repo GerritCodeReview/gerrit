@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad4db187_65b8060a",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-05-05T23:54:24Z",
+      "side": 1,
+      "message": "Why are html files showing up in the Documentation directory? I thought buck liked to write to buck-out/.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "3680b221570376ab49ed203f10feac42d30c875a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

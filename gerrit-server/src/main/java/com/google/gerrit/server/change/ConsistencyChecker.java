@@ -101,6 +101,8 @@ public class ConsistencyChecker {
   private Repository repo;
   private RevWalk rw;
 
+  private RevCommit tip;
+  private Multimap<ObjectId, PatchSet> patchSetsBySha;
   private PatchSet currPs;
   private RevCommit currPsCommit;
 
@@ -221,7 +223,7 @@ public class ConsistencyChecker {
     // Iterate in descending order so deletePatchSet can assume the latest patch
     // set exists.
     Collections.sort(all, PS_ID_ORDER.reverse());
-    Multimap<ObjectId, PatchSet> bySha = MultimapBuilder.hashKeys(all.size())
+    patchSetsBySha = MultimapBuilder.hashKeys(all.size())
         .treeSetValues(PS_ID_ORDER)
         .build();
     for (PatchSet ps : all) {
@@ -237,7 +239,7 @@ public class ConsistencyChecker {
             e);
         continue;
       }
-      bySha.put(objId, ps);
+      patchSetsBySha.put(objId, ps);
 
       // Check ref existence.
       ProblemInfo refProblem = null;
@@ -276,7 +278,7 @@ public class ConsistencyChecker {
 
     // Check for duplicates.
     for (Map.Entry<ObjectId, Collection<PatchSet>> e
-        : bySha.asMap().entrySet()) {
+        : patchSetsBySha.asMap().entrySet()) {
       if (e.getValue().size() > 1) {
         problem(String.format("Multiple patch sets pointing to %s: %s",
             e.getKey().name(),
@@ -300,7 +302,7 @@ public class ConsistencyChecker {
       problem("Destination ref not found (may be new branch): " + refName);
       return;
     }
-    RevCommit tip = parseCommit(dest.getObjectId(),
+    tip = parseCommit(dest.getObjectId(),
         "destination ref " + refName);
     if (tip == null) {
       return;

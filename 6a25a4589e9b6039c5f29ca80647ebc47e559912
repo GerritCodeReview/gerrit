@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "0dc5b95c_55514c23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4de091af_0f3865ea",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d344908_e1f60604",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 2

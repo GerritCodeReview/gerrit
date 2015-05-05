@@ -117,7 +117,7 @@ public abstract class VersionedMetaData {
       revision = id != null ? new RevWalk(reader).parseCommit(id) : null;
       onLoad();
     } finally {
-      reader.release();
+      reader.close();
       reader = null;
     }
   }
@@ -299,12 +299,12 @@ public abstract class VersionedMetaData {
         newTree = null;
 
         if (inserter != null) {
-          inserter.release();
+          inserter.close();
           inserter = null;
         }
 
         if (reader != null) {
-          reader.release();
+          reader.close();
           reader = null;
         }
       }

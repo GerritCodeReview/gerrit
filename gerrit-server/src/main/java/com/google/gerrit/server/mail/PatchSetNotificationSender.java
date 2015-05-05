@@ -94,7 +94,7 @@ public class PatchSetNotificationSender {
         commit = revWalk.parseCommit(ObjectId.fromString(
             updatedPatchSet.getRevision().get()));
       } finally {
-        revWalk.release();
+        revWalk.close();
       }
       final PatchSetInfo info = patchSetInfoFactory.get(commit, updatedPatchSet.getId());
       final List<FooterLine> footerLines = commit.getFooterLines();

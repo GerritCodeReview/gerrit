@@ -165,7 +165,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       return new PatchList(a, b, againstParent,
           entries.toArray(new PatchListEntry[entries.size()]));
     } finally {
-      reader.release();
+      reader.close();
     }
   }
 
@@ -281,7 +281,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         }
 
         @Override
-        public void release() {
+        public void close() {
         }
       });
 
@@ -381,7 +381,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       }
       ins.flush();
     } finally {
-      ins.release();
+      ins.close();
     }
 
     if (save) {
@@ -400,7 +400,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       oi.flush();
       return id;
     } finally {
-      oi.release();
+      oi.close();
     }
   }
 }

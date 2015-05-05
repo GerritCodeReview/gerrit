@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "50d76e7e_eae92780",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-05T11:57:32Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/67618",
+      "parentUuid": "30b11a58_d142246d",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "99c47843bc3ec1628ddfe0a06fdbbb59b7c469cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_6a26d7b3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.ui.xml",
         "patchSetId": 8

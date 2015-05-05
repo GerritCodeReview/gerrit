@@ -238,15 +238,11 @@ public class ConsistencyChecker {
         .build();
     for (PatchSet ps : all) {
       // Check revision format.
-      ObjectId objId;
-      String rev = ps.getRevision().get();
       int psNum = ps.getId().get();
       String refName = ps.getId().toRefName();
-      try {
-        objId = ObjectId.fromString(rev);
-      } catch (IllegalArgumentException e) {
-        error(String.format("Invalid revision on patch set %d: %s", psNum, rev),
-            e);
+      ObjectId objId =
+          parseObjectId(ps.getRevision().get(), "patch set " + psNum);
+      if (objId == null) {
         continue;
       }
       patchSetsBySha.put(objId, ps);
@@ -455,6 +451,15 @@ public class ConsistencyChecker {
       return ((IdentifiedUser) u).newRefLogIdent();
     } else {
       return serverIdent.get();
+    }
+  }
+
+  private ObjectId parseObjectId(String objIdStr, String desc) {
+    try {
+      return ObjectId.fromString(objIdStr);
+    } catch (IllegalArgumentException e) {
+      problem(String.format("Invalid revision on %s: %s", desc, objIdStr));
+      return null;
     }
   }
 

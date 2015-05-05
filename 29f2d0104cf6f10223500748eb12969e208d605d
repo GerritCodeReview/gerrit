@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_aef0d7aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T00:04:53Z",
+      "side": 1,
+      "message": "Maybe we can do something similar as github does?\nhttp://comments.gmane.org/gmane.comp.version-control.git/268137\n\nWe just throw a congestedException here (so the caller knows something is not working as intended. And in the caller (Submit.java) we\u0027ll just retry a few times when a congested exception pops up until a time out is reached and then we just tell the user to let the admin investigate the underlying problem.",
+      "parentUuid": "30b11a58_b1e960b3",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_7126d8b3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21

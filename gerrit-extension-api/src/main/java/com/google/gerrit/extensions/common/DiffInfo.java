@@ -42,6 +42,8 @@ public class DiffInfo {
   }
 
   public static class FileMeta {
+    // The ID of the commit containing the file
+    public transient String commitId;
     // The name of the file
     public String name;
     // The content type of the file

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d0b1d19_981db591",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T23:20:38Z",
+      "side": 1,
+      "message": "checkMergedBitMatchesStatus here too.",
+      "revId": "85b970f8063d9ca119d46c0c0e1ae012ec16a736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_b82079c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T23:20:38Z",
+      "side": 1,
+      "message": "Need a TODO or something to add use the committer identity anyway. Resolving that to a user account is a little nontrivial.",
+      "revId": "85b970f8063d9ca119d46c0c0e1ae012ec16a736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

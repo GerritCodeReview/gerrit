@@ -667,6 +667,30 @@
     },
     {
       "key": {
+        "uuid": "cdfbc532_dec8c5a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T17:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_d1750478",
+      "range": {
+        "startLine": 196,
+        "startChar": 12,
+        "endLine": 196,
+        "endChar": 34
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_2ea347ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
         "patchSetId": 21
@@ -678,6 +702,24 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "This comment makes very little sense if you don\u0027t understand the whole context of ChangeMergeQueue, MergeOp, and MergeOpMapper. Either expand it enough that it is at least a little self-contained, or drop it.",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2deb8164_01fecaaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T17:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a19e0d_2ea347ae",
       "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -730,6 +772,54 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_ce160347",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T17:39:08Z",
+      "side": 1,
+      "message": "Maybe ChangeSetMergeOp, and rename MergeOp to BranchMergeOp,\nas they are essentially doing the same except on another layer of abstraction?",
+      "parentUuid": "30b11a58_f1cc886c",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_ee113f51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T17:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a19e0d_0ea00b9e",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_b1c20037",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
         "patchSetId": 21
@@ -753,6 +843,30 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_8e1cfb6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T17:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_b1c20037",
+      "range": {
+        "startLine": 52,
+        "startChar": 30,
+        "endLine": 52,
+        "endChar": 52
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_d1d18400",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
         "patchSetId": 21
@@ -764,6 +878,30 @@
       "writtenOn": "2015-05-04T21:57:38Z",
       "side": 1,
       "message": "Is there any reason this has to go in the constructor?\n\nWhy not just pass the change set into merge()? Then you don\u0027t even have to go creating a new instance each time in ChangeMergeQueue.",
+      "range": {
+        "startLine": 63,
+        "startChar": 33,
+        "endLine": 63,
+        "endChar": 67
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdfbc532_1ec74d98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T17:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_d1d18400",
       "range": {
         "startLine": 63,
         "startChar": 33,

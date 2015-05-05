@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.change;
+package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
@@ -22,82 +22,47 @@ import static java.util.Collections.singleton;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
-import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.testutil.FakeAccountByEmailCache;
-import com.google.gerrit.testutil.InMemoryDatabase;
-import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.testutil.TestChanges;
-import com.google.inject.util.Providers;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-public class ConsistencyCheckerTest {
-  private LifecycleManager lifecycle;
-  private InMemoryDatabase schemaFactory;
-  private ReviewDb db;
-  private InMemoryRepositoryManager repoManager;
-  private ConsistencyChecker checker;
+@NoHttpd
+public class ConsistencyCheckerIT extends AbstractDaemonTest {
+  @Inject
+  private Provider<ConsistencyChecker> checkerProvider;
 
-  private TestRepository<InMemoryRepository> repo;
-  private Project.NameKey project;
-  private Account.Id userId;
   private RevCommit tip;
+  private Account.Id adminId;
+  private ConsistencyChecker checker;
 
   @Before
   public void setUp() throws Exception {
-    FakeAccountByEmailCache accountCache = new FakeAccountByEmailCache();
-    lifecycle = new LifecycleManager();
-    schemaFactory = InMemoryDatabase.newDatabase(lifecycle);
-    lifecycle.start();
-    schemaFactory.create();
-    db = schemaFactory.open();
-    repoManager = new InMemoryRepositoryManager();
-    checker = new ConsistencyChecker(
-        Providers.<ReviewDb> of(db),
-        repoManager,
-        Providers.<CurrentUser> of(new InternalUser(null)),
-        Providers.of(new PersonIdent("server", "noreply@example.com")),
-        new PatchSetInfoFactory(repoManager, accountCache));
-    project = new Project.NameKey("repo");
-    repo = new TestRepository<>(repoManager.createRepository(project));
-    userId = new Account.Id(1);
-    accountCache.putAny(userId);
-    db.accounts().insert(singleton(new Account(userId, TimeUtil.nowTs())));
-    tip = repo.branch("master").commit().create();
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    if (db != null) {
-      db.close();
-    }
-    if (lifecycle != null) {
-      lifecycle.stop();
-    }
-    if (schemaFactory != null) {
-      InMemoryDatabase.drop(schemaFactory);
-    }
+    // Ignore client clone of project; repurpose as server-side TestRepository.
+    testRepo = new TestRepository<>(
+        (InMemoryRepository) repoManager.openRepository(project));
+    tip = testRepo.getRevWalk().parseCommit(
+        testRepo.getRepository().getRef("HEAD").getObjectId());
+    adminId = admin.getId();
+    checker = checkerProvider.get();
   }
 
   @Test
@@ -117,12 +82,12 @@ public class ConsistencyCheckerTest {
     incrementPatchSet(c);
 
     incrementPatchSet(c);
-    RevCommit commit2 = repo.branch(c.currentPatchSetId().toRefName()).commit()
+    RevCommit commit2 = testRepo.branch(c.currentPatchSetId().toRefName()).commit()
         .parent(tip).create();
-    PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit2, userId);
+    PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit2, adminId);
     db.patchSets().insert(singleton(ps2));
 
-    repo.branch(c.getDest().get()).update(commit2);
+    testRepo.branch(c.getDest().get()).update(commit2);
     assertProblems(c);
   }
 
@@ -130,9 +95,9 @@ public class ConsistencyCheckerTest {
   public void missingOwner() throws Exception {
     Change c = newChange(project, new Account.Id(2));
     db.changes().insert(singleton(c));
-    RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
+    RevCommit commit = testRepo.branch(c.currentPatchSetId().toRefName()).commit()
         .parent(tip).create();
-    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, adminId);
     db.patchSets().insert(singleton(ps));
 
     assertProblems(c, "Missing change owner: 2");
@@ -140,7 +105,7 @@ public class ConsistencyCheckerTest {
 
   @Test
   public void missingRepo() throws Exception {
-    Change c = newChange(new Project.NameKey("otherproject"), userId);
+    Change c = newChange(new Project.NameKey("otherproject"), adminId);
     db.changes().insert(singleton(c));
     insertMissingPatchSet(c, "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
     assertProblems(c, "Destination repository not found: otherproject");
@@ -151,7 +116,7 @@ public class ConsistencyCheckerTest {
     Change c = insertChange();
 
     db.patchSets().insert(singleton(newPatchSet(c.currentPatchSetId(),
-            "fooooooooooooooooooooooooooooooooooooooo", userId)));
+            "fooooooooooooooooooooooooooooooooooooooo", adminId)));
     incrementPatchSet(c);
     insertPatchSet(c);
 
@@ -167,7 +132,7 @@ public class ConsistencyCheckerTest {
   public void patchSetObjectAndRefMissing() throws Exception {
     Change c = insertChange();
     PatchSet ps = newPatchSet(c.currentPatchSetId(),
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), userId);
+        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), adminId);
     db.patchSets().insert(singleton(ps));
 
     assertProblems(c,
@@ -179,7 +144,7 @@ public class ConsistencyCheckerTest {
   public void patchSetObjectAndRefMissingWithFix() throws Exception {
     Change c = insertChange();
     PatchSet ps = newPatchSet(c.currentPatchSetId(),
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), userId);
+        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), adminId);
     db.patchSets().insert(singleton(ps));
 
     String refName = ps.getId().toRefName();
@@ -194,7 +159,7 @@ public class ConsistencyCheckerTest {
     Change c = insertChange();
     PatchSet ps = insertPatchSet(c);
     String refName = ps.getId().toRefName();
-    repo.update("refs/other/foo", ObjectId.fromString(ps.getRevision().get()));
+    testRepo.update("refs/other/foo", ObjectId.fromString(ps.getRevision().get()));
     deleteRef(refName);
 
     assertProblems(c, "Ref missing: " + refName);
@@ -205,7 +170,7 @@ public class ConsistencyCheckerTest {
     Change c = insertChange();
     PatchSet ps = insertPatchSet(c);
     String refName = ps.getId().toRefName();
-    repo.update("refs/other/foo", ObjectId.fromString(ps.getRevision().get()));
+    testRepo.update("refs/other/foo", ObjectId.fromString(ps.getRevision().get()));
     deleteRef(refName);
 
     List<ProblemInfo> problems = checker.check(c, new FixInput()).problems();
@@ -214,7 +179,7 @@ public class ConsistencyCheckerTest {
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Repaired patch set ref");
 
-    assertThat(repo.getRepository().getRef(refName).getObjectId().name())
+    assertThat(testRepo.getRepository().getRef(refName).getObjectId().name())
         .isEqualTo(ps.getRevision().get());
   }
 
@@ -343,12 +308,14 @@ public class ConsistencyCheckerTest {
   @Test
   public void missingDestRef() throws Exception {
     String ref = "refs/heads/master";
-    RefUpdate ru = repo.getRepository().updateRef(ref);
+    // Detach head so we're allowed to delete ref.
+    testRepo.reset(testRepo.getRepository().getRef(ref).getObjectId());
+    RefUpdate ru = testRepo.getRepository().updateRef(ref);
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
     Change c = insertChange();
-    RevCommit commit = repo.commit().create();
-    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
+    RevCommit commit = testRepo.commit().create();
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, adminId);
     updatePatchSetRef(ps);
     db.patchSets().insert(singleton(ps));
 
@@ -371,11 +338,11 @@ public class ConsistencyCheckerTest {
   @Test
   public void newChangeIsMerged() throws Exception {
     Change c = insertChange();
-    RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
+    RevCommit commit = testRepo.branch(c.currentPatchSetId().toRefName()).commit()
         .parent(tip).create();
-    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, adminId);
     db.patchSets().insert(singleton(ps));
-    repo.branch(c.getDest().get()).update(commit);
+    testRepo.branch(c.getDest().get()).update(commit);
 
     assertProblems(c,
         "Patch set 1 (" + commit.name() + ") is merged into destination ref"
@@ -386,11 +353,11 @@ public class ConsistencyCheckerTest {
   @Test
   public void newChangeIsMergedWithFix() throws Exception {
     Change c = insertChange();
-    RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
+    RevCommit commit = testRepo.branch(c.currentPatchSetId().toRefName()).commit()
         .parent(tip).create();
-    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, adminId);
     db.patchSets().insert(singleton(ps));
-    repo.branch(c.getDest().get()).update(commit);
+    testRepo.branch(c.getDest().get()).update(commit);
 
     List<ProblemInfo> problems = checker.check(c, new FixInput()).problems();
     assertThat(problems).hasSize(1);
@@ -408,7 +375,7 @@ public class ConsistencyCheckerTest {
   }
 
   private Change insertChange() throws Exception {
-    Change c = newChange(project, userId);
+    Change c = newChange(project, adminId);
     db.changes().insert(singleton(c));
     return c;
   }
@@ -420,9 +387,9 @@ public class ConsistencyCheckerTest {
 
   private PatchSet insertPatchSet(Change c) throws Exception {
     db.changes().upsert(singleton(c));
-    RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
+    RevCommit commit = testRepo.branch(c.currentPatchSetId().toRefName()).commit()
         .parent(tip).create();
-    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, adminId);
     updatePatchSetRef(ps);
     db.patchSets().insert(singleton(ps));
     return ps;
@@ -430,18 +397,18 @@ public class ConsistencyCheckerTest {
 
   private PatchSet insertMissingPatchSet(Change c, String id) throws Exception {
     PatchSet ps = newPatchSet(c.currentPatchSetId(),
-        ObjectId.fromString(id), userId);
+        ObjectId.fromString(id), adminId);
     db.patchSets().insert(singleton(ps));
     return ps;
   }
 
   private void updatePatchSetRef(PatchSet ps) throws Exception {
-    repo.update(ps.getId().toRefName(),
+    testRepo.update(ps.getId().toRefName(),
         ObjectId.fromString(ps.getRevision().get()));
   }
 
   private void deleteRef(String refName) throws Exception {
-    RefUpdate ru = repo.getRepository().updateRef(refName, true);
+    RefUpdate ru = testRepo.getRepository().updateRef(refName, true);
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
   }

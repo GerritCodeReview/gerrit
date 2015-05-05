@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50d76e7e_aabe0f45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-05T15:07:18Z",
+      "side": 1,
+      "message": "That\u0027s a bit confusing here, because the 3.7.1.201504261725-r was already official version. The problem this commit is solving is that snapshot version of JGit built from master was used in 2.10.3.1 and replacing it with JGit built from stable-3.7 branch for 2.10.4 would mean the downgrade.",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "a9e7dfddac9385d4eb35ddffa65e8992a751770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

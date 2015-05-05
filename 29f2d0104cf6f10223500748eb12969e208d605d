@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_3190d019",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:10:30Z",
+      "side": 1,
+      "message": "Are we talking about the caller or the end user?\n\nThe end user already knows that something is wrong, because the client code always sets waitForMerge \u003d true, so any time clicking the submit button results in the change not being merged, it\u0027s because submit has failed. We don\u0027t know if it\u0027s because of congestion or some other error, but the user certainly knows something is wrong.\n\nIt sounds like what you\u0027re talking about here is a substantial change in how the user observes the merge queue, possibly exposing a lot more of the internal details of what\u0027s going on. That is something we can consider, but is getting way off-topic for this change.",
+      "parentUuid": "d0a19e0d_aef0d7aa",
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_7126d8b3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 21

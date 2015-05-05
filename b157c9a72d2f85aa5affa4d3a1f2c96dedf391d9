@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d03267f0_8c03272e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:36:23Z",
+      "side": 1,
+      "message": "Refactoring by definition does not change behavior. The primary purpose of this change is to change behavior, and the refactoring is a byproduct.\n\nAlso, no trailing \u0027.\u0027 in the summary line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "b157c9a72d2f85aa5affa4d3a1f2c96dedf391d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_6c223bc7",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:36:23Z",
+      "side": 1,
+      "message": "I think \"static_html\" would be a better name. It just happens that right now the only non-static piece of the documentation is the search box.",
+      "revId": "b157c9a72d2f85aa5affa4d3a1f2c96dedf391d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

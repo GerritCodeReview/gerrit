@@ -321,10 +321,16 @@ public class ConsistencyChecker {
           + " is merged");
       return;
     }
+    checkMergedBitMatchesStatus(currPs, currPsCommit, merged);
+  }
+
+  private void checkMergedBitMatchesStatus(PatchSet ps, RevCommit commit,
+      boolean merged) {
+    String refName = change.getDest().get();
     if (merged && change.getStatus() != Change.Status.MERGED) {
       ProblemInfo p = problem(String.format(
           "Patch set %d (%s) is merged into destination ref %s (%s), but change"
-          + " status is %s", currPs.getId().get(), currPsCommit.name(),
+          + " status is %s", ps.getId().get(), commit.name(),
           refName, tip.name(), change.getStatus()));
       if (fix != null) {
         fixMerged(p);
@@ -332,7 +338,7 @@ public class ConsistencyChecker {
     } else if (!merged && change.getStatus() == Change.Status.MERGED) {
       problem(String.format("Patch set %d (%s) is not merged into"
             + " destination ref %s (%s), but change status is %s",
-            currPs.getId().get(), currPsCommit.name(), refName, tip.name(),
+            currPs.getId().get(), commit.name(), refName, tip.name(),
             change.getStatus()));
     }
   }

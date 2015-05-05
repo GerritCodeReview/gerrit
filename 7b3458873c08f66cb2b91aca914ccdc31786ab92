@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d146132_991dbb91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T23:17:09Z",
+      "side": 1,
+      "message": "Why do you want to do this?",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "7b3458873c08f66cb2b91aca914ccdc31786ab92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

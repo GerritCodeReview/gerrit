@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d0b1d19_d8f1ede2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T21:30:26Z",
+      "side": 1,
+      "message": "Must extend AbstractDaemonTest.",
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_19e08b10",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T21:30:26Z",
+      "side": 1,
+      "message": "You can\u0027t @Inject test constructors. AbstractDaemonTest calls injector.injectMembers(this) to inject any fields annotated with @Inject. If there is not something you need in the base class, you can add it in this class, and it should just work.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_f8f4b1d4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T21:30:26Z",
+      "side": 1,
+      "message": "I think this can just be EasyMock.createStrictMock(ChangeSetMerger.class).",
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_b9ee3f01",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T21:30:26Z",
+      "side": 1,
+      "message": "If you\u0027re going to use actual mocks, you don\u0027t need to extract an interface. Mocking libraries are magic like that.\n\nIf you want to use a more realistic fake or a delegating wrapper, that\u0027s when you would need an interface.",
+      "range": {
+        "startLine": 40,
+        "startChar": 48,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d146132_59e60332",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
         "patchSetId": 1
@@ -18,6 +98,53 @@
         "startChar": 35,
         "endLine": 41,
         "endChar": 50
+      },
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_f9f4b7d4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T21:30:26Z",
+      "side": 1,
+      "message": "@VisibleForTesting has no actual behavior. Just change the actual visibility.",
+      "parentUuid": "2d146132_59e60332",
+      "range": {
+        "startLine": 41,
+        "startChar": 35,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_d9f1f3e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MergeRacingIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T21:30:26Z",
+      "side": 1,
+      "message": "Don\u0027t downcast, just @Inject ChangeMergeQueue directly.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 34
       },
       "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -22,6 +22,30 @@
       "revId": "e9ea04532c87bcfe5235c3a44f5a9dc443e61f11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2deb8164_610fd668",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T17:37:02Z",
+      "side": 1,
+      "message": "Rebase fail.",
+      "parentUuid": "cdfbc532_beee1901",
+      "range": {
+        "startLine": 256,
+        "startChar": 3,
+        "endLine": 259,
+        "endChar": 25
+      },
+      "revId": "e9ea04532c87bcfe5235c3a44f5a9dc443e61f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

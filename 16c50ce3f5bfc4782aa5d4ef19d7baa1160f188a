@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_b14de052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_f170088a",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_3142901d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 24
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-05T00:48:12Z",
       "side": 1,
       "message": "This appears to be a combination of the active and recheck maps from the original code. Personally, I think \"active\" is the clearer of the two names.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_aec29736",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "Yes it\u0027s a combination of those 2. I thought about removing it completely and relying on the workqueue schedule completely. This ought to be used only for deduplication currently.",
+      "parentUuid": "30b11a58_3142901d",
       "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_4e2333a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "makes sense!",
+      "parentUuid": "d0a19e0d_0e292b84",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_113f8c87",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 24
@@ -64,6 +118,30 @@
       "writtenOn": "2015-05-05T00:48:12Z",
       "side": 1,
       "message": "Please add a _MS suffix to this constant name so it\u0027s clear when the name appears on its own.\n\nI think a javadoc on this constant would also be helpful.",
+      "range": {
+        "startLine": 48,
+        "startChar": 28,
+        "endLine": 48,
+        "endChar": 43
+      },
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_91cd3c3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "I\u0027m unhappy with this solution actually, maybe I can implement the congestedexception instead (would be the same amount of work IMHO)",
+      "parentUuid": "30b11a58_113f8c87",
       "range": {
         "startLine": 48,
         "startChar": 28,
@@ -116,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_91525cec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_916b7ca0",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_6e26efb3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 24
@@ -133,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_8ec7db46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a19e0d_6e26efb3",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_ae173745",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 24
@@ -144,6 +258,30 @@
       "writtenOn": "2015-05-05T00:48:12Z",
       "side": 1,
       "message": "This comment is a little confusing. I think the context it\u0027s missing is that no job was rescheduled while the original merge attempt was in progress.",
+      "range": {
+        "startLine": 154,
+        "startChar": 13,
+        "endLine": 155,
+        "endChar": 47
+      },
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_eecc9f6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "I am wondering if this can actually happen now, or if I should remove these corner cases.\nPreviously it made a lot of sense as different changes with the same target branch were just run at the same time with MergeOp probably picking up both at the same time. (There was no strict locking, such as disallowing/postponing the second change on the same branch, so you wouldn\u0027t know if you merged that second change.)",
+      "parentUuid": "d0a19e0d_ae173745",
       "range": {
         "startLine": 154,
         "startChar": 13,
@@ -224,6 +362,24 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_5162b4be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a19e0d_ceff2377",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_518754e1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 24
@@ -241,6 +397,24 @@
     },
     {
       "key": {
+        "uuid": "d0a19e0d_4e0cd33d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_518754e1",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_b16680d6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 24
@@ -252,6 +426,24 @@
       "writtenOn": "2015-05-05T00:35:06Z",
       "side": 1,
       "message": "Blank line after method.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_6e0f0f34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-05T01:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b11a58_b16680d6",
       "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

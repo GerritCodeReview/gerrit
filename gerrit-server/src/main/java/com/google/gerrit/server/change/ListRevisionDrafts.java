@@ -59,4 +59,11 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
         .setFillAccounts(includeAuthorInfo())
         .format(listComments(rsrc));
   }
+
+  public List<CommentInfo> getComments(RevisionResource rsrc)
+      throws OrmException {
+    return commentJson.get()
+        .setFillAccounts(includeAuthorInfo())
+        .format2(listComments(rsrc));
+  }
 }

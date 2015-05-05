@@ -50,6 +50,9 @@ public interface RevisionApi {
   Map<String, List<CommentInfo>> comments() throws RestApiException;
   Map<String, List<CommentInfo>> drafts() throws RestApiException;
 
+  List<CommentInfo> commentsAsList() throws RestApiException;
+  List<CommentInfo> draftAsList() throws RestApiException;
+
   DraftApi createDraft(DraftInput in) throws RestApiException;
   DraftApi draft(String id) throws RestApiException;
 
@@ -144,6 +147,16 @@ public interface RevisionApi {
 
     @Override
     public Map<String, List<CommentInfo>> comments() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<CommentInfo> commentsAsList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<CommentInfo> draftAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -24,6 +24,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -374,6 +375,198 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertProblems(c);
   }
 
+  @Test
+  public void expectedMergedCommitIsLatestPatchSet() throws Exception {
+    Change c = insertChange();
+    c.setStatus(Change.Status.MERGED);
+    PatchSet ps = insertPatchSet(c);
+    RevCommit commit = parseCommit(ps);
+    testRepo.update(c.getDest().get(), commit);
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = commit.name();
+    assertThat(checker.check(c, fix).problems()).isEmpty();
+  }
+
+  @Test
+  public void expectedMergedCommitNotMergedIntoDestination() throws Exception {
+    Change c = insertChange();
+    c.setStatus(Change.Status.MERGED);
+    PatchSet ps = insertPatchSet(c);
+    RevCommit commit = parseCommit(ps);
+    testRepo.update(c.getDest().get(), commit);
+
+    FixInput fix = new FixInput();
+    RevCommit other =
+        testRepo.commit().message(commit.getFullMessage()).create();
+    fix.expectMergedAs = other.name();
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(1);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo(
+        "Expected merged commit " + other.name()
+        + " is not merged into destination ref refs/heads/master"
+        + " (" + commit.name() + ")");
+  }
+
+  @Test
+  public void createNewPatchSetForExpectedMergeCommitWithNoChangeId()
+      throws Exception {
+    Change c = insertChange();
+    c.setStatus(Change.Status.MERGED);
+    RevCommit parent =
+        testRepo.branch(c.getDest().get()).commit().message("parent").create();
+    PatchSet ps = insertPatchSet(c);
+    RevCommit commit = parseCommit(ps);
+
+    RevCommit mergedAs = testRepo.commit().parent(parent)
+        .message(commit.getShortMessage()).create();
+    testRepo.getRevWalk().parseBody(mergedAs);
+    assertThat(mergedAs.getFooterLines(FooterConstants.CHANGE_ID)).isEmpty();
+    testRepo.update(c.getDest().get(), mergedAs);
+
+    assertProblems(c, "Patch set 1 (" + commit.name() + ") is not merged into"
+        + " destination ref refs/heads/master (" + mergedAs.name()
+        + "), but change status is MERGED");
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = mergedAs.name();
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(1);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo(
+        "No patch set found for merged commit " + mergedAs.name());
+    assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(p.outcome).isEqualTo("Inserted as patch set 2");
+
+    c = db.changes().get(c.getId());
+    PatchSet.Id psId2 = new PatchSet.Id(c.getId(), 2);
+    assertThat(c.currentPatchSetId()).isEqualTo(psId2);
+    assertThat(db.patchSets().get(psId2).getRevision().get())
+        .isEqualTo(mergedAs.name());
+
+    assertProblems(c);
+  }
+
+  @Test
+  public void createNewPatchSetForExpectedMergeCommitWithChangeId()
+      throws Exception {
+    Change c = insertChange();
+    c.setStatus(Change.Status.MERGED);
+    RevCommit parent =
+        testRepo.branch(c.getDest().get()).commit().message("parent").create();
+    PatchSet ps = insertPatchSet(c);
+    RevCommit commit = parseCommit(ps);
+
+    RevCommit mergedAs = testRepo.commit().parent(parent)
+        .message(commit.getShortMessage() + "\n"
+            + "\n"
+            + "Change-Id: " + c.getKey().get() + "\n").create();
+    testRepo.getRevWalk().parseBody(mergedAs);
+    assertThat(mergedAs.getFooterLines(FooterConstants.CHANGE_ID))
+        .containsExactly(c.getKey().get());
+    testRepo.update(c.getDest().get(), mergedAs);
+
+    assertProblems(c, "Patch set 1 (" + commit.name() + ") is not merged into"
+        + " destination ref refs/heads/master (" + mergedAs.name()
+        + "), but change status is MERGED");
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = mergedAs.name();
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(1);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo(
+        "No patch set found for merged commit " + mergedAs.name());
+    assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(p.outcome).isEqualTo("Inserted as patch set 2");
+
+    c = db.changes().get(c.getId());
+    PatchSet.Id psId2 = new PatchSet.Id(c.getId(), 2);
+    assertThat(c.currentPatchSetId()).isEqualTo(psId2);
+    assertThat(db.patchSets().get(psId2).getRevision().get())
+        .isEqualTo(mergedAs.name());
+
+    assertProblems(c);
+  }
+
+  @Test
+  public void expectedMergedCommitIsOldPatchSetOfSameChange()
+      throws Exception {
+    Change c = insertChange();
+    c.setStatus(Change.Status.MERGED);
+    PatchSet ps1 = insertPatchSet(c);
+    String rev1 = ps1.getRevision().get();
+    incrementPatchSet(c);
+    PatchSet ps2 = insertPatchSet(c);
+    testRepo.branch(c.getDest().get()).update(parseCommit(ps1));
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = rev1;
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(1);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo(
+        "Expected merged commit " + rev1 + " corresponds to patch set "
+        + ps1.getId() + ", which is not the current patch set " + ps2.getId());
+  }
+
+  @Test
+  public void expectedMergedCommitWithMismatchedChangeId() throws Exception {
+    Change c = insertChange();
+    c.setStatus(Change.Status.MERGED);
+    RevCommit parent =
+        testRepo.branch(c.getDest().get()).commit().message("parent").create();
+    PatchSet ps = insertPatchSet(c);
+    RevCommit commit = parseCommit(ps);
+
+    String badId = "I0000000000000000000000000000000000000000";
+    RevCommit mergedAs = testRepo.commit().parent(parent)
+        .message(commit.getShortMessage() + "\n"
+            + "\n"
+            + "Change-Id: " + badId + "\n")
+        .create();
+    testRepo.getRevWalk().parseBody(mergedAs);
+    testRepo.update(c.getDest().get(), mergedAs);
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = mergedAs.name();
+    List<ProblemInfo> problems = checker.check(c, fix).problems();
+    assertThat(problems).hasSize(1);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo(
+        "Expected merged commit " + mergedAs.name() + " has Change-Id: "
+        + badId + ", but expected " + c.getKey().get());
+  }
+
+  @Test
+  public void expectedMergedCommitMatchesMultiplePatchSets()
+      throws Exception {
+    Change c1 = insertChange();
+    c1.setStatus(Change.Status.MERGED);
+    insertPatchSet(c1);
+
+    RevCommit commit = testRepo.branch(c1.getDest().get()).commit().create();
+    Change c2 = insertChange();
+    PatchSet ps2 = newPatchSet(c2.currentPatchSetId(), commit, adminId);
+    updatePatchSetRef(ps2);
+    db.patchSets().insert(singleton(ps2));
+
+    Change c3 = insertChange();
+    PatchSet ps3 = newPatchSet(c3.currentPatchSetId(), commit, adminId);
+    updatePatchSetRef(ps3);
+    db.patchSets().insert(singleton(ps3));
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = commit.name();
+    List<ProblemInfo> problems = checker.check(c1, fix).problems();
+    assertThat(problems).hasSize(1);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo(
+        "Multiple patch sets for expected merged commit " + commit.name()
+        + ": [" + ps2 + ", " + ps3 + "]");
+  }
+
   private Change insertChange() throws Exception {
     Change c = newChange(project, adminId);
     db.changes().insert(singleton(c));
@@ -388,7 +581,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private PatchSet insertPatchSet(Change c) throws Exception {
     db.changes().upsert(singleton(c));
     RevCommit commit = testRepo.branch(c.currentPatchSetId().toRefName()).commit()
-        .parent(tip).create();
+        .parent(tip).message("Change " + c.getId().get()).create();
     PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, adminId);
     updatePatchSetRef(ps);
     db.patchSets().insert(singleton(ps));
@@ -411,6 +604,13 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     RefUpdate ru = testRepo.getRepository().updateRef(refName, true);
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+  }
+
+  private RevCommit parseCommit(PatchSet ps) throws Exception {
+    RevCommit commit = testRepo.getRevWalk()
+        .parseCommit(ObjectId.fromString(ps.getRevision().get()));
+    testRepo.getRevWalk().parseBody(commit);
+    return commit;
   }
 
   private void assertProblems(Change c, String... expected) {

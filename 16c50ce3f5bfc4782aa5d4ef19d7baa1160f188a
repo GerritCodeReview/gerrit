@@ -19,6 +19,86 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_3142901d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "This appears to be a combination of the active and recheck maps from the original code. Personally, I think \"active\" is the clearer of the two names.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_0e292b84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "I would maybe rename this \"activeBranches,\" particularly in combination with my suggestion above.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_113f8c87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "Please add a _MS suffix to this constant name so it\u0027s clear when the name appears on its own.\n\nI think a javadoc on this constant would also be helpful.",
+      "range": {
+        "startLine": 48,
+        "startChar": 28,
+        "endLine": 48,
+        "endChar": 43
+      },
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_713c1891",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 67,
+        "startChar": 30,
+        "endLine": 67,
+        "endChar": 32
+      },
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b11a58_916b7ca0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 24
@@ -30,6 +110,97 @@
       "writtenOn": "2015-05-05T00:35:06Z",
       "side": 1,
       "message": "I don\u0027t think you need this method anymore; it\u0027s functionally identical to ChangeSet#hashCode().",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_6e26efb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "I don\u0027t think this javadoc is adding anything.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_ae173745",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "This comment is a little confusing. I think the context it\u0027s missing is that no job was rescheduled while the original merge attempt was in progress.",
+      "range": {
+        "startLine": 154,
+        "startChar": 13,
+        "endLine": 155,
+        "endChar": 47
+      },
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_f147682c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "This boolean value is subtle. Please document its meaning.",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b11a58_d14ce453",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "Elsewhere the recheck map is protected by a lock, so I don\u0027t think it\u0027s safe to modify it here without locking. Can this just go in the mergeImpl body instead, like the currentBranches check?",
+      "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a19e0d_2e2ce793",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:48:12Z",
+      "side": 1,
+      "message": "Please document what this case means and how we got here.",
       "revId": "16c50ce3f5bfc4782aa5d4ef19d7baa1160f188a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

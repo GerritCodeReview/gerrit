@@ -619,6 +619,30 @@
     },
     {
       "key": {
+        "uuid": "30b11a58_d1750478",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T00:32:58Z",
+      "side": 1,
+      "message": "This works fine if I remove ChangeMergeQueue.this in this change in Eclipse.\n\nIt\u0027s true that mergeIfPossible is not static. But the \"ChangeMergeQueue.this\" is implied if the calling context is in an inner non-static class of ChangeMergeQueue.",
+      "parentUuid": "30b11a58_51d594dd",
+      "range": {
+        "startLine": 196,
+        "startChar": 12,
+        "endLine": 196,
+        "endChar": 34
+      },
+      "revId": "29f2d0104cf6f10223500748eb12969e208d605d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a19e0d_2ea347ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpMapper.java",
         "patchSetId": 21

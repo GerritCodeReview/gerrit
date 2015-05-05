@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "451a45b5_4601d2e7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:55:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2517118d_8540e22b",
+      "revId": "8cf6940057aed6477020633fff8ec171b7a1d705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2517118d_e53d56b6",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "451a45b5_a6f52688",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:55:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2517118d_e53d56b6",
+      "range": {
+        "startLine": 224,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 40
+      },
+      "revId": "8cf6940057aed6477020633fff8ec171b7a1d705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "451a45b5_c63ae2bb",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2015-02-25T06:43:09Z",
       "side": 1,
       "message": "Does Files.newInputStream throw NoSuchFileException?",
+      "revId": "8cf6940057aed6477020633fff8ec171b7a1d705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "451a45b5_86f2aa9b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:55:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "451a45b5_c63ae2bb",
       "revId": "8cf6940057aed6477020633fff8ec171b7a1d705",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

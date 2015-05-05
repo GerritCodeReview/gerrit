@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "91b71f4c_3000c82f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:37:21Z",
+      "side": 1,
+      "message": "We copied this style from Google, and we do have internal tools that parse it.",
+      "parentUuid": "7cbfe0de_57052c34",
+      "range": {
+        "startLine": 76,
+        "startChar": 19,
+        "endLine": 76,
+        "endChar": 20
+      },
+      "revId": "967d671fb376af431e57c043622043db3a19e352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbad4ec_180fe554",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 11

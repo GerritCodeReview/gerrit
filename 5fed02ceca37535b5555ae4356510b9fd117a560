@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "702e3292_6b5d8156",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/Groups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:53Z",
+      "side": 1,
+      "message": "Same convention as in Projects.ListRequest.\n\nThere are a few other subtle inconsistencies between this and Projects and Changes. I really wish we had planned all these out at once.",
+      "parentUuid": "d0527e22_e6251ed9",
+      "range": {
+        "startLine": 90,
+        "startChar": 23,
+        "endLine": 90,
+        "endChar": 27
+      },
+      "revId": "5fed02ceca37535b5555ae4356510b9fd117a560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0527e22_c62222cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-04-14T01:22:14Z",
       "side": 1,
       "message": "optional nit: while you\u0027re in here, wrap the long lines?",
+      "revId": "5fed02ceca37535b5555ae4356510b9fd117a560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702e3292_4b62c514",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T16:54:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0527e22_c62222cf",
       "revId": "5fed02ceca37535b5555ae4356510b9fd117a560",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

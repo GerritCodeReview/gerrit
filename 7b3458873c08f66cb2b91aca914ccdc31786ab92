@@ -22,6 +22,30 @@
       "revId": "7b3458873c08f66cb2b91aca914ccdc31786ab92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_d8232dd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T23:18:04Z",
+      "side": 1,
+      "message": "To use later in the series.\n\nI can squash all these commits together if you prefer. I just did them in stages so I could bisect some test failures.",
+      "parentUuid": "2d146132_991dbb91",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "7b3458873c08f66cb2b91aca914ccdc31786ab92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9983b8c4_e23bc6e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:36:59Z",
+      "side": 1,
+      "message": "Ordering nits:\n\n* All final before all non-final.\n* Within that, descending order of visibility.",
+      "revId": "bf4d26ce99471530bd1aa70e6f98bdd8f7e86b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9487c79_c311f66f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T20:36:59Z",
+      "side": 1,
+      "message": "Nit: indent \"which\" by 4 spaces.",
+      "revId": "bf4d26ce99471530bd1aa70e6f98bdd8f7e86b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

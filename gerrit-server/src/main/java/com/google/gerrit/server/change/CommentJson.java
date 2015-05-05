@@ -16,7 +16,9 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.COMMENT_INFO_ORDER;
 
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -88,6 +90,27 @@ class CommentJson {
     for (List<CommentInfo> list : out.values()) {
       Collections.sort(list, COMMENT_INFO_ORDER);
     }
+
+    if (accountLoader != null) {
+      accountLoader.fill();
+    }
+
+    return out;
+  }
+
+
+  List<CommentInfo> formatAsList(Iterable<PatchLineComment> l) throws OrmException {
+    final AccountLoader accountLoader = fillAccounts
+        ? accountLoaderFactory.create(true)
+        : null;
+    List<CommentInfo> out = FluentIterable
+        .from(l)
+        .transform(new Function<PatchLineComment, CommentInfo>() {
+          @Override
+          public CommentInfo apply(PatchLineComment c) {
+            return toCommentInfo(c, accountLoader);
+          }
+        }).toSortedList(COMMENT_INFO_ORDER);
 
     if (accountLoader != null) {
       accountLoader.fill();

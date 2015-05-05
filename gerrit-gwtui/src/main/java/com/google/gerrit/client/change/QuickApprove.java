@@ -19,6 +19,7 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ReviewInput;
+import com.google.gerrit.client.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
@@ -72,6 +73,7 @@ class QuickApprove extends Button implements ClickHandler {
       changeId = info.legacy_id();
       revision = commit;
       input = ReviewInput.create();
+      input.drafts(DraftHandling.PUBLISH_ALL_REVISIONS);
       input.label(qName, qValue);
       replyAction = action;
       setText(qName + qValueStr);

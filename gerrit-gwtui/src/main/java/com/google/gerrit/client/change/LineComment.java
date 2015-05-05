@@ -33,6 +33,7 @@ class LineComment extends Composite {
   interface Binder extends UiBinder<HTMLPanel, LineComment> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  @UiField Element sideLoc;
   @UiField Element psLoc;
   @UiField Element psNum;
   @UiField Element fileLoc;
@@ -49,8 +50,17 @@ class LineComment extends Composite {
     if (info.patchSet() != defaultPs.get()) {
       ps = new PatchSet.Id(defaultPs.getParentKey(), info.patchSet());
       psNum.setInnerText(Integer.toString(info.patchSet()));
+      sideLoc.removeFromParent();
+      sideLoc = null;
+    } else if (info.side() == Side.PARENT) {
+      ps = defaultPs;
+      psLoc.removeFromParent();
+      psLoc = null;
+      psNum= null;
     } else {
       ps = defaultPs;
+      sideLoc.removeFromParent();
+      sideLoc = null;
       psLoc.removeFromParent();
       psLoc = null;
       psNum= null;

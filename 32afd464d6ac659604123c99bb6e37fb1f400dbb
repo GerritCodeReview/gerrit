@@ -149,6 +149,23 @@
       "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_b8ee3901",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-05T21:43:30Z",
+      "side": 1,
+      "message": "Writes to this field need to be synchronized, otherwise threads other than the one in which setMergeBackend was called may not see the results of a write.\n\nThe alternative is to make the field volatile, but I think synchronizing is probably better. The only time changeSetMerger is actually used is in the body of a method that\u0027s already synchronized.",
+      "revId": "32afd464d6ac659604123c99bb6e37fb1f400dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -51,7 +52,7 @@ import java.util.concurrent.Callable;
  *                as that will produce a more atomic notion of merging change
  *                sets.
  */
-class ChangeSetMergeOp {
+public class ChangeSetMergeOp implements ChangeSetMerger {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeSetMergeOp.class);
 
@@ -60,7 +61,16 @@ class ChangeSetMergeOp {
   private final Provider<SubmoduleOp.Factory> subOpFactory;
 
   @Inject
+  public
   ChangeSetMergeOp(Injector parent) {
+    Injector child = getChildInjector(parent);
+    this.threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
+    this.bgFactory = child.getProvider(MergeOp.Factory.class);
+    this.subOpFactory = child.getProvider(SubmoduleOp.Factory.class);
+  }
+
+  @VisibleForTesting
+  public Injector getChildInjector(Injector parent) {
     Injector child = parent.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
@@ -108,11 +118,10 @@ class ChangeSetMergeOp {
         };
       }
     });
-    this.threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
-    this.bgFactory = child.getProvider(MergeOp.Factory.class);
-    this.subOpFactory = child.getProvider(SubmoduleOp.Factory.class);
+    return child;
   }
 
+  @Override
   public void merge(ChangeSet changes) {
     for (final Branch.NameKey branch : changes.branches()) {
       try {

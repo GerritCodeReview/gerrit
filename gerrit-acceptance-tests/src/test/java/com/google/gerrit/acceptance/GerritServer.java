@@ -268,7 +268,7 @@ public class GerritServer {
     return httpAddress;
   }
 
-  Injector getTestInjector() {
+  public Injector getTestInjector() {
     return testInjector;
   }
 

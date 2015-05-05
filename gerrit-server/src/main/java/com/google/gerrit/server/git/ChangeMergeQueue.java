@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.TimeUtil;
@@ -47,12 +48,12 @@ public class ChangeMergeQueue implements MergeQueue {
       MILLISECONDS.convert(1, SECONDS);
 
   private final WorkQueue workQueue;
-  private final ChangeSetMergeOp changeSetMerger;
+  private ChangeSetMerger changeSetMerger;
 
   @Inject
   ChangeMergeQueue(final WorkQueue wq, Injector inj) {
     workQueue = wq;
-    changeSetMerger = new ChangeSetMergeOp(inj);
+    setMergeBackend(new ChangeSetMergeOp(inj));
   }
 
   @Override
@@ -142,6 +143,11 @@ public class ChangeMergeQueue implements MergeQueue {
         }
       }
     }
+  }
+
+  @VisibleForTesting
+  private void setMergeBackend(ChangeSetMerger csm) {
+    changeSetMerger = csm;
   }
 
   private class WaitingEntry implements Runnable {

@@ -51,7 +51,7 @@ import java.util.concurrent.Callable;
  *                as that will produce a more atomic notion of merging change
  *                sets.
  */
-class ChangeSetMergeOp {
+class ChangeSetMergeOp implements ChangeSetMerger {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeSetMergeOp.class);
 
@@ -113,6 +113,7 @@ class ChangeSetMergeOp {
     this.subOpFactory = child.getProvider(SubmoduleOp.Factory.class);
   }
 
+  @Override
   public void merge(ChangeSet changes) {
     for (final Branch.NameKey branch : changes.branches()) {
       try {

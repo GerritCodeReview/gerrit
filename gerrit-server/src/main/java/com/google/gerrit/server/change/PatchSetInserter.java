@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
@@ -113,6 +114,7 @@ public class PatchSetInserter {
   private boolean runHooks;
   private boolean sendMail;
   private Account.Id uploader;
+  private boolean allowClosed;
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
@@ -173,7 +175,15 @@ public class PatchSetInserter {
     return patchSet.getId();
   }
 
-  public PatchSetInserter setMessage(String message) throws OrmException {
+  public PatchSet getPatchSet() {
+    checkState(patchSet != null,
+        "getPatchSet() only valid after patch set is created");
+    return patchSet;
+  }
+
+  public PatchSetInserter setMessage(String message)
+      throws OrmException, IOException {
+    init();
     changeMessage = new ChangeMessage(
         new ChangeMessage.Key(
             ctl.getChange().getId(), ChangeUtil.messageUUID(db)),
@@ -217,6 +227,11 @@ public class PatchSetInserter {
     return this;
   }
 
+  public PatchSetInserter setAllowClosed(boolean allowClosed) {
+    this.allowClosed = allowClosed;
+    return this;
+  }
+
   public PatchSetInserter setUploader(Account.Id uploader) {
     this.uploader = uploader;
     return this;
@@ -247,7 +262,7 @@ public class PatchSetInserter {
     db.changes().beginTransaction(c.getId());
     try {
       updatedChange = db.changes().get(c.getId());
-      if (!updatedChange.getStatus().isOpen()) {
+      if (!updatedChange.getStatus().isOpen() && !allowClosed) {
         throw new InvalidChangeOperationException(String.format(
             "Change %s is closed", c.getId()));
       }
@@ -268,13 +283,13 @@ public class PatchSetInserter {
           db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
             @Override
             public Change update(Change change) {
-              if (change.getStatus().isClosed()) {
+              if (change.getStatus().isClosed() && !allowClosed) {
                 return null;
               }
               if (!change.currentPatchSetId().equals(currentPatchSetId)) {
                 return null;
               }
-              if (change.getStatus() != Change.Status.DRAFT) {
+              if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
                 change.setStatus(Change.Status.NEW);
               }
               change.setCurrentPatchSet(patchSetInfoFactory.get(commit,

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.SchemaFactory;
@@ -30,6 +31,11 @@ import com.google.inject.Inject;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 
 public class InitAdminUser implements InitStep {
@@ -72,6 +78,7 @@ public class InitAdminUser implements InitStep {
           String name = ui.readString("Administrator", "name");
           String email = readEmail();
           String httpPassword = ui.readString("secret", "HTTP password");
+          AccountSshKey sshKey = readSshKey(id);
 
           AccountExternalId extUser =
               new AccountExternalId(id, new AccountExternalId.Key(
@@ -98,6 +105,10 @@ public class InitAdminUser implements InitStep {
               new AccountGroupMember(new AccountGroupMember.Key(id,
                   new AccountGroup.Id(1)));
           db.accountGroupMembers().insert(Collections.singleton(m));
+
+          if (sshKey != null) {
+            db.accountSshKeys().insert(Collections.singleton(sshKey));
+          }
         }
       }
     } finally {
@@ -112,5 +123,29 @@ public class InitAdminUser implements InitStep {
       return readEmail();
     }
     return email;
+  }
+
+  private AccountSshKey readSshKey(Account.Id id) throws IOException {
+    String defaultPublicSshKeyFile = "";
+    Path defaultPublicSshKeyPath =
+        Paths.get(System.getProperty("user.home"), ".ssh", "id_rsa.pub");
+    if (Files.exists(defaultPublicSshKeyPath)) {
+      defaultPublicSshKeyFile = defaultPublicSshKeyPath.toString();
+    }
+    String publicSshKeyFile =
+        ui.readString(defaultPublicSshKeyFile, "public SSH key file");
+    return !Strings.isNullOrEmpty(publicSshKeyFile)
+        ? createSshKey(id, publicSshKeyFile) : null;
+  }
+
+  private AccountSshKey createSshKey(Account.Id id, String keyFile)
+      throws IOException {
+    Path p = Paths.get(keyFile);
+    if (!Files.exists(p)) {
+      throw new IOException(String.format(
+          "Cannot add public SSH key: %s is not a file", keyFile));
+    }
+    String content = new String(Files.readAllBytes(p), StandardCharsets.UTF_8);
+    return new AccountSshKey(new AccountSshKey.Id(id, 0), content);
   }
 }

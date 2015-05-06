@@ -34,7 +34,7 @@ public class VersionedAccountPreferences extends VersionedMetaData {
   }
 
   public static VersionedAccountPreferences forDefault() {
-    return new VersionedAccountPreferences(RefNames.REFS_USER_DEFAULT);
+    return new VersionedAccountPreferences(RefNames.REFS_USERS_DEFAULT);
   }
 
   private final String ref;
@@ -45,7 +45,7 @@ public class VersionedAccountPreferences extends VersionedMetaData {
   }
 
   public boolean isDefaults() {
-    return RefNames.REFS_USER_DEFAULT.equals(getRefName());
+    return RefNames.REFS_USERS_DEFAULT.equals(getRefName());
   }
 
   @Override

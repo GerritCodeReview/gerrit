@@ -94,10 +94,10 @@ public class AllUsersCreator {
     Project project = config.getProject();
     project.setDescription("Individual user settings and preferences.");
 
-    AccessSection all = config.getAccessSection(RefNames.REFS_USER + "*", true);
+    AccessSection all = config.getAccessSection(RefNames.REFS_USERS + "*", true);
     all.getPermission(Permission.READ, true).setExclusiveGroup(true);
 
-    AccessSection defaults = config.getAccessSection(RefNames.REFS_USER_DEFAULT, true);
+    AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);
     defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);
     grant(config, defaults, Permission.READ, admin);
     defaults.getPermission(Permission.PUSH, true).setExclusiveGroup(true);

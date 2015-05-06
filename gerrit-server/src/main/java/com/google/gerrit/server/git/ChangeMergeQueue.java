@@ -78,6 +78,9 @@ public class ChangeMergeQueue implements MergeQueue {
     final long at = now + MILLISECONDS.convert(delay, delayUnit);
     WaitingEntry e = getOrCreateWaitingEntry(changes);
     e.recheckAt = Math.max(at, e.recheckAt);
+    if (!e.jobScheduled) {
+      workQueue.getDefaultQueue().schedule(e, e.recheckAt, TimeUnit.MILLISECONDS);
+    }
   }
 
   /**
@@ -110,6 +113,7 @@ public class ChangeMergeQueue implements MergeQueue {
 
     if (w == null) {
       w = new WaitingEntry(cs);
+      w.jobScheduled = false;
       recheck.put(cs, w);
     }
     return w;

@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "0d0b1d19_382d89c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1019972
+      },
+      "writtenOn": "2015-05-06T18:44:41Z",
+      "side": 1,
+      "message": "I\u0027m confused about this ProblemInfo object.  It is never passed to a function or returned from here... why create it?",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 38
+      },
+      "revId": "85b970f8063d9ca119d46c0c0e1ae012ec16a736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0b1d19_b82079c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 1

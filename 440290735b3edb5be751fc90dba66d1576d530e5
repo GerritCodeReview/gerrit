@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0019f0_1bc75b98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-06T04:54:02Z",
+      "side": 1,
+      "message": "This should just be:\n\n  private ConsistencyChecker checkerProvider;",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "440290735b3edb5be751fc90dba66d1576d530e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_fbcb8f9e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-06T04:54:02Z",
+      "side": 1,
+      "message": "This eclipses the client clone from the base class:\n\n  testRepo \u003d cloneProject(project, getCloneAsAccount(description));\n\nI guess after switch to the new Git Test protocol this is fast enough that we shouldn\u0027t optimize it and prevent unneeded clone, with say @NoGitClone, like we do with @NoHttpd?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 66
+      },
+      "revId": "440290735b3edb5be751fc90dba66d1576d530e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_dac8c5a4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-06T04:54:02Z",
+      "side": 1,
+      "message": "That\u0027s why the indirection is unneeded here. Base class injects the members with:\n\n  server.getTestInjector().injectMembers(this);\n\nBecause ConsistencyChecker is not marked as a singleton, new ConsistencyChecker instance is get injected in every test method even without the provider thing.",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "440290735b3edb5be751fc90dba66d1576d530e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

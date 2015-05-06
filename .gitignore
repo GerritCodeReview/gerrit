@@ -22,3 +22,4 @@
 *.swp
 *.asc
 /bin/
+/Documentation/*.html

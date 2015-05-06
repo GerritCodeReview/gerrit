@@ -73,6 +73,9 @@ public class UniversalGroupBackend implements GroupBackend {
 
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
+    if (uuid == null) {
+      return null;
+    }
     GroupBackend b = backend(uuid);
     if (b == null) {
       log.warn("Unknown GroupBackend for UUID: " + uuid);
@@ -121,6 +124,9 @@ public class UniversalGroupBackend implements GroupBackend {
 
    @Override
    public boolean contains(AccountGroup.UUID uuid) {
+     if (uuid == null) {
+       return false;
+     }
      GroupMembership m = membership(uuid);
      if (m == null) {
        log.warn("Unknown GroupMembership for UUID: " + uuid);
@@ -134,6 +140,9 @@ public class UniversalGroupBackend implements GroupBackend {
       Multimap<GroupMembership, AccountGroup.UUID> lookups =
           ArrayListMultimap.create();
       for (AccountGroup.UUID uuid : uuids) {
+        if (uuid == null) {
+          continue;
+        }
         GroupMembership m = membership(uuid);
         if (m == null) {
           log.warn("Unknown GroupMembership for UUID: " + uuid);
@@ -161,6 +170,9 @@ public class UniversalGroupBackend implements GroupBackend {
       Multimap<GroupMembership, AccountGroup.UUID> lookups =
           ArrayListMultimap.create();
       for (AccountGroup.UUID uuid : uuids) {
+        if (uuid == null) {
+          continue;
+        }
         GroupMembership m = membership(uuid);
         if (m == null) {
           log.warn("Unknown GroupMembership for UUID: " + uuid);

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4d119541_7ae1b917",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-06T06:20:33Z",
+      "side": 1,
+      "message": "Wrap this line, max 72 chars. Here you can find the format rules for the commit message for this project: [1].\n\n* [1] Documentation/dev-contributing.txt",
+      "revId": "216782b2c92ba31fd8a4fe265bb656863f0f926d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d0019f0_dbc8d3a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

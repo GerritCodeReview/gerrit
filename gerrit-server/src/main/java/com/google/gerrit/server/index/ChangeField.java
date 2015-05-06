@@ -266,7 +266,7 @@ public class ChangeField {
             throws OrmException {
           Change c = input.change();
           if (c == null) {
-            return null;
+            return ImmutableSet.of();
           }
           Set<Integer> r = Sets.newHashSet();
           if (!args.allowsDrafts && c.getStatus() == Change.Status.DRAFT) {
@@ -306,7 +306,7 @@ public class ChangeField {
           try {
             List<FooterLine> footers = input.commitFooters();
             if (footers == null) {
-              return null;
+              return ImmutableSet.of();
             }
             return Sets.newHashSet(
                 args.trackingFooters.extract(footers).values());

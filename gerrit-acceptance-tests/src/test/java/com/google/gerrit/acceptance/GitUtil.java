@@ -152,24 +152,6 @@ public class GitUtil {
     return Iterables.getOnlyElement(r);
   }
 
-  public static class Commit {
-    private final RevCommit commit;
-    private final String changeId;
-
-    Commit(RevCommit commit, String changeId) {
-      this.commit = commit;
-      this.changeId = changeId;
-    }
-
-    public RevCommit getCommit() {
-      return commit;
-    }
-
-    public String getChangeId() {
-      return changeId;
-    }
-  }
-
   public static Optional<String> getChangeId(TestRepository<?> tr, ObjectId id)
       throws IOException {
     RevCommit c = tr.getRevWalk().parseCommit(id);

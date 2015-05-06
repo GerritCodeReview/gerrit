@@ -57,13 +57,9 @@ public class ChangeMergeQueue implements MergeQueue {
 
   @Override
   public synchronized void merge(Iterable<Change> changes) {
-    WaitingEntry e = new WaitingEntry(ChangeSet.create(changes));
-    if (!mergeIfPossible(e)) {
-      // We cannot merge this right now as at least one branch is locked
-      // TODO(sbeller): throw an CongestedException and leave the decision up to
-      // the caller or reschedule?
-      schedule(changes);
-    }
+    // TODO(sbeller): throw an CongestedException and leave the decision up to
+    // the caller or reschedule ourselves?
+    schedule(changes);
   }
 
   @Override

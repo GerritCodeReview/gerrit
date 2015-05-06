@@ -391,7 +391,7 @@ public class RestApiServlet extends HttpServlet {
       globals.auditService.dispatch(new ExtendedHttpAuditEvent(globals.webSession.get()
           .getSessionId(), globals.currentUser.get(), req,
           auditStartTs, params, inputRequestBody, status,
-          result, rsrc, viewData.view));
+          result, rsrc, viewData == null ? null : viewData.view));
     }
   }
 

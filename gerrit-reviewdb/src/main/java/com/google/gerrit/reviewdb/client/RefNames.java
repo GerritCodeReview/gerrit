@@ -32,6 +32,9 @@ public class RefNames {
   /** Preference settings for a user {@code refs/users} */
   public static final String REFS_USER = "refs/users/";
 
+  /** Default user preference settings */
+  public static final String REFS_USER_DEFAULT = RefNames.REFS_USER + "default";
+
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
 

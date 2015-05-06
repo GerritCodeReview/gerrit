@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.schema.AclUtil.grant;
+
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -40,6 +43,8 @@ public class AllUsersCreator {
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
 
+  private GroupReference admin;
+
   @Inject
   AllUsersCreator(
       GitRepositoryManager mgr,
@@ -48,6 +53,11 @@ public class AllUsersCreator {
     this.mgr = mgr;
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;
+  }
+
+  public AllUsersCreator setAdministrators(GroupReference admin) {
+    this.admin = admin;
+    return this;
   }
 
   public void create() throws IOException, ConfigInvalidException {
@@ -86,6 +96,15 @@ public class AllUsersCreator {
 
     AccessSection all = config.getAccessSection(RefNames.REFS_USER + "*", true);
     all.getPermission(Permission.READ, true).setExclusiveGroup(true);
+
+    AccessSection defaults = config.getAccessSection(RefNames.REFS_USER_DEFAULT, true);
+    defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);
+    grant(config, defaults, Permission.READ, admin);
+    defaults.getPermission(Permission.PUSH, true).setExclusiveGroup(true);
+    grant(config, defaults, Permission.PUSH, admin);
+    defaults.getPermission(Permission.CREATE, true).setExclusiveGroup(true);
+    grant(config, defaults, Permission.CREATE, admin);
+
     config.commit(md);
   }
 }

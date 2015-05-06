@@ -87,7 +87,9 @@ public class SchemaCreator {
       .setAdministrators(GroupReference.forGroup(admin))
       .setBatchUsers(GroupReference.forGroup(batch))
       .create();
-    allUsersCreator.create();
+    allUsersCreator
+      .setAdministrators(GroupReference.forGroup(admin))
+      .create();
     dataSourceType.getIndexScript().run(db);
   }
 

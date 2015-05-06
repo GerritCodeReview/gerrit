@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d0019f0_bbee2701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-06T07:07:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d119541_3adb416a",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "ab5b19eacc7b67916007eed44bc885f71394a6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d0019f0_5be60332",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6d0019f0_dbf1f3e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-06T07:07:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d0019f0_5be60332",
+      "range": {
+        "startLine": 323,
+        "startChar": 50,
+        "endLine": 323,
+        "endChar": 58
+      },
+      "revId": "ab5b19eacc7b67916007eed44bc885f71394a6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d0019f0_7be1bf17",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2015-05-06T06:58:20Z",
       "side": 1,
       "message": "formatAsList",
+      "range": {
+        "startLine": 102,
+        "startChar": 20,
+        "endLine": 102,
+        "endChar": 27
+      },
+      "revId": "ab5b19eacc7b67916007eed44bc885f71394a6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_daf1e5e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-06T07:07:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d0019f0_7be1bf17",
       "range": {
         "startLine": 102,
         "startChar": 20,

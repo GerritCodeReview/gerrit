@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2d146132_d9557323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-05-06T16:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d119541_7ae1b917",
+      "revId": "216782b2c92ba31fd8a4fe265bb656863f0f926d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d0019f0_dbc8d3a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-05-06T06:07:05Z",
       "side": 1,
       "message": "This is unrelated, can you push it as an own change?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "216782b2c92ba31fd8a4fe265bb656863f0f926d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_984ff591",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-05-06T16:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d0019f0_dbc8d3a4",
       "range": {
         "startLine": 12,
         "startChar": 0,

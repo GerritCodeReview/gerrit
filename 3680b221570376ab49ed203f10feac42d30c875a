@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "2d146132_9976dbcf",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-05-06T01:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad4db187_e5cbd69e",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "3680b221570376ab49ed203f10feac42d30c875a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad4db187_c5c8daa4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -108,6 +132,24 @@
       "writtenOn": "2015-05-06T00:04:34Z",
       "side": 1,
       "message": "one more nit: please add a little to the commit message about the breakage this fixes (was there an error message, malformed output, or something else)?",
+      "revId": "3680b221570376ab49ed203f10feac42d30c875a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_584a7d88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-05-06T01:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad4db187_c5c8daa4",
       "revId": "3680b221570376ab49ed203f10feac42d30c875a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

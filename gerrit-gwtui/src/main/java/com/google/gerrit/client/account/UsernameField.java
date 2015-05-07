@@ -86,7 +86,7 @@ class UsernameField extends Composite {
   }
 
   private boolean canEditUserName() {
-    return Gerrit.getConfig().canEdit(Account.FieldName.USER_NAME);
+    return Gerrit.info().auth().canEdit(Account.FieldName.USER_NAME);
   }
 
   private void confirmSetUserName() {

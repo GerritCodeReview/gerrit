@@ -695,7 +695,7 @@ public class Dispatcher {
         }
 
         if (matchExact(SETTINGS_AGREEMENTS, token)
-            && Gerrit.getConfig().isUseContributorAgreements()) {
+            && Gerrit.info().auth().useContributorAgreements()) {
           return new MyAgreementsScreen();
         }
 

@@ -44,10 +44,6 @@ public class AuthInfo extends JavaScriptObject {
     return authType() == AuthType.CLIENT_SSL_CERT_LDAP;
   }
 
-  public final boolean isCustomExtension() {
-    return authType() == AuthType.CUSTOM_EXTENSION;
-  }
-
   public final boolean canEdit(Account.FieldName f) {
     return editableAccountFields().contains(f);
   }

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
@@ -68,7 +69,7 @@ public class CommandUtils {
       } catch (IllegalArgumentException e) {
         throw error("\"" + patchIdentity + "\" is not a valid patch set");
       }
-      final PatchSet patchSet = db.patchSets().get(patchSetId);
+      final PatchSet patchSet = PSU.get(db.patchSets(), patchSetId);
       if (patchSet == null) {
         throw error("\"" + patchIdentity + "\" no such patch set");
       }

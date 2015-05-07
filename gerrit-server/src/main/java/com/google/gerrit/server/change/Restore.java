@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
@@ -133,7 +134,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     }
     hooks.doChangeRestoredHook(change,
         caller.getAccount(),
-        db.patchSets().get(change.currentPatchSetId()),
+        PSU.get(db.patchSets(), change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         dbProvider.get());
     ChangeInfo result = json.format(change);

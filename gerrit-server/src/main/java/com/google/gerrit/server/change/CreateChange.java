@@ -39,6 +39,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -168,7 +169,7 @@ public class CreateChange implements
           throw new InvalidChangeOperationException(
               "Base change not found: " + input.baseChange);
         }
-        PatchSet ps = db.get().patchSets().get(
+        PatchSet ps = PSU.get(db.get().patchSets(),
             new PatchSet.Id(change.getId(),
             change.currentPatchSetId().get()));
         parentCommit = ObjectId.fromString(ps.getRevision().get());

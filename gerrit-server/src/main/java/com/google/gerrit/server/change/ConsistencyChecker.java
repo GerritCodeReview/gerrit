@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -188,7 +189,7 @@ public class ConsistencyChecker {
   private void checkCurrentPatchSetEntity() {
     try {
       PatchSet.Id psId = change.currentPatchSetId();
-      currPs = db.get().patchSets().get(psId);
+      currPs = PSU.get(db.get().patchSets(), psId);
       if (currPs == null) {
         problem(String.format("Current patch set %d not found", psId.get()));
       }

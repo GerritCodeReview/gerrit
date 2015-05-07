@@ -61,20 +61,16 @@ As result a link:#server-info[ServerInfo] entity is returned.
     },
     "download": {
       "schemes": [
-        {
-          "name": "ssh",
-          "url": "ssh://jdoe@gerrithost:29418/${project}",
-          "is_auth_required": true,
-          "is_auth_supported": true,
+        "anonymous http": {
+          "url": "http://gerrithost:8080/${project}",
           "commands": {
-            "Checkout": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git checkout FETCH_HEAD",
-            "Format Patch": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
-            "Pull": "git pull ssh://jdoe@gerrithost:29418/${project} ${ref}",
-            "Cherry Pick": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+            "Checkout": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git checkout FETCH_HEAD",
+            "Format Patch": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+            "Pull": "git pull http://gerrithost:8080/${project} ${ref}",
+            "Cherry Pick": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
           }
         },
-        {
-          "name": "http",
+        "http": {
           "url": "http://jdoe@gerrithost:8080/${project}",
           "is_auth_required": true,
           "is_auth_supported": true,
@@ -85,14 +81,15 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Cherry Pick": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
           }
         },
-        {
-          "name": "anonymous http",
-          "url": "http://gerrithost:8080/${project}",
+        "ssh": {
+          "url": "ssh://jdoe@gerrithost:29418/${project}",
+          "is_auth_required": true,
+          "is_auth_supported": true,
           "commands": {
-            "Checkout": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git checkout FETCH_HEAD",
-            "Format Patch": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
-            "Pull": "git pull http://gerrithost:8080/${project} ${ref}",
-            "Cherry Pick": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+            "Checkout": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git checkout FETCH_HEAD",
+            "Format Patch": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+            "Pull": "git pull ssh://jdoe@gerrithost:29418/${project} ${ref}",
+            "Cherry Pick": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
           }
         }
       ],
@@ -1001,8 +998,8 @@ options.
 |=======================
 |Field Name |Description
 |`schemes`  |
-The supported download schemes as list of link:#download-scheme-info[
-DownloadSchemeInfo] entities.
+The supported download schemes as a map which maps the scheme name to a
+of link:#download-scheme-info[DownloadSchemeInfo] entity.
 |`archives` |
 List of supported archive formats. Possible values are `TGZ`, `TAR`,
 `TBZ2` and `TXZ`.
@@ -1016,8 +1013,6 @@ download scheme and its commands.
 [options="header",cols="1,^1,5"]
 |=================================
 |Field Name          ||Description
-|`name`              ||
-The name of the download scheme.
 |`url`               ||
 The URL of the download scheme, where '${project}' is used as
 placeholder for the project name.

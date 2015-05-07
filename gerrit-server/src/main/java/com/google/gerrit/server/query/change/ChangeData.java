@@ -544,6 +544,10 @@ public class ChangeData {
     return patchSets;
   }
 
+  public void setPatchSets(Collection<PatchSet> patchSets) {
+    this.patchSets = patchSets;
+  }
+
   /**
    * @return patch set with the given ID, or null if it does not exist.
    * @throws OrmException an error occurred reading the database.

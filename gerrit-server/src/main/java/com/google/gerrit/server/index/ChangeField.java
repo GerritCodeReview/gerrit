@@ -531,6 +531,25 @@ public class ChangeField {
         }
       };
 
+  public static class PatchSetProtoField
+      extends FieldDef.Repeatable<ChangeData, byte[]> {
+    public static final ProtobufCodec<PatchSet> CODEC =
+        CodecFactory.encoder(PatchSet.class);
+
+    private PatchSetProtoField() {
+      super("_patch_set", FieldType.STORED_ONLY, true);
+    }
+
+    @Override
+    public Iterable<byte[]> get(ChangeData input, FieldDef.FillArgs args)
+        throws OrmException {
+      return toProtos(CODEC, input.patchSets());
+    }
+  }
+
+  /** Serialized patch set object, used for pre-populating results. */
+  public static final PatchSetProtoField PATCH_SET = new PatchSetProtoField();
+
   private static String getTopic(ChangeData input) throws OrmException {
     Change c = input.change();
     if (c == null) {

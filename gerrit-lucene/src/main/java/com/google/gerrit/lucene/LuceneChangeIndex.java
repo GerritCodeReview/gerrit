@@ -31,7 +31,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -39,6 +39,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeField.ChangeProtoField;
 import com.google.gerrit.server.index.ChangeField.PatchSetApprovalProtoField;
+import com.google.gerrit.server.index.ChangeField.PatchSetProtoField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -98,6 +100,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -128,12 +131,13 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String ID_SORT_FIELD =
       sortFieldName(ChangeField.LEGACY_ID);
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
+  private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String UPDATED_SORT_FIELD =
       sortFieldName(ChangeField.UPDATED);
 
   private static final ImmutableSet<String> FIELDS = ImmutableSet.of(
       ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD,
-      MERGEABLE_FIELD);
+      MERGEABLE_FIELD, PATCH_SET_FIELD);
 
   private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
       "_", " ", ".", " ");
@@ -472,17 +476,18 @@ public class LuceneChangeIndex implements ChangeIndex {
         cb.bytes, cb.offset, cb.length);
     ChangeData cd = changeDataFactory.create(db.get(), change);
 
-    // Approvals.
-    BytesRef[] approvalsBytes = doc.getBinaryValues(APPROVAL_FIELD);
-    if (approvalsBytes != null) {
-      List<PatchSetApproval> approvals =
-          Lists.newArrayListWithCapacity(approvalsBytes.length);
-      for (BytesRef ab : approvalsBytes) {
-        approvals.add(PatchSetApprovalProtoField.CODEC.decode(
-            ab.bytes, ab.offset, ab.length));
-      }
-      cd.setCurrentApprovals(approvals);
+    // Patch sets.
+    List<PatchSet> patchSets =
+        decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoField.CODEC);
+    if (!patchSets.isEmpty()) {
+      // Will be an empty list for schemas prior to when this field was stored;
+      // this cannot be valid since a change needs at least one patch set.
+      cd.setPatchSets(patchSets);
     }
+
+    // Approvals.
+    cd.setCurrentApprovals(
+        decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoField.CODEC));
 
     // Changed lines.
     IndexableField added = doc.getField(ADDED_FIELD);
@@ -502,6 +507,19 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
 
     return cd;
+  }
+
+  private static <T> List<T> decodeProtos(Document doc, String fieldName,
+      ProtobufCodec<T> codec) {
+    BytesRef[] bytesRefs = doc.getBinaryValues(fieldName);
+    if (bytesRefs.length == 0) {
+      return Collections.emptyList();
+    }
+    List<T> result = new ArrayList<>(bytesRefs.length);
+    for (BytesRef r : bytesRefs) {
+      result.add(codec.decode(r.bytes, r.offset, r.length));
+    }
+    return result;
   }
 
   private Document toDocument(ChangeData cd) {

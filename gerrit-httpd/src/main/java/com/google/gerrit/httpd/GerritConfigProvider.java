@@ -24,13 +24,11 @@ import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,20 +48,21 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final DownloadConfig downloadConfig;
   private final GetArchive.AllowedFormats archiveFormats;
   private final GitWebConfig gitWebConfig;
-  private final AllProjectsName wildProject;
   private final SshInfo sshInfo;
 
-  private final ContactStore contactStore;
   private final ServletContext servletContext;
   private final String anonymousCowardName;
 
   @Inject
-  GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
-      final AuthConfig ac, final GitWebConfig gwc, final AllProjectsName wp,
-      final SshInfo si, final ContactStore cs,
-      final ServletContext sc, final DownloadConfig dc,
-      final GetArchive.AllowedFormats af,
-      @AnonymousCowardName final String acn) {
+  GerritConfigProvider(Realm r,
+      @GerritServerConfig Config gsc,
+      AuthConfig ac,
+      GitWebConfig gwc,
+      SshInfo si,
+      ServletContext sc,
+      DownloadConfig dc,
+      GetArchive.AllowedFormats af,
+      @AnonymousCowardName String acn) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
@@ -71,8 +70,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     archiveFormats = af;
     gitWebConfig = gwc;
     sshInfo = si;
-    wildProject = wp;
-    contactStore = cs;
     servletContext = sc;
     anonymousCowardName = acn;
   }
@@ -109,13 +106,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         break;
     }
     config.setSwitchAccountUrl(cfg.getString("auth", null, "switchAccountUrl"));
-    config.setUseContributorAgreements(authConfig.isUseContributorAgreements());
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setGitHttpUrl(cfg.getString("gerrit", null, "gitHttpUrl"));
-    config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setDownloadSchemes(downloadConfig.getDownloadSchemes());
     config.setAuthType(authConfig.getAuthType());
-    config.setWildProject(wildProject);
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
     config.setAnonymousCowardName(anonymousCowardName);

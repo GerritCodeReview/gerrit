@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -146,7 +147,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       RevId parent = parents.remove(0);
       // get direct descendants of change
       for (PatchSetAncestor desc : db.patchSetAncestors().descendantsOf(parent)) {
-        PatchSet descPatchSet = db.patchSets().get(desc.getPatchSet());
+        PatchSet descPatchSet = PSU.get(db.patchSets(), desc.getPatchSet());
         Change.Id descChangeId = descPatchSet.getId().getParentKey();
         if (child.equals(descChangeId)) {
           PatchSet.Id descCurrentPatchSetId =
@@ -169,7 +170,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
       // try parsing the base as a ref string
-      return db.patchSets().get(basePatchSetId);
+      return PSU.get(db.patchSets(), basePatchSetId);
     }
 
     // try parsing base as a change number (assume current patch set)

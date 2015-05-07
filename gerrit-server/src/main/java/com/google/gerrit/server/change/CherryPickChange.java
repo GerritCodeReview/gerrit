@@ -27,6 +27,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
@@ -209,7 +210,7 @@ public class CherryPickChange {
     final PatchSetInserter inserter = patchSetInserterFactory
         .create(git, revWalk, changeControl, cherryPickCommit);
     final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
-    PatchSet current = db.get().patchSets().get(change.currentPatchSetId());
+    PatchSet current = PSU.get(db.get().patchSets(), change.currentPatchSetId());
     inserter
       .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
       .setDraft(current.isDraft())
@@ -288,7 +289,7 @@ public class CherryPickChange {
   private void addMessageToDestinationChange(Change change, String sourceBranch,
       IdentifiedUser identifiedUser, RefControl refControl) throws OrmException {
     PatchSet.Id patchSetId =
-        db.get().patchSets().get(change.currentPatchSetId()).getId();
+        PSU.get(db.get().patchSets(), change.currentPatchSetId()).getId();
     ChangeMessage changeMessage = new ChangeMessage(
         new ChangeMessage.Key(
             patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),

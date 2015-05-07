@@ -86,7 +86,7 @@ public class ApprovalCopier {
 
   Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
       ChangeControl ctl, PatchSet.Id psId) throws OrmException {
-    return getForPatchSet(db, ctl, db.patchSets().get(psId));
+    return getForPatchSet(db, ctl, PSU.get(db.patchSets(), psId));
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,

@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
@@ -190,7 +191,7 @@ public class ChangeEdits implements
     private Optional<ChangeEdit> createEdit() throws AuthException,
         IOException, ResourceConflictException, OrmException {
       editModifier.createEdit(change,
-          db.get().patchSets().get(change.currentPatchSetId()));
+          PSU.get(db.get().patchSets(), change.currentPatchSetId()));
       return editUtil.byChange(change);
     }
   }
@@ -233,8 +234,7 @@ public class ChangeEdits implements
         // Even if the latest patch set changed since the user triggered
         // the operation, deleting the whole file is probably still what
         // they intended.
-        editModifier.createEdit(rsrc.getChange(), db.get().patchSets().get(
-            rsrc.getChange().currentPatchSetId()));
+        editModifier.createEdit(rsrc.getChange(), PSU.get(db.get().patchSets(), rsrc.getChange().currentPatchSetId()));
         edit = editUtil.byChange(rsrc.getChange());
         editModifier.deleteFile(edit.get(), path);
       }
@@ -356,7 +356,7 @@ public class ChangeEdits implements
         throws AuthException, IOException, ResourceConflictException,
         OrmException {
       editModifier.createEdit(change,
-          db.get().patchSets().get(change.currentPatchSetId()));
+          PSU.get(db.get().patchSets(), change.currentPatchSetId()));
       return editUtil.byChange(change);
     }
   }
@@ -514,7 +514,7 @@ public class ChangeEdits implements
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         editModifier.createEdit(rsrc.getChange(),
-            db.get().patchSets().get(rsrc.getChange().currentPatchSetId()));
+            PSU.get(db.get().patchSets(), rsrc.getChange().currentPatchSetId()));
         edit = editUtil.byChange(rsrc.getChange());
       }
 

@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
@@ -73,7 +74,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       IOException {
     if (id.equals("current")) {
       PatchSet.Id p = change.getChange().currentPatchSetId();
-      PatchSet ps = p != null ? dbProvider.get().patchSets().get(p) : null;
+      PatchSet ps = p != null ? PSU.get(dbProvider.get().patchSets(), p) : null;
       if (ps != null && visible(change, ps)) {
         return new RevisionResource(change, ps).doNotCache();
       }
@@ -140,7 +141,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   private List<RevisionResource> byLegacyPatchSetId(ChangeResource change,
       String id) throws OrmException {
-    PatchSet ps = dbProvider.get().patchSets().get(new PatchSet.Id(
+    PatchSet ps = PSU.get(dbProvider.get().patchSets(), new PatchSet.Id(
         change.getChange().getId(),
         Integer.parseInt(id)));
     if (ps != null) {

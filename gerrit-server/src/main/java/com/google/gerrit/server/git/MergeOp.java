@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
@@ -972,7 +974,7 @@ public class MergeOp {
       // modified when using the cherry-pick merge strategy.
       CodeReviewCommit commit = commits.get(c.getId());
       PatchSet.Id mergedId = commit.change().currentPatchSetId();
-      merged = db.patchSets().get(mergedId);
+      merged = PSU.get(db.patchSets(), mergedId);
       c = setMergedPatchSet(c.getId(), mergedId);
       submitter = approvalsUtil.getSubmitter(db, commit.notes(), mergedId);
       ChangeControl control = commit.getControl();
@@ -1034,7 +1036,7 @@ public class MergeOp {
         try {
           ReviewDb reviewDb = schemaFactory.open();
           try {
-            patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
+            patchSet = PSU.get(reviewDb.patchSets(), c.currentPatchSetId());
           } finally {
             reviewDb.close();
           }
@@ -1196,7 +1198,7 @@ public class MergeOp {
         try {
           ReviewDb reviewDb = schemaFactory.open();
           try {
-            patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
+            patchSet = PSU.get(reviewDb.patchSets(), c.currentPatchSetId());
           } finally {
             reviewDb.close();
           }
@@ -1228,7 +1230,7 @@ public class MergeOp {
       try {
         hooks.doMergeFailedHook(c,
             accountCache.get(submitter.getAccountId()).getAccount(),
-            db.patchSets().get(c.currentPatchSetId()), msg.getMessage(), db);
+            PSU.get(db.patchSets(), c.currentPatchSetId()), msg.getMessage(), db);
       } catch (OrmException ex) {
         logError("Cannot run hook for merge failed " + c.getId(), ex);
       }

@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
@@ -182,7 +183,7 @@ public class ChangeEditUtil {
       int pos = ref.getName().lastIndexOf("/");
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
-      return db.get().patchSets().get(new PatchSet.Id(
+      return PSU.get(db.get().patchSets(), new PatchSet.Id(
           change.getId(), Integer.parseInt(psId)));
     } catch (OrmException | NumberFormatException e) {
       throw new IOException(e);

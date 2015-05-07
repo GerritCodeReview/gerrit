@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
@@ -110,7 +111,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
           toGet.add(id);
         }
       }
-      for (PatchSet ps : db.patchSets().get(toGet)) {
+      for (PatchSet ps : PSU.get(db.patchSets(), toGet)) {
         if (ps.getRevision() != null && ps.getRevision().get() != null) {
           toInclude.add(ObjectId.fromString(ps.getRevision().get()));
         }

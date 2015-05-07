@@ -20,6 +20,7 @@ import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
+
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -79,6 +80,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -2505,7 +2507,7 @@ public class ReceiveCommits {
     final Change.Id cid = psi.getParentKey();
 
     final Change change = db.changes().get(cid);
-    final PatchSet ps = db.patchSets().get(psi);
+    final PatchSet ps = PSU.get(db.patchSets(), psi);
     if (change == null || ps == null) {
       log.warn(project.getName() + " " + psi + " is missing");
       return null;

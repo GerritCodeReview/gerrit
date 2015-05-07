@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchList;
@@ -140,7 +141,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     if (patchSet == null) {
       try {
-        patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
+        patchSet = PSU.get(args.db.get().patchSets(), change.currentPatchSetId());
       } catch (OrmException err) {
         patchSet = null;
       }

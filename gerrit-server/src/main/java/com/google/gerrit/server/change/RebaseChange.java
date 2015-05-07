@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
@@ -217,7 +218,7 @@ public class RebaseChange {
                 "Change is already based on the latest patch set of the dependent change.");
           }
           PatchSet latestDepPatchSet =
-              db.patchSets().get(depChange.currentPatchSetId());
+              PSU.get(db.patchSets(), depChange.currentPatchSetId());
           baseRev = latestDepPatchSet.getRevision().get();
         }
         break;
@@ -277,7 +278,7 @@ public class RebaseChange {
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
-    final PatchSet originalPatchSet = db.get().patchSets().get(patchSetId);
+    final PatchSet originalPatchSet = PSU.get(db.get().patchSets(), patchSetId);
 
     final RevCommit rebasedCommit;
     ObjectId oldId = ObjectId.fromString(originalPatchSet.getRevision().get());
@@ -310,7 +311,7 @@ public class RebaseChange {
         .setMessage(cmsg)
         .insert();
 
-    return db.get().patchSets().get(newChange.currentPatchSetId());
+    return PSU.get(db.get().patchSets(), newChange.currentPatchSetId());
   }
 
   /**

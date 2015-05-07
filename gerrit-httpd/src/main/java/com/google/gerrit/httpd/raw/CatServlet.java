@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -173,7 +174,7 @@ public class CatServlet extends HttpServlet {
           return;
         }
       } else {
-        PatchSet patchSet = db.patchSets().get(patchKey.getParentKey());
+        PatchSet patchSet = PSU.get(db.patchSets(), patchKey.getParentKey());
         if (patchSet == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;

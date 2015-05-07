@@ -223,7 +223,7 @@ public class ChangeUtil {
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException {
     Change.Id changeId = patchSetId.getParentKey();
-    PatchSet patch = db.get().patchSets().get(patchSetId);
+    PatchSet patch = PSU.get(db.get().patchSets(), patchSetId);
     if (patch == null) {
       throw new NoSuchChangeException(changeId);
     }
@@ -400,7 +400,7 @@ public class ChangeUtil {
       throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException {
     Change.Id changeId = change.getId();
-    PatchSet ps = db.get().patchSets().get(change.currentPatchSetId());
+    PatchSet ps = PSU.get(db.get().patchSets(), change.currentPatchSetId());
     if (ps == null) {
       throw new NoSuchChangeException(changeId);
     }

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -150,8 +151,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     aId = psa != null ? toObjectId(db, psa) : null;
     bId = toObjectId(db, psb);
 
-    if ((psa != null && !control.isPatchVisible(db.patchSets().get(psa), db)) ||
-        (psb != null && !control.isPatchVisible(db.patchSets().get(psb), db))) {
+    if ((psa != null && !control.isPatchVisible(PSU.get(db.patchSets(), psa), db)) ||
+        (psb != null && !control.isPatchVisible(PSU.get(db.patchSets(), psb), db))) {
       throw new NoSuchChangeException(changeId);
     }
 
@@ -216,7 +217,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     if (psId.get() == 0) {
       return getEditRev();
     }
-    PatchSet ps = db.patchSets().get(psId);
+    PatchSet ps = PSU.get(db.patchSets(), psId);
     if (ps == null || ps.getRevision() == null
         || ps.getRevision().get() == null) {
       throw new NoSuchChangeException(changeId);

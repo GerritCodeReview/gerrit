@@ -36,6 +36,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -133,7 +134,7 @@ public class ChangeData {
     }
     if (!missing.isEmpty()) {
       ReviewDb db = missing.values().iterator().next().db;
-      for (PatchSet ps : db.patchSets().get(missing.keySet())) {
+      for (PatchSet ps : PSU.get(db.patchSets(), missing.keySet())) {
         ChangeData cd = missing.get(ps.getId());
         cd.currentPatchSet = ps;
       }
@@ -518,7 +519,7 @@ public class ChangeData {
       RepositoryNotFoundException, IOException, MissingObjectException,
       IncorrectObjectTypeException {
     PatchSet.Id psId = change().currentPatchSetId();
-    PatchSet ps = db.patchSets().get(psId);
+    PatchSet ps = PSU.get(db.patchSets(), psId);
     if (ps == null) {
       return false;
     }

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
@@ -69,7 +70,7 @@ public class PatchSetInfoFactory {
   public PatchSetInfo get(ReviewDb db, PatchSet.Id patchSetId)
       throws PatchSetInfoNotAvailableException {
     try {
-      final PatchSet patchSet = db.patchSets().get(patchSetId);
+      final PatchSet patchSet = PSU.get(db.patchSets(), patchSetId);
       final Change change = db.changes().get(patchSet.getId().getParentKey());
       return get(change, patchSet);
     } catch (OrmException e) {

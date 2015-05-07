@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -263,7 +264,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           TreeWalk tw = new TreeWalk(reader)) {
         PatchList oldList = patchListCache.get(
             resource.getChange(),
-            db.get().patchSets().get(old));
+            PSU.get(db.get().patchSets(), old));
 
         PatchList curList = patchListCache.get(
             resource.getChange(),

@@ -27,11 +27,13 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 
 import org.apache.commons.codec.binary.Base64;
@@ -55,19 +57,23 @@ class OAuthSessionOverOpenID {
   private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
   private final DynamicItem<WebSession> webSession;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final AccountManager accountManager;
   private final CanonicalWebUrl urlProvider;
   private OAuthServiceProvider serviceProvider;
   private OAuthToken token;
   private OAuthUserInfo user;
   private String redirectToken;
+  private boolean linkMode;
 
   @Inject
   OAuthSessionOverOpenID(DynamicItem<WebSession> webSession,
+      Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider) {
     this.state = generateRandomState();
     this.webSession = webSession;
+    this.identifiedUser = identifiedUser;
     this.accountManager = accountManager;
     this.urlProvider = urlProvider;
   }
@@ -82,10 +88,6 @@ class OAuthSessionOverOpenID {
 
   boolean login(HttpServletRequest request, HttpServletResponse response,
       OAuthServiceProvider oauth) throws IOException {
-    if (isLoggedIn()) {
-      return true;
-    }
-
     log.debug("Login " + this);
 
     if (isOAuthFinal(request)) {
@@ -96,7 +98,6 @@ class OAuthSessionOverOpenID {
 
       log.debug("Login-Retrieve-User " + this);
       token = oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")));
-
       user = oauth.getUserInfo(token);
 
       if (isLoggedIn()) {
@@ -124,6 +125,7 @@ class OAuthSessionOverOpenID {
     try {
       String claimedIdentifier = user.getClaimedIdentity();
       Account.Id actualId = accountManager.lookup(user.getExternalId());
+      // Use case 1: claimed identity was provided during handshake phase
       if (!Strings.isNullOrEmpty(claimedIdentifier)) {
         Account.Id claimedId = accountManager.lookup(claimedIdentifier);
         if (claimedId != null && actualId != null) {
@@ -152,6 +154,18 @@ class OAuthSessionOverOpenID {
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
+        }
+      } else if (linkMode) {
+        // Use case 2: link mode activated from the UI
+        try {
+          accountManager.link(identifiedUser.get().getAccountId(), areq);
+        } catch (OrmException e) {
+          log.error("Cannot link: " + user.getExternalId()
+              + " to user identity: " + identifiedUser.get().getAccountId());
+          rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+          return;
+        } finally {
+          linkMode = false;
         }
       }
       areq.setUserName(user.getUserName());
@@ -212,5 +226,13 @@ class OAuthSessionOverOpenID {
 
   public OAuthServiceProvider getServiceProvider() {
     return serviceProvider;
+  }
+
+  public void setLinkMode(boolean linkMode) {
+    this.linkMode = linkMode;
+  }
+
+  public boolean isLinkMode() {
+    return linkMode;
   }
 }

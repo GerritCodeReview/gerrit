@@ -526,7 +526,6 @@ public class SubmitRuleEvaluator {
     }
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
-    env.set(StoredValues.PATCH_SET, patchSet);
     env.set(StoredValues.CHANGE_CONTROL, control);
     if (user != null) {
       env.set(StoredValues.CURRENT_USER, user);

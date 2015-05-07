@@ -3390,9 +3390,13 @@ By default 0.
 +
 The maximum number of matches evaluated for change access when using full text search.
 +
-Making this number too high could have a negative impact on performance.
-+
 By default 100.
+
+[[suggest.fullTextSearchRefresh]]suggest.fullTextSearchRefresh::
++
+Refresh interval for the in-memory account search index.
++
+By default 1 hour.
 
 
 [[theme]]

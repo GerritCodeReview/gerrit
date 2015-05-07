@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d119541_babf519c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-07T13:52:10Z",
+      "side": 1,
+      "message": "FYI: most of the tests were failing due to the prefixing of each username with the resourcePrefix.. means, when we create the \"user1\" its username is really:\n\n  com.google.gerrit.acceptance.rest.change.SuggestReviewersIT_suggestReviewersFullTextSearch_user1\n\nand its email:\n\n  com.google.gerrit.acceptance.rest.change.SuggestReviewersIT_suggestReviewersFullTextSearch_user1@example.com",
+      "revId": "5c9d007709d583ac186d4038c8257df4df1b288f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_dab205d6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-07T13:52:10Z",
+      "side": 1,
+      "message": "This is the only one still failing and I currently don\u0027t understand why.\nWill push a new PS when I figure out where is the issue.",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 37
+      },
+      "revId": "5c9d007709d583ac186d4038c8257df4df1b288f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

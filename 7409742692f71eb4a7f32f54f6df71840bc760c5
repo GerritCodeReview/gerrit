@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0019f0_1bd19bff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-07T11:59:19Z",
+      "side": 1,
+      "message": "Create change from the UI seems to use wrong identity. We may want to offer drop down box to select the right identity from. Or even an option to change the author from the UI.",
+      "range": {
+        "startLine": 2,
+        "startChar": 29,
+        "endLine": 2,
+        "endChar": 54
+      },
+      "revId": "7409742692f71eb4a7f32f54f6df71840bc760c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

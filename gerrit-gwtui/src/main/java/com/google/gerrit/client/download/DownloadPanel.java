@@ -55,7 +55,7 @@ public abstract class DownloadPanel extends FlowPanel {
         pref = new AccountGeneralPreferences();
         pref.resetToDefaults();
       }
-      commands.select(pref.getDownloadCommand());
+      commands.select();
       urls.select(pref.getDownloadUrl());
 
       FlowPanel p = new FlowPanel();

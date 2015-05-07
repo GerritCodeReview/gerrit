@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d146132_99813b00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-07T18:41:12Z",
+      "side": 1,
+      "message": "This statement is wrong, it\u0027s based on only instrumenting patchSets().get and not patchSets().byChange",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "4b21bd88f9da73d6851ce9107c8855c6d656501c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

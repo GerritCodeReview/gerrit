@@ -1026,7 +1026,8 @@ Whether this download scheme requires authentication.
 |`is_auth_supported` |not set if `false`|
 Whether this download scheme supports authentication.
 |`commands`          ||
-List of download commands, where  '${project}' is used as
+Download commands as a map which maps the command name to the download
+command. In the download command  '${project}' is used as
 placeholder for the project name, and '${ref}' is used as
 placeholder for the (change) ref.
 

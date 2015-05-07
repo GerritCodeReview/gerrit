@@ -65,7 +65,7 @@ class ContactPanelFull extends ContactPanelShort {
     hasContact.setStyleName(Gerrit.RESOURCES.css().accountContactOnFile());
     hasContact.setVisible(false);
 
-    if (Gerrit.getConfig().isUseContactInfo()) {
+    if (Gerrit.getServerInfo().hasContactStore()) {
       body.add(privhtml);
       body.add(hasContact);
       body.add(infoSecure);
@@ -116,7 +116,7 @@ class ContactPanelFull extends ContactPanelShort {
   @Override
   ContactInformation toContactInformation() {
     final ContactInformation info;
-    if (Gerrit.getConfig().isUseContactInfo()) {
+    if (Gerrit.getServerInfo().hasContactStore()) {
       info = new ContactInformation();
       info.setAddress(addressTxt.getText());
       info.setCountry(countryTxt.getText());

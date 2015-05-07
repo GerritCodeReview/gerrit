@@ -29,6 +29,7 @@ import com.google.inject.Singleton;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 public class ChangeMergeQueue implements MergeQueue {
 
   private final Map<ChangeSet, WaitingEntry> recheck = new HashMap<>();
+  //private final PriorityQueue<WaitingEntry>
 
   private final Set<Branch.NameKey> currentBranches = Sets.newHashSet();
 
@@ -57,19 +59,19 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public synchronized void merge(Iterable<Change> changes) {
+  public synchronized void merge(ChangeSet changes) {
     // TODO(sbeller): throw an CongestedException and leave the decision up to
     // the caller or reschedule ourselves?
     schedule(changes);
   }
 
   @Override
-  public synchronized void schedule(Iterable<Change> changes) {
+  public synchronized void schedule(ChangeSet changes) {
     recheckAfter(changes, 0, MILLISECONDS);
   }
 
   @Override
-  public synchronized void recheckAfter(Iterable<Change> changes,
+  public synchronized void recheckAfter(ChangeSet changes,
       long delay, TimeUnit delayUnit) {
     final long now = TimeUtil.nowMs();
     final long at = now + MILLISECONDS.convert(delay, delayUnit);
@@ -103,15 +105,14 @@ public class ChangeMergeQueue implements MergeQueue {
    * @return a WaitingEntry which is scheduled and put in recheck
    */
   private synchronized WaitingEntry getOrCreateWaitingEntry(
-      Iterable<Change> changes) {
+      ChangeSet changes) {
 
-    ChangeSet cs = ChangeSet.create(changes);
-    WaitingEntry w = recheck.get(cs);
+    WaitingEntry w = recheck.get(changes);
 
     if (w == null) {
-      w = new WaitingEntry(cs);
+      w = new WaitingEntry(changes);
       w.jobScheduled = false;
-      recheck.put(cs, w);
+      recheck.put(changes, w);
     }
     return w;
   }

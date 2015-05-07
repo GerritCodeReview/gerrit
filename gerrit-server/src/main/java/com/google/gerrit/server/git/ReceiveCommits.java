@@ -1749,7 +1749,7 @@ public class ReceiveCommits {
       throw new IOException(e);
     }
     addMessage("");
-    mergeQueue.merge(changes);
+    mergeQueue.merge(ChangeSet.create(changes));
     for (Change c : changes) {
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {

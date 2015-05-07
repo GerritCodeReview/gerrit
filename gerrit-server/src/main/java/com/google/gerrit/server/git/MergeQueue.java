@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.Change;
-
 import java.util.concurrent.TimeUnit;
 
 public interface MergeQueue {
@@ -26,7 +24,7 @@ public interface MergeQueue {
    *
    * @param changes The changes which should be merged.
    */
-  void merge(Iterable<Change> changes);
+  void merge(ChangeSet changes);
 
   /**
    * Schedule changes for merge. The changes will be checked periodically and
@@ -34,7 +32,7 @@ public interface MergeQueue {
    *
    * @param changes The changes which should be merged eventually.
    */
-  void schedule(Iterable<Change> changes);
+  void schedule(ChangeSet changes);
 
   /**
    * This makes sure the changes are scheduled not earlier than the delay
@@ -44,5 +42,5 @@ public interface MergeQueue {
    * @param delay The actual delay
    * @param delayUnit and its unit
    */
-  void recheckAfter(Iterable<Change> changes, long delay, TimeUnit delayUnit);
+  void recheckAfter(ChangeSet changes, long delay, TimeUnit delayUnit);
 }

@@ -53,6 +53,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeQueue;
@@ -215,10 +216,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     Set<Change> submittedChanges = new HashSet<>(submit(rsrc, caller, false));
 
     if (input.waitForMerge) {
-      mergeQueue.merge(submittedChanges);
+      mergeQueue.merge(ChangeSet.create(submittedChanges));
       change = dbProvider.get().changes().get(change.getId());
     } else {
-      mergeQueue.schedule(submittedChanges);
+      mergeQueue.schedule(ChangeSet.create(submittedChanges));
     }
 
     if (change == null) {

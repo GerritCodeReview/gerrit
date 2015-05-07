@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 @Singleton
 public class ReloadSubmitQueueOp extends DefaultQueueOp {
@@ -57,7 +56,7 @@ public class ReloadSubmitQueueOp extends DefaultQueueOp {
           // TODO(sbeller): Guess the correct lists instead of having each
           // change being in its own list. As of writing this todo, it's
           // only dependent on `submitwholetopic`
-          mergeQueue.schedule(new HashSet<>(Arrays.asList(cd.change())));
+          mergeQueue.schedule(ChangeSet.create(Arrays.asList(cd.change())));
         } catch (OrmException e) {
           log.error("Error reading submitted change", e);
         }

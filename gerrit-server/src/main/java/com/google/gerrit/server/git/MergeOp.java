@@ -715,7 +715,7 @@ public class MergeOp {
         case LOCK_FAILURE:
           String msg;
           if (strategy.retryOnLockFailure()) {
-            mergeQueue.recheckAfter(new HashSet<>(changes),
+            mergeQueue.recheckAfter(ChangeSet.create(changes),
                 LOCK_FAILURE_RETRY_DELAY, MILLISECONDS);
             msg = "will retry";
           } else {
@@ -870,7 +870,7 @@ public class MergeOp {
       // If we waited a short while we might still be able to get
       // this change submitted. Reschedule an attempt in a bit.
       //
-      mergeQueue.recheckAfter(new HashSet<>(Arrays.asList(c)), recheckIn,
+      mergeQueue.recheckAfter(ChangeSet.create(Arrays.asList(c)), recheckIn,
           MILLISECONDS);
       capable = Capable.OK;
     } else if (submitStillPossible) {

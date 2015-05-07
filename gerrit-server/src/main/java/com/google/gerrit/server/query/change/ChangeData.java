@@ -351,6 +351,7 @@ public class ChangeData {
         return null;
       }
 
+      new Exception("Loading file paths for " + ps.getId()).printStackTrace();
       PatchList p;
       try {
         p = patchListCache.get(c, ps);
@@ -398,6 +399,7 @@ public class ChangeData {
         return null;
       }
 
+      new Exception("Loading changed lines for " + ps.getId()).printStackTrace();
       PatchList p;
       try {
         p = patchListCache.get(c, ps);
@@ -430,6 +432,7 @@ public class ChangeData {
     if (changeControl == null) {
       Change c = change();
       try {
+        new Exception("Loading ChangeControl for " + getId()).printStackTrace();
         changeControl =
             changeControlFactory.controlFor(c, userFactory.create(c.getOwner()));
       } catch (NoSuchChangeException e) {
@@ -452,6 +455,7 @@ public class ChangeData {
   }
 
   public Change reloadChange() throws OrmException {
+    new Exception("Loading change " + getId()).printStackTrace();
     change = db.changes().get(legacyId);
     return change;
   }
@@ -486,6 +490,7 @@ public class ChangeData {
       if (c == null) {
         currentApprovals = Collections.emptyList();
       } else {
+        new Exception("Loading approvals for " + c.currentPatchSetId()).printStackTrace();
         currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
             db, changeControl(), c.currentPatchSetId()));
       }
@@ -524,6 +529,7 @@ public class ChangeData {
       return false;
     }
     String sha1 = ps.getRevision().get();
+    new Exception("Loading commit " + sha1 + " for " + psId).printStackTrace();
     try (Repository repo = repoManager.openRepository(change().getProject());
         RevWalk walk = new RevWalk(repo)) {
       RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
@@ -540,6 +546,7 @@ public class ChangeData {
   public Collection<PatchSet> patches()
       throws OrmException {
     if (patches == null) {
+      new Exception("Loading patch sets for " + getId()).printStackTrace();
       patches = db.patchSets().byChange(legacyId).toList();
     }
     return patches;
@@ -569,6 +576,7 @@ public class ChangeData {
   public ListMultimap<PatchSet.Id, PatchSetApproval> approvals()
       throws OrmException {
     if (allApprovals == null) {
+      new Exception("Loading all approvals for " + getId()).printStackTrace();
       allApprovals = approvalsUtil.byChange(db, notes());
     }
     return allApprovals;
@@ -582,6 +590,7 @@ public class ChangeData {
   public Collection<PatchLineComment> publishedComments()
       throws OrmException {
     if (publishedComments == null) {
+      new Exception("Loading published comments for " + getId()).printStackTrace();
       publishedComments = plcUtil.publishedByChange(db, notes());
     }
     return publishedComments;
@@ -590,6 +599,7 @@ public class ChangeData {
   public List<ChangeMessage> messages()
       throws OrmException {
     if (messages == null) {
+      new Exception("Loading messages for " + getId()).printStackTrace();
       messages = cmUtil.byChange(db, notes());
     }
     return messages;
@@ -620,6 +630,7 @@ public class ChangeData {
         if (ps == null || !changeControl().isPatchVisible(ps, db)) {
           return null;
         }
+        new Exception("Loading mergeability for " + ps.getId()).printStackTrace();
         try (Repository repo = repoManager.openRepository(c.getProject())) {
           Ref ref = repo.getRef(c.getDest().get());
           SubmitTypeRecord rec = new SubmitRuleEvaluator(this)

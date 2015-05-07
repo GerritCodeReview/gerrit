@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -55,7 +56,7 @@ class IncludedIn implements RestReadView<ChangeResource> {
       ResourceConflictException, OrmException, IOException {
     ChangeControl ctl = rsrc.getControl();
     PatchSet ps =
-        db.get().patchSets().get(ctl.getChange().currentPatchSetId());
+        PSU.get(db.get().patchSets(), ctl.getChange().currentPatchSetId());
     Project.NameKey project = ctl.getProject().getNameKey();
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {

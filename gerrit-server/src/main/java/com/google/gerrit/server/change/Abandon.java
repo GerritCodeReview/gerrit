@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
@@ -133,7 +134,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     }
     hooks.doChangeAbandonedHook(change,
         caller.getAccount(),
-        db.patchSets().get(change.currentPatchSetId()),
+        PSU.get(db.patchSets(), change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         db);
     ChangeInfo result = json.format(change);

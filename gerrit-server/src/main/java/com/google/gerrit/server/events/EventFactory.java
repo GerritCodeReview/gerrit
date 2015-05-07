@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -241,7 +242,7 @@ public class EventFactory {
           }
         }
 
-        final PatchSet ps = db.patchSets().get(psId);
+        final PatchSet ps = PSU.get(db.patchSets(), psId);
         if (ps == null) {
           log.error("Error while generating the list of descendants for"
               + " PatchSet " + psId + ": Cannot find PatchSet entry in"
@@ -249,7 +250,7 @@ public class EventFactory {
         } else {
           final RevId revId = ps.getRevision();
           for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
-            final PatchSet p = db.patchSets().get(a.getPatchSet());
+            final PatchSet p = PSU.get(db.patchSets(), a.getPatchSet());
             if (p == null) {
               log.error("Error while generating the list of descendants for"
                   + " revision " + revId.get() + ": Cannot find PatchSet entry in"

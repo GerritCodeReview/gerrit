@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
@@ -144,7 +145,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
           patchSet = edit.get().getBasePatchSet();
         }
       } else {
-        patchSet = db.patchSets().get(psIdNew);
+        patchSet = PSU.get(db.patchSets(), psIdNew);
       }
       if (patchSet == null) {
         throw new NoSuchEntityException();
@@ -238,7 +239,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,
       NoSuchEntityException {
-    final PatchSet ps = db.patchSets().get(psId);
+    final PatchSet ps = PSU.get(db.patchSets(), psId);
     if (ps == null) {
       throw new NoSuchEntityException();
     }

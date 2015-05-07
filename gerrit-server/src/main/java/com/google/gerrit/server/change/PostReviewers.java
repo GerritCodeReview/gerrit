@@ -38,6 +38,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PSU;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
@@ -258,7 +259,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     indexFuture.checkedGet();
     emailReviewers(rsrc.getChange(), added);
     if (!added.isEmpty()) {
-      PatchSet patchSet = dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
+      PatchSet patchSet = PSU.get(dbProvider.get().patchSets(), rsrc.getChange().currentPatchSetId());
       for (PatchSetApproval psa : added) {
         Account account = accountCache.get(psa.getAccountId()).getAccount();
         hooks.doReviewerAddedHook(rsrc.getChange(), account, patchSet, dbProvider.get());

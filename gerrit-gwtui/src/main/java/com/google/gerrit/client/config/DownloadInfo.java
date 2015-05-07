@@ -43,6 +43,10 @@ public class DownloadInfo extends JavaScriptObject {
     public final native String command(String n) /*-{ return this.commands[n]; }-*/;
     private final native NativeMap<NativeString> _commands() /*-{ return this.commands; }-*/;
 
+    public final String getUrl(String project) {
+      return url().replace("${project}", project);
+    }
+
     protected DownloadSchemeInfo() {
     }
   }

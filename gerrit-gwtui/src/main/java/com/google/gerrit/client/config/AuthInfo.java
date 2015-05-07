@@ -38,9 +38,6 @@ public class AuthInfo extends JavaScriptObject {
   public final boolean isClientSslCertLdap() {
     return authType() == AuthType.CLIENT_SSL_CERT_LDAP;
   }
-  public final boolean isCustomExtension() {
-    return authType() == AuthType.CUSTOM_EXTENSION;
-  }
 
   public final native boolean useContributorAgreements()
   /*-{ return this.use_contributor_agreements || false; }-*/;

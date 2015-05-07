@@ -34,6 +34,24 @@
       "revId": "0039b915f36cf28c6ff6c995feb8878a2c89aeca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_9b812b00",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-07T06:18:33Z",
+      "side": 1,
+      "message": "This is a placeholder for the GWT version when the plugin skeleton is initially created by using the Maven archetype. It\u0027s replaced during the plugin creation and afterwards it\u0027s not available anymore.\n\nSee [1], where it gets defined.\n\nWe could define our own property in the pom.xml. Something like:\n\n  \u003cproperties\u003e\n    \u003cGwt-Version\u003e${Gwt-Version}\u003c/Gwt-Version\u003e\n  \u003c/properties\u003e\n\nbut this just moves the definition to another place.\n\n[1] gerrit-plugin-gwt-archetype/src/main/resources/META-INF/maven/archetype-metadata.xml",
+      "parentUuid": "cd52e522_26145678",
+      "revId": "0039b915f36cf28c6ff6c995feb8878a2c89aeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

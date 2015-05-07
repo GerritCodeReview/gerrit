@@ -38,7 +38,6 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -680,13 +679,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     @Override
     public void populateDownloadCommandLinks() {
       if (!urls.isEmpty()) {
-        if (allowedCommands.contains(DownloadCommand.CHECKOUT)
-            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-          commands.add(cmdLinkfactory.new CloneCommandLink());
-          if (Gerrit.getConfig().getSshdAddress() != null && hasUserName()) {
-            commands.add(
-                cmdLinkfactory.new CloneWithCommitMsgHookCommandLink(getProjectKey()));
-          }
+        commands.add(cmdLinkfactory.new CloneCommandLink());
+        if (Gerrit.getConfig().getSshdAddress() != null && hasUserName()) {
+          commands.add(
+              cmdLinkfactory.new CloneWithCommitMsgHookCommandLink(getProjectKey()));
         }
       }
     }

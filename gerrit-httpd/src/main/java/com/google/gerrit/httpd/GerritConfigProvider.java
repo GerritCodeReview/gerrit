@@ -114,7 +114,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setGitHttpUrl(cfg.getString("gerrit", null, "gitHttpUrl"));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setDownloadSchemes(downloadConfig.getDownloadSchemes());
-    config.setDownloadCommands(downloadConfig.getDownloadCommands());
     config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
     config.setDocumentationAvailable(servletContext

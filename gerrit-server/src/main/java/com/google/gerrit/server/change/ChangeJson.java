@@ -277,7 +277,7 @@ public class ChangeJson {
     ChangeData.ensureChangeLoaded(all);
     if (has(ALL_REVISIONS)) {
       ChangeData.ensureAllPatchSetsLoaded(all);
-    } else {
+    } else if(has(CURRENT_REVISION)) {
       ChangeData.ensureCurrentPatchSetLoaded(all);
     }
     Set<Change.Id> reviewed = Sets.newHashSet();

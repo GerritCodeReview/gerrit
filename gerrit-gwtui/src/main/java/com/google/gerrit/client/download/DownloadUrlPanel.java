@@ -44,7 +44,7 @@ public class DownloadUrlPanel extends FlowPanel {
         if (first == null) {
           first = d;
         }
-        if (d.urlType == urlType) {
+        if (d.getUrlType() == urlType) {
           d.select();
           return;
         }

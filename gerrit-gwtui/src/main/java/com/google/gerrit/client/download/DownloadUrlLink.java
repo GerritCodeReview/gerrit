@@ -135,31 +135,27 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
   public static List<DownloadUrlLink> createDownloadUrlLinks(String project,
       boolean allowAnonymous) {
     List<DownloadUrlLink> urls = new ArrayList<>();
-    Set<DownloadScheme> allowedSchemes = Gerrit.getConfig().getDownloadSchemes();
+    Set<String> allowedSchemes = Gerrit.info().download().schemes();
 
     if (allowAnonymous
         && Gerrit.getConfig().getGitDaemonUrl() != null
-        && (allowedSchemes.contains(DownloadScheme.ANON_GIT) ||
-            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
+        && allowedSchemes.contains("git")) {
       urls.add(new DownloadUrlLink.AnonGitLink(project));
     }
 
     if (allowAnonymous
-        && (allowedSchemes.contains(DownloadScheme.ANON_HTTP) ||
-            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
+        && allowedSchemes.contains("anonymous http")) {
       urls.add(new DownloadUrlLink.AnonHttpLink(project));
     }
 
     if (Gerrit.getConfig().getSshdAddress() != null
         && hasUserName()
-        && (allowedSchemes.contains(DownloadScheme.SSH) ||
-            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
+        && allowedSchemes.contains("ssh")) {
       urls.add(new DownloadUrlLink.SshLink(project));
     }
 
     if ((hasUserName() || siteReliesOnHttp())
-        && (allowedSchemes.contains(DownloadScheme.HTTP)
-            || allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
+        && allowedSchemes.contains("http")) {
       urls.add(new DownloadUrlLink.HttpLink(project, allowAnonymous));
     }
     return urls;

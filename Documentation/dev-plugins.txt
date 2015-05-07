@@ -1519,7 +1519,7 @@ must be set to `${project.build.directory}/classes/static`:
 <plugin>
   <groupId>org.codehaus.mojo</groupId>
   <artifactId>gwt-maven-plugin</artifactId>
-  <version>2.5.1</version>
+  <version>1.7.0</version>
   <configuration>
     <module>com.googlesource.gerrit.plugins.myplugin.HelloPlugin</module>
     <disableClassMetadata>true</disableClassMetadata>

@@ -76,9 +76,9 @@ public class InitAdminUser implements InitStep {
           Account.Id id = new Account.Id(db.nextAccountId());
           String username = ui.readString("admin", "username");
           String name = ui.readString("Administrator", "name");
-          String email = readEmail();
           String httpPassword = ui.readString("secret", "HTTP password");
           AccountSshKey sshKey = readSshKey(id);
+          String email = readEmail(sshKey);
 
           AccountExternalId extUser =
               new AccountExternalId(id, new AccountExternalId.Key(
@@ -116,11 +116,22 @@ public class InitAdminUser implements InitStep {
     }
   }
 
-  private String readEmail() {
-    String email = ui.readString("admin@example.com", "email");
+  private String readEmail(AccountSshKey sshKey) {
+    String defaultEmail = "admin@example.com";
+    if (sshKey != null && sshKey.getComment() != null) {
+     String c = sshKey.getComment().trim();
+     if (EmailValidator.getInstance().isValid(c)) {
+       defaultEmail = c;
+     }
+    }
+    return readEmail(defaultEmail);
+  }
+
+  private String readEmail(String defaultEmail) {
+    String email = ui.readString(defaultEmail, "email");
     if (email != null && !EmailValidator.getInstance().isValid(email)) {
       ui.message("error: invalid email address\n");
-      return readEmail();
+      return readEmail(defaultEmail);
     }
     return email;
   }

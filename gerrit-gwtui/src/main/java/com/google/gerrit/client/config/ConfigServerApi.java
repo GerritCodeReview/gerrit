@@ -37,4 +37,8 @@ public class ConfigServerApi {
   public static void defaultPreferences(AsyncCallback<Preferences> cb) {
     new RestApi("/config/server/preferences").get(cb);
   }
+
+  public static void serverInfo(AsyncCallback<ServerInfo> cb) {
+    new RestApi("/config/server/info").get(cb);
+  }
 }

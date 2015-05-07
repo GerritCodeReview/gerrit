@@ -21,7 +21,6 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -59,7 +58,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
     });
     add(deleteIdentity);
 
-    if (Gerrit.getConfig().getAuthType() == AuthType.OPENID) {
+    if (Gerrit.getServerInfo().auth().isOpenId()) {
       Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
       linkIdentity.addClickHandler(new ClickHandler() {
         @Override

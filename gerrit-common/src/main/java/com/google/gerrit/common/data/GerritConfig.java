@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AuthType;
-import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.List;
 import java.util.Set;
@@ -35,15 +34,12 @@ public class GerritConfig implements Cloneable {
   protected boolean httpPasswordSettingsEnabled = true;
 
   protected GitwebConfig gitweb;
-  protected boolean useContributorAgreements;
-  protected boolean useContactInfo;
   protected AuthType authType;
   protected Set<DownloadScheme> downloadSchemes;
   protected String gitDaemonUrl;
   protected String gitHttpUrl;
   protected String sshdAddress;
   protected String editFullNameUrl;
-  protected Project.NameKey wildProject;
   protected Set<Account.FieldName> editableAccountFields;
   protected boolean documentationAvailable;
   protected String anonymousCowardName;
@@ -135,10 +131,6 @@ public class GerritConfig implements Cloneable {
     httpPasswordUrl = url;
   }
 
-  public AuthType getAuthType() {
-    return authType;
-  }
-
   public void setAuthType(final AuthType t) {
     authType = t;
   }
@@ -157,22 +149,6 @@ public class GerritConfig implements Cloneable {
 
   public void setGitwebLink(final GitwebConfig w) {
     gitweb = w;
-  }
-
-  public boolean isUseContributorAgreements() {
-    return useContributorAgreements;
-  }
-
-  public void setUseContributorAgreements(final boolean r) {
-    useContributorAgreements = r;
-  }
-
-  public boolean isUseContactInfo() {
-    return useContactInfo;
-  }
-
-  public void setUseContactInfo(final boolean r) {
-    useContactInfo = r;
   }
 
   public String getGitDaemonUrl() {
@@ -205,22 +181,6 @@ public class GerritConfig implements Cloneable {
     sshdAddress = addr;
   }
 
-  public Project.NameKey getWildProject() {
-    return wildProject;
-  }
-
-  public void setWildProject(final Project.NameKey wp) {
-    wildProject = wp;
-  }
-
-  public boolean canEdit(final Account.FieldName f) {
-    return editableAccountFields.contains(f);
-  }
-
-  public Set<Account.FieldName> getEditableAccountFields() {
-    return editableAccountFields;
-  }
-
   public void setEditableAccountFields(final Set<Account.FieldName> af) {
     editableAccountFields = af;
   }
@@ -250,9 +210,9 @@ public class GerritConfig implements Cloneable {
   }
 
   public boolean siteHasUsernames() {
-    if (getAuthType() == AuthType.CUSTOM_EXTENSION
+    if (authType == AuthType.CUSTOM_EXTENSION
         && getHttpPasswordUrl() != null
-        && !canEdit(FieldName.USER_NAME)) {
+        && !editableAccountFields.contains(FieldName.USER_NAME)) {
       return false;
     }
     return true;

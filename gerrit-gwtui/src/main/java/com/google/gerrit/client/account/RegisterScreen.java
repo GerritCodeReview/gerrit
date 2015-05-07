@@ -70,7 +70,7 @@ public class RegisterScreen extends AccountScreen {
     formBody.add(contactGroup);
 
     if (Gerrit.getUserAccount().getUserName() == null
-        && Gerrit.getConfig().canEdit(FieldName.USER_NAME)) {
+        && Gerrit.info().auth().canEdit(FieldName.USER_NAME)) {
       final FlowPanel fp = new FlowPanel();
       fp.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       fp.add(new SmallHeading(Util.C.welcomeUsernameHeading()));
@@ -116,7 +116,7 @@ public class RegisterScreen extends AccountScreen {
 
     final FlowPanel choices = new FlowPanel();
     choices.setStyleName(Gerrit.RESOURCES.css().registerScreenNextLinks());
-    if (Gerrit.getConfig().isUseContributorAgreements()) {
+    if (Gerrit.info().auth().use_contributor_agreements()) {
       final FlowPanel agreementGroup = new FlowPanel();
       agreementGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       agreementGroup.add(new SmallHeading(Util.C.welcomeAgreementHeading()));

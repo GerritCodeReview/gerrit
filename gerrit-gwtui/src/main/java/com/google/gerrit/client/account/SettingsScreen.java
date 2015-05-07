@@ -34,7 +34,7 @@ public abstract class SettingsScreen extends MenuScreen {
     }
     link(Util.C.tabWebIdentities(), PageLinks.SETTINGS_WEBIDENT);
     link(Util.C.tabMyGroups(), PageLinks.SETTINGS_MYGROUPS);
-    if (Gerrit.getConfig().isUseContributorAgreements()) {
+    if (Gerrit.info().auth().use_contributor_agreements()) {
       link(Util.C.tabAgreements(), PageLinks.SETTINGS_AGREEMENTS);
     }
   }

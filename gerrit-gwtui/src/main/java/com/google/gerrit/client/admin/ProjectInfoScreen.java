@@ -264,7 +264,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHeader(new SmallHeading(Util.C.headingAgreements()));
 
     contributorAgreements = newInheritedBooleanBox();
-    if (Gerrit.getConfig().isUseContributorAgreements()) {
+    if (Gerrit.info().auth().use_contributor_agreements()) {
       saveEnabler.listenTo(contributorAgreements);
       grid.add(Util.C.useContributorAgreements(), contributorAgreements);
     }
@@ -310,7 +310,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     }
     if (inheritedIndex >= 0) {
-      if (getProjectKey().equals(Gerrit.getConfig().getWildProject())) {
+      if (Gerrit.info().gerrit().isAllProjects(getProjectKey())) {
         if (box.getSelectedIndex() == inheritedIndex) {
           for (int i = 0; i < box.getItemCount(); i++) {
             if (box.getValue(i).equals(InheritableBoolean.FALSE.name())) {

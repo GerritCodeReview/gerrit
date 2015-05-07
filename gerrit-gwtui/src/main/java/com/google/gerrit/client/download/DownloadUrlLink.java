@@ -199,18 +199,7 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
   protected String urlData;
   protected String hostPageUrl = GWT.getHostPageBaseURL();
 
-  public DownloadUrlLink(DownloadScheme urlType, String text, String urlData) {
-    this(text);
-    this.urlType = urlType;
-    this.urlData = urlData;
-  }
-
   public DownloadUrlLink(DownloadScheme urlType, String text) {
-    this(text);
-    this.urlType = urlType;
-  }
-
-  public DownloadUrlLink(String text) {
     super(text);
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
@@ -219,6 +208,7 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
     if (!hostPageUrl.endsWith("/")) {
       hostPageUrl += "/";
     }
+    this.urlType = urlType;
   }
 
   public String getUrlData() {

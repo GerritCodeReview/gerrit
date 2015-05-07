@@ -15,8 +15,6 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -34,7 +32,7 @@ public class DownloadCommandPanel extends FlowPanel {
     return getWidgetCount() == 0;
   }
 
-  public void select(AccountGeneralPreferences.DownloadCommand cmdType) {
+  public void select() {
     DownloadCommandLink first = null;
 
     for (Widget w : this) {
@@ -42,10 +40,6 @@ public class DownloadCommandPanel extends FlowPanel {
         final DownloadCommandLink d = (DownloadCommandLink) w;
         if (first == null) {
           first = d;
-        }
-        if (d.cmdType == cmdType) {
-          d.select();
-          return;
         }
       }
     }
@@ -70,9 +64,6 @@ public class DownloadCommandPanel extends FlowPanel {
   private void update() {
     if (currentCommand != null && currentUrl != null) {
       currentCommand.setCurrentUrl(currentUrl);
-    } else if (currentCommand != null &&
-        currentCommand.getCmdType().equals(DownloadCommand.REPO_DOWNLOAD)) {
-      currentCommand.setCurrentUrl(null);
     }
   }
 }

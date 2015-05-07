@@ -674,7 +674,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   public class ProjectDownloadPanel extends DownloadPanel {
     public ProjectDownloadPanel(String project, boolean isAllowsAnonymous) {
-      super(project, null, isAllowsAnonymous);
+      super(project, isAllowsAnonymous);
     }
 
     @Override

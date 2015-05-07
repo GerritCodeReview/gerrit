@@ -34,11 +34,11 @@ public abstract class DownloadPanel extends FlowPanel {
   protected DownloadUrlPanel urls = new DownloadUrlPanel(commands);
   protected CopyableLabel copyLabel = new CopyableLabel("");
 
-  public DownloadPanel(String project, String ref, boolean allowAnonymous) {
+  public DownloadPanel(String project, boolean allowAnonymous) {
     this.projectName = project;
 
     copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
-    urls.add(DownloadUrlLink.createDownloadUrlLinks(project, ref, allowAnonymous));
+    urls.add(DownloadUrlLink.createDownloadUrlLinks(project, allowAnonymous));
     cmdLinkfactory = new DownloadCommandLink.CopyableCommandLinkFactory(
         copyLabel, urls);
 

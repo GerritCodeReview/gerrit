@@ -27,7 +27,6 @@ import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
@@ -45,7 +44,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Realm realm;
   private final Config cfg;
   private final AuthConfig authConfig;
-  private final DownloadConfig downloadConfig;
   private final GetArchive.AllowedFormats archiveFormats;
   private final GitWebConfig gitWebConfig;
   private final SshInfo sshInfo;
@@ -60,13 +58,11 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       GitWebConfig gwc,
       SshInfo si,
       ServletContext sc,
-      DownloadConfig dc,
       GetArchive.AllowedFormats af,
       @AnonymousCowardName String acn) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
-    downloadConfig = dc;
     archiveFormats = af;
     gitWebConfig = gwc;
     sshInfo = si;
@@ -108,7 +104,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setSwitchAccountUrl(cfg.getString("auth", null, "switchAccountUrl"));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setGitHttpUrl(cfg.getString("gerrit", null, "gitHttpUrl"));
-    config.setDownloadSchemes(downloadConfig.getDownloadSchemes());
     config.setAuthType(authConfig.getAuthType());
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);

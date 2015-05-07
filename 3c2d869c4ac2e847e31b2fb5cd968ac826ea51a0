@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad4db187_e558765b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-07T16:51:17Z",
+      "side": 1,
+      "message": "act can never be null from the cache.\n\nWhen an account doesn\u0027t exist in the database a fake entry is returned by the cache. The active flag is false. So we just need to drop the act \u003d\u003d null test here.",
+      "range": {
+        "startLine": 122,
+        "startChar": 14,
+        "endLine": 122,
+        "endChar": 25
+      },
+      "revId": "3c2d869c4ac2e847e31b2fb5cd968ac826ea51a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

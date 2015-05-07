@@ -15,6 +15,7 @@ define_license(name = 'diffy')
 define_license(name = 'freebie_application_icon_set')
 define_license(name = 'h2')
 define_license(name = 'jgit')
+define_license(name = 'jmock')
 define_license(name = 'jsch')
 define_license(name = 'ow2')
 define_license(name = 'postgresql')
@@ -176,6 +177,14 @@ maven_jar(
   sha1 = 'e4f1766ce7404a08f45d859fb9c226fc9e41a861',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [':hamcrest-core'],
+)
+
+maven_jar(
+  name = 'jmock',
+  id = 'org.jmock:jmock:2.8.1',
+  sha1 = 'aba0ed5962f5238421a2fee706d98133714590d0',
+  license = 'jmock',
+  visibility = ['//gerrit-server:server_tests'],
 )
 
 maven_jar(

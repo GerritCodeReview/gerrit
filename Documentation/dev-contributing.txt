@@ -334,6 +334,8 @@ to be updated or at least checked.
 plugins that have a dependency on GWT.
 * Update the GWT version in the archetype metadata in the
 `gerrit-plugin-gwt-archetype`.
+* Update the version of `gwt-maven-plugin` in the example pom.xml file in
+link:dev-plugins.html[dev-plugins].
 * Update to the same GWT version in the `gwtjsonrpc` project, and release a
 new version.
 

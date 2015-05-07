@@ -144,7 +144,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     Map<PatchSet.Id, PatchSet> r =
         Maps.newHashMapWithExpectedSize(cds.size() * 2);
     for (ChangeData cd : cds) {
-      for (PatchSet p : cd.patches()) {
+      for (PatchSet p : cd.patchSets()) {
         r.put(p.getId(), p);
       }
     }

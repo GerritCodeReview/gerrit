@@ -317,7 +317,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         repo = repoManager.openRepository(change.getProject());
 
         ChangeData cd = changeDataFactory.create(db, change);
-        Collection<PatchSet> patchSetCollection = cd.patches();
+        Collection<PatchSet> patchSetCollection = cd.patchSets();
         PatchSet priorPs = patch;
         for (PatchSet ps : patchSetCollection) {
           if (ps.getId().get() < patch.getId().get() &&

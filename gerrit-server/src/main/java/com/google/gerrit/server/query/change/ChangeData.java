@@ -119,7 +119,7 @@ public class ChangeData {
   public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes)
       throws OrmException {
     for (ChangeData cd : changes) {
-      cd.patches();
+      cd.patchSets();
     }
   }
 
@@ -127,7 +127,7 @@ public class ChangeData {
       throws OrmException {
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
-      if (cd.currentPatchSet == null && cd.patches == null) {
+      if (cd.currentPatchSet == null && cd.patchSets == null) {
         missing.put(cd.change().currentPatchSetId(), cd);
       }
     }
@@ -204,7 +204,7 @@ public class ChangeData {
   private String commitMessage;
   private List<FooterLine> commitFooters;
   private PatchSet currentPatchSet;
-  private Collection<PatchSet> patches;
+  private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files = new HashMap<>();
@@ -468,7 +468,7 @@ public class ChangeData {
       if (c == null) {
         return null;
       }
-      for (PatchSet p : patches()) {
+      for (PatchSet p : patchSets()) {
         if (p.getId().equals(c.currentPatchSetId())) {
           currentPatchSet = p;
           return p;
@@ -536,23 +536,23 @@ public class ChangeData {
    * @return patches for the change.
    * @throws OrmException an error occurred reading the database.
    */
-  public Collection<PatchSet> patches()
+  public Collection<PatchSet> patchSets()
       throws OrmException {
-    if (patches == null) {
-      patches = db.patchSets().byChange(legacyId).toList();
+    if (patchSets == null) {
+      patchSets = db.patchSets().byChange(legacyId).toList();
     }
-    return patches;
+    return patchSets;
   }
 
   /**
-   * @return patch with the given ID, or null if it does not exist.
+   * @return patch set with the given ID, or null if it does not exist.
    * @throws OrmException an error occurred reading the database.
    */
-  public PatchSet patch(PatchSet.Id psId) throws OrmException {
+  public PatchSet patchSet(PatchSet.Id psId) throws OrmException {
     if (currentPatchSet != null && currentPatchSet.getId().equals(psId)) {
       return currentPatchSet;
     }
-    for (PatchSet ps : patches()) {
+    for (PatchSet ps : patchSets()) {
       if (ps.getId().equals(psId)) {
         return ps;
       }

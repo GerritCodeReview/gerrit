@@ -71,7 +71,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    assertThat(getChange(changeId).patches()).hasSize(1);
+    assertThat(getChange(changeId).patchSets()).hasSize(1);
     ps = getCurrentPatchSet(changeId);
     r = deletePatchSet(changeId, ps, adminSession);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);

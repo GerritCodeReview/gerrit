@@ -863,11 +863,11 @@ public class ChangeJson {
       Optional<PatchSet.Id> limitToPsId) throws OrmException {
     Collection<PatchSet> src;
     if (has(ALL_REVISIONS) || has(MESSAGES)) {
-      src = cd.patches();
+      src = cd.patchSets();
     } else {
       PatchSet ps;
       if (limitToPsId.isPresent()) {
-        ps = cd.patch(limitToPsId.get());
+        ps = cd.patchSet(limitToPsId.get());
         if (ps == null) {
           throw new OrmException("missing patch set " + limitToPsId.get());
         }

@@ -32,7 +32,7 @@ class CommitPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchSet p : object.patches()) {
+    for (PatchSet p : object.patchSets()) {
       if (p.getRevision() != null && p.getRevision().get() != null) {
         final ObjectId id = ObjectId.fromString(p.getRevision().get());
         if (abbrevId.prefixCompare(id) == 0) {

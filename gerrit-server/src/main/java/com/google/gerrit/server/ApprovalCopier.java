@@ -142,7 +142,7 @@ public class ApprovalCopier {
 
   private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd)
       throws OrmException {
-    Collection<PatchSet> patchSets = cd.patches();
+    Collection<PatchSet> patchSets = cd.patchSets();
     TreeMap<Integer, PatchSet> result = Maps.newTreeMap();
     for (PatchSet ps : patchSets) {
       result.put(ps.getId().get(), ps);

@@ -287,7 +287,7 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<String> revisions = Sets.newHashSet();
-          for (PatchSet ps : input.patches()) {
+          for (PatchSet ps : input.patchSets()) {
             if (ps.getRevision() != null) {
               revisions.add(ps.getRevision().get());
             }

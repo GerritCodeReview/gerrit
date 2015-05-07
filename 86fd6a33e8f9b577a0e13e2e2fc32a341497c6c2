@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd52e522_06e03a10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-07T02:04:37Z",
+      "side": 1,
+      "message": "[optional] In other places we use `Lists.newLinkedList()` but there doesn\u0027t seem to be any consistency.",
+      "range": {
+        "startLine": 123,
+        "startChar": 31,
+        "endLine": 123,
+        "endChar": 49
+      },
+      "revId": "86fd6a33e8f9b577a0e13e2e2fc32a341497c6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad4db187_650a465a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-07T02:04:37Z",
+      "side": 1,
+      "message": "[optional] This is only used on the next line.  Inline it there?",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 12
+      },
+      "revId": "86fd6a33e8f9b577a0e13e2e2fc32a341497c6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

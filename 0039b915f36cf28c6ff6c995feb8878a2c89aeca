@@ -16,6 +16,24 @@
       "revId": "0039b915f36cf28c6ff6c995feb8878a2c89aeca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd52e522_26145678",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-07T06:08:58Z",
+      "side": 1,
+      "message": "I think it\u0027s defined somehow in the build.  See for example that it\u0027s used in gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/pom.xml",
+      "parentUuid": "6d0019f0_db87b313",
+      "revId": "0039b915f36cf28c6ff6c995feb8878a2c89aeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

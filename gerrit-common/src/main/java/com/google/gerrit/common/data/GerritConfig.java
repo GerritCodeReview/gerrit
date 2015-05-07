@@ -35,7 +35,6 @@ public class GerritConfig implements Cloneable {
   protected GitwebConfig gitweb;
   protected AuthType authType;
   protected String gitDaemonUrl;
-  protected String gitHttpUrl;
   protected String sshdAddress;
   protected String editFullNameUrl;
   protected Set<Account.FieldName> editableAccountFields;
@@ -150,17 +149,6 @@ public class GerritConfig implements Cloneable {
       url += "/";
     }
     gitDaemonUrl = url;
-  }
-
-  public String getGitHttpUrl() {
-    return gitHttpUrl;
-  }
-
-  public void setGitHttpUrl(String url) {
-    if (url != null && !url.endsWith("/")) {
-      url += "/";
-    }
-    gitHttpUrl = url;
   }
 
   public String getSshdAddress() {

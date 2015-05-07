@@ -15,13 +15,12 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.aria.client.Roles;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -29,164 +28,77 @@ import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class DownloadUrlLink extends Anchor implements ClickHandler {
-  public static class AnonGitLink extends DownloadUrlLink {
-    public AnonGitLink(String project) {
-      super(DownloadScheme.ANON_GIT, Util.M.anonymousDownload("Git"), project);
+  private enum KnownScheme {
+    ANON_GIT(DownloadScheme.ANON_GIT, "git", Util.M.anonymousDownload("Git")),
+    ANON_HTTP(DownloadScheme.ANON_HTTP, "anonymous http", Util.M.anonymousDownload("HTTP")),
+    SSH(DownloadScheme.SSH, "ssh", "SSH"),
+    HTTP(DownloadScheme.HTTP, "http", "HTTP");
+
+    public final DownloadScheme downloadScheme;
+    public final String name;
+    public final String text;
+
+    private KnownScheme(DownloadScheme downloadScheme, String name, String text) {
+      this.downloadScheme = downloadScheme;
+      this.name = name;
+      this.text = text;
     }
 
-    @Override
-    public String getUrlData() {
-      StringBuilder r = new StringBuilder();
-      r.append(Gerrit.getConfig().getGitDaemonUrl());
-      r.append(projectName);
-      return r.toString();
-    }
-  }
-
-  public static class AnonHttpLink extends DownloadUrlLink {
-    public AnonHttpLink(String project) {
-      super(DownloadScheme.ANON_HTTP, Util.M.anonymousDownload("HTTP"), project);
-    }
-
-    @Override
-    public String getUrlData() {
-      StringBuilder r = new StringBuilder();
-      if (Gerrit.getConfig().getGitHttpUrl() != null) {
-        r.append(Gerrit.getConfig().getGitHttpUrl());
-      } else {
-        r.append(hostPageUrl);
-      }
-      r.append(projectName);
-      return r.toString();
-    }
-  }
-
-  public static class SshLink extends DownloadUrlLink {
-    public SshLink(String project) {
-      super(DownloadScheme.SSH, "SSH", project);
-    }
-
-    @Override
-    public String getUrlData() {
-      String sshAddr = Gerrit.getConfig().getSshdAddress();
-      final StringBuilder r = new StringBuilder();
-      r.append("ssh://");
-      r.append(Gerrit.getUserAccount().getUserName());
-      r.append("@");
-      if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
-        r.append(Window.Location.getHostName());
-      }
-      if (sshAddr.startsWith("*")) {
-        sshAddr = sshAddr.substring(1);
-      }
-      r.append(sshAddr);
-      r.append("/");
-      r.append(projectName);
-      return r.toString();
-    }
-  }
-
-  public static class HttpLink extends DownloadUrlLink {
-    protected boolean anonymous;
-
-    public HttpLink(String project, boolean anonymous) {
-      super(DownloadScheme.HTTP, "HTTP", project);
-      this.anonymous = anonymous;
-    }
-
-    @Override
-    public String getUrlData() {
-      final StringBuilder r = new StringBuilder();
-      if (Gerrit.getConfig().getGitHttpUrl() != null
-          && (anonymous || siteReliesOnHttp())) {
-        r.append(Gerrit.getConfig().getGitHttpUrl());
-      } else {
-        String base = hostPageUrl;
-        int p = base.indexOf("://");
-        int s = base.indexOf('/', p + 3);
-        if (s < 0) {
-          s = base.length();
+    static KnownScheme get(String name) {
+      for (KnownScheme s : values()) {
+        if (s.name.equals(name)) {
+          return s;
         }
-        String host = base.substring(p + 3, s);
-        if (host.contains("@")) {
-          host = host.substring(host.indexOf('@') + 1);
-        }
-
-        r.append(base.substring(0, p + 3));
-        r.append(Gerrit.getUserAccount().getUserName());
-        r.append('@');
-        r.append(host);
-        r.append(base.substring(s));
       }
-      r.append(projectName);
-      return r.toString();
+      return null;
     }
-  }
-
-  public static boolean siteReliesOnHttp() {
-    return Gerrit.getConfig().getGitHttpUrl() != null
-        && Gerrit.info().auth().isCustomExtension()
-        && !Gerrit.getConfig().siteHasUsernames();
   }
 
   public static List<DownloadUrlLink> createDownloadUrlLinks(String project,
       boolean allowAnonymous) {
     List<DownloadUrlLink> urls = new ArrayList<>();
-    Set<String> allowedSchemes = Gerrit.info().download().schemes();
+    for (String s : Gerrit.info().download().schemes()) {
+      DownloadSchemeInfo scheme = Gerrit.info().download().scheme(s);
+      if (scheme.is_auth_required() && !allowAnonymous) {
+        continue;
+      }
 
-    if (allowAnonymous
-        && Gerrit.getConfig().getGitDaemonUrl() != null
-        && allowedSchemes.contains("git")) {
-      urls.add(new DownloadUrlLink.AnonGitLink(project));
-    }
-
-    if (allowAnonymous
-        && allowedSchemes.contains("anonymous http")) {
-      urls.add(new DownloadUrlLink.AnonHttpLink(project));
-    }
-
-    if (Gerrit.getConfig().getSshdAddress() != null
-        && hasUserName()
-        && allowedSchemes.contains("ssh")) {
-      urls.add(new DownloadUrlLink.SshLink(project));
-    }
-
-    if ((hasUserName() || siteReliesOnHttp())
-        && allowedSchemes.contains("http")) {
-      urls.add(new DownloadUrlLink.HttpLink(project, allowAnonymous));
+      KnownScheme knownScheme = KnownScheme.get(s);
+      if (knownScheme != null) {
+        urls.add(new DownloadUrlLink(knownScheme.downloadScheme,
+            knownScheme.text, scheme.getUrl(project)));
+      } else {
+        urls.add(new DownloadUrlLink(s, scheme.getUrl(project)));
+      }
     }
     return urls;
   }
 
-  private static boolean hasUserName() {
-    return Gerrit.isSignedIn()
-        && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0;
+  private final DownloadScheme urlType;
+  private final String urlData;
+
+  public DownloadUrlLink(String text, String urlData) {
+      this(null, text, urlData);
   }
 
-  protected DownloadScheme urlType;
-  protected String projectName;
-  protected String urlData;
-  protected String hostPageUrl = GWT.getHostPageBaseURL();
-
-  public DownloadUrlLink(DownloadScheme urlType, String text, String project) {
+  public DownloadUrlLink(DownloadScheme urlType, String text, String urlData) {
     super(text);
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
     addClickHandler(this);
 
-    if (!hostPageUrl.endsWith("/")) {
-      hostPageUrl += "/";
-    }
     this.urlType = urlType;
-    this.projectName = project;
+    this.urlData = urlData;
   }
 
   public String getUrlData() {
     return urlData;
+  }
+
+  public DownloadScheme getUrlType() {
+    return urlType;
   }
 
   @Override
@@ -196,7 +108,7 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
     select();
 
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && urlType != null) {
       // If the user is signed-in, remember this choice for future panels.
       //
       AccountGeneralPreferences pref =

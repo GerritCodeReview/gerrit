@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0019f0_5bf5e398",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-07T06:59:06Z",
+      "side": 1,
+      "message": "2.7.0",
+      "range": {
+        "startLine": 1522,
+        "startChar": 11,
+        "endLine": 1522,
+        "endChar": 16
+      },
+      "revId": "9476fafff8f0cb1a64d115bbe4030c779cb7ef87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

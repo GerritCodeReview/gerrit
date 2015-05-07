@@ -610,8 +610,14 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = Sets.newHashSet();
-    for (PatchSetApproval psa : cd.approvals().values()) {
-      allUsers.add(psa.getAccountId());
+    if (detailed) {
+      // Users expect to see all reviewers on closed changes, even if they
+      // didn't vote on the latest patch set. If we don't need detailed labels,
+      // we aren't including 0 votes for all users below, so we can just look at
+      // the latest patch set (in the next loop).
+      for (PatchSetApproval psa : cd.approvals().values()) {
+        allUsers.add(psa.getAccountId());
+      }
     }
 
     // We can only approximately reconstruct what the submit rule evaluator
@@ -619,6 +625,7 @@ public class ChangeJson {
     Set<String> labelNames = Sets.newHashSet();
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
     for (PatchSetApproval a : cd.currentApprovals()) {
+      allUsers.add(a.getAccountId());
       LabelType type = labelTypes.byLabel(a.getLabelId());
       if (type != null) {
         labelNames.add(type.getName());

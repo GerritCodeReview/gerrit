@@ -250,8 +250,7 @@ public class AccessSectionEditor extends Composite implements
     if (value.getPermission(permissionName) != null) {
       return;
     }
-    if (Gerrit.getConfig().getWildProject()
-        .equals(projectAccess.getProjectName())
+    if (Gerrit.getInfo().gerrit().isAllProjects(projectAccess.getProjectName())
         && !Permission.canBeOnAllProjects(value.getName(), permissionName)) {
       return;
     }

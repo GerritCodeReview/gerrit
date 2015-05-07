@@ -16,7 +16,6 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.ui.InlineHyperlink;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
@@ -53,8 +52,8 @@ public class UserPopupPanel extends PluginSafePopupPanel {
     if (showSettingsLink) {
       if (Gerrit.getConfig().getSwitchAccountUrl() != null) {
         switchAccount.setHref(Gerrit.getConfig().getSwitchAccountUrl());
-      } else if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT
-          || Gerrit.getConfig().getAuthType() == AuthType.OPENID) {
+      } else if (Gerrit.getInfo().auth().isDev()
+          || Gerrit.getInfo().auth().isOpenId()) {
         switchAccount.setHref(Gerrit.selfRedirect("/login/"));
       } else {
         switchAccount.removeFromParent();

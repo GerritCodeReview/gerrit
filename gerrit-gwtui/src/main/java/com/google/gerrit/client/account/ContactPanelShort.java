@@ -23,7 +23,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -101,7 +100,7 @@ class ContactPanelShort extends Composite {
     }
 
     int row = 0;
-    if (!Gerrit.getConfig().canEdit(FieldName.USER_NAME)
+    if (!Gerrit.getInfo().auth().canEdit(FieldName.USER_NAME)
         && Gerrit.getConfig().siteHasUsernames()) {
       infoPlainText.resizeRows(infoPlainText.getRowCount() + 1);
       row(infoPlainText, row++, Util.C.userName(), new UsernameField());
@@ -168,11 +167,11 @@ class ContactPanelShort extends Composite {
   }
 
   private boolean canEditFullName() {
-    return Gerrit.getConfig().canEdit(Account.FieldName.FULL_NAME);
+    return Gerrit.getInfo().auth().canEdit(Account.FieldName.FULL_NAME);
   }
 
   private boolean canRegisterNewEmail() {
-    return Gerrit.getConfig().canEdit(Account.FieldName.REGISTER_NEW_EMAIL);
+    return Gerrit.getInfo().auth().canEdit(Account.FieldName.REGISTER_NEW_EMAIL);
   }
 
   void hideSaveButton() {
@@ -275,7 +274,7 @@ class ContactPanelShort extends Composite {
           @Override
           public void onSuccess(EmailInfo result) {
             box.hide();
-            if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+            if (Gerrit.getInfo().auth().isDev()) {
               currentEmail = addr;
               if (emailPick.getItemCount() == 0) {
                 final Account me = Gerrit.getUserAccount();
@@ -325,7 +324,7 @@ class ContactPanelShort extends Composite {
     buttons.add(register);
     buttons.add(cancel);
 
-    if (Gerrit.getConfig().getAuthType() != AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+    if (!Gerrit.getInfo().auth().isDev()) {
       body.add(new HTML(Util.C.descRegisterNewEmail()));
     }
     body.add(inEmail);

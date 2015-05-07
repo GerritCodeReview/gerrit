@@ -396,15 +396,22 @@ public class ChangeJson {
       out.removableReviewers = removableReviewers(ctl, out.labels.values());
     }
 
-    Map<PatchSet.Id, PatchSet> src = loadPatchSets(cd, limitToPsId);
-    if (has(MESSAGES)) {
+    boolean needMessages = has(MESSAGES);
+    boolean needRevisions = has(ALL_REVISIONS)
+        || has(CURRENT_REVISION)
+        || limitToPsId.isPresent();
+    Map<PatchSet.Id, PatchSet> src;
+    if (needMessages || needRevisions) {
+      src = loadPatchSets(cd, limitToPsId);
+    } else {
+      src = null;
+    }
+    if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
     finish(out);
 
-    if (has(ALL_REVISIONS)
-        || has(CURRENT_REVISION)
-        || limitToPsId.isPresent()) {
+    if (needRevisions) {
       out.revisions = revisions(ctl, cd, src);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
@@ -427,11 +434,7 @@ public class ChangeJson {
     if (cd.getSubmitRecords() != null) {
       return cd.getSubmitRecords();
     }
-    PatchSet ps = cd.currentPatchSet();
-    if (ps == null) {
-      return ImmutableList.of();
-    }
-    cd.setSubmitRecords(new SubmitRuleEvaluator(cd).setPatchSet(ps)
+    cd.setSubmitRecords(new SubmitRuleEvaluator(cd)
         .setFastEvalLabels(true)
         .setAllowDraft(true)
         .evaluate());

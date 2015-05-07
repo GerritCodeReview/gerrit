@@ -24,5 +24,6 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface GerritConfig {
   String name();
-  String value();
+  String value() default "";
+  String[] values() default "";
 }

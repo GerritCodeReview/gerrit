@@ -15,11 +15,13 @@
 package com.google.gerrit.acceptance;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class ConfigAnnotationParser {
   private static Splitter splitter = Splitter.on(".").trimResults();
@@ -45,9 +47,19 @@ class ConfigAnnotationParser {
   private static void parseAnnotation(Config cfg, GerritConfig c) {
     ArrayList<String> l = Lists.newArrayList(splitter.split(c.name()));
     if (l.size() == 2) {
-      cfg.setString(l.get(0), null, l.get(1), c.value());
+      if (!Strings.isNullOrEmpty(c.value())) {
+        cfg.setString(l.get(0), null, l.get(1), c.value());
+      } else {
+        String[] values = c.values();
+        cfg.setStringList(l.get(0), null, l.get(1), Arrays.asList(values));
+      }
     } else if (l.size() == 3) {
-      cfg.setString(l.get(0), l.get(1), l.get(2), c.value());
+      if (!Strings.isNullOrEmpty(c.value())) {
+        cfg.setString(l.get(0), l.get(1), l.get(2), c.value());
+      } else {
+        cfg.setStringList(l.get(0), l.get(1), l.get(2),
+            Arrays.asList(c.value()));
+      }
     } else {
       throw new IllegalArgumentException(
           "GerritConfig.name must be of the format"

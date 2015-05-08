@@ -238,6 +238,30 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_db97b3c1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T22:03:38Z",
+      "side": 1,
+      "message": "With suggested fix in the previous change applied [1], this test is failing as expected: [2]. Starred changes initializaion is done in lazy way, so one approach to fix this test with my fix, would be to starr some changes, before the database is disabled, and copy starred changes var during disabling of the database from old (valid user) to the new (invalid one), or similar.\n\n* [1] http://paste.openstack.org/show/217447\n* [2] http://paste.openstack.org/show/217448",
+      "parentUuid": "6d0019f0_5bacc316",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

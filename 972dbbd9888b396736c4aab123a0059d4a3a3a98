@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0019f0_db8d7304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T04:28:45Z",
+      "side": 1,
+      "message": "We should find a generic way to mark the database as unavaiable from a unit test, execute some operations, like query with \"status:open OR status:merged\" predicate, and veriy that it still works, without needs to instrument the database access code.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "972dbbd9888b396736c4aab123a0059d4a3a3a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

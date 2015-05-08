@@ -70,6 +70,30 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_787d4169",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-08T20:00:22Z",
+      "side": 1,
+      "message": "I thought you were talking about a hypothetical other test that tests stars. Now I\u0027m just confused because this test passes for me both in Eclipse and with Buck, 20 times in a row.",
+      "parentUuid": "6d0019f0_dbae9313",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

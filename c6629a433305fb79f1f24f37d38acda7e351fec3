@@ -142,6 +142,30 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_b93cff90",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-08T20:47:26Z",
+      "side": 1,
+      "message": "I see. You were never claiming the test was failing. I misunderstood, I thought that was what you were saying.\n\nHonestly...I don\u0027t care if there is some other database access in the query code path. I really just care that we are not doing repeated database lookups in a loop over all search results.\n\n\u003e That\u0027s what my attempt in gwtorm was trying to achieve, by throwing an exception when getConnection() was called on JdbcSchema instance.\n\nIf the problem comes from references to ReviewDb instances being stored in locals or instance fields, then I don\u0027t think throwing on getConnection() will solve it. I\u0027m pretty sure getConnection() is only called when the ReviewDb is opened, and then the connection is held open; that\u0027s why you need to explicitly close() ReviewDb instances.",
+      "parentUuid": "6d0019f0_bbbbc74f",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

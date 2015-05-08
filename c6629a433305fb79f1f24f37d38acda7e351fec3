@@ -166,6 +166,30 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_79c8a727",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-08T20:49:32Z",
+      "side": 1,
+      "message": "Probably a more thorough way to do this that does not depend on JDBC internals is to have each of the access methods on DisabledReviewDb return implementations that only throw when actual methods are called.\n\nBut like I said, this particular test is serving its intended purpose. If you are so upset by the fact that disableDb doesn\u0027t *really* disable the database, you\u0027re welcome to rename that method in a followup change.",
+      "parentUuid": "2d146132_b93cff90",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

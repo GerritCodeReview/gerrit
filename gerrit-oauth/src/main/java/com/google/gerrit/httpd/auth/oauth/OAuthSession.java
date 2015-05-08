@@ -26,11 +26,14 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 
 import org.apache.commons.codec.binary.Base64;
@@ -52,18 +55,22 @@ class OAuthSession {
   private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
   private final DynamicItem<WebSession> webSession;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final AccountManager accountManager;
   private final CanonicalWebUrl urlProvider;
   private OAuthServiceProvider serviceProvider;
   private OAuthToken token;
   private OAuthUserInfo user;
   private String redirectToken;
+  private boolean linkMode;
 
   @Inject
   OAuthSession(DynamicItem<WebSession> webSession,
+      Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider) {
     this.state = generateRandomState();
+    this.identifiedUser = identifiedUser;
     this.webSession = webSession;
     this.accountManager = accountManager;
     this.urlProvider = urlProvider;
@@ -79,10 +86,6 @@ class OAuthSession {
 
   boolean login(HttpServletRequest request, HttpServletResponse response,
       OAuthServiceProvider oauth) throws IOException {
-    if (isLoggedIn()) {
-      return true;
-    }
-
     log.debug("Login " + this);
 
     if (isOAuthFinal(request)) {
@@ -122,46 +125,19 @@ class OAuthSession {
 
   private void authenticateAndRedirect(HttpServletRequest req,
       HttpServletResponse rsp) throws IOException {
-    com.google.gerrit.server.account.AuthRequest areq =
-        new com.google.gerrit.server.account.AuthRequest(user.getExternalId());
+    AuthRequest areq = new AuthRequest(user.getExternalId());
     AuthResult arsp;
     try {
       String claimedIdentifier = user.getClaimedIdentity();
-      Account.Id actualId = accountManager.lookup(user.getExternalId());
       if (!Strings.isNullOrEmpty(claimedIdentifier)) {
-        Account.Id claimedId = accountManager.lookup(claimedIdentifier);
-        if (claimedId != null && actualId != null) {
-          if (claimedId.equals(actualId)) {
-            // Both link to the same account, that's what we expected.
-            log.debug("OAuth2: claimed identity equals current id");
-          } else {
-            // This is (for now) a fatal error. There are two records
-            // for what might be the same user.
-            //
-            log.error("OAuth accounts disagree over user identity:\n"
-                + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
-                + "\n" + "  Delgate ID: " + actualId + " is "
-                + user.getExternalId());
-            rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
-          }
-        } else if (claimedId != null && actualId == null) {
-          // Claimed account already exists: link to it.
-          //
-          log.info("OAuth2: linking claimed identity to {}",
-              claimedId.toString());
-          try {
-            accountManager.link(claimedId, areq);
-          } catch (OrmException e) {
-            log.error("Cannot link: " +  user.getExternalId()
-                + " to user identity:\n"
-                + "  Claimed ID: " + claimedId + " is " + claimedIdentifier);
-            rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
-          }
+        if (!authenticateWithIdentityClaimedDuringHandshake(areq, rsp,
+            claimedIdentifier)) {
+          return;
         }
-      } else {
-        log.debug("OAuth2: claimed identity is empty");
+      } else if (linkMode) {
+        if (!authenticateWithLinkedIdentity(areq, rsp)) {
+          return;
+        }
       }
       areq.setUserName(user.getUserName());
       areq.setEmailAddress(user.getEmailAddress());
@@ -179,6 +155,59 @@ class OAuthSession {
     StringBuilder rdr = new StringBuilder(urlProvider.get(req));
     rdr.append(Url.decode(suffix));
     rsp.sendRedirect(rdr.toString());
+  }
+
+  private boolean authenticateWithIdentityClaimedDuringHandshake(
+      AuthRequest req, HttpServletResponse rsp, String claimedIdentifier)
+      throws AccountException, IOException {
+    Account.Id claimedId = accountManager.lookup(claimedIdentifier);
+    Account.Id actualId = accountManager.lookup(user.getExternalId());
+    if (claimedId != null && actualId != null) {
+      if (claimedId.equals(actualId)) {
+        // Both link to the same account, that's what we expected.
+        log.debug("OAuth2: claimed identity equals current id");
+      } else {
+        // This is (for now) a fatal error. There are two records
+        // for what might be the same user.
+        //
+        log.error("OAuth accounts disagree over user identity:\n"
+            + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
+            + "\n" + "  Delgate ID: " + actualId + " is "
+            + user.getExternalId());
+        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        return false;
+      }
+    } else if (claimedId != null && actualId == null) {
+      // Claimed account already exists: link to it.
+      //
+      log.info("OAuth2: linking claimed identity to {}",
+          claimedId.toString());
+      try {
+        accountManager.link(claimedId, req);
+      } catch (OrmException e) {
+        log.error("Cannot link: " +  user.getExternalId()
+            + " to user identity:\n"
+            + "  Claimed ID: " + claimedId + " is " + claimedIdentifier);
+        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private boolean authenticateWithLinkedIdentity(AuthRequest areq,
+      HttpServletResponse rsp) throws AccountException, IOException {
+    try {
+      accountManager.link(identifiedUser.get().getAccountId(), areq);
+    } catch (OrmException e) {
+      log.error("Cannot link: " + user.getExternalId()
+          + " to user identity: " + identifiedUser.get().getAccountId());
+      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+      return false;
+    } finally {
+      linkMode = false;
+    }
+    return true;
   }
 
   void logout() {
@@ -223,5 +252,13 @@ class OAuthSession {
 
   public OAuthServiceProvider getServiceProvider() {
     return serviceProvider;
+  }
+
+  public void setLinkMode(boolean linkMode) {
+    this.linkMode = linkMode;
+  }
+
+  public boolean isLinkMode() {
+    return linkMode;
   }
 }

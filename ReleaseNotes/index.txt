@@ -4,11 +4,13 @@ Gerrit Code Review - Release Notes
 [[2_11]]
 Version 2.11.x
 --------------
+* link:ReleaseNotes-2.11.1.html[2.11.1]
 * link:ReleaseNotes-2.11.html[2.11]
 
 [[2_10]]
 Version 2.10.x
 --------------
+* link:ReleaseNotes-2.10.4.html[2.10.4]
 * link:ReleaseNotes-2.10.3.1.html[2.10.3.1]
 * link:ReleaseNotes-2.10.3.html[2.10.3]
 * link:ReleaseNotes-2.10.2.html[2.10.2]

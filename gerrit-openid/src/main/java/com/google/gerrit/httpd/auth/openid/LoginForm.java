@@ -175,9 +175,9 @@ class LoginForm extends HttpServlet {
         oauthSession.logout();
       }
       if ((isGerritLogin(req)
-          || oauthSession.isOAuthFinal(req))
-          && !oauthSession.isLoggedIn()) {
+          || oauthSession.isOAuthFinal(req))) {
         oauthSession.setServiceProvider(oauthProvider);
+        oauthSession.setLinkMode(link);
         oauthSession.login(req, res, oauthProvider);
       }
     }
@@ -304,7 +304,7 @@ class LoginForm extends HttpServlet {
           oauthServiceProviders.byPlugin(pluginName);
         for (Map.Entry<String, Provider<OAuthServiceProvider>> e
             : m.entrySet()) {
-          addProvider(providers, pluginName, e.getKey(),
+          addProvider(providers, link, pluginName, e.getKey(),
               e.getValue().get().getName());
         }
     }
@@ -327,13 +327,18 @@ class LoginForm extends HttpServlet {
     }
   }
 
-  private static void addProvider(Element form, String pluginName,
-      String id, String serviceName) {
+  private static void addProvider(Element form, boolean link,
+      String pluginName, String id, String serviceName) {
     Element div = form.getOwnerDocument().createElement("div");
     div.setAttribute("id", id);
     Element hyperlink = form.getOwnerDocument().createElement("a");
-    hyperlink.setAttribute("href", String.format("?id=%s_%s",
+    StringBuilder u = new StringBuilder(String.format("?id=%s_%s",
         pluginName, id));
+    if (link) {
+      u.append("&link");
+    }
+    hyperlink.setAttribute("href", u.toString());
+
     hyperlink.setTextContent(serviceName +
         " (" + pluginName + " plugin)");
     div.appendChild(hyperlink);

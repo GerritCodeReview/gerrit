@@ -190,6 +190,54 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_5bacc316",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T21:34:10Z",
+      "side": 1,
+      "message": "| But like I said, this particular test is serving its intended purpose.\n\nI already tried to explain why I have a big problem with this opinion: I am not confident, that it wouldn\u0027t access another table in another code path.\n\n|  If you are so upset by the fact that disableDb doesn\u0027t *really* disable the database, you\u0027re welcome to rename that method in a followup change.\n\nI\u0027m not upset at all, and I don\u0027t care about method name. I am only trying to find a best solution to this problem: To be confident, if we claim to disable the database, we really shutdown it in each and every code path.\n\nI found the root cause: current identified user instance is stale with still valid ReviewDb provider:\n\n  private Context newRequestContext(TestAccount account) {\n    return atrScope.newContext(reviewDbProvider, new SshSession(server, admin),\n        identifiedUserFactory.create(Providers.of(db), account.getId()));\n  }\n\nThe bug is in previous change in the series. Will suggest a fix there.",
+      "parentUuid": "2d146132_79c8a727",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_3ba1f71e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T21:34:10Z",
+      "side": 1,
+      "message": "| If the problem comes from references to ReviewDb instances being stored in locals or instance fields, then I don\u0027t think throwing on getConnection() will solve it.\n\nUnsure about it.\n\n| I\u0027m pretty sure getConnection() is only called when the ReviewDb is opened\n\nI think it\u0027s not, or at least not always? At least it is always called to create prepared statement. Here are the stack traces from my change in gwtorm: [1], [2].\n\n* [1] http://paste.openstack.org/show/216790\n* [2] http://paste.openstack.org/show/216833",
+      "parentUuid": "2d146132_b93cff90",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

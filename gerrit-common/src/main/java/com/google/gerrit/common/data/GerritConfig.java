@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import java.util.List;
 
 public class GerritConfig implements Cloneable {
   protected String reportBugUrl;
@@ -27,7 +26,6 @@ public class GerritConfig implements Cloneable {
   protected String anonymousCowardName;
   protected int suggestFrom;
   protected int changeUpdateDelay;
-  protected List<String> archiveFormats;
   protected int largeChangeSize;
   protected String replyLabel;
   protected String replyTitle;
@@ -114,14 +112,6 @@ public class GerritConfig implements Cloneable {
 
   public void setLargeChangeSize(int largeChangeSize) {
     this.largeChangeSize = largeChangeSize;
-  }
-
-  public List<String> getArchiveFormats() {
-    return archiveFormats;
-  }
-
-  public void setArchiveFormats(List<String> formats) {
-    archiveFormats = formats;
   }
 
   public String getReplyTitle() {

@@ -61,13 +61,14 @@ public class MyProfileScreen extends SettingsScreen {
       fieldIdx = 1;
     }
 
-    info = new Grid((Gerrit.getConfig().siteHasUsernames() ? 1 : 0) + 4, 2);
+    info = new Grid(
+        (Gerrit.getServerInfo().auth().siteHasUsernames() ? 1 : 0) + 4, 2);
     info.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     info.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
     h.add(info);
 
     int row = 0;
-    if (Gerrit.getConfig().siteHasUsernames()) {
+    if (Gerrit.getServerInfo().auth().siteHasUsernames()) {
       infoRow(row++, Util.C.userName());
     }
     infoRow(row++, Util.C.fullName());
@@ -110,7 +111,7 @@ public class MyProfileScreen extends SettingsScreen {
         });
 
     int row = 0;
-    if (Gerrit.getConfig().siteHasUsernames()) {
+    if (Gerrit.getServerInfo().auth().siteHasUsernames()) {
       info.setWidget(row++, fieldIdx, new UsernameField());
     }
     info.setText(row++, fieldIdx, account.getFullName());

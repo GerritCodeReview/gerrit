@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
@@ -142,6 +143,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   private InProcessProtocol inProcessProtocol;
+
+  @Inject
+  private Provider<AnonymousUser> anonymousUser;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -425,6 +429,10 @@ public abstract class AbstractDaemonTest {
 
   protected Context setApiUser(TestAccount account) {
     return atrScope.set(newRequestContext(account));
+  }
+
+  protected Context setApiUserAnonymous() {
+    return atrScope.newContext(reviewDbProvider, null, anonymousUser.get());
   }
 
   protected static Gson newGson() {

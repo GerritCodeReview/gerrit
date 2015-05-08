@@ -25,6 +25,8 @@ import java.util.EnumSet;
 /** List of changes available from {@code /changes/}. */
 public class ChangeList extends JsArray<ChangeInfo> {
   private static final String URI = "/changes/";
+  // If changing default options, also update in
+  // ChangeIT#defaultSearchDoesNotTouchDatabase().
   private static final EnumSet<ListChangesOption> OPTIONS = EnumSet.of(
       ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS);
 

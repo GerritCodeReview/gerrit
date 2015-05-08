@@ -172,7 +172,8 @@ public class ReviewerSuggestionCache {
       doc.add(new TextField(NAME, a.getFullName(), Store.YES));
     }
     if (a.getPreferredEmail() != null) {
-      doc.add(new StringField(EMAIL, a.getPreferredEmail(), Store.YES));
+      doc.add(new StringField(EMAIL, a.getPreferredEmail().toLowerCase(),
+          Store.YES));
       doc.add(new TextField(EMAIL, a.getPreferredEmail(), Store.YES));
     }
     AccountExternalIdAccess extIdAccess = db.get().accountExternalIds();

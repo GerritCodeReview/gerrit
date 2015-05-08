@@ -34,6 +34,42 @@
       "revId": "2bc96b4f6d68589433baf875d15686d008760350",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_9b148bf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T10:15:15Z",
+      "side": 1,
+      "message": "I just noticed that the description didn\u0027t match the current implementation. Probably some things have changed over time, or it was just always wrong.",
+      "parentUuid": "ad4db187_65192679",
+      "revId": "2bc96b4f6d68589433baf875d15686d008760350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_7b43ff05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T10:15:15Z",
+      "side": 1,
+      "message": "I can push it for stable-2.11",
+      "parentUuid": "ad4db187_a526feb1",
+      "revId": "2bc96b4f6d68589433baf875d15686d008760350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

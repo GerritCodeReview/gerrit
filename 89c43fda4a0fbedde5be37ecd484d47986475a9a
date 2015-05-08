@@ -70,6 +70,30 @@
       "revId": "89c43fda4a0fbedde5be37ecd484d47986475a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_58f03d91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-08T17:13:25Z",
+      "side": 1,
+      "message": "\u003e IMHO would be best to rename it \"lazyLoadCurrentPatchSet()\" or something that suggest that is currently loading something :-) \n\nThe default for methods in ChangeData is to be lazy loading, literally the only field that is guaranteed to be set at creation is the change ID.",
+      "parentUuid": "4d119541_5a1f1516",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 421,
+        "endChar": 6
+      },
+      "revId": "89c43fda4a0fbedde5be37ecd484d47986475a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

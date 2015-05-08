@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -55,7 +57,17 @@ public class GetArchive implements RestReadView<RevisionResource> {
         exts.put(format.name().toLowerCase(), format);
       }
       extensions = ImmutableMap.copyOf(exts);
-      allowed = cfg.getArchiveFormats();
+
+      // Zip is not supported because it may be interpreted by a Java plugin as a
+      // valid JAR file, whose code would have access to cookies on the domain.
+      allowed = Sets.filter(
+          cfg.getArchiveFormats(),
+          new Predicate<ArchiveFormat>() {
+            @Override
+            public boolean apply(ArchiveFormat format) {
+              return (format != ArchiveFormat.ZIP);
+            }
+          });
     }
 
     public Set<ArchiveFormat> getAllowed() {

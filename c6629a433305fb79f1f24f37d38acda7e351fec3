@@ -118,6 +118,30 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_bbbbc74f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T20:37:48Z",
+      "side": 1,
+      "message": "Well, the test is not failing, but the database can still be accessed even after this call: atrScope.disableDb();\n\n| Although I still can\u0027t reproduce it\n\n\nWhy? Have you tried to put a breakpoint in (ps 2) from Eclipse on line IdentifiedUser.java:380? and run the defaultSearchDoesNotTouchDatabase() from Eclipse?\n\n\u003d\u003e  dbProvider.get().starredChanges().byAccount(getAccountId());\n\nEven though this call is happens after:\n\n  atrScope.disableDb();\n\n(see my stack trace) the database was claimed to be disabled. It looks like it is still _not disbaled_ for some instances in Guice graph that have Provider\u003cReviewerDb\u003e.\n\nMy original suggestion was to find a way that after some magic call(s), under no circumstances we can successfully hit database. That\u0027s what my attempt in gwtorm was trying to achieve, by throwing an exception when getConnection() was called on JdbcSchema instance.",
+      "parentUuid": "2d146132_596ba39f",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "972dbbd9888b396736c4aab123a0059d4a3a3a98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_fb594f16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T06:30:38Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/67746",
+      "parentUuid": "6d0019f0_db8d7304",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "972dbbd9888b396736c4aab123a0059d4a3a3a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

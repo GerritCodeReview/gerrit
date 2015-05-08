@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0019f0_bb1747f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-05-08T10:03:11Z",
+      "side": 1,
+      "message": "Just one question: why is this jarFile kept open until plugin cleanup? It seems to be used only here in this method...",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 19
+      },
+      "revId": "87a66225582559cc55cc3aa158ee198faa94fed2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

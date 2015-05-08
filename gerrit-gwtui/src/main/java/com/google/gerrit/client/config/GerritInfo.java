@@ -36,6 +36,8 @@ public class GerritInfo extends JavaScriptObject {
 
   public final native String all_projects() /*-{ return this.all_projects; }-*/;
   public final native String all_users() /*-{ return this.all_users; }-*/;
+  public final native String report_bug_url() /*-{ return this.report_bug_url; }-*/;
+  public final native String report_bug_text() /*-{ return this.report_bug_text; }-*/;
 
   protected GerritInfo() {
   }

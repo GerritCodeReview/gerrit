@@ -99,11 +99,50 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public AuthType authType;
     public Boolean useContributorAgreements;
     public List<Account.FieldName> editableAccountFields;
+    public String loginUrl;
+    public String loginText;
+    public String switchAccountUrl;
+    public String registerUrl;
+    public String registerText;
+    public String editFullNameUrl;
+    public String httpPasswordUrl;
+    public Boolean isGitBasicAuth;
 
     public AuthInfo(AuthConfig cfg, Realm realm) {
       authType = cfg.getAuthType();
       useContributorAgreements = toBoolean(cfg.isUseContributorAgreements());
       editableAccountFields = new ArrayList<>(realm.getEditableFields());
+      switchAccountUrl = cfg.getSwitchAccountUrl();
+
+      switch (authType) {
+        case LDAP:
+        case LDAP_BIND:
+          registerUrl = cfg.getRegisterUrl();
+          registerText = cfg.getRegisterText();
+          editFullNameUrl = cfg.getEditFullNameUrl();
+          isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
+          break;
+
+        case CUSTOM_EXTENSION:
+          registerUrl = cfg.getRegisterUrl();
+          registerText = cfg.getRegisterText();
+          editFullNameUrl = cfg.getEditFullNameUrl();
+          httpPasswordUrl = cfg.getHttpPasswordUrl();
+          break;
+
+        case HTTP:
+        case HTTP_LDAP:
+          loginUrl = cfg.getLoginUrl();
+          loginText = cfg.getLoginText();
+          break;
+
+        case CLIENT_SSL_CERT_LDAP:
+        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+        case OAUTH:
+        case OPENID:
+        case OPENID_SSO:
+          break;
+      }
     }
   }
 

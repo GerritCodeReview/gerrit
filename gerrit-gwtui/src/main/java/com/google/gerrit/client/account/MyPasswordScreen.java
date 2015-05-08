@@ -40,7 +40,7 @@ public class MyPasswordScreen extends SettingsScreen {
   protected void onInitUI() {
     super.onInitUI();
 
-    String url = Gerrit.getConfig().getHttpPasswordUrl();
+    String url = Gerrit.getServerInfo().auth().httpPasswordUrl();
     if (url != null) {
       Anchor link = new Anchor();
       link.setText(Util.C.linkObtainPassword());

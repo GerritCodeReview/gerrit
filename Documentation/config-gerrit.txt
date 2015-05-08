@@ -337,26 +337,27 @@ If not set, the redirect returns to the list of all open changes.
 [[auth.registerUrl]]auth.registerUrl::
 +
 Target for the "Register" link in the upper right corner.  Used only
-when `auth.type` is `LDAP`.
+when `auth.type` is `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
 +
 If not set, no "Register" link is displayed.
 
 [[auth.registerText]]auth.registerText::
 +
 Text for the "Register" link in the upper right corner.  Used only
-when `auth.type` is `LDAP`.
+when `auth.type` is `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
 +
 If not set, defaults to "Register".
 
 [[auth.editFullNameUrl]]auth.editFullNameUrl::
 +
 Target for the "Edit" button when the user is allowed to edit their
-full name.
+full name.  Used only when `auth.type` is `LDAP`, `LDAP_BIND` or
+`CUSTOM_EXTENSION`.
 
 [[auth.httpPasswordUrl]]auth.httpPasswordUrl::
 +
 Target for the "Obtain Password" link.  Used only when `auth.type` is
-`LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
+`CUSTOM_EXTENSION`.
 
 [[auth.switchAccountUrl]]auth.switchAccountUrl::
 +

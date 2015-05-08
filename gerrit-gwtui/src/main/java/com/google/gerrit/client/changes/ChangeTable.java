@@ -364,7 +364,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   private static Widget getSizeWidget(ChangeInfo c) {
-    int largeChangeSize = Gerrit.getConfig().getLargeChangeSize();
+    int largeChangeSize = Gerrit.getServerInfo().change().largeChange();
     int changedLines = c.insertions() + c.deletions();
     int p = 100;
     if (changedLines < largeChangeSize) {

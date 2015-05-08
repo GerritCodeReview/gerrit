@@ -26,7 +26,7 @@ class UpdateCheckTimer extends Timer implements ValueChangeHandler<Boolean> {
   private static final int MAX_PERIOD = 3 * 60 * 1000;
   private static final int IDLE_PERIOD = 2 * 3600 * 1000;
   private static final int POLL_PERIOD =
-      Gerrit.getConfig().getChangeUpdateDelay() * 1000;
+      Gerrit.getServerInfo().change().updateDelay() * 1000;
 
   private final ChangeScreen screen;
   private int delay;

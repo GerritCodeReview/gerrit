@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0019f0_bbe507a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T09:10:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be needed. You correctly set setVisible(false) in case the user doesn\u0027t have the needed capability to edit hashtag, in which case this action is not included in JSON at all. So\n\n  info.actions().containsKey(\"hashtags\")\n\nshould already evaluate to false. There is only one use case where we are using setEnabled(false) in action: for Submit button. That\u0027s because we want to explain over the tooltip to the user why the submit button was disabled (Submit-whole-topic logic).",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 52
+      },
+      "revId": "0e4877b4a7a37c2e4f6470131c3366f6e5c94e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

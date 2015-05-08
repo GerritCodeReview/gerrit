@@ -38,7 +38,7 @@ class Actions extends Composite {
   private static final String[] CORE = {
     "abandon", "restore", "revert", "topic",
     "cherrypick", "submit", "rebase", "message",
-    "publish", "followup", "/"};
+    "publish", "followup", "hashtags", "/"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);

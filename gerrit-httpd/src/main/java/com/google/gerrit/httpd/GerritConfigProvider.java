@@ -16,7 +16,6 @@ package com.google.gerrit.httpd;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -34,7 +33,6 @@ import javax.servlet.ServletContext;
 
 class GerritConfigProvider implements Provider<GerritConfig> {
   private final Config cfg;
-  private final GitWebConfig gitWebConfig;
   private final SshInfo sshInfo;
 
   private final ServletContext servletContext;
@@ -43,12 +41,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   @Inject
   GerritConfigProvider(
       @GerritServerConfig Config gsc,
-      GitWebConfig gwc,
       SshInfo si,
       ServletContext sc,
       @AnonymousCowardName String acn) {
     cfg = gsc;
-    gitWebConfig = gwc;
     sshInfo = si;
     servletContext = sc;
     anonymousCowardName = acn;
@@ -67,11 +63,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
-
-    if (gitWebConfig.getUrl() != null) {
-      config.setGitwebLink(new GitwebConfig(gitWebConfig.getUrl(), gitWebConfig
-          .getGitWebType()));
-    }
 
     if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
       config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d119541_5a54b5d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-08T09:13:12Z",
+      "side": 1,
+      "message": "This check was already performed inside the loadPatchSets() method: why is this patch (with the check repeated again here) is going to make any difference?\n\n  private Map\u003cPatchSet.Id, PatchSet\u003e loadPatchSets(ChangeData cd,\n      Optional\u003cPatchSet.Id\u003e limitToPsId) throws OrmException {\n    Collection\u003cPatchSet\u003e src;\n    if (has(ALL_REVISIONS) || has(MESSAGES)) {\n      src \u003d cd.patches();\n    }",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 421,
+        "endChar": 6
+      },
+      "revId": "89c43fda4a0fbedde5be37ecd484d47986475a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

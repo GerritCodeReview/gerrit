@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -29,7 +30,8 @@ import java.io.IOException;
 import java.util.Set;
 
 @Singleton
-public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInput> {
+public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInput>,
+    UiAction<ChangeResource>{
   private HashtagsUtil hashtagsUtil;
 
   @Inject
@@ -50,5 +52,12 @@ public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInpu
     } catch (ValidationException e) {
       throw new ResourceConflictException(e.getMessage());
     }
+  }
+
+  @Override
+  public UiAction.Description getDescription(ChangeResource resource) {
+    return new UiAction.Description()
+      .setLabel("Edit Hashtags")
+      .setVisible(resource.getControl().canEditHashtags());
   }
 }

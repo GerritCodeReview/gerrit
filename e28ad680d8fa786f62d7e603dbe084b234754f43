@@ -45,6 +45,30 @@
       "revId": "e28ad680d8fa786f62d7e603dbe084b234754f43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd52e522_6697ee48",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T09:47:15Z",
+      "side": 1,
+      "message": "I\u0027d prefer to clean this up (and the removal of \"message\" if necessary) in a follow-up change.",
+      "parentUuid": "4d119541_1ad75dc6",
+      "range": {
+        "startLine": 41,
+        "startChar": 27,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "e28ad680d8fa786f62d7e603dbe084b234754f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

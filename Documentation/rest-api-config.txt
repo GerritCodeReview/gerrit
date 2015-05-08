@@ -919,6 +919,38 @@ agreements] are required.
 |`editable_account_fields`    ||
 List of account fields that are editable. Possible values are
 `FULL_NAME`, `USER_NAME` and `REGISTER_NEW_EMAIL`.
+|`login_url`                  |optional|
+The link:config-gerrit.html#auth.loginUrl[login URL]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is `HTTP` or
+`HTTP_LDAP`.
+|`login_text`                 |optional|
+The link:config-gerrit.html#auth.loginText[login text]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is `HTTP` or
+`HTTP_LDAP`.
+|`switch_account_url`         |optional|
+The link:config-gerrit.html#auth.switchAccountUrl[URL to switch
+accounts].
+|`register_url`               |optional|
+The link:config-gerrit.html#auth.registerUrl[register URL]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
+`LDAP_BIND` or `CUSTOM_EXTENSION`.
+|`register_text`              |optional|
+The link:config-gerrit.html#auth.registerText[register text]. Only set
+if link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
+`LDAP_BIND` or `CUSTOM_EXTENSION`.
+|`edit_full_name_url`         |optional|
+The link:config-gerrit.html#auth.editFullNameUrl[URL to edit the full
+name]. Only set if link:config-gerrit.html#auth.type[authentication
+type] is `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
+|`http_password_url`          |optional|
+The link:config-gerrit.html#auth.httpPasswordUrl[URL to obtain an HTTP
+password]. Only set if link:config-gerrit.html#auth.type[authentication
+type] is `CUSTOM_EXTENSION`.
+|`is_git_basic_auth`          |optional, not set if `false`|
+Whether link:config-gerrit.html#auth.gitBasicAuth[basic authentication
+is used for Git over HTTP/HTTPS]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is is `LDAP` or
+`LDAP_BIND`.
 |==========================================
 
 [[cache-info]]

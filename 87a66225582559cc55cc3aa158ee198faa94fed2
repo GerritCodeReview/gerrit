@@ -22,6 +22,30 @@
       "revId": "87a66225582559cc55cc3aa158ee198faa94fed2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad4db187_c529fa83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T10:09:08Z",
+      "side": 1,
+      "message": "I\u0027d have to dig a bit deeper into the blame history of this file to find out. As we can see at line 154 it\u0027s being deliberately kept open, rather than as an oversight.\n\nIf it needs fixing it can be done in a follow-up change.",
+      "parentUuid": "6d0019f0_bb1747f9",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 19
+      },
+      "revId": "87a66225582559cc55cc3aa158ee198faa94fed2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

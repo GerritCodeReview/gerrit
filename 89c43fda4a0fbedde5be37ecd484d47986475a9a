@@ -22,6 +22,30 @@
       "revId": "89c43fda4a0fbedde5be37ecd484d47986475a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_bafe312f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T12:36:12Z",
+      "side": 1,
+      "message": "| This check was already performed inside the loadPatchSets() method: why is this patch (with the check repeated again here) is going to make any difference?\n\nYes, it is different. When you check the other part of loadPatchSets() method, you can see, that in any case currentPatchSet() is eagerly loaded:\n\n  } else {\n      PatchSet ps;\n      if (limitToPsId.isPresent()) {\n        ps \u003d cd.patch(limitToPsId.get());\n        if (ps \u003d\u003d null) {\n          throw new OrmException(\"missing patch set \" + limitToPsId.get());\n        }\n      } else {\n        ps \u003d cd.currentPatchSet();\n        if (ps \u003d\u003d null) {\n          throw new OrmException(\n              \"missing current patch set for change \" + cd.getId());\n        }\n      }\n      src \u003d Collections.singletonList(ps);\n    }\n\nThe line that we don\u0027t want in this context is:\n\n  ps \u003d cd.currentPatchSet();\n\nWhy? Because that\u0027s how ChangeData.currentPatchSet() is implemented:\n\n  public PatchSet currentPatchSet() throws OrmException {\n     if (currentPatchSet \u003d\u003d null) {\n       Change c \u003d change();\n       if (c \u003d\u003d null) {\n         return null;\n       }\n       for (PatchSet p : patches()) {\n         if (p.getId().equals(c.currentPatchSetId())) {\n           currentPatchSet \u003d p;\n           return p;\n         }\n       }\n     }\n     return currentPatchSet;\n  }\n\nIOW we would still eagerly load patch sets for every (!) change.",
+      "parentUuid": "4d119541_5a54b5d9",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 421,
+        "endChar": 6
+      },
+      "revId": "89c43fda4a0fbedde5be37ecd484d47986475a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

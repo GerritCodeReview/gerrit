@@ -12,14 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd;
+package com.google.gerrit.server.config;
 
 import static java.nio.file.Files.isExecutable;
 import static java.nio.file.Files.isRegularFile;
 
 import com.google.gerrit.common.data.GitWebType;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;

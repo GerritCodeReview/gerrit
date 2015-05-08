@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0019f0_5bc3a3dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-08T13:11:24Z",
+      "side": 1,
+      "message": "Instead of opening/close the JarFile all the times (not sure that the getInputStream() would work then if the JarFile is closed !) why don\u0027t we just make the JarScanner auto-closeable and then close the inner JarFile when needed?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 3
+      },
+      "revId": "7481474a326f5d51194b869fdabcaee79053d983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

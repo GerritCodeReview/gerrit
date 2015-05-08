@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd52e522_6645ae78",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T04:29:59Z",
+      "side": 1,
+      "message": "\"getServerInfo\"?",
+      "range": {
+        "startLine": 293,
+        "startChar": 27,
+        "endLine": 293,
+        "endChar": 34
+      },
+      "revId": "0ccf3616ef3bf6d2471117f7dde7f3a8468fea12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad4db187_a5ab9e81",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/AuthInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T04:29:59Z",
+      "side": 1,
+      "message": "Do we need to consider AuthType.OPENID_SSO here?",
+      "revId": "0ccf3616ef3bf6d2471117f7dde7f3a8468fea12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd52e522_464ab288",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T04:29:59Z",
+      "side": 1,
+      "message": "Should we keep all native methods together?  I.e. put this one together with the one at line 21?",
+      "revId": "0ccf3616ef3bf6d2471117f7dde7f3a8468fea12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

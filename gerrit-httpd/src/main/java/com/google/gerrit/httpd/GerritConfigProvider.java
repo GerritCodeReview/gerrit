@@ -14,10 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
@@ -27,7 +24,6 @@ import com.google.inject.ProvisionException;
 import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContext;
 
@@ -36,18 +32,15 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final SshInfo sshInfo;
 
   private final ServletContext servletContext;
-  private final String anonymousCowardName;
 
   @Inject
   GerritConfigProvider(
       @GerritServerConfig Config gsc,
       SshInfo si,
-      ServletContext sc,
-      @AnonymousCowardName String acn) {
+      ServletContext sc) {
     cfg = gsc;
     sshInfo = si;
     servletContext = sc;
-    anonymousCowardName = acn;
   }
 
   private GerritConfig create() throws MalformedURLException {
@@ -55,31 +48,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
-    config.setAnonymousCowardName(anonymousCowardName);
-    config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
-    config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(
-        cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS));
-    config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
-
-    config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
-    config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 
     if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
       config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());
     }
-
-    String replyTitle =
-        Optional.fromNullable(cfg.getString("change", null, "replyTooltip"))
-        .or("Reply and score")
-        + " (Shortcut: a)";
-    String replyLabel =
-        Optional.fromNullable(cfg.getString("change", null, "replyLabel"))
-        .or("Reply")
-        + "\u2026";
-    config.setReplyTitle(replyTitle);
-    config.setReplyLabel(replyLabel);
-
-    config.setAllowDraftChanges(cfg.getBoolean("change", "allowDrafts", true));
 
     return config;
   }

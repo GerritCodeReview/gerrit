@@ -160,7 +160,7 @@ public class JarPluginProvider implements ServerPluginProvider {
   private JarScanner createJarScanner(File srcJar)
       throws InvalidPluginException {
     try {
-      return new JarScanner(srcJar);
+      return new JarScanner(srcJar.getAbsolutePath());
     } catch (IOException e) {
       throw new InvalidPluginException("Cannot scan plugin file " + srcJar, e);
     }

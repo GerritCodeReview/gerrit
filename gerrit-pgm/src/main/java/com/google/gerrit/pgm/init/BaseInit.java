@@ -292,7 +292,7 @@ public class BaseInit extends SiteProgram {
         throw new InvalidSecureStoreException(String.format(
             "File %s doesn't exist", secureStore));
       }
-      JarScanner scanner = new JarScanner(secureStoreLib);
+      JarScanner scanner = new JarScanner(secureStore);
       List<String> secureStores =
           scanner.findSubClassesOf(SecureStore.class);
       if (secureStores.isEmpty()) {

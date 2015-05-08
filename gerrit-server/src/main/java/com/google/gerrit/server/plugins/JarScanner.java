@@ -39,7 +39,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -67,10 +66,15 @@ public class JarScanner implements PluginContentScanner {
         }
       };
 
-  private final JarFile jarFile;
+  private final String path;
 
-  public JarScanner(File srcFile) throws IOException {
-    this.jarFile = new JarFile(srcFile);
+  public JarScanner(String path) throws IOException {
+    this.path = path;
+    new JarFile(this.path).close();
+  }
+
+  private JarFile jarFile() throws IOException {
+    return new JarFile(this.path);
   }
 
   @Override
@@ -88,34 +92,38 @@ public class JarScanner implements PluginContentScanner {
       classObjToClassDescr.put(annotation, descriptor);
     }
 
-    Enumeration<JarEntry> e = jarFile.entries();
-    while (e.hasMoreElements()) {
-      JarEntry entry = e.nextElement();
-      if (skip(entry)) {
-        continue;
-      }
-
-      ClassData def = new ClassData(descriptors);
-      try {
-        new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
-      } catch (IOException err) {
-        throw new InvalidPluginException("Cannot auto-register", err);
-      } catch (RuntimeException err) {
-        PluginLoader.log.warn(String.format(
-            "Plugin %s has invaild class file %s inside of %s", pluginName,
-            entry.getName(), jarFile.getName()), err);
-        continue;
-      }
-
-      if (def.isConcrete()) {
-        if (!Strings.isNullOrEmpty(def.annotationName)) {
-          rawMap.put(def.annotationName, def);
+    try (JarFile jarFile = jarFile()) {
+      Enumeration<JarEntry> e = jarFile.entries();
+      while (e.hasMoreElements()) {
+        JarEntry entry = e.nextElement();
+        if (skip(entry)) {
+          continue;
         }
-      } else {
-        PluginLoader.log.warn(String.format(
-            "Plugin %s tries to @%s(\"%s\") abstract class %s", pluginName,
-            def.annotationName, def.annotationValue, def.className));
+
+        ClassData def = new ClassData(descriptors);
+        try {
+          new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
+        } catch (IOException err) {
+          throw new InvalidPluginException("Cannot auto-register", err);
+        } catch (RuntimeException err) {
+          PluginLoader.log.warn(String.format(
+              "Plugin %s has invaild class file %s inside of %s", pluginName,
+              entry.getName(), jarFile.getName()), err);
+          continue;
+        }
+
+        if (def.isConcrete()) {
+          if (!Strings.isNullOrEmpty(def.annotationName)) {
+            rawMap.put(def.annotationName, def);
+          }
+        } else {
+          PluginLoader.log.warn(String.format(
+              "Plugin %s tries to @%s(\"%s\") abstract class %s", pluginName,
+              def.annotationName, def.annotationValue, def.className));
+        }
       }
+    } catch (IOException ioe) {
+      throw new InvalidPluginException("Cannot open plugin JAR", ioe);
     }
 
     ImmutableMap.Builder<Class<? extends Annotation>, Iterable<ExtensionMetaData>> result =
@@ -142,31 +150,33 @@ public class JarScanner implements PluginContentScanner {
     String name = superClass.replace('.', '/');
 
     List<String> classes = new ArrayList<>();
-    Enumeration<JarEntry> e = jarFile.entries();
-    while (e.hasMoreElements()) {
-      JarEntry entry = e.nextElement();
-      if (skip(entry)) {
-        continue;
-      }
+    try (JarFile jarFile = jarFile()) {
+      Enumeration<JarEntry> e = jarFile.entries();
+      while (e.hasMoreElements()) {
+        JarEntry entry = e.nextElement();
+        if (skip(entry)) {
+          continue;
+        }
 
-      ClassData def = new ClassData(Collections.<String>emptySet());
-      try {
-        new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
-      } catch (RuntimeException err) {
-        PluginLoader.log.warn(String.format("Jar %s has invalid class file %s",
-            jarFile.getName(), entry.getName()), err);
-        continue;
-      }
+        ClassData def = new ClassData(Collections.<String>emptySet());
+        try {
+          new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
+        } catch (RuntimeException err) {
+          PluginLoader.log.warn(String.format("Jar %s has invalid class file %s",
+              jarFile.getName(), entry.getName()), err);
+          continue;
+        }
 
-      if (name.equals(def.superName)) {
-        classes.addAll(findSubClassesOf(def.className));
-        if (def.isConcrete()) {
-          classes.add(def.className);
+        if (name.equals(def.superName)) {
+          classes.addAll(findSubClassesOf(def.className));
+          if (def.isConcrete()) {
+            classes.add(def.className);
+          }
         }
       }
-    }
 
-    return classes;
+      return classes;
+    }
   }
 
   private static boolean skip(JarEntry entry) {
@@ -297,41 +307,51 @@ public class JarScanner implements PluginContentScanner {
 
   @Override
   public Optional<PluginEntry> getEntry(String resourcePath) throws IOException {
-    JarEntry jarEntry = jarFile.getJarEntry(resourcePath);
-    if (jarEntry == null || jarEntry.getSize() == 0) {
-      return Optional.absent();
-    }
+    try (JarFile jarFile = jarFile()) {
+      JarEntry jarEntry = jarFile.getJarEntry(resourcePath);
+      if (jarEntry == null || jarEntry.getSize() == 0) {
+        return Optional.absent();
+      }
 
-    return Optional.of(resourceOf(jarEntry));
+      return Optional.of(resourceOf(jarEntry));
+    }
   }
 
   @Override
   public Enumeration<PluginEntry> entries() {
-    return Collections.enumeration(Lists.transform(
-        Collections.list(jarFile.entries()),
-        new Function<JarEntry, PluginEntry>() {
-          @Override
-          public PluginEntry apply(JarEntry jarEntry) {
-            try {
-              return resourceOf(jarEntry);
-            } catch (IOException e) {
-              throw new IllegalArgumentException("Cannot convert jar entry "
-                  + jarEntry + " to a resource", e);
+    try (JarFile jarFile = jarFile()) {
+      return Collections.enumeration(Lists.transform(
+          Collections.list(jarFile.entries()),
+          new Function<JarEntry, PluginEntry>() {
+            @Override
+            public PluginEntry apply(JarEntry jarEntry) {
+              try {
+                return resourceOf(jarEntry);
+              } catch (IOException e) {
+                throw new IllegalArgumentException("Cannot convert jar entry "
+                    + jarEntry + " to a resource", e);
+              }
             }
-          }
-        }));
+          }));
+    } catch (IOException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
   }
 
   @Override
   public InputStream getInputStream(PluginEntry entry)
       throws IOException {
-    return jarFile.getInputStream(jarFile
-        .getEntry(entry.getName()));
+    try (JarFile jarFile = jarFile()) {
+      return jarFile.getInputStream(jarFile
+          .getEntry(entry.getName()));
+    }
   }
 
   @Override
   public Manifest getManifest() throws IOException {
-    return jarFile.getManifest();
+    try (JarFile jarFile = jarFile()) {
+      return jarFile.getManifest();
+    }
   }
 
   private PluginEntry resourceOf(JarEntry jarEntry) throws IOException {

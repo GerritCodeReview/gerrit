@@ -70,6 +70,30 @@
       "revId": "649a6d126124c11ccf22af39a88ad704b7464975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_3beb3778",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-08T09:16:21Z",
+      "side": 1,
+      "message": "Yes, it would only be more merge conflicts.\n\nI already tested this change on top of the last PS in the merge commit and all the tests were green.",
+      "parentUuid": "4d119541_da3fa584",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "649a6d126124c11ccf22af39a88ad704b7464975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

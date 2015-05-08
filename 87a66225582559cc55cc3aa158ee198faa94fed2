@@ -70,6 +70,30 @@
       "revId": "87a66225582559cc55cc3aa158ee198faa94fed2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_7b6c1f88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-05-08T11:11:48Z",
+      "side": 1,
+      "message": "Hmmm... perhaps a leftover from https://gerrit-review.googlesource.com/#/c/56097/21/gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java\n\nBefore that change it made sense to keep this jarFile open; since then no more. This same change also switched from scanning the copied tmp jar to scanning the original src jar, which led to the issue this change is fixing now.",
+      "parentUuid": "cd52e522_a684c60f",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 19
+      },
+      "revId": "87a66225582559cc55cc3aa158ee198faa94fed2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -27,6 +27,7 @@ import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
+import com.google.gerrit.client.config.AuthInfo;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.config.ServerInfo;
 import com.google.gerrit.client.extensions.TopMenu;
@@ -624,8 +625,8 @@ public class Gerrit implements EntryPoint {
 
     menuBars = new HashMap<>();
 
-    final boolean signedIn = isSignedIn();
-    final GerritConfig cfg = getConfig();
+    boolean signedIn = isSignedIn();
+    AuthInfo authInfo = info().auth();
     LinkMenuBar m;
 
     m = new LinkMenuBar();
@@ -719,9 +720,9 @@ public class Gerrit implements EntryPoint {
     }
 
     if (signedIn) {
-      whoAmI(!info().auth().isClientSslCertLdap());
+      whoAmI(!authInfo.isClientSslCertLdap());
     } else {
-      switch (info().auth().authType()) {
+      switch (authInfo.authType()) {
         case CLIENT_SSL_CERT_LDAP:
           break;
 
@@ -764,18 +765,22 @@ public class Gerrit implements EntryPoint {
 
         case HTTP:
         case HTTP_LDAP:
-          if (cfg.getLoginUrl() != null) {
-            final String signinText = cfg.getLoginText() == null ? C.menuSignIn() : cfg.getLoginText();
-            menuRight.add(anchor(signinText, cfg.getLoginUrl()));
+          if (authInfo.login_url() != null) {
+            String signinText = authInfo.login_text() == null
+                ? C.menuSignIn()
+                : authInfo.login_text();
+            menuRight.add(anchor(signinText, authInfo.login_url()));
           }
           break;
 
         case LDAP:
         case LDAP_BIND:
         case CUSTOM_EXTENSION:
-          if (cfg.getRegisterUrl() != null) {
-            final String registerText = cfg.getRegisterText() == null ? C.menuRegister() : cfg.getRegisterText();
-            menuRight.add(anchor(registerText, cfg.getRegisterUrl()));
+          if (authInfo.register_url() != null) {
+            String registerText = authInfo.register_text() == null
+                ? C.menuRegister()
+                : authInfo.register_text();
+            menuRight.add(anchor(registerText, authInfo.register_url()));
           }
           menuRight.addItem(C.menuSignIn(), new Command() {
             @Override

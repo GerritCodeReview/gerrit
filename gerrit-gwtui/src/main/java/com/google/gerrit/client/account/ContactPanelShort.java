@@ -101,7 +101,7 @@ class ContactPanelShort extends Composite {
 
     int row = 0;
     if (!Gerrit.info().auth().canEdit(FieldName.USER_NAME)
-        && Gerrit.getConfig().siteHasUsernames()) {
+        && Gerrit.info().auth().siteHasUsernames()) {
       infoPlainText.resizeRows(infoPlainText.getRowCount() + 1);
       row(infoPlainText, row++, Util.C.userName(), new UsernameField());
     }
@@ -109,12 +109,12 @@ class ContactPanelShort extends Composite {
     if (!canEditFullName()) {
       FlowPanel nameLine = new FlowPanel();
       nameLine.add(nameTxt);
-      if (Gerrit.getConfig().getEditFullNameUrl() != null) {
+      if (Gerrit.info().auth().editFullNameUrl() != null) {
         Button edit = new Button(Util.C.linkEditFullName());
         edit.addClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
-            Window.open(Gerrit.getConfig().getEditFullNameUrl(), "_blank", null);
+            Window.open(Gerrit.info().auth().editFullNameUrl(), "_blank", null);
           }
         });
         nameLine.add(edit);

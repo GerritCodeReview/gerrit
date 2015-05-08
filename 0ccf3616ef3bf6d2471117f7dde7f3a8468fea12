@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d119541_9aaecd60",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T06:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd52e522_6645ae78",
+      "range": {
+        "startLine": 293,
+        "startChar": 27,
+        "endLine": 293,
+        "endChar": 34
+      },
+      "revId": "0ccf3616ef3bf6d2471117f7dde7f3a8468fea12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad4db187_a5ab9e81",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/AuthInfo.java",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4d119541_7a7d3969",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/AuthInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T06:39:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure. At least I wouldn\u0027t do it in this change, as this is some kind of refactoring and the existing logic shouldn\u0027t be changed.\n\nThere are 2 usages of this method:\n\n- in UserPopupPanel: Whether switchAccount should redirect to \u0027/login/\u0027. I guess for SSO we don\u0027t want this.\n\n- in MyIdentitiesScreen: Allow linking of identities. Looks to me like this should be enabled for OPENID_SSO, but I just don\u0027t know enough about our OPENID integration to be sure.",
+      "parentUuid": "ad4db187_a5ab9e81",
+      "revId": "0ccf3616ef3bf6d2471117f7dde7f3a8468fea12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd52e522_464ab288",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
         "patchSetId": 4
@@ -53,6 +95,24 @@
       "writtenOn": "2015-05-08T04:29:59Z",
       "side": 1,
       "message": "Should we keep all native methods together?  I.e. put this one together with the one at line 21?",
+      "revId": "0ccf3616ef3bf6d2471117f7dde7f3a8468fea12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_7b665fdb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T06:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd52e522_464ab288",
       "revId": "0ccf3616ef3bf6d2471117f7dde7f3a8468fea12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

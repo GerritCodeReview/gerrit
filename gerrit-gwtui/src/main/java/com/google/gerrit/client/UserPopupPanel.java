@@ -50,8 +50,8 @@ public class UserPopupPanel extends PluginSafePopupPanel {
       userEmail.setText(account.email());
     }
     if (showSettingsLink) {
-      if (Gerrit.getConfig().getSwitchAccountUrl() != null) {
-        switchAccount.setHref(Gerrit.getConfig().getSwitchAccountUrl());
+      if (Gerrit.getServerInfo().auth().switchAccountUrl() != null) {
+        switchAccount.setHref(Gerrit.getServerInfo().auth().switchAccountUrl());
       } else if (Gerrit.getServerInfo().auth().isDev()
           || Gerrit.getServerInfo().auth().isOpenId()) {
         switchAccount.setHref(Gerrit.selfRedirect("/login/"));

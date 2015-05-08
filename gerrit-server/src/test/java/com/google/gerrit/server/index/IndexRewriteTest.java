@@ -14,16 +14,16 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
 import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
+import static com.google.gerrit.server.query.Predicate.and;
+import static com.google.gerrit.server.query.Predicate.or;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -64,54 +64,57 @@ public class IndexRewriteTest {
   @Test
   public void testIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("file:a");
-    assertEquals(query(in), rewrite(in));
+    assertThat(rewrite(in)).isEqualTo(query(in));
   }
 
   @Test
   public void testNonIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a");
-    assertSame(in, rewrite(in));
+    assertThat(in).isSameAs(rewrite(in));
   }
 
   @Test
   public void testIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("file:a file:b");
-    assertEquals(query(in), rewrite(in));
+    assertThat(rewrite(in)).isEqualTo(query(in));
   }
 
   @Test
   public void testNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("foo:a OR foo:b");
-    assertEquals(in, rewrite(in));
+    assertThat(in).isEqualTo(rewrite(in));
   }
 
   @Test
   public void testOneIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
-    assertSame(AndSource.class, out.getClass());
-    assertEquals(
-        ImmutableList.of(query(in.getChild(1)), in.getChild(0)),
-        out.getChildren());
+    assertThat(AndSource.class).isSameAs(out.getClass());
+    assertThat(out.getChildren())
+        .containsExactly(
+            query(in.getChild(1)),
+            in.getChild(0))
+        .inOrder();
   }
 
   @Test
   public void testThreeLevelTreeWithAllIndexPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("-status:abandoned (file:a OR file:b)");
-    assertEquals(
-        query(in),
-        rewrite.rewrite(in, 0, DEFAULT_MAX_QUERY_LIMIT));
+    assertThat(rewrite.rewrite(in, 0, DEFAULT_MAX_QUERY_LIMIT))
+        .isEqualTo(query(in));
   }
 
   @Test
   public void testThreeLevelTreeWithSomeIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);
-    assertEquals(AndSource.class, out.getClass());
-    assertEquals(
-        ImmutableList.of(query(in.getChild(1)), in.getChild(0)),
-        out.getChildren());
+    assertThat(out.getClass()).isSameAs(AndSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(
+          query(in.getChild(1)),
+          in.getChild(0))
+        .inOrder();
   }
 
   @Test
@@ -119,22 +122,25 @@ public class IndexRewriteTest {
     Predicate<ChangeData> in =
         parse("file:a OR foo:b OR file:c OR foo:d");
     Predicate<ChangeData> out = rewrite(in);
-    assertSame(OrSource.class, out.getClass());
-    assertEquals(ImmutableList.of(
-          query(Predicate.or(in.getChild(0), in.getChild(2))),
-          in.getChild(1), in.getChild(3)),
-        out.getChildren());
+    assertThat(out.getClass()).isSameAs(OrSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(
+          query(or(in.getChild(0), in.getChild(2))),
+          in.getChild(1),
+          in.getChild(3))
+        .inOrder();
   }
 
   @Test
   public void testIndexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
-    assertSame(AndSource.class, out.getClass());
-    assertEquals(ImmutableList.of(
-          query(Predicate.and(in.getChild(0), in.getChild(2))),
-          in.getChild(1)),
-        out.getChildren());
+    assertThat(AndSource.class).isSameAs(out.getClass());
+    assertThat(out.getChildren())
+        .containsExactly(
+          query(and(in.getChild(0), in.getChild(2))),
+          in.getChild(1))
+        .inOrder();
   }
 
   @Test
@@ -142,11 +148,12 @@ public class IndexRewriteTest {
     Predicate<ChangeData> in =
         parse("(status:new OR status:draft) bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
-    assertSame(AndSource.class, out.getClass());
-    assertEquals(ImmutableList.of(
-          query(Predicate.and(in.getChild(0), in.getChild(2))),
-          in.getChild(1)),
-        out.getChildren());
+    assertThat(out.getClass()).isEqualTo(AndSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(
+          query(and(in.getChild(0), in.getChild(2))),
+          in.getChild(1))
+        .inOrder();
   }
 
   @Test
@@ -154,23 +161,25 @@ public class IndexRewriteTest {
     Predicate<ChangeData> in =
         parse("(status:new OR file:a) bar:p file:b");
     Predicate<ChangeData> out = rewrite(in);
-    assertSame(AndSource.class, out.getClass());
-    assertEquals(ImmutableList.of(
-          query(Predicate.and(in.getChild(0), in.getChild(2))),
-          in.getChild(1)),
-        out.getChildren());
+    assertThat(out.getClass()).isEqualTo(AndSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(
+          query(and(in.getChild(0), in.getChild(2))),
+          in.getChild(1))
+        .inOrder();
   }
 
   @Test
   public void testLimitArgumentOverridesAllLimitPredicates() throws Exception {
     Predicate<ChangeData> in = parse("limit:1 file:a limit:3");
     Predicate<ChangeData> out = rewrite(in, 5);
-    assertSame(AndSource.class, out.getClass());
-    assertEquals(ImmutableList.of(
+    assertThat(out.getClass()).isEqualTo(AndSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(
           query(in.getChild(1), 5),
           parse("limit:5"),
-          parse("limit:5")),
-        out.getChildren());
+          parse("limit:5"))
+        .inOrder();
   }
 
   @Test
@@ -178,41 +187,44 @@ public class IndexRewriteTest {
     int n = 3;
     Predicate<ChangeData> f = parse("file:a");
     Predicate<ChangeData> l = parse("limit:" + n);
-    Predicate<ChangeData> in = and(f, l);
-    assertEquals(and(query(f, 3), parse("limit:3")), rewrite.rewrite(in, 0, n));
-    assertEquals(and(query(f, 4), parse("limit:4")), rewrite.rewrite(in, 1, n));
-    assertEquals(and(query(f, 5), parse("limit:5")), rewrite.rewrite(in, 2, n));
+    Predicate<ChangeData> in = andSource(f, l);
+    assertThat(rewrite.rewrite(in, 0, n))
+        .isEqualTo(andSource(query(f, 3), parse("limit:3")));
+    assertThat(rewrite.rewrite(in, 1, n))
+        .isEqualTo(andSource(query(f, 4), parse("limit:4")));
+    assertThat(rewrite.rewrite(in, 2, n))
+        .isEqualTo(andSource(query(f, 5), parse("limit:5")));
   }
 
   @Test
   public void testGetPossibleStatus() throws Exception {
-    assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
-    assertEquals(EnumSet.of(NEW), status("is:new"));
-    assertEquals(EnumSet.of(DRAFT, MERGED, ABANDONED),
-        status("-is:new"));
-    assertEquals(EnumSet.of(NEW, MERGED), status("is:new OR is:merged"));
+    assertThat(status("file:a")).isEqualTo(EnumSet.allOf(Change.Status.class));
+    assertThat(status("is:new")).containsExactly(NEW);
+    assertThat(status("-is:new"))
+        .containsExactly(DRAFT, MERGED, ABANDONED);
+    assertThat(status("is:new OR is:merged")).containsExactly(NEW, MERGED);
 
-    EnumSet<Change.Status> none = EnumSet.noneOf(Change.Status.class);
-    assertEquals(none, status("is:new is:merged"));
-    assertEquals(none, status("(is:new is:draft) (is:merged)"));
-    assertEquals(none, status("(is:new is:draft) (is:merged)"));
+    assertThat(status("is:new is:merged")).isEmpty();
+    assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
+    assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
 
-    assertEquals(EnumSet.of(MERGED),
-        status("(is:new is:draft) OR (is:merged)"));
+    assertThat(status("(is:new is:draft) OR (is:merged)"))
+        .containsExactly(MERGED);
   }
 
   @Test
   public void testUnsupportedIndexOperator() throws Exception {
     Predicate<ChangeData> in = parse("status:merged file:a");
-    assertEquals(query(in), rewrite(in));
+    assertThat(rewrite(in)).isEqualTo(query(in));
 
     indexes.setSearchIndex(new FakeIndex(FakeIndex.V1));
     Predicate<ChangeData> out = rewrite(in);
-    assertTrue(out instanceof AndPredicate);
-    assertEquals(ImmutableList.of(
+    assertThat(out).isInstanceOf(AndPredicate.class);
+    assertThat(out.getChildren())
+        .containsExactly(
           query(in.getChild(0)),
-          in.getChild(1)),
-        out.getChildren());
+          in.getChild(1))
+        .inOrder();
   }
 
   @Test
@@ -231,7 +243,7 @@ public class IndexRewriteTest {
   }
 
   @SafeVarargs
-  private static AndSource and(Predicate<ChangeData>... preds) {
+  private static AndSource andSource(Predicate<ChangeData>... preds) {
     return new AndSource(Arrays.asList(preds));
   }
 

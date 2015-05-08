@@ -15,33 +15,47 @@
 
 package com.google.gerrit.server.git;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.MultiLock;
-import com.google.gerrit.common.TimeUtil;
 
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 public abstract class PriorityLockedQueue<Resource> {
 
+  // Contains locks on all resources we are currently holding
   private MultiLock<Resource> locks;
+
+  // Contains the tasks which are currently processing
+  private Map<ResourceTask<Resource>, Semaphore> currentBlockingTasks;
+
+  private ScheduledExecutorService exec;
+
+  // all future scheduled tasks
   private PriorityQueue<TimedRessourceTask> queue;
-  private ScheduledThreadPoolExecutor exec;
+
+  // keeps track of the next wake up time
   private ScheduledFuture<?> nextWakeUp;
   private Runnable wakeUpAction;
 
   PriorityLockedQueue() {
+
+  PriorityLockedQueue(ScheduledExecutorService sched) {
     Comparator<PriorityLockedQueue<Resource>.TimedRessourceTask> comparator =
         new TimedRessourceTaskComparator();
+    locks = new MultiLock<>();
+    currentBlockingTasks = Maps.newHashMap();
     queue = new PriorityQueue<>(1, comparator);
-    exec = new ScheduledThreadPoolExecutor(0);
+    exec = sched;
     wakeUpAction = new Runnable() {
-        @Override
+      @Override
       public void run() {
         doWork();
       }
@@ -55,9 +69,13 @@ public abstract class PriorityLockedQueue<Resource> {
    *
    * @return if the given item will be processed right now.
    */
-  public synchronized boolean processItem(ResourceTask<Resource> task) {
+  public synchronized boolean processItem(ResourceTask<Resource> task)
+      throws InterruptedException {
     if (locks.lock(task.resources())) {
+      currentBlockingTasks.put(task, new Semaphore(0));
       process(task);
+      currentBlockingTasks.get(task).acquire();
+      currentBlockingTasks.remove(task);
       return true;
     }
     return false;
@@ -106,18 +124,19 @@ public abstract class PriorityLockedQueue<Resource> {
    * The actual work will be done inside this function. As the tasks are
    * intended to be heavy workloads, this function must call be kept short and
    * hand over the task to some other thread pool.
-   * Once the work is done, a call to {@code processed(Task task)} must be made.
+   * Once the work is done, a call to {@code processed(Task task)} must be made
+   * with the same task as given by parameter.
    *
    * @param task
    */
   abstract void process(ResourceTask<Resource> task);
 
-  /**
-   *
-   * @param task
-   */
   protected void processed(ResourceTask<Resource> task) {
     locks.unlock(task.resources());
+    Semaphore sem = currentBlockingTasks.get(task);
+    if (sem != null) {
+      sem.release();
+    }
   }
 
   private class TimedRessourceTask implements ResourceTask<Resource> {

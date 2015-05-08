@@ -22,6 +22,30 @@
       "revId": "3b0c89d308318e61feb26eb6951cd03677230526",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_5b6ba39f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/download/DownloadUrlLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T06:37:26Z",
+      "side": 1,
+      "message": "The schemes are now coming from the response of the /server/config/info REST endpoint and in the ServerInfo JSON the scheme names are the names that were used to bind the schemes. The hard-coded names here are the ones that are used in com.googlesource.gerrit.plugins.download.scheme.SchemeModule for binding the schemes. The old DownloadScheme enum doesn\u0027t match these names.",
+      "parentUuid": "ad4db187_85a8a285",
+      "range": {
+        "startLine": 142,
+        "startChar": 35,
+        "endLine": 142,
+        "endChar": 40
+      },
+      "revId": "3b0c89d308318e61feb26eb6951cd03677230526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

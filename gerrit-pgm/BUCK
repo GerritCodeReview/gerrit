@@ -18,7 +18,8 @@ DEPS = [
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/log:api',
-    '//lib/log:log4j',
+    '//lib/log:jsonevent-layout',
+    '//lib/log:log4j'
 ]
 
 java_library(

@@ -19,17 +19,21 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 
+import net.logstash.log4j.JSONEventLayoutV1;
+
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
+  static final String JSON_SUFFIX = ".json";
 
   public static void errorOnlyConsole() {
     LogManager.resetConfiguration();
@@ -47,12 +51,12 @@ public class ErrorLogFile {
     root.addAppender(dst);
   }
 
-  public static LifecycleListener start(final Path sitePath)
+  public static LifecycleListener start(final Path sitePath, final Config config)
       throws IOException {
     Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
         "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {
-      initLogSystem(logdir);
+      initLogSystem(logdir, config);
     }
 
     return new LifecycleListener() {
@@ -67,10 +71,21 @@ public class ErrorLogFile {
     };
   }
 
-  private static void initLogSystem(Path logdir) {
+  private static void initLogSystem(Path logdir, Config config) {
     final Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();
-    root.addAppender(SystemLog.createAppender(logdir, LOG_NAME,
-        new PatternLayout("[%d] %-5p %c %x: %m%n")));
+
+    boolean json = config.getBoolean("log", "jsonLogging", false);
+    boolean text = config.getBoolean("log", "textLogging", true) || !json;
+
+    if (text) {
+      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME,
+          new PatternLayout("[%d] %-5p %c %x: %m%n")));
+    }
+
+    if (json) {
+      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX,
+          new JSONEventLayoutV1()));
+    }
   }
 }

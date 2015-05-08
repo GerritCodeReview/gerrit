@@ -21,6 +21,7 @@ public class ServerInfo extends JavaScriptObject {
   public final native ContactStoreInfo contact_store() /*-{ return this.contact_store; }-*/;
   public final native DownloadInfo download() /*-{ return this.download; }-*/;
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
+  public final native GitWebInfo git_web() /*-{ return this.git_web; }-*/;
 
   public final boolean hasContactStore() {
     return contact_store() != null;

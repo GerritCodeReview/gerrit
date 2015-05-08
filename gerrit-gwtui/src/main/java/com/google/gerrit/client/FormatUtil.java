@@ -138,7 +138,7 @@ public class FormatUtil {
   public static String nameEmail(AccountInfo info) {
     String name = info.name();
     if (name == null || name.trim().isEmpty()) {
-      name = Gerrit.getConfig().getAnonymousCowardName();
+      name = Gerrit.info().user().anonymousCowardName();
     }
 
     StringBuilder b = new StringBuilder().append(name);

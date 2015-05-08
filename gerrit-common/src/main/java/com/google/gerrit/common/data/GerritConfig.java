@@ -16,35 +16,9 @@ package com.google.gerrit.common.data;
 
 
 public class GerritConfig implements Cloneable {
-  protected String reportBugUrl;
-  protected String reportBugText;
-
   protected String gitDaemonUrl;
   protected String sshdAddress;
   protected boolean documentationAvailable;
-  protected String anonymousCowardName;
-  protected int suggestFrom;
-  protected int changeUpdateDelay;
-  protected int largeChangeSize;
-  protected String replyLabel;
-  protected String replyTitle;
-  protected boolean allowDraftChanges;
-
-  public String getReportBugUrl() {
-    return reportBugUrl;
-  }
-
-  public void setReportBugUrl(String u) {
-    reportBugUrl = u;
-  }
-
-  public String getReportBugText() {
-    return reportBugText;
-  }
-
-  public void setReportBugText(String t) {
-    reportBugText = t;
-  }
 
   public String getGitDaemonUrl() {
     return gitDaemonUrl;
@@ -71,61 +45,5 @@ public class GerritConfig implements Cloneable {
 
   public void setDocumentationAvailable(final boolean available) {
     documentationAvailable = available;
-  }
-
-  public String getAnonymousCowardName() {
-    return anonymousCowardName;
-  }
-
-  public void setAnonymousCowardName(final String anonymousCowardName) {
-    this.anonymousCowardName = anonymousCowardName;
-  }
-
-  public int getSuggestFrom() {
-    return suggestFrom;
-  }
-
-  public void setSuggestFrom(final int suggestFrom) {
-    this.suggestFrom = suggestFrom;
-  }
-
-  public int getChangeUpdateDelay() {
-    return changeUpdateDelay;
-  }
-
-  public void setChangeUpdateDelay(int seconds) {
-    changeUpdateDelay = seconds;
-  }
-
-  public int getLargeChangeSize() {
-    return largeChangeSize;
-  }
-
-  public void setLargeChangeSize(int largeChangeSize) {
-    this.largeChangeSize = largeChangeSize;
-  }
-
-  public String getReplyTitle() {
-    return replyTitle;
-  }
-
-  public void setReplyTitle(String r) {
-    replyTitle = r;
-  }
-
-  public String getReplyLabel() {
-    return replyLabel;
-  }
-
-  public void setReplyLabel(String r) {
-    replyLabel = r;
-  }
-
-  public boolean isAllowDraftChanges() {
-    return allowDraftChanges;
-  }
-
-  public void setAllowDraftChanges(boolean b) {
-    allowDraftChanges = b;
   }
 }

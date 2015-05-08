@@ -18,16 +18,29 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DownloadInfo extends JavaScriptObject {
   public final Set<String> schemes() {
     return Natives.keys(_schemes());
   }
+
+  public final List<String> archives() {
+    List<String> archives = new ArrayList<>();
+    for (String f : Natives.asList(_archives())) {
+      archives.add(f);
+    }
+    return archives;
+  }
+
   public final native DownloadSchemeInfo scheme(String n) /*-{ return this.schemes[n]; }-*/;
   private final native NativeMap<DownloadSchemeInfo> _schemes() /*-{ return this.schemes; }-*/;
+  private final native JsArrayString _archives() /*-{ return this.archives; }-*/;
 
   protected DownloadInfo() {
   }

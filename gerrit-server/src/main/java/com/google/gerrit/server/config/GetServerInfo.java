@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -24,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.GetArchive;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -32,16 +34,15 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
   private final Config config;
   private final AuthConfig authConfig;
   private final Realm realm;
-  private final DownloadConfig downloadConfig;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
+  private final GetArchive.AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
 
@@ -50,17 +51,17 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       @GerritServerConfig Config config,
       AuthConfig authConfig,
       Realm realm,
-      DownloadConfig downloadConfig,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
+      GetArchive.AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
-    this.downloadConfig = downloadConfig;
     this.downloadSchemes = downloadSchemes;
     this.downloadCommands = downloadCommands;
+    this.archiveFormats = archiveFormats;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
   }
@@ -71,7 +72,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.auth = new AuthInfo(authConfig, realm);
     info.contactStore = getContactStoreInfo();
     info.download =
-        new DownloadInfo(downloadConfig, downloadSchemes, downloadCommands);
+        new DownloadInfo(downloadSchemes, downloadCommands, archiveFormats);
     info.gerrit = new GerritInfo(allProjectsName, allUsersName);
     return info;
   }
@@ -157,9 +158,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public Map<String, DownloadSchemeInfo> schemes;
     public List<String> archives;
 
-    public DownloadInfo(DownloadConfig downloadConfig,
-        DynamicMap<DownloadScheme> downloadSchemes,
-        DynamicMap<DownloadCommand> downloadCommands) {
+    public DownloadInfo(DynamicMap<DownloadScheme> downloadSchemes,
+        DynamicMap<DownloadCommand> downloadCommands,
+        GetArchive.AllowedFormats archiveFormats) {
       schemes = new HashMap<>();
       for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
         DownloadScheme scheme = e.getProvider().get();
@@ -168,14 +169,14 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
               new DownloadSchemeInfo(scheme, downloadCommands));
         }
       }
-      archives =
-          Lists.transform(new ArrayList<>(downloadConfig.getArchiveFormats()),
-              new Function<ArchiveFormat, String>() {
-                @Override
-                public String apply(ArchiveFormat archiveFormat) {
-                  return archiveFormat.name().toLowerCase(Locale.US);
-                }
-              });
+      archives = Lists.newArrayList(Iterables.transform(
+          archiveFormats.getAllowed(),
+          new Function<ArchiveFormat, String>() {
+            @Override
+            public String apply(ArchiveFormat in) {
+              return in.getShortName();
+            }
+          }));
     }
   }
 

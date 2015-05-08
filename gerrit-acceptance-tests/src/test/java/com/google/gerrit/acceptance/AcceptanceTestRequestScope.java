@@ -162,6 +162,21 @@ public class AcceptanceTestRequestScope {
     return old;
   }
 
+  public Context disableDb() {
+    Context old = current.get();
+    SchemaFactory<ReviewDb> sf = new SchemaFactory<ReviewDb>() {
+      @Override
+      public ReviewDb open() {
+        return new DisabledReviewDb();
+      }
+    };
+    Context ctx = new Context(sf, old.session, old.user, old.created);
+
+    current.set(ctx);
+    local.setContext(ctx);
+    return old;
+  }
+
   /** Returns exactly one instance per command executed. */
   static final Scope REQUEST = new Scope() {
     @Override

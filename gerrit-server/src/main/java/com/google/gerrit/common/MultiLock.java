@@ -29,7 +29,7 @@ public class MultiLock<T> {
   /**
    * Creates an empty MultiLock
    */
-  MultiLock() {
+  public MultiLock() {
     currentLocks = Sets.newHashSet();
   }
 

@@ -164,7 +164,7 @@ class DownloadBox extends VerticalPanel {
   }
 
   private void insertArchive() {
-    List<String> activated = Gerrit.getConfig().getArchiveFormats();
+    List<String> activated = Gerrit.info().download().archives();
     if (activated.isEmpty()) {
       return;
     }

@@ -14,15 +14,9 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
-import com.google.gerrit.server.change.ArchiveFormat;
-import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -40,7 +34,6 @@ import javax.servlet.ServletContext;
 
 class GerritConfigProvider implements Provider<GerritConfig> {
   private final Config cfg;
-  private final GetArchive.AllowedFormats archiveFormats;
   private final GitWebConfig gitWebConfig;
   private final SshInfo sshInfo;
 
@@ -53,10 +46,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       GitWebConfig gwc,
       SshInfo si,
       ServletContext sc,
-      GetArchive.AllowedFormats af,
       @AnonymousCowardName String acn) {
     cfg = gsc;
-    archiveFormats = af;
     gitWebConfig = gwc;
     sshInfo = si;
     servletContext = sc;
@@ -73,24 +64,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
-
-    // Zip is not supported because it may be interpreted by a Java plugin as a
-    // valid JAR file, whose code would have access to cookies on the domain.
-    config.setArchiveFormats(Lists.newArrayList(Iterables.transform(
-        Iterables.filter(
-            archiveFormats.getAllowed(),
-            new Predicate<ArchiveFormat>() {
-              @Override
-              public boolean apply(ArchiveFormat format) {
-                return (format != ArchiveFormat.ZIP);
-              }
-            }),
-        new Function<ArchiveFormat, String>() {
-          @Override
-          public String apply(ArchiveFormat in) {
-            return in.getShortName();
-          }
-        })));
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));

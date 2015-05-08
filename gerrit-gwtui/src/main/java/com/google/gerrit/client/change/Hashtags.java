@@ -51,6 +51,8 @@ public class Hashtags extends Composite {
   private static final String REMOVE;
   private static final String DATA_ID = "data-id";
 
+  private boolean canEdit;
+
   static {
     REMOVE = DOM.createUniqueId().replace('-', '_');
     init(REMOVE);
@@ -121,9 +123,12 @@ public class Hashtags extends Composite {
   }
 
   void set(ChangeInfo info) {
+    canEdit = info.has_actions()
+        && info.actions().containsKey("hashtags")
+        && info.actions().get("hashtags").enabled();
     this.changeId = info.legacy_id();
     display(info);
-    openForm.setVisible(Gerrit.isSignedIn());
+    openForm.setVisible(canEdit);
   }
 
   @UiHandler("openForm")
@@ -165,13 +170,15 @@ public class Hashtags extends Composite {
               "#" + PageLinks.toChangeQuery("hashtag:\"" + hashtagName + "\""))
           .setAttribute("role", "listitem")
           .append("#").append(hashtagName)
-          .closeAnchor()
-          .openElement("button")
-          .setAttribute("title", "Remove hashtag")
-          .setAttribute("onclick", REMOVE + "(event)")
-          .append("×")
-          .closeElement("button")
-          .closeSpan();
+          .closeAnchor();
+      if (canEdit) {
+        html.openElement("button")
+            .setAttribute("title", "Remove hashtag")
+            .setAttribute("onclick", REMOVE + "(event)")
+            .append("×")
+            .closeElement("button");
+      }
+      html.closeSpan();
       if (itr.hasNext()) {
         html.append(' ');
       }

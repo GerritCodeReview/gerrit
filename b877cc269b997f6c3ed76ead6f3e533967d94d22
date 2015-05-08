@@ -46,6 +46,29 @@
       "revId": "b877cc269b997f6c3ed76ead6f3e533967d94d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_1ba63b37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AcceptanceTestRequestScope.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T21:54:17Z",
+      "side": 1,
+      "message": "That\u0027s wrong. This user was created with still valid database instance:\n\n  private Context newRequestContext(TestAccount account) {\n    return atrScope.newContext(reviewDbProvider, new SshSession(server, admin),\n        identifiedUserFactory.create(Providers.of(db), account.getId()));\n  }\n\nso that all attempts to access the database for it will succeed, even though we are claiming that after this method call, this shoudn\u0027t be possible any more.\n\nHere is a straight forward attempt to fix it: [1]. We are passing current user to disableDb() now and will replace it inside the context. We should probably do it for every user we have created so far. But for now it should be enough to define the simple contract: only this passed user is guaranteed to have refreshed/invalid ReviewDb provider.\n\n* [1] http://paste.openstack.org/show/217447",
+      "range": {
+        "startLine": 173,
+        "startChar": 47,
+        "endLine": 173,
+        "endChar": 55
+      },
+      "revId": "b877cc269b997f6c3ed76ead6f3e533967d94d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

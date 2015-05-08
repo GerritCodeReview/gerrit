@@ -17,7 +17,6 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.actions.ActionInfo;
@@ -25,6 +24,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.config.GitWebInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -142,7 +142,7 @@ class CommitBox extends Composite {
 
   private void setWebLinks(ChangeInfo change, String revision,
       RevisionInfo revInfo) {
-    GitwebLink gw = Gerrit.getGitwebLink();
+    GitWebInfo gw = Gerrit.getServerInfo().gitWeb();
     if (gw != null && gw.canLink(revInfo)) {
       toAnchor(gw.toRevision(change.project(), revision),
           gw.getLinkName());
@@ -191,7 +191,7 @@ class CommitBox extends Composite {
   }
 
   private void addLinks(String project, CommitInfo c, FlowPanel panel) {
-    GitwebLink gw = Gerrit.getGitwebLink();
+    GitWebInfo gw = Gerrit.getServerInfo().gitWeb();
     if (gw != null) {
       Anchor a =
           new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));

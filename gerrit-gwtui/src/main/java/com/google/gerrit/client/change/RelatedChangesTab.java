@@ -15,10 +15,10 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.config.GitWebInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -301,7 +301,7 @@ class RelatedChangesTab implements IsWidget {
       sb.closeSpan();
 
       sb.openSpan();
-      GitwebLink gw = Gerrit.getGitwebLink();
+      GitWebInfo gw = Gerrit.getServerInfo().gitWeb();
       if (gw != null && (!info.has_change_number() || !info.has_revision_number())) {
         sb.setStyleName(RelatedChanges.R.css().gitweb());
         sb.setAttribute("title", gw.getLinkName());
@@ -335,7 +335,7 @@ class RelatedChangesTab implements IsWidget {
             id.getId());
       }
 
-      GitwebLink gw = Gerrit.getGitwebLink();
+      GitWebInfo gw = Gerrit.getServerInfo().gitWeb();
       if (gw != null && project != null) {
         return gw.toRevision(project, info.commit().commit());
       }

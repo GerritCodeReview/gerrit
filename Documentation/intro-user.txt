@@ -29,6 +29,9 @@ optionally:
 
 * link:http://eclipse.org/mylyn/[Mylyn Gerrit Connector]: Gerrit
   integration with Mylyn
+* link:https://github.com/uwolfer/gerrit-intellij-plugin[Gerrit
+  IntelliJ Plugin]: Gerrit integration with the
+  link:http://www.jetbrains.com/idea/[IntelliJ Platform]
 * link:https://play.google.com/store/apps/details?id=com.jbirdvegas.mgerrit[
   mGerrit]: Android client for Gerrit
 * link:https://github.com/stackforge/gertty[Gertty]: Console-based

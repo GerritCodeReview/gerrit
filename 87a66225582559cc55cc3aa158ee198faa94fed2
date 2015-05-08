@@ -46,6 +46,30 @@
       "revId": "87a66225582559cc55cc3aa158ee198faa94fed2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd52e522_a684c60f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T10:26:33Z",
+      "side": 1,
+      "message": "Seems this was added by Luca in [1] related to scripting plugins.\n\nLuca, can you answer Tom\u0027s question?\n\n[1] https://gerrit-review.googlesource.com/#/c/56487/",
+      "parentUuid": "ad4db187_c529fa83",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 19
+      },
+      "revId": "87a66225582559cc55cc3aa158ee198faa94fed2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

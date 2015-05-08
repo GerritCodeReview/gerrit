@@ -297,10 +297,10 @@ public class ChangeScreen extends Screen {
 
   private void initReplyButton(ChangeInfo info, String revision) {
     if (!info.revision(revision).isEdit()) {
-      reply.setTitle(Gerrit.getConfig().getReplyTitle());
+      reply.setTitle(Gerrit.info().change().replyLabel());
       reply.setHTML(new SafeHtmlBuilder()
         .openDiv()
-        .append(Gerrit.getConfig().getReplyLabel())
+        .append(Gerrit.info().change().replyLabel())
         .closeDiv());
       if (hasDraftComments) {
         reply.setStyleName(style.highlight());
@@ -1189,7 +1189,7 @@ public class ChangeScreen extends Screen {
     // TODO info card hover
     String name = info.owner().name() != null
         ? info.owner().name()
-        : Gerrit.getConfig().getAnonymousCowardName();
+        : Gerrit.info().user().anonymousCowardName();
 
     if (info.owner().avatar(AvatarInfo.DEFAULT_SIZE) != null) {
       ownerPanel.insert(new AvatarImage(info.owner()), 0);
@@ -1291,7 +1291,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void startPoller() {
-    if (Gerrit.isSignedIn() && 0 < Gerrit.getConfig().getChangeUpdateDelay()) {
+    if (Gerrit.isSignedIn() && 0 < Gerrit.info().change().updateDelay()) {
       updateCheck = new UpdateCheckTimer(this);
       updateCheck.schedule();
       handlers.add(UserActivityMonitor.addValueChangeHandler(updateCheck));

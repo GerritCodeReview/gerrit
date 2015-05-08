@@ -46,6 +46,30 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_dbae9313",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T19:56:15Z",
+      "side": 1,
+      "message": "| It is certainly sufficient for this test because this test passes.\n\nThis is strange interpretation of test outcome. When test with the name DoesNotTouchDatabase() passes while still accessing the database this meant only one thing to me: the test is broken.\n\n| We have no plans to store stars in the secondary index, so a query for \"has:starred\" must touch the database.\n\nThere is no \"has:starred\" query involved. The test is defaultSearch and the query is stilled:\n\n  \"project:{\" + project.get() + \"} (status:open OR status:closed)\"\n\non line 464.",
+      "parentUuid": "2d146132_598283d9",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

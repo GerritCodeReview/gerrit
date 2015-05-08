@@ -46,6 +46,30 @@
       "revId": "a9da5a40a4d000968b904fb1536d3023d9cbbe83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_bb3ce790",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T08:33:55Z",
+      "side": 1,
+      "message": "Yeah, something like that. I added this change, that reveals another SQL queries in the same code path for identified users: [1].\n\n* [1] https://gerrit-review.googlesource.com/67746",
+      "parentUuid": "4d119541_7a6659db",
+      "range": {
+        "startLine": 11,
+        "startChar": 52,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "a9da5a40a4d000968b904fb1536d3023d9cbbe83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

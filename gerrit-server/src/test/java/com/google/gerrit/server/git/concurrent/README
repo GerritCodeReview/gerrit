@@ -1,0 +1,8 @@
+This folder is a literal copy of parts of jmock,
+see http://www.jmock.org/ including 
+https://github.com/jmock-developers/jmock-library/pull/75
+
+TODO(sbeller): Once this pull request is included into a release,
+we want to remove all classes of this directory and replace its
+usage with the jmock equivalent org.jmock.lib.concurrent.DeterministicScheduler
+class.

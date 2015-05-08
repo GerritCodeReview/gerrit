@@ -46,6 +46,30 @@
       "revId": "649a6d126124c11ccf22af39a88ad704b7464975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_da3fa584",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T09:14:22Z",
+      "side": 1,
+      "message": "OK, I see now. On master the test has been changed and the username/email includes the whole class name which has upper case letters.  That\u0027s why it worked here, but not there.\n\nIs it worth adding a test?  I suspect that doing so will probably only introduce more merge conflict.",
+      "parentUuid": "4d119541_1a4e3d4a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "649a6d126124c11ccf22af39a88ad704b7464975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

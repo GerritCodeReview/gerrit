@@ -18,7 +18,10 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class DownloadInfo extends JavaScriptObject {
@@ -27,6 +30,16 @@ public class DownloadInfo extends JavaScriptObject {
   }
   public final native DownloadSchemeInfo scheme(String n) /*-{ return this.schemes[n]; }-*/;
   private final native NativeMap<DownloadSchemeInfo> _schemes() /*-{ return this.schemes; }-*/;
+
+  public final List<String> archives() {
+    List<String> archives = new ArrayList<>();
+    for (ArchiveFormatInfo f : Natives.asList(_archives())) {
+      archives.add(f.get());
+    }
+    return archives;
+  }
+  private final native JsArray<ArchiveFormatInfo> _archives()
+  /*-{ return this.archives; }-*/;
 
   protected DownloadInfo() {
   }
@@ -53,6 +66,13 @@ public class DownloadInfo extends JavaScriptObject {
 
   public static class DownloadCommandInfo extends JavaScriptObject {
     protected DownloadCommandInfo() {
+    }
+  }
+
+  private static class ArchiveFormatInfo extends JavaScriptObject {
+    public final native String get() /*-{ return this; }-*/;
+
+    protected ArchiveFormatInfo() {
     }
   }
 }

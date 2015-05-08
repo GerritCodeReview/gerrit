@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d0b1d19_d8db2d14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-08T18:25:47Z",
+      "side": 1,
+      "message": "This may be a performance regression on sites where a submit rule requires the PatchSet object on the ChangeData. This may actually be fairly common, as anything that requires the patch list (e.g. filename predicates) needs the revision ID from the patch set.\n\nBut, such a submit rule is already slow for other reasons (opens the repo, reads from the PatchListCache, etc.), so maybe this is not worth worrying about.\n\nAnd as I mentioned before, PatchSets are eventually going to be stored in the secondary index anyway.",
+      "revId": "2d435cd20052413c3bb6abb85411bdc76d1c13c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

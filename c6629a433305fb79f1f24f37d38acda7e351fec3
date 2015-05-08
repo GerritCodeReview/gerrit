@@ -94,6 +94,30 @@
       "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_596ba39f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-08T20:08:13Z",
+      "side": 1,
+      "message": "Although I still can\u0027t reproduce it, it looks like that stack trace is from trying to get stars for an identified user. I tweaked the test to use an anonymous user, let me know if you can still reproduce.",
+      "parentUuid": "0d0b1d19_787d4169",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.client.config;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
@@ -28,6 +29,9 @@ public class AuthInfo extends JavaScriptObject {
     return AuthType.valueOf(authTypeRaw());
   }
 
+  public final boolean isLdap() {
+    return authType() == AuthType.LDAP || authType() == AuthType.LDAP_BIND;
+  }
   public final boolean isOpenId() {
     return authType() == AuthType.OPENID;
   }
@@ -44,6 +48,10 @@ public class AuthInfo extends JavaScriptObject {
     return authType() == AuthType.CLIENT_SSL_CERT_LDAP;
   }
 
+  public final boolean isCustomExtension() {
+    return authType() == AuthType.CUSTOM_EXTENSION;
+  }
+
   public final boolean canEdit(Account.FieldName f) {
     return editableAccountFields().contains(f);
   }
@@ -56,8 +64,32 @@ public class AuthInfo extends JavaScriptObject {
     return fields;
   }
 
+  public final boolean siteHasUsernames() {
+    if (isCustomExtension()
+        && httpPasswordUrl() != null
+        && !canEdit(FieldName.USER_NAME)) {
+      return false;
+    }
+    return true;
+  }
+
+  public final boolean isHttpPasswordSettingsEnabled() {
+    if (isLdap() && isGitBasicAuth()) {
+      return false;
+    }
+    return true;
+  }
+
   public final native boolean useContributorAgreements()
   /*-{ return this.use_contributor_agreements || false; }-*/;
+  public final native String loginUrl() /*-{ return this.login_url; }-*/;
+  public final native String loginText() /*-{ return this.login_text; }-*/;
+  public final native String switchAccountUrl() /*-{ return this.switch_account_url; }-*/;
+  public final native String registerUrl() /*-{ return this.register_url; }-*/;
+  public final native String registerText() /*-{ return this.register_text; }-*/;
+  public final native String editFullNameUrl() /*-{ return this.edit_full_name_url; }-*/;
+  public final native String httpPasswordUrl() /*-{ return this.http_password_url; }-*/;
+  public final native boolean isGitBasicAuth() /*-{ return this.is_git_basic_auth || false; }-*/;
   private final native String authTypeRaw() /*-{ return this.auth_type; }-*/;
   private final native JsArray<AccountFieldNameInfo> _editableAccountFields()
   /*-{ return this.editable_account_fields; }-*/;

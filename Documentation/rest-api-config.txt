@@ -1095,6 +1095,21 @@ Name of the link:config-gerrit.html#gerrit.allUsers[project in which
 meta data of all users is stored].
 |================================
 
+[[git-web-info]]
+=== GitWebInfo
+The `GitWebInfo` entity contains information about the
+link:config-gerrit.html#gitweb[GitWeb] configuration.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`url`      |
+The link:config-gerrit.html#gitweb.url[GitWeb base URL].
+|`type`     |
+The link:config-gerrit.html#gitweb.type[GitWeb type]. Possible values
+are `gitweb`, `cgit`, `disabled` and `custom`.
+|=======================
+
 [[hit-ration-info]]
 === HitRatioInfo
 The `HitRatioInfo` entity contains information about the hit ratio of a
@@ -1179,6 +1194,9 @@ information about Gerrit
 Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
+|`git_web`                 |optional|
+Information about the link:config-gerrit.html#gitweb[GitWeb]
+configuration as link:#git-web-info[GitWebInfo] entity.
 |=======================================
 
 [[summary-info]]

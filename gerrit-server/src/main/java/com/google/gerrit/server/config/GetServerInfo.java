@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GitWebType;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
   private final Config config;
@@ -46,6 +48,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final GetArchive.AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
+  private final String anonymousCowardName;
   private final GitWebConfig gitWebConfig;
 
   @Inject
@@ -58,6 +61,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       GetArchive.AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
+      @AnonymousCowardName String anonymousCowardName,
       GitWebConfig gitWebConfig) {
     this.config = config;
     this.authConfig = authConfig;
@@ -67,6 +71,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.archiveFormats = archiveFormats;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
+    this.anonymousCowardName = anonymousCowardName;
     this.gitWebConfig = gitWebConfig;
   }
 
@@ -74,11 +79,29 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public ServerInfo apply(ConfigResource rsrc) throws MalformedURLException {
     ServerInfo info = new ServerInfo();
     info.auth = new AuthInfo(authConfig, realm);
+    info.change = getChangeInfo(config);
     info.contactStore = getContactStoreInfo();
     info.download =
         new DownloadInfo(downloadSchemes, downloadCommands, archiveFormats);
-    info.gerrit = new GerritInfo(allProjectsName, allUsersName);
+    info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.gitWeb = getGitWebInfo(gitWebConfig);
+    info.suggest = getSuggestInfo(config);
+    info.user = getUserInfo(anonymousCowardName);
+    return info;
+  }
+
+  private ChangeConfigInfo getChangeInfo(Config cfg) {
+    ChangeConfigInfo info = new ChangeConfigInfo();
+    info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
+    info.largeChange = cfg.getInt("change", "largeChange", 500);
+    info.replyTooltip =
+        Optional.fromNullable(cfg.getString("change", null, "replyTooltip"))
+            .or("Reply and score") + " (Shortcut: a)";
+    info.replyLabel =
+        Optional.fromNullable(cfg.getString("change", null, "replyLabel"))
+            .or("Reply") + "\u2026";
+    info.updateDelay = (int) ConfigUtil.getTimeUnit(
+        cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
     return info;
   }
 
@@ -93,9 +116,37 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return contactStore;
   }
 
+  private GerritInfo getGerritInfo(Config cfg, AllProjectsName allProjectsName,
+      AllUsersName allUsersName) {
+    GerritInfo info = new GerritInfo();
+    info.allProjects = allProjectsName.get();
+    info.allUsers = allUsersName.get();
+    info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
+    info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
+    return info;
+  }
+
   private GitWebInfo getGitWebInfo(GitWebConfig cfg) {
-    return cfg.getUrl() != null && cfg.getGitWebType() != null
-        ? new GitWebInfo(cfg) : null;
+    if (cfg.getUrl() == null || cfg.getGitWebType() == null) {
+      return null;
+    }
+
+    GitWebInfo info = new GitWebInfo();
+    info.url = cfg.getUrl();
+    info.type = cfg.getGitWebType();
+    return info;
+  }
+
+  private SuggestInfo getSuggestInfo(Config cfg) {
+    SuggestInfo info = new SuggestInfo();
+    info.from = cfg.getInt("suggest", "from", 0);
+    return info;
+  }
+
+  private UserConfigInfo getUserInfo(String anonymousCowardName) {
+    UserConfigInfo info = new UserConfigInfo();
+    info.anonymousCowardName = anonymousCowardName;
+    return info;
   }
 
   private static Boolean toBoolean(boolean v) {
@@ -104,10 +155,13 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   public static class ServerInfo {
     public AuthInfo auth;
+    public ChangeConfigInfo change;
     public ContactStoreInfo contactStore;
     public DownloadInfo download;
     public GerritInfo gerrit;
     public GitWebInfo gitWeb;
+    public SuggestInfo suggest;
+    public UserConfigInfo user;
   }
 
   public static class AuthInfo {
@@ -159,6 +213,14 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
           break;
       }
     }
+  }
+
+  public static class ChangeConfigInfo {
+    public boolean allowDrafts;
+    public int largeChange;
+    public String replyLabel;
+    public String replyTooltip;
+    public int updateDelay;
   }
 
   public static class ContactStoreInfo {
@@ -218,20 +280,20 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GerritInfo {
     public String allProjects;
     public String allUsers;
-
-    public GerritInfo(AllProjectsName allProjectsName, AllUsersName allUsersName) {
-      allProjects = allProjectsName.get();
-      allUsers = allUsersName.get();
-    }
+    public String reportBugUrl;
+    public String reportBugText;
   }
 
   public static class GitWebInfo {
     public String url;
     public GitWebType type;
+  }
 
-    public GitWebInfo(GitWebConfig cfg) {
-      url = cfg.getUrl();
-      type = cfg.getGitWebType();
-    }
+  public static class SuggestInfo {
+    public int from;
+  }
+
+  public static class UserConfigInfo {
+    public String anonymousCowardName;
   }
 }

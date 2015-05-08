@@ -481,9 +481,9 @@ public class Gerrit implements EntryPoint {
 
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
 
-    String reportBugUrl = getConfig().getReportBugUrl();
+    String reportBugUrl = info().gerrit().report_bug_url();
     if (reportBugUrl != null) {
-      String reportBugText = getConfig().getReportBugText();
+      String reportBugText = info().gerrit().report_bug_text();
       Anchor a = new Anchor(
           reportBugText == null ? C.reportBug() : reportBugText,
           reportBugUrl);

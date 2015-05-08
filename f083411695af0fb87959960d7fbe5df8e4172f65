@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d0019f0_1b42bbfe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T10:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad4db187_25132e5b",
+      "revId": "f083411695af0fb87959960d7fbe5df8e4172f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad4db187_05183271",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyProfileScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-08T10:05:09Z",
       "side": 1,
       "message": "nit: wrap this line",
+      "revId": "f083411695af0fb87959960d7fbe5df8e4172f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0019f0_fb36ef92",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyProfileScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-08T10:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad4db187_05183271",
       "revId": "f083411695af0fb87959960d7fbe5df8e4172f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

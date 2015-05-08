@@ -39,6 +39,30 @@
       "revId": "5c9d007709d583ac186d4038c8257df4df1b288f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad4db187_45b3cafe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T02:49:15Z",
+      "side": 1,
+      "message": "This is not why it fails, but we can pass `user1.email` here instead of `user1.username + \"@example.com\"`.",
+      "parentUuid": "4d119541_dab205d6",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 37
+      },
+      "revId": "5c9d007709d583ac186d4038c8257df4df1b288f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

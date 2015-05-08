@@ -16,13 +16,13 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.config.GitWebInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -115,7 +115,8 @@ public class Header extends Composite {
       return b.append(Util.C.commitMessage());
     }
 
-    GitwebLink gw = (project != null && commit != null) ? Gerrit.getGitwebLink() : null;
+    GitWebInfo gw = (project != null && commit != null)
+        ? Gerrit.info().gitWeb() : null;
     int s = path.lastIndexOf('/') + 1;
     if (gw != null && s > 0) {
       String base = path.substring(0, s - 1);
@@ -192,7 +193,7 @@ public class Header extends Composite {
   }
 
   void setChangeInfo(ChangeInfo info) {
-    GitwebLink gw = Gerrit.getGitwebLink();
+    GitWebInfo gw = Gerrit.info().gitWeb();
     if (gw != null) {
       for (RevisionInfo rev : Natives.asList(info.revisions().values())) {
         if (patchSetId.getId().equals(rev.id())) {

@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.GitWebType;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -45,6 +46,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final GetArchive.AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
+  private final GitWebConfig gitWebConfig;
 
   @Inject
   public GetServerInfo(
@@ -55,7 +57,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       DynamicMap<DownloadCommand> downloadCommands,
       GetArchive.AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
-      AllUsersName allUsersName) {
+      AllUsersName allUsersName,
+      GitWebConfig gitWebConfig) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -64,6 +67,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.archiveFormats = archiveFormats;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
+    this.gitWebConfig = gitWebConfig;
   }
 
   @Override
@@ -74,6 +78,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.download =
         new DownloadInfo(downloadSchemes, downloadCommands, archiveFormats);
     info.gerrit = new GerritInfo(allProjectsName, allUsersName);
+    info.gitWeb = getGitWebInfo(gitWebConfig);
     return info;
   }
 
@@ -88,6 +93,11 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return contactStore;
   }
 
+  private GitWebInfo getGitWebInfo(GitWebConfig cfg) {
+    return cfg.getUrl() != null && cfg.getGitWebType() != null
+        ? new GitWebInfo(cfg) : null;
+  }
+
   private static Boolean toBoolean(boolean v) {
     return v ? v : null;
   }
@@ -97,6 +107,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public ContactStoreInfo contactStore;
     public DownloadInfo download;
     public GerritInfo gerrit;
+    public GitWebInfo gitWeb;
   }
 
   public static class AuthInfo {
@@ -211,6 +222,16 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public GerritInfo(AllProjectsName allProjectsName, AllUsersName allUsersName) {
       allProjects = allProjectsName.get();
       allUsers = allUsersName.get();
+    }
+  }
+
+  public static class GitWebInfo {
+    public String url;
+    public GitWebType type;
+
+    public GitWebInfo(GitWebConfig cfg) {
+      url = cfg.getUrl();
+      type = cfg.getGitWebType();
     }
   }
 }

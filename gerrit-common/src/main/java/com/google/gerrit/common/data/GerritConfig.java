@@ -19,7 +19,6 @@ public class GerritConfig implements Cloneable {
   protected String reportBugUrl;
   protected String reportBugText;
 
-  protected GitwebConfig gitweb;
   protected String gitDaemonUrl;
   protected String sshdAddress;
   protected boolean documentationAvailable;
@@ -45,14 +44,6 @@ public class GerritConfig implements Cloneable {
 
   public void setReportBugText(String t) {
     reportBugText = t;
-  }
-
-  public GitwebConfig getGitwebLink() {
-    return gitweb;
-  }
-
-  public void setGitwebLink(final GitwebConfig w) {
-    gitweb = w;
   }
 
   public String getGitDaemonUrl() {

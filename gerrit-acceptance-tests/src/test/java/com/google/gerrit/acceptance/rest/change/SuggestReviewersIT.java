@@ -62,9 +62,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     group2 = group("users2");
     group3 = group("users3");
 
-    user1 = user("user1", group1);
-    user2 = user("user2", group2);
-    user3 = user("user3", group1, group2);
+    user1 = user("user1", "First1 Last1", group1);
+    user2 = user("user2", "First2 Last2", group2);
+    user3 = user("user3", "First3 Last3", group1, group2);
   }
 
   @Test
@@ -116,7 +116,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
 
-    reviewers = suggestReviewers(changeId, user2.fullName, 2);
+    reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
@@ -126,13 +126,13 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers).isEmpty();
 
     setApiUser(user2);
-    reviewers = suggestReviewers(changeId, user2.fullName, 2);
+    reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
 
     setApiUser(user3);
-    reviewers = suggestReviewers(changeId, user2.fullName, 2);
+    reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
@@ -145,13 +145,13 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     List<SuggestedReviewerInfo> reviewers;
 
     setApiUser(user1);
-    reviewers = suggestReviewers(changeId, user2.fullName, 2);
+    reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).isEmpty();
 
     setApiUser(user1); // Clear cached group info.
     allowGlobalCapabilities(group1.getGroupUUID(),
         GlobalCapability.VIEW_ALL_ACCOUNTS);
-    reviewers = suggestReviewers(changeId, user2.fullName, 2);
+    reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
@@ -170,9 +170,49 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfig(name = "suggest.fullTextSearch", value = "true")
   public void suggestReviewersFullTextSearch() throws Exception {
     String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, "ser", 5);
-    assertThat(reviewers).hasSize(4);
+    List<SuggestedReviewerInfo> reviewers;
+
+    reviewers = suggestReviewers(changeId, "first", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "first1", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "last", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "last1", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "fi la", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "la fi", 4);
+    assertThat(reviewers).hasSize(3);
+
+    reviewers = suggestReviewers(changeId, "first1 la", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "fi last1", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "first1 last2", 1);
+    assertThat(reviewers).hasSize(0);
+
+    reviewers = suggestReviewers(changeId, name("user"), 7);
+    assertThat(reviewers).hasSize(6);
+
+    reviewers = suggestReviewers(changeId, user1.username, 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "example.com", 6);
+    assertThat(reviewers).hasSize(5);
+
+    reviewers = suggestReviewers(changeId, user1.username + "@example.com", 2);
+    assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, user1.username + " example", 2);
+    assertThat(reviewers).hasSize(1);
   }
 
   @Test
@@ -183,14 +223,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersFullTextSearchLimitMaxMatches() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, "ser", 3);
+        suggestReviewers(changeId, name("user"), 2);
     assertThat(reviewers).hasSize(2);
   }
 
   @Test
   public void suggestReviewersWithoutLimitOptionSpecified() throws Exception {
     String changeId = createChange().getChangeId();
-    String query = user3.fullName;
+    String query = user3.username;
     List<SuggestedReviewerInfo> suggestedReviewerInfos = gApi.changes()
         .id(changeId)
         .suggestReviewers(query)
@@ -214,7 +254,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return GroupDescriptions.toAccountGroup(d);
   }
 
-  private TestAccount user(String name, AccountGroup... groups) throws Exception {
+  private TestAccount user(String name, String fullName, AccountGroup... groups)
+      throws Exception {
     name = name(name);
     String[] groupNames = FluentIterable.from(Arrays.asList(groups))
         .transform(new Function<AccountGroup, String>() {
@@ -223,6 +264,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
             return in.getName();
           }
         }).toArray(String.class);
-    return accounts.create(name, name + "@example.com", name, groupNames);
+    return accounts.create(name, name + "@example.com", fullName, groupNames);
   }
 }

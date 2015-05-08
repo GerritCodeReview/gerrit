@@ -486,7 +486,7 @@ before they are applied to the git repository.
 * Plugins can provide project-aware top menu extensions
 +
 Plugins can provide sub-menu items within the 'Projects' context. The
-'${projectName}' placeholder is replaced by the project name.
+'$\{projectName\}' placeholder is replaced by the project name.
 
 * Auto register static/init.js as JavaScript plugin.
 +

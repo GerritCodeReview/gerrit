@@ -85,7 +85,7 @@ encryption algorithm is required.
 If you are encountering 'Page Not Found' errors when opening the change
 screen, your Apache proxy is very likely decoding the passed URL.
 Make sure to either use 'AllowEncodedSlashes On' together with
-'ProxyPass .. nodecode' or alternatively a 'mod_rewrite' configuration with
+'ProxyPass .. nocanon' or alternatively a 'mod_rewrite' configuration with
 'AllowEncodedSlashes NoDecode' set.
 
 

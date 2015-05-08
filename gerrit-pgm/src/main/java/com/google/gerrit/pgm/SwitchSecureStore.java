@@ -159,7 +159,7 @@ public class SwitchSecureStore extends SiteProgram {
 
   private String getNewSecureStoreClassName(File secureStore)
       throws IOException {
-    JarScanner scanner = new JarScanner(secureStore);
+    JarScanner scanner = new JarScanner(secureStore.getAbsolutePath());
     List<String> newSecureStores =
         scanner.findSubClassesOf(SecureStore.class);
     if (newSecureStores.isEmpty()) {

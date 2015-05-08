@@ -70,6 +70,30 @@
       "revId": "a9da5a40a4d000968b904fb1536d3023d9cbbe83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0b1d19_38e589d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-08T18:10:28Z",
+      "side": 1,
+      "message": "This is a really good idea, thank you for suggesting it. Done later in the series.",
+      "parentUuid": "6d0019f0_1b7cfb69",
+      "range": {
+        "startLine": 11,
+        "startChar": 52,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "a9da5a40a4d000968b904fb1536d3023d9cbbe83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

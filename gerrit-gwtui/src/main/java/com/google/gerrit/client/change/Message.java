@@ -204,7 +204,7 @@ class Message extends Composite {
       if (info.author().name() != null) {
         return info.author().name();
       }
-      return Gerrit.getConfig().getAnonymousCowardName();
+      return Gerrit.info().user().anonymous_coward_name();
     }
     return Util.C.messageNoAuthor();
   }

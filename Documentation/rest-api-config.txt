@@ -1009,6 +1009,32 @@ The `CapabilityInfo` entity contains information about a capability.
 |`name`               |capability name
 |=================================
 
+[[change-config-info]]
+=== ChangeConfigInfo
+The `ChangeConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#change[change]
+section.
+
+[options="header",cols="1,6"]
+|============================
+|Field Name      |Description
+|`allow_drafts`  |
+link:config-gerrit.html#change.allowDrafts[Whether drafts workflow is
+allowed].
+|`large_change`  |
+link:config-gerrit.html#change.largeChange[Number of changed lines from
+which on a change is considered as a large change].
+|`reply_label`   |
+link:config-gerrit.html#change.replyTooltip[Label name for the reply
+button].
+|`reply_tooltip` |
+link:config-gerrit.html#change.replyTooltip[Tooltip for the reply
+button].
+|`update_delay`  |
+link:config-gerrit.html#change.updateDelay[How often in seconds the web
+interface should poll for updates to the currently open change].
+|============================
+
 [[contact-store-info]]
 === ContactStoreInfo
 The `ContactStoreInfo` entity contains information about the contact
@@ -1085,15 +1111,20 @@ with a unit abbreviation (`k`: kilobytes, `m`: megabytes,
 The `GerritInfo` entity contains information about Gerrit
 configuration from the link:config-gerrit.html#gerrit[gerrit] section.
 
-[options="header",cols="1,6"]
-|================================
-|Field Name          |Description
-|`all_projects_name` |
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`all_projects_name` ||
 Name of the link:config-gerrit.html#gerrit.allProjects[root project].
-|`all_users_name`    |
+|`all_users_name`    ||
 Name of the link:config-gerrit.html#gerrit.allUsers[project in which
 meta data of all users is stored].
-|================================
+|`report_bug_url`    |optional|
+link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
+|`report_bug_text`   |optional, not set if default|
+link:config-gerrit.html#gerrit.reportBugText[Display text for report
+bugs link].
+|=================================
 
 [[git-web-info]]
 === GitWebInfo
@@ -1183,6 +1214,10 @@ the Gerrit server.
 |`auth`                    ||
 Information about the authentication configuration as
 link:#auth-info[AuthInfo] entity.
+|`change`                  ||
+Information about the configuration from the
+link:config-gerrit.html#change[change] section as
+link:#change-config-info[ChangeConfigInfo] entity.
 |`contact_store`           |optional|
 Information about the contact store configuration as
 link:#contact-store-info[ContactStoreInfo] entity.
@@ -1197,6 +1232,14 @@ GerritInfo] entity.
 |`git_web`                 |optional|
 Information about the link:config-gerrit.html#gitweb[GitWeb]
 configuration as link:#git-web-info[GitWebInfo] entity.
+|`suggest`                 ||
+Information about the configuration from the
+link:config-gerrit.html#suggest[suggest] section as link:#suggest-info[
+SuggestInfo] entity.
+|`user`                    ||
+Information about the configuration from the
+link:config-gerrit.html#user[user] section as link:#user-config-info[
+UserConfigInfo] entity.
 |=======================================
 
 [[summary-info]]
@@ -1309,6 +1352,35 @@ a top menu entry.
 |`target`   ||Target attribute of the menu item link.
 |`id`       |optional|The `id` attribute of the menu item link.
 |========================
+
+[[suggest-info]]
+=== SuggestInfo
+The `SuggestInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#suggest[suggest]
+section.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`from`     |
+The link:config-gerrit.html#suggest.from[number of characters] that a
+user must have typed before suggestions are provided.
+|=======================
+
+[[user-config-info]]
+=== UserConfigInfo
+The `UserConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#user[user] section.
+
+[options="header",cols="1,6"]
+|====================================
+|Field Name              |Description
+|`anonymous_coward_name` |
+link:config-gerrit.html#user.anonymousCoward[Username] that is
+displayed in the Gerrit Web UI and in e-mail notifications if the full
+name of the user is not set.
+|====================================
+
 
 GERRIT
 ------

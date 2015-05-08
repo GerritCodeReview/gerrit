@@ -14,30 +14,15 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.AuthType;
-
 import java.util.List;
-import java.util.Set;
 
 public class GerritConfig implements Cloneable {
-  protected String registerUrl;
-  protected String registerText;
-  protected String loginUrl;
-  protected String loginText;
-  protected String switchAccountUrl;
-  protected String httpPasswordUrl;
   protected String reportBugUrl;
   protected String reportBugText;
-  protected boolean httpPasswordSettingsEnabled = true;
 
   protected GitwebConfig gitweb;
-  protected AuthType authType;
   protected String gitDaemonUrl;
   protected String sshdAddress;
-  protected String editFullNameUrl;
-  protected Set<Account.FieldName> editableAccountFields;
   protected boolean documentationAvailable;
   protected String anonymousCowardName;
   protected int suggestFrom;
@@ -47,46 +32,6 @@ public class GerritConfig implements Cloneable {
   protected String replyLabel;
   protected String replyTitle;
   protected boolean allowDraftChanges;
-
-  public String getLoginUrl() {
-    return loginUrl;
-  }
-
-  public void setLoginUrl(final String u) {
-    loginUrl = u;
-  }
-
-  public String getLoginText() {
-    return loginText;
-  }
-
-  public void setLoginText(String signinText) {
-    this.loginText = signinText;
-  }
-
-  public String getRegisterUrl() {
-    return registerUrl;
-  }
-
-  public void setRegisterUrl(final String u) {
-    registerUrl = u;
-  }
-
-  public String getSwitchAccountUrl() {
-    return switchAccountUrl;
-  }
-
-  public void setSwitchAccountUrl(String u) {
-    switchAccountUrl = u;
-  }
-
-  public String getRegisterText() {
-    return registerText;
-  }
-
-  public void setRegisterText(final String t) {
-    registerText = t;
-  }
 
   public String getReportBugUrl() {
     return reportBugUrl;
@@ -102,34 +47,6 @@ public class GerritConfig implements Cloneable {
 
   public void setReportBugText(String t) {
     reportBugText = t;
-  }
-
-  public boolean isHttpPasswordSettingsEnabled() {
-    return httpPasswordSettingsEnabled;
-  }
-
-  public void setHttpPasswordSettingsEnabled(boolean httpPasswordSettingsEnabled) {
-    this.httpPasswordSettingsEnabled = httpPasswordSettingsEnabled;
-  }
-
-  public String getEditFullNameUrl() {
-    return editFullNameUrl;
-  }
-
-  public void setEditFullNameUrl(String u) {
-    editFullNameUrl = u;
-  }
-
-  public String getHttpPasswordUrl() {
-    return httpPasswordUrl;
-  }
-
-  public void setHttpPasswordUrl(String url) {
-    httpPasswordUrl = url;
-  }
-
-  public void setAuthType(final AuthType t) {
-    authType = t;
   }
 
   public GitwebConfig getGitwebLink() {
@@ -159,10 +76,6 @@ public class GerritConfig implements Cloneable {
     sshdAddress = addr;
   }
 
-  public void setEditableAccountFields(final Set<Account.FieldName> af) {
-    editableAccountFields = af;
-  }
-
   public boolean isDocumentationAvailable() {
     return documentationAvailable;
   }
@@ -185,15 +98,6 @@ public class GerritConfig implements Cloneable {
 
   public void setSuggestFrom(final int suggestFrom) {
     this.suggestFrom = suggestFrom;
-  }
-
-  public boolean siteHasUsernames() {
-    if (authType == AuthType.CUSTOM_EXTENSION
-        && getHttpPasswordUrl() != null
-        && !editableAccountFields.contains(FieldName.USER_NAME)) {
-      return false;
-    }
-    return true;
   }
 
   public int getChangeUpdateDelay() {

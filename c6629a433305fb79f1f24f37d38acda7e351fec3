@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d119541_fa0dc9ec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-08T19:38:50Z",
+      "side": 1,
+      "message": "This is not sufficient. Database access still happens in this code path:\n\nThread [main] (Suspended)\t\n\tStarredChange_Access_starredChanges_GwtOrm$$29(JdbcAccess\u003cT,K\u003e).prepareStatement(String) line: 93\t\n\tStarredChange_Access_starredChanges_GwtOrm$$29.byAccount(Account$Id) line: not available\t\n\tIdentifiedUser.starredQuery() line: 380\t\n\tIdentifiedUser.asyncStarredChanges() line: 354\t\n\tQueryChanges.query() line: 130\t\n\tQueryChanges.apply(TopLevelResource) line: 99\t\n\tChangesImpl.get(QueryRequest) line: 134\t\n\tChangesImpl.access$0(ChangesImpl, Changes$QueryRequest) line: 118\t\n\tChangesImpl$1.get() line: 108\t\n\tChangeIT.defaultSearchDoesNotTouchDatabase() line: 468\t\n\tNativeMethodAccessorImpl.invoke0(Method, Object, Object[]) line: not available [native method]\t\n\tNativeMethodAccessorImpl.invoke(Object, Object[]) line: 57\t\n\tDelegatingMethodAccessorImpl.invoke(Object, Object[]) line: 43\t\n\tMethod.invoke(Object, Object...) line: 606\t\n\tFrameworkMethod$1.runReflectiveCall() line: 45\t\n\tFrameworkMethod$1(ReflectiveCallable).run() line: 15\t\n\tFrameworkMethod.invokeExplosively(Object, Object...) line: 42\t\n\tInvokeMethod.evaluate() line: 20\t\n\tAbstractDaemonTest$1$1.evaluate() line: 168\t\n\tRunRules.evaluate() line: 18\t\n\tConfigSuite$ConfigRunner(ParentRunner\u003cT\u003e).runLeaf(Statement, Description, RunNotifier) line: 263\t\n\tConfigSuite$ConfigRunner(BlockJUnit4ClassRunner).runChild(FrameworkMethod, RunNotifier) line: 68\t\n\tConfigSuite$ConfigRunner(BlockJUnit4ClassRunner).runChild(Object, RunNotifier) line: 47\t\n\tParentRunner$3.run() line: 231\t\n\tParentRunner$1.schedule(Runnable) line: 60\t\n\tConfigSuite$ConfigRunner(ParentRunner\u003cT\u003e).runChildren(RunNotifier) line: 229\t\n\tParentRunner\u003cT\u003e.access$000(ParentRunner, RunNotifier) line: 50\t\n\tParentRunner$2.evaluate() line: 222\t\n\tRunAfters.evaluate() line: 30\t\n\tConfigSuite$ConfigRunner(ParentRunner\u003cT\u003e).run(RunNotifier) line: 300\t\n\tConfigSuite(Suite).runChild(Runner, RunNotifier) line: 128\t\n\tConfigSuite(Suite).runChild(Object, RunNotifier) line: 24\t\n\tParentRunner$3.run() line: 231\t\n\tParentRunner$1.schedule(Runnable) line: 60\t\n\tConfigSuite(ParentRunner\u003cT\u003e).runChildren(RunNotifier) line: 229\t\n\tParentRunner\u003cT\u003e.access$000(ParentRunner, RunNotifier) line: 50\t\n\tParentRunner$2.evaluate() line: 222\t\n\tRunAfters.evaluate() line: 30\t\n\tConfigSuite(ParentRunner\u003cT\u003e).run(RunNotifier) line: 300\t\n\tJUnit4TestMethodReference(JUnit4TestReference).run(TestExecution) line: 50\t\n\tTestExecution.run(ITestReference[]) line: 38\t\n\tRemoteTestRunner.runTests(String[], String, TestExecution) line: 459\t\n\tRemoteTestRunner.runTests(TestExecution) line: 675\t\n\tRemoteTestRunner.run() line: 382\t\n\tRemoteTestRunner.main(String[]) line: 192",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 25
+      },
+      "revId": "c6629a433305fb79f1f24f37d38acda7e351fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

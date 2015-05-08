@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad4db187_05bdd2c6",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-08T04:14:36Z",
+      "side": 1,
+      "message": "nit: too many spaces here",
+      "range": {
+        "startLine": 1030,
+        "startChar": 32,
+        "endLine": 1030,
+        "endChar": 34
+      },
+      "revId": "d3cadc992eef2e54bf0cbe0a1aeaac5a937df854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

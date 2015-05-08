@@ -18,10 +18,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class ServerInfo extends JavaScriptObject {
   public final native AuthInfo auth() /*-{ return this.auth; }-*/;
+  public final native ChangeConfigInfo change() /*-{ return this.change; }-*/;
   public final native ContactStoreInfo contactStore() /*-{ return this.contact_store; }-*/;
   public final native DownloadInfo download() /*-{ return this.download; }-*/;
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
   public final native GitWebInfo gitWeb() /*-{ return this.git_web; }-*/;
+  public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;
+  public final native UserConfigInfo user() /*-{ return this.user; }-*/;
 
   public final boolean hasContactStore() {
     return contactStore() != null;

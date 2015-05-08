@@ -53,7 +53,7 @@ public class ChangeApi {
     input.subject(emptyToNull(subject));
     input.base_change(emptyToNull(base));
 
-    if (Gerrit.getConfig().isAllowDraftChanges()) {
+    if (Gerrit.getServerInfo().change().allowDrafts()) {
       input.status(Change.Status.DRAFT.toString());
     }
 

@@ -160,6 +160,8 @@ class GitWebServlet extends HttpServlet {
     myconf.setWritable(true, true /* owner only */);
     myconf.setReadable(true, true /* owner only */);
 
+    myconf.deleteOnExit();
+
     _env.set("GIT_DIR", ".");
     _env.set("GITWEB_CONFIG", myconf.getAbsolutePath());
 

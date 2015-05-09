@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd52e522_06ff1a79",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-05-09T00:13:36Z",
+      "side": 1,
+      "message": "The current index doesn\u0027t seem to have a good place to link to this from.  This is effectively a user preference of some sorts, so if we add a top level section like \"Project Management\" about user prefs, then this could go there.  This change does add a link to this page from the \"searching\" page, so it is not an orphan page.  It would be nice to add a user prefs section at some point, but I would prefer to not make this change require that.",
+      "parentUuid": "50d76e7e_aaae0f97",
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_89b359fd",
         "filename": "Documentation/user-named-queries.txt",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2015-05-04T08:09:06Z",
       "side": 1,
       "message": "Format this as:\n\n  `All-Users`",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad4db187_a5bf1e9c",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-05-09T00:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dafaa9_89b359fd",
       "range": {
         "startLine": 7,
         "startChar": 30,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ad4db187_85bc22a8",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-05-09T00:13:36Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "50d76e7e_4a4f9392",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_8ab34bfd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 7
@@ -76,6 +142,30 @@
       "writtenOn": "2015-05-04T08:09:06Z",
       "side": 1,
       "message": "Repository now implements AutoCloseable and you can make use of it:\n\n try (Repository git \u003d args.repoManager.openRepository(allUsers)) {\n   VersionedAccountQueries q \u003d VersionedAccountQueries.forUser(self());\n   q.load(git);\n   String query \u003d q.getQueryList().getQuery(name);\n   if (query !\u003d null) {\n     return parse(query);\n   }\n } catch (RepositoryNotFoundException e) {\n   ...",
+      "range": {
+        "startLine": 791,
+        "startChar": 4,
+        "endLine": 803,
+        "endChar": 45
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad4db187_45f06a91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-05-09T00:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d76e7e_8ab34bfd",
       "range": {
         "startLine": 791,
         "startChar": 4,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "ad4db187_65eb66a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-05-09T00:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dafaa9_e9b815db",
+      "range": {
+        "startLine": 806,
+        "startChar": 4,
+        "endLine": 810,
+        "endChar": 5
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_29a34dae",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
         "patchSetId": 7
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "ad4db187_25e56ed3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-05-09T00:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dafaa9_29a34dae",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 56
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d76e7e_0aa0fb9d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
         "patchSetId": 7
@@ -145,6 +283,30 @@
       "writtenOn": "2015-05-04T08:09:06Z",
       "side": 1,
       "message": "remove \u0027final\u0027 here",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 9
+      },
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad4db187_05ea72a1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/QueryListTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-05-09T00:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d76e7e_0aa0fb9d",
       "range": {
         "startLine": 112,
         "startChar": 4,

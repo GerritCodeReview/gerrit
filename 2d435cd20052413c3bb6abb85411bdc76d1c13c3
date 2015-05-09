@@ -16,6 +16,24 @@
       "revId": "2d435cd20052413c3bb6abb85411bdc76d1c13c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd52e522_c600e205",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-09T01:48:23Z",
+      "side": 1,
+      "message": "Right, this is going to hurt on gerrit-review for example. The gerrit project rules use file names to look for Library-Compliance label. And our database is slow.\n\nIf we can get patch set into the secondary index soon, we might be OK with a bit of short-term pain on gerrit-review.",
+      "parentUuid": "0d0b1d19_d8db2d14",
+      "revId": "2d435cd20052413c3bb6abb85411bdc76d1c13c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

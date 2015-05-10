@@ -144,7 +144,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String nonExistingEmail = "non.existing@example.com";
     r = pushTo("refs/for/master/" + topic + "%cc=" + admin.email + ",cc="
         + nonExistingEmail + ",cc=" + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus("User \"" + nonExistingEmail + "\" not found");
   }
 
   @Test
@@ -168,7 +168,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String nonExistingEmail = "non.existing@example.com";
     r = pushTo("refs/for/master/" + topic + "%r=" + admin.email + ",r="
         + nonExistingEmail + ",r=" + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus("User \"" + nonExistingEmail + "\" not found");
   }
 
   @Test

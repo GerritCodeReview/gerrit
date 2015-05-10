@@ -297,6 +297,7 @@ public class CmdLineParser {
     return m;
   }
 
+  @SuppressWarnings("deprecation")
   private boolean toBoolean(String name, String value) throws CmdLineException {
     if ("true".equals(value) || "t".equals(value)
         || "yes".equals(value) || "y".equals(value)
@@ -442,8 +443,19 @@ public class CmdLineParser {
     public boolean isMultiValued() {
       return false;
     }
+
+    @Override
+    public String[] forbids() {
+      return null;
+    }
+
+    @Override
+    public boolean help() {
+      return false;
+    }
   }
 
+  @SuppressWarnings("deprecation")
   public CmdLineException reject(String message) {
     return new CmdLineException(parser, message);
   }

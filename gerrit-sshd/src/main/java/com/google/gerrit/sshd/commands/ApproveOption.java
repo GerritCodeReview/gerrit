@@ -116,6 +116,16 @@ final class ApproveOption implements Option, Setter<Short> {
     return false;
   }
 
+  @Override
+  public String[] forbids() {
+    return null;
+  }
+
+  @Override
+  public boolean help() {
+    return false;
+  }
+
   String getLabelName() {
     return type.getName();
   }
@@ -129,6 +139,7 @@ final class ApproveOption implements Option, Setter<Short> {
       this.cmdOption = (ApproveOption) setter;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Short parse(final String token) throws NumberFormatException,
         CmdLineException {

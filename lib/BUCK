@@ -72,8 +72,8 @@ maven_jar(
 
 maven_jar(
   name = 'jsch',
-  id = 'com.jcraft:jsch:0.1.51',
-  sha1 = '6ceee2696b07cc320d0e1aaea82c7b40768aca0f',
+  id = 'com.jcraft:jsch:0.1.52',
+  sha1 = '4988681cd939d45f88cb56a0806ad4064e621d1c',
   license = 'jsch',
 )
 
@@ -87,7 +87,7 @@ maven_jar(
 
 maven_jar(
   name = 'args4j',
-  id = 'args4j:args4j:2.0.26',
+  id = 'args4j:args4j:2.32,
   sha1 = '01ebb18ebb3b379a74207d5af4ea7c8338ebd78b',
   license = 'args4j',
 )

@@ -23,12 +23,10 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
-import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -37,7 +35,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -65,12 +62,10 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -438,7 +433,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + nonExistingEmail
                 + ",cc="
                 + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus("User \"" + nonExistingEmail + "\" not found");
   }
 
   @Test
@@ -478,7 +473,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + nonExistingEmail
                 + ",r="
                 + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus("User \"" + nonExistingEmail + "\" not found");
   }
 
   @Test
@@ -1771,29 +1766,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getPublishedComments(r.getChangeId())).isEmpty();
   }
 
-  @GerritConfig(name = "receive.maxBatchCommits", value = "2")
-  @Test
-  public void maxBatchCommits() throws Exception {
-    List<RevCommit> commits = new ArrayList<>();
-    commits.addAll(initChanges(2));
-    String master = "refs/heads/master";
-    assertPushOk(pushHead(testRepo, master), master);
-
-    commits.addAll(initChanges(3));
-    assertPushRejected(pushHead(testRepo, master), master, "too many commits");
-
-    grantSkipValidation(project, master, SystemGroupBackend.REGISTERED_USERS);
-    PushResult r =
-        pushHead(testRepo, master, false, false, ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
-    assertPushOk(r, master);
-
-    // No open changes; branch was advanced.
-    String q = commits.stream().map(ObjectId::name).collect(joining(" OR commit:", "commit:", ""));
-    assertThat(gApi.changes().query(q).get()).isEmpty();
-    assertThat(gApi.projects().name(project.get()).branch(master).get().revision)
-        .isEqualTo(Iterables.getLast(commits).name());
-  }
-
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;
@@ -1867,21 +1839,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   private List<RevCommit> createChanges(int n, String refsFor) throws Exception {
-    return createChanges(n, refsFor, ImmutableList.of());
+    return createChanges(n, refsFor, ImmutableList.<String>of());
   }
 
   private List<RevCommit> createChanges(int n, String refsFor, List<String> footerLines)
       throws Exception {
-    List<RevCommit> commits = initChanges(n, footerLines);
-    assertPushOk(pushHead(testRepo, refsFor, false), refsFor);
-    return commits;
-  }
-
-  private List<RevCommit> initChanges(int n) throws Exception {
-    return initChanges(n, ImmutableList.of());
-  }
-
-  private List<RevCommit> initChanges(int n, List<String> footerLines) throws Exception {
     List<RevCommit> commits = new ArrayList<>(n);
     for (int i = 1; i <= n; i++) {
       String msg = "Change " + i;
@@ -1901,6 +1863,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       testRepo.getRevWalk().parseBody(c);
       commits.add(c);
     }
+    assertPushOk(pushHead(testRepo, refsFor, false), refsFor);
     return commits;
   }
 
@@ -1969,17 +1932,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private void enableCreateNewChangeForAllNotInTarget() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
     config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
-  }
-
-  private void grantSkipValidation(Project.NameKey project, String ref, AccountGroup.UUID groupUuid)
-      throws Exception {
-    // See SKIP_VALIDATION implementation in default permission backend.
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    Util.allow(config, Permission.FORGE_AUTHOR, groupUuid, ref);
-    Util.allow(config, Permission.FORGE_COMMITTER, groupUuid, ref);
-    Util.allow(config, Permission.FORGE_SERVER, groupUuid, ref);
-    Util.allow(config, Permission.PUSH_MERGE, groupUuid, "refs/for/" + ref);
     saveProjectConfig(project, config);
   }
 }

@@ -82,12 +82,12 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
       control = projectControlFactory.controlFor(nameKey, user.get());
       permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     } catch (NoSuchProjectException e) {
-      throw new CmdLineException(owner, e.getMessage());
+      throw new CmdLineException(owner, e);
     } catch (PermissionBackendException | IOException e) {
       log.warn("Cannot load project " + nameWithoutSuffix, e);
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     }
 
     setter.addValue(control);

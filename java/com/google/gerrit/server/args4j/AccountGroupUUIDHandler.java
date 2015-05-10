@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.GROUP_DOESNT_EXIST;
+
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
@@ -45,7 +47,7 @@ public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
     final String n = params.getParameter(0);
     GroupReference group = GroupBackends.findExactSuggestion(groupBackend, n);
     if (group == null) {
-      throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
+      throw new CmdLineException(owner, GROUP_DOESNT_EXIST, n);
     }
     setter.addValue(group.getUUID());
     return 1;

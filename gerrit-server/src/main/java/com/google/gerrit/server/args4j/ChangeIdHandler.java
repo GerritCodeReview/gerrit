@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.CHANGE_ID_FORMAT_ERROR;
+import static com.google.gerrit.server.args4j.ErrorMessages.CHANGE_ID_NOT_VALID;
+import static com.google.gerrit.server.args4j.ErrorMessages.CHANGE_NOT_FOUND;
+import static com.google.gerrit.server.args4j.ErrorMessages.DATABASE_ERROR;
+
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,7 +40,6 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
 
   @Inject
   public ChangeIdHandler(
-      // TODO(dborowitz): Not sure whether this is injectable here.
       Provider<InternalChangeQuery> queryProvider,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
@@ -49,8 +53,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
     final String token = params.getParameter(0);
     final String[] tokens = token.split(",");
     if (tokens.length != 3) {
-      throw new CmdLineException(
-          owner, "change should be specified as <project>,<branch>,<change-id>");
+      throw new CmdLineException(owner, CHANGE_ID_FORMAT_ERROR);
     }
 
     try {
@@ -62,12 +65,12 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
         return 1;
       }
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, "Change-Id is not valid");
+      throw new CmdLineException(owner, CHANGE_ID_NOT_VALID);
     } catch (OrmException e) {
-      throw new CmdLineException(owner, "Database error: " + e.getMessage());
+      throw new CmdLineException(owner, DATABASE_ERROR, e.getMessage());
     }
 
-    throw new CmdLineException(owner, "\"" + token + "\": change not found");
+    throw new CmdLineException(owner, CHANGE_NOT_FOUND, token);
   }
 
   @Override

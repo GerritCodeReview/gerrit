@@ -72,7 +72,7 @@ public class DocIndexer {
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {
-        throw new CmdLineException(parser, "FAILED: input file missing");
+        throw new CmdLineException(parser, new IllegalStateException("FAILED: input file missing"));
       }
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());

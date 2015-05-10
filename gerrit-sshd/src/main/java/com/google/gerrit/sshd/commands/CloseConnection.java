@@ -57,7 +57,7 @@ final class CloseConnection extends SshCommand {
     metaVar = "SESSION_ID",
     usage = "List of SSH session IDs to be closed"
   )
-  private final List<String> sessionIds = new ArrayList<>();
+  private List<String> sessionIds = new ArrayList<>();
 
   @Option(name = "--wait", usage = "wait for connection to close before exiting")
   private boolean wait;

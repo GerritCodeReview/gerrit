@@ -137,6 +137,7 @@ final class ApproveOption implements Option, Setter<Short> {
       this.cmdOption = (ApproveOption) setter;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Short parse(String token) throws NumberFormatException, CmdLineException {
       String argument = token;

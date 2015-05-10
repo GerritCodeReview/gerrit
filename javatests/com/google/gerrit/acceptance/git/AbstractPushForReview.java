@@ -519,7 +519,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + nonExistingEmail
                 + ",cc="
                 + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus("User \"" + nonExistingEmail + "\" not found");
   }
 
   @Test
@@ -559,7 +559,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + nonExistingEmail
                 + ",r="
                 + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus("User \"" + nonExistingEmail + "\" not found");
   }
 
   @Test

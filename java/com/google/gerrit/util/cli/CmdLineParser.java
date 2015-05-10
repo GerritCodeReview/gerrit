@@ -299,6 +299,7 @@ public class CmdLineParser {
     return m;
   }
 
+  @SuppressWarnings("deprecation")
   private boolean toBoolean(String name, String value) throws CmdLineException {
     if ("true".equals(value)
         || "t".equals(value)
@@ -585,6 +586,7 @@ public class CmdLineParser {
     }
   }
 
+  @SuppressWarnings("deprecation")
   public CmdLineException reject(String message) {
     return new CmdLineException(parser, message);
   }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.PROJECT_NOT_FOUND;
+
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -79,12 +81,11 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
           ProjectControl.OWNER | ProjectControl.VISIBLE,
           user.get());
     } catch (NoSuchProjectException e) {
-      throw new CmdLineException(owner, e.getMessage());
+      throw new CmdLineException(owner, PROJECT_NOT_FOUND, e.getMessage());
     } catch (IOException e) {
-      log.warn("Cannot load project " + nameWithoutSuffix, e);
-      throw new CmdLineException(
-          owner,
-          new NoSuchProjectException(nameKey).getMessage());
+      String msg = "Cannot load project " + nameWithoutSuffix;
+      log.warn(msg, e);
+      throw new CmdLineException(owner, msg, e);
     }
 
     setter.addValue(control);

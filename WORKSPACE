@@ -25,7 +25,6 @@ load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 # Prevent redundant loading of dependencies.
 closure_repositories(
     omit_aopalliance = True,
-    omit_args4j = True,
     omit_javax_inject = True,
 )
 
@@ -275,9 +274,9 @@ maven_jar(
 )
 
 maven_jar(
-    name = "args4j",
-    artifact = "args4j:args4j:2.0.26",
-    sha1 = "01ebb18ebb3b379a74207d5af4ea7c8338ebd78b",
+    name = "args4j-intern",
+    artifact = "args4j:args4j:2.33",
+    sha1 = "bd87a75374a6d6523de82fef51fc3cfe9baf9fc9",
 )
 
 maven_jar(

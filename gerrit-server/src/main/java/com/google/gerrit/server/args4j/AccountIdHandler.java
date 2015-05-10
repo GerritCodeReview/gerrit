@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.USER_NOT_FOUND;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
@@ -49,6 +51,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     this.authType = authConfig.getAuthType();
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
@@ -66,7 +69,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
             accountId = createAccountByLdap(token);
             break;
           default:
-            throw new CmdLineException(owner, "user \"" + token + "\" not found");
+            throw new CmdLineException(owner, USER_NOT_FOUND, token);
         }
       }
     } catch (OrmException e) {
@@ -79,7 +82,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   private Account.Id createAccountByLdap(String user)
       throws CmdLineException {
     if (!user.matches(Account.USER_NAME_PATTERN)) {
-      throw new CmdLineException(owner, "user \"" + user + "\" not found");
+      throw new CmdLineException(owner, USER_NOT_FOUND, user);
     }
 
     try {
@@ -87,7 +90,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       req.setSkipAuthentication(true);
       return accountManager.authenticate(req).getAccountId();
     } catch (AccountException e) {
-      throw new CmdLineException(owner, "user \"" + user + "\" not found");
+      throw new CmdLineException(owner, USER_NOT_FOUND, user);
     }
   }
 

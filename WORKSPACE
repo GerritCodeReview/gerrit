@@ -11,12 +11,15 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-skylib/archive/2169ae1c374aab4a09aa90e65efe1a3aad4e279b.tar.gz"],
 )
 
-# davido's fork with https://github.com/bazelbuild/rules_closure/pull/235 included
+# davido's fork with this PRs included:
+# https://github.com/bazelbuild/rules_closure/pull/235
+# https://github.com/bazelbuild/rules_closure/pull/262
+# https://github.com/google/closure-templates/pull/155
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "314e4eb701696e267cb911609e2e333e321fe641981a33144f460068ff4e1af3",
-    strip_prefix = "rules_closure-0.11.0",
-    url = "https://github.com/davido/rules_closure/archive/0.11.0.tar.gz",
+    sha256 = "348cef83064c0658e67617cd3d3cfd44efd4bbe28c22e05ab5ce0192a4abd700",
+    strip_prefix = "rules_closure-0.13.0",
+    url = "https://github.com/davido/rules_closure/archive/0.13.0.tar.gz",
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -270,8 +273,8 @@ maven_jar(
 
 maven_jar(
     name = "args4j",
-    artifact = "args4j:args4j:2.0.26",
-    sha1 = "01ebb18ebb3b379a74207d5af4ea7c8338ebd78b",
+    artifact = "args4j:args4j:2.33",
+    sha1 = "bd87a75374a6d6523de82fef51fc3cfe9baf9fc9",
 )
 
 maven_jar(

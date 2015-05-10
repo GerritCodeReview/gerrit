@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.GROUP_DOES_NOT_EXIST;
+
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
@@ -45,7 +47,7 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
     final String n = params.getParameter(0);
     Optional<InternalGroup> group = groupCache.get(new AccountGroup.NameKey(n));
     if (!group.isPresent()) {
-      throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
+      throw new CmdLineException(owner, GROUP_DOES_NOT_EXIST, n);
     }
     setter.addValue(group.get().getId());
     return 1;

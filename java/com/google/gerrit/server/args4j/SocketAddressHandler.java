@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.SOCKET_ADDRESS_NOT_VALID;
+
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -41,7 +43,7 @@ public class SocketAddressHandler extends OptionHandler<SocketAddress> {
     try {
       setter.addValue(SocketUtil.parse(token, 0));
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, e.getMessage());
+      throw new CmdLineException(owner, SOCKET_ADDRESS_NOT_VALID, e.getMessage());
     }
     return 1;
   }

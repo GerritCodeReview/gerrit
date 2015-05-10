@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.PATCH_SET_ID_NOT_VALID;
+
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -41,7 +43,7 @@ public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
     try {
       id = PatchSet.Id.parse(token);
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, "\"" + token + "\" is not a valid patch set");
+      throw new CmdLineException(owner, PATCH_SET_ID_NOT_VALID, token);
     }
 
     setter.addValue(id);

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.PROJECT_NOT_FOUND;
+
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -82,14 +84,14 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
     try {
       state = projectCache.checkedGet(nameKey);
       if (state == null) {
-        throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
+        throw new CmdLineException(owner, PROJECT_NOT_FOUND, nameWithoutSuffix);
       }
       permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     } catch (PermissionBackendException | IOException e) {
       log.warn("Cannot load project " + nameWithoutSuffix, e);
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     }
 
     setter.addValue(state);

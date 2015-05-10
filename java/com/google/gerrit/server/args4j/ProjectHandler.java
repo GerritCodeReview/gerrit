@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.PROJECT_NOT_FOUND;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -76,7 +78,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
     try {
       state = projectCache.checkedGet(nameKey);
       if (state == null) {
-        throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
+        throw new CmdLineException(owner, PROJECT_NOT_FOUND, nameWithoutSuffix);
       }
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
       // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also
@@ -86,10 +88,10 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
           state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
       permissionBackend.currentUser().project(nameKey).check(permissionToCheck);
     } catch (AuthException e) {
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     } catch (PermissionBackendException | IOException e) {
       logger.atWarning().withCause(e).log("Cannot load project %s", nameWithoutSuffix);
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     }
 
     setter.addValue(state);

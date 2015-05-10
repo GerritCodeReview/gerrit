@@ -297,6 +297,7 @@ public class CmdLineParser {
     return m;
   }
 
+  @SuppressWarnings("deprecation")
   private boolean toBoolean(String name, String value) throws CmdLineException {
     if ("true".equals(value) || "t".equals(value)
         || "yes".equals(value) || "y".equals(value)
@@ -327,7 +328,49 @@ public class CmdLineParser {
       ensureOptionsInitialized();
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    /**
+     * Programmatically defines an argument (instead of reading it from
+     * annotations as normal).
+     *
+     * @param setter the setter for the type
+     * @param a the Argument
+     * @throws NullPointerException if {@code setter} or {@code a} is
+     *         {@code null}.
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void addArgument(Setter setter, Argument a) {
+      OptionHandler h =
+          createOptionHandler(new OptionDef(a, setter.isMultiValued()), setter);
+      int index = a.index();
+      // make sure the argument will fit in the list
+      while (index >= getArguments().size()) {
+        getArguments().add(null);
+      }
+      if (getArguments().get(index) != null) {
+        throw new IllegalAnnotationError(String.format(
+            "Multiple use of argument %s", index));
+      }
+      getArguments().set(index, h);
+    }
+
+    /**
+     * Programmatically defines an option (instead of reading it from
+     * annotations as normal).
+     *
+     * @param setter the setter for the type
+     * @param o the {@code Option}
+     * @throws NullPointerException if {@code setter} or {@code o} is
+     *         {@code null}.
+     * @throws IllegalAnnotationError if the option name or one of the aliases
+     *         is already taken.
+     */
+    @Override
+    public void addOption(@SuppressWarnings("rawtypes") Setter setter, Option o) {
+      getOptions().add(createOptionHandler(new NamedOptionDef(o), setter));
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes", "deprecation"})
     @Override
     protected OptionHandler createOptionHandler(final OptionDef option,
         final Setter setter) {
@@ -442,8 +485,19 @@ public class CmdLineParser {
     public boolean isMultiValued() {
       return false;
     }
+
+    @Override
+    public String[] forbids() {
+      return null;
+    }
+
+    @Override
+    public boolean help() {
+      return false;
+    }
   }
 
+  @SuppressWarnings("deprecation")
   public CmdLineException reject(String message) {
     return new CmdLineException(parser, message);
   }

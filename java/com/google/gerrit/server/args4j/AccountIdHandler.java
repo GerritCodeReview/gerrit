@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.server.args4j.ErrorMessages.USER_NOT_FOUND;
+
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
@@ -76,11 +78,11 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
           case OPENID:
           case OPENID_SSO:
           default:
-            throw new CmdLineException(owner, "user \"" + token + "\" not found");
+            throw new CmdLineException(owner, USER_NOT_FOUND, token);
         }
       }
     } catch (OrmException e) {
-      throw new CmdLineException(owner, "database is down");
+      throw new CmdLineException(owner, "database is down", e);
     } catch (IOException e) {
       throw new CmdLineException(owner, "Failed to load account", e);
     } catch (ConfigInvalidException e) {
@@ -92,7 +94,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
 
   private Account.Id createAccountByLdap(String user) throws CmdLineException, IOException {
     if (!ExternalId.isValidUsername(user)) {
-      throw new CmdLineException(owner, "user \"" + user + "\" not found");
+      throw new CmdLineException(owner, USER_NOT_FOUND, user);
     }
 
     try {
@@ -100,7 +102,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       req.setSkipAuthentication(true);
       return accountManager.authenticate(req).getAccountId();
     } catch (AccountException e) {
-      throw new CmdLineException(owner, "user \"" + user + "\" not found");
+      throw new CmdLineException(owner, USER_NOT_FOUND, user);
     }
   }
 

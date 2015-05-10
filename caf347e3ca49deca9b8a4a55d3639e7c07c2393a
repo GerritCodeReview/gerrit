@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d119541_5ac395dc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/SuggestInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-10T17:41:30Z",
+      "side": 1,
+      "message": "Why not to put all these mini-classes in ConfigInfo class, like we did with ChangeInfo\u0027s friends?\n\n  $ grep \"public static class\" ChangeInfo.java\n  public static class LabelInfo extends JavaScriptObject {\n  public static class ApprovalInfo extends AccountInfo {\n  public static class EditInfo extends JavaScriptObject {\n  public static class RevisionInfo extends JavaScriptObject {\n  public static class FetchInfo extends JavaScriptObject {\n  public static class CommitInfo extends JavaScriptObject {\n  public static class GitPerson extends JavaScriptObject {\n  public static class MessageInfo extends JavaScriptObject {\n  public static class MergeableInfo extends JavaScriptObject {\n  public static class IncludedInInfo extends JavaScriptObject {",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 66
+      },
+      "revId": "caf347e3ca49deca9b8a4a55d3639e7c07c2393a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_da656591",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-10T17:41:30Z",
+      "side": 1,
+      "message": "Before this change we had already 3 classes with this name:\n\n* com.google.gerrit.client.changes.ChangeInfo\n* com.google.gerrit.extensions.common.ChangeInfo\n* com.google.gerrit.common.data.ChangeInfo\n\nNow we have one more, and corresponding class on the client is called ChangeConfigInfo. May be we should name server class as well ChangeConfigInfo to prevent cofnusion?",
+      "range": {
+        "startLine": 175,
+        "startChar": 22,
+        "endLine": 175,
+        "endChar": 32
+      },
+      "revId": "caf347e3ca49deca9b8a4a55d3639e7c07c2393a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_9a5fedbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-10T17:41:30Z",
+      "side": 1,
+      "message": "The day would come and someone would review the pending changes to expose config plugin API: [1], [2]. Then it would be necessary to move all these containers from server side to extension package. With this in mind it\u0027s not really helpfull to move the whole parsing machinery in the bodies of the container classes that are going to be moved to extension package, and someone would have to find new places for the parsing code.\n\n* [1] https://gerrit-review.googlesource.com/57580\n* [2] https://gerrit-review.googlesource.com/65911",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 5
+      },
+      "revId": "caf347e3ca49deca9b8a4a55d3639e7c07c2393a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

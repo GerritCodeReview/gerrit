@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.args4j.ErrorMessages.NOT_A_VALID_VALUE;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -454,10 +455,7 @@ public class GetDiff implements RestReadView<FileResource> {
           }
         } catch (NumberFormatException e) {
           throw new CmdLineException(
-              owner,
-              String.format(
-                  "\"%s\" is not a valid value for \"%s\"",
-                  value, ((NamedOptionDef) option).name()));
+              owner, NOT_A_VALID_VALUE, value, ((NamedOptionDef) option).name());
         }
       }
       setter.addValue(context);

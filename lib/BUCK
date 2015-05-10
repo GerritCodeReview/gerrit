@@ -87,8 +87,8 @@ maven_jar(
 
 maven_jar(
   name = 'args4j',
-  id = 'args4j:args4j:2.0.26',
-  sha1 = '01ebb18ebb3b379a74207d5af4ea7c8338ebd78b',
+  id = 'args4j:args4j:2.32',
+  sha1 = '1ccacebdf8f2db750eb09a402969050f27695fb7',
   license = 'args4j',
 )
 

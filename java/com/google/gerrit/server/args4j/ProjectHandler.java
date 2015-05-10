@@ -86,10 +86,10 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
       }
       permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     } catch (PermissionBackendException | IOException e) {
       log.warn("Cannot load project " + nameWithoutSuffix, e);
-      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey));
     }
 
     setter.addValue(state);

@@ -187,6 +187,30 @@
       "revId": "caf347e3ca49deca9b8a4a55d3639e7c07c2393a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d7aada8_b4a8a085",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-11T13:27:47Z",
+      "side": 1,
+      "message": "For the other *Info classes in this class that have been already merged, I\u0027ve fixed this in an own change:\n  https://gerrit-review.googlesource.com/67796",
+      "parentUuid": "8d7aada8_d4a19ca5",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 5
+      },
+      "revId": "caf347e3ca49deca9b8a4a55d3639e7c07c2393a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

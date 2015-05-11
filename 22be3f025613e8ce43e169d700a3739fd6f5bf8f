@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d119541_daae8513",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-11T06:05:43Z",
+      "side": 1,
+      "message": "Just filed this issue: [1], that doesn\u0027t seem to b realted to the upgrade. I can reproduce this on the old Buck version too.\n\n* [1] https://github.com/facebook/buck/issues/302",
+      "revId": "22be3f025613e8ce43e169d700a3739fd6f5bf8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

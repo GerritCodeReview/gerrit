@@ -15,8 +15,6 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,8 +23,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
-import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 public abstract class DownloadCommandLink extends Anchor implements ClickHandler {
   public static class CopyableCommandLinkFactory {
@@ -35,7 +31,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
 
     public class CloneCommandLink extends DownloadCommandLink {
       public CloneCommandLink() {
-        super(DownloadCommand.CHECKOUT, "clone");
+        super("clone");
       }
 
       @Override
@@ -49,7 +45,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       private final Project.NameKey project;
 
       public CloneWithCommitMsgHookCommandLink(Project.NameKey project) {
-        super(DownloadCommand.CHECKOUT, "clone with commit-msg hook");
+        super("clone with commit-msg hook");
         this.project = project;
       }
 
@@ -103,12 +99,8 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
     }
   }
 
-  final DownloadCommand cmdType;
-
-  public DownloadCommandLink(DownloadCommand cmdType,
-      String text) {
+  public DownloadCommandLink(String text) {
     super(text);
-    this.cmdType = cmdType;
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
     addClickHandler(this);
@@ -120,28 +112,6 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
     event.stopPropagation();
 
     select();
-
-    if (Gerrit.isSignedIn()) {
-      // If the user is signed-in, remember this choice for future panels.
-      //
-      AccountGeneralPreferences pref =
-          Gerrit.getUserAccount().getGeneralPreferences();
-      pref.setDownloadCommand(cmdType);
-      com.google.gerrit.client.account.Util.ACCOUNT_SVC.changePreferences(pref,
-          new AsyncCallback<VoidResult>() {
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-
-            @Override
-            public void onSuccess(VoidResult result) {
-            }
-          });
-    }
-  }
-
-  public DownloadCommand getCmdType() {
-    return cmdType;
   }
 
   void select() {

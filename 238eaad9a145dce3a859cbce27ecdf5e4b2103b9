@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d119541_3adc6197",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-11T09:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d7579b8_73e6a032",
+      "range": {
+        "startLine": 1099,
+        "startChar": 4,
+        "endLine": 1099,
+        "endChar": 14
+      },
+      "revId": "238eaad9a145dce3a859cbce27ecdf5e4b2103b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d7579b8_13dbac69",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-11T07:08:15Z",
       "side": 1,
       "message": "GitWebInfo",
+      "range": {
+        "startLine": 1100,
+        "startChar": 5,
+        "endLine": 1100,
+        "endChar": 15
+      },
+      "revId": "238eaad9a145dce3a859cbce27ecdf5e4b2103b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_1ae19d4d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-11T09:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d7579b8_13dbac69",
       "range": {
         "startLine": 1100,
         "startChar": 5,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8d7aada8_f46cd804",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-11T09:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d7579b8_33e02811",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "238eaad9a145dce3a859cbce27ecdf5e4b2103b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad4db187_85ae6260",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-05-11T07:08:15Z",
       "side": 1,
       "message": "This is the only method that has a Javadoc. Would it be useful to add for the other methods too?",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "238eaad9a145dce3a859cbce27ecdf5e4b2103b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_fac5c9bd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-11T09:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad4db187_85ae6260",
       "range": {
         "startLine": 33,
         "startChar": 2,

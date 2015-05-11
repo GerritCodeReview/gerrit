@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d7aada8_545cac59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ErrorMessages.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-11T08:26:22Z",
+      "side": 1,
+      "message": "Why not to add this file to:\n\n  ./gerrit-server/src/main/resources/com/google/gerrit/server/args4j\n\ninstead, so that BUCK constant would count:\n\n  RESOURCES \u003d  glob([\u0027src/main/resources/**/*\u0027])\n\nand this resource is contained in artifact produced by Buck?",
+      "revId": "af35308a04638975388efd5a64a427d50f3f3230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_da39e551",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-11T08:26:22Z",
+      "side": 1,
+      "message": "Add \"UNSPECIFIED_ERROR\" to ErrorMessages enum instead?",
+      "range": {
+        "startLine": 500,
+        "startChar": 2,
+        "endLine": 500,
+        "endChar": 34
+      },
+      "revId": "af35308a04638975388efd5a64a427d50f3f3230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

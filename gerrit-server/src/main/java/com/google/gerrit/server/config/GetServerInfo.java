@@ -121,7 +121,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       schemes = new HashMap<>();
       for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
         DownloadScheme scheme = e.getProvider().get();
-        if (scheme.isEnabled()) {
+        if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
           schemes.put(e.getExportName(),
               new DownloadSchemeInfo(scheme, downloadCommands));
         }

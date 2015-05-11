@@ -14,6 +14,11 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.gerrit.reviewdb.client.PatchSet.splitGroups;
+
+import com.google.common.collect.ImmutableList;
+
+import static com.google.gerrit.reviewdb.client.PatchSet.joinGroups;
 import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
@@ -57,6 +62,26 @@ public class PatchSetTest {
     assertNotRef("refs/changes/34/1234/foo");
     assertNotRef("refs/changes/34/1234|56");
     assertNotRef("refs/changes/34/1234foo");
+  }
+
+  @Test
+  public void testSplitGroups() {
+    assertThat(splitGroups(null)).isNull();
+    assertThat(splitGroups("")).containsExactly("");
+    assertThat(splitGroups("abcd")).containsExactly("abcd");
+    assertThat(splitGroups("ab,cd")).containsExactly("ab", "cd").inOrder();
+    assertThat(splitGroups("ab,")).containsExactly("ab", "").inOrder();
+    assertThat(splitGroups(",cd")).containsExactly("", "cd").inOrder();
+  }
+
+  @Test
+  public void testJoinGroups() {
+    assertThat(joinGroups(null)).isNull();
+    assertThat(joinGroups(ImmutableList.of(""))).isEqualTo("");
+    assertThat(joinGroups(ImmutableList.of("abcd"))).isEqualTo("abcd");
+    assertThat(joinGroups(ImmutableList.of("ab", "cd"))).isEqualTo("ab,cd");
+    assertThat(joinGroups(ImmutableList.of("ab", ""))).isEqualTo("ab,");
+    assertThat(joinGroups(ImmutableList.of("", "cd"))).isEqualTo(",cd");
   }
 
   private static void assertRef(int changeId, int psId, String refName) {

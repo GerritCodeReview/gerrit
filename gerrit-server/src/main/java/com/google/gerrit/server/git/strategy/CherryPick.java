@@ -27,6 +27,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
@@ -186,6 +187,7 @@ public class CherryPick extends SubmitStrategy {
     args.db.changes().beginTransaction(n.change().getId());
     try {
       insertAncestors(args.db, ps.getId(), newCommit);
+      ps.setGroups(GroupCollector.getCurrentGroups(args.db, n.change()));
       args.db.patchSets().insert(Collections.singleton(ps));
       n.change()
           .setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));

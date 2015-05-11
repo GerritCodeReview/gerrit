@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.revwalk.RevFlag.UNINTERESTING;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -26,12 +27,17 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +82,25 @@ public class GroupCollector {
   private static final Logger log =
       LoggerFactory.getLogger(GroupCollector.class);
 
+  public static List<String> getCurrentGroups(ReviewDb db, Change c)
+      throws OrmException {
+    PatchSet ps = db.patchSets().get(c.currentPatchSetId());
+    return ps != null ? ps.getGroups() : null;
+  }
+
+  public static List<String> getDefaultGroups(PatchSet ps) {
+    return ImmutableList.of(ps.getRevision().get());
+  }
+
+  public static List<String> getGroups(RevisionResource rsrc) {
+    if (rsrc.getEdit().isPresent()) {
+      // Groups for an edit are just the base revision's groups, since they have
+      // the same parent.
+      return rsrc.getEdit().get().getBasePatchSet().getGroups();
+    }
+    return rsrc.getPatchSet().getGroups();
+  }
+
   private static interface Lookup {
     List<String> lookup(PatchSet.Id psId) throws OrmException;
   }
@@ -96,6 +121,27 @@ public class GroupCollector {
     groupAliases = HashMultimap.create();
   }
 
+  public GroupCollector(
+      Multimap<ObjectId, Ref> changeRefsById,
+      final ReviewDb db) {
+    this(
+        Multimaps.transformValues(
+            changeRefsById,
+            new Function<Ref, PatchSet.Id>() {
+              @Override
+              public PatchSet.Id apply(Ref in) {
+                return PatchSet.Id.fromRef(in.getName());
+              }
+            }),
+        new Lookup() {
+          @Override
+          public List<String> lookup(PatchSet.Id psId) throws OrmException {
+            PatchSet ps = db.patchSets().get(psId);
+            return ps != null ? ps.getGroups() : null;
+          }
+        });
+  }
+
   @VisibleForTesting
   GroupCollector(
       Multimap<ObjectId, PatchSet.Id> patchSetsBySha,
@@ -111,7 +157,7 @@ public class GroupCollector {
         });
   }
 
-  void visit(RevCommit c) {
+  public void visit(RevCommit c) {
     checkState(!done, "visit() called after getGroups()");
     Set<RevCommit> interestingParents = getInterestingParents(c);
 
@@ -171,7 +217,7 @@ public class GroupCollector {
     groups.putAll(c, thisCommitGroups);
   }
 
-  SetMultimap<ObjectId, String> getGroups() throws OrmException {
+  public SetMultimap<ObjectId, String> getGroups() throws OrmException {
     done = true;
     SetMultimap<ObjectId, String> result = MultimapBuilder
         .hashKeys(groups.keySet().size())

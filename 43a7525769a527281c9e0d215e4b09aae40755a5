@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d119541_9a912dce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-05-11T07:38:24Z",
+      "side": 1,
+      "message": "This side-steps the problem of having the src jar open. However, the JarScanner still opens the JarFile and never closes it; it relies on ZipFile.finalize() to have it closed eventually at a unspecified time after the JarScanner and its JarFile have become unreachable and eligible for garbage collection.\n\nAdditionally, there\u0027s still that jarFile variable that\u0027s kept open until plugin cleanup.\n\nCan\u0027t we go a step further and make the JarScanner use that jarFile instance directly? That one at least is closed explicitly in plugin cleanup, and then the whole logic to keep that jarFile open makes sense again. That would basically restore the logic as it was before this code got factored out of PluginLoader and the JarScanner was introduced. Compare https://gerrit-review.googlesource.com/#/c/56097/21/gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java which also used the jarFile set up on tmp for scanning.",
+      "revId": "43a7525769a527281c9e0d215e4b09aae40755a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -78,15 +78,54 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   @Override
   public ServerInfo apply(ConfigResource rsrc) throws MalformedURLException {
     ServerInfo info = new ServerInfo();
-    info.auth = new AuthInfo(authConfig, realm);
+    info.auth = getAuthInfo(authConfig, realm);
     info.change = getChangeInfo(config);
     info.contactStore = getContactStoreInfo();
     info.download =
-        new DownloadInfo(downloadSchemes, downloadCommands, archiveFormats);
+        getDownloadInfo(downloadSchemes, downloadCommands, archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.gitWeb = getGitWebInfo(gitWebConfig);
     info.suggest = getSuggestInfo(config);
     info.user = getUserInfo(anonymousCowardName);
+    return info;
+  }
+
+  private AuthInfo getAuthInfo(AuthConfig cfg, Realm realm) {
+    AuthInfo info = new AuthInfo();
+    info.authType = cfg.getAuthType();
+    info.useContributorAgreements = toBoolean(cfg.isUseContributorAgreements());
+    info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
+    info.switchAccountUrl = cfg.getSwitchAccountUrl();
+
+    switch (info.authType) {
+      case LDAP:
+      case LDAP_BIND:
+        info.registerUrl = cfg.getRegisterUrl();
+        info.registerText = cfg.getRegisterText();
+        info.editFullNameUrl = cfg.getEditFullNameUrl();
+        info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
+        break;
+
+      case CUSTOM_EXTENSION:
+        info.registerUrl = cfg.getRegisterUrl();
+        info.registerText = cfg.getRegisterText();
+        info.editFullNameUrl = cfg.getEditFullNameUrl();
+        info.httpPasswordUrl = cfg.getHttpPasswordUrl();
+        break;
+
+      case HTTP:
+      case HTTP_LDAP:
+        info.loginUrl = cfg.getLoginUrl();
+        info.loginText = cfg.getLoginText();
+        break;
+
+      case CLIENT_SSL_CERT_LDAP:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case OAUTH:
+      case OPENID:
+      case OPENID_SSO:
+        break;
+    }
     return info;
   }
 
@@ -114,6 +153,49 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     ContactStoreInfo contactStore = new ContactStoreInfo();
     contactStore.url = url;
     return contactStore;
+  }
+
+  private DownloadInfo getDownloadInfo(DynamicMap<DownloadScheme> downloadSchemes,
+      DynamicMap<DownloadCommand> downloadCommands,
+      GetArchive.AllowedFormats archiveFormats) {
+    DownloadInfo info = new DownloadInfo();
+    info.schemes = new HashMap<>();
+    for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+      DownloadScheme scheme = e.getProvider().get();
+      if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
+        info.schemes.put(e.getExportName(),
+            getDownloadSchemeInfo(scheme, downloadCommands));
+      }
+    }
+    info.archives = Lists.newArrayList(Iterables.transform(
+        archiveFormats.getAllowed(),
+        new Function<ArchiveFormat, String>() {
+          @Override
+          public String apply(ArchiveFormat in) {
+            return in.getShortName();
+          }
+        }));
+    return info;
+  }
+
+  private DownloadSchemeInfo getDownloadSchemeInfo(DownloadScheme scheme,
+      DynamicMap<DownloadCommand> downloadCommands) {
+    DownloadSchemeInfo info = new DownloadSchemeInfo();
+    info.url = scheme.getUrl("${project}");
+    info.isAuthRequired = toBoolean(scheme.isAuthRequired());
+    info.isAuthSupported = toBoolean(scheme.isAuthSupported());
+
+    info.commands = new HashMap<>();
+    for (DynamicMap.Entry<DownloadCommand> e : downloadCommands) {
+      String commandName = e.getExportName();
+      DownloadCommand command = e.getProvider().get();
+      String c = command.getCommand(scheme, "${project}", "${ref}");
+      if (c != null) {
+        info.commands.put(commandName, c);
+      }
+    }
+
+    return info;
   }
 
   private GerritInfo getGerritInfo(Config cfg, AllProjectsName allProjectsName,
@@ -176,43 +258,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String editFullNameUrl;
     public String httpPasswordUrl;
     public Boolean isGitBasicAuth;
-
-    public AuthInfo(AuthConfig cfg, Realm realm) {
-      authType = cfg.getAuthType();
-      useContributorAgreements = toBoolean(cfg.isUseContributorAgreements());
-      editableAccountFields = new ArrayList<>(realm.getEditableFields());
-      switchAccountUrl = cfg.getSwitchAccountUrl();
-
-      switch (authType) {
-        case LDAP:
-        case LDAP_BIND:
-          registerUrl = cfg.getRegisterUrl();
-          registerText = cfg.getRegisterText();
-          editFullNameUrl = cfg.getEditFullNameUrl();
-          isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
-          break;
-
-        case CUSTOM_EXTENSION:
-          registerUrl = cfg.getRegisterUrl();
-          registerText = cfg.getRegisterText();
-          editFullNameUrl = cfg.getEditFullNameUrl();
-          httpPasswordUrl = cfg.getHttpPasswordUrl();
-          break;
-
-        case HTTP:
-        case HTTP_LDAP:
-          loginUrl = cfg.getLoginUrl();
-          loginText = cfg.getLoginText();
-          break;
-
-        case CLIENT_SSL_CERT_LDAP:
-        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        case OAUTH:
-        case OPENID:
-        case OPENID_SSO:
-          break;
-      }
-    }
   }
 
   public static class ChangeConfigInfo {
@@ -230,27 +275,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class DownloadInfo {
     public Map<String, DownloadSchemeInfo> schemes;
     public List<String> archives;
-
-    public DownloadInfo(DynamicMap<DownloadScheme> downloadSchemes,
-        DynamicMap<DownloadCommand> downloadCommands,
-        GetArchive.AllowedFormats archiveFormats) {
-      schemes = new HashMap<>();
-      for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
-        DownloadScheme scheme = e.getProvider().get();
-        if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
-          schemes.put(e.getExportName(),
-              new DownloadSchemeInfo(scheme, downloadCommands));
-        }
-      }
-      archives = Lists.newArrayList(Iterables.transform(
-          archiveFormats.getAllowed(),
-          new Function<ArchiveFormat, String>() {
-            @Override
-            public String apply(ArchiveFormat in) {
-              return in.getShortName();
-            }
-          }));
-    }
   }
 
   public static class DownloadSchemeInfo {
@@ -258,23 +282,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public Boolean isAuthRequired;
     public Boolean isAuthSupported;
     public Map<String, String> commands;
-
-    public DownloadSchemeInfo(DownloadScheme scheme,
-        DynamicMap<DownloadCommand> downloadCommands) {
-      url = scheme.getUrl("${project}");
-      isAuthRequired = toBoolean(scheme.isAuthRequired());
-      isAuthSupported = toBoolean(scheme.isAuthSupported());
-
-      commands = new HashMap<>();
-      for (DynamicMap.Entry<DownloadCommand> e : downloadCommands) {
-        String commandName = e.getExportName();
-        DownloadCommand command = e.getProvider().get();
-        String c = command.getCommand(scheme, "${project}", "${ref}");
-        if (c != null) {
-          commands.put(commandName, c);
-        }
-      }
-    }
   }
 
   public static class GerritInfo {

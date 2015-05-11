@@ -142,7 +142,7 @@ public class JarPluginProvider implements ServerPluginProvider {
           new URLClassLoader(urls.toArray(new URL[urls.size()]),
               PluginLoader.parentFor(type));
 
-      JarScanner jarScanner = createJarScanner(srcJar);
+      JarScanner jarScanner = createJarScanner(tmp);
       ServerPlugin plugin =
           new ServerPlugin(name, description.canonicalUrl, description.user,
               srcJar, snapshot, jarScanner, description.dataDir,

@@ -16,6 +16,24 @@
       "revId": "43a7525769a527281c9e0d215e4b09aae40755a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_3a0a21a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-11T07:52:39Z",
+      "side": 1,
+      "message": "Oh, sorry. I missed this comment when submitting this change :(\n\nYour proposal makes sense to me and should be picked-up by follow-up changes. Maybe in master.",
+      "parentUuid": "4d119541_9a912dce",
+      "revId": "43a7525769a527281c9e0d215e4b09aae40755a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

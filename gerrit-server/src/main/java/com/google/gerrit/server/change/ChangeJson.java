@@ -277,7 +277,7 @@ public class ChangeJson {
     ChangeData.ensureChangeLoaded(all);
     if (has(ALL_REVISIONS)) {
       ChangeData.ensureAllPatchSetsLoaded(all);
-    } else {
+    } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
       ChangeData.ensureCurrentPatchSetLoaded(all);
     }
     Set<Change.Id> reviewed = Sets.newHashSet();
@@ -411,15 +411,22 @@ public class ChangeJson {
       out.removableReviewers = removableReviewers(ctl, out.labels.values());
     }
 
-    Map<PatchSet.Id, PatchSet> src = loadPatchSets(cd, limitToPsId);
-    if (has(MESSAGES)) {
+    boolean needMessages = has(MESSAGES);
+    boolean needRevisions = has(ALL_REVISIONS)
+        || has(CURRENT_REVISION)
+        || limitToPsId.isPresent();
+    Map<PatchSet.Id, PatchSet> src;
+    if (needMessages || needRevisions) {
+      src = loadPatchSets(cd, limitToPsId);
+    } else {
+      src = null;
+    }
+    if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
     finish(out);
 
-    if (has(ALL_REVISIONS)
-        || has(CURRENT_REVISION)
-        || limitToPsId.isPresent()) {
+    if (needRevisions) {
       out.revisions = revisions(ctl, src);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
@@ -442,11 +449,7 @@ public class ChangeJson {
     if (cd.getSubmitRecords() != null) {
       return cd.getSubmitRecords();
     }
-    PatchSet ps = cd.currentPatchSet();
-    if (ps == null) {
-      return ImmutableList.of();
-    }
-    cd.setSubmitRecords(new SubmitRuleEvaluator(cd).setPatchSet(ps)
+    cd.setSubmitRecords(new SubmitRuleEvaluator(cd)
         .setFastEvalLabels(true)
         .setAllowDraft(true)
         .evaluate());
@@ -607,8 +610,14 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = Sets.newHashSet();
-    for (PatchSetApproval psa : cd.approvals().values()) {
-      allUsers.add(psa.getAccountId());
+    if (detailed) {
+      // Users expect to see all reviewers on closed changes, even if they
+      // didn't vote on the latest patch set. If we don't need detailed labels,
+      // we aren't including 0 votes for all users below, so we can just look at
+      // the latest patch set (in the next loop).
+      for (PatchSetApproval psa : cd.approvals().values()) {
+        allUsers.add(psa.getAccountId());
+      }
     }
 
     // We can only approximately reconstruct what the submit rule evaluator
@@ -616,6 +625,7 @@ public class ChangeJson {
     Set<String> labelNames = Sets.newHashSet();
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
     for (PatchSetApproval a : cd.currentApprovals()) {
+      allUsers.add(a.getAccountId());
       LabelType type = labelTypes.byLabel(a.getLabelId());
       if (type != null) {
         labelNames.add(type.getName());

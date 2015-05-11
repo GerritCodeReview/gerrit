@@ -443,4 +443,30 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(actual.revisions.get(r2.getCommit().getName()).commitWithFooters)
         .isEqualTo(expected);
   }
+
+  @Test
+  public void defaultSearchDoesNotTouchDatabase() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .submit();
+
+    createChange();
+
+    setApiUserAnonymous(); // Identified user may async get stars from DB.
+    atrScope.disableDb();
+    assertThat(gApi.changes().query()
+          .withQuery(
+            "project:{" + project.get() + "} (status:open OR status:closed)")
+          // Options should match defaults in ChangeList.
+          .withOption(ListChangesOption.LABELS)
+          .withOption(ListChangesOption.DETAILED_ACCOUNTS)
+          .get())
+        .hasSize(2);
+  }
 }

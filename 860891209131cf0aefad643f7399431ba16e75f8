@@ -22,6 +22,30 @@
       "revId": "860891209131cf0aefad643f7399431ba16e75f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_9acc8de6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-11T09:40:08Z",
+      "side": 1,
+      "message": "Added a PR with the mentioned revert: [1].\n\n* [1] https://github.com/kohsuke/args4j/pull/112",
+      "parentUuid": "8d7aada8_d46f5cf7",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "860891209131cf0aefad643f7399431ba16e75f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

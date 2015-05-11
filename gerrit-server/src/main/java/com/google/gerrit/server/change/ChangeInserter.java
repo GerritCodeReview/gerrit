@@ -33,6 +33,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -163,6 +164,11 @@ public class ChangeInserter {
     return this;
   }
 
+  public ChangeInserter setGroups(Iterable<String> groups) {
+    patchSet.setGroups(groups);
+    return this;
+  }
+
   public ChangeInserter setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
     return this;
@@ -205,6 +211,9 @@ public class ChangeInserter {
     db.changes().beginTransaction(change.getId());
     try {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+      if (patchSet.getGroups() == null) {
+        patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
+      }
       db.patchSets().insert(Collections.singleton(patchSet));
       db.changes().insert(Collections.singleton(change));
       LabelTypes labelTypes = projectControl.getLabelTypes();

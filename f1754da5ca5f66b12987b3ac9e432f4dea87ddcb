@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dcf0d47_6cbd7bf8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-11T18:01:45Z",
+      "side": 1,
+      "message": "Document#getBinaryValues returns an empty array when no values are present, never null. If this array is empty it means we\u0027re using an index version prior to adding this field, which we need to handle specially.",
+      "revId": "f1754da5ca5f66b12987b3ac9e432f4dea87ddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

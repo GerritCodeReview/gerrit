@@ -19,6 +19,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GitWebType;
+import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -45,6 +46,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final Realm realm;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
+  private final DynamicMap<CloneCommand> cloneCommands;
   private final GetArchive.AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
@@ -58,6 +60,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       Realm realm,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
+      DynamicMap<CloneCommand> cloneCommands,
       GetArchive.AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
@@ -68,6 +71,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.realm = realm;
     this.downloadSchemes = downloadSchemes;
     this.downloadCommands = downloadCommands;
+    this.cloneCommands = cloneCommands;
     this.archiveFormats = archiveFormats;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
@@ -82,7 +86,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.change = getChangeInfo(config);
     info.contactStore = getContactStoreInfo();
     info.download =
-        getDownloadInfo(downloadSchemes, downloadCommands, archiveFormats);
+        getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
+            archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.gitWeb = getGitWebInfo(gitWebConfig);
     info.suggest = getSuggestInfo(config);
@@ -155,8 +160,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return contactStore;
   }
 
-  private DownloadInfo getDownloadInfo(DynamicMap<DownloadScheme> downloadSchemes,
+  private DownloadInfo getDownloadInfo(
+      DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
+      DynamicMap<CloneCommand> cloneCommands,
       GetArchive.AllowedFormats archiveFormats) {
     DownloadInfo info = new DownloadInfo();
     info.schemes = new HashMap<>();
@@ -164,7 +171,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       DownloadScheme scheme = e.getProvider().get();
       if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
         info.schemes.put(e.getExportName(),
-            getDownloadSchemeInfo(scheme, downloadCommands));
+            getDownloadSchemeInfo(scheme, downloadCommands, cloneCommands));
       }
     }
     info.archives = Lists.newArrayList(Iterables.transform(
@@ -179,7 +186,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   private DownloadSchemeInfo getDownloadSchemeInfo(DownloadScheme scheme,
-      DynamicMap<DownloadCommand> downloadCommands) {
+      DynamicMap<DownloadCommand> downloadCommands,
+      DynamicMap<CloneCommand> cloneCommands) {
     DownloadSchemeInfo info = new DownloadSchemeInfo();
     info.url = scheme.getUrl("${project}");
     info.isAuthRequired = toBoolean(scheme.isAuthRequired());
@@ -192,6 +200,16 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       String c = command.getCommand(scheme, "${project}", "${ref}");
       if (c != null) {
         info.commands.put(commandName, c);
+      }
+    }
+
+    info.cloneCommands = new HashMap<>();
+    for (DynamicMap.Entry<CloneCommand> e : cloneCommands) {
+      String commandName = e.getExportName();
+      CloneCommand command = e.getProvider().get();
+      String c = command.getCommand(scheme, "${project}");
+      if (c != null) {
+        info.cloneCommands.put(commandName, c);
       }
     }
 
@@ -282,6 +300,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public Boolean isAuthRequired;
     public Boolean isAuthSupported;
     public Map<String, String> commands;
+    public Map<String, String> cloneCommands;
   }
 
   public static class GerritInfo {

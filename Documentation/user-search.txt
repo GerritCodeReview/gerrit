@@ -99,6 +99,12 @@ ownerin:'GROUP'::
 +
 Changes originally submitted by a user in 'GROUP'.
 
+[[query]]
+query:'NAME'::
++
+Changes which match the current user's query named 'NAME'
+(see link:user-named-queries.html[Named Queries]).
+
 [[reviewer]]
 reviewer:'USER', r:'USER'::
 +

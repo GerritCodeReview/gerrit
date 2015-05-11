@@ -157,6 +157,7 @@ public class CreateChange implements
     try (Repository git = gitManager.openRepository(project);
         RevWalk rw = new RevWalk(git)) {
       ObjectId parentCommit;
+      List<String> groups;
       if (input.baseChange != null) {
         List<Change> changes = changeUtil.findChanges(input.baseChange);
         if (changes.size() != 1) {
@@ -172,6 +173,7 @@ public class CreateChange implements
             new PatchSet.Id(change.getId(),
             change.currentPatchSetId().get()));
         parentCommit = ObjectId.fromString(ps.getRevision().get());
+        groups = ps.getGroups();
       } else {
         Ref destRef = git.getRef(refName);
         if (destRef == null) {
@@ -179,6 +181,7 @@ public class CreateChange implements
               "Branch %s does not exist.", refName));
         }
         parentCommit = destRef.getObjectId();
+        groups = null;
       }
       RevCommit mergeTip = rw.parseCommit(parentCommit);
 
@@ -208,6 +211,7 @@ public class CreateChange implements
 
       change.setTopic(input.topic);
       ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
+      ins.setGroups(groups);
       ins.insert();
 
       return Response.created(json.format(change.getId()));

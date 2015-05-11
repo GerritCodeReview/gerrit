@@ -22,6 +22,30 @@
       "revId": "d064abea4f107cdb4293ca0fccc02c5ee3fc4d0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d146132_99e25b9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-11T16:54:31Z",
+      "side": 1,
+      "message": "I think you may need to do:\n\n if (migration.readChanges()) {\n   List\u003cAccount.Id\u003e del \u003d approvalsUtil.getReviewers(db, notes).values();\n } else {\n   List\u003cPatchSetApproval\u003e del \u003d filter(approvalsUtil.byChange(...))\n }\n\nWhich is a little ugly because we\u0027re not supposed to have to check NotesMigration outside of *Util, but I think in this case there\u0027s not an easy way because the type is different.",
+      "parentUuid": "8d7aada8_14b874d6",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 60
+      },
+      "revId": "d064abea4f107cdb4293ca0fccc02c5ee3fc4d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

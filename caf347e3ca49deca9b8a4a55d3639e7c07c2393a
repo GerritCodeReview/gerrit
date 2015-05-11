@@ -211,6 +211,30 @@
       "revId": "caf347e3ca49deca9b8a4a55d3639e7c07c2393a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d119541_faeee933",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-11T13:31:31Z",
+      "side": 1,
+      "message": "Thanks! Will review the whole series later today.",
+      "parentUuid": "8d7aada8_b4a8a085",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 5
+      },
+      "revId": "caf347e3ca49deca9b8a4a55d3639e7c07c2393a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

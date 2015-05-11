@@ -140,6 +140,18 @@ public final class PatchSet {
   @Column(id = 5)
   protected boolean draft;
 
+  /**
+   * Opaque group identifier, usually assigned during creation.
+   * <p>
+   * This field is actually a comma-separated list of values, as in rare cases
+   * involving merge commits a patch set may belong to multiple groups.
+   * <p>
+   * Changes on the same branch having patch sets with intersecting groups are
+   * considered related, as in the "Related Changes" tab.
+   */
+  @Column(id = 6)
+  protected String groups;
+
   protected PatchSet() {
   }
 
@@ -185,6 +197,14 @@ public final class PatchSet {
 
   public void setDraft(boolean draftStatus) {
     draft = draftStatus;
+  }
+
+  public String getGroups() {
+    return groups;
+  }
+
+  public void setGroups(String gs) {
+    groups = gs;
   }
 
   public String getRefName() {

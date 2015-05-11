@@ -68,6 +68,10 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Format Patch": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
             "Pull": "git pull http://gerrithost:8080/${project} ${ref}",
             "Cherry Pick": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          },
+          "clone_commands": {
+            "Clone": "git clone http://gerrithost:8080/${project}"
+            "Clone with commit-msg hook": "git clone http://gerrithost:8080/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         },
         "http": {
@@ -79,6 +83,10 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Format Patch": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
             "Pull": "git pull http://jdoe@gerrithost:8080/${project} ${ref}",
             "Cherry Pick": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          },
+          "clone_commands": {
+            "Clone": "git clone http://jdoe@gerrithost:8080/${project}",
+            "Clone with commit-msg hook": "git clone http://jdoe@gerrithost:8080/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         },
         "ssh": {
@@ -90,6 +98,10 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Format Patch": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
             "Pull": "git pull ssh://jdoe@gerrithost:29418/${project} ${ref}",
             "Cherry Pick": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          },
+          "clone_commands": {
+            "Clone": "git clone ssh://jdoe@gerrithost:29418/${project}",
+            "Clone with commit-msg hook": "git clone ssh://jdoe@gerrithost:29418/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         }
       ],
@@ -1089,6 +1101,13 @@ Download commands as a map which maps the command name to the download
 command. In the download command '${project}' is used as
 placeholder for the project name, and '${ref}' is used as
 placeholder for the (change) ref.
+
+Empty, if accessed anonymously and the download scheme requires
+authentication.
+|`clone_commands`    ||
+Clone commands as a map which maps the command name to the clone
+command. In the clone command '${project}' is used as
+placeholder for the project name.
 
 Empty, if accessed anonymously and the download scheme requires
 authentication.

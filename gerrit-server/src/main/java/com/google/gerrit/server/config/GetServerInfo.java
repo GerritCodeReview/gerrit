@@ -112,18 +112,18 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   public static class DownloadInfo {
-    public List<DownloadSchemeInfo> schemes;
+    public Map<String, DownloadSchemeInfo> schemes;
     public List<ArchiveFormat> archives;
 
     public DownloadInfo(DownloadConfig downloadConfig,
         DynamicMap<DownloadScheme> downloadSchemes,
         DynamicMap<DownloadCommand> downloadCommands) {
-      schemes = new ArrayList<>();
+      schemes = new HashMap<>();
       for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
         DownloadScheme scheme = e.getProvider().get();
         if (scheme.isEnabled()) {
-          schemes.add(
-              new DownloadSchemeInfo(e.getExportName(), scheme, downloadCommands));
+          schemes.put(e.getExportName(),
+              new DownloadSchemeInfo(scheme, downloadCommands));
         }
       }
       archives = new ArrayList<>(downloadConfig.getArchiveFormats());
@@ -131,15 +131,13 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   public static class DownloadSchemeInfo {
-    public String name;
     public String url;
     public Boolean isAuthRequired;
     public Boolean isAuthSupported;
     public Map<String, String> commands;
 
-    public DownloadSchemeInfo(String schemeName, DownloadScheme scheme,
+    public DownloadSchemeInfo(DownloadScheme scheme,
         DynamicMap<DownloadCommand> downloadCommands) {
-      name = schemeName;
       url = scheme.getUrl("${project}");
       isAuthRequired = toBoolean(scheme.isAuthRequired());
       isAuthSupported = toBoolean(scheme.isAuthSupported());

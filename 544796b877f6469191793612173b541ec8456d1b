@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "8d7aada8_94524438",
+        "filename": "Documentation/user-named-queries.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-11T11:05:00Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/Documentation/intro-user.html",
+      "parentUuid": "8d7aada8_34449079",
+      "revId": "544796b877f6469191793612173b541ec8456d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dafaa9_89b359fd",
         "filename": "Documentation/user-named-queries.txt",
         "patchSetId": 7

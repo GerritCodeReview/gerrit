@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d7aada8_14b874d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-05-11T13:00:15Z",
+      "side": 1,
+      "message": "The problem here is that Reviewers not tied to any approvals cannot be removed, since we only compare with existing approvals (not reviewers) before deleting the reviewer.\n\nIf you create a change using the UI, the footer in the notedb looks like this:\n\n    Patch-set: 1\n    Reviewer: Administrator \u003c1000000@gerrit\u003e\n\nHence, Gerrit will throw a ResourceNotFoundException when user tries to remove them. As soon as the reviewer actually sets a score or leaves a comment, the DeleteReviewer functionality will start working again.\n\nNot sure the best way to fix this... Not as straightforward as I initially hoped.",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 60
+      },
+      "revId": "d064abea4f107cdb4293ca0fccc02c5ee3fc4d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

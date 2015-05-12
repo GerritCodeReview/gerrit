@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d662d35_d4ebbcef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T11:05:53Z",
+      "side": 1,
+      "message": "I hope David agrees to this. I first had it as \u0027getInfo()\u0027, but then renamed it to \u0027getServerInfo()\u0027 after his comment. But since this is used quite often, a shorter name seems to be better.\n\nDone.",
+      "parentUuid": "8d662d35_14e6d430",
+      "range": {
+        "startLine": 103,
+        "startChar": 16,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_74dbc868",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccessSectionEditor.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-12T06:45:16Z",
       "side": 1,
       "message": "Wrap this line.",
+      "range": {
+        "startLine": 253,
+        "startChar": 4,
+        "endLine": 253,
+        "endChar": 85
+      },
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_95f144e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccessSectionEditor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T11:05:53Z",
+      "side": 1,
+      "message": "Not needed anymore after renaming \u0027Gerrit.getServerInfo()\u0027 to \u0027Gerrit.info()\u0027.",
+      "parentUuid": "8d662d35_74dbc868",
       "range": {
         "startLine": 253,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8d662d35_340af058",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/AuthInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T11:05:53Z",
+      "side": 1,
+      "message": "After rebase it was now needed :-)\n\nDone.",
+      "parentUuid": "ad677130_75dbc868",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_54e04c11",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2015-05-12T06:45:16Z",
       "side": 1,
       "message": "all_projects()?",
+      "range": {
+        "startLine": 37,
+        "startChar": 29,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_d5ebbcef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T11:05:53Z",
+      "side": 1,
+      "message": "I don\u0027t like this naming convention, but you are right that it should be changed to be consistent... :-(\n\nDone",
+      "parentUuid": "8d662d35_54e04c11",
       "range": {
         "startLine": 37,
         "startChar": 29,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "ad677130_350af058",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T11:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad677130_55e04c11",
+      "range": {
+        "startLine": 38,
+        "startChar": 29,
+        "endLine": 38,
+        "endChar": 37
+      },
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_b4f440d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
         "patchSetId": 6
@@ -128,6 +248,30 @@
       "writtenOn": "2015-05-12T06:45:16Z",
       "side": 1,
       "message": "contact_store()?",
+      "range": {
+        "startLine": 21,
+        "startChar": 39,
+        "endLine": 21,
+        "endChar": 51
+      },
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_150ff468",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T11:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d662d35_b4f440d4",
       "range": {
         "startLine": 21,
         "startChar": 39,

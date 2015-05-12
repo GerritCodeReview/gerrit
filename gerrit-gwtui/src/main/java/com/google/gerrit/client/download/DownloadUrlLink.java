@@ -56,8 +56,8 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
     }
   }
 
-  public static List<DownloadUrlLink> createDownloadUrlLinks(String project,
-      boolean allowAnonymous) {
+  public static List<DownloadUrlLink> createDownloadUrlLinks(
+      boolean allowAnonymous, DownloadPanel downloadPanel) {
     List<DownloadUrlLink> urls = new ArrayList<>();
     for (String s : Gerrit.info().download().schemes()) {
       DownloadSchemeInfo scheme = Gerrit.info().download().scheme(s);
@@ -67,34 +67,34 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
       KnownScheme knownScheme = KnownScheme.get(s);
       if (knownScheme != null) {
-        urls.add(new DownloadUrlLink(knownScheme.downloadScheme,
-            knownScheme.text, scheme.getUrl(project)));
+        urls.add(new DownloadUrlLink(downloadPanel, scheme,
+            knownScheme.downloadScheme, knownScheme.text));
       } else {
-        urls.add(new DownloadUrlLink(s, scheme.getUrl(project)));
+        urls.add(new DownloadUrlLink(downloadPanel, scheme, s));
       }
     }
     return urls;
   }
 
+  private final DownloadPanel downloadPanel;
+  private final DownloadSchemeInfo schemeInfo;
   private final DownloadScheme urlType;
-  private final String urlData;
 
-  public DownloadUrlLink(String text, String urlData) {
-      this(null, text, urlData);
+  public DownloadUrlLink(DownloadPanel downloadPanel,
+      DownloadSchemeInfo schemeInfo, String text) {
+    this(downloadPanel, schemeInfo, null, text);
   }
 
-  public DownloadUrlLink(DownloadScheme urlType, String text, String urlData) {
+  public DownloadUrlLink(DownloadPanel downloadPanel,
+      DownloadSchemeInfo schemeInfo, DownloadScheme urlType, String text) {
     super(text);
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
     addClickHandler(this);
 
+    this.downloadPanel = downloadPanel;
+    this.schemeInfo = schemeInfo;
     this.urlType = urlType;
-    this.urlData = urlData;
-  }
-
-  public String getUrlData() {
-    return urlData;
   }
 
   public DownloadScheme getUrlType() {
@@ -128,13 +128,14 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
   }
 
   void select() {
+    downloadPanel.populateDownloadCommandLinks(schemeInfo);
+
     DownloadUrlPanel parent = (DownloadUrlPanel) getParent();
     for (Widget w : parent) {
       if (w != this && w instanceof DownloadUrlLink) {
         w.removeStyleName(Gerrit.RESOURCES.css().downloadLink_Active());
       }
     }
-    parent.setCurrentUrl(this);
     addStyleName(Gerrit.RESOURCES.css().downloadLink_Active());
   }
 }

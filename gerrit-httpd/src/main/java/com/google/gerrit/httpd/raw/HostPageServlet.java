@@ -22,7 +22,6 @@ import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.Version;
-import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -78,7 +77,6 @@ public class HostPageServlet extends HttpServlet {
 
   private final Provider<CurrentUser> currentUser;
   private final DynamicItem<WebSession> session;
-  private final GerritConfig config;
   private final DynamicSet<WebUiPlugin> plugins;
   private final DynamicSet<MessageOfTheDay> messages;
   private final HostPageData.Theme signedOutTheme;
@@ -93,18 +91,20 @@ public class HostPageServlet extends HttpServlet {
   private volatile Page page;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu, final DynamicItem<WebSession> w,
-      final SitePaths sp, final ThemeFactory themeFactory,
-      final GerritConfig gc, final ServletContext servletContext,
-      final DynamicSet<WebUiPlugin> webUiPlugins,
-      final DynamicSet<MessageOfTheDay> motd,
-      @GerritServerConfig final Config cfg,
-      final StaticServlet ss,
-      final NotesMigration migration)
+  HostPageServlet(
+      Provider<CurrentUser> cu,
+      DynamicItem<WebSession> w,
+      SitePaths sp,
+      ThemeFactory themeFactory,
+      ServletContext servletContext,
+      DynamicSet<WebUiPlugin> webUiPlugins,
+      DynamicSet<MessageOfTheDay> motd,
+      @GerritServerConfig Config cfg,
+      StaticServlet ss,
+      NotesMigration migration)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
-    config = gc;
     plugins = webUiPlugins;
     messages = motd;
     signedOutTheme = themeFactory.getSignedOutTheme();
@@ -331,7 +331,6 @@ public class HostPageServlet extends HttpServlet {
 
       final HostPageData pageData = new HostPageData();
       pageData.version = Version.getVersion();
-      pageData.config = config;
       pageData.isNoteDbEnabled = isNoteDbEnabled;
       pageData.pluginsLoadTimeout = pluginsLoadTimeout;
 

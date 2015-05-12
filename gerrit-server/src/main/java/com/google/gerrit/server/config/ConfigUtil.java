@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Preconditions;
+
 import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -255,6 +260,154 @@ public class ConfigUtil {
           + " configured");
     }
     return v;
+  }
+
+  /**
+   * Store section by inspecting Java class attributes.
+   * <p>
+   * Optimize the storage by unsetting a variable if it is
+   * being set to default value by the server.
+   *
+   * @param cfg config to store the values from
+   * @param section section
+   * @param sub subsection
+   * @param s instance of class
+   * @params defaults instance of class with default values
+   * @throws ConfigInvalidException
+   */
+  public static <T> void storeSection(Config cfg, String section, String sub,
+      T s, T defaults) throws ConfigInvalidException {
+    try {
+      for (Field f : s.getClass().getDeclaredFields()) {
+        int modifiers = f.getModifiers();
+        // Skip constants and transient fields
+        if (Modifier.isFinal(modifiers) || Modifier.isTransient(modifiers)) {
+          continue;
+        }
+        Class<?> t = f.getType();
+        String n = f.getName();
+        f.setAccessible(true);
+        Object c = f.get(s);
+        Object defaultVal = f.get(defaults);
+        Preconditions.checkNotNull(defaultVal, "Default cannot be null");
+        if (String.class.isAssignableFrom(t)) {
+          String v = (String) c;
+          String d = (String) defaultVal;
+          if (v == null || v.equals(d)) {
+            cfg.unset(section, sub, n);
+          } else {
+            cfg.setString(section, sub, n, v);
+          }
+        } else if (isInteger(t)) {
+          Integer v = (Integer) c;
+          Integer d = (Integer) defaultVal;
+          if (v == null || v.equals(d)) {
+            cfg.unset(section, sub, n);
+          } else {
+            cfg.setInt(section, sub, n, v);
+          }
+        } else if (isLong(t)) {
+          Long v = (Long) c;
+          Long d = (Long) defaultVal;
+          if (v == null || v.equals(d)) {
+            cfg.unset(section, sub, n);
+          } else {
+            cfg.setLong(section, sub, n, v);
+          }
+        } else if (isBoolean(t)) {
+          Boolean v = (Boolean) c;
+          Boolean d = (Boolean) defaultVal;
+          if (v == null || v.equals(d)) {
+            cfg.unset(section, sub, n);
+          } else {
+            cfg.setBoolean(section, sub, n, v);
+          }
+        } else if (Enum.class.isAssignableFrom(t)) {
+          Enum<?> v = (Enum<?>) c;
+          Enum<?> d = (Enum<?>) defaultVal;
+          if (v == null || v.equals(d)) {
+            cfg.unset(section, sub, n);
+          } else {
+            cfg.setEnum(section, sub, n, v);
+          }
+        } else {
+          throw new ConfigInvalidException("type is unknown: " + t.getName());
+        }
+      }
+    } catch (SecurityException | IllegalArgumentException
+        | IllegalAccessException e) {
+      throw new ConfigInvalidException("cannot save values", e);
+    }
+  }
+
+  /**
+   * Load section by inspecting Java class attributes.
+   * <p>
+   * Optiize the transfer over the wire by not setting the attributes
+   * when they are equal to the default values.
+   *
+   * @param cfg config to load the values into
+   * @param section section
+   * @param sub subsection
+   * @param s instance of class
+   * @params defaults instance of class with default values
+   * @throws ConfigInvalidException
+   */
+  public static <T> void loadSection(Config cfg, String section, String sub,
+      T s, T defaults) throws ConfigInvalidException {
+    try {
+      for (Field f : s.getClass().getDeclaredFields()) {
+        // Constants must be defined final, to be skipped.
+        if (Modifier.isFinal(f.getModifiers())) {
+          continue;
+        }
+        Class<?> t = f.getType();
+        String n = f.getName();
+        f.setAccessible(true);
+        Object defaultVal = f.get(defaults);
+        Preconditions.checkNotNull(defaultVal, "Default cannot be null");
+        if (String.class.isAssignableFrom(t)) {
+          f.set(s, cfg.getString(section, sub, n));
+        } else if (isInteger(t)) {
+          int c = cfg.getInt(section, sub, n, (Integer)defaultVal);
+          if (int.class == t || !defaultVal.equals(c)) {
+            f.set(s, c);
+          }
+        } else if (isLong(t)) {
+          long c = cfg.getLong(section, sub, n, (Long)defaultVal);
+          if (long.class == t || !defaultVal.equals(c)) {
+            f.set(s, c);
+          }
+        } else if (isBoolean(t)) {
+          boolean c = cfg.getBoolean(section, sub, n, (Boolean)defaultVal);
+          if (boolean.class == t || !defaultVal.equals(c)) {
+            f.set(s, c);
+          }
+        } else if (Enum.class.isAssignableFrom(t)) {
+          Enum<?> c = cfg.getEnum(section, sub, n, (Enum<?>)defaultVal);
+          if (!defaultVal.equals(c)) {
+            f.set(s, c);
+          }
+        } else {
+          throw new ConfigInvalidException("type is unknown: " + t.getName());
+        }
+      }
+    } catch (SecurityException | IllegalArgumentException
+        | IllegalAccessException e) {
+      throw new ConfigInvalidException("cannot load values", e);
+    }
+  }
+
+  private static boolean isBoolean(Class<?> t) {
+    return Boolean.class.isAssignableFrom(t) || boolean.class == t;
+  }
+
+  private static boolean isLong(Class<?> t) {
+    return Long.class.isAssignableFrom(t) || long.class == t;
+  }
+
+  private static boolean isInteger(Class<?> t) {
+    return Integer.class.isAssignableFrom(t) || int.class == t;
   }
 
   private static boolean match(final String a, final String... cases) {

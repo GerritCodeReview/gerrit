@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class DownloadCommandPanel extends FlowPanel {
   private DownloadCommandLink currentCommand;
-  private DownloadUrlLink currentUrl;
 
   public DownloadCommandPanel() {
     setStyleName(Gerrit.RESOURCES.css().downloadLinkList());
@@ -37,7 +36,12 @@ public class DownloadCommandPanel extends FlowPanel {
 
     for (Widget w : this) {
       if (w instanceof DownloadCommandLink) {
-        final DownloadCommandLink d = (DownloadCommandLink) w;
+        DownloadCommandLink d = (DownloadCommandLink) w;
+        if (currentCommand != null
+            && d.getText().equals(currentCommand.getText())) {
+          d.select();
+          return;
+        }
         if (first == null) {
           first = d;
         }
@@ -51,19 +55,7 @@ public class DownloadCommandPanel extends FlowPanel {
     }
   }
 
-  void setCurrentUrl(DownloadUrlLink link) {
-    currentUrl = link;
-    update();
-  }
-
   void setCurrentCommand(DownloadCommandLink cmd) {
     currentCommand = cmd;
-    update();
-  }
-
-  private void update() {
-    if (currentCommand != null && currentUrl != null) {
-      currentCommand.setCurrentUrl(currentUrl);
-    }
   }
 }

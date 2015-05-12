@@ -93,6 +93,30 @@
       "revId": "835e4350bbf95f067f275784fc0530cf024ae091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_946ca404",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T13:13:36Z",
+      "side": 1,
+      "message": "How is null handled then? The case gerrit.config doesn\u0027t contain gitweb entry?",
+      "parentUuid": "ad677130_75146879",
+      "range": {
+        "startLine": 24,
+        "startChar": 33,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "835e4350bbf95f067f275784fc0530cf024ae091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

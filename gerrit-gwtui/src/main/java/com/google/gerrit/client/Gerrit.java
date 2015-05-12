@@ -43,7 +43,6 @@ import com.google.gerrit.client.ui.MorphingTabPanel;
 import com.google.gerrit.client.ui.ProjectLinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.GerritTopMenu;
@@ -65,6 +64,11 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
@@ -105,7 +109,6 @@ public class Gerrit implements EntryPoint {
   public static final String PROJECT_NAME_MENU_VAR = "${projectName}";
 
   private static String myHost;
-  private static GerritConfig myConfig;
   private static ServerInfo myServerInfo;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
@@ -285,11 +288,6 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Get the public configuration data used by this Gerrit instance. */
-  public static GerritConfig getConfig() {
-    return myConfig;
-  }
-
-  /** Get the public configuration data used by this Gerrit instance. */
   public static ServerInfo info() {
     return myServerInfo;
   }
@@ -432,7 +430,6 @@ public class Gerrit implements EntryPoint {
       @Override
       public void onSuccess(final HostPageData result) {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
-        myConfig = result.config;
         myTheme = result.theme;
         isNoteDbEnabled = result.isNoteDbEnabled;
         if (result.account != null) {
@@ -701,17 +698,7 @@ public class Gerrit implements EntryPoint {
       }, CREATE_PROJECT, CREATE_GROUP, VIEW_PLUGINS);
     }
 
-    if (getConfig().isDocumentationAvailable()) {
-      m = new LinkMenuBar();
-      menuBars.put(GerritTopMenu.DOCUMENTATION.menuName, m);
-      addDocLink(m, C.menuDocumentationTOC(), "index.html");
-      addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
-      addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
-      addDocLink(m, C.menuDocumentationAccess(), "access-control.html");
-      addDocLink(m, C.menuDocumentationAPI(), "rest-api.html");
-      addDocLink(m, C.menuDocumentationProjectOwnerGuide(), "intro-project-owner.html");
-      menuLeft.add(m, C.menuDocumentation());
-    }
+    addDocumentationMenuBar();
 
     if (signedIn) {
       whoAmI(!authInfo.isClientSslCertLdap());
@@ -808,6 +795,38 @@ public class Gerrit implements EntryPoint {
         }
       }
     });
+  }
+
+  private static void addDocumentationMenuBar() {
+    RequestBuilder req =
+        new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL()
+            + "Documentation/index.html");
+    req.setCallback(new RequestCallback() {
+      @Override
+      public void onResponseReceived(Request request, Response response) {
+        if (response.getStatusCode() == Response.SC_OK) {
+          LinkMenuBar m = new LinkMenuBar();
+          menuBars.put(GerritTopMenu.DOCUMENTATION.menuName, m);
+          addDocLink(m, C.menuDocumentationTOC(), "index.html");
+          addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
+          addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
+          addDocLink(m, C.menuDocumentationAccess(), "access-control.html");
+          addDocLink(m, C.menuDocumentationAPI(), "rest-api.html");
+          addDocLink(m, C.menuDocumentationProjectOwnerGuide(), "intro-project-owner.html");
+          menuLeft.add(m, C.menuDocumentation());
+        }
+      }
+
+      @Override
+      public void onError(Request request, Throwable exception) {
+        // ignore, no documentation available
+      }
+    });
+    try {
+      req.send();
+    } catch (RequestException e) {
+      // ignore, no documentation available
+    }
   }
 
   private static AsyncCallback<Preferences> createMyMenuBarCallback() {

@@ -70,6 +70,30 @@
       "revId": "c1539508653d5406b404094a84beef70655cfc35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_14b374ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T14:23:51Z",
+      "side": 1,
+      "message": "Thanks for the pointer, I will have a look at this later.",
+      "parentUuid": "ad677130_3545d079",
+      "range": {
+        "startLine": 219,
+        "startChar": 11,
+        "endLine": 219,
+        "endChar": 18
+      },
+      "revId": "c1539508653d5406b404094a84beef70655cfc35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

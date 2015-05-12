@@ -17,7 +17,6 @@ package com.google.gerrit.httpd;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
@@ -80,8 +79,6 @@ public class WebModule extends LifecycleModule {
       install(new GitWebModule());
     }
 
-    bind(GerritConfigProvider.class);
-    bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     install(new AsyncReceiveCommits.Module());

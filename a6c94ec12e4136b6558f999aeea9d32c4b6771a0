@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d662d35_54ffac77",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:48:05Z",
+      "side": 1,
+      "message": "Diff preferences uses this enum:\n\n  public static enum Whitespace implements CodedEnum {\n    IGNORE_NONE(\u0027N\u0027), //\n    IGNORE_SPACE_AT_EOL(\u0027E\u0027), //\n    IGNORE_SPACE_CHANGE(\u0027S\u0027), //\n    IGNORE_ALL_SPACE(\u0027A\u0027);\n\nWe should probably create new Whitespace enum in com.google.gerrit.extensions.client package (like Theme) without this CodeEnum thing. And drop old Whitespace when we migrate all user preferences to Git.",
+      "range": {
+        "startLine": 1182,
+        "startChar": 25,
+        "endLine": 1182,
+        "endChar": 29
+      },
+      "revId": "a6c94ec12e4136b6558f999aeea9d32c4b6771a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

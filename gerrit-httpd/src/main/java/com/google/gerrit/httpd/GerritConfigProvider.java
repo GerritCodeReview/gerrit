@@ -15,44 +15,26 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-
-import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
 
 import javax.servlet.ServletContext;
 
 class GerritConfigProvider implements Provider<GerritConfig> {
-  private final Config cfg;
-  private final SshInfo sshInfo;
-
   private final ServletContext servletContext;
 
   @Inject
-  GerritConfigProvider(
-      @GerritServerConfig Config gsc,
-      SshInfo si,
-      ServletContext sc) {
-    cfg = gsc;
-    sshInfo = si;
+  GerritConfigProvider(ServletContext sc) {
     servletContext = sc;
   }
 
   private GerritConfig create() throws MalformedURLException {
     final GerritConfig config = new GerritConfig();
-    config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
-
-    if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
-      config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());
-    }
-
     return config;
   }
 

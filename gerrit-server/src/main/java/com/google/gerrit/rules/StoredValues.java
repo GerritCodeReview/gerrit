@@ -50,7 +50,6 @@ import java.util.Map;
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
-  public static final StoredValue<PatchSet> PATCH_SET = create(PatchSet.class);
 
   // Note: no guarantees are made about the user passed in the ChangeControl; do
   // not depend on this directly. Either use .forUser(otherUser) to get a
@@ -68,11 +67,20 @@ public final class StoredValues {
     }
   }
 
+  public static PatchSet getPatchSet(Prolog engine) throws SystemException {
+    ChangeData cd = CHANGE_DATA.get(engine);
+    try {
+      return cd.currentPatchSet();
+    } catch (OrmException e) {
+      throw new SystemException(e.getMessage());
+    }
+  }
+
   public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = new StoredValue<PatchSetInfo>() {
     @Override
     public PatchSetInfo createValue(Prolog engine) {
       Change change = getChange(engine);
-      PatchSet ps = StoredValues.PATCH_SET.get(engine);
+      PatchSet ps = getPatchSet(engine);
       PrologEnvironment env = (PrologEnvironment) engine.control;
       PatchSetInfoFactory patchInfoFactory =
               env.getArgs().getPatchSetInfoFactory();
@@ -88,7 +96,7 @@ public final class StoredValues {
     @Override
     public PatchList createValue(Prolog engine) {
       PrologEnvironment env = (PrologEnvironment) engine.control;
-      PatchSet ps = StoredValues.PATCH_SET.get(engine);
+      PatchSet ps = getPatchSet(engine);
       PatchListCache plCache = env.getArgs().getPatchListCache();
       Change change = getChange(engine);
       Project.NameKey projectKey = change.getProject();

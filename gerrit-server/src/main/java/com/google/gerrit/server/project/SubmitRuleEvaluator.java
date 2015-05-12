@@ -196,21 +196,25 @@ public class SubmitRuleEvaluator {
    *     rules, including any errors.
    */
   public List<SubmitRecord> evaluate() {
-    try {
-      initPatchSet();
-    } catch (OrmException e) {
-      return ruleError("Error looking up patch set "
-          + control.getChange().currentPatchSetId());
-    }
     Change c = control.getChange();
     if (!allowClosed && c.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
-    if ((c.getStatus() == Change.Status.DRAFT || patchSet.isDraft())
-        && !allowDraft) {
-      return cannotSubmitDraft();
+    if (!allowDraft) {
+      if (c.getStatus() == Change.Status.DRAFT) {
+        return cannotSubmitDraft();
+      }
+      try {
+        initPatchSet();
+      } catch (OrmException e) {
+        return ruleError("Error looking up patch set "
+            + control.getChange().currentPatchSetId());
+      }
+      if (patchSet.isDraft()) {
+        return cannotSubmitDraft();
+      }
     }
 
     List<Term> results;
@@ -500,8 +504,6 @@ public class SubmitRuleEvaluator {
 
   private PrologEnvironment getPrologEnvironment(CurrentUser user)
       throws RuleEvalException {
-    checkState(patchSet != null,
-        "getPrologEnvironment() called before initPatchSet()");
     ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
@@ -517,7 +519,6 @@ public class SubmitRuleEvaluator {
     }
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
-    env.set(StoredValues.PATCH_SET, patchSet);
     env.set(StoredValues.CHANGE_CONTROL, control);
     if (user != null) {
       env.set(StoredValues.CURRENT_USER, user);

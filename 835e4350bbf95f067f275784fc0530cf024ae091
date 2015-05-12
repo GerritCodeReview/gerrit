@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ed55e939_d7ebbcef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-12T06:42:16Z",
+      "side": 1,
+      "message": "Yes. See the comment on PS1.",
+      "parentUuid": "ad677130_15e6d430",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "835e4350bbf95f067f275784fc0530cf024ae091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_d4d29c4f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
         "patchSetId": 5

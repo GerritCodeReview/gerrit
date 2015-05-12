@@ -32,23 +32,25 @@ package com.google.gerrit.httpd.gitweb;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitWebConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,12 +98,14 @@ class GitWebServlet extends HttpServlet {
   private final EnvList _env;
 
   @Inject
-  GitWebServlet(final LocalDiskRepositoryManager repoManager,
-      final ProjectControl.Factory projectControl,
-      final Provider<AnonymousUser> anonymousUserProvider,
-      final Provider<CurrentUser> userProvider,
-      final SitePaths site,
-      final GerritConfig gerritConfig, final GitWebConfig gitWebConfig)
+  GitWebServlet(LocalDiskRepositoryManager repoManager,
+      ProjectControl.Factory projectControl,
+      Provider<AnonymousUser> anonymousUserProvider,
+      Provider<CurrentUser> userProvider,
+      SitePaths site,
+      @GerritServerConfig Config cfg,
+      SshInfo sshInfo,
+      GitWebConfig gitWebConfig)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
@@ -128,7 +132,7 @@ class GitWebServlet extends HttpServlet {
     deniedActions.add("project_index");
 
     _env = new EnvList();
-    makeSiteConfig(site, gerritConfig);
+    makeSiteConfig(site, cfg, sshInfo);
 
     if (!_env.envMap.containsKey("SystemRoot")) {
       String os = System.getProperty("os.name");
@@ -146,8 +150,8 @@ class GitWebServlet extends HttpServlet {
     }
   }
 
-  private void makeSiteConfig(final SitePaths site,
-      final GerritConfig gerritConfig) throws IOException {
+  private void makeSiteConfig(SitePaths site, Config cfg, SshInfo sshInfo)
+      throws IOException {
     if (!Files.exists(site.tmp_dir)) {
       Files.createDirectories(site.tmp_dir);
     }
@@ -229,8 +233,8 @@ class GitWebServlet extends HttpServlet {
 
       // Generate URLs using anonymous git://
       //
-      if (gerritConfig.getGitDaemonUrl() != null) {
-        String url = gerritConfig.getGitDaemonUrl();
+      String url = cfg.getString("gerrit", null, "canonicalGitUrl");
+      if (url != null) {
         if (url.endsWith("/")) {
           url = url.substring(0, url.length() - 1);
         }
@@ -243,8 +247,8 @@ class GitWebServlet extends HttpServlet {
 
       // Generate URLs using authenticated ssh://
       //
-      if (gerritConfig.getSshdAddress() != null) {
-        String sshAddr = gerritConfig.getSshdAddress();
+      if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
+        String sshAddr = sshInfo.getHostKeys().get(0).getHost();
         p.print("if ($ENV{'GERRIT_USER_NAME'}) {\n");
         p.print("  push @git_base_url_list, join('', 'ssh://'");
         p.print(", $ENV{'GERRIT_USER_NAME'}");

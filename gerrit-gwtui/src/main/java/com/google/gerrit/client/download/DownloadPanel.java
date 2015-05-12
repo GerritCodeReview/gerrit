@@ -15,34 +15,32 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.config.DownloadInfo.DownloadCommandInfo;
+import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
+import java.util.Set;
+
 public abstract class DownloadPanel extends FlowPanel {
-  protected String projectName;
+  protected final String project;
 
-  protected DownloadCommandLink.CopyableCommandLinkFactory cmdLinkfactory;
-
-  protected DownloadCommandPanel commands = new DownloadCommandPanel();
-  protected DownloadUrlPanel urls = new DownloadUrlPanel(commands);
-  protected CopyableLabel copyLabel = new CopyableLabel("");
+  private final DownloadCommandPanel commands = new DownloadCommandPanel();
+  private final DownloadUrlPanel urls = new DownloadUrlPanel();
+  private final CopyableLabel copyLabel = new CopyableLabel("");
 
   public DownloadPanel(String project, boolean allowAnonymous) {
-    this.projectName = project;
-
+    this.project = project;
     copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
-    urls.add(DownloadUrlLink.createDownloadUrlLinks(project, allowAnonymous));
-    cmdLinkfactory = new DownloadCommandLink.CopyableCommandLinkFactory(
-        copyLabel, urls);
+    urls.add(DownloadUrlLink.createDownloadUrlLinks(allowAnonymous, this));
 
-    populateDownloadCommandLinks();
     setupWidgets();
   }
 
-  protected void setupWidgets() {
-    if (!commands.isEmpty()) {
+  private void setupWidgets() {
+    if (!urls.isEmpty()) {
       final AccountGeneralPreferences pref;
       if (Gerrit.isSignedIn()) {
         pref = Gerrit.getUserAccount().getGeneralPreferences();
@@ -50,7 +48,6 @@ public abstract class DownloadPanel extends FlowPanel {
         pref = new AccountGeneralPreferences();
         pref.resetToDefaults();
       }
-      commands.select();
       urls.select(pref.getDownloadUrl());
 
       FlowPanel p = new FlowPanel();
@@ -66,5 +63,14 @@ public abstract class DownloadPanel extends FlowPanel {
     }
   }
 
-  protected abstract void populateDownloadCommandLinks();
+  void populateDownloadCommandLinks(DownloadSchemeInfo schemeInfo) {
+    commands.clear();
+    for (DownloadCommandInfo cmd : getCommands(schemeInfo)) {
+      commands.add(new DownloadCommandLink(copyLabel, cmd));
+    }
+    commands.select();
+  }
+
+  protected abstract Set<DownloadCommandInfo> getCommands(
+      DownloadSchemeInfo schemeInfo);
 }

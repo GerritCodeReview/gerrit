@@ -15,92 +15,24 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.client.config.DownloadInfo.DownloadCommandInfo;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
-public abstract class DownloadCommandLink extends Anchor implements ClickHandler {
-  public static class CopyableCommandLinkFactory {
-    protected CopyableLabel copyLabel = null;
-    protected Widget widget;
+public class DownloadCommandLink extends Anchor implements ClickHandler {
+  private final CopyableLabel copyLabel;
+  private final String command;
 
-    public class CloneCommandLink extends DownloadCommandLink {
-      public CloneCommandLink() {
-        super("clone");
-      }
+  public DownloadCommandLink(CopyableLabel copyLabel,
+      DownloadCommandInfo commandInfo) {
+    super(commandInfo.name());
+    this.copyLabel = copyLabel;
+    this.command = commandInfo.command();
 
-      @Override
-      protected void setCurrentUrl(DownloadUrlLink link) {
-        widget.setVisible(true);
-        copyLabel.setText("git clone " + link.getUrlData());
-      }
-    }
-
-    public class CloneWithCommitMsgHookCommandLink extends DownloadCommandLink {
-      private final Project.NameKey project;
-
-      public CloneWithCommitMsgHookCommandLink(Project.NameKey project) {
-        super("clone with commit-msg hook");
-        this.project = project;
-      }
-
-      @Override
-      protected void setCurrentUrl(DownloadUrlLink link) {
-        widget.setVisible(true);
-
-        String sshPort = null;
-        String sshAddr = Gerrit.getConfig().getSshdAddress();
-        int p = sshAddr.lastIndexOf(':');
-        if (p != -1 && !sshAddr.endsWith(":")) {
-          sshPort = sshAddr.substring(p + 1);
-        }
-
-        StringBuilder cmd = new StringBuilder();
-        cmd.append("git clone ");
-        cmd.append(link.getUrlData());
-        cmd.append(" && scp -p ");
-        if (sshPort != null) {
-          cmd.append("-P ");
-          cmd.append(sshPort);
-          cmd.append(" ");
-        }
-        cmd.append(Gerrit.getUserAccount().getUserName());
-        cmd.append("@");
-
-        if (sshAddr.startsWith("*:") || p == -1) {
-          cmd.append(Window.Location.getHostName());
-        } else {
-          cmd.append(sshAddr.substring(0, p));
-        }
-
-        cmd.append(":hooks/commit-msg ");
-
-        p = project.get().lastIndexOf('/');
-        if (p != -1) {
-          cmd.append(project.get().substring(p + 1));
-        } else {
-          cmd.append(project.get());
-        }
-
-        cmd.append("/.git/hooks/");
-
-        copyLabel.setText(cmd.toString());
-      }
-    }
-
-    public CopyableCommandLinkFactory(CopyableLabel label, Widget widget) {
-      copyLabel = label;
-      this.widget = widget;
-    }
-  }
-
-  public DownloadCommandLink(String text) {
-    super(text);
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
     addClickHandler(this);
@@ -115,6 +47,8 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
   }
 
   void select() {
+    copyLabel.setText(command);
+
     DownloadCommandPanel parent = (DownloadCommandPanel) getParent();
     for (Widget w : parent) {
       if (w != this && w instanceof DownloadCommandLink) {
@@ -124,6 +58,4 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
     parent.setCurrentCommand(this);
     addStyleName(Gerrit.RESOURCES.css().downloadLink_Active());
   }
-
-  protected abstract void setCurrentUrl(DownloadUrlLink link);
 }

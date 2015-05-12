@@ -155,11 +155,19 @@ public class PatchListCacheIT extends AbstractDaemonTest {
         .create();
     pushHead(testRepo, "refs/for/master", false);
 
-    // Compare Change 1,1 with Change 1,2 (+FILE_B)
+    // Compare Change 1,1 with Change 1,2 (+FILE_B, -FILE_C)
     List<PatchListEntry>  entries = getPatches(a, b);
-    assertThat(entries).hasSize(2);
+    assertThat(entries).hasSize(3);
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_B, entries.get(1));
+    assertDeleted(FILE_C, entries.get(2));
+
+    // Compare Change 1,2 with Change 1,1 (-FILE_B, +FILE_C)
+    List<PatchListEntry>  entriesReverse = getPatches(b, a);
+    assertThat(entriesReverse).hasSize(3);
+    assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
+    assertDeleted(FILE_B, entriesReverse.get(1));
+    assertAdded(FILE_C, entriesReverse.get(2));
   }
 
   @Test
@@ -198,6 +206,12 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertThat(entries).hasSize(2);
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_C, entries.get(1));
+
+    // Compare Change 1,2 with Change 1,1 (-FILE_C)
+    List<PatchListEntry>  entriesReverse = getPatches(b, a);
+    assertThat(entriesReverse).hasSize(2);
+    assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
+    assertDeleted(FILE_C, entriesReverse.get(1));
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {

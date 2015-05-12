@@ -16,28 +16,7 @@ package com.google.gerrit.common.data;
 
 
 public class GerritConfig implements Cloneable {
-  protected String gitDaemonUrl;
-  protected String sshdAddress;
   protected boolean documentationAvailable;
-
-  public String getGitDaemonUrl() {
-    return gitDaemonUrl;
-  }
-
-  public void setGitDaemonUrl(String url) {
-    if (url != null && !url.endsWith("/")) {
-      url += "/";
-    }
-    gitDaemonUrl = url;
-  }
-
-  public String getSshdAddress() {
-    return sshdAddress;
-  }
-
-  public void setSshdAddress(final String addr) {
-    sshdAddress = addr;
-  }
 
   public boolean isDocumentationAvailable() {
     return documentationAvailable;

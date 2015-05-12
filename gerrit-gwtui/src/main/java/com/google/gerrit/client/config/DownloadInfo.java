@@ -63,6 +63,23 @@ public class DownloadInfo extends JavaScriptObject {
       return command(commandName).replaceAll("\\$\\{project\\}", project);
     }
 
+    public final Set<String> cloneCommandNames() {
+      return Natives.keys(_cloneCommands());
+    }
+
+    public final Set<DownloadCommandInfo> cloneCommands(String project) {
+      Set<DownloadCommandInfo> commands = new HashSet<>();
+      for (String commandName : cloneCommandNames()) {
+        commands.add(new DownloadCommandInfo(commandName, cloneCommand(
+            commandName, project)));
+      }
+      return commands;
+    }
+
+    public final String cloneCommand(String commandName, String project) {
+      return cloneCommand(commandName).replaceAll("\\$\\{project\\}", project);
+    }
+
     public final String getUrl(String project) {
       return url().replaceAll("\\$\\{project\\}", project);
     }
@@ -72,7 +89,9 @@ public class DownloadInfo extends JavaScriptObject {
     public final native boolean is_auth_required() /*-{ return this.is_auth_required || false; }-*/;
     public final native boolean is_auth_supported() /*-{ return this.is_auth_supported || false; }-*/;
     public final native String command(String n) /*-{ return this.commands[n]; }-*/;
+    public final native String cloneCommand(String n) /*-{ return this.clone_commands[n]; }-*/;
     private final native NativeMap<NativeString> _commands() /*-{ return this.commands; }-*/;
+    private final native NativeMap<NativeString> _cloneCommands() /*-{ return this.clone_commands; }-*/;
 
     protected DownloadSchemeInfo() {
     }

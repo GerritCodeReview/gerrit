@@ -116,6 +116,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
       "all_projects": "All-Projects",
       "all_users": "All-Users"
     },
+    "sshd": {},
     "suggest": {
       "from": 0
     },
@@ -1257,6 +1258,10 @@ GerritInfo] entity.
 |`git_web`                 |optional|
 Information about the link:config-gerrit.html#gitweb[GitWeb]
 configuration as link:#git-web-info[GitWebInfo] entity.
+|`sshd`                    |optional|
+Information about the configuration from the
+link:config-gerrit.html#sshd[sshd] section as link:#sshd-info[SshdInfo]
+entity. Not set if SSHD is disabled.
 |`suggest`                 ||
 Information about the configuration from the
 link:config-gerrit.html#suggest[suggest] section as link:#suggest-info[
@@ -1266,6 +1271,16 @@ Information about the configuration from the
 link:config-gerrit.html#user[user] section as link:#user-config-info[
 UserConfigInfo] entity.
 |=======================================
+
+[[sshd-info]]
+=== SshdInfo
+The `SshdInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#sshd[sshd]
+section.
+
+This entity doesn't contain any data, but the presence of this (empty)
+entity in the link:#server-info[ServerInfo] entity means that SSHD is
+enabled on the server.
 
 [[suggest-info]]
 === SuggestInfo

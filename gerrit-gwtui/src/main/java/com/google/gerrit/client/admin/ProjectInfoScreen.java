@@ -21,6 +21,8 @@ import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.change.Resources;
+import com.google.gerrit.client.config.DownloadInfo.DownloadCommandInfo;
+import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.projects.ConfigInfo;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterInfo;
@@ -65,6 +67,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private boolean isOwner;
@@ -677,21 +680,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     @Override
-    public void populateDownloadCommandLinks() {
-      if (!urls.isEmpty()) {
-        commands.add(cmdLinkfactory.new CloneCommandLink());
-        if (Gerrit.getConfig().getSshdAddress() != null && hasUserName()) {
-          commands.add(
-              cmdLinkfactory.new CloneWithCommitMsgHookCommandLink(getProjectKey()));
-        }
-      }
+    protected Set<DownloadCommandInfo> getCommands(DownloadSchemeInfo schemeInfo) {
+      return schemeInfo.cloneCommands(project);
     }
-  }
-
-  private static boolean hasUserName() {
-    return Gerrit.isSignedIn()
-        && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0;
   }
 
   private static class LabeledWidgetsGrid extends FlexTable {

@@ -23,10 +23,8 @@ import com.google.gwt.user.client.ui.Widget;
 import java.util.Collection;
 
 public class DownloadUrlPanel extends FlowPanel {
-  private final DownloadCommandPanel commandPanel;
 
-  public DownloadUrlPanel(final DownloadCommandPanel commandPanel) {
-    this.commandPanel = commandPanel;
+  public DownloadUrlPanel() {
     setStyleName(Gerrit.RESOURCES.css().downloadLinkList());
     Roles.getTablistRole().set(getElement());
   }
@@ -56,10 +54,6 @@ public class DownloadUrlPanel extends FlowPanel {
     if (first != null) {
       first.select();
     }
-  }
-
-  void setCurrentUrl(DownloadUrlLink link) {
-    commandPanel.setCurrentUrl(link);
   }
 
   public void add(Collection<DownloadUrlLink> links) {

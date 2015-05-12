@@ -94,6 +94,30 @@
       "revId": "c1539508653d5406b404094a84beef70655cfc35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_d4a8dc86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T18:11:46Z",
+      "side": 1,
+      "message": "Started to work on the test: [1].\n\n* [1] https://gerrit-review.googlesource.com/67847",
+      "parentUuid": "8d662d35_14b374ff",
+      "range": {
+        "startLine": 219,
+        "startChar": 11,
+        "endLine": 219,
+        "endChar": 18
+      },
+      "revId": "c1539508653d5406b404094a84beef70655cfc35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

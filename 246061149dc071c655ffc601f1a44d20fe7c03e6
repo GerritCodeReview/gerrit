@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad677130_9555c424",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T17:57:40Z",
+      "side": 1,
+      "message": "So the answer to the question \"Why some parameters are contained in ServerInfo.AuthInfo and some are ommited?\" is:\n\nWe don\u0027t need them on the client side of the current Gerrit UI.\n\nWhat if someone would build another client and would need other config options on their client side as well, that we currently do not expose in GET /config/server/info endpoint?\n\n? Would the contributor just ask us and we would add more options to the endpoint?\n\nWouldn\u0027t it make more sense to expose all options with GET /config/server/auth endpoint, Create the AuthInfo container and popuplate it with all options supported and configured in auth section of gerrit.config. To offer this we would need complete container that include 100% options: AuthInfo. With this in place it would be trivially to fill only subset of this options for GET /config/server/info endpoint. Now, when other consumers of the REST API would need more options they would call GET /config/server/auth and would get 100% auth section from gerrit.config.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 63
+      },
+      "revId": "246061149dc071c655ffc601f1a44d20fe7c03e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

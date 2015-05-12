@@ -46,6 +46,30 @@
       "revId": "0916cc3605583c418e396f697ae054263a9dd384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_35ae7099",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T20:49:08Z",
+      "side": 1,
+      "message": "Thank you.\n\n| The only thing this affects is staleness of the mergeability bit in search results\n\nI am investigating issue 3363 where user reported severe (x4) performance degradation during git push after upgrade to patched 2.11 (that already contains JGit 4.0.0.201505050340-m2) from 2.10.4. It would be nice to have some tests here, that verify (as you pointed out) that:\n\n* staleness of the mergeability bit\n* interactive/asynchronous re-indexing execution in ref-update listener depending on the setting of \"index.batchThreads\" and \"changeMerge.threadPoolSize\" configuration options\n\nNothing cause more pain, frustration and disappointment than unfulfilled expectations: you upgrade Gerrit and you are screwed up.",
+      "parentUuid": "0db5ddab_08b867d6",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 94
+      },
+      "revId": "0916cc3605583c418e396f697ae054263a9dd384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

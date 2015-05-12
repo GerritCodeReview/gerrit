@@ -1,0 +1,84 @@
+Release notes for Gerrit 2.11.1
+===============================
+
+Gerrit 2.11.1 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.1.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.1.war]
+
+Gerrit 2.11.1 includes the bug fixes done with
+link:ReleaseNotes-2.10.4.html[Gerrit 2.10.4]. These bug fixes are *not* listed
+in these release notes.
+
+There are no schema changes from link:ReleaseNotes-2.11.html[2.11].
+
+
+New Features
+------------
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=321[Issue 321]:
+Use in-memory Lucene index for a better reviewer suggestion.
++
+Instead of a linear full text search through a list of accounts use an
+in-memory Lucene index. The index is periodically refreshed. The refresh period
+is configurable via the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-gerrit.html#suggest.fullTextSearchRefresh[
+suggest.fullTextSearchRefresh] parameter.
+
+
+Bug Fixes
+---------
+
+* Fix PatchLineCommentsUtil.draftByChangeAuthor.
++
+There is not a native index for this, and the ReviewDb case was not properly
+filtering a result by change.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3323[Issue 3323]:
+Fix internal server error when cloning from a slave while hiding some refs.
+
+* Require 'View Plugins' capability to list plugins through SSH.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3191[Issue 3191]:
+Always show 'Not Current' as state when looking at old patch set.
++
+For merged changes it was confusing for users to see the status as 'Merged' when
+they look at an old patch set.
+
+* Fix project creation with plugin config if user is not project owner.
++
+On project creation it is possible to specify plugin configuration values that
+should be stored in the `project.config` file. This failed if the calling user
+was not becoming owner of the created project, because only project owners can
+edit the `project.config` file.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3342[Issue 3342]:
+Log IOExceptions on failure to update project configuration.
++
+Without logging these exceptions it's hard to guess why the update of the
+project configuration is failing.
+
+* Don't show stack trace when failing to build BloomFilter during reindex.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3337[Issue 3337]:
+Reenable revert button when revert is cancelled.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3325[Issue 3325]:
+Add missing `--newrev` parameter to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-hooks.html#_change_merged[
+change-merged hook documentation].
+
+* Fix gc_log when running in a web container.
++
+All logs supposed to be in gc_log file were ending up in main log instead when
+deploying Gerrit in a web container.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3346[Issue 3346]:
+Fix typo in the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-reverseproxy.html[
+Apache 2 configuration documentation].
+
+Updates
+-------
+
+* Update CodeMirror to 5.0.

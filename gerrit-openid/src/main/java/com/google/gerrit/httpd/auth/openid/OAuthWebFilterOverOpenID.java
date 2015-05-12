@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.auth.openid;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,7 +33,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 /** OAuth web filter uses active OAuth session to perform OAuth requests */
@@ -42,16 +40,13 @@ import javax.servlet.http.HttpSession;
 class OAuthWebFilterOverOpenID implements Filter {
   static final String GERRIT_LOGIN = "/login";
 
-  private final Provider<CurrentUser> currentUserProvider;
   private final Provider<OAuthSessionOverOpenID> oauthSessionProvider;
   private final DynamicMap<OAuthServiceProvider> oauthServiceProviders;
   private OAuthServiceProvider ssoProvider;
 
   @Inject
-  OAuthWebFilterOverOpenID(Provider<CurrentUser> currentUserProvider,
-      DynamicMap<OAuthServiceProvider> oauthServiceProviders,
+  OAuthWebFilterOverOpenID(DynamicMap<OAuthServiceProvider> oauthServiceProviders,
       Provider<OAuthSessionOverOpenID> oauthSessionProvider) {
-    this.currentUserProvider = currentUserProvider;
     this.oauthServiceProviders = oauthServiceProviders;
     this.oauthSessionProvider = oauthSessionProvider;
   }
@@ -69,15 +64,6 @@ class OAuthWebFilterOverOpenID implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
-    HttpSession httpSession = ((HttpServletRequest) request).getSession(false);
-    if (currentUserProvider.get().isIdentifiedUser()) {
-      if (httpSession != null) {
-        httpSession.invalidate();
-      }
-      chain.doFilter(request, response);
-      return;
-    }
-
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
     OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
@@ -85,9 +71,7 @@ class OAuthWebFilterOverOpenID implements Filter {
         ? oauthSession.getServiceProvider()
         : ssoProvider;
 
-    if ((isGerritLogin(httpRequest)
-        || oauthSession.isOAuthFinal(httpRequest))
-        && !oauthSession.isLoggedIn()) {
+    if (isGerritLogin(httpRequest) || oauthSession.isOAuthFinal(httpRequest)) {
         if (service == null) {
           throw new IllegalStateException("service is unknown");
         }

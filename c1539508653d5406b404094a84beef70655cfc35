@@ -46,6 +46,30 @@
       "revId": "c1539508653d5406b404094a84beef70655cfc35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_3545d079",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T13:44:14Z",
+      "side": 1,
+      "message": "Where are all acceptance tests for the new endpoint and new container, in this series? In this change [1] i extened the GerritConfig annotations for unit tests so that you should be able to do everything in test method specific site configuration.\n\n* [1] https://gerrit-review.googlesource.com/60350",
+      "parentUuid": "ad677130_556b2ced",
+      "range": {
+        "startLine": 219,
+        "startChar": 11,
+        "endLine": 219,
+        "endChar": 18
+      },
+      "revId": "c1539508653d5406b404094a84beef70655cfc35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

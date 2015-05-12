@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "ad677130_15b374ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_27a0ba75",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_b9c4dfd2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 14
@@ -174,6 +192,30 @@
       "writtenOn": "2015-01-02T00:31:57Z",
       "side": 1,
       "message": "This code is duplicated with the setter path. We could probably break these down into helper methods to check the type.\n\nFor primitives like int/long/boolean you can\u0027t subclass them. So \u003d\u003d is probably more appropriate to compare the types over isAssignableFrom. Its hard to make sense of why you would check for isAssignableFrom against types you can\u0027t subclass.",
+      "range": {
+        "startLine": 333,
+        "startChar": 19,
+        "endLine": 334,
+        "endChar": 44
+      },
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_f484f810",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c169c0a3_b9c4dfd2",
       "range": {
         "startLine": 333,
         "startChar": 19,
@@ -203,6 +245,24 @@
     },
     {
       "key": {
+        "uuid": "8d662d35_54968c49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:01:47Z",
+      "side": 1,
+      "message": "Yes. Added the check above.",
+      "parentUuid": "813188d3_e78dc213",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "813188d3_07a3b684",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 14
@@ -214,6 +274,24 @@
       "writtenOn": "2015-01-02T00:31:57Z",
       "side": 1,
       "message": "ConfigInvalidException instead?",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_b48a801a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_07a3b684",
       "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

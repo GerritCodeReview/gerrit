@@ -22,6 +22,13 @@ public class DocInfo extends JavaScriptObject {
   public final native String title() /*-{ return this.title; }-*/;
   public final native String url() /*-{ return this.url; }-*/;
 
+  public final native void setTitle(String t) /*-{ this.title = t; }-*/;
+  public final native void setUrl(String u) /*-{ this.url = u; }-*/;
+
+  public static DocInfo create() {
+    return (DocInfo) createObject();
+  }
+
   protected DocInfo() {
   }
 

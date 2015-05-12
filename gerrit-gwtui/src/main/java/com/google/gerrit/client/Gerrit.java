@@ -30,6 +30,7 @@ import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.AuthInfo;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.config.ServerInfo;
+import com.google.gerrit.client.documentation.DocInfo;
 import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
@@ -43,7 +44,6 @@ import com.google.gerrit.client.ui.MorphingTabPanel;
 import com.google.gerrit.client.ui.ProjectLinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.GerritTopMenu;
@@ -65,6 +65,11 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
@@ -103,10 +108,11 @@ public class Gerrit implements EntryPoint {
   public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
   public static final Themer THEMER = GWT.create(Themer.class);
   public static final String PROJECT_NAME_MENU_VAR = "${projectName}";
+  public static final String INDEX = "Documentation/index.html";
 
   private static String myHost;
-  private static GerritConfig myConfig;
   private static ServerInfo myServerInfo;
+  private static boolean hasDocumentation;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static String defaultScreenToken;
@@ -285,11 +291,6 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Get the public configuration data used by this Gerrit instance. */
-  public static GerritConfig getConfig() {
-    return myConfig;
-  }
-
-  /** Get the public configuration data used by this Gerrit instance. */
   public static ServerInfo info() {
     return myServerInfo;
   }
@@ -429,6 +430,12 @@ public class Gerrit implements EntryPoint {
 
     RpcStatus.INSTANCE = new RpcStatus();
     CallbackGroup cbg = new CallbackGroup();
+    getDocIndex(cbg.add(new GerritCallback<DocInfo>() {
+      @Override
+      public void onSuccess(DocInfo indexInfo) {
+        hasDocumentation = indexInfo != null;
+      }
+    }));
     ConfigServerApi.serverInfo(cbg.add(new GerritCallback<ServerInfo>() {
       @Override
       public void onSuccess(ServerInfo info) {
@@ -440,7 +447,6 @@ public class Gerrit implements EntryPoint {
       @Override
       public void onSuccess(final HostPageData result) {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
-        myConfig = result.config;
         myTheme = result.theme;
         isNoteDbEnabled = result.isNoteDbEnabled;
         if (result.account != null) {
@@ -700,7 +706,7 @@ public class Gerrit implements EntryPoint {
       }, CREATE_PROJECT, CREATE_GROUP, VIEW_PLUGINS);
     }
 
-    if (getConfig().isDocumentationAvailable()) {
+    if (hasDocumentation) {
       m = new LinkMenuBar();
       menuBars.put(GerritTopMenu.DOCUMENTATION.menuName, m);
       addDocLink(m, C.menuDocumentationTOC(), "index.html");
@@ -807,6 +813,35 @@ public class Gerrit implements EntryPoint {
         }
       }
     });
+  }
+
+  private static void getDocIndex(final AsyncCallback<DocInfo> cb) {
+    RequestBuilder req =
+        new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL()
+            + INDEX);
+    req.setCallback(new RequestCallback() {
+      @Override
+      public void onResponseReceived(Request req, Response resp) {
+        if (resp.getStatusCode() == Response.SC_OK) {
+          DocInfo docInfo = DocInfo.create();
+          docInfo.setTitle("Gerrit Code Review for Git");
+          docInfo.setUrl(INDEX);
+          cb.onSuccess(docInfo);
+        } else {
+          cb.onSuccess(null);
+        }
+      }
+
+      @Override
+      public void onError(Request request, Throwable e) {
+        cb.onFailure(e);
+      }
+    });
+    try {
+      req.send();
+    } catch (RequestException e) {
+      cb.onFailure(e);
+    }
   }
 
   private static AsyncCallback<Preferences> createMyMenuBarCallback() {

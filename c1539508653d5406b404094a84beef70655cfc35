@@ -22,6 +22,30 @@
       "revId": "c1539508653d5406b404094a84beef70655cfc35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_556b2ced",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T13:38:01Z",
+      "side": 1,
+      "message": "Yes, this should be Boolean. Good catch.\n\nDone.\n\n \u003e Here and in all other places.\n\nWhich other places?\n\n \u003e Boolean disableDrafts;\n\nHmm. Could be done. Normally I would agree, but I\u0027m not sure if I like it in this case. With the JSON of this REST endpoint I try to stay close to the format and names in gerrit.config and there it is named \u0027allowDrafts\u0027. I would rather keep the names consistent.",
+      "parentUuid": "ad677130_355cb059",
+      "range": {
+        "startLine": 219,
+        "startChar": 11,
+        "endLine": 219,
+        "endChar": 18
+      },
+      "revId": "c1539508653d5406b404094a84beef70655cfc35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d662d35_149c1468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T20:14:11Z",
+      "side": 1,
+      "message": "Is that expected, that on most recent master, commenting out this line, doesn\u0027t have any effect on the test outcome? All tests are still green.",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 94
+      },
+      "revId": "0916cc3605583c418e396f697ae054263a9dd384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

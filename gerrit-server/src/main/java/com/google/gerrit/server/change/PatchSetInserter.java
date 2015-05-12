@@ -35,6 +35,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -108,6 +109,7 @@ public class PatchSetInserter {
   private SshInfo sshInfo;
   private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
   private boolean draft;
+  private Iterable<String> groups;
   private boolean runHooks;
   private boolean sendMail;
   private Account.Id uploader;
@@ -200,6 +202,11 @@ public class PatchSetInserter {
     return this;
   }
 
+  public PatchSetInserter setGroups(Iterable<String> groups) {
+    this.groups = groups;
+    return this;
+  }
+
   public PatchSetInserter setRunHooks(boolean runHooks) {
     this.runHooks = runHooks;
     return this;
@@ -239,12 +246,18 @@ public class PatchSetInserter {
 
     db.changes().beginTransaction(c.getId());
     try {
-      if (!db.changes().get(c.getId()).getStatus().isOpen()) {
+      updatedChange = db.changes().get(c.getId());
+      if (!updatedChange.getStatus().isOpen()) {
         throw new InvalidChangeOperationException(String.format(
             "Change %s is closed", c.getId()));
       }
 
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+      if (groups != null) {
+        patchSet.setGroups(groups);
+      } else {
+        patchSet.setGroups(GroupCollector.getCurrentGroups(db, c));
+      }
       db.patchSets().insert(Collections.singleton(patchSet));
 
       SetMultimap<ReviewerState, Account.Id> oldReviewers = sendMail

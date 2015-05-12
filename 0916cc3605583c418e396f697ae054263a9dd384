@@ -22,6 +22,30 @@
       "revId": "0916cc3605583c418e396f697ae054263a9dd384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0db5ddab_08b867d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-12T20:22:22Z",
+      "side": 1,
+      "message": "Probably. The only thing this affects is staleness of the mergeability bit in search results. Calling e.g. ChangeData#isMergeable() if the mergeable bit is not prepopulated (because the branch tip advanced) incurs a cache miss, but should still be correct. I don\u0027t believe we have any tests for the specific functionality of stale mergeability bits in search results.",
+      "parentUuid": "8d662d35_149c1468",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 94
+      },
+      "revId": "0916cc3605583c418e396f697ae054263a9dd384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

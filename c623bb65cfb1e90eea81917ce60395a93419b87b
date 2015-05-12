@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed55e939_37e15819",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-12T01:58:27Z",
+      "side": 1,
+      "message": "nit: should be before \u0027junit\u0027.",
+      "range": {
+        "startLine": 217,
+        "startChar": 11,
+        "endLine": 217,
+        "endChar": 16
+      },
+      "revId": "c623bb65cfb1e90eea81917ce60395a93419b87b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed55e939_17e6d430",
+        "filename": "lib/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-12T01:58:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0027DO_NOT_DISTRIBUTE\u0027?",
+      "range": {
+        "startLine": 186,
+        "startChar": 13,
+        "endLine": 186,
+        "endChar": 18
+      },
+      "revId": "c623bb65cfb1e90eea81917ce60395a93419b87b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd6ca517_16bd3cf9",
+        "filename": "lib/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-12T01:58:27Z",
+      "side": 1,
+      "message": "No \u0027deps\u0027 declaration?  According to the pom file [1] this has compile-time dependency on junit and jmock-testjar.\n\n[1] http://search.maven.org/#artifactdetails%7Corg.jmock%7Cjmock%7C2.8.1%7Cjar",
+      "revId": "c623bb65cfb1e90eea81917ce60395a93419b87b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

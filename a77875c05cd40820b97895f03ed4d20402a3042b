@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad677130_55bdecc5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_c788be06",
+      "range": {
+        "startLine": 17,
+        "startChar": 44,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "813188d3_878ec610",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
         "patchSetId": 14
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "8d662d35_d481fcfe",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_878ec610",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_99bf1b34",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
         "patchSetId": 14
@@ -71,6 +113,24 @@
       "writtenOn": "2015-01-02T00:31:57Z",
       "side": 1,
       "message": "We call this showWhitespaceErrors in diff.",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_b5a1e0a6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c169c0a3_99bf1b34",
       "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "8d662d35_34f030aa",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_67c1d22b",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_7926c721",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
         "patchSetId": 14
@@ -111,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "ad677130_959e6464",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c169c0a3_7926c721",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "813188d3_a793ca3b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
         "patchSetId": 14
@@ -122,6 +218,24 @@
       "writtenOn": "2015-01-02T00:31:57Z",
       "side": 1,
       "message": "Theme.DEFAULT by default",
+      "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_14f5349a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T22:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_a793ca3b",
       "revId": "a77875c05cd40820b97895f03ed4d20402a3042b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

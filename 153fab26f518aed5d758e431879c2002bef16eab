@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d662d35_54bdecc5",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-12T15:15:08Z",
+      "side": 1,
+      "message": "Remove these two lines. The closing \u0027----\u0027 is at the line 698",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 685,
+        "endChar": 4
+      },
+      "revId": "153fab26f518aed5d758e431879c2002bef16eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_b4a1e0a6",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-12T15:15:08Z",
+      "side": 1,
+      "message": "not related to this change but can stay.",
+      "range": {
+        "startLine": 770,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 8
+      },
+      "revId": "153fab26f518aed5d758e431879c2002bef16eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_949e6464",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-12T15:15:08Z",
+      "side": 1,
+      "message": "remove this line, the closing ---- is in the next line",
+      "revId": "153fab26f518aed5d758e431879c2002bef16eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_753f48d9",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-12T15:15:08Z",
+      "side": 1,
+      "message": "I think there is a subtle difference between this and the implementation above. In this implementation the Code-Review will be satisfied by the current user and in the implementation above it will be one of the users who voted Code-Review+1. Neither of these is completely correct but the implementation above is closer to the truth. Can you do the same here: Use one of the users who voted Code-Review+1 as the ok(User)?",
+      "revId": "153fab26f518aed5d758e431879c2002bef16eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_5544cc79",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-12T15:15:08Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line, remove",
+      "revId": "153fab26f518aed5d758e431879c2002bef16eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

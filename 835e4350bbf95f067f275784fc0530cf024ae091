@@ -117,6 +117,30 @@
       "revId": "835e4350bbf95f067f275784fc0530cf024ae091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_144a5487",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-12T13:21:19Z",
+      "side": 1,
+      "message": "All callers check for null, e.g.:\n\n GitWebInfo gw \u003d Gerrit.info().git_web();\n if (gw !\u003d null) {\n   Anchor a \u003d\n       new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));\n   a.setStyleName(style.parentWebLink());\n   panel.add(a);\n  }\n\nare you saying that this code would be better:\n \n if (Gerrit.info().hasGitWeb()) {\n   GitWebInfo gw \u003d Gerrit.info().git_web();\n   Anchor a \u003d\n       new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));\n   a.setStyleName(style.parentWebLink());\n   panel.add(a);\n  }\n\n?",
+      "parentUuid": "8d662d35_946ca404",
+      "range": {
+        "startLine": 24,
+        "startChar": 33,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "835e4350bbf95f067f275784fc0530cf024ae091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

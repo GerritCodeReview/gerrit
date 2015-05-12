@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.extensions.client.Theme;
+
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -21,11 +24,96 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
 public class ConfigUtilTest {
+  private final static String SECT = "foo";
+  private final static String SUB = "bar";
+
+  static class SectionInfo {
+    public static final String CONSTANT = "42";
+    public transient String missing;
+    public int i;
+    public Integer ii;
+    public Integer id;
+    public long l;
+    public Long ll;
+    public Long ld;
+    public boolean b;
+    public Boolean bb;
+    public Boolean bd;
+    public String s;
+    public String sd;
+    public Theme t;
+    public Theme td;
+    static SectionInfo defaults() {
+      SectionInfo i = new SectionInfo();
+      i.i = 1;
+      i.ii = 2;
+      i.id = 3;
+      i.l = 4L;
+      i.ll = 5L;
+      i.ld = 6L;
+      i.b = true;
+      i.bb = false;
+      i.bd = true;
+      i.s = "foo";
+      i.sd = "bar";
+      i.t = Theme.DEFAULT;
+      i.td = Theme.DEFAULT;
+      return i;
+    }
+  }
+
+  @Test
+  public void testStoreLoadSection() throws Exception {
+    SectionInfo d = SectionInfo.defaults();
+    SectionInfo in = new SectionInfo();
+    in.missing = "42";
+    in.i = 1;
+    in.ii = 43;
+    in.l = 4L;
+    in.ll = -43L;
+    in.b = false;
+    in.bb = true;
+    in.bd = false;
+    in.s = "baz";
+    in.t = Theme.MIDNIGHT;
+
+    Config cfg = new Config();
+    ConfigUtil.storeSection(cfg, SECT, SUB, in, d);
+
+    assertThat(cfg.getString(SECT, SUB, "CONSTANT")).isNull();
+    assertThat(cfg.getString(SECT, SUB, "missing")).isNull();
+    assertThat(cfg.getBoolean(SECT, SUB, "b", false)).isEqualTo(in.b);
+    assertThat(cfg.getBoolean(SECT, SUB, "bb", false)).isEqualTo(in.bb);
+    assertThat(cfg.getInt(SECT, SUB, "i", 0)).isEqualTo(0);
+    assertThat(cfg.getInt(SECT, SUB, "ii", 0)).isEqualTo(in.ii);
+    assertThat(cfg.getLong(SECT, SUB, "l", 0L)).isEqualTo(0L);
+    assertThat(cfg.getLong(SECT, SUB, "ll", 0L)).isEqualTo(in.ll);
+    assertThat(cfg.getString(SECT, SUB, "s")).isEqualTo(in.s);
+    assertThat(cfg.getString(SECT, SUB, "sd")).isNull();
+
+    SectionInfo out = new SectionInfo();
+    ConfigUtil.loadSection(cfg, SECT, SUB, out, d);
+    assertThat(out.i).isEqualTo(in.i);
+    assertThat(out.ii).isEqualTo(in.ii);
+    assertThat(out.id).isEqualTo(d.id);
+    assertThat(out.l).isEqualTo(in.l);
+    assertThat(out.ll).isEqualTo(in.ll);
+    assertThat(out.ld).isEqualTo(d.ld);
+    assertThat(out.b).isEqualTo(in.b);
+    assertThat(out.bb).isEqualTo(in.bb);
+    assertThat(out.bd).isNull();
+    assertThat(out.s).isEqualTo(in.s);
+    assertThat(out.sd).isEqualTo(d.sd);
+    assertThat(out.t).isEqualTo(in.t);
+    assertThat(out.td).isEqualTo(d.td);
+  }
+
   @Test
   public void testTimeUnit() {
     assertEquals(ms(0, MILLISECONDS), parse("0"));

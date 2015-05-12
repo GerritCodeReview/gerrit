@@ -23,11 +23,16 @@ public class ServerInfo extends JavaScriptObject {
   public final native DownloadInfo download() /*-{ return this.download; }-*/;
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
   public final native GitWebInfo gitWeb() /*-{ return this.git_web; }-*/;
+  public final native SshdInfo sshd() /*-{ return this.sshd; }-*/;
   public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;
   public final native UserConfigInfo user() /*-{ return this.user; }-*/;
 
   public final boolean hasContactStore() {
     return contactStore() != null;
+  }
+
+  public final boolean hasSshd() {
+    return sshd() != null;
   }
 
   protected ServerInfo() {
@@ -48,6 +53,11 @@ public class ServerInfo extends JavaScriptObject {
     public final native String url() /*-{ return this.url; }-*/;
 
     protected ContactStoreInfo() {
+    }
+  }
+
+  public static class SshdInfo extends JavaScriptObject {
+    protected SshdInfo() {
     }
   }
 

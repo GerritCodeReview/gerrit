@@ -90,6 +90,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.gitWeb = getGitWebInfo(gitWebConfig);
+    info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
     info.user = getUserInfo(anonymousCowardName);
     return info;
@@ -237,6 +238,20 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
+  private SshdInfo getSshdInfo(Config cfg) {
+    String[] addr = cfg.getStringList("sshd", null, "listenAddress");
+    if (addr.length == 1 && isOff(addr[0])) {
+      return null;
+    }
+    return new SshdInfo();
+  }
+
+  private static boolean isOff(String listenHostname) {
+    return "off".equalsIgnoreCase(listenHostname)
+        || "none".equalsIgnoreCase(listenHostname)
+        || "no".equalsIgnoreCase(listenHostname);
+  }
+
   private SuggestInfo getSuggestInfo(Config cfg) {
     SuggestInfo info = new SuggestInfo();
     info.from = cfg.getInt("suggest", "from", 0);
@@ -260,6 +275,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public DownloadInfo download;
     public GerritInfo gerrit;
     public GitWebInfo gitWeb;
+    public SshdInfo sshd;
     public SuggestInfo suggest;
     public UserConfigInfo user;
   }
@@ -313,6 +329,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GitWebInfo {
     public String url;
     public GitWebType type;
+  }
+
+  public static class SshdInfo {
   }
 
   public static class SuggestInfo {

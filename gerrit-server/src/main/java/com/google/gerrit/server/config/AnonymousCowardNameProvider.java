@@ -20,6 +20,7 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 
 public class AnonymousCowardNameProvider implements Provider<String> {
+  public static final String DEFAULT = "Anonymous Coward";
 
   private final String anonymousCoward;
 
@@ -27,7 +28,7 @@ public class AnonymousCowardNameProvider implements Provider<String> {
   public AnonymousCowardNameProvider(@GerritServerConfig final Config cfg) {
     String anonymousCoward = cfg.getString("user", null, "anonymousCoward");
     if (anonymousCoward == null) {
-      anonymousCoward = "Anonymous Coward";
+      anonymousCoward = DEFAULT;
     }
     this.anonymousCoward = anonymousCoward;
   }

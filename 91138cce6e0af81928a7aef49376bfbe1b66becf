@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad677130_b5cba09f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-05-12T05:10:43Z",
+      "side": 1,
+      "message": "throws clause for a RuntimeException? Is that your project policy? If for documentation value, then why not also add it to optdef and reqdef above? Besides, see below.",
+      "revId": "91138cce6e0af81928a7aef49376bfbe1b66becf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_34b83009",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-05-12T05:10:43Z",
+      "side": 1,
+      "message": "Above you\u0027re using IllegalArgumentException... which one did you intend? If the difference is intentional, would this not be worth an inline comment explaining why?",
+      "revId": "91138cce6e0af81928a7aef49376bfbe1b66becf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad677130_15e6d430",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T06:38:37Z",
+      "side": 1,
+      "message": "Intended?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "835e4350bbf95f067f275784fc0530cf024ae091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_d4d29c4f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-12T06:38:37Z",
+      "side": 1,
+      "message": "Isn\u0027t the naming convention on the cline side underscore_delimiter and not CamelCase? Shoudn\u0027t you offer is_git_web() or is_git_web_exists() in case it wasn\u0027t configured? Or it works differently?",
+      "range": {
+        "startLine": 24,
+        "startChar": 33,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "835e4350bbf95f067f275784fc0530cf024ae091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -99,7 +99,7 @@ public class RegisterScreen extends AccountScreen {
       formBody.add(fp);
     }
 
-    if (Gerrit.getConfig().getSshdAddress() != null) {
+    if (Gerrit.info().hasSshd()) {
       final FlowPanel sshKeyGroup = new FlowPanel();
       sshKeyGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       sshKeyGroup.add(new SmallHeading(Util.C.welcomeSshKeyHeading()));

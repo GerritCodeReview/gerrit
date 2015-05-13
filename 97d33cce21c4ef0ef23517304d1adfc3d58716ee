@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d662d35_94294485",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-13T11:05:52Z",
+      "side": 1,
+      "message": "one space too much :o",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "97d33cce21c4ef0ef23517304d1adfc3d58716ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad677130_15f5349a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

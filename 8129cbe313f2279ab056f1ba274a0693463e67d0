@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d662d35_b403a010",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-13T08:37:42Z",
+      "side": 1,
+      "message": "g, a n",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "8129cbe313f2279ab056f1ba274a0693463e67d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_b58a801a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-13T08:37:42Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "8129cbe313f2279ab056f1ba274a0693463e67d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad677130_35979049",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
         "patchSetId": 1
@@ -13,6 +59,30 @@
       "writtenOn": "2015-05-13T05:12:34Z",
       "side": 1,
       "message": "Can we trust, that this value is always positive, and \u003e 1? Or should we better re-check with:\n\n  threads \u003d Math.max(threads, 2);",
+      "range": {
+        "startLine": 127,
+        "startChar": 16,
+        "endLine": 127,
+        "endChar": 58
+      },
+      "revId": "8129cbe313f2279ab056f1ba274a0693463e67d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_95878414",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-13T08:37:42Z",
+      "side": 1,
+      "message": "The javadoc says that it is never smaller than one [1].\n\n\n\n[1] https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html#availableProcessors()",
+      "parentUuid": "ad677130_35979049",
       "range": {
         "startLine": 127,
         "startChar": 16,

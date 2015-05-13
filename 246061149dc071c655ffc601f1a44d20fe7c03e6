@@ -46,6 +46,30 @@
       "revId": "246061149dc071c655ffc601f1a44d20fe7c03e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_55ffac77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-13T10:58:28Z",
+      "side": 1,
+      "message": "Thanks for explanation. I understand now.",
+      "parentUuid": "8d662d35_7413c859",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 63
+      },
+      "revId": "246061149dc071c655ffc601f1a44d20fe7c03e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

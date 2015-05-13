@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad677130_15f5349a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-13T10:26:17Z",
+      "side": 1,
+      "message": "Strange indentation here (test comment on PS2).",
+      "range": {
+        "startLine": 2156,
+        "startChar": 29,
+        "endLine": 2156,
+        "endChar": 36
+      },
+      "revId": "97d33cce21c4ef0ef23517304d1adfc3d58716ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

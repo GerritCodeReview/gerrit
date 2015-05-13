@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d662d35_94002405",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-13T10:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d662d35_b403a010",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "8129cbe313f2279ab056f1ba274a0693463e67d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad677130_b58a801a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-13T08:37:42Z",
       "side": 1,
       "message": "are",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "8129cbe313f2279ab056f1ba274a0693463e67d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad677130_d581fcfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-13T10:11:35Z",
+      "side": 1,
+      "message": "I had are here first and changed it to is later. Done.",
+      "parentUuid": "ad677130_b58a801a",
       "range": {
         "startLine": 11,
         "startChar": 46,

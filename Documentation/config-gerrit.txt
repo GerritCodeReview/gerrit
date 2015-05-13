@@ -2152,8 +2152,8 @@ is iset).
 Number of threads to use for indexing in background operations, such as
 online schema upgrades.
 +
-If not set or set to a negative value, defaults to using the same
-thread pool as interactive operations (unless
+If not set or set to a negative value, defaults to logical number of CPU
+cores as returned by the JVM (unless
 link:#changeMerge.threadPoolSize[changeMerge.threadPoolSize] is set).
 
 ==== Lucene configuration

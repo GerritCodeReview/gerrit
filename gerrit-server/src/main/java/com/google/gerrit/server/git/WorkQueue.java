@@ -110,8 +110,8 @@ public class WorkQueue {
     return defaultQueue;
   }
 
-  /** Create a new executor queue with one thread. */
-  public Executor createQueue(final int poolsize, final String prefix) {
+  /** Create a new executor queue. */
+  public Executor createQueue(int poolsize, String prefix) {
     final Executor r = new Executor(poolsize, prefix);
     r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     r.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);

@@ -22,6 +22,30 @@
       "revId": "246061149dc071c655ffc601f1a44d20fe7c03e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d662d35_7413c859",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-13T10:48:20Z",
+      "side": 1,
+      "message": "\u003e So the answer to the question \"Why some parameters are contained in\n \u003e ServerInfo.AuthInfo and some are ommited?\" is:\n \u003e\n \u003e We don\u0027t need them on the client side of the current Gerrit UI.\n\nYes.\n\n \u003e What if someone would build another client and would need other\n \u003e config options on their client side as well, that we currently do\n \u003e not expose in GET /config/server/info endpoint?\n \n \u003e ? Would the contributor just ask us and we would add more options\n \u003e to the endpoint?\n\nYes, if it\u0027s reasonable to expose these config options.\n\n \u003e Wouldn\u0027t it make more sense to expose all options with GET\n \u003e /config/server/auth endpoint, Create the AuthInfo container and\n \u003e popuplate it with all options supported and configured in auth\n \u003e section of gerrit.config.\n\nI\u0027m not sure if we want this. I would rather only expose what is\nreally needed. Once exposed it becomes API and we cannot easily change\nit anymore. There might be also some configuration parameters which\nare security relevant and which must not be exposed.\nWe also don\u0027t want to blindly return the values that are in\ngerrit.config, but we might want to return computed values (e.g.\nreturn the default value if there is nothing in gerrit.config) or\nreturn a different format. Some things might even not be contained in\ngerrit.config, but depend on the installed plugins (e.g. download\ncommands).\nIf the full raw gerrit.config is needed you can already install the\nserver-config plugin [1] and get it from there.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-plugins.html#server-config",
+      "parentUuid": "ad677130_9555c424",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 63
+      },
+      "revId": "246061149dc071c655ffc601f1a44d20fe7c03e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

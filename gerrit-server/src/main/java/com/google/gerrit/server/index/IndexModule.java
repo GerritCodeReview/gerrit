@@ -114,7 +114,6 @@ public class IndexModule extends LifecycleModule {
   @Singleton
   @IndexExecutor(BATCH)
   ListeningExecutorService getBatchIndexExecutor(
-      @IndexExecutor(INTERACTIVE) ListeningExecutorService interactive,
       @GerritServerConfig Config config,
       WorkQueue workQueue) {
     if (batchExecutor != null) {
@@ -125,7 +124,7 @@ public class IndexModule extends LifecycleModule {
       threads = config.getInt("changeMerge", null, "threadPoolSize", 0);
     }
     if (threads <= 0) {
-      return interactive;
+      threads = Runtime.getRuntime().availableProcessors();
     }
     return MoreExecutors.listeningDecorator(
         workQueue.createQueue(threads, "Index-Batch"));

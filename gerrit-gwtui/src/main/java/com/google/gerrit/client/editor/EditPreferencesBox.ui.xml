@@ -166,6 +166,10 @@ limitations under the License.
         <td><g:ListBox ui:field='theme'/></td>
       </tr>
       <tr>
+        <th><ui:msg>Key Map</ui:msg></th>
+        <td><g:ListBox ui:field='keyMap'/></td>
+      </tr>
+      <tr>
         <th><ui:msg>Tab Width</ui:msg></th>
         <td><x:NpIntTextBox ui:field='tabWidth'
             visibleLength='4'

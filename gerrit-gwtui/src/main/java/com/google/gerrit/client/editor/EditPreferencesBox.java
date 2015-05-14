@@ -20,6 +20,7 @@ import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
+import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -61,6 +62,7 @@ class EditPreferencesBox extends Composite {
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton lineNumbers;
   @UiField ListBox theme;
+  @UiField ListBox keyMap;
   @UiField Button apply;
   @UiField Button save;
 
@@ -68,6 +70,7 @@ class EditPreferencesBox extends Composite {
     this.view = view;
     initWidget(uiBinder.createAndBindUi(this));
     initTheme();
+    initKeyMapType();
   }
 
   void set(EditPreferences prefs) {
@@ -81,6 +84,7 @@ class EditPreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     lineNumbers.setValue(prefs.hideLineNumbers());
     setTheme(prefs.theme());
+    setKeyMapType(prefs.keyMapType());
   }
 
   @UiHandler("tabWidth")
@@ -150,6 +154,14 @@ class EditPreferencesBox extends Composite {
     });
   }
 
+  @UiHandler("keyMap")
+  void onKeyMap(@SuppressWarnings("unused") ChangeEvent e) {
+    KeyMapType keyMapType = KeyMapType.valueOf(
+        keyMap.getValue(keyMap.getSelectedIndex()));
+    prefs.keyMapType(keyMapType);
+    view.getEditor().setOption("keyMap", keyMapType.name().toLowerCase());
+  }
+
   @UiHandler("apply")
   void onApply(@SuppressWarnings("unused") ClickEvent e) {
     close();
@@ -209,5 +221,28 @@ class EditPreferencesBox extends Composite {
     theme.addItem(
         Theme.TWILIGHT.name().toLowerCase(),
         Theme.TWILIGHT.name());
+  }
+
+  private void setKeyMapType(KeyMapType v) {
+    String name = v != null ? v.name() : KeyMapType.DEFAULT.name();
+    for (int i = 0; i < keyMap.getItemCount(); i++) {
+      if (keyMap.getValue(i).equals(name)) {
+        keyMap.setSelectedIndex(i);
+        return;
+      }
+    }
+    keyMap.setSelectedIndex(0);
+  }
+
+  private void initKeyMapType() {
+    keyMap.addItem(
+        KeyMapType.DEFAULT.name().toLowerCase(),
+        KeyMapType.DEFAULT.name());
+    keyMap.addItem(
+        KeyMapType.EMACS.name().toLowerCase(),
+        KeyMapType.EMACS.name());
+    keyMap.addItem(
+        KeyMapType.VIM.name().toLowerCase(),
+        KeyMapType.VIM.name());
   }
 }

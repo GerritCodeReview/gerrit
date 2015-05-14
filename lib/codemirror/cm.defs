@@ -9,6 +9,7 @@ CM_JS = [
   'lib/codemirror.js',
   'mode/meta.js',
   'keymap/vim.js',
+  'keymap/emacs.js',
 ]
 
 CM_ADDONS = [

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 
@@ -42,6 +43,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     assertThat(out.syntaxHighlighting).isTrue();
     assertThat(out.hideLineNumbers).isNull();
     assertThat(out.theme).isEqualTo(Theme.DEFAULT);
+    assertThat(out.keyMapType).isEqualTo(KeyMapType.DEFAULT);
 
     // change some default values
     out.lineLength = 80;
@@ -52,6 +54,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.syntaxHighlighting = false;
     out.hideLineNumbers = true;
     out.theme = Theme.TWILIGHT;
+    out.keyMapType = KeyMapType.EMACS;
 
     r = adminSession.put(endPoint, out);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
@@ -78,5 +81,6 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     assertThat(out.syntaxHighlighting).isNull();
     assertThat(out.hideLineNumbers).isEqualTo(in.hideLineNumbers);
     assertThat(out.theme).isEqualTo(in.theme);
+    assertThat(out.keyMapType).isEqualTo(in.keyMapType);
   }
 }

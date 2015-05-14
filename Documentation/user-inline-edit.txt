@@ -167,9 +167,6 @@ with thefollowing logic on click:
 ** "save-when-file-was-changed" or
 ** "close-when-no-changes"
 
-* Allow to activate different key maps, supported by CM: Emacs, Sublime, Vim. Load key
-maps dynamically. Currently default mode is used.
-
 * Implement conflict resolution during rebase of change edit using inline edit
 feature by creating new edit on top of current patch set with auto merge content
 

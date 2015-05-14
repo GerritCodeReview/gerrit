@@ -24,6 +24,7 @@ public class EditPreferences extends JavaScriptObject {
     EditPreferences p = createObject().cast();
     p.tabSize(in.tabSize);
     p.lineLength(in.lineLength);
+    p.cursorBlinkRate(in.cursorBlinkRate);
     p.hideTopMenu(in.hideTopMenu);
     p.showTabs(in.showTabs);
     p.showWhitespaceErrors(in.showWhitespaceErrors);
@@ -37,6 +38,7 @@ public class EditPreferences extends JavaScriptObject {
   public final void copyTo(EditPreferencesInfo p) {
     p.tabSize = tabSize();
     p.lineLength = lineLength();
+    p.cursorBlinkRate = cursorBlinkRate();
     p.hideTopMenu = hideTopMenu();
     p.showTabs = showTabs();
     p.showWhitespaceErrors = showWhitespaceErrors();
@@ -58,6 +60,7 @@ public class EditPreferences extends JavaScriptObject {
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
+  public final native void cursorBlinkRate(int r) /*-{ this.cursor_blink_rate = r }-*/;
   public final native void hideTopMenu(boolean s) /*-{ this.hide_top_menu = s }-*/;
   public final native void showTabs(boolean s) /*-{ this.show_tabs = s }-*/;
   public final native void showWhitespaceErrors(boolean s) /*-{ this.show_whitespace_errors = s }-*/;
@@ -78,6 +81,7 @@ public class EditPreferences extends JavaScriptObject {
 
   public final int tabSize() {return get("tab_size", 8); }
   public final int lineLength() {return get("line_length", 100); }
+  public final int cursorBlinkRate() {return get("cursor_blink_rate", 0); }
   public final native boolean hideTopMenu() /*-{ return this.hide_top_menu || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
   public final native boolean showWhitespaceErrors() /*-{ return this.show_whitespace_errors || false }-*/;

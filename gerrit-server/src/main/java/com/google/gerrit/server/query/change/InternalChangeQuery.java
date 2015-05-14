@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.query.Predicate.and;
+import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.gerrit.common.Nullable;
@@ -32,6 +33,8 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -143,6 +146,14 @@ public class InternalChangeQuery {
 
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
     return query(commit(AbbreviatedObjectId.fromObjectId(id)));
+  }
+
+  public List<ChangeData> byGroups(Collection<String> groups) throws OrmException {
+    List<GroupPredicate> predicates = new ArrayList<>(groups.size());
+    for (String g : groups) {
+      predicates.add(new GroupPredicate(g));
+    }
+    return query(or(predicates));
   }
 
   private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {

@@ -44,6 +44,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     assertThat(out.syntaxHighlighting).isTrue();
     assertThat(out.hideLineNumbers).isNull();
     assertThat(out.matchBrackets).isTrue();
+    assertThat(out.autoCloseBrackets).isNull();
     assertThat(out.theme).isEqualTo(Theme.DEFAULT);
     assertThat(out.keyMapType).isEqualTo(KeyMapType.DEFAULT);
 
@@ -57,6 +58,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.syntaxHighlighting = false;
     out.hideLineNumbers = true;
     out.matchBrackets = false;
+    out.autoCloseBrackets = true;
     out.theme = Theme.TWILIGHT;
     out.keyMapType = KeyMapType.EMACS;
 
@@ -86,6 +88,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     assertThat(out.syntaxHighlighting).isNull();
     assertThat(out.hideLineNumbers).isEqualTo(in.hideLineNumbers);
     assertThat(out.matchBrackets).isNull();
+    assertThat(out.autoCloseBrackets).isEqualTo(in.autoCloseBrackets);
     assertThat(out.theme).isEqualTo(in.theme);
     assertThat(out.keyMapType).isEqualTo(in.keyMapType);
   }

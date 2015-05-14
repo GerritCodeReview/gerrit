@@ -1156,7 +1156,8 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
     "hide_top_menu": true,
     "show_whitespace_errors": true,
     "hide_line_numbers": true,
-    "match_brackets": true
+    "match_brackets": true,
+    "auto_close_brackets": true
   }
 ----
 
@@ -1187,7 +1188,8 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
     "show_whitespace_errors": true,
     "syntax_highlighting": true,
     "hide_line_numbers": true,
-    "match_brackets": true
+    "match_brackets": true,
+    "auto_close_brackets": true
   }
 ----
 
@@ -1570,6 +1572,8 @@ Whether syntax highlighting should be enabled.
 Whether line numbers should be hidden.
 |`match_brackets`              |not set if `false`|
 Whether matching brackets should be highlighted.
+|`auto_close_brackets`              |not set if `false`|
+Whether brackets and quotes should be auto-closed during typing.
 |===========================================
 
 [[email-info]]

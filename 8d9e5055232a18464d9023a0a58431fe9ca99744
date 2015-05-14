@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "8de9cdd1_bcf1a1e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/MultiLock.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-14T19:14:03Z",
+      "side": 1,
+      "message": "Currently there is just one MultiLock in the PriorityLockedQueue and no new locks are instantiated for a new request. Your piece of code rather suggests to have an instance per request?\nThen maybe it would make sense to not talk about a lock, but rather a token system, which can hand out a set of tokens atomically?\n\n    try (MultiToken myLocks \u003d myTokenManager.obtainTokens(...)) {\n      // if we\u0027re here the tokens could be obtained successfully\n      // do my thing\n    } catch (TokenNotGrantedException e) {\n      // somebody else is having the tokens, reschedule or \n      // tell the user\n    }\n\nand the MultiToken class would be AutoClosable, and on close the MultiToken would unlock the tokens in myTokenManager?",
+      "parentUuid": "4d83551d_aac86fa3",
+      "range": {
+        "startLine": 47,
+        "startChar": 22,
+        "endLine": 47,
+        "endChar": 29
+      },
+      "revId": "8d9e5055232a18464d9023a0a58431fe9ca99744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0db5ddab_a8d27b4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/MultiLock.java",
         "patchSetId": 31

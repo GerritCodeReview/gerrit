@@ -531,6 +531,24 @@ public class ChangeField {
         }
       };
 
+  /** Opaque group identifiers for this change's patch sets. */
+  public static final FieldDef<ChangeData, Iterable<String>> GROUP =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "group", FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<String> r = Sets.newHashSetWithExpectedSize(1);
+          for (PatchSet ps : input.patchSets()) {
+            List<String> groups = ps.getGroups();
+            if (groups != null) {
+              r.addAll(groups);
+            }
+          }
+          return r;
+        }
+      };
+
   public static class PatchSetProtoField
       extends FieldDef.Repeatable<ChangeData, byte[]> {
     public static final ProtobufCodec<PatchSet> CODEC =

@@ -18,6 +18,7 @@ package com.google.gerrit.extensions.client;
 public class EditPreferencesInfo {
   public Integer tabSize;
   public Integer lineLength;
+  public Integer cursorBlinkRate;
   public Boolean hideTopMenu;
   public Boolean showTabs;
   public Boolean showWhitespaceErrors;
@@ -30,6 +31,7 @@ public class EditPreferencesInfo {
     EditPreferencesInfo i = new EditPreferencesInfo();
     i.tabSize = 8;
     i.lineLength = 100;
+    i.cursorBlinkRate = 0;
     i.hideTopMenu = false;
     i.showTabs = true;
     i.showWhitespaceErrors = false;

@@ -37,6 +37,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
 
     assertThat(out.lineLength).isEqualTo(100);
     assertThat(out.tabSize).isEqualTo(8);
+    assertThat(out.cursorBlinkRate).isEqualTo(0);
     assertThat(out.hideTopMenu).isNull();
     assertThat(out.showTabs).isTrue();
     assertThat(out.showWhitespaceErrors).isNull();
@@ -48,6 +49,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     // change some default values
     out.lineLength = 80;
     out.tabSize = 4;
+    out.cursorBlinkRate = 500;
     out.hideTopMenu = true;
     out.showTabs = false;
     out.showWhitespaceErrors = true;
@@ -75,6 +77,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
       EditPreferencesInfo in) {
     assertThat(out.lineLength).isEqualTo(in.lineLength);
     assertThat(out.tabSize).isEqualTo(in.tabSize);
+    assertThat(out.cursorBlinkRate).isEqualTo(in.cursorBlinkRate);
     assertThat(out.hideTopMenu).isEqualTo(in.hideTopMenu);
     assertThat(out.showTabs).isNull();
     assertThat(out.showWhitespaceErrors).isEqualTo(in.showWhitespaceErrors);

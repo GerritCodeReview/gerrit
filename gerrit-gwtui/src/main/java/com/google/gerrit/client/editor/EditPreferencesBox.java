@@ -56,6 +56,7 @@ class EditPreferencesBox extends Composite {
   @UiField Anchor close;
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox lineLength;
+  @UiField NpIntTextBox cursorBlinkRate;
   @UiField ToggleButton topMenu;
   @UiField ToggleButton syntaxHighlighting;
   @UiField ToggleButton showTabs;
@@ -78,6 +79,7 @@ class EditPreferencesBox extends Composite {
 
     tabWidth.setIntValue(prefs.tabSize());
     lineLength.setIntValue(prefs.lineLength());
+    cursorBlinkRate.setIntValue(prefs.cursorBlinkRate());
     topMenu.setValue(!prefs.hideTopMenu());
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
     showTabs.setValue(prefs.showTabs());
@@ -102,6 +104,17 @@ class EditPreferencesBox extends Composite {
     if (v != null && v.length() > 0) {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
       view.setLineLength(prefs.lineLength());
+    }
+  }
+
+  @UiHandler("cursorBlinkRate")
+  void onCursoBlinkRate(ValueChangeEvent<String> e) {
+    String v = e.getValue();
+    if (v != null && v.length() > 0) {
+      // A negative value hides the cursor entirely:
+      // don't let user shoot himself in the foot.
+      prefs.cursorBlinkRate(Math.max(0, Integer.parseInt(v)));
+      view.getEditor().setOption("cursorBlinkRate", prefs.cursorBlinkRate());
     }
   }
 

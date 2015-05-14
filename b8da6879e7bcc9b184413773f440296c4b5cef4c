@@ -22,6 +22,30 @@
       "revId": "b8da6879e7bcc9b184413773f440296c4b5cef4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adda1133_bdfa7fb3",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-05-14T21:39:58Z",
+      "side": 1,
+      "message": "It\u0027s in codemirror-5.0.jar from maven central.",
+      "parentUuid": "adda1133_9dfdc3b0",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "b8da6879e7bcc9b184413773f440296c4b5cef4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

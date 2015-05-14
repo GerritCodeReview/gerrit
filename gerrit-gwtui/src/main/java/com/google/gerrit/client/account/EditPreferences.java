@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
+import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -29,6 +30,7 @@ public class EditPreferences extends JavaScriptObject {
     p.syntaxHighlighting(in.syntaxHighlighting);
     p.hideLineNumbers(in.hideLineNumbers);
     p.theme(in.theme);
+    p.keyMapType(in.keyMapType);
     return p;
   }
 
@@ -41,12 +43,18 @@ public class EditPreferences extends JavaScriptObject {
     p.syntaxHighlighting = syntaxHighlighting();
     p.hideLineNumbers = hideLineNumbers();
     p.theme = theme();
+    p.keyMapType = keyMapType();
   }
 
   public final void theme(Theme i) {
     setThemeRaw(i != null ? i.toString() : Theme.DEFAULT.toString());
   }
   private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
+
+  public final void keyMapType(KeyMapType i) {
+    setkeyMapTypeRaw(i != null ? i.toString() : KeyMapType.DEFAULT.toString());
+  }
+  private final native void setkeyMapTypeRaw(String i) /*-{ this.key_map_type = i }-*/;
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
@@ -61,6 +69,12 @@ public class EditPreferences extends JavaScriptObject {
     return s != null ? Theme.valueOf(s) : Theme.DEFAULT;
   }
   private final native String themeRaw() /*-{ return this.theme }-*/;
+
+  public final KeyMapType keyMapType() {
+    String s = keyMapTypeRaw();
+    return s != null ? KeyMapType.valueOf(s) : KeyMapType.DEFAULT;
+  }
+  private final native String keyMapTypeRaw() /*-{ return this.key_map_type }-*/;
 
   public final int tabSize() {return get("tab_size", 8); }
   public final int lineLength() {return get("line_length", 100); }

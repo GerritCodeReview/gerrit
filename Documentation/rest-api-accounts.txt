@@ -1149,6 +1149,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   )]}'
   {
     "theme": "ECLIPSE",
+    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "hide_top_menu": true,
@@ -1175,6 +1176,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   {
     "theme": "ECLIPSE",
+    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "hide_top_menu": true,
@@ -1542,6 +1544,9 @@ preferences of a user.
 The CodeMirror theme. Currently only a subset of light and dark
 CodeMirror themes are supported. Light themes `DEFAULT`, `ECLIPSE`,
 `ELEGANT`, `NEAT`. Dark themes `MIDNIGHT`, `NIGHT`, `TWILIGHT`.
+|`key_map_type`                ||
+The CodeMirror key map. Currently only a subset of key maps are
+supported: `DEFAULT`, `EMACS`, 'VIM'.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||

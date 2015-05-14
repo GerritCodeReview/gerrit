@@ -237,6 +237,23 @@
     },
     {
       "key": {
+        "uuid": "4db515d9_5ac25588",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T06:53:23Z",
+      "side": 1,
+      "message": "So I restarted my work on store user preferences in git and just discovered, that we (and /me) are not consistient with naming convention on the client side. All method in DiffPreferences class have CamelCase naming convention. No wonder I preserved this convention in new EditPreferences class: [1]. Sorry, but this probably mean to restore old names in this class?\n\n* https://gerrit-review.googlesource.com/#/c/61602/12/gerrit-gwtui/src/main/java/com/google/gerrit/client/account/EditPreferences.java",
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_b4f440d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
         "patchSetId": 6

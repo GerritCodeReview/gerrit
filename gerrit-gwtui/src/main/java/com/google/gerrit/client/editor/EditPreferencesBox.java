@@ -63,6 +63,7 @@ class EditPreferencesBox extends Composite {
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton lineNumbers;
   @UiField ToggleButton matchBrackets;
+  @UiField ToggleButton autoCloseBrackets;
   @UiField ListBox theme;
   @UiField ListBox keyMap;
   @UiField Button apply;
@@ -87,6 +88,7 @@ class EditPreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     lineNumbers.setValue(prefs.hideLineNumbers());
     matchBrackets.setValue(prefs.matchBrackets());
+    autoCloseBrackets.setValue(prefs.autoCloseBrackets());
     setTheme(prefs.theme());
     setKeyMapType(prefs.keyMapType());
   }
@@ -155,6 +157,12 @@ class EditPreferencesBox extends Composite {
   void onMatchBrackets(ValueChangeEvent<Boolean> e) {
     prefs.matchBrackets(e.getValue());
     view.getEditor().setOption("matchBrackets", prefs.matchBrackets());
+  }
+
+  @UiHandler("autoCloseBrackets")
+  void onCloseBrackets(ValueChangeEvent<Boolean> e) {
+    prefs.autoCloseBrackets(e.getValue());
+    view.getEditor().setOption("autoCloseBrackets", prefs.autoCloseBrackets());
   }
 
   @UiHandler("theme")

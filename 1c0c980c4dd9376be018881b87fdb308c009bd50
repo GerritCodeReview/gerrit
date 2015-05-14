@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2db8e1d3_59c26388",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T06:15:56Z",
+      "side": 1,
+      "message": "| Does \"logical number\" have a specific meaning?\n\nIt has indeed: [1]:\n\n  For each processor core that is physically present,\n  the operating system addresses two virtual or logical \n  cores, and shares the workload between them when possible.\n\nOn my laptop with i7-3720QM installed, the spec [2] says it has 4 cores. But availableProcessors() method returns 8.\n\n* [1] http://en.wikipedia.org/wiki/Hyper-threading\n* [2] http://ark.intel.com/products/64891/Intel-Core-i7-3720QM-Processor-6M-Cache-up-to-3_60-GHz",
+      "parentUuid": "4d83551d_4ac29388",
+      "range": {
+        "startLine": 2155,
+        "startChar": 51,
+        "endLine": 2155,
+        "endChar": 65
+      },
+      "revId": "1c0c980c4dd9376be018881b87fdb308c009bd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d83551d_6ac75797",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-05-14T03:31:14Z",
       "side": 1,
       "message": "How often does this method get called?  Would it spam the log too much if we add a warning here mentioning that index.batchThreads should be set?",
+      "revId": "1c0c980c4dd9376be018881b87fdb308c009bd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4db515d9_3abda1f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T06:15:56Z",
+      "side": 1,
+      "message": "I think this method is called only once. But the point of this commit is that we are fixing the defaut value here. With sane default, nobody must set anything. They can tune this value, yes, when they have a monster with 1024 CPU logical or real cores. But when someone has it, the chance she knows what she is doing is very high, anyway.",
+      "parentUuid": "4d83551d_6ac75797",
       "revId": "1c0c980c4dd9376be018881b87fdb308c009bd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db8e1d3_190aab58",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T22:34:27Z",
+      "side": 1,
+      "message": "Why not to remove this extra char?",
+      "range": {
+        "startLine": 1158,
+        "startChar": 29,
+        "endLine": 1158,
+        "endChar": 30
+      },
+      "revId": "9e18ac34baa78f465e13f5ce9eeb0084a2496abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e1d3_390f6f69",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T22:34:27Z",
+      "side": 1,
+      "message": "dito.",
+      "range": {
+        "startLine": 1188,
+        "startChar": 29,
+        "endLine": 1188,
+        "endChar": 30
+      },
+      "revId": "9e18ac34baa78f465e13f5ce9eeb0084a2496abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -307,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "4d83551d_aac86fa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/MultiLock.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-14T04:52:36Z",
+      "side": 1,
+      "message": "How is myLock getting instantiated?\n\nWould it be feasible to make MultiLock implement AutoCloseable such that you write code like:\n\n try (MultiLock\u003c...\u003e myLock \u003d new MultiLock(...)) {\n   if (myLock.lock(resources)) {\n     // do my thing\n   }\n }\n\nand MultiLock\u0027s implementation of AutoCloseable.close() takes care of releasing the lock in case an exception happens?",
+      "parentUuid": "0db5ddab_e8007305",
+      "range": {
+        "startLine": 47,
+        "startChar": 22,
+        "endLine": 47,
+        "endChar": 29
+      },
+      "revId": "8d9e5055232a18464d9023a0a58431fe9ca99744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0db5ddab_a8d27b4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/MultiLock.java",
         "patchSetId": 31

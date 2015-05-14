@@ -54,8 +54,6 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 class BecomeAnyAccountLoginServlet extends HttpServlet {
-  private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
-
   private final SchemaFactory<ReviewDb> schema;
   private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
@@ -120,14 +118,6 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       final StringBuilder rdr = new StringBuilder();
       rdr.append(req.getContextPath());
       rdr.append("/");
-      if (IS_DEV && req.getParameter("gwt.codesvr") != null) {
-        if (rdr.indexOf("?") < 0) {
-          rdr.append("?");
-        } else {
-          rdr.append("&");
-        }
-        rdr.append("gwt.codesvr=").append(req.getParameter("gwt.codesvr"));
-      }
 
       if (res.isNew()) {
         rdr.append('#' + PageLinks.REGISTER);
@@ -154,12 +144,6 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     Document doc = headers.parse(getClass(), pageName);
     if (doc == null) {
       throw new FileNotFoundException("No " + pageName + " in webapp");
-    }
-    if (!IS_DEV) {
-      final Element devmode = HtmlDomUtil.find(doc, "gwtdevmode");
-      if (devmode != null) {
-        devmode.getParentNode().removeChild(devmode);
-      }
     }
 
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");

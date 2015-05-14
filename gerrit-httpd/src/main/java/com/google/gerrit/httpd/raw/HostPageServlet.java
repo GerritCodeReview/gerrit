@@ -72,7 +72,6 @@ import javax.servlet.http.HttpServletResponse;
 public class HostPageServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(HostPageServlet.class);
-  private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
   private static final String HPD_ID = "gerrit_hostpagedata";
   private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
 
@@ -129,32 +128,25 @@ public class HostPageServlet extends HttpServlet {
     }
 
     String src = "gerrit_ui/gerrit_ui.nocache.js";
-    if (!IS_DEV) {
-      Element devmode = HtmlDomUtil.find(template, "gwtdevmode");
-      if (devmode != null) {
-        devmode.getParentNode().removeChild(devmode);
-      }
-
-      InputStream in = servletContext.getResourceAsStream("/" + src);
-      if (in != null) {
-        Hasher md = Hashing.md5().newHasher();
+    InputStream in = servletContext.getResourceAsStream("/" + src);
+    if (in != null) {
+      Hasher md = Hashing.md5().newHasher();
+      try {
         try {
-          try {
-            final byte[] buf = new byte[1024];
-            int n;
-            while ((n = in.read(buf)) > 0) {
-              md.putBytes(buf, 0, n);
-            }
-          } finally {
-            in.close();
+          final byte[] buf = new byte[1024];
+          int n;
+          while ((n = in.read(buf)) > 0) {
+            md.putBytes(buf, 0, n);
           }
-        } catch (IOException e) {
-          throw new IOException("Failed reading " + src, e);
+        } finally {
+          in.close();
         }
-        src += "?content=" + md.hash().toString();
-      } else {
-        log.debug("No " + src + " in webapp root; keeping noncache.js URL");
+      } catch (IOException e) {
+        throw new IOException("Failed reading " + src, e);
       }
+      src += "?content=" + md.hash().toString();
+    } else {
+      log.debug("No " + src + " in webapp root; keeping noncache.js URL");
     }
 
     noCacheName = src;

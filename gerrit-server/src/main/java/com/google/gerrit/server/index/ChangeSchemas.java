@@ -202,6 +202,36 @@ public class ChangeSchemas {
       ChangeField.COMMENTBY,
       ChangeField.PATCH_SET);
 
+  static final Schema<ChangeData> V18 = schema(
+      ChangeField.LEGACY_ID,
+      ChangeField.ID,
+      ChangeField.STATUS,
+      ChangeField.PROJECT,
+      ChangeField.PROJECTS,
+      ChangeField.REF,
+      ChangeField.TOPIC,
+      ChangeField.UPDATED,
+      ChangeField.FILE_PART,
+      ChangeField.PATH,
+      ChangeField.OWNER,
+      ChangeField.REVIEWER,
+      ChangeField.COMMIT,
+      ChangeField.TR,
+      ChangeField.LABEL,
+      ChangeField.REVIEWED,
+      ChangeField.COMMIT_MESSAGE,
+      ChangeField.COMMENT,
+      ChangeField.CHANGE,
+      ChangeField.APPROVAL,
+      ChangeField.MERGEABLE,
+      ChangeField.ADDED,
+      ChangeField.DELETED,
+      ChangeField.DELTA,
+      ChangeField.HASHTAG,
+      ChangeField.COMMENTBY,
+      ChangeField.PATCH_SET,
+      ChangeField.GROUP);
+
   private static Schema<ChangeData> schema(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<>(ImmutableList.copyOf(fields));
   }

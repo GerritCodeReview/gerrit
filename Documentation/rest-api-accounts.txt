@@ -1156,6 +1156,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
     "hide_top_menu": true,
     "show_whitespace_errors": true,
     "hide_line_numbers": true,
+    "match_brackets": true,
   }
 ----
 
@@ -1186,6 +1187,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
     "show_whitespace_errors": true,
     "syntax_highlighting": true,
     "hide_line_numbers": true,
+    "match_brackets": true,
   }
 ----
 
@@ -1565,6 +1567,8 @@ Whether whitespace errors should be shown.
 Whether syntax highlighting should be enabled.
 |`hide_line_numbers`           |not set if `false`|
 Whether line numbers should be hidden.
+|`match_brackets`              |not set if `false`|
+When set to true, causes matching brackets to be highlighted.
 |===========================================
 
 [[email-info]]

@@ -27,6 +27,7 @@ public class EditPreferencesInfo {
   public Boolean syntaxHighlighting;
   public Boolean hideLineNumbers;
   public Boolean matchBrackets;
+  public Boolean autoCloseBrackets;
   public Theme theme;
   public KeyMapType keyMapType;
 
@@ -41,6 +42,7 @@ public class EditPreferencesInfo {
     i.syntaxHighlighting = true;
     i.hideLineNumbers = false;
     i.matchBrackets = false;
+    i.autoCloseBrackets = false;
     i.theme = Theme.DEFAULT;
     i.keyMapType = KeyMapType.DEFAULT;
     return i;

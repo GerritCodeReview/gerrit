@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8de9cdd1_dcee6d02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/MultiLock.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-14T19:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d83551d_cad5a33a",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 44
+      },
+      "revId": "f88015cf69a317f37a2583b5e481ecf5634a4f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d86212e_29bd6df9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 33
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "adda1133_3d0f4f69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-14T19:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d86212e_29bd6df9",
+      "revId": "f88015cf69a317f37a2583b5e481ecf5634a4f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d86212e_49c2a188",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 33
@@ -53,6 +95,30 @@
       "writtenOn": "2015-05-14T04:57:57Z",
       "side": 1,
       "message": "Was this auto-generated?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "f88015cf69a317f37a2583b5e481ecf5634a4f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8de9cdd1_fceb29ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-14T19:14:03Z",
+      "side": 1,
+      "message": "partially :(",
+      "parentUuid": "2d86212e_49c2a188",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -99,6 +165,54 @@
       "writtenOn": "2015-05-14T04:57:57Z",
       "side": 1,
       "message": "Make this a javadoc?",
+      "range": {
+        "startLine": 101,
+        "startChar": 1,
+        "endLine": 103,
+        "endChar": 27
+      },
+      "revId": "f88015cf69a317f37a2583b5e481ecf5634a4f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8de9cdd1_1c0a9558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-14T19:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d86212e_69c76597",
+      "range": {
+        "startLine": 103,
+        "startChar": 20,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "f88015cf69a317f37a2583b5e481ecf5634a4f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adda1133_5d141b79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-14T19:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d86212e_89cbb99f",
       "range": {
         "startLine": 101,
         "startChar": 1,

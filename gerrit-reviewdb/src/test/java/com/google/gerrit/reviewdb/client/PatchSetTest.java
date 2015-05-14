@@ -14,10 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
@@ -63,13 +60,13 @@ public class PatchSetTest {
   }
 
   private static void assertRef(int changeId, int psId, String refName) {
-    assertTrue(PatchSet.isRef(refName));
-    assertEquals(new PatchSet.Id(new Change.Id(changeId), psId),
-        PatchSet.Id.fromRef(refName));
+    assertThat(PatchSet.isRef(refName)).isTrue();
+    assertThat(PatchSet.Id.fromRef(refName))
+        .isEqualTo(new PatchSet.Id(new Change.Id(changeId), psId));
   }
 
   private static void assertNotRef(String refName) {
-    assertFalse(PatchSet.isRef(refName));
-    assertNull(PatchSet.Id.fromRef(refName));
+    assertThat(PatchSet.isRef(refName)).isFalse();
+    assertThat(PatchSet.Id.fromRef(refName)).isNull();
   }
 }

@@ -55,7 +55,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     RevCommit c1 = subRepo.branch("HEAD").commit().insertChangeId()
       .message("first change")
       .add("asdf", "asdf\n")
-      .parent(c)
       .create();
     subRepo.git().push().setRemote("origin")
       .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
@@ -65,13 +64,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     RevCommit c2 = subRepo.branch("HEAD").commit().insertChangeId()
       .message("qwerty")
       .add("qwerty", "qwerty")
-      .parent(c)
       .create();
 
     RevCommit c3 = subRepo.branch("HEAD").commit().insertChangeId()
       .message("qwerty followup")
       .add("qwerty", "qwerty\nqwerty\n")
-      .parent(c2)
       .create();
     subRepo.git().push().setRemote("origin")
       .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))

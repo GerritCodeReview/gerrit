@@ -441,7 +441,7 @@ public class EditScreen extends Screen {
     cm = CodeMirror.create(editor, Configuration.create()
         .set("value", content)
         .set("readOnly", false)
-        .set("cursorBlinkRate", 0)
+        .set("cursorBlinkRate", prefs.cursorBlinkRate())
         .set("cursorHeight", 0.85)
         .set("lineNumbers", prefs.hideLineNumbers())
         .set("tabSize", prefs.tabSize())

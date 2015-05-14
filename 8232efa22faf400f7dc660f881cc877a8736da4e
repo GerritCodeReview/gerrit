@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4db515d9_bac8d1a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T07:54:47Z",
+      "side": 1,
+      "message": "Optimize",
+      "range": {
+        "startLine": 346,
+        "startChar": 5,
+        "endLine": 346,
+        "endChar": 12
+      },
+      "revId": "8232efa22faf400f7dc660f881cc877a8736da4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4db515d9_9acb0da0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 1

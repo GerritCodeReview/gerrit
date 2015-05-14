@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4db515d9_9acb0da0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T07:54:11Z",
+      "side": 1,
+      "message": "I wonder if we always want this? We already optimized the storing in Git: no default values are stored. When we now optimize the loading as well then what should we return in REST endpoint? We have two options:\n\n* 1. not return default values in REST endpoint as well. Gerrit UI could induce the default options, because it knows the default values. But other REST client don\u0027t know the defaults. Do we care? We could pass input default \u003d \u0027true\u0027 to force returning all values. Is it worth the efforts?\n* 2. preserve the current behaviour: return all values except \u0027false\u0027 for booleans.",
+      "range": {
+        "startLine": 346,
+        "startChar": 5,
+        "endLine": 347,
+        "endChar": 47
+      },
+      "revId": "8232efa22faf400f7dc660f881cc877a8736da4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

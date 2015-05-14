@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adda1133_9dfdc3b0",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-14T21:33:09Z",
+      "side": 1,
+      "message": "This file is not part of the commit. Is it somewhere else?\n(I assume this change here triggered the library compliance review, so I\u0027d be extra careful there)",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "b8da6879e7bcc9b184413773f440296c4b5cef4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

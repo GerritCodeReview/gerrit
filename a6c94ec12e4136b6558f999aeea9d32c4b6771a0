@@ -22,6 +22,29 @@
       "revId": "a6c94ec12e4136b6558f999aeea9d32c4b6771a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e1d3_b9c8dfa3",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-14T07:20:59Z",
+      "side": 1,
+      "message": "This should be show_whitespace_errors and not ignore_whitespace.",
+      "range": {
+        "startLine": 1182,
+        "startChar": 5,
+        "endLine": 1182,
+        "endChar": 22
+      },
+      "revId": "a6c94ec12e4136b6558f999aeea9d32c4b6771a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

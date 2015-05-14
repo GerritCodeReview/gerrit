@@ -239,7 +239,9 @@ public class EditScreen extends Screen {
     super.registerKeys();
     cm.addKeyMap(KeyMap.create()
         .on("Ctrl-L", gotoLine())
-        .on("Cmd-L", gotoLine()));
+        .on("Cmd-L", gotoLine())
+        .on("Cmd-S", save())
+        .on("Ctrl-S", save()));
   }
 
   private Runnable gotoLine() {
@@ -367,9 +369,6 @@ public class EditScreen extends Screen {
         .set("keyMap", "default")
         .set("theme", prefs.theme().name().toLowerCase())
         .set("mode", mode != null ? mode.mode() : null));
-    cm.addKeyMap(KeyMap.create()
-        .on("Cmd-S", save())
-        .on("Ctrl-S", save()));
   }
 
   private void renderLinks(EditFileInfo editInfo,

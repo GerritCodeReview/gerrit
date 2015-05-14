@@ -446,6 +446,7 @@ public class EditScreen extends Screen {
         .set("lineNumbers", prefs.hideLineNumbers())
         .set("tabSize", prefs.tabSize())
         .set("lineWrapping", false)
+        .set("matchBrackets", prefs.matchBrackets())
         .set("scrollbarStyle", "overlay")
         .set("styleSelectedText", true)
         .set("showTrailingSpace", prefs.showWhitespaceErrors())

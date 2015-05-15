@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db8e1d3_f9041748",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-15T08:25:55Z",
+      "side": 1,
+      "message": "I was tempting first to suggest to say that the basic query \"status:open OR status:closed\" shouldn\u0027t touch the database at all. But this is only true for anonymous users. For logged in users at least one query (to retrieve starred changes) will be executed.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "dc0d7fdd1d689f53c21a15494f9fa73c1af83ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

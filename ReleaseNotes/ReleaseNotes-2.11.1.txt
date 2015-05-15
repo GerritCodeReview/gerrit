@@ -29,6 +29,26 @@ suggest.fullTextSearchRefresh] parameter.
 Bug Fixes
 ---------
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=3363[Issue 3363]:
+Fix performance degrade in background mergeability checks.
++
+When neither `index.batchThreads` nor `changeMerge.threadPoolSize` was defined,
+the background mergeability check fell back to using an interactive executor.
++
+This led to a severe performance degradation during git push operations because
+the `ref-update` listener was reindexing all open changes on the target branch
+interactively. The degradation increased linearly with number of open changes on
+the target branch.
++
+Now, instead of indexing interactively, it falls back to a batch thread pool
+with the logical number of available CPUs.
+
+* Reduce unnecessary database access when queryng changes.
++
+Searching for changes was retrieving more information than necessary from the
+database. This has been optimized to reduce database access and make better use
+of the secondary index.
+
 * Fix `PatchLineCommentsUtil.draftByChangeAuthor`.
 +
 There is not a native index for this, and the ReviewDb case was not properly
@@ -73,6 +93,12 @@ change-merged hook documentation].
 All logs supposed to be in the `gc_log` file were ending up in the main log
 instead when deploying Gerrit in a web container.
 
+* Fix binding of SecureStore modules.
++
+The SecureStore modules were not correctly added when Gerrit was deployed in a
+web container with the site path configured using the `gerrit.site_path`
+property.
+
 * link:http://code.google.com/p/gerrit/issues/detail?id=3310[Issue 3310]:
 Fix disabling plugins when Gerrit is running on Windows.
 +
@@ -92,6 +118,17 @@ Apache 2 configuration documentation].
 Fix incorrect documentatation of
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-gerrit.html#auth.registerUrl[
 auth types].
+
+* Replication plugin
+
+** Fix creation of missing repositories.
++
+Missing projects were not being created on the destination.
+
+** Emit replication status events after initial full sync.
++
+When `replicateOnStartup` is enabled, the plugin was not emitting the status
+events after the initial sync.
 
 Updates
 -------

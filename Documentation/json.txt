@@ -156,7 +156,7 @@ oldRev:: The old value of the ref, prior to the update.
 
 newRev:: The new value the ref was updated to.
 
-refName:: Ref name within project.
+refName:: Full ref name within project.
 
 project:: Project path in Gerrit.
 

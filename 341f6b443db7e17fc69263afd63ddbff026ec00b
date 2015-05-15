@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4db515d9_5a2df5c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-15T09:10:21Z",
+      "side": 1,
+      "message": "That\u0027s why we have a collision here: [1]\n\n* [1] https://github.com/codemirror/CodeMirror/blob/master/keymap/emacs.js#L370\n\nAnd that\u0027s why we don\u0027t need it: [2]; it\u0027s just \"Ctrl-X Ctrl-S\", obviously ;-)\n\n* [2] https://github.com/codemirror/CodeMirror/blob/master/keymap/emacs.js#L391,L392",
+      "range": {
+        "startLine": 269,
+        "startChar": 6,
+        "endLine": 269,
+        "endChar": 39
+      },
+      "revId": "341f6b443db7e17fc69263afd63ddbff026ec00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

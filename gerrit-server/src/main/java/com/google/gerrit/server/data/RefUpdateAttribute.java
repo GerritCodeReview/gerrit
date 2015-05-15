@@ -17,6 +17,7 @@ package com.google.gerrit.server.data;
 public class RefUpdateAttribute {
   public String oldRev;
   public String newRev;
+  public String ref;
   public String refName;
   public String project;
 }

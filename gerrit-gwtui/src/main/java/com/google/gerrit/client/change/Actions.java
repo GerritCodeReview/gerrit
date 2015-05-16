@@ -65,6 +65,8 @@ class Actions extends Composite {
   private String branch;
   private String key;
 
+  private boolean rebaseParentNotCurrent = true;
+
   Actions() {
     initWidget(uiBinder.createAndBindUi(this));
     getElement().setId("change_actions");
@@ -129,8 +131,11 @@ class Actions extends Composite {
 
     a2b(actions, "cherrypick", cherrypick);
     a2b(actions, "rebase", rebase);
+
+    // The rebase button on change screen is always enabled.
+    // It the the "Rebase" button in the RebaseDialog that might be disabled.
+    rebaseParentNotCurrent = rebase.isEnabled();
     if (rebase.isVisible()) {
-      // it is the rebase button in RebaseDialog that the server wants to disable
       rebase.setEnabled(true);
     }
     RevisionInfo revInfo = changeInfo.revision(revision);
@@ -178,16 +183,8 @@ class Actions extends Composite {
 
   @UiHandler("rebase")
   void onRebase(@SuppressWarnings("unused") ClickEvent e) {
-    boolean enabled = true;
-    RevisionInfo revInfo = changeInfo.revision(revision);
-    if (revInfo.has_actions()) {
-        NativeMap<ActionInfo> actions = revInfo.actions();
-        if (actions.containsKey("rebase")) {
-          enabled = actions.get("rebase").enabled();
-        }
-    }
     RebaseAction.call(rebase, project, changeInfo.branch(), changeId, revision,
-        enabled);
+        rebaseParentNotCurrent);
   }
 
   @UiHandler("submit")

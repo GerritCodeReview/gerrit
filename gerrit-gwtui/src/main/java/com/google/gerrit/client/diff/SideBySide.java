@@ -270,7 +270,6 @@ public class SideBySide extends DiffScreen {
     }
   }
 
-  @Override
   void setSyntaxHighlighting(boolean b) {
     final DiffInfo diff = getDiff();
     if (b) {

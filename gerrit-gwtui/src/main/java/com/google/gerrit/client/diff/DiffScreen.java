@@ -589,7 +589,7 @@ abstract class DiffScreen extends Screen {
   }
 
   void toggleShowIntraline() {
-    prefs.intralineDifference(!prefs.intralineDifference());
+    prefs.intralineDifference(!Boolean.valueOf(prefs.intralineDifference()));
     setShowIntraline(prefs.intralineDifference());
     prefsAction.update();
   }

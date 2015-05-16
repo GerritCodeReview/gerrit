@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edbde9e6_d7bc9cfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-16T19:47:57Z",
+      "side": 1,
+      "message": "This part:\n\n* The Rebase (send) button in the RebaseDialog will be disabled, if the change is up-to-date and the \"Change parent revision\" checkbox is disabled (default).\n\nis really annoying regression. Thanks for fixing it.",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "d0cc780a5931069ae145c85313ea0eedf21b98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

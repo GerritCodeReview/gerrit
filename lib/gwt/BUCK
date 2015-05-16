@@ -1,21 +1,20 @@
 include_defs('//lib/maven.defs')
 
-VERSION_USER = '2.8.0-SNAPSHOT-20150516.054706-1'
-VERSION_DEV = '2.8.0-SNAPSHOT-20150516.054653-1'
+VERSION = '2.8.0'
 
 maven_jar(
   name = 'user',
-  id = 'com.google.gwt:gwt-user:' + VERSION_USER,
-  sha1 = '57dccc0d6be120d90861a6d2b6dc0c09d0693c4d',
+  id = 'com.google.gwt:gwt-user:' + VERSION,
+  sha1 = 'b03fd9514eebfa76cb052a9d220bfc4224481096',
   license = 'Apache2.0',
   attach_source = False,
-  repository = GOOGLE_SNAPSHOT,
+  repository = MAVEN_LOCAL,
 )
 
 maven_jar(
   name = 'dev',
-  id = 'com.google.gwt:gwt-dev:' + VERSION_DEV,
-  sha1 = 'b454418df6eb9eb67ef2ce1618eaa3ad837e433f',
+  id = 'com.google.gwt:gwt-dev:' + VERSION,
+  sha1 = 'd84377d68a5045eb692a0261f618eff63c4a75fb',
   license = 'Apache2.0',
   deps = [
     ':javax-validation',
@@ -23,8 +22,7 @@ maven_jar(
     ':json',
   ],
   attach_source = False,
-  exclude = ['org/eclipse/jetty/*'],
-  repository = GOOGLE_SNAPSHOT,
+  repository = MAVEN_LOCAL,
 )
 
 maven_jar(

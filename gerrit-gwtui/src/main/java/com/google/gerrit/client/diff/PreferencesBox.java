@@ -251,7 +251,7 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("intralineDifference")
   void onIntralineDifference(ValueChangeEvent<Boolean> e) {
-    prefs.intralineDifference(e.getValue());
+    prefs.intralineDifference(Boolean.valueOf(e.getValue()));
     if (view != null) {
       view.setShowIntraline(prefs.intralineDifference());
     }

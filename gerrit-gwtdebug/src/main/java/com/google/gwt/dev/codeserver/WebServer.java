@@ -42,6 +42,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -91,9 +92,10 @@ public class WebServer {
 
   private static final MimeTypes MIME_TYPES = new MimeTypes();
 
-  private static final String TIME_IN_THE_PAST = "Fri, 01 Jan 1990 00:00:00 GMT";
+  private static final String TIME_IN_THE_PAST = "Mon, 01 Jan 1990 00:00:00 GMT";
 
-  private final SourceHandler handler;
+  private final SourceHandler sourceHandler;
+  private final SymbolMapHandler symbolMapHandler;
   private final JsonExporter jsonExporter;
   private final OutboxTable outboxes;
   private final JobRunner runner;
@@ -104,9 +106,11 @@ public class WebServer {
 
   private Server server;
 
-  WebServer(SourceHandler handler, JsonExporter jsonExporter, OutboxTable outboxes,
-      JobRunner runner, JobEventTable eventTable, String bindAddress, int port) {
-    this.handler = handler;
+  WebServer(SourceHandler handler, SymbolMapHandler symbolMapHandler,
+      JsonExporter jsonExporter, OutboxTable outboxes, JobRunner runner,
+      JobEventTable eventTable, String bindAddress, int port) {
+    this.sourceHandler = handler;
+    this.symbolMapHandler = symbolMapHandler;
     this.jsonExporter = jsonExporter;
     this.outboxes = outboxes;
     this.runner = runner;
@@ -115,7 +119,6 @@ public class WebServer {
     this.port = port;
   }
 
-  @SuppressWarnings("serial")
   void start(final TreeLogger logger) throws UnableToCompleteException {
 
     Server newServer = new Server();
@@ -124,12 +127,13 @@ public class WebServer {
     connector.setPort(port);
     connector.setReuseAddress(false);
     connector.setSoLingerTime(0);
-
     newServer.addConnector(connector);
 
     ServletContextHandler newHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
     newHandler.setContextPath("/");
     newHandler.addServlet(new ServletHolder(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
@@ -230,6 +234,34 @@ public class WebServer {
       return Responses.newJsonResponse(json);
     }
 
+    if (target.startsWith("/clean")) {
+      JsonObject json = null;
+      try {
+        runner.clean(logger);
+        json = jsonExporter.exportOk("Cleaned disk caches.");
+      } catch (ExecutionException e) {
+        json = jsonExporter.exportError(e.getMessage());
+      }
+      return Responses.newJsonResponse(json);
+    }
+
+    // GET the Js that knows how to request the specific permutation recompile.
+    if (target.startsWith("/recompile-requester/")) {
+      String moduleName = target.substring("/recompile-requester/".length());
+      Outbox box = outboxes.findByOutputModuleName(moduleName);
+      if (box == null) {
+        return new ErrorPage("No such module: " + moduleName);
+      }
+
+      try {
+        String recompileJs = runner.getRecompileJs(logger, box);
+        return Responses.newJavascriptResponse(recompileJs);
+      } catch (ExecutionException e) {
+        // Already logged.
+        return new ErrorPage("Failed to generate the Js recompile requester.");
+      }
+    }
+
     if (target.startsWith("/log/")) {
       String moduleName = target.substring("/log/".length());
       Outbox box = outboxes.findByOutputModuleName(moduleName);
@@ -277,13 +309,16 @@ public class WebServer {
 
     matcher = SAFE_DIRECTORY_PATH.matcher(target);
     if (matcher.matches() && SourceHandler.isSourceMapRequest(target)) {
-      return handler.handle(target, request, logger);
+      return sourceHandler.handle(target, request, logger);
     }
 
     matcher = SAFE_FILE_PATH.matcher(target);
     if (matcher.matches()) {
       if (SourceHandler.isSourceMapRequest(target)) {
-        return handler.handle(target, request, logger);
+        return sourceHandler.handle(target, request, logger);
+      }
+      if (SymbolMapHandler.isSymbolMapRequest(target)) {
+        return symbolMapHandler.handle(target, request, logger);
       }
       if (target.startsWith("/policies/")) {
         return makePolicyFilePage(target);

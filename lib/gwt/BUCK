@@ -1,22 +1,25 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '2.7.0'
+VERSION_USER = '2.8.0-SNAPSHOT-20151103.054729-90'
+VERSION_DEV = '2.8.0-SNAPSHOT-20151103.054721-90'
 
 maven_jar(
   name = 'user',
-  id = 'com.google.gwt:gwt-user:' + VERSION,
-  sha1 = 'bdc7af42581745d3d79c2efe0b514f432b998a5b',
+  id = 'com.google.gwt:gwt-user:' + VERSION_USER,
+  sha1 = 'ace619c9ab7405782bd4adb55ecbf2a3485e5614',
   license = 'Apache2.0',
   attach_source = False,
+  repository = GOOGLE_SNAPSHOT,
 )
 
 maven_jar(
   name = 'dev',
-  id = 'com.google.gwt:gwt-dev:' + VERSION,
-  sha1 = 'c2c3dd5baf648a0bb199047a818be5e560f48982',
+  id = 'com.google.gwt:gwt-dev:' + VERSION_DEV,
+  sha1 = '6553aa1b3a396f266b3cefc92912059a340efbb3',
   license = 'Apache2.0',
   attach_source = False,
   exclude = ['org/eclipse/jetty/*'],
+  repository = GOOGLE_SNAPSHOT,
 )
 
 maven_jar(

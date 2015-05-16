@@ -16,6 +16,7 @@ include_defs('//lib/local.defs')
 
 GERRIT = 'GERRIT:'
 GERRIT_API = 'GERRIT_API:'
+GOOGLE_SNAPSHOT = 'GOOGLE_SNAPSHOT:'
 MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
 MAVEN_LOCAL = 'MAVEN_LOCAL:'
 
@@ -61,7 +62,9 @@ def maven_jar(
   # ~/.m2/repository (and is supported through MAVEN_LOCAL repository)
   # it must be preserved, otherwise the artifact wouldn't be found.
   # Atm the SNAPSHOT part is only discarded for Google storage bucket.
-  if 'SNAPSHOT' in version and repository.startswith(GERRIT):
+  if 'SNAPSHOT' in version and \
+    (repository.startswith(GERRIT) or \
+     repository.startswith(GOOGLE_SNAPSHOT)):
     file_version = version.replace('-SNAPSHOT', '')
     version = version.split('-SNAPSHOT')[0] + '-SNAPSHOT'
   else:

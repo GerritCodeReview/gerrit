@@ -20,12 +20,10 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.account.AccountInfo;
-import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
-import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -127,15 +125,10 @@ class CommitBox extends Composite {
     }
 
     setParents(change.project(), revInfo.commit().parents());
+  }
 
+  void setParentNotCurrent(boolean parentNotCurrent) {
     // display the orange ball if parent has moved on (not current)
-    boolean parentNotCurrent = false;
-    if (revInfo.has_actions()) {
-      NativeMap<ActionInfo> actions = revInfo.actions();
-      if (actions.containsKey("rebase")) {
-        parentNotCurrent = actions.get("rebase").enabled();
-      }
-    }
     UIObject.setVisible(parentNotCurrentText, parentNotCurrent);
     parentNotCurrentText.setInnerText(parentNotCurrent ? "\u25CF" : "");
   }

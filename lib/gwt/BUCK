@@ -1,11 +1,11 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '2.7.0'
+VERSION = '2.8.0-beta1'
 
 maven_jar(
   name = 'user',
   id = 'com.google.gwt:gwt-user:' + VERSION,
-  sha1 = 'bdc7af42581745d3d79c2efe0b514f432b998a5b',
+  sha1 = 'abea2e34826ce592e0d2bd49a844b2ff57b78134',
   license = 'Apache2.0',
   attach_source = False,
 )
@@ -13,7 +13,7 @@ maven_jar(
 maven_jar(
   name = 'dev',
   id = 'com.google.gwt:gwt-dev:' + VERSION,
-  sha1 = 'c2c3dd5baf648a0bb199047a818be5e560f48982',
+  sha1 = '7ec627effb3b40e9ed913fee21a6e187b6fde238',
   license = 'Apache2.0',
   attach_source = False,
   exclude = ['org/eclipse/jetty/*'],

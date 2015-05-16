@@ -62,24 +62,54 @@ maven_jar(
   sha1 = '5d9e2e895e3111622720157d0aa540066d5fce3a',
 )
 
-GWT_VERS = '2.7.0'
+GWT_VERS = '2.8.0-rc2'
 
 maven_jar(
   name = 'user',
   artifact = 'com.google.gwt:gwt-user:' + GWT_VERS,
-  sha1 = 'bdc7af42581745d3d79c2efe0b514f432b998a5b',
+  sha1 = 'ad99b09a626c20cce2bdacf3726a51b2cd16b99e',
 )
 
 maven_jar(
   name = 'dev',
   artifact = 'com.google.gwt:gwt-dev:' + GWT_VERS,
-  sha1 = 'c2c3dd5baf648a0bb199047a818be5e560f48982',
+  sha1 = 'd70a6feb4661c07488090cb81303415e9110b15a',
 )
 
 maven_jar(
   name = 'javax_validation',
   artifact = 'javax.validation:validation-api:1.0.0.GA',
   sha1 = 'b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e',
+)
+
+maven_jar(
+  name = 'jsinterop_annotations',
+  artifact = 'com.google.jsinterop:jsinterop-annotations:1.0.0',
+  sha1 = '23c3a3c060ffe4817e67673cc8294e154b0a4a95',
+)
+
+maven_jar(
+  name = 'ant',
+  artifact = 'ant:ant:1.6.5',
+  sha1 = '7d18faf23df1a5c3a43613952e0e8a182664564b',
+)
+
+maven_jar(
+  name = 'colt',
+  artifact = 'colt:colt:1.2.0',
+  sha1 = '0abc984f3adc760684d49e0f11ddf167ba516d4f',
+)
+
+maven_jar(
+  name = 'tapestry',
+  artifact = 'tapestry:tapestry:4.0.2',
+  sha1 = 'e855a807425d522e958cbce8697f21e9d679b1f7',
+)
+
+maven_jar(
+  name = 'w3c_css_sac',
+  artifact = 'org.w3c.css:sac:1.3',
+  sha1 = 'cdb2dcb4e22b83d6b32b93095f644c3462739e82',
 )
 
 JGIT_VERS = '4.4.1.201607150455-r.105-g81ba2be'
@@ -129,14 +159,14 @@ maven_jar(
 
 maven_jar(
   name = 'gwtjsonrpc',
-  artifact = 'com.google.gerrit:gwtjsonrpc:1.8',
-  sha1 = 'c264bf2f543cffddceada5cdf031eea06dbd44a0',
+  artifact = 'com.google.gerrit:gwtjsonrpc:1.10',
+  sha1 = '25adea6ef102b761993688e80dfc7203e0f5edf0',
 )
 
 http_jar(
   name = 'gwtjsonrpc_src',
-  sha256 = '2ef86396861a7c555c404b5a20a72dc6599b541ce2d1370a62f6470eefe7142d',
-  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtjsonrpc/1.8/gwtjsonrpc-1.8-sources.jar',
+  sha256 = '009c4c7574eaddf49d2c72dd015cfbd5b495fbeea4c3958c2ec548af2c186733',
+  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtjsonrpc/1.10/gwtjsonrpc-1.10-sources.jar',
 )
 
 maven_jar(

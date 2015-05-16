@@ -53,9 +53,9 @@ java_library(
 
 maven_jar(
   name = 'gwtjsonrpc',
-  id = 'com.google.gerrit:gwtjsonrpc:1.9',
-  bin_sha1 = '458f55e92584fbd9ab91a89fa1c37654922a0f2b',
-  src_sha1 = 'ba539361c80a26f0d30a2f56068f6d83f44062d8',
+  id = 'com.google.gerrit:gwtjsonrpc:1.10',
+  bin_sha1 = '25adea6ef102b761993688e80dfc7203e0f5edf0',
+  src_sha1 = '4401b5868976460f8fac504cf730425ed95481ff',
   license = 'Apache2.0',
 )
 

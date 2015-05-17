@@ -52,7 +52,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
   }
 
   public static enum Operation {
-    FLUSH_ALL, FLUSH;
+    FLUSH_ALL, FLUSH
   }
 
   private final DynamicMap<Cache<?, ?>> cacheMap;

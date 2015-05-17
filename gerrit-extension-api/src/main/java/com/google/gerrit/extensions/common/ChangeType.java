@@ -32,5 +32,5 @@ public enum ChangeType {
   COPIED,
 
   /** Sufficient amount of content changed to claim the file was rewritten. */
-  REWRITE;
+  REWRITE
 }

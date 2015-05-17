@@ -62,7 +62,7 @@ public interface Projects {
 
   public abstract class ListRequest {
     public static enum FilterType {
-      CODE, PARENT_CANDIDATES, PERMISSIONS, ALL;
+      CODE, PARENT_CANDIDATES, PERMISSIONS, ALL
     }
 
     private final List<String> branches = new ArrayList<>();

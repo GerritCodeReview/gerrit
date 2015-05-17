@@ -67,7 +67,7 @@ public class Header extends Composite {
   }
 
   private static enum ReviewedState {
-    AUTO_REVIEW, LOADED;
+    AUTO_REVIEW, LOADED
   }
 
   @UiField CheckBox reviewed;

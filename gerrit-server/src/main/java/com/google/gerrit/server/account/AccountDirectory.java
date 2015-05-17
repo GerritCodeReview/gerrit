@@ -39,7 +39,7 @@ public abstract class AccountDirectory {
     USERNAME,
 
     /** Numeric account ID, may be deprecated. */
-    ID;
+    ID
   }
 
   public abstract void fillAccountInfo(

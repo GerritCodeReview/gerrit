@@ -41,7 +41,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
   private final DynamicMap<Cache<?, ?>> cacheMap;
 
   public static enum OutputFormat {
-    LIST, TEXT_LIST;
+    LIST, TEXT_LIST
   }
 
   @Option(name = "--format", usage = "output format")
@@ -85,7 +85,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
   }
 
   public enum CacheType {
-    MEM, DISK;
+    MEM, DISK
   }
 
   public static class CacheInfo {

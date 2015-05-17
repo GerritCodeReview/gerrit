@@ -71,7 +71,7 @@ public class ReviewInput {
     KEEP,
 
     /** Publish pending drafts on all revisions. */
-    PUBLISH_ALL_REVISIONS;
+    PUBLISH_ALL_REVISIONS
   }
 
   public static enum NotifyHandling {

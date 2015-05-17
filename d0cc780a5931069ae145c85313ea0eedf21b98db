@@ -22,6 +22,52 @@
       "revId": "d0cc780a5931069ae145c85313ea0eedf21b98db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edbde9e6_57c9aca5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-05-17T08:50:48Z",
+      "side": 1,
+      "message": "nit: It is the",
+      "range": {
+        "startLine": 136,
+        "startChar": 7,
+        "endLine": 136,
+        "endChar": 18
+      },
+      "revId": "d0cc780a5931069ae145c85313ea0eedf21b98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edbde9e6_37d63846",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-05-17T08:50:48Z",
+      "side": 1,
+      "message": "This looks strange to me. Looking at the code this is set to a valid value once the revision is loaded, but why is it always assumed that the parent is current here...?",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 30
+      },
+      "revId": "d0cc780a5931069ae145c85313ea0eedf21b98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

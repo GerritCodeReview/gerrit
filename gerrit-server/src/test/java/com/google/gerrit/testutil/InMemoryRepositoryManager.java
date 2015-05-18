@@ -35,16 +35,22 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     return new Repo(name);
   }
 
-  private static class Description extends DfsRepositoryDescription {
+  public static class Description extends DfsRepositoryDescription {
+    private final Project.NameKey name;
     private String desc;
 
     private Description(Project.NameKey name) {
       super(name.get());
+      this.name = name;
       desc = "In-memory repository " + name.get();
+    }
+
+    public Project.NameKey getProject() {
+      return name;
     }
   }
 
-  private static class Repo extends InMemoryRepository {
+  public static class Repo extends InMemoryRepository {
     private Repo(Project.NameKey name) {
       super(new Description(name));
     }
@@ -58,13 +64,13 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   private Map<String, Repo> repos = Maps.newHashMap();
 
   @Override
-  public synchronized InMemoryRepository openRepository(Project.NameKey name)
+  public synchronized Repo openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
     return get(name);
   }
 
   @Override
-  public synchronized InMemoryRepository createRepository(Project.NameKey name)
+  public synchronized Repo createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException {
     Repo repo;
     try {
@@ -80,7 +86,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public synchronized InMemoryRepository openMetadataRepository(
+  public synchronized Repo openMetadataRepository(
       Project.NameKey name) throws RepositoryNotFoundException {
     return openRepository(name);
   }

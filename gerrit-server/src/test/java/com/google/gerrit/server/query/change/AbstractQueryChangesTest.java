@@ -59,12 +59,12 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -191,7 +191,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byId() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
 
@@ -202,7 +202,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byKey() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change = newChange(repo, null, null, null, null).insert();
     String key = change.getKey().get();
 
@@ -215,7 +215,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byTriplet() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change = newChange(repo, null, null, null, "branch").insert();
     String k = change.getKey().get();
 
@@ -238,7 +238,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byStatus() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
     change1.setStatus(Change.Status.NEW);
@@ -257,7 +257,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byStatusOpen() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
     change1.setStatus(Change.Status.NEW);
@@ -287,7 +287,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byStatusClosed() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
     change1.setStatus(Change.Status.MERGED);
@@ -315,7 +315,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byStatusPrefix() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
     change1.setStatus(Change.Status.NEW);
@@ -337,7 +337,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byCommit() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo, null, null, null, null);
     ins.insert();
     String sha = ins.getPatchSet().getRevision().get();
@@ -351,7 +351,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byOwner() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, userId.get(), null).insert();
     int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
         .getAccountId().get();
@@ -363,7 +363,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byOwnerIn() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, userId.get(), null).insert();
     int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
         .getAccountId().get();
@@ -375,8 +375,8 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byProject() throws Exception {
-    TestRepository<InMemoryRepository> repo1 = createProject("repo1");
-    TestRepository<InMemoryRepository> repo2 = createProject("repo2");
+    TestRepository<Repo> repo1 = createProject("repo1");
+    TestRepository<Repo> repo2 = createProject("repo2");
     Change change1 = newChange(repo1, null, null, null, null).insert();
     Change change2 = newChange(repo2, null, null, null, null).insert();
 
@@ -388,8 +388,8 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byProjectPrefix() throws Exception {
-    TestRepository<InMemoryRepository> repo1 = createProject("repo1");
-    TestRepository<InMemoryRepository> repo2 = createProject("repo2");
+    TestRepository<Repo> repo1 = createProject("repo1");
+    TestRepository<Repo> repo2 = createProject("repo2");
     Change change1 = newChange(repo1, null, null, null, null).insert();
     Change change2 = newChange(repo2, null, null, null, null).insert();
 
@@ -401,7 +401,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byBranchAndRef() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, "master").insert();
     Change change2 = newChange(repo, null, null, null, "branch").insert();
 
@@ -419,7 +419,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byTopic() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
     change1.setTopic("feature1");
@@ -441,7 +441,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byMessageExact() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("one").create());
     Change change1 = newChange(repo, commit1, null, null, null).insert();
     RevCommit commit2 = repo.parseBody(repo.commit().message("two").create());
@@ -454,7 +454,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void fullTextWithNumbers() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 =
         repo.parseBody(repo.commit().message("12345 67890").create());
     Change change1 = newChange(repo, commit1, null, null, null).insert();
@@ -470,7 +470,7 @@ public abstract class AbstractQueryChangesTest {
   @Test
   public void byLabel() throws Exception {
     accountManager.authenticate(AuthRequest.forUser("anotheruser"));
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo, null, null, null, null);
     Change change = ins.insert();
 
@@ -510,7 +510,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void limit() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change last = null;
     int n = 5;
     for (int i = 0; i < n; i++) {
@@ -538,7 +538,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void start() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     List<Change> changes = Lists.newArrayList();
     for (int i = 0; i < 2; i++) {
       changes.add(newChange(repo, null, null, null, null).insert());
@@ -552,7 +552,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void startWithLimit() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     List<Change> changes = Lists.newArrayList();
     for (int i = 0; i < 3; i++) {
       changes.add(newChange(repo, null, null, null, null).insert());
@@ -568,7 +568,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void maxPages() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change = newChange(repo, null, null, null, null).insert();
 
     QueryRequest query = newQuery("status:new").withLimit(10);
@@ -582,7 +582,7 @@ public abstract class AbstractQueryChangesTest {
   @Test
   public void updateOrder() throws Exception {
     clockStepMs = MILLISECONDS.convert(2, MINUTES);
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     List<ChangeInserter> inserters = Lists.newArrayList();
     List<Change> changes = Lists.newArrayList();
     for (int i = 0; i < 5; i++) {
@@ -607,7 +607,7 @@ public abstract class AbstractQueryChangesTest {
   @Test
   public void updatedOrderWithMinuteResolution() throws Exception {
     clockStepMs = MILLISECONDS.convert(2, MINUTES);
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
@@ -629,7 +629,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void updatedOrderWithSubMinuteResolution() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
@@ -652,7 +652,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void filterOutMoreThanOnePageOfResults() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change = newChange(repo, null, null, userId.get(), null).insert();
     int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
         .getAccountId().get();
@@ -666,7 +666,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void filterOutAllResults() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
         .getAccountId().get();
     for (int i = 0; i < 5; i++) {
@@ -679,7 +679,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byFileExact() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit = repo.parseBody(
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
@@ -696,7 +696,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byFileRegex() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit = repo.parseBody(
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
@@ -710,7 +710,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byPathExact() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit = repo.parseBody(
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
@@ -727,7 +727,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byPathRegex() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit = repo.parseBody(
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
@@ -740,7 +740,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byComment() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo, null, null, null, null);
     Change change = ins.insert();
 
@@ -762,7 +762,7 @@ public abstract class AbstractQueryChangesTest {
   public void byAge() throws Exception {
     long thirtyHours = MILLISECONDS.convert(30, HOURS);
     clockStepMs = thirtyHours;
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
     clockStepMs = 0; // Queried by AgePredicate constructor.
@@ -784,7 +784,7 @@ public abstract class AbstractQueryChangesTest {
   @Test
   public void byBefore() throws Exception {
     clockStepMs = MILLISECONDS.convert(30, HOURS);
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
     clockStepMs = 0;
@@ -804,7 +804,7 @@ public abstract class AbstractQueryChangesTest {
   @Test
   public void byAfter() throws Exception {
     clockStepMs = MILLISECONDS.convert(30, HOURS);
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
     clockStepMs = 0;
@@ -818,7 +818,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void bySize() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
 
     // added = 3, deleted = 0, delta = 3
     RevCommit commit1 = repo.parseBody(
@@ -855,7 +855,7 @@ public abstract class AbstractQueryChangesTest {
   }
 
   private List<Change> setUpHashtagChanges() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
 
@@ -897,7 +897,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byDefault() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
 
     Change change1 = newChange(repo, null, null, null, null).insert();
 
@@ -943,7 +943,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void implicitVisibleTo() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, userId.get(), null).insert();
     ChangeInserter ins2 = newChange(repo, null, null, userId.get(), null);
     Change change2 = ins2.getChange();
@@ -961,7 +961,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void explicitVisibleTo() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, userId.get(), null).insert();
     ChangeInserter ins2 = newChange(repo, null, null, userId.get(), null);
     Change change2 = ins2.getChange();
@@ -980,7 +980,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byCommentBy() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
 
@@ -1006,7 +1006,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byFrom() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
 
     int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
@@ -1029,7 +1029,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void conflicts() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(
         repo.commit()
             .add("file1", "contents1")
@@ -1060,7 +1060,7 @@ public abstract class AbstractQueryChangesTest {
   }
 
   protected ChangeInserter newChange(
-      TestRepository<InMemoryRepository> repo,
+      TestRepository<Repo> repo,
       @Nullable RevCommit commit, @Nullable String key, @Nullable Integer owner,
       @Nullable String branch) throws Exception {
     if (commit == null) {
@@ -1108,8 +1108,7 @@ public abstract class AbstractQueryChangesTest {
     }
   }
 
-  protected TestRepository<InMemoryRepository> createProject(String name)
-      throws Exception {
+  protected TestRepository<Repo> createProject(String name) throws Exception {
     gApi.projects().create(name).get();
     return new TestRepository<>(
         repoManager.openRepository(new Project.NameKey(name)));

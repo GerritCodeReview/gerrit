@@ -22,6 +22,30 @@
       "revId": "934520a18c092b5a560b0d850bc2bb06f0aefe36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edbde9e6_57fbecb9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-18T12:34:57Z",
+      "side": 1,
+      "message": "Before this change, the server config was embedded in the host page data, which means that when onModuleLoad2 was executed the server config was already available. \n\nWith this synchronization here I ensure the same. It ensures that the server info is available when onModuleLoad2 is executed. I assume that onModuleLoad2 does the actual loading of the site and this requires the server config/server info to be available. Doing it in parallel would mean that some of the site is loaded while the server info is not available yet, doesn\u0027t it?",
+      "parentUuid": "2db8e1d3_39e68f31",
+      "range": {
+        "startLine": 454,
+        "startChar": 8,
+        "endLine": 460,
+        "endChar": 11
+      },
+      "revId": "934520a18c092b5a560b0d850bc2bb06f0aefe36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

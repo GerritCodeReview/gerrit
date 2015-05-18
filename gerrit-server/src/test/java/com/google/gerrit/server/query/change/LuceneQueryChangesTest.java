@@ -16,10 +16,10 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.InMemoryModule;
+import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -35,7 +35,7 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   public void fullTextWithSpecialChars() throws Exception {
-    TestRepository<InMemoryRepository> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 =
         repo.parseBody(repo.commit().message("foo_bar_foo").create());
     Change change1 = newChange(repo, commit1, null, null, null).insert();

@@ -37,10 +37,10 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.testutil.FakeAccountByEmailCache;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -59,7 +59,7 @@ public class ConsistencyCheckerTest {
   private InMemoryRepositoryManager repoManager;
   private ConsistencyChecker checker;
 
-  private TestRepository<InMemoryRepository> repo;
+  private TestRepository<Repo> repo;
   private Project.NameKey project;
   private Account.Id userId;
   private RevCommit tip;

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edbde9e6_17ec5407",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-18T11:16:01Z",
+      "side": 1,
+      "message": "The ls-remote can also accept a ref pattern:\n\n  $ git ls-remote repository refs/users/*\n\nor\n\n  $ git ls-remote repository refs/users/23/1011323/*\n\nI haven\u0027t checked but this may also save some traffic between the server and the client as the filtering could be done at the server side.",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 153,
+        "endChar": 53
+      },
+      "revId": "7df8222aa6f32f426deb74cd07369f2983309286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edbde9e6_37ef5800",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-18T11:16:01Z",
+      "side": 1,
+      "message": "repository OR remote\n\nI think that either \"repository\" or \"remote\" is closer to the official Git terminology.",
+      "range": {
+        "startLine": 153,
+        "startChar": 18,
+        "endLine": 153,
+        "endChar": 22
+      },
+      "revId": "7df8222aa6f32f426deb74cd07369f2983309286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdd90571_eee0df16",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-18T11:16:01Z",
+      "side": 1,
+      "message": "Which account id? Of the current user or any?\n\nThe has:edit will only consider edits of the current user. If here you meant any account ID then this functionality and the has:edit are not fully equivalent.",
+      "range": {
+        "startLine": 156,
+        "startChar": 45,
+        "endLine": 156,
+        "endChar": 56
+      },
+      "revId": "7df8222aa6f32f426deb74cd07369f2983309286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

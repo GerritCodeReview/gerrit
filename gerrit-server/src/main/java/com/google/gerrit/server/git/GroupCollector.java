@@ -31,6 +31,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -87,6 +88,15 @@ public class GroupCollector {
 
   public static List<String> getDefaultGroups(PatchSet ps) {
     return ImmutableList.of(ps.getRevision().get());
+  }
+
+  public static List<String> getGroups(RevisionResource rsrc) {
+    if (rsrc.getEdit().isPresent()) {
+      // Groups for an edit are just the base revision's groups, since they have
+      // the same parent.
+      return rsrc.getEdit().get().getBasePatchSet().getGroups();
+    }
+    return rsrc.getPatchSet().getGroups();
   }
 
   private static interface Lookup {

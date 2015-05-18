@@ -68,6 +68,30 @@
       "revId": "7df8222aa6f32f426deb74cd07369f2983309286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdd90571_cee52325",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-18T11:29:04Z",
+      "side": 1,
+      "message": "Any user. Should I separate this section above in its own change? The documentation is divided in two sections: has:edit related without any parameter (current user) and command line for any user as parameter.",
+      "parentUuid": "cdd90571_eee0df16",
+      "range": {
+        "startLine": 156,
+        "startChar": 45,
+        "endLine": 156,
+        "endChar": 56
+      },
+      "revId": "7df8222aa6f32f426deb74cd07369f2983309286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

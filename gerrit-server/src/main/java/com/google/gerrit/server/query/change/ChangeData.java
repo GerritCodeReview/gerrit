@@ -450,6 +450,10 @@ public class ChangeData {
     return change;
   }
 
+  public void setChange(Change c) {
+    change = c;
+  }
+
   public Change reloadChange() throws OrmException {
     change = db.changes().get(legacyId);
     return change;
@@ -545,6 +549,7 @@ public class ChangeData {
   }
 
   public void setPatchSets(Collection<PatchSet> patchSets) {
+    this.currentPatchSet = null;
     this.patchSets = patchSets;
   }
 

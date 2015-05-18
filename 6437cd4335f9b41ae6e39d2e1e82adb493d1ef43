@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdd90571_0eec4b07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-18T11:51:04Z",
+      "side": 1,
+      "message": "Should this be surrounded with a try-catch, so that failures in a listener do not let the GC call fail?\n\n  try {\n    l.onGarbageCollected(event);\n  } catch (RuntimeException e) {\n    log.warn(\"Failure in GarbageCollectorListener\", e);\n  }\n\nSimilar to how it is done when invoking NewProjectCreatedListener in CreateProject?",
+      "revId": "6437cd4335f9b41ae6e39d2e1e82adb493d1ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

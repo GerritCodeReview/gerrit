@@ -272,6 +272,24 @@
     },
     {
       "key": {
+        "uuid": "edbde9e6_d737fc10",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-18T13:00:42Z",
+      "side": 1,
+      "message": "Yes, sorry for my original comment. I prefer CamelCase (As is it used in almost all client code).",
+      "parentUuid": "cdd90571_6efe2fac",
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_b4f440d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
         "patchSetId": 6

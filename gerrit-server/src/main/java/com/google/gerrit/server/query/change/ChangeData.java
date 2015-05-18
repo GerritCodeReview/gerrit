@@ -172,12 +172,13 @@ public class ChangeData {
   /**
    * Create an instance for testing only.
    * <p>
-   * Attempting to lazy load data will fail with NPEs.
+   * Attempting to lazy load data will fail with NPEs. Callers may consider
+   * manually setting fields that can be set.
    *
    * @param id change ID
    * @return instance for testing.
    */
-  static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
+  public static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
         null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));

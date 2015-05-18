@@ -116,6 +116,30 @@
       "revId": "7df8222aa6f32f426deb74cd07369f2983309286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edbde9e6_b7136891",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-18T11:34:43Z",
+      "side": 1,
+      "message": "elegant solution :-)",
+      "parentUuid": "cdd90571_8edf1b53",
+      "range": {
+        "startLine": 156,
+        "startChar": 45,
+        "endLine": 156,
+        "endChar": 56
+      },
+      "revId": "7df8222aa6f32f426deb74cd07369f2983309286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

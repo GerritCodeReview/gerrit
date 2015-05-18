@@ -545,6 +545,7 @@ public class ChangeData {
   }
 
   public void setPatchSets(Collection<PatchSet> patchSets) {
+    this.currentPatchSet = null;
     this.patchSets = patchSets;
   }
 

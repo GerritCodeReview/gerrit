@@ -46,6 +46,30 @@
       "revId": "934520a18c092b5a560b0d850bc2bb06f0aefe36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdd90571_0e056b41",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-18T13:00:42Z",
+      "side": 1,
+      "message": "My bad, I selected the wrong code part. My point was that host page data request and server info request are not related and can be executed in parallel, right?",
+      "parentUuid": "edbde9e6_57fbecb9",
+      "range": {
+        "startLine": 454,
+        "startChar": 8,
+        "endLine": 460,
+        "endChar": 11
+      },
+      "revId": "934520a18c092b5a560b0d850bc2bb06f0aefe36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

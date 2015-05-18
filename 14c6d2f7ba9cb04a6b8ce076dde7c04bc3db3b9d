@@ -254,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "cdd90571_6efe2fac",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-18T12:34:57Z",
+      "side": 1,
+      "message": "Ok, no problem. If we agree on camel-case I can rename the methods back. I would then also make a change that fixes the inconsistent names in the current code.",
+      "parentUuid": "4db515d9_5ac25588",
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_b4f440d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
         "patchSetId": 6

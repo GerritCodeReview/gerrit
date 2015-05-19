@@ -123,8 +123,8 @@ public class Hashtags extends Composite {
   }
 
   void set(ChangeInfo info) {
-    canEdit = info.has_actions() && info.actions().containsKey("hashtags");
-    this.changeId = info.legacy_id();
+    canEdit = info.hasActions() && info.actions().containsKey("hashtags");
+    this.changeId = info.legacyId();
     display(info);
     openForm.setVisible(canEdit);
   }

@@ -180,7 +180,7 @@ public class RelatedChanges extends TabPanel {
       setForOpenChange(info, revision);
     }
 
-    ChangeApi.revision(info.legacy_id().get(), revision).view("related")
+    ChangeApi.revision(info.legacyId().get(), revision).view("related")
         .get(new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
               @Override
               public JsArray<ChangeAndCommit> convert(RelatedInfo result) {
@@ -190,8 +190,8 @@ public class RelatedChanges extends TabPanel {
 
     StringBuilder cherryPicksQuery = new StringBuilder();
     cherryPicksQuery.append(op("project", info.project()));
-    cherryPicksQuery.append(" ").append(op("change", info.change_id()));
-    cherryPicksQuery.append(" ").append(op("-change", info.legacy_id().get()));
+    cherryPicksQuery.append(" ").append(op("change", info.changeId()));
+    cherryPicksQuery.append(" ").append(op("-change", info.legacyId().get()));
     cherryPicksQuery.append(" -is:abandoned");
     ChangeList.query(cherryPicksQuery.toString(),
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
@@ -215,7 +215,7 @@ public class RelatedChanges extends TabPanel {
       StringBuilder conflictsQuery = new StringBuilder();
       conflictsQuery.append("status:open");
       conflictsQuery.append(" is:mergeable");
-      conflictsQuery.append(" ").append(op("conflicts", info.legacy_id().get()));
+      conflictsQuery.append(" ").append(op("conflicts", info.legacyId().get()));
       ChangeList.query(conflictsQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
           new TabChangeListCallback(Tab.CONFLICTING_CHANGES, info.project(), revision));
@@ -323,16 +323,16 @@ public class RelatedChanges extends TabPanel {
     protected JsArray<ChangeAndCommit> convert(ChangeList l) {
       JsArray<ChangeAndCommit> arr = JavaScriptObject.createArray().cast();
       for (ChangeInfo i : Natives.asList(l)) {
-        if (i.current_revision() != null && i.revisions().containsKey(i.current_revision())) {
-          RevisionInfo currentRevision = i.revision(i.current_revision());
+        if (i.currentRevision() != null && i.revisions().containsKey(i.currentRevision())) {
+          RevisionInfo currentRevision = i.revision(i.currentRevision());
           ChangeAndCommit c = ChangeAndCommit.create();
-          c.set_id(i.id());
-          c.set_commit(currentRevision.commit());
-          c.set_change_number(i.legacy_id().get());
-          c.set_revision_number(currentRevision._number());
-          c.set_branch(i.branch());
-          c.set_project(i.project());
-          c.set_submittable(i.submittable() && i.mergeable());
+          c.setId(i.id());
+          c.setCommit(currentRevision.commit());
+          c.setChangeNumber(i.legacyId().get());
+          c.setRevisionNumber(currentRevision._number());
+          c.setBranch(i.branch());
+          c.setProject(i.project());
+          c.setSubmittable(i.submittable() && i.mergeable());
           arr.push(c);
         }
       }
@@ -357,56 +357,56 @@ public class RelatedChanges extends TabPanel {
     final native String project() /*-{ return this.project }-*/;
     final native boolean submittable() /*-{ return this._submittable ? true : false; }-*/;
 
-    final native void set_id(String i)
+    final native void setId(String i)
     /*-{ if(i)this.change_id=i; }-*/;
 
-    final native void set_commit(CommitInfo c)
+    final native void setCommit(CommitInfo c)
     /*-{ if(c)this.commit=c; }-*/;
 
-    final native void set_branch(String b)
+    final native void setBranch(String b)
     /*-{ if(b)this.branch=b; }-*/;
 
-    final native void set_project(String b)
+    final native void setProject(String b)
     /*-{ if(b)this.project=b; }-*/;
 
-    public final Change.Id legacy_id() {
-      return has_change_number() ? new Change.Id(_change_number()) : null;
+    public final Change.Id legacyId() {
+      return hasChangeNumber() ? new Change.Id(_changeNumber()) : null;
     }
 
-    public final PatchSet.Id patch_set_id() {
-      return has_change_number() && has_revision_number()
-          ? new PatchSet.Id(legacy_id(), _revision_number())
+    public final PatchSet.Id patchSetId() {
+      return hasChangeNumber() && hasRevisionNumber()
+          ? new PatchSet.Id(legacyId(), _revisionNumber())
           : null;
     }
 
-    public final native boolean has_change_number()
+    public final native boolean hasChangeNumber()
     /*-{ return this.hasOwnProperty('_change_number') }-*/;
 
-    final native boolean has_revision_number()
+    final native boolean hasRevisionNumber()
     /*-{ return this.hasOwnProperty('_revision_number') }-*/;
 
-    final native boolean has_current_revision_number()
+    final native boolean hasCurrentRevisionNumber()
     /*-{ return this.hasOwnProperty('_current_revision_number') }-*/;
 
-    final native int _change_number()
+    final native int _changeNumber()
     /*-{ return this._change_number }-*/;
 
-    final native int _revision_number()
+    final native int _revisionNumber()
     /*-{ return this._revision_number }-*/;
 
-    final native int _current_revision_number()
+    final native int _currentRevisionNumber()
     /*-{ return this._current_revision_number }-*/;
 
-    final native void set_change_number(int n)
+    final native void setChangeNumber(int n)
     /*-{ this._change_number=n; }-*/;
 
-    final native void set_revision_number(int n)
+    final native void setRevisionNumber(int n)
     /*-{ this._revision_number=n; }-*/;
 
-    final native void set_current_revision_number(int n)
+    final native void setCurrentRevisionNumber(int n)
     /*-{ this._current_revision_number=n; }-*/;
 
-    final native void set_submittable(boolean s)
+    final native void setSubmittable(boolean s)
     /*-{ this._submittable=s; }-*/;
 
     protected ChangeAndCommit() {

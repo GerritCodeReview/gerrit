@@ -25,9 +25,9 @@ import java.util.Comparator;
 
 public class FileInfo extends JavaScriptObject {
   public final native String path() /*-{ return this.path; }-*/;
-  public final native String old_path() /*-{ return this.old_path; }-*/;
-  public final native int lines_inserted() /*-{ return this.lines_inserted || 0; }-*/;
-  public final native int lines_deleted() /*-{ return this.lines_deleted || 0; }-*/;
+  public final native String oldPath() /*-{ return this.old_path; }-*/;
+  public final native int linesInserted() /*-{ return this.lines_inserted || 0; }-*/;
+  public final native int linesDeleted() /*-{ return this.lines_deleted || 0; }-*/;
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
   public final native String status() /*-{ return this.status; }-*/;
 

@@ -46,9 +46,9 @@ class LineComment extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
 
     PatchSet.Id ps;
-    if (info.patch_set() != defaultPs.get()) {
-      ps = new PatchSet.Id(defaultPs.getParentKey(), info.patch_set());
-      psNum.setInnerText(Integer.toString(info.patch_set()));
+    if (info.patchSet() != defaultPs.get()) {
+      ps = new PatchSet.Id(defaultPs.getParentKey(), info.patchSet());
+      psNum.setInnerText(Integer.toString(info.patchSet()));
     } else {
       ps = defaultPs;
       psLoc.removeFromParent();
@@ -56,7 +56,7 @@ class LineComment extends Composite {
       psNum= null;
     }
 
-    if (info.has_line()) {
+    if (info.hasLine()) {
       fileLoc.removeFromParent();
       fileLoc = null;
 

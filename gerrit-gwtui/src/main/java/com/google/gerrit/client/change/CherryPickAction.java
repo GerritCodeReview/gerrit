@@ -47,7 +47,7 @@ class CherryPickAction {
 
       @Override
       public void onSend() {
-        ChangeApi.cherrypick(info.legacy_id().get(), revision,
+        ChangeApi.cherrypick(info.legacyId().get(), revision,
             getDestinationBranch(),
             getMessageText(),
             new GerritCallback<ChangeInfo>() {
@@ -55,7 +55,7 @@ class CherryPickAction {
               public void onSuccess(ChangeInfo result) {
                 sent = true;
                 hide();
-                Gerrit.display(PageLinks.toChange(result.legacy_id()));
+                Gerrit.display(PageLinks.toChange(result.legacyId()));
               }
 
               @Override

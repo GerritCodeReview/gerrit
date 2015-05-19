@@ -29,7 +29,7 @@ public class EditGlue {
       ActionInfo action,
       ActionButton button) {
     RestApi api = ChangeApi.edit(
-          change.legacy_id().get())
+          change.legacyId().get())
       .view(action.id());
 
     JavaScriptObject f = get(action.id());

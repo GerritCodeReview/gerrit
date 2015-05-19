@@ -61,7 +61,7 @@ public class ConfigInfoCache {
   }
 
   public static void add(ChangeInfo info) {
-    instance.changeToProject.put(info.legacy_id().get(), info.project());
+    instance.changeToProject.put(info.legacyId().get(), info.project());
   }
 
   private final LinkedHashMap<String, Entry> cache;

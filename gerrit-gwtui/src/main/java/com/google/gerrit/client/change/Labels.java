@@ -143,7 +143,7 @@ class Labels extends Grid {
 
       String val = LabelValue.formatValue(v.shortValue());
       html.openSpan();
-      html.setAttribute("title", label.value_text(val));
+      html.setAttribute("title", label.valueText(val));
       if (v.intValue() == approved) {
         html.setStyleName(style.label_ok());
       } else if (v.intValue() == rejected) {
@@ -172,12 +172,12 @@ class Labels extends Grid {
 
   private static boolean isApproved(LabelInfo label, ApprovalInfo ai) {
     return label.approved() != null
-        && label.approved()._account_id() == ai._account_id();
+        && label.approved()._accountId() == ai._accountId();
   }
 
   private static boolean isRejected(LabelInfo label, ApprovalInfo ai) {
     return label.rejected() != null
-        && label.rejected()._account_id() == ai._account_id();
+        && label.rejected()._accountId() == ai._accountId();
   }
 
   private String getStyleForLabel(LabelInfo label) {
@@ -234,12 +234,12 @@ class Labels extends Grid {
       } else if (ai.email() != null) {
         name = ai.email();
       } else {
-        name = Integer.toString(ai._account_id());
+        name = Integer.toString(ai._accountId());
       }
 
       String votableCategories = "";
       if (votable != null) {
-        Set<String> s = votable.get(ai._account_id()).votableLabels();
+        Set<String> s = votable.get(ai._accountId()).votableLabels();
         if (!s.isEmpty()) {
           StringBuilder sb = new StringBuilder(Util.C.votable());
           sb.append(" ");
@@ -254,7 +254,7 @@ class Labels extends Grid {
       }
       html.openSpan()
           .setAttribute("role", "listitem")
-          .setAttribute(DATA_ID, ai._account_id())
+          .setAttribute(DATA_ID, ai._accountId())
           .setAttribute("title", getTitle(ai, votableCategories))
           .setStyleName(style.label_user());
       if (img != null) {
@@ -270,7 +270,7 @@ class Labels extends Grid {
         html.closeSelf();
       }
       html.append(name);
-      if (removable.contains(ai._account_id())) {
+      if (removable.contains(ai._accountId())) {
         html.openElement("button")
             .setAttribute("title", Util.M.removeReviewer(name))
             .setAttribute("onclick", REMOVE + "(event)")

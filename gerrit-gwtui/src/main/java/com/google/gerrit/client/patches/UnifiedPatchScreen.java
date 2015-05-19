@@ -251,7 +251,7 @@ public class UnifiedPatchScreen extends Screen implements
   }
 
   private List<WebLinkInfo> getWebLinks(DiffInfo diffInfo) {
-    return diffInfo.unified_web_links();
+    return diffInfo.unifiedWebLinks();
   }
 
   private String getSideBySideDiffUrl() {

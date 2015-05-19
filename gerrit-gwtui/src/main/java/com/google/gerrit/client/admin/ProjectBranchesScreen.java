@@ -485,8 +485,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
         actionsPanel.add(new Anchor(c.getLinkName(), false,
             c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));
       }
-      if (k.web_links() != null) {
-        for (WebLinkInfo webLink : Natives.asList(k.web_links())) {
+      if (k.webLinks() != null) {
+        for (WebLinkInfo webLink : Natives.asList(k.webLinks())) {
           actionsPanel.add(webLink.toAnchor());
         }
       }

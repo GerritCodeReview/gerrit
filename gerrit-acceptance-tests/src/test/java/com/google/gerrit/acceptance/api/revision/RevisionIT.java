@@ -505,6 +505,19 @@ public class RevisionIT extends AbstractDaemonTest {
     CommentInfo comment = Iterables.getOnlyElement(out.get(FILE_NAME));
     assertThat(comment.message).isEqualTo(in.message);
     assertThat(comment.author.email).isEqualTo(admin.email);
+    assertThat(comment.path).isNull();
+
+    List<CommentInfo> list = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .commentsAsList();
+    assertThat(list).hasSize(1);
+
+    CommentInfo comment2 = list.get(0);
+    assertThat(comment2.path).isEqualTo(FILE_NAME);
+    assertThat(comment2.line).isEqualTo(comment.line);
+    assertThat(comment2.message).isEqualTo(comment.message);
+    assertThat(comment2.author.email).isEqualTo(comment.author.email);
 
     assertThat(gApi.changes()
         .id(r.getChangeId())

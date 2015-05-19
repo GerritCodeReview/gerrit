@@ -1180,6 +1180,8 @@ public class ChangeScreen extends Screen {
   private void renderRevisionInfo(ChangeInfo info,
       NativeMap<ActionInfo> actionMap) {
     initRevisionsAction(info, revision, actionMap);
+    commit.setParentNotCurrent(actionMap.containsKey("rebase")
+        && actionMap.get("rebase").enabled());
     actions.reloadRevisionActions(actionMap);
   }
 

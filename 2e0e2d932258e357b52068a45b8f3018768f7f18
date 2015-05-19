@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d854159_d1092465",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T23:31:45Z",
+      "side": 1,
+      "message": "(nit:)\nThis name suggests to me, it could be called many times, as in whenever I find another interesting patch set I could add it with this option. For me \"include\" has a similar connotation as \"add\", but this is more of a \"set\" method, so I was a little surprised by it and could not suggest a better name right away. \n\n\"setIncludingPatchSets\" sounds a bit uglier than includePatchSets. Having an include... method I\u0027d have expected an exclude... method as well, while one is adding to a set and the other subtracting from the set.",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 36
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d854159_f10ea86a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T23:31:45Z",
+      "side": 1,
+      "message": "might be Null, so !forProject.isEmpty() may fail below.",
+      "range": {
+        "startLine": 112,
+        "startChar": 25,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d854159_91139c91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T23:31:45Z",
+      "side": 1,
+      "message": "I wonder if it would be easier to return an empty List here?\n\nOr to put it as another question: What is the difference between empty List as returned below and null here?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd75853f_6e240fdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T23:31:45Z",
+      "side": 1,
+      "message": "What advantage do we have here when returning null instead of an empty multimap?",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 49
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd75853f_4e27d3e1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/WalkSorterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T23:31:45Z",
+      "side": 1,
+      "message": "assertSorted(sorter, changes, expected);\n\nshould work here as well?",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 5
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

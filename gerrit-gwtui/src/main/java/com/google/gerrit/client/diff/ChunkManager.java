@@ -124,7 +124,7 @@ class ChunkManager {
     padding = new ArrayList<>();
     paddingDivs = new ArrayList<>();
 
-    String diffColor = diff.meta_a() == null || diff.meta_b() == null
+    String diffColor = diff.metaA() == null || diff.metaB() == null
         ? DiffTable.style.intralineBg()
         : DiffTable.style.diff();
 
@@ -175,8 +175,8 @@ class ChunkManager {
 
     colorLines(cmA, color, startA, aLen);
     colorLines(cmB, color, startB, bLen);
-    markEdit(cmA, startA, a, region.edit_a());
-    markEdit(cmB, startB, b, region.edit_b());
+    markEdit(cmA, startA, a, region.editA());
+    markEdit(cmB, startB, b, region.editB());
     addPadding(cmA, startA + aLen - 1, bLen - aLen);
     addPadding(cmB, startB + bLen - 1, aLen - bLen);
     addGutterTag(region, startA, startB);

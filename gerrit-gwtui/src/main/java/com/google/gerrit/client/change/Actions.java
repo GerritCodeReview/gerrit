@@ -78,17 +78,17 @@ class Actions extends Composite {
     boolean hasUser = Gerrit.isSignedIn();
     RevisionInfo revInfo = info.revision(revision);
     CommitInfo commit = revInfo.commit();
-    changeId = info.legacy_id();
+    changeId = info.legacyId();
     project = info.project();
     subject = commit.subject();
     message = commit.message();
     branch = info.branch();
-    key = info.change_id();
+    key = info.changeId();
     changeInfo = info;
 
     initChangeActions(info, hasUser);
 
-    NativeMap<ActionInfo> actionMap = revInfo.has_actions()
+    NativeMap<ActionInfo> actionMap = revInfo.hasActions()
         ? revInfo.actions()
         : NativeMap.<ActionInfo> create();
     actionMap.copyKeysIntoChildren("id");
@@ -96,7 +96,7 @@ class Actions extends Composite {
   }
 
   private void initChangeActions(ChangeInfo info, boolean hasUser) {
-    NativeMap<ActionInfo> actions = info.has_actions()
+    NativeMap<ActionInfo> actions = info.hasActions()
         ? info.actions()
         : NativeMap.<ActionInfo> create();
     actions.copyKeysIntoChildren("id");

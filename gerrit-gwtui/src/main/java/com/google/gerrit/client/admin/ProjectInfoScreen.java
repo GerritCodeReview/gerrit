@@ -305,7 +305,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       if (box.getValue(i).startsWith(InheritableBoolean.INHERIT.name())) {
         inheritedIndex = i;
       }
-      if (box.getValue(i).startsWith(inheritedBoolean.configured_value().name())) {
+      if (box.getValue(i).startsWith(inheritedBoolean.configuredValue().name())) {
         box.setSelectedIndex(i);
       }
     }
@@ -322,7 +322,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         box.removeItem(inheritedIndex);
       } else {
         box.setItemText(inheritedIndex, InheritableBoolean.INHERIT.name() + " ("
-            + inheritedBoolean.inherited_value() + ")");
+            + inheritedBoolean.inheritedValue() + ")");
       }
     }
   }
@@ -341,20 +341,20 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   void display(ConfigInfo result) {
     descTxt.setText(result.description());
-    setBool(contributorAgreements, result.use_contributor_agreements());
-    setBool(signedOffBy, result.use_signed_off_by());
-    setBool(contentMerge, result.use_content_merge());
-    setBool(newChangeForAllNotInTarget, result.create_new_change_for_all_not_in_target());
-    setBool(requireChangeID, result.require_change_id());
-    setSubmitType(result.submit_type());
+    setBool(contributorAgreements, result.useContributorAgreements());
+    setBool(signedOffBy, result.useSignedOffBy());
+    setBool(contentMerge, result.useContentMerge());
+    setBool(newChangeForAllNotInTarget, result.createNewChangeForAllNotInTarget());
+    setBool(requireChangeID, result.requireChangeId());
+    setSubmitType(result.submitType());
     setState(result.state());
-    maxObjectSizeLimit.setText(result.max_object_size_limit().configured_value());
-    if (result.max_object_size_limit().inherited_value() != null) {
+    maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
+    if (result.maxObjectSizeLimit().inheritedValue() != null) {
       effectiveMaxObjectSizeLimit.setVisible(true);
       effectiveMaxObjectSizeLimit.setText(
-          Util.M.effectiveMaxObjectSizeLimit(result.max_object_size_limit().value()));
+          Util.M.effectiveMaxObjectSizeLimit(result.maxObjectSizeLimit().value()));
       effectiveMaxObjectSizeLimit.setTitle(
-          Util.M.globalMaxObjectSizeLimit(result.max_object_size_limit().inherited_value()));
+          Util.M.globalMaxObjectSizeLimit(result.maxObjectSizeLimit().inheritedValue()));
     } else {
       effectiveMaxObjectSizeLimit.setVisible(false);
     }

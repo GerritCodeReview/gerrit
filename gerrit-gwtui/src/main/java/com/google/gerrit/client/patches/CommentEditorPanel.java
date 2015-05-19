@@ -345,7 +345,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     if (c.getLine() > 0) {
       i.line(c.getLine());
     }
-    i.in_reply_to(c.getParentUuid());
+    i.inReplyTo(c.getParentUuid());
     i.message(c.getMessage());
     return i;
   }
@@ -359,7 +359,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
             i.id()),
         i.line(),
         Gerrit.getUserAccount().getId(),
-        i.in_reply_to(),
+        i.inReplyTo(),
         i.updated());
     p.setMessage(i.message());
     p.setSide((short) (i.side() == Side.PARENT ? 0 : 1));

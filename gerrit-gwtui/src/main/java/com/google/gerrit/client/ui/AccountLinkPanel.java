@@ -71,8 +71,8 @@ public class AccountLinkPanel extends FlowPanel {
       return ai.email();
     } else if (ai.name() != null) {
       return ai.name();
-    } else if (ai._account_id() != 0) {
-      return "" + ai._account_id();
+    } else if (ai._accountId() != 0) {
+      return "" + ai._accountId();
     } else {
       return "";
     }

@@ -29,7 +29,7 @@ public class CommentInfo extends JavaScriptObject {
     n.path(path);
     n.side(side);
     if (range != null) {
-      n.line(range.end_line());
+      n.line(range.endLine());
       n.range(range);
     } else if (line > 0) {
       n.line(line);
@@ -41,11 +41,11 @@ public class CommentInfo extends JavaScriptObject {
     CommentInfo n = createObject().cast();
     n.path(r.path());
     n.side(r.side());
-    n.in_reply_to(r.id());
-    if (r.has_range()) {
-      n.line(r.range().end_line());
+    n.inReplyTo(r.id());
+    if (r.hasRange()) {
+      n.line(r.range().endLine());
       n.range(r.range());
-    } else if (r.has_line()) {
+    } else if (r.hasLine()) {
       n.line(r.line());
     }
     return n;
@@ -56,12 +56,12 @@ public class CommentInfo extends JavaScriptObject {
     n.path(s.path());
     n.side(s.side());
     n.id(s.id());
-    n.in_reply_to(s.in_reply_to());
+    n.inReplyTo(s.inReplyTo());
     n.message(s.message());
-    if (s.has_range()) {
-      n.line(s.range().end_line());
+    if (s.hasRange()) {
+      n.line(s.range().endLine());
       n.range(s.range());
-    } else if (s.has_line()) {
+    } else if (s.hasLine()) {
       n.line(s.line());
     }
     return n;
@@ -71,7 +71,7 @@ public class CommentInfo extends JavaScriptObject {
   public final native void id(String i) /*-{ this.id = i }-*/;
   public final native void line(int n) /*-{ this.line = n }-*/;
   public final native void range(CommentRange r) /*-{ this.range = r }-*/;
-  public final native void in_reply_to(String i) /*-{ this.in_reply_to = i }-*/;
+  public final native void inReplyTo(String i) /*-{ this.in_reply_to = i }-*/;
   public final native void message(String m) /*-{ this.message = m }-*/;
 
   public final void side(Side side) {
@@ -81,8 +81,8 @@ public class CommentInfo extends JavaScriptObject {
 
   public final native String path() /*-{ return this.path }-*/;
   public final native String id() /*-{ return this.id }-*/;
-  public final native String in_reply_to() /*-{ return this.in_reply_to }-*/;
-  public final native int patch_set() /*-{ return this.patch_set }-*/;
+  public final native String inReplyTo() /*-{ return this.in_reply_to }-*/;
+  public final native int patchSet() /*-{ return this.patch_set }-*/;
 
   public final Side side() {
     String s = sideRaw();
@@ -109,8 +109,8 @@ public class CommentInfo extends JavaScriptObject {
 
   public final native AccountInfo author() /*-{ return this.author }-*/;
   public final native int line() /*-{ return this.line || 0 }-*/;
-  public final native boolean has_line() /*-{ return this.hasOwnProperty('line') }-*/;
-  public final native boolean has_range() /*-{ return this.hasOwnProperty('range') }-*/;
+  public final native boolean hasLine() /*-{ return this.hasOwnProperty('line') }-*/;
+  public final native boolean hasRange() /*-{ return this.hasOwnProperty('range') }-*/;
   public final native CommentRange range() /*-{ return this.range }-*/;
   public final native String message() /*-{ return this.message }-*/;
 

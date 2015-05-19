@@ -51,7 +51,7 @@ public class ChangeApi {
     input.project(emptyToNull(project));
     input.branch(emptyToNull(branch));
     input.subject(emptyToNull(subject));
-    input.base_change(emptyToNull(base));
+    input.baseChange(emptyToNull(base));
 
     if (Gerrit.getConfig().isAllowDraftChanges()) {
       input.status(Change.Status.DRAFT.toString());
@@ -187,7 +187,7 @@ public class ChangeApi {
   /** Submit a specific revision of a change. */
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
-    in.wait_for_merge(true);
+    in.waitForMerge(true);
     call(id, commit, "submit").post(in, cb);
   }
 
@@ -251,7 +251,7 @@ public class ChangeApi {
     public final native void branch(String b) /*-{ if(b)this.branch=b; }-*/;
     public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
     public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
-    public final native void base_change(String b) /*-{ if(b)this.base_change=b; }-*/;
+    public final native void baseChange(String b) /*-{ if(b)this.base_change=b; }-*/;
     public final native void status(String s)  /*-{ if(s)this.status=s; }-*/;
 
     protected CreateChangeInput() {
@@ -281,7 +281,7 @@ public class ChangeApi {
   }
 
   private static class SubmitInput extends JavaScriptObject {
-    final native void wait_for_merge(boolean b) /*-{ this.wait_for_merge=b; }-*/;
+    final native void waitForMerge(boolean b) /*-{ this.wait_for_merge=b; }-*/;
 
     static SubmitInput create() {
       return (SubmitInput) createObject();

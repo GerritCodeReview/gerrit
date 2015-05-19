@@ -38,10 +38,10 @@ public class CommentRange extends JavaScriptObject {
         to.line() + 1, to.ch());
   }
 
-  public final native int start_line() /*-{ return this.start_line; }-*/;
-  public final native int start_character() /*-{ return this.start_character; }-*/;
-  public final native int end_line() /*-{ return this.end_line; }-*/;
-  public final native int end_character() /*-{ return this.end_character; }-*/;
+  public final native int startLine() /*-{ return this.start_line; }-*/;
+  public final native int startCharacter() /*-{ return this.start_character; }-*/;
+  public final native int endLine() /*-{ return this.end_line; }-*/;
+  public final native int endCharacter() /*-{ return this.end_character; }-*/;
 
   private final native void set(int sl, int sc, int el, int ec) /*-{
     this.start_line = sl;

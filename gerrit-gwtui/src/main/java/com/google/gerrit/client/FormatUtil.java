@@ -144,8 +144,8 @@ public class FormatUtil {
     StringBuilder b = new StringBuilder().append(name);
     if (info.email() != null) {
       b.append(" <").append(info.email()).append(">");
-    } else if (info._account_id() > 0) {
-      b.append(" (").append(info._account_id()).append(")");
+    } else if (info._accountId() > 0) {
+      b.append(" (").append(info._accountId()).append(")");
     }
     return b.toString();
   }

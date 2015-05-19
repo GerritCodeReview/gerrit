@@ -72,7 +72,7 @@ public class AvatarImage extends Image implements LoadHandler {
     } else if (isGerritServer(account)) {
       setVisible(true);
       setResource(Gerrit.RESOURCES.gerritAvatar26());
-    } else if (account.has_avatar_info()) {
+    } else if (account.hasAvatarInfo()) {
       setVisible(false);
       AvatarInfo info = account.avatar(size);
       if (info != null) {
@@ -121,7 +121,7 @@ public class AvatarImage extends Image implements LoadHandler {
   }
 
   private static boolean isGerritServer(AccountInfo account) {
-    return account._account_id() == 0
+    return account._accountId() == 0
         && Util.C.messageNoAuthor().equals(account.name());
   }
 

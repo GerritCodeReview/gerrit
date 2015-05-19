@@ -238,11 +238,11 @@ public class SideBySide extends Screen {
         changeStatus = info.status();
         info.revisions().copyKeysIntoChildren("name");
         if (edit != null) {
-          edit.set_name(edit.commit().commit());
-          info.set_edit(edit);
+          edit.setName(edit.commit().commit());
+          info.setEdit(edit);
           info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
         }
-        int currentPatchSet = info.revision(info.current_revision())._number();
+        int currentPatchSet = info.revision(info.currentRevision())._number();
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
         diffTable.set(prefs, list, diff, edit != null, currentPatchSet,
@@ -570,8 +570,8 @@ public class SideBySide extends Screen {
       diffTable.addStyleName(DiffTable.style.showLineNumbers());
     }
 
-    cmA = newCM(diff.meta_a(), diff.text_a(), diffTable.cmA);
-    cmB = newCM(diff.meta_b(), diff.text_b(), diffTable.cmB);
+    cmA = newCM(diff.metaA(), diff.textA(), diffTable.cmA);
+    cmB = newCM(diff.metaB(), diff.textB(), diffTable.cmB);
 
     cmA.extras().side(DisplaySide.A);
     cmB.extras().side(DisplaySide.B);
@@ -606,7 +606,7 @@ public class SideBySide extends Screen {
             chunkManager.getLineMapper());
 
     prefsAction = new PreferencesAction(this, prefs);
-    header.init(prefsAction, getLinks(), diff.side_by_side_web_links());
+    header.init(prefsAction, getLinks(), diff.sideBySideWebLinks());
     scrollSynchronizer.setAutoHideDiffTableHeader(prefs.autoHideDiffTableHeader());
 
     if (prefs.syntaxHighlighting() && fileSize.compareTo(FileSize.SMALL) > 0) {
@@ -654,7 +654,7 @@ public class SideBySide extends Screen {
   }
 
   DiffInfo.IntraLineStatus getIntraLineStatus() {
-    return diff.intraline_status();
+    return diff.intralineStatus();
   }
 
   boolean canEnableRenderEntireFile(DiffPreferences prefs) {
@@ -663,7 +663,7 @@ public class SideBySide extends Screen {
   }
 
   String getContentType() {
-    return getContentType(diff.meta_b());
+    return getContentType(diff.metaB());
   }
 
   void setThemeStyles(boolean d) {
@@ -716,8 +716,8 @@ public class SideBySide extends Screen {
         @Override
         public void onSuccess(Void result) {
           if (prefs.syntaxHighlighting()) {
-            cmA.setOption("mode", getContentType(diff.meta_a()));
-            cmB.setOption("mode", getContentType(diff.meta_b()));
+            cmA.setOption("mode", getContentType(diff.metaA()));
+            cmB.setOption("mode", getContentType(diff.metaB()));
           }
         }
 
@@ -923,7 +923,7 @@ public class SideBySide extends Screen {
     int offset = 6;
 
     // Adjust for merge commits, which have two parent lines
-    if (diff.text_b().startsWith("Merge")) {
+    if (diff.textB().startsWith("Merge")) {
       offset += 1;
     }
 
@@ -983,8 +983,8 @@ public class SideBySide extends Screen {
 
   private String getContentType(DiffInfo.FileMeta meta) {
     if (prefs.syntaxHighlighting() && meta != null
-        && meta.content_type() != null) {
-     ModeInfo m = ModeInfo.findMode(meta.content_type(), path);
+        && meta.contentType() != null) {
+     ModeInfo m = ModeInfo.findMode(meta.contentType(), path);
      return m != null ? m.mime() : null;
    }
    return null;
@@ -992,8 +992,8 @@ public class SideBySide extends Screen {
 
   private void injectMode(DiffInfo diffInfo, AsyncCallback<Void> cb) {
     new ModeInjector()
-      .add(getContentType(diffInfo.meta_a()))
-      .add(getContentType(diffInfo.meta_b()))
+      .add(getContentType(diffInfo.metaA()))
+      .add(getContentType(diffInfo.metaB()))
       .inject(cb);
   }
 
@@ -1043,8 +1043,8 @@ public class SideBySide extends Screen {
           @Override
           public void onSuccess(DiffInfo info) {
             new ModeInjector()
-              .add(getContentType(info.meta_a()))
-              .add(getContentType(info.meta_b()))
+              .add(getContentType(info.metaA()))
+              .add(getContentType(info.metaB()))
               .inject(CallbackGroup.<Void> emptyCallback());
           }
 
@@ -1085,8 +1085,8 @@ public class SideBySide extends Screen {
   }
 
   private static FileSize bucketFileSize(DiffInfo diff) {
-    FileMeta a = diff.meta_a();
-    FileMeta b = diff.meta_b();
+    FileMeta a = diff.metaA();
+    FileMeta b = diff.metaB();
     FileSize[] sizes = FileSize.values();
     for (int i = sizes.length - 1; 0 <= i; i--) {
       FileSize s = sizes[i];

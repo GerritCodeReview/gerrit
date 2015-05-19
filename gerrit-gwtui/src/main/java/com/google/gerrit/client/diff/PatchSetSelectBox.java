@@ -116,7 +116,7 @@ class PatchSetSelectBox extends Composite {
         linkPanel.add(createEditIcon());
       }
     }
-    List<WebLinkInfo> webLinks = Natives.asList(meta.web_links());
+    List<WebLinkInfo> webLinks = Natives.asList(meta.webLinks());
     if (webLinks != null) {
       for (WebLinkInfo webLink : webLinks) {
         linkPanel.add(webLink.toAnchor());

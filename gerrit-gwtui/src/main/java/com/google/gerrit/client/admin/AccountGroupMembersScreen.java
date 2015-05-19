@@ -248,7 +248,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountInfo i = getRowItem(row);
         if (i != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(i._account_id());
+          ids.add(i._accountId());
         }
       }
       if (!ids.isEmpty()) {
@@ -258,7 +258,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
                   final AccountInfo i = getRowItem(row);
-                  if (i != null && ids.contains(i._account_id())) {
+                  if (i != null && ids.contains(i._accountId())) {
                     table.removeRow(row);
                   } else {
                     row++;
@@ -296,7 +296,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             return cmp;
           }
 
-          return a._account_id() - b._account_id();
+          return a._accountId() - b._accountId();
         }
 
         public String nullToEmpty(String str) {

@@ -30,7 +30,7 @@ public class BranchInfo extends JavaScriptObject {
   public final native String revision() /*-{ return this.revision; }-*/;
   public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions }-*/;
-  public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+  public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
   protected BranchInfo() {
   }

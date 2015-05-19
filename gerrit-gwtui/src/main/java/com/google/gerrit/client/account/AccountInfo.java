@@ -18,7 +18,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 public class AccountInfo extends JavaScriptObject {
-  public final native int _account_id() /*-{ return this._account_id || 0; }-*/;
+  public final native int _accountId() /*-{ return this._account_id || 0; }-*/;
   public final native String name() /*-{ return this.name; }-*/;
   public final native String email() /*-{ return this.email; }-*/;
   public final native String username() /*-{ return this.username; }-*/;
@@ -29,7 +29,7 @@ public class AccountInfo extends JavaScriptObject {
    *         available, such as when no plugin is installed. This method returns
    *         false if the server did not check on avatars for the account.
    */
-  public final native boolean has_avatar_info()
+  public final native boolean hasAvatarInfo()
   /*-{ return this.hasOwnProperty('avatars') }-*/;
 
   public final AvatarInfo avatar(int sz) {

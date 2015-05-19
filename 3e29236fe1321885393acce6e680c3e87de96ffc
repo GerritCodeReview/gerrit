@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ad705150_6dc975a6",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-19T20:09:35Z",
+      "side": 0,
+      "message": "So, I looked deeper into this case change and I think that this is a bug, that was introduced in this change: [1]. I don\u0027t see any reason, to return uppercase format name in [1]. For very simple reason: whoever get this info, must lowcase format name before it can be supplied to GET archive endpoint. If this is the case, then this should be fixed in its own change. That was my original comment.\n\n [1] Iac4be762bff971403438aa84923d9f0e11883366",
+      "parentUuid": "4d827552_f2c6a84b",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 7
+      },
+      "revId": "3e29236fe1321885393acce6e680c3e87de96ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d257942_d3c13436",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 4

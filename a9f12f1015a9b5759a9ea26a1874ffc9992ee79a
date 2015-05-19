@@ -46,6 +46,30 @@
       "revId": "a9f12f1015a9b5759a9ea26a1874ffc9992ee79a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_d3ea94a4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/download/DownloadUrlLink.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-19T14:05:23Z",
+      "side": 1,
+      "message": "OK, now I see, no that\u0027s fine as is.",
+      "parentUuid": "6d257942_73b380db",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "a9f12f1015a9b5759a9ea26a1874ffc9992ee79a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

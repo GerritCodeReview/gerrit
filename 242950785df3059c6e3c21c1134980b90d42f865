@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d257942_f398f04e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T14:27:46Z",
+      "side": 1,
+      "message": "are?",
+      "range": {
+        "startLine": 1550,
+        "startChar": 44,
+        "endLine": 1550,
+        "endChar": 46
+      },
+      "revId": "242950785df3059c6e3c21c1134980b90d42f865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_b2d020fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEditPreferences.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T14:27:46Z",
+      "side": 1,
+      "message": "Should this also be \u0027canModifyAccount()\u0027? It seems strange that with this capability one can write edit preferences for any user, but not read what was written. Looking at GetSshKeys we have already a case where this capability also grants read.",
+      "range": {
+        "startLine": 54,
+        "startChar": 41,
+        "endLine": 54,
+        "endChar": 62
+      },
+      "revId": "242950785df3059c6e3c21c1134980b90d42f865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

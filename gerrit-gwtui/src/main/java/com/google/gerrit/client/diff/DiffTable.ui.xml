@@ -22,7 +22,7 @@ limitations under the License.
     @external .CodeMirror-linenumber;
     @external .CodeMirror-overlayscroll-vertical, .CodeMirror-scroll;
     @external .CodeMirror-dialog-bottom;
-    @external .cm-animate-fat-cursor, .CodeMirror-cursor;
+    @external .CodeMirror-cursor;
 
     .fullscreen {
       background-color: #f7f7f7;
@@ -116,18 +116,7 @@ limitations under the License.
       cursor: pointer;
     }
     .difftable .CodeMirror div.CodeMirror-cursor {
-      background: transparent;
-      text-decoration: underline;
-      border: none;
-      z-index: 2;
-    }
-    .difftable .cm-animate-fat-cursor {
-      text-decoration: underline;
-      border: none;
-      animation: none;
-      -webkit-animation: none;
-      -moz-animation: none;
-      -o-animation: none;
+      border-left: 2px solid black;
     }
     .difftable .CodeMirror-dialog-bottom {
       border-top: 0;

@@ -290,6 +290,24 @@
     },
     {
       "key": {
+        "uuid": "4d827552_321e708c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T11:57:53Z",
+      "side": 1,
+      "message": "Okay, I\u0027ve uploaded a change to make the case consistent in existing code:\n  https://gerrit-review.googlesource.com/67956",
+      "parentUuid": "edbde9e6_d737fc10",
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_b4f440d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
         "patchSetId": 6

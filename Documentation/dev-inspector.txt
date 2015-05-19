@@ -240,7 +240,7 @@ to the error log:
 
 ----
 [2012-04-17 14:20:30,558] INFO  com.google.gerrit.pgm.shell.JythonShell : Jython shell instance created.
-[2012-04-17 14:20:38,005] ERROR com.google.gerrit.pgm.shell.JythonShell : Exception occured while loading file Startup.py :
+[2012-04-17 14:20:38,005] ERROR com.google.gerrit.pgm.shell.JythonShell : Exception occurred while loading file Startup.py :
 java.lang.reflect.InvocationTargetException
         at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
         at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)

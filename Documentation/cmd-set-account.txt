@@ -65,7 +65,7 @@ This most likely requires double quoting the value, for example
     Delete an email from this user's account if it exists.
     If the email provided is 'ALL', all associated emails are
     deleted from this account.
-    Maybe supplied more than once to remove multiple emails
+    May be supplied more than once to remove multiple emails
     from an account in a single command execution.
 
 --preferred-email::

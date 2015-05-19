@@ -219,7 +219,7 @@ public class CodeMirror extends JavaScriptObject {
     if (lineAtHeight(height - 20) < line) {
       scrollToY(heightAtLine(line, "local") - 0.5 * height);
     }
-    setCursor(Pos.create(line));
+    setCursor(Pos.create(line, 0));
   }
 
   public final native ScrollInfo getScrollInfo() /*-{

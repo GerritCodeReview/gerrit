@@ -1687,7 +1687,7 @@ Rebases change edit on top of latest patch set.
 ----
 
 When change was rebased on top of latest patch set, response
-"`204 No Content`" is returned. When change edit is aready
+"`204 No Content`" is returned. When change edit is already
 based on top of the latest patch set, the response
 "`409 Conflict`" is returned.
 

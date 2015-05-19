@@ -32,7 +32,7 @@ public interface ProjectCache {
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
-   * @return the cached data; null if no such project exists or a error occured.
+   * @return the cached data; null if no such project exists or a error occurred.
    * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
    */
   public ProjectState get(Project.NameKey projectName);

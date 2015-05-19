@@ -211,6 +211,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<>();
     AbstractModule secureStore = createSecureStoreModule();
+    modules.add(secureStore);
     if (sitePath != null) {
       Module sitePathModule = new AbstractModule() {
         @Override
@@ -244,7 +245,6 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
 
     } else {
-      modules.add(secureStore);
       modules.add(new LifecycleModule() {
         @Override
         protected void configure() {

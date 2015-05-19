@@ -19,7 +19,7 @@ New Features
 * link:http://code.google.com/p/gerrit/issues/detail?id=321[Issue 321]:
 Use in-memory Lucene index for a better reviewer suggestion.
 +
-Instead of a linear full text search through a list of accounts use an
+Instead of a linear full text search through a list of accounts, use an
 in-memory Lucene index. The index is periodically refreshed. The refresh period
 is configurable via the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-gerrit.html#suggest.fullTextSearchRefresh[
@@ -29,7 +29,27 @@ suggest.fullTextSearchRefresh] parameter.
 Bug Fixes
 ---------
 
-* Fix PatchLineCommentsUtil.draftByChangeAuthor.
+* link:http://code.google.com/p/gerrit/issues/detail?id=3363[Issue 3363]:
+Fix performance degrade in background mergeability checks.
++
+When neither `index.batchThreads` nor `changeMerge.threadPoolSize` was defined,
+the background mergeability check fell back to using an interactive executor.
++
+This led to a severe performance degradation during git push operations because
+the `ref-update` listener was reindexing all open changes on the target branch
+interactively. The degradation increased linearly with number of open changes on
+the target branch.
++
+Now, instead of indexing interactively, it falls back to a batch thread pool
+with the logical number of available CPUs.
+
+* Reduce unnecessary database access when queryng changes.
++
+Searching for changes was retrieving more information than necessary from the
+database. This has been optimized to reduce database access and make better use
+of the secondary index.
+
+* Fix `PatchLineCommentsUtil.draftByChangeAuthor`.
 +
 There is not a native index for this, and the ReviewDb case was not properly
 filtering a result by change.
@@ -53,7 +73,7 @@ was not becoming owner of the created project, because only project owners can
 edit the `project.config` file.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3342[Issue 3342]:
-Log IOExceptions on failure to update project configuration.
+Log `IOException` on failure to update project configuration.
 +
 Without logging these exceptions it's hard to guess why the update of the
 project configuration is failing.
@@ -61,22 +81,54 @@ project configuration is failing.
 * Don't show stack trace when failing to build BloomFilter during reindex.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3337[Issue 3337]:
-Reenable revert button when revert is cancelled.
+Reenable 'Revert' button when revert is cancelled.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3325[Issue 3325]:
 Add missing `--newrev` parameter to the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-hooks.html#_change_merged[
 change-merged hook documentation].
 
-* Fix gc_log when running in a web container.
+* Fix `gc_log` when running in a web container.
 +
-All logs supposed to be in gc_log file were ending up in main log instead when
-deploying Gerrit in a web container.
+All logs supposed to be in the `gc_log` file were ending up in the main log
+instead when deploying Gerrit in a web container.
+
+* Fix binding of SecureStore modules.
++
+The SecureStore modules were not correctly added when Gerrit was deployed in a
+web container with the site path configured using the `gerrit.site_path`
+property.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3310[Issue 3310]:
+Fix disabling plugins when Gerrit is running on Windows.
++
+When running Gerrit on Windows it was not possible to disable a plugin due to an
+error renaming the plugin's JAR file.
+
+* Remove temporary GitWeb config on Gerrit exit.
++
+A temporary directory was being created but not removed.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3346[Issue 3346]:
 Fix typo in the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-reverseproxy.html[
 Apache 2 configuration documentation].
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3346[Issue 3346]:
+Fix incorrect documentatation of
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-gerrit.html#auth.registerUrl[
+auth types].
+
+* Replication plugin
+
+** Fix creation of missing repositories.
++
+Missing projects were not being created on the destination.
+
+** Emit replication status events after initial full sync.
++
+When `replicateOnStartup` is enabled, the plugin was not emitting the status
+events after the initial sync.
 
 Updates
 -------

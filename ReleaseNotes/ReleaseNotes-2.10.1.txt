@@ -23,7 +23,7 @@ LDAP
 ----
 
 * Several performance improvements when using LDAP, both in the number of LDAP
-requests and in the amount of data transfered.
+requests and in the amount of data transferred.
 
 * Sites using LDAP for authentication but otherwise rely on local Gerrit groups
 should set the new `ldap.fetchMemberOfEagerly` option to `false`.

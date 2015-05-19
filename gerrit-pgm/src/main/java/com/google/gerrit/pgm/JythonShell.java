@@ -191,9 +191,9 @@ public class JythonShell {
           + " is not found or not executable");
       }
     } catch (InvocationTargetException e) {
-      log.error("Exception occured while loading file " + p + " : ", e);
+      log.error("Exception occurred while loading file " + p + " : ", e);
     } catch (SecurityException e) {
-      log.error("SecurityException occured while loading file " + p + " : ", e);
+      log.error("SecurityException occurred while loading file " + p + " : ", e);
     }
   }
 
@@ -204,7 +204,7 @@ public class JythonShell {
         new Object[] { in, p }
       );
     } catch (InvocationTargetException e) {
-      log.error("Exception occured while loading " + p + " : ", e);
+      log.error("Exception occurred while loading " + p + " : ", e);
     }
   }
 

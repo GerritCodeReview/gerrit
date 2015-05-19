@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "6d257942_9312dc54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T13:50:30Z",
+      "side": 1,
+      "message": "What is really inconsistent? AFAIK, in Git, the \"refs/heads\" prefix is assumed when using a short name. If a ref is not under the refs/heads namespace then its short name is its full name.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "4fa59334321801933fb72644fc0ead4a350be05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_32a99089",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T13:50:30Z",
+      "side": 1,
+      "message": "[optional] empty line before this one",
+      "revId": "4fa59334321801933fb72644fc0ead4a350be05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_b317d843",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T13:50:30Z",
+      "side": 1,
+      "message": "optional: indent the examples",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "4fa59334321801933fb72644fc0ead4a350be05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d257942_f3f4709f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -19,6 +82,23 @@
         "endLine": 17,
         "endChar": 22
       },
+      "revId": "4fa59334321801933fb72644fc0ead4a350be05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_d296044b",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T13:50:30Z",
+      "side": 1,
+      "message": "or just document here that this is a short ref name with its usual meaning (as described in my comment in the commit message)",
       "revId": "4fa59334321801933fb72644fc0ead4a350be05c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

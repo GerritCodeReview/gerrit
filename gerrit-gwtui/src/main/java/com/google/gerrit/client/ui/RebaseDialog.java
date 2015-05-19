@@ -51,10 +51,10 @@ public abstract class RebaseDialog extends CommentedActionDialog {
         String query = request.getQuery().toLowerCase();
         LinkedList<ChangeSuggestion> suggestions = new LinkedList<>();
         for (final ChangeInfo ci : changes) {
-          if (changeId.equals(ci.legacy_id())) {
+          if (changeId.equals(ci.legacyId())) {
             continue;  // do not suggest current change
           }
-          String id = String.valueOf(ci.legacy_id().get());
+          String id = String.valueOf(ci.legacyId().get());
           if (id.contains(query) || ci.subject().toLowerCase().contains(query)) {
             suggestions.add(new ChangeSuggestion(ci));
             if (suggestions.size() >= 50) { // limit to 50 suggestions
@@ -136,12 +136,12 @@ public abstract class RebaseDialog extends CommentedActionDialog {
 
     @Override
     public String getDisplayString() {
-      return String.valueOf(change.legacy_id().get()) + ": " + change.subject();
+      return String.valueOf(change.legacyId().get()) + ": " + change.subject();
     }
 
     @Override
     public String getReplacementString() {
-      return String.valueOf(change.legacy_id().get());
+      return String.valueOf(change.legacyId().get());
     }
   }
 }

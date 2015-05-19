@@ -42,7 +42,7 @@ public class ChangeGlue {
       ChangeInfo change,
       ActionInfo action,
       ActionButton button) {
-    RestApi api = ChangeApi.change(change.legacy_id().get()).view(action.id());
+    RestApi api = ChangeApi.change(change.legacyId().get()).view(action.id());
     JavaScriptObject f = get(action.id());
     if (f != null) {
       ActionContext c = ActionContext.create(api);

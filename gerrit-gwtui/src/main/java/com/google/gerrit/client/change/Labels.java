@@ -143,7 +143,7 @@ class Labels extends Grid {
 
       String val = LabelValue.formatValue(v.shortValue());
       html.openSpan();
-      html.setAttribute("title", label.value_text(val));
+      html.setAttribute("title", label.valueText(val));
       if (v.intValue() == approved) {
         html.setStyleName(style.label_ok());
       } else if (v.intValue() == rejected) {

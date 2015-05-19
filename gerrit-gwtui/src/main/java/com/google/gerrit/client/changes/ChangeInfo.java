@@ -41,24 +41,24 @@ import java.util.TreeSet;
 
 public class ChangeInfo extends JavaScriptObject {
   public final void init() {
-    if (all_labels() != null) {
-      all_labels().copyKeysIntoChildren("_name");
+    if (allLabels() != null) {
+      allLabels().copyKeysIntoChildren("_name");
     }
   }
 
-  public final Project.NameKey project_name_key() {
+  public final Project.NameKey projectNameKey() {
     return new Project.NameKey(project());
   }
 
-  public final Change.Id legacy_id() {
+  public final Change.Id legacyId() {
     return new Change.Id(_number());
   }
 
   public final Timestamp created() {
-    Timestamp ts = _get_cts();
+    Timestamp ts = _getCts();
     if (ts == null) {
       ts = JavaSqlTimestamp_JsonSerializer.parseTimestamp(createdRaw());
-      _set_cts(ts);
+      _setCts(ts);
     }
     return ts;
   }
@@ -66,18 +66,18 @@ public class ChangeInfo extends JavaScriptObject {
   public final boolean hasEditBasedOnCurrentPatchSet() {
     JsArray<RevisionInfo> revList = revisions().values();
     RevisionInfo.sortRevisionInfoByNumber(revList);
-    return revList.get(revList.length() - 1).is_edit();
+    return revList.get(revList.length() - 1).isEdit();
   }
 
-  private final native Timestamp _get_cts() /*-{ return this._cts; }-*/;
-  private final native void _set_cts(Timestamp ts) /*-{ this._cts = ts; }-*/;
+  private final native Timestamp _getCts() /*-{ return this._cts; }-*/;
+  private final native void _setCts(Timestamp ts) /*-{ this._cts = ts; }-*/;
 
   public final Timestamp updated() {
     return JavaSqlTimestamp_JsonSerializer.parseTimestamp(updatedRaw());
   }
 
-  public final String id_abbreviated() {
-    return new Change.Key(change_id()).abbreviate();
+  public final String idAbbreviated() {
+    return new Change.Key(changeId()).abbreviate();
   }
 
   public final Change.Status status() {
@@ -85,14 +85,14 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final Set<String> labels() {
-    return all_labels().keySet();
+    return allLabels().keySet();
   }
 
   public final native String id() /*-{ return this.id; }-*/;
   public final native String project() /*-{ return this.project; }-*/;
   public final native String branch() /*-{ return this.branch; }-*/;
   public final native String topic() /*-{ return this.topic; }-*/;
-  public final native String change_id() /*-{ return this.change_id; }-*/;
+  public final native String changeId() /*-{ return this.change_id; }-*/;
   public final native boolean mergeable() /*-{ return this.mergeable || false; }-*/;
   public final native int insertions() /*-{ return this.insertions; }-*/;
   public final native int deletions() /*-{ return this.deletions; }-*/;
@@ -103,30 +103,30 @@ public class ChangeInfo extends JavaScriptObject {
   private final native String updatedRaw() /*-{ return this.updated; }-*/;
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
-  public final native NativeMap<LabelInfo> all_labels() /*-{ return this.labels; }-*/;
+  public final native NativeMap<LabelInfo> allLabels() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
-  public final native String current_revision() /*-{ return this.current_revision; }-*/;
-  public final native void set_current_revision(String r) /*-{ this.current_revision = r; }-*/;
-  private final native void set_submittable(boolean x) /*-{ this.submittable = x; }-*/;
+  public final native String currentRevision() /*-{ return this.current_revision; }-*/;
+  public final native void setCurrentRevision(String r) /*-{ this.current_revision = r; }-*/;
+  private final native void setSubmittable(boolean x) /*-{ this.submittable = x; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
-  public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
+  public final native void setEdit(EditInfo edit) /*-{ this.edit = edit; }-*/;
   public final native EditInfo edit() /*-{ return this.edit; }-*/;
-  public final native boolean has_edit() /*-{ return this.hasOwnProperty('edit') }-*/;
+  public final native boolean hasEdit() /*-{ return this.hasOwnProperty('edit') }-*/;
   public final native JsArrayString hashtags() /*-{ return this.hashtags; }-*/;
 
-  public final native boolean has_permitted_labels()
+  public final native boolean hasPermittedLabels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
-  public final native NativeMap<JsArrayString> permitted_labels()
+  public final native NativeMap<JsArrayString> permittedLabels()
   /*-{ return this.permitted_labels; }-*/;
-  public final native JsArrayString permitted_values(String n)
+  public final native JsArrayString permittedValues(String n)
   /*-{ return this.permitted_labels[n]; }-*/;
 
-  public final native JsArray<AccountInfo> removable_reviewers()
+  public final native JsArray<AccountInfo> removableReviewers()
   /*-{ return this.removable_reviewers; }-*/;
 
-  public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
+  public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
   final native int _number() /*-{ return this._number; }-*/;
@@ -151,14 +151,14 @@ public class ChangeInfo extends JavaScriptObject {
   public final int getMissingLabelIndex() {
     int i = -1;
     int ret = -1;
-    List<LabelInfo> labels = Natives.asList(all_labels().values());
+    List<LabelInfo> labels = Natives.asList(allLabels().values());
     for (LabelInfo label : labels) {
       i++;
-      if (!permitted_labels().containsKey(label.name())) {
+      if (!permittedLabels().containsKey(label.name())) {
         continue;
       }
 
-      JsArrayString values = permitted_values(label.name());
+      JsArrayString values = permittedValues(label.name());
       if (values.length() == 0) {
         continue;
       }
@@ -168,7 +168,7 @@ public class ChangeInfo extends JavaScriptObject {
           if (ret != -1) {
             // more than one label is missing, so it's unclear which to quick
             // approve, return -1
-            set_submittable(false);
+            setSubmittable(false);
             return -1;
           } else {
             ret = i;
@@ -181,11 +181,11 @@ public class ChangeInfo extends JavaScriptObject {
 
         case REJECT: // Submit cannot happen, do not quick approve.
         case IMPOSSIBLE:
-          set_submittable(false);
+          setSubmittable(false);
           return -1;
       }
     }
-    set_submittable(ret == -1);
+    setSubmittable(ret == -1);
     return ret;
   }
 
@@ -213,7 +213,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native AccountInfo disliked() /*-{ return this.disliked; }-*/;
 
     public final native JsArray<ApprovalInfo> all() /*-{ return this.all; }-*/;
-    public final ApprovalInfo for_user(int user) {
+    public final ApprovalInfo forUser(int user) {
       JsArray<ApprovalInfo> all = all();
       for (int i = 0; all != null && i < all.length(); i++) {
         if (all.get(i)._accountId() == user) {
@@ -227,7 +227,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final Set<String> values() {
       return Natives.keys(_values());
     }
-    public final native String value_text(String n) /*-{ return this.values[n]; }-*/;
+    public final native String valueText(String n) /*-{ return this.values[n]; }-*/;
 
     public final native boolean optional() /*-{ return this.optional ? true : false; }-*/;
     public final native boolean blocking() /*-{ return this.blocking ? true : false; }-*/;
@@ -240,11 +240,11 @@ public class ChangeInfo extends JavaScriptObject {
       return 0;
     }-*/;
 
-    public final String max_value() {
-      return LabelValue.formatValue(value_set().last());
+    public final String maxValue() {
+      return LabelValue.formatValue(valueSet().last());
     }
 
-    public final SortedSet<Short> value_set() {
+    public final SortedSet<Short> valueSet() {
       SortedSet<Short> values = new TreeSet<>();
       for (String v : values()) {
         values.add(parseValue(v));
@@ -266,7 +266,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class ApprovalInfo extends AccountInfo {
-    public final native boolean has_value() /*-{ return this.hasOwnProperty('value'); }-*/;
+    public final native boolean hasValue() /*-{ return this.hasOwnProperty('value'); }-*/;
     public final native short value() /*-{ return this.value || 0; }-*/;
 
     protected ApprovalInfo() {
@@ -275,17 +275,17 @@ public class ChangeInfo extends JavaScriptObject {
 
   public static class EditInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
-    public final native String set_name(String n) /*-{ this.name = n; }-*/;
-    public final native String base_revision() /*-{ return this.base_revision; }-*/;
+    public final native String setName(String n) /*-{ this.name = n; }-*/;
+    public final native String baseRevision() /*-{ return this.base_revision; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
 
-    public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
+    public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
     public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
-    public final native boolean has_fetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
+    public final native boolean hasFetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
 
-    public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
+    public final native boolean hasFiles() /*-{ return this.hasOwnProperty('files') }-*/;
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
 
     protected EditInfo() {
@@ -307,19 +307,19 @@ public class ChangeInfo extends JavaScriptObject {
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;
     public final native boolean draft() /*-{ return this.draft || false; }-*/;
-    public final native boolean has_draft_comments() /*-{ return this.has_draft_comments || false; }-*/;
-    public final native boolean is_edit() /*-{ return this._number == 0; }-*/;
+    public final native boolean hasDraftComments() /*-{ return this.has_draft_comments || false; }-*/;
+    public final native boolean isEdit() /*-{ return this._number == 0; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
-    public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
-    public final native String edit_base() /*-{ return this.edit_base; }-*/;
+    public final native void setCommit(CommitInfo c) /*-{ this.commit = c; }-*/;
+    public final native String editBase() /*-{ return this.edit_base; }-*/;
 
-    public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
+    public final native boolean hasFiles() /*-{ return this.hasOwnProperty('files') }-*/;
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
 
-    public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
+    public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
     public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
-    public final native boolean has_fetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
+    public final native boolean hasFetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
@@ -331,7 +331,7 @@ public class ChangeInfo extends JavaScriptObject {
         }
 
         private int num(RevisionInfo r) {
-          return !r.is_edit() ? 2 * (r._number() - 1) + 1 : 2 * editParent;
+          return !r.isEdit() ? 2 * (r._number() - 1) + 1 : 2 * editParent;
         }
       });
     }
@@ -340,8 +340,8 @@ public class ChangeInfo extends JavaScriptObject {
       for (int i = 0; i < list.length(); i++) {
         // edit under revisions?
         RevisionInfo editInfo = list.get(i);
-        if (editInfo.is_edit()) {
-          String parentRevision = editInfo.edit_base();
+        if (editInfo.isEdit()) {
+          String parentRevision = editInfo.editBase();
           // find parent
           for (int j = 0; j < list.length(); j++) {
             RevisionInfo parentInfo = list.get(j);
@@ -381,7 +381,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native GitPerson committer() /*-{ return this.committer; }-*/;
     public final native String subject() /*-{ return this.subject; }-*/;
     public final native String message() /*-{ return this.message; }-*/;
-    public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+    public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
     protected CommitInfo() {
     }
@@ -415,7 +415,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class MergeableInfo extends JavaScriptObject {
-    public final native String submit_type() /*-{ return this.submit_type }-*/;
+    public final native String submitType() /*-{ return this.submit_type }-*/;
     public final native boolean mergeable() /*-{ return this.mergeable }-*/;
 
     protected MergeableInfo() {

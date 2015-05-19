@@ -32,7 +32,7 @@ public class EditConfigAction {
           @Override
           public void onSuccess(ChangeInfo result) {
             Gerrit.display(Dispatcher.toEditScreen(
-                new PatchSet.Id(result.legacy_id(), 1), "project.config"));
+                new PatchSet.Id(result.legacyId(), 1), "project.config"));
           }
 
           @Override

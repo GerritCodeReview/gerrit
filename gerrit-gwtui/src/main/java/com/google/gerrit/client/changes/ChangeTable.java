@@ -118,13 +118,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   @Override
   protected Object getRowItemKey(final ChangeInfo item) {
-    return item.legacy_id();
+    return item.legacyId();
   }
 
   @Override
   protected void onOpenRow(final int row) {
     final ChangeInfo c = getRowItem(row);
-    final Change.Id id = c.legacy_id();
+    final Change.Id id = c.legacyId();
     Gerrit.display(PageLinks.toChange(id));
   }
 
@@ -208,10 +208,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     CellFormatter fmt = table.getCellFormatter();
     if (Gerrit.isSignedIn()) {
       table.setWidget(row, C_STAR, StarredChanges.createIcon(
-          c.legacy_id(),
+          c.legacyId(),
           c.starred()));
     }
-    table.setWidget(row, C_ID, new TableChangeLink(String.valueOf(c.legacy_id()), c));
+    table.setWidget(row, C_ID, new TableChangeLink(String.valueOf(c.legacyId()), c));
 
     String subject = Util.cropSubject(c.subject());
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
@@ -229,8 +229,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       table.setText(row, C_OWNER, "");
     }
 
-    table.setWidget(row, C_PROJECT, new ProjectLink(c.project_name_key()));
-    table.setWidget(row, C_BRANCH, new BranchLink(c.project_name_key(), c
+    table.setWidget(row, C_PROJECT, new ProjectLink(c.projectNameKey()));
+    table.setWidget(row, C_BRANCH, new BranchLink(c.projectNameKey(), c
         .status(), c.branch(), c.topic()));
     if (Gerrit.isSignedIn()
         && Gerrit.getUserAccount().getGeneralPreferences()
@@ -447,7 +447,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private final class TableChangeLink extends ChangeLink {
     private TableChangeLink(final String text, final ChangeInfo c) {
-      super(text, c.legacy_id());
+      super(text, c.legacyId());
     }
 
     @Override

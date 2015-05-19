@@ -218,8 +218,8 @@ class CommentManager {
         info,
         expandAll);
 
-    if (info.in_reply_to() != null) {
-      PublishedBox r = published.get(info.in_reply_to());
+    if (info.inReplyTo() != null) {
+      PublishedBox r = published.get(info.inReplyTo());
       if (r != null) {
         r.setReplyBox(box);
       }

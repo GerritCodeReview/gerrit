@@ -142,7 +142,7 @@ class PatchSetsBox extends Composite {
         @Override
         public void onSuccess(ChangeInfo result) {
           if (edit != null) {
-            edit.set_name(edit.commit().commit());
+            edit.setName(edit.commit().commit());
             result.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
           }
           render(result.revisions());
@@ -201,7 +201,7 @@ class PatchSetsBox extends Composite {
     if (r.draft()) {
       sb.append(Resources.C.draft()).append(' ');
     }
-    if (r.has_draft_comments()) {
+    if (r.hasDraftComments()) {
       sb.openSpan()
         .addStyleName(style.draft_comment())
         .setAttribute("title", Resources.C.draftCommentsTooltip())

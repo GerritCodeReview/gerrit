@@ -109,8 +109,8 @@ class CommitBox extends Composite {
     CommitInfo commit = revInfo.commit();
 
     commitName.setText(revision);
-    idText.setText("Change-Id: " + change.change_id());
-    idText.setPreviewText(change.change_id());
+    idText.setText("Change-Id: " + change.changeId());
+    idText.setPreviewText(change.changeId());
 
     formatLink(commit.author(), authorPanel, authorNameEmail, authorDate,
         change);
@@ -141,7 +141,7 @@ class CommitBox extends Composite {
           gw.getLinkName());
     }
 
-    JsArray<WebLinkInfo> links = revInfo.commit().web_links();
+    JsArray<WebLinkInfo> links = revInfo.commit().webLinks();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
         webLinkPanel.add(link.toAnchor());
@@ -191,7 +191,7 @@ class CommitBox extends Composite {
       a.setStyleName(style.parentWebLink());
       panel.add(a);
     }
-    JsArray<WebLinkInfo> links = c.web_links();
+    JsArray<WebLinkInfo> links = c.webLinks();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
         panel.add(link.toAnchor());

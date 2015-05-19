@@ -68,10 +68,10 @@ class Topic extends Composite {
   }
 
   void set(ChangeInfo info, String revision) {
-    canEdit = info.has_actions() && info.actions().containsKey("topic");
+    canEdit = info.hasActions() && info.actions().containsKey("topic");
 
     psId = new PatchSet.Id(
-        info.legacy_id(),
+        info.legacyId(),
         info.revisions().get(revision)._number());
 
     initTopicLink(info);

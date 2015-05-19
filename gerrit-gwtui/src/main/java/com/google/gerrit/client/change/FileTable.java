@@ -516,8 +516,8 @@ public class FileTable extends FlowPanel {
       for (int i = 0; i < list.length(); i++) {
         FileInfo info = list.get(i);
         if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
-          inserted += info.lines_inserted();
-          deleted += info.lines_deleted();
+          inserted += info.linesInserted();
+          deleted += info.linesDeleted();
         }
       }
     }
@@ -657,10 +657,10 @@ public class FileTable extends FlowPanel {
       }
 
       sb.closeAnchor();
-      if (info.old_path() != null) {
+      if (info.oldPath() != null) {
         sb.br();
         sb.openSpan().setStyleName(R.css().renameCopySource())
-          .append(info.old_path())
+          .append(info.oldPath())
           .closeSpan();
       }
       sb.closeTd();
@@ -733,16 +733,16 @@ public class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().deltaColumn1());
       if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
         if (showChangeSizeBars) {
-          sb.append(info.lines_inserted() + info.lines_deleted());
+          sb.append(info.linesInserted() + info.linesDeleted());
         } else if (!ChangeType.DELETED.matches(info.status())) {
           if (ChangeType.ADDED.matches(info.status())) {
-            sb.append(info.lines_inserted())
+            sb.append(info.linesInserted())
               .append(" lines");
           } else {
             sb.append("+")
-              .append(info.lines_inserted())
+              .append(info.linesInserted())
               .append(", -")
-              .append(info.lines_deleted());
+              .append(info.linesDeleted());
           }
         }
       }
@@ -753,24 +753,24 @@ public class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().deltaColumn2());
       if (showChangeSizeBars
           && !Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
-          && (info.lines_inserted() != 0 || info.lines_deleted() != 0)) {
+          && (info.linesInserted() != 0 || info.linesDeleted() != 0)) {
         int w = 80;
         int t = inserted + deleted;
-        int i = Math.max(5, (int) (((double) w) * info.lines_inserted() / t));
-        int d = Math.max(5, (int) (((double) w) * info.lines_deleted() / t));
+        int i = Math.max(5, (int) (((double) w) * info.linesInserted() / t));
+        int d = Math.max(5, (int) (((double) w) * info.linesDeleted() / t));
 
         sb.setAttribute(
             "title",
-            Util.M.patchTableSize_LongModify(info.lines_inserted(),
-                info.lines_deleted()));
+            Util.M.patchTableSize_LongModify(info.linesInserted(),
+                info.linesDeleted()));
 
-        if (0 < info.lines_inserted()) {
+        if (0 < info.linesInserted()) {
           sb.openDiv()
             .setStyleName(R.css().inserted())
             .setAttribute("style", "width:" + i + "px")
             .closeDiv();
         }
-        if (0 < info.lines_deleted()) {
+        if (0 < info.linesDeleted()) {
           sb.openDiv()
             .setStyleName(R.css().deleted())
             .setAttribute("style", "width:" + d + "px")

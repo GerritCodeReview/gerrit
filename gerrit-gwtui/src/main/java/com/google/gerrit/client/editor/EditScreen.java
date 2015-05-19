@@ -185,7 +185,7 @@ public class EditScreen extends Screen {
         .get(group1.add(new AsyncCallback<DiffInfo>() {
           @Override
           public void onSuccess(DiffInfo diffInfo) {
-            diffLinks = diffInfo.web_links();
+            diffLinks = diffInfo.webLinks();
           }
 
           @Override
@@ -377,7 +377,7 @@ public class EditScreen extends Screen {
     renderLinksToDiff();
 
     if (editInfo != null) {
-      renderLinks(Natives.asList(editInfo.web_links()));
+      renderLinks(Natives.asList(editInfo.webLinks()));
     } else if (diffLinks != null) {
       renderLinks(Natives.asList(diffLinks));
     }

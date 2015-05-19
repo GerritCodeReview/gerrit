@@ -27,7 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 class SubmitAction {
   static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo) {
     if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {
-      final Change.Id changeId = changeInfo.legacy_id();
+      final Change.Id changeId = changeInfo.legacyId();
       ChangeApi.submit(
         changeId.get(), revisionInfo.name(),
         new GerritCallback<SubmitInfo>() {

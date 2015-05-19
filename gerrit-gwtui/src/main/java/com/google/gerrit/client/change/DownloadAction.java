@@ -30,7 +30,7 @@ class DownloadAction extends RightSidePopdownAction {
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);
     this.downloadBox = new DownloadBox(info, revision,
-        new PatchSet.Id(info.legacy_id(),
+        new PatchSet.Id(info.legacyId(),
             info.revision(revision)._number()));
   }
 

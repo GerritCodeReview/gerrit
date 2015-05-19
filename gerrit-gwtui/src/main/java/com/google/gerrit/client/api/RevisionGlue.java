@@ -29,7 +29,7 @@ public class RevisionGlue {
       ActionInfo action,
       ActionButton button) {
     RestApi api = ChangeApi.revision(
-          change.legacy_id().get(),
+          change.legacyId().get(),
           revision.name())
       .view(action.id());
 

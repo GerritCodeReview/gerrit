@@ -100,7 +100,7 @@ public class Reviewers extends Composite {
   }
 
   void set(ChangeInfo info) {
-    this.changeId = info.legacy_id();
+    this.changeId = info.legacyId();
     display(info);
     reviewerSuggestOracle.setChange(changeId);
     openForm.setVisible(Gerrit.isSignedIn());
@@ -198,7 +198,7 @@ public class Reviewers extends Composite {
   private void display(ChangeInfo info) {
     Map<Integer, AccountInfo> r = new HashMap<>();
     Map<Integer, AccountInfo> cc = new HashMap<>();
-    for (LabelInfo label : Natives.asList(info.all_labels().values())) {
+    for (LabelInfo label : Natives.asList(info.allLabels().values())) {
       if (label.all() != null) {
         for (ApprovalInfo ai : Natives.asList(label.all())) {
           (ai.value() != 0 ? r : cc).put(ai._accountId(), ai);
@@ -211,8 +211,8 @@ public class Reviewers extends Composite {
     cc.remove(info.owner()._accountId());
 
     Set<Integer> removable = new HashSet<>();
-    if (info.removable_reviewers() != null) {
-      for (AccountInfo a : Natives.asList(info.removable_reviewers())) {
+    if (info.removableReviewers() != null) {
+      for (AccountInfo a : Natives.asList(info.removableReviewers())) {
         removable.add(a._accountId());
       }
     }
@@ -247,7 +247,7 @@ public class Reviewers extends Composite {
             ad = new VotableInfo();
             d.put(id, ad);
           }
-          if (ai.has_value()) {
+          if (ai.hasValue()) {
             ad.votable(name);
           }
         }

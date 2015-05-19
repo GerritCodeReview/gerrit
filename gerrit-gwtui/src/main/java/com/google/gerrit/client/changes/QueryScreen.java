@@ -54,7 +54,7 @@ public class QueryScreen extends PagedSingleListScreen implements
         if (isAttached()) {
           if (result.length() == 1 && isSingleQuery(query)) {
             ChangeInfo c = result.get(0);
-            Change.Id id = c.legacy_id();
+            Change.Id id = c.legacyId();
             Gerrit.display(PageLinks.toChange(id));
           } else {
             display(result);

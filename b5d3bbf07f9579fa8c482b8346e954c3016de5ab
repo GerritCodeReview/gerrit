@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d854159_b1dfc052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-19T22:16:06Z",
+      "side": 1,
+      "message": "I don\u0027t especially like having to loop though all patch sets of all matching changes here, but this was the reason we now store patch sets in the secondary index :)",
+      "revId": "b5d3bbf07f9579fa8c482b8346e954c3016de5ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

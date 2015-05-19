@@ -17,9 +17,11 @@ package com.google.gerrit.server;
 import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -94,6 +96,17 @@ public class ChangeUtil {
 
   private static final Logger log =
       LoggerFactory.getLogger(ChangeUtil.class);
+
+  public static final Function<PatchSet, Integer> TO_PS_ID =
+      new Function<PatchSet, Integer>() {
+        @Override
+        public Integer apply(PatchSet in) {
+          return in.getId().get();
+        }
+      };
+
+  public static final Ordering<PatchSet> PS_ID_ORDER = Ordering.natural()
+    .onResultOf(TO_PS_ID);
 
   /**
    * Generate a new unique identifier for change message entities.

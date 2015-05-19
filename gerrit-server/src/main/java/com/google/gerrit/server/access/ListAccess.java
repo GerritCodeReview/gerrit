@@ -263,7 +263,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     }
   }
 
-  public class PermissionInfo {
+  public static class PermissionInfo {
     public String label;
     public Boolean exclusive;
     public Map<String, PermissionRuleInfo> rules;

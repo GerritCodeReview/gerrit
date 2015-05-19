@@ -317,7 +317,7 @@ class ChunkManager {
 
         DiffChunkInfo target = chunks.get(res);
         CodeMirror targetCm = host.getCmFromSide(target.getSide());
-        targetCm.setCursor(Pos.create(target.getStart()));
+        targetCm.setCursor(Pos.create(target.getStart(), 0));
         targetCm.focus();
         targetCm.scrollToY(
             targetCm.heightAtLine(target.getStart(), "local") -

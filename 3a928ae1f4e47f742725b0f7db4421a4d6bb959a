@@ -142,6 +142,52 @@
     },
     {
       "key": {
+        "uuid": "6d257942_b3a27879",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T14:22:01Z",
+      "side": 1,
+      "message": "config from which the values are loaded",
+      "range": {
+        "startLine": 333,
+        "startChar": 16,
+        "endLine": 333,
+        "endChar": 46
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_53a8c457",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T14:22:01Z",
+      "side": 1,
+      "message": "instance of class in which the values are set",
+      "range": {
+        "startLine": 336,
+        "startChar": 14,
+        "endLine": 336,
+        "endChar": 31
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d257942_b3435872",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 2

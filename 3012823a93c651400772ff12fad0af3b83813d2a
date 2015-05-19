@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd75853f_6efbafba",
+        "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-19T22:31:38Z",
+      "side": 1,
+      "message": "Organize imports",
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

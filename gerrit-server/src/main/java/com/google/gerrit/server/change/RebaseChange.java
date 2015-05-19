@@ -123,8 +123,7 @@ public class RebaseChange {
         ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {
-          baseRev = findBaseRevision(patchSetId, db.get(),
-              change.getDest(), git, null, null, null);
+        baseRev = findBaseRevision(patchSetId, db.get(), change.getDest(), git);
       }
       ObjectId baseObjectId = git.resolve(baseRev);
       if (baseObjectId == null) {
@@ -146,35 +145,26 @@ public class RebaseChange {
     }
   }
 
-  /**
-   * Finds the revision of commit on which the given patch set should be based.
-   *
-   * @param patchSetId the id of the patch set for which the new base commit
-   *        should be found
-   * @param db the ReviewDb
-   * @param destBranch the destination branch
-   * @param git the repository
-   * @param patchSetAncestors the original PatchSetAncestor of the given patch
-   *        set that should be based
-   * @param depPatchSetList the original patch set list on which the rebased
-   *        patch set depends
-   * @param depChangeList the original change list on whose patch set the
-   *        rebased patch set depends
-   * @return the revision of commit on which the given patch set should be based
-   * @throws IOException thrown if rebase is not possible or not needed
-   * @throws OrmException thrown in case accessing the database fails
-   */
-    private static String findBaseRevision(final PatchSet.Id patchSetId,
-        final ReviewDb db, final Branch.NameKey destBranch, final Repository git,
-        List<PatchSetAncestor> patchSetAncestors, List<PatchSet> depPatchSetList,
-        List<Change> depChangeList) throws IOException, OrmException {
+    /**
+     * Finds the revision of commit on which the given patch set should be based.
+     *
+     * @param patchSetId the id of the patch set for which the new base commit
+     *        should be found
+     * @param db the ReviewDb
+     * @param destBranch the destination branch
+     * @param git the repository
+     * @return the revision of commit on which the given patch set should be based
+     * @throws IOException thrown if rebase is not possible or not needed
+     * @throws OrmException thrown in case accessing the database fails
+     */
+    private static String findBaseRevision(PatchSet.Id patchSetId,
+        ReviewDb db, Branch.NameKey destBranch, Repository git)
+        throws IOException, OrmException {
 
       String baseRev = null;
 
-      if (patchSetAncestors == null) {
-        patchSetAncestors =
-            db.patchSetAncestors().ancestorsOf(patchSetId).toList();
-      }
+      List<PatchSetAncestor> patchSetAncestors =
+          db.patchSetAncestors().ancestorsOf(patchSetId).toList();
 
       if (patchSetAncestors.size() > 1) {
         throw new IOException(
@@ -187,21 +177,11 @@ public class RebaseChange {
       }
 
       RevId ancestorRev = patchSetAncestors.get(0).getAncestorRevision();
-      if (depPatchSetList == null || depPatchSetList.size() != 1 ||
-          !depPatchSetList.get(0).getRevision().equals(ancestorRev)) {
-        depPatchSetList = db.patchSets().byRevision(ancestorRev).toList();
-      }
 
-      for (PatchSet depPatchSet : depPatchSetList) {
+      for (PatchSet depPatchSet : db.patchSets().byRevision(ancestorRev)) {
 
         Change.Id depChangeId = depPatchSet.getId().getParentKey();
-        Change depChange;
-        if (depChangeList == null || depChangeList.size() != 1 ||
-            !depChangeList.get(0).getId().equals(depChangeId)) {
-          depChange = db.changes().get(depChangeId);
-        } else {
-          depChange = depChangeList.get(0);
-        }
+        Change depChange = db.changes().get(depChangeId);
         if (!depChange.getDest().equals(destBranch)) {
           continue;
         }
@@ -380,10 +360,7 @@ public class RebaseChange {
           patchSetId,
           db.get(),
           branch,
-          git,
-          null,
-          null,
-          null);
+          git);
       return true;
     } catch (IOException e) {
       return false;

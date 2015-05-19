@@ -625,7 +625,7 @@ Configuration
 
 * Do not persist default project state in `project.config`.
 
-* Honor the `gerrit.cannonicalWebUrl` setting when opening the browser after init.
+* Honor the `gerrit.canonicalWebUrl` setting when opening the browser after init.
 
 * Fix 'query disabled' error when Query Limit is set.
 

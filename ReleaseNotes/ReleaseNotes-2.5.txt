@@ -923,11 +923,11 @@ Eclipse 3 writes a timestamp at the top of these files making the Git
 working tree dirty.  Eclipse 4 (Juno) still overwrites these files but
 doesn't write the timestamp.  This should help to keep the working tree
 clean.  However, since the timestamp is currently present in these
-files, Eclispe 4 would still make them dirty by overwriting and
+files, Eclipse 4 would still make them dirty by overwriting and
 effectively removing the timestamp.
 +
 This change removes the timestamp from these files. This helps those
-using Eclipse 4 and doesn't make it worse for those still using Eclispe
+using Eclipse 4 and doesn't make it worse for those still using Eclipse
 3.
 
 * Add Maven profile to skip build of plugin modules

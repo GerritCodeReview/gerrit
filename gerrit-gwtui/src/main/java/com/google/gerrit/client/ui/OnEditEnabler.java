@@ -87,7 +87,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
     // Resetting the "original text" on focus ensures that we are
     // up to date with non-user updates of the text (calls to
     // setText()...) and also up to date with user changes which
-    // occured after enabling "widget".
+    // occurred after enabling "widget".
     tb.addFocusHandler(new FocusHandler() {
         @Override
         public void onFocus(FocusEvent event) {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd75853f_aec67798",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-19T18:36:43Z",
+      "side": 1,
+      "message": "Rather than adding a separate test method, I would just add some asserts to the previous comments() method. Then you can simply assert that the elements in the map and list versions correspond.",
+      "revId": "ab59849c44f1400bbf367a93ce148ede6713028e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd75853f_4eccb3b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-19T18:36:43Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "ab59849c44f1400bbf367a93ce148ede6713028e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,14 +15,15 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
@@ -50,77 +51,65 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Test
   public void getRelatedNoResult() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    PatchSet.Id ps = push.to("refs/for/master").getPatchSetId();
-    List<ChangeAndCommit> related = getRelated(ps);
-    assertThat(related).isEmpty();
+    assertRelated(push.to("refs/for/master").getPatchSetId());
   }
 
   @Test
   public void getRelatedLinear() throws Exception {
-    RevCommit c1 = commitBuilder()
+    RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")
         .message("subject: 1")
         .create();
-    String id1 = getChangeId(testRepo, c1).get();
-    RevCommit c2 = commitBuilder()
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_2 = commitBuilder()
         .add("b.txt", "2")
         .message("subject: 2")
         .create();
-    String id2 = getChangeId(testRepo, c2).get();
+    String id2 = getChangeId(c2_2);
     pushHead(testRepo, "refs/for/master", false);
 
-    for (RevCommit c : ImmutableList.of(c2, c1)) {
-      List<ChangeAndCommit> related = getRelated(getPatchSetId(c));
-      String id = getChangeId(testRepo, c).get();
-      assertThat(related).hasSize(2);
-      assertThat(related.get(0).changeId)
-          .named("related to " + id).isEqualTo(id2);
-      assertThat(related.get(1).changeId)
-          .named("related to " + id).isEqualTo(id1);
+    for (RevCommit c : ImmutableList.of(c2_2, c1_1)) {
+      assertRelated(getPatchSetId(c),
+          changeAndCommit(id2, c2_2, 1, 1),
+          changeAndCommit(id1, c1_1, 1, 1));
     }
   }
 
   @Test
   public void getRelatedReorder() throws Exception {
     // Create two commits and push.
-    RevCommit c1 = commitBuilder()
+    RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")
         .message("subject: 1")
         .create();
-    String id1 = getChangeId(testRepo, c1).get();
-    RevCommit c2 = commitBuilder()
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
         .add("b.txt", "2")
         .message("subject: 2")
         .create();
-    String id2 = getChangeId(testRepo, c2).get();
+    String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
-    PatchSet.Id c1ps1 = getPatchSetId(c1);
-    PatchSet.Id c2ps1 = getPatchSetId(c2);
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
 
     // Swap the order of commits and push again.
     testRepo.reset("HEAD~2");
-    testRepo.cherryPick(c2);
-    testRepo.cherryPick(c1);
+    RevCommit c2_2 = testRepo.cherryPick(c2_1);
+    RevCommit c1_2 = testRepo.cherryPick(c1_1);
     pushHead(testRepo, "refs/for/master", false);
-    PatchSet.Id c1ps2 = getPatchSetId(c1);
-    PatchSet.Id c2ps2 = getPatchSetId(c2);
+    PatchSet.Id ps1_2 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_2 = getPatchSetId(c2_1);
 
-    for (PatchSet.Id ps : ImmutableList.of(c2ps2, c1ps2)) {
-      List<ChangeAndCommit> related = getRelated(ps);
-      assertThat(related).hasSize(2);
-      assertThat(related.get(0).changeId).named("related to " + ps)
-          .isEqualTo(id1);
-      assertThat(related.get(1).changeId).named("related to " + ps)
-          .isEqualTo(id2);
+    for (PatchSet.Id ps : ImmutableList.of(ps2_2, ps1_2)) {
+      assertRelated(ps,
+          changeAndCommit(id1, c1_2, 2, 2),
+          changeAndCommit(id2, c2_2, 2, 2));
     }
 
-    for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
-      List<ChangeAndCommit> related = getRelated(ps);
-      assertThat(related).hasSize(2);
-      assertThat(related.get(0).changeId).named("related to " + ps)
-          .isEqualTo(id2);
-      assertThat(related.get(1).changeId).named("related to " + ps)
-          .isEqualTo(id1);
+    for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
+      assertRelated(ps,
+          changeAndCommit(id2, c2_1, 1, 2),
+          changeAndCommit(id1, c1_1, 1, 2));
     }
   }
 
@@ -128,95 +117,91 @@ public class GetRelatedIT extends AbstractDaemonTest {
   public void getRelatedReorderAndExtend() throws Exception {
     // Create two commits and push.
     ObjectId initial = repo().getRef("HEAD").getObjectId();
-    RevCommit c1 = commitBuilder()
+    RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")
         .message("subject: 1")
         .create();
-    String id1 = getChangeId(testRepo, c1).get();
-    RevCommit c2 = commitBuilder()
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
         .add("b.txt", "2")
         .message("subject: 2")
         .create();
-    String id2 = getChangeId(testRepo, c2).get();
+    String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
-    PatchSet.Id c1ps1 = getPatchSetId(c1);
-    PatchSet.Id c2ps1 = getPatchSetId(c2);
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
 
     // Swap the order of commits, create a new commit on top, and push again.
     testRepo.reset(initial);
-    testRepo.cherryPick(c2);
-    testRepo.cherryPick(c1);
-    RevCommit c3 = commitBuilder()
+    RevCommit c2_2 = testRepo.cherryPick(c2_1);
+    RevCommit c1_2 = testRepo.cherryPick(c1_1);
+    RevCommit c3_1 = commitBuilder()
         .add("c.txt", "3")
         .message("subject: 3")
         .create();
-    String id3 = getChangeId(testRepo, c3).get();
+    String id3 = getChangeId(c3_1);
     pushHead(testRepo, "refs/for/master", false);
-    PatchSet.Id c1ps2 = getPatchSetId(c1);
-    PatchSet.Id c2ps2 = getPatchSetId(c2);
-    PatchSet.Id c3ps1 = getPatchSetId(c3);
+    PatchSet.Id ps1_2 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_2 = getPatchSetId(c2_1);
+    PatchSet.Id ps3_1 = getPatchSetId(c3_1);
 
-
-    for (PatchSet.Id ps : ImmutableList.of(c3ps1, c2ps2, c1ps2)) {
-      List<ChangeAndCommit> related = getRelated(ps);
-      assertThat(related).hasSize(3);
-      assertThat(related.get(0).changeId).named("related to " + ps)
-          .isEqualTo(id3);
-      assertThat(related.get(1).changeId).named("related to " + ps)
-          .isEqualTo(id1);
-      assertThat(related.get(2).changeId).named("related to " + ps)
-          .isEqualTo(id2);
+    for (PatchSet.Id ps : ImmutableList.of(ps3_1, ps2_2, ps1_2)) {
+      assertRelated(ps,
+          changeAndCommit(id3, c3_1, 1, 1),
+          changeAndCommit(id1, c1_2, 2, 2),
+          changeAndCommit(id2, c2_2, 2, 2));
     }
 
-    for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
-      List<ChangeAndCommit> related = getRelated(ps);
-      assertThat(related).hasSize(3);
-      assertThat(related.get(0).changeId).named("related to " + ps)
-          .isEqualTo(id3);
-      assertThat(related.get(1).changeId).named("related to " + ps)
-          .isEqualTo(id2);
-      assertThat(related.get(2).changeId).named("related to " + ps)
-          .isEqualTo(id1);
+    for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
+      assertRelated(ps,
+          changeAndCommit(id3, c3_1, 1, 1),
+          changeAndCommit(id2, c2_1, 1, 2),
+          changeAndCommit(id1, c1_1, 1, 2));
     }
   }
 
   @Test
   public void getRelatedEdit() throws Exception {
-    RevCommit c1 = commitBuilder()
+    RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")
         .message("subject: 1")
         .create();
-    String id1 = getChangeId(testRepo, c1).get();
-    RevCommit c2 = commitBuilder()
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
         .add("b.txt", "2")
         .message("subject: 2")
         .create();
-    String id2 = getChangeId(testRepo, c2).get();
-    RevCommit c3 = commitBuilder()
+    String id2 = getChangeId(c2_1);
+    RevCommit c3_1 = commitBuilder()
         .add("c.txt", "3")
         .message("subject: 3")
         .create();
-    String id3 = getChangeId(testRepo, c3).get();
+    String id3 = getChangeId(c3_1);
     pushHead(testRepo, "refs/for/master", false);
 
-    Change ch2 = getChange(c2).change();
+    Change ch2 = getChange(c2_1).change();
     editModifier.createEdit(ch2, getPatchSet(ch2));
     editModifier.modifyFile(editUtil.byChange(ch2).get(), "a.txt",
         RestSession.newRawInput(new byte[] {'a'}));
-    String editRev = editUtil.byChange(ch2).get().getRevision().get();
+    ObjectId editRev =
+        ObjectId.fromString(editUtil.byChange(ch2).get().getRevision().get());
 
-    List<ChangeAndCommit> related = getRelated(ch2.getId(), 0);
-    assertThat(related).hasSize(3);
-    assertThat(related.get(0).changeId).named("related to " + id2)
-        .isEqualTo(id3);
-    assertThat(related.get(1).changeId).named("related to " + id2)
-        .isEqualTo(id2);
-    assertThat(related.get(1)._revisionNumber).named(
-        "has edit revision number").isEqualTo(0);
-    assertThat(related.get(1).commit.commit).named(
-        "has edit revision " + editRev).isEqualTo(editRev);
-    assertThat(related.get(2).changeId).named("related to " + id2)
-        .isEqualTo(id1);
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
+    PatchSet.Id ps2_edit = new PatchSet.Id(ch2.getId(), 0);
+    PatchSet.Id ps3_1 = getPatchSetId(c3_1);
+
+    for (PatchSet.Id ps : ImmutableList.of(ps1_1, ps2_1, ps3_1)) {
+      assertRelated(ps,
+          changeAndCommit(id3, c3_1, 1, 1),
+          changeAndCommit(id2, c2_1, 1, 1),
+          changeAndCommit(id1, c1_1, 1, 1));
+    }
+
+    assertRelated(ps2_edit,
+        changeAndCommit(id3, c3_1, 1, 1),
+        changeAndCommit(id2, editRev, 0, 1),
+        changeAndCommit(id1, c1_1, 1, 1));
   }
 
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {
@@ -231,6 +216,10 @@ public class GetRelatedIT extends AbstractDaemonTest {
         RelatedInfo.class).changes;
   }
 
+  private String getChangeId(RevCommit c) throws Exception {
+    return GitUtil.getChangeId(testRepo, c).get();
+  }
+
   private PatchSet.Id getPatchSetId(ObjectId c) throws OrmException {
     return getChange(c).change().currentPatchSetId();
   }
@@ -241,5 +230,36 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private ChangeData getChange(ObjectId c) throws OrmException {
     return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
+  }
+
+  private static ChangeAndCommit changeAndCommit(String changeId,
+      ObjectId commitId, int revisionNum, int currentRevisionNum) {
+    ChangeAndCommit result = new ChangeAndCommit();
+    result.changeId = changeId;
+    result.commit = new CommitInfo();
+    result.commit.commit = commitId.name();
+    result._revisionNumber = revisionNum;
+    result._currentRevisionNumber = currentRevisionNum;
+    return result;
+  }
+
+  private void assertRelated(PatchSet.Id psId, ChangeAndCommit... expected)
+      throws Exception {
+    List<ChangeAndCommit> actual = getRelated(psId);
+    assertThat(actual).hasSize(expected.length);
+    for (int i = 0; i < actual.size(); i++) {
+      String name = "index " + i + " related to " + psId;
+      ChangeAndCommit a = actual.get(i);
+      ChangeAndCommit e = expected[i];
+      assertThat(a.changeId).named("Change-Id of " + name)
+          .isEqualTo(e.changeId);
+      assertThat(a.commit.commit).named("commit of " + name)
+          .isEqualTo(e.commit.commit);
+      // Don't bother checking _changeNumber; assume changeId is sufficient.
+      assertThat(a._revisionNumber).named("revision of " + name)
+          .isEqualTo(e._revisionNumber);
+      assertThat(a._currentRevisionNumber).named("current revision of " + name)
+          .isEqualTo(e._currentRevisionNumber);
+    }
   }
 }

@@ -277,6 +277,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
     public Integer _revisionNumber;
     public Integer _currentRevisionNumber;
 
+    public ChangeAndCommit() {
+    }
+
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {
         changeId = change.getKey().get();

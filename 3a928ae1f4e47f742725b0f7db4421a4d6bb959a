@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d257942_d344d47e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T09:46:01Z",
+      "side": 1,
+      "message": "Add a test for that?",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 65
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_b3435872",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T09:46:01Z",
+      "side": 1,
+      "message": "why not using the same style as in all else if cases below i.e. isString(t)?",
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_922cfcc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T09:46:01Z",
+      "side": 1,
+      "message": "Use:\n\n  t.isEnum()",
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_5359a45c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T09:46:01Z",
+      "side": 1,
+      "message": "All these classes are final in java i.e. the type of \"t\" cannot really be a subclass of any of them... so, I guess, it is enough to check, for example:\n\n  Boolean.class \u003d\u003d t\n\ninstead of using the Boolean.class.isAssignableFrom(t)",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 387,
+        "endChar": 3
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

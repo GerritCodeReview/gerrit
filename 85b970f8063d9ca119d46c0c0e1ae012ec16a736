@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d854159_71c958a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T19:29:05Z",
+      "side": 1,
+      "message": "Maybe this could also go into its own method, and then the naming would make more clear which case is checks we perform. `checkExpectMergedAs` is not obvious to me what should be done (I guess we assume a cherry pick strategy in that method?)",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 64
+      },
+      "revId": "85b970f8063d9ca119d46c0c0e1ae012ec16a736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0b1d19_981db591",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 1

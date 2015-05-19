@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_eebc7ffe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-05-19T15:02:25Z",
+      "side": 1,
+      "message": "The inconsitency is that ref-updated is the only event which returns the short name for getRefName(). For ChangeEvents, getRefName expands the branch name into full ref name. The other RefEvents also return full names (RefReceived \u0026 CommitReceived). RefUpdated is the only one which directly returns the RefUpdateAttribute. \n\nI think it makes more sense to create the event using the full ref name in the first place. Here I\u0027ve added a new attribute, but I will just reuse the existing one in my next patchset,",
+      "parentUuid": "6d257942_9312dc54",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "4fa59334321801933fb72644fc0ead4a350be05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d827552_32a99089",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -76,6 +100,30 @@
       "writtenOn": "2015-05-19T13:31:30Z",
       "side": 1,
       "message": "Is this really needed? I think it\u0027s okay to return the full ref name as \u0027refName\u0027. The documentation even didn\u0027t define that it\u0027s the short ref name, so clients should already expect full ref names.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "4fa59334321801933fb72644fc0ead4a350be05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d854159_91c15c85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-05-19T15:02:25Z",
+      "side": 1,
+      "message": "I considered that, but wanted to start out safe and just add a new attribute. I would prefer just changing the existing refName to use the full ref, actually.",
+      "parentUuid": "6d257942_f3f4709f",
       "range": {
         "startLine": 16,
         "startChar": 0,

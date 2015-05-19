@@ -91,7 +91,7 @@ class History extends FlowPanel {
       for (CommentInfo c : Natives.asList(map.get(path))) {
         c.path(path);
         if (c.author() != null) {
-          int authorId = c.author()._account_id();
+          int authorId = c.author()._accountId();
           List<CommentInfo> l = byAuthor.get(authorId);
           if (l == null) {
             l = new ArrayList<>();
@@ -108,7 +108,7 @@ class History extends FlowPanel {
       return Collections.emptyList();
     }
 
-    int authorId = msg.author()._account_id();
+    int authorId = msg.author()._accountId();
     List<CommentInfo> list = byAuthor.get(authorId);
     if (list == null) {
       return Collections.emptyList();

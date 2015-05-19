@@ -216,7 +216,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final ApprovalInfo for_user(int user) {
       JsArray<ApprovalInfo> all = all();
       for (int i = 0; all != null && i < all.length(); i++) {
-        if (all.get(i)._account_id() == user) {
+        if (all.get(i)._accountId() == user) {
           return all.get(i);
         }
       }

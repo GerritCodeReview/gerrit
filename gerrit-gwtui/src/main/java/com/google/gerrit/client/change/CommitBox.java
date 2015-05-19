@@ -212,7 +212,7 @@ class CommitBox extends Composite {
     // only try to fetch the avatar image for author and committer if an avatar
     // plugin is installed, if the change owner has no avatar info assume that
     // no avatar plugin is installed
-    if (change.owner().has_avatar_info()) {
+    if (change.owner().hasAvatarInfo()) {
       AvatarImage avatar;
       if (change.owner().email().equals(person.email())) {
         avatar = new AvatarImage(change.owner());

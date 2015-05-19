@@ -874,7 +874,7 @@ Suggested access rights to grant:
 If it's desired to have the possibility to upload temporarily hidden
 changes there's a specific permission for that.  This enables someone
 to add specific reviewers for early feedback before making the change
-publically visible.  If you want to allow others than the owners to
+publicly visible.  If you want to allow others than the owners to
 publish a draft you also need to grant them `Publish Drafts`.
 
 Optional access rights to grant:

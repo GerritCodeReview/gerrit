@@ -1181,7 +1181,7 @@ much more predictable behavior.
 Size of the buffer to store logging events for asynchronous logging.
 Putting a larger value can protect threads from stalling when the
 AsyncAppender threads are not fast enough to consume the logging events
-from the buffer. It also protects from loosing log entries in this case.
+from the buffer. It also protects from losing log entries in this case.
 +
 Default is 64 entries.
 

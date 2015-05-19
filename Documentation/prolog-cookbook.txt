@@ -141,15 +141,14 @@ be any other string (see examples below). The `status` is one of:
 
 * `ok(user(ID))` or just `ok(_)` if user info is not important. This status is
   used to tell that this label/category has been met.
-* `need(_)` is used to tell that this label/category is needed for change to
-  become submittable
-* `reject(user(ID))` or just `reject(_)`. This status is used to tell that
-  label/category is blocking change submission
-* `impossible(_)` is used when the logic knows that the change cannot be
-  submitted as-is. Administrative intervention is probably required. This is
-  meant for cases where the logic requires members of "FooEng" to score
-  `Code-Review +2` on a change, but nobody is in group "FooEng". It is to hint
-  at permissions misconfigurations.
+* `need(_)` is used to tell that this label/category is needed for the change to
+   become submittable.
+* `reject(user(ID))` or just `reject(_)`. This status is used to tell that this
+   label/category is blocking submission of the change.
+* `impossible(_)` is used when the logic knows that the change cannot be submitted
+   as-is. This is meant for cases where the logic requires members of a specific
+   group to apply a specific label on a change, but no users are in that group.
+   This is usually caused by misconfiguration of permissions.
 * `may(_)` allows expression of approval categories that are optional, i.e.
   could either be set or unset without ever influencing whether the change
   could be submitted.

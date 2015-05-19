@@ -12,7 +12,7 @@ New Features
 
 * Support identity linking in hybrid OpenID and OAuth2 authentication.
 +
-Linking of user identities accross protocol boundaries and from one OAuth2
+Linking of user identities across protocol boundaries and from one OAuth2
 identity to another OAuth2 identity is supported.
 
 * Support identity linking in OAuth2 extension point.

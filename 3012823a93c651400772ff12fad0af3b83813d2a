@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "cd75853f_2e1e078c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T23:39:04Z",
+      "side": 1,
+      "message": "Could this be replaced by the split method?\nhttp://docs.oracle.com/javase/7/docs/api/java/lang/String.html#split%28java.lang.String%29\nhttp://stackoverflow.com/questions/10631715/splitting-a-comma-separated-string\n\nI cannot spot the (subtle?) difference.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6efbafba",
         "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
         "patchSetId": 2

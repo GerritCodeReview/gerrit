@@ -151,7 +151,7 @@ public class EventFactory {
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
     ru.project = refName.getParentKey().get();
-    ru.refName = refName.getShortName();
+    ru.refName = refName.get();
     return ru;
   }
 

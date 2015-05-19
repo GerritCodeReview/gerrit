@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad705150_adc67d98",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-19T20:05:14Z",
+      "side": 1,
+      "message": "Is this correct? What can Mylyn connector do with uppercase archive format names, when the GET archive endpoint only accepts lowcase names? Or should Mylyn connector lowcase the format in archives list?\n\nWhen I supply uppercase format name to GET archive endpoint, based on the output of GET server info after this change:\n\n  GET http://localhost:8080/changes/\u003cn\u003e/revisions/\u003cr\u003e/archive?format\u003dTAR\n\nI\u0027m getting bad request.",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 7
+      },
+      "revId": "b8590bd990b009d205593017fed04e840f5e626a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

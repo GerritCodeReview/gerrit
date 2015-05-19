@@ -22,6 +22,30 @@
       "revId": "c8df27a57359c773adc7f585179ed3ec491a0b30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_f20ea86a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-19T08:42:26Z",
+      "side": 1,
+      "message": "\u0027p\u0027 is hard coded overloaded in side by side screen: [1] and jumps to the previous diff chunk: \n\n  chunkManager.diffChunkNav(cm, Direction.PREV)\n\n\u0027n\u0027 has fuzzy logic: [2] and conditionally performs next vim mode search *or* jumps to the next diff chunk:\n\n  private Runnable maybeNextVimSearch(final CodeMirror cm) {\n    return new Runnable() {\n      @Override\n      public void run() {\n        if (cm.vim().hasSearchHighlight()) {\n          cm.vim().handleKey(\"n\");\n        } else {\n          chunkManager.diffChunkNav(cm, Direction.NEXT).run();\n        }\n      }\n    };\n  }\n\n* [1] https://github.com/gerrit-review/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java#L375\n* [2] https://github.com/gerrit-review/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java#L373",
+      "parentUuid": "4d827552_12efacff",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "c8df27a57359c773adc7f585179ed3ec491a0b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

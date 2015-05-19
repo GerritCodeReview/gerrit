@@ -22,6 +22,30 @@
       "revId": "b86c707e4391d4d4e0b4211c99169a44e68a21ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd75853f_2e05a741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-19T22:36:04Z",
+      "side": 1,
+      "message": "Totally related, it\u0027s \"exposed\" by adding a public method to the Description class. If we don\u0027t make the types public and change the signatures, it would be impossible to actually call that method.",
+      "parentUuid": "2d854159_71f2b8e8",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "b86c707e4391d4d4e0b4211c99169a44e68a21ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

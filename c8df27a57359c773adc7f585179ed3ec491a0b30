@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d827552_12efacff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-19T08:19:44Z",
+      "side": 1,
+      "message": "Are you talking about Vim style navigation? If yes, what is \u0027p\u0027 expected to do? \u0027p\u0027 represents \"put from clipboard\" i.e. \"paste\" in the standard vi/vim.",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "c8df27a57359c773adc7f585179ed3ec491a0b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,10 +24,7 @@ import java.util.Properties;
 @ExtensionPoint
 public interface GarbageCollectorListener {
   public interface Event {
-    /**
-     * The name of the Gerrit project that has been garbage collected
-     * @return
-     */
+    /** @return The name of the project that has been garbage collected. */
     String getProjectName();
 
     /**

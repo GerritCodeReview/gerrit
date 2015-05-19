@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
+import static com.google.gerrit.server.ChangeUtil.TO_PS_ID;
+
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
@@ -209,17 +210,6 @@ public class ConsistencyChecker {
       return error("Failed to open repository: " + project, e);
     }
   }
-
-  private static final Function<PatchSet, Integer> TO_PS_ID =
-      new Function<PatchSet, Integer>() {
-        @Override
-        public Integer apply(PatchSet in) {
-          return in.getId().get();
-        }
-      };
-
-  private static final Ordering<PatchSet> PS_ID_ORDER = Ordering.natural()
-    .onResultOf(TO_PS_ID);
 
   private boolean checkPatchSets() {
     List<PatchSet> all;

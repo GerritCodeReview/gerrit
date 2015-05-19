@@ -25,6 +25,75 @@
     },
     {
       "key": {
+        "uuid": "4d827552_d2ada49c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "\"config in which the values should be stored\"?",
+      "range": {
+        "startLine": 274,
+        "startChar": 16,
+        "endLine": 274,
+        "endChar": 47
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_73014007",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "\"instance of class with config values\"?",
+      "range": {
+        "startLine": 277,
+        "startChar": 14,
+        "endLine": 277,
+        "endChar": 31
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_f31d5065",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "Do we want to support List\u003cString\u003e too?",
+      "range": {
+        "startLine": 297,
+        "startChar": 10,
+        "endLine": 309,
+        "endChar": 11
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d257942_b3435872",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 2
@@ -75,6 +144,155 @@
         "startChar": 0,
         "endLine": 387,
         "endChar": 3
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_f29b0870",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ConfigUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "Remove this? Looks like you rather want to test that the default value is returned.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 14
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_b295803d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ConfigUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "Remove this? Looks like you rather want to test that the default value is returned.",
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_3282f003",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ConfigUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "Remove this? Looks like you rather want to test that the default value is returned.",
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d257942_732aa079",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ConfigUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "d.id?",
+      "range": {
+        "startLine": 102,
+        "startChar": 33,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_92907c4e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ConfigUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "d.ld?",
+      "range": {
+        "startLine": 105,
+        "startChar": 33,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_528bf420",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ConfigUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "d.sd?",
+      "range": {
+        "startLine": 110,
+        "startChar": 33,
+        "endLine": 110,
+        "endChar": 38
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_72887823",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ConfigUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T13:53:39Z",
+      "side": 1,
+      "message": "d.td?",
+      "range": {
+        "startLine": 112,
+        "startChar": 33,
+        "endLine": 112,
+        "endChar": 46
       },
       "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

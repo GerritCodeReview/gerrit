@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "4d827552_522d348e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-19T14:08:43Z",
+      "side": 1,
+      "message": "OK :-)",
+      "parentUuid": "4d827552_b2fee079",
+      "range": {
+        "startLine": 297,
+        "startChar": 10,
+        "endLine": 309,
+        "endChar": 11
+      },
+      "revId": "3a928ae1f4e47f742725b0f7db4421a4d6bb959a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d257942_b3435872",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 2

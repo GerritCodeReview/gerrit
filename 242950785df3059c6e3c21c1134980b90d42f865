@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad705150_0def91ff",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-19T20:55:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d257942_f398f04e",
+      "range": {
+        "startLine": 1550,
+        "startChar": 44,
+        "endLine": 1550,
+        "endChar": 46
+      },
+      "revId": "242950785df3059c6e3c21c1134980b90d42f865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d827552_b2d020fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEditPreferences.java",
         "patchSetId": 19
@@ -59,6 +83,30 @@
       "writtenOn": "2015-05-19T14:32:45Z",
       "side": 1,
       "message": "Very good point! That\u0027s wrong and should be fixed.",
+      "parentUuid": "4d827552_b2d020fd",
+      "range": {
+        "startLine": 54,
+        "startChar": 41,
+        "endLine": 54,
+        "endChar": 62
+      },
+      "revId": "242950785df3059c6e3c21c1134980b90d42f865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad705150_cd098965",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEditPreferences.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-19T20:55:37Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "4d827552_b2d020fd",
       "range": {
         "startLine": 54,

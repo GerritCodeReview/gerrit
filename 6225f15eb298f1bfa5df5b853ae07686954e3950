@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d854159_51fe94ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-19T23:58:29Z",
+      "side": 1,
+      "message": "(nit:)\nThis lingo may be contributing to my confusion of Gerrit.\nSo in my mind a commit is like an applied patch, so a single commit equals rather a single patch rather than a set. A patch set is set of patches grouped together by a change id which is the same for all patches in that set.\n\nThis comment however makes it sound as if commit \u003d\u003d applied patch set?\n\nMaybe this is \n    \n    \u003cli\u003eIf an existing patch set of a change contains the commit ...\n\nis more intuitive?",
+      "range": {
+        "startLine": 56,
+        "startChar": 37,
+        "endLine": 56,
+        "endChar": 47
+      },
+      "revId": "6225f15eb298f1bfa5df5b853ae07686954e3950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

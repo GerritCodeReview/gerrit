@@ -443,7 +443,7 @@ public class CommentsTest  {
       assertThat(new Account.Id(ci.author._accountId))
           .isEqualTo(plc.getAuthor());
     }
-    assertThat((int) ci.line).isEqualTo(plc.getLine());
+    assertThat(ci.line).isEqualTo(plc.getLine());
     assertThat(MoreObjects.firstNonNull(ci.side, Side.REVISION))
         .isEqualTo(plc.getSide() == 0 ? Side.PARENT : Side.REVISION);
     assertThat(TimeUtil.roundToSecond(ci.updated))

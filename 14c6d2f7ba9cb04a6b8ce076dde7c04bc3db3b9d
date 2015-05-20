@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6d4c9914_9b90ab4e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-20T08:55:44Z",
+      "side": 1,
+      "message": "I just wonder if there will be some other kind of \"info\" later that will mean we have to rename this again?\n\nIf not, then OK, let\u0027s just name it \"info\".",
+      "parentUuid": "8d662d35_d4ebbcef",
+      "range": {
+        "startLine": 103,
+        "startChar": 16,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "14c6d2f7ba9cb04a6b8ce076dde7c04bc3db3b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d662d35_74dbc868",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccessSectionEditor.java",
         "patchSetId": 6

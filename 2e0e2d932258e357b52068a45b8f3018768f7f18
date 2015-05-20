@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d854159_311e708c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T00:32:26Z",
+      "side": 1,
+      "message": "I can change it so it can be called multiple times, that\u0027s fine.\n\nWe can add exclude if/when we need it.",
+      "parentUuid": "2d854159_d1092465",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 36
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d854159_f10ea86a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-05-19T23:31:45Z",
       "side": 1,
       "message": "I wonder if it would be easier to return an empty List here?\n\nOr to put it as another question: What is the difference between empty List as returned below and null here?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d854159_d15b6461",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T00:32:26Z",
+      "side": 1,
+      "message": "Yeah, we should just use an empty list. The only important thing is to ensure sortedByProject doesn\u0027t have empty lists since PROJECT_LIST_SORTER doesn\u0027t support those. But we don\u0027t need to handle null here for that to work.",
+      "parentUuid": "2d854159_91139c91",
       "range": {
         "startLine": 126,
         "startChar": 0,

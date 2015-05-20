@@ -52,8 +52,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Singleton
 class ContainerAuthFilter implements Filter {
-  public static final String REALM_NAME = "Gerrit Code Review";
-
   private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
   private final Config config;

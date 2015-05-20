@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad705150_0d08f158",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-20T05:44:01Z",
+      "side": 1,
+      "message": "Original code used lowcased string. Yes, I know that compareIgnoreCase is used.",
+      "range": {
+        "startLine": 238,
+        "startChar": 50,
+        "endLine": 238,
+        "endChar": 65
+      },
+      "revId": "81f2cd443cab964cc73543b7729cf76a306dfe5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

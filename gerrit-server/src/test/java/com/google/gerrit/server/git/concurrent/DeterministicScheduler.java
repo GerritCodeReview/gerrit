@@ -13,8 +13,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.google.gerrit.server.git.PriorityLockedQueueTest;
 import com.google.gerrit.server.git.concurrent.internal.DeltaQueue;
-
 
 /**
  * A {@link ScheduledExecutorService} that executes commands on the thread that calls
@@ -37,8 +37,9 @@ public class DeterministicScheduler implements ScheduledExecutorService {
      * @param duration
      * @param timeUnit
      */
-    public void tick(long duration, TimeUnit timeUnit) {
+    public synchronized void tick(long duration, TimeUnit timeUnit) {
         long remaining = toTicks(duration, timeUnit);
+
 
         do {
             remaining = deltaQueue.tick(remaining);
@@ -51,16 +52,17 @@ public class DeterministicScheduler implements ScheduledExecutorService {
      * Runs all commands scheduled to be executed immediately but does
      * not tick time forward.
      */
-    public void runUntilIdle() {
+    public synchronized void runUntilIdle() {
         while (!isIdle()) {
             runNextPendingCommand();
         }
     }
 
+
     /**
      * Runs the next command scheduled to be executed immediately.
      */
-    public void runNextPendingCommand() {
+    public synchronized void runNextPendingCommand() {
         ScheduledTask<?> scheduledTask = deltaQueue.pop();
 
         scheduledTask.run();
@@ -76,11 +78,11 @@ public class DeterministicScheduler implements ScheduledExecutorService {
      * @return true if there are no commands pending immediate execution,
      *         false if there are commands pending immediate execution.
      */
-    public boolean isIdle() {
+    public synchronized boolean isIdle() {
         return deltaQueue.isEmpty() || deltaQueue.delay() > 0;
     }
 
-    public void execute(Runnable command) {
+    public synchronized void execute(Runnable command) {
         schedule(command, 0, TimeUnit.SECONDS);
     }
 
@@ -90,7 +92,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
         return task;
     }
 
-    public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
+    public synchronized <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
         ScheduledTask<V> task = new ScheduledTask<V>(callable);
         deltaQueue.add(toTicks(delay, unit), task);
         return task;
@@ -209,15 +211,15 @@ public class DeterministicScheduler implements ScheduledExecutorService {
             return repeatDelay >= 0;
         }
 
-        public long getDelay(TimeUnit unit) {
+        public synchronized long getDelay(TimeUnit unit) {
             return unit.convert(deltaQueue.delay(this), TimeUnit.MILLISECONDS);
         }
 
-        public int compareTo(Delayed o) {
+        public synchronized int compareTo(Delayed o) {
             throw new UnsupportedOperationException("not supported");
         }
 
-        public boolean cancel(boolean mayInterruptIfRunning) {
+        public synchronized boolean cancel(boolean mayInterruptIfRunning) {
             isCancelled = true;
             return deltaQueue.remove(this);
         }
@@ -234,7 +236,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
             return futureResult;
         }
 
-        public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+        public synchronized T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
             return get();
         }
 
@@ -257,7 +259,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
         }
     }
 
-    private long toTicks(long duration, TimeUnit timeUnit) {
+    private synchronized long toTicks(long duration, TimeUnit timeUnit) {
         return TimeUnit.MILLISECONDS.convert(duration, timeUnit);
     }
 

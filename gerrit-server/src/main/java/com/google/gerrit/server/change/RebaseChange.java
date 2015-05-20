@@ -50,6 +50,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,6 +59,8 @@ import java.util.TimeZone;
 
 @Singleton
 public class RebaseChange {
+  private static final Logger log = LoggerFactory.getLogger(RebaseChange.class);
+
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
@@ -154,12 +158,14 @@ public class RebaseChange {
      * @param destBranch the destination branch
      * @param git the repository
      * @return the revision of commit on which the given patch set should be based
-     * @throws IOException thrown if rebase is not possible or not needed
-     * @throws OrmException thrown in case accessing the database fails
+     * @throws InvalidChangeOperationException if rebase is not possible or not
+     *     allowed
+     * @throws IOException thrown if accessing the repository fails
+     * @throws OrmException thrown if accessing the database fails
      */
     private static String findBaseRevision(PatchSet.Id patchSetId,
         ReviewDb db, Branch.NameKey destBranch, Repository git)
-        throws IOException, OrmException {
+        throws InvalidChangeOperationException, IOException, OrmException {
 
       String baseRev = null;
 
@@ -167,12 +173,12 @@ public class RebaseChange {
           db.patchSetAncestors().ancestorsOf(patchSetId).toList();
 
       if (patchSetAncestors.size() > 1) {
-        throw new IOException(
+        throw new InvalidChangeOperationException(
             "Cannot rebase a change with multiple parents. Parent commits: "
                 + patchSetAncestors.toString());
       }
       if (patchSetAncestors.size() == 0) {
-        throw new IOException(
+        throw new InvalidChangeOperationException(
             "Cannot rebase a change without any parents (is this the initial commit?).");
       }
 
@@ -187,13 +193,13 @@ public class RebaseChange {
         }
 
         if (depChange.getStatus() == Status.ABANDONED) {
-          throw new IOException("Cannot rebase a change with an abandoned parent: "
+          throw new InvalidChangeOperationException("Cannot rebase a change with an abandoned parent: "
               + depChange.getKey().toString());
         }
 
         if (depChange.getStatus().isOpen()) {
           if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
-            throw new IOException(
+            throw new InvalidChangeOperationException(
                 "Change is already based on the latest patch set of the dependent change.");
           }
           PatchSet latestDepPatchSet =
@@ -208,13 +214,12 @@ public class RebaseChange {
         // dependencies at all.
         Ref destRef = git.getRef(destBranch.get());
         if (destRef == null) {
-          throw new IOException(
-              "The destination branch does not exist: "
-                  + destBranch.get());
+          throw new InvalidChangeOperationException(
+              "The destination branch does not exist: " + destBranch.get());
         }
         baseRev = destRef.getObjectId().getName();
         if (baseRev.equals(ancestorRev.get())) {
-          throw new IOException("Change is already up to date.");
+          throw new InvalidChangeOperationException("Change is already up to date.");
         }
       }
       return baseRev;
@@ -308,11 +313,13 @@ public class RebaseChange {
    */
   private ObjectId rebaseCommit(Repository git, ObjectInserter inserter,
       RevCommit original, RevCommit base, MergeUtil mergeUtil,
-      PersonIdent committerIdent) throws MergeConflictException, IOException {
+      PersonIdent committerIdent) throws MergeConflictException, IOException,
+      InvalidChangeOperationException {
     RevCommit parentCommit = original.getParent(0);
 
     if (base.equals(parentCommit)) {
-      throw new IOException("Change is already up to date.");
+      throw new InvalidChangeOperationException(
+          "Change is already up to date.");
     }
 
     ThreeWayMerger merger = mergeUtil.newThreeWayMerger(git, inserter);
@@ -362,9 +369,11 @@ public class RebaseChange {
           branch,
           git);
       return true;
-    } catch (IOException e) {
+    } catch (InvalidChangeOperationException e) {
       return false;
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
+      log.warn("Error checking if patch set " + patchSetId + " on " + branch
+          + " can be rebased", e);
       return false;
     } finally {
       git.close();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_ae95173d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T17:52:49Z",
+      "side": 1,
+      "message": "I don\u0027t think it was in the first place. I suspect it was a style decision on the author\u0027s part to keep straight the many arguments. I\u0027m not making a statement one way or the other at this point, though I probably will in my subsequent cleanup change ;)",
+      "parentUuid": "4d1d15f6_da44e57e",
+      "range": {
+        "startLine": 359,
+        "startChar": 23,
+        "endLine": 363,
+        "endChar": 14
+      },
+      "revId": "533390dd07dcd52bd3402c638b021b60e885556e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d4c9914_1b533b3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d1d15f6_daadc59c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-20T08:13:06Z",
+      "side": 0,
+      "message": "I was trying to figure out where this was moved to, but then realised it\u0027s removed because it\u0027s not used.",
+      "revId": "8496ecfa736f8ab3966c8d71eebb956bb231c645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

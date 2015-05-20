@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -54,7 +53,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.TimeZone;
 
 @Singleton
@@ -127,7 +125,8 @@ public class RebaseChange {
         ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {
-        baseRev = findBaseRevision(patchSetId, db.get(), change.getDest(), git);
+        baseRev =
+            findBaseRevision(patchSetId, db.get(), change.getDest(), git, rw);
       }
       ObjectId baseObjectId = git.resolve(baseRev);
       if (baseObjectId == null) {
@@ -157,6 +156,7 @@ public class RebaseChange {
      * @param db the ReviewDb
      * @param destBranch the destination branch
      * @param git the repository
+     * @param rw the RevWalk
      * @return the revision of commit on which the given patch set should be based
      * @throws InvalidChangeOperationException if rebase is not possible or not
      *     allowed
@@ -164,27 +164,31 @@ public class RebaseChange {
      * @throws OrmException thrown if accessing the database fails
      */
     private static String findBaseRevision(PatchSet.Id patchSetId,
-        ReviewDb db, Branch.NameKey destBranch, Repository git)
+        ReviewDb db, Branch.NameKey destBranch, Repository git, RevWalk rw)
         throws InvalidChangeOperationException, IOException, OrmException {
 
       String baseRev = null;
 
-      List<PatchSetAncestor> patchSetAncestors =
-          db.patchSetAncestors().ancestorsOf(patchSetId).toList();
-
-      if (patchSetAncestors.size() > 1) {
+      PatchSet patchSet = db.patchSets().get(patchSetId);
+      if (patchSet == null) {
         throw new InvalidChangeOperationException(
-            "Cannot rebase a change with multiple parents. Parent commits: "
-                + patchSetAncestors.toString());
+            "Patch set " + patchSetId + " not found");
       }
-      if (patchSetAncestors.size() == 0) {
+      RevCommit commit = rw.parseCommit(
+          ObjectId.fromString(patchSet.getRevision().get()));
+
+      if (commit.getParentCount() > 1) {
         throw new InvalidChangeOperationException(
-            "Cannot rebase a change without any parents (is this the initial commit?).");
+            "Cannot rebase a change with multiple parents.");
+      } else if (commit.getParentCount() == 0) {
+        throw new InvalidChangeOperationException(
+            "Cannot rebase a change without any parents"
+            + " (is this the initial commit?).");
       }
 
-      RevId ancestorRev = patchSetAncestors.get(0).getAncestorRevision();
+      RevId parentRev = new RevId(commit.getParent(0).name());
 
-      for (PatchSet depPatchSet : db.patchSets().byRevision(ancestorRev)) {
+      for (PatchSet depPatchSet : db.patchSets().byRevision(parentRev)) {
 
         Change.Id depChangeId = depPatchSet.getId().getParentKey();
         Change depChange = db.changes().get(depChangeId);
@@ -218,7 +222,7 @@ public class RebaseChange {
               "The destination branch does not exist: " + destBranch.get());
         }
         baseRev = destRef.getObjectId().getName();
-        if (baseRev.equals(ancestorRev.get())) {
+        if (baseRev.equals(parentRev.get())) {
           throw new InvalidChangeOperationException("Change is already up to date.");
         }
       }
@@ -362,12 +366,13 @@ public class RebaseChange {
     } catch (IOException err) {
       return false;
     }
-    try {
+    try (RevWalk rw = new RevWalk(git)) {
       findBaseRevision(
           patchSetId,
           db.get(),
           branch,
-          git);
+          git,
+          rw);
       return true;
     } catch (InvalidChangeOperationException e) {
       return false;

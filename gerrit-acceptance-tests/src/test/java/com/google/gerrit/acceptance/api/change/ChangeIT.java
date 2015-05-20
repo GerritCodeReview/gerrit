@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -46,6 +47,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
@@ -468,5 +470,18 @@ public class ChangeIT extends AbstractDaemonTest {
           .withOption(ListChangesOption.DETAILED_ACCOUNTS)
           .get())
         .hasSize(2);
+  }
+
+  @Test
+  public void setPatchSetsClearsCurrentPatchSet() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    ChangeData cd = r1.getChange();
+    PatchSet curr1 = cd.currentPatchSet();
+    int currId = curr1.getId().get();
+    PatchSet ps1 = new PatchSet(new PatchSet.Id(cd.change().getId(), currId + 1));
+    PatchSet ps2 = new PatchSet(new PatchSet.Id(cd.change().getId(), currId + 2));
+    cd.setPatchSets(ImmutableList.of(ps1, ps2));
+    PatchSet curr2 = cd.currentPatchSet();
+    assertThat(curr2).isNotSameAs(curr1);
   }
 }

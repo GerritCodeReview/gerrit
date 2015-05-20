@@ -22,6 +22,47 @@
       "revId": "6225f15eb298f1bfa5df5b853ae07686954e3950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d854159_d1328423",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T00:10:16Z",
+      "side": 1,
+      "message": "Take a look at com.google.reviewdb.client.PatchSet. This record has a number, the containing change\u0027s number, and a commit SHA-1.\n\nTherefore \"commit is an existing patch set of a change\" means \"there exists a PatchSet object in the database with this commit\u0027s SHA-1 in the RevId field\".\n\nPatchSet is a terrible name for this concept, I agree, but this class is using the terminology consistently with the rest of Gerrit.",
+      "parentUuid": "2d854159_51fe94ab",
+      "range": {
+        "startLine": 56,
+        "startChar": 37,
+        "endLine": 56,
+        "endChar": 47
+      },
+      "revId": "6225f15eb298f1bfa5df5b853ae07686954e3950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd75853f_ee0ebf6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T00:10:16Z",
+      "side": 1,
+      "message": "Blank line.",
+      "revId": "6225f15eb298f1bfa5df5b853ae07686954e3950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

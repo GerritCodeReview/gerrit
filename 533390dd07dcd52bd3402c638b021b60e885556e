@@ -45,6 +45,30 @@
       "revId": "533390dd07dcd52bd3402c638b021b60e885556e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d4c9914_dbadd39c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-20T06:03:59Z",
+      "side": 1,
+      "message": "Never mind.  I see this is done in another change in the series.",
+      "parentUuid": "6d4c9914_1b533b3f",
+      "range": {
+        "startLine": 365,
+        "startChar": 6,
+        "endLine": 368,
+        "endChar": 19
+      },
+      "revId": "533390dd07dcd52bd3402c638b021b60e885556e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

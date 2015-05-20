@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "2d854159_d1ada49c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-20T16:59:20Z",
+      "side": 1,
+      "message": "I think it\u0027s using regex under the hood, looking at the performance measurement linked in my former comment the split example uses 366ms opposed to 50ms for doing it with indexOf, so I\u0027m fine with this implementation now.",
+      "parentUuid": "4d1d15f6_1a533d3f",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad705150_8d2ce1c6",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
         "patchSetId": 2

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ad705150_4d04b918",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T14:07:48Z",
+      "side": 1,
+      "message": "Okay, this is optional. There is one caller now, but who knows what will be later.",
+      "parentUuid": "ad705150_adfe7d79",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 11
+      },
+      "revId": "3da57ac9f7a5d170177054695ee9a21acc71d213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad705150_cdef49cb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 18

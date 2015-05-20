@@ -1,0 +1,4 @@
+JGIT_JAR_VERSION = '4.0.0.201505191015-rc1.19-g1773002'
+JGIT_DOC_VERSION = '3.7.0.201502260915-r' # No docs for ^ yet :-/
+
+JGIT_DOC_URL="http://download.eclipse.org/jgit/site/" + JGIT_DOC_VERSION + "/apidocs"

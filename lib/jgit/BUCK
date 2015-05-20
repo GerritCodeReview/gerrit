@@ -1,7 +1,8 @@
 include_defs('//lib/maven.defs')
+include_defs('//lib/jgit/version.defs')
 
 REPO = GERRIT # Leave here even if set to MAVEN_CENTRAL.
-VERS = '4.0.0.201505191015-rc1.19-g1773002'
+VERS = JGIT_JAR_VERSION
 
 maven_jar(
   name = 'jgit',

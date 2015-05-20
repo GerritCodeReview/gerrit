@@ -1,3 +1,5 @@
+include_defs('//lib/jgit/version.defs')
+
 SRC = 'src/main/java/com/google/gerrit/extensions/'
 SRCS = glob([SRC + '**/*.java'])
 
@@ -58,4 +60,5 @@ java_doc(
     '//lib/guice:guice_library'
   ],
   visibility = ['PUBLIC'],
+  external_docs = [JGIT_DOC_URL],
 )

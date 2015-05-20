@@ -67,12 +67,12 @@ public class RebaseChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
 
   @Inject
-  RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
-      final Provider<ReviewDb> db,
-      @GerritPersonIdent final PersonIdent myIdent,
-      final GitRepositoryManager gitManager,
-      final MergeUtil.Factory mergeUtilFactory,
-      final PatchSetInserter.Factory patchSetInserterFactory) {
+  RebaseChange(ChangeControl.GenericFactory changeControlFactory,
+      Provider<ReviewDb> db,
+      @GerritPersonIdent PersonIdent myIdent,
+      GitRepositoryManager gitManager,
+      MergeUtil.Factory mergeUtilFactory,
+      PatchSetInserter.Factory patchSetInserterFactory) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.gitManager = gitManager;
@@ -82,36 +82,37 @@ public class RebaseChange {
   }
 
   /**
-   * Rebases the change of the given patch set.
-   *
+   * Rebase the change of the given patch set.
+   * <p>
    * It is verified that the current user is allowed to do the rebase.
-   *
+   * <p>
    * If the patch set has no dependency to an open change, then the change is
    * rebased on the tip of the destination branch.
-   *
+   * <p>
    * If the patch set depends on an open change, it is rebased on the latest
    * patch set of this change.
-   *
+   * <p>
    * The rebased commit is added as new patch set to the change.
-   *
+   * <p>
    * E-mail notification and triggering of hooks happens for the creation of the
    * new patch set.
    *
-   * @param git the repository
-   * @param revWalk the RevWalk
-   * @param change the change to perform the rebase for
-   * @param patchSetId the id of the patch set
-   * @param uploader the user that creates the rebased patch set
-   * @param newBaseRev the commit that should be the new base
-   * @throws NoSuchChangeException thrown if the change to which the patch set
-   *         belongs does not exist or is not visible to the user
-   * @throws EmailException thrown if sending the e-mail to notify about the new
-   *         patch set fails
-   * @throws OrmException thrown in case accessing the database fails
-   * @throws IOException thrown if rebase is not possible or not needed
-   * @throws InvalidChangeOperationException thrown if rebase is not allowed
+   * @param git the repository.
+   * @param rw the RevWalk.
+   * @param change the change to rebase.
+   * @param patchSetId the patch set ID to rebase.
+   * @param uploader the user that creates the rebased patch set.
+   * @param newBaseRev the commit that should be the new base.
+   * @throws NoSuchChangeException if the change to which the patch set belongs
+   *     does not exist or is not visible to the user.
+   * @throws EmailException if sending the e-mail to notify about the new patch
+   *     set fails.
+   * @throws OrmException if accessing the database fails.
+   * @throws IOException if rebase is not possible.
+   * @throws InvalidChangeOperationException if rebase is not possible or not
+   *     allowed.
    */
-  public void rebase(Repository git, RevWalk revWalk, Change change,
+  public void rebase(Repository git, RevWalk rw, Change change,
       PatchSet.Id patchSetId, IdentifiedUser uploader, String newBaseRev)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
       InvalidChangeOperationException {
@@ -119,28 +120,26 @@ public class RebaseChange {
     ChangeControl changeControl =
         changeControlFactory.validateFor(change, uploader);
     if (!changeControl.canRebase()) {
-      throw new InvalidChangeOperationException(
-          "Cannot rebase: New patch sets are not allowed to be added to change: "
-              + changeId.toString());
+      throw new InvalidChangeOperationException("Cannot rebase: New patch sets"
+          + " are not allowed to be added to change: " + changeId);
     }
     try (ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {
         baseRev = findBaseRevision(
-            patchSetId, db.get(), change.getDest(), git, revWalk);
+            patchSetId, db.get(), change.getDest(), git, rw);
       }
       ObjectId baseObjectId = git.resolve(baseRev);
       if (baseObjectId == null) {
         throw new InvalidChangeOperationException(
           "Cannot rebase: Failed to resolve baseRev: " + baseRev);
       }
-      RevCommit baseCommit = revWalk.parseCommit(baseObjectId);
+      RevCommit baseCommit = rw.parseCommit(baseObjectId);
 
       PersonIdent committerIdent =
-          uploader.newCommitterIdent(TimeUtil.nowTs(),
-              serverTimeZone);
+          uploader.newCommitterIdent(TimeUtil.nowTs(), serverTimeZone);
 
-      rebase(git, revWalk, inserter, patchSetId, change,
+      rebase(git, rw, inserter, change, patchSetId,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, true, ValidatePolicy.GERRIT);
@@ -149,146 +148,151 @@ public class RebaseChange {
     }
   }
 
-    /**
-     * Finds the revision of commit on which the given patch set should be based.
-     *
-     * @param patchSetId the id of the patch set for which the new base commit
-     *        should be found
-     * @param db the ReviewDb
-     * @param destBranch the destination branch
-     * @param git the repository
-     * @param rw the RevWalk
-     * @return the revision of commit on which the given patch set should be based
-     * @throws InvalidChangeOperationException if rebase is not possible or not
-     *     allowed
-     * @throws IOException thrown if accessing the repository fails
-     * @throws OrmException thrown if accessing the database fails
-     */
-    private static String findBaseRevision(PatchSet.Id patchSetId,
-        ReviewDb db, Branch.NameKey destBranch, Repository git, RevWalk rw)
-        throws InvalidChangeOperationException, IOException, OrmException {
+  /**
+   * Find the commit onto which a patch set should be rebased.
+   * <p>
+   * This is defined as the latest patch set of the change corresponding to
+   * this commit's parent, or the destination branch tip in the case where the
+   * parent's change is merged.
+   *
+   * @param patchSetId patch set ID for which the new base commit should be
+   *     found.
+   * @param db the ReviewDb.
+   * @param destBranch the destination branch.
+   * @param git the repository.
+   * @param rw the RevWalk.
+   * @return the commit onto which the patch set should be rebased.
+   * @throws InvalidChangeOperationException if rebase is not possible or not
+   *     allowed
+   * @throws IOException thrown if accessing the repository fails
+   * @throws OrmException thrown if accessing the database fails
+   */
+  private static String findBaseRevision(PatchSet.Id patchSetId,
+      ReviewDb db, Branch.NameKey destBranch, Repository git, RevWalk rw)
+      throws InvalidChangeOperationException, IOException, OrmException {
+    String baseRev = null;
 
-      String baseRev = null;
+    PatchSet patchSet = db.patchSets().get(patchSetId);
+    if (patchSet == null) {
+      throw new InvalidChangeOperationException(
+          "Patch set " + patchSetId + " not found");
+    }
+    RevCommit commit = rw.parseCommit(
+        ObjectId.fromString(patchSet.getRevision().get()));
 
-      PatchSet patchSet = db.patchSets().get(patchSetId);
-      if (patchSet == null) {
-        throw new InvalidChangeOperationException(
-            "Patch set " + patchSetId + " not found");
-      }
-      RevCommit commit = rw.parseCommit(
-          ObjectId.fromString(patchSet.getRevision().get()));
-
-      if (commit.getParentCount() > 1) {
-        throw new InvalidChangeOperationException(
-            "Cannot rebase a change with multiple parents.");
-      } else if (commit.getParentCount() == 0) {
-        throw new InvalidChangeOperationException(
-            "Cannot rebase a change without any parents"
-            + " (is this the initial commit?).");
-      }
-
-      RevId parentRev = new RevId(commit.getParent(0).name());
-
-      for (PatchSet depPatchSet : db.patchSets().byRevision(parentRev)) {
-
-        Change.Id depChangeId = depPatchSet.getId().getParentKey();
-        Change depChange = db.changes().get(depChangeId);
-        if (!depChange.getDest().equals(destBranch)) {
-          continue;
-        }
-
-        if (depChange.getStatus() == Status.ABANDONED) {
-          throw new InvalidChangeOperationException("Cannot rebase a change with an abandoned parent: "
-              + depChange.getKey().toString());
-        }
-
-        if (depChange.getStatus().isOpen()) {
-          if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
-            throw new InvalidChangeOperationException(
-                "Change is already based on the latest patch set of the dependent change.");
-          }
-          PatchSet latestDepPatchSet =
-              db.patchSets().get(depChange.currentPatchSetId());
-          baseRev = latestDepPatchSet.getRevision().get();
-        }
-        break;
-      }
-
-      if (baseRev == null) {
-        // We are dependent on a merged PatchSet or have no PatchSet
-        // dependencies at all.
-        Ref destRef = git.getRef(destBranch.get());
-        if (destRef == null) {
-          throw new InvalidChangeOperationException(
-              "The destination branch does not exist: " + destBranch.get());
-        }
-        baseRev = destRef.getObjectId().getName();
-        if (baseRev.equals(parentRev.get())) {
-          throw new InvalidChangeOperationException("Change is already up to date.");
-        }
-      }
-      return baseRev;
+    if (commit.getParentCount() > 1) {
+      throw new InvalidChangeOperationException(
+          "Cannot rebase a change with multiple parents.");
+    } else if (commit.getParentCount() == 0) {
+      throw new InvalidChangeOperationException(
+          "Cannot rebase a change without any parents"
+          + " (is this the initial commit?).");
     }
 
+    RevId parentRev = new RevId(commit.getParent(0).name());
+
+    for (PatchSet depPatchSet : db.patchSets().byRevision(parentRev)) {
+      Change.Id depChangeId = depPatchSet.getId().getParentKey();
+      Change depChange = db.changes().get(depChangeId);
+      if (!depChange.getDest().equals(destBranch)) {
+        continue;
+      }
+
+      if (depChange.getStatus() == Status.ABANDONED) {
+        throw new InvalidChangeOperationException(
+            "Cannot rebase a change with an abandoned parent: "
+            + depChange.getKey());
+      }
+
+      if (depChange.getStatus().isOpen()) {
+        if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
+          throw new InvalidChangeOperationException(
+              "Change is already based on the latest patch set of the"
+              + " dependent change.");
+        }
+        PatchSet latestDepPatchSet =
+            db.patchSets().get(depChange.currentPatchSetId());
+        baseRev = latestDepPatchSet.getRevision().get();
+      }
+      break;
+    }
+
+    if (baseRev == null) {
+      // We are dependent on a merged PatchSet or have no PatchSet
+      // dependencies at all.
+      Ref destRef = git.getRef(destBranch.get());
+      if (destRef == null) {
+        throw new InvalidChangeOperationException(
+            "The destination branch does not exist: " + destBranch.get());
+      }
+      baseRev = destRef.getObjectId().getName();
+      if (baseRev.equals(parentRev.get())) {
+        throw new InvalidChangeOperationException(
+            "Change is already up to date.");
+      }
+    }
+    return baseRev;
+  }
+
   /**
-   * Rebases the change of the given patch set on the given base commit.
-   *
+   * Rebase the change of the given patch set on the given base commit.
+   * <p>
    * The rebased commit is added as new patch set to the change.
+   * <p>
+   * E-mail notification and triggering of hooks is only done for the creation
+   * of the new patch set if {@code sendEmail} and {@code runHooks} are true,
+   * respectively.
    *
-   * E-mail notification and triggering of hooks is only done for the creation of
-   * the new patch set if `sendEmail` and `runHooks` are set to true.
-   *
-   * @param git the repository
-   * @param revWalk the RevWalk
-   * @param inserter the object inserter
-   * @param patchSetId the id of the patch set
-   * @param change the change that should be rebased
-   * @param uploader the user that creates the rebased patch set
-   * @param baseCommit the commit that should be the new base
-   * @param mergeUtil merge utilities for the destination project
-   * @param committerIdent the committer's identity
-   * @param runHooks if hooks should be run for the new patch set
-   * @param validate if commit validation should be run for the new patch set
-   * @return the new patch set which is based on the given base commit
-   * @throws NoSuchChangeException thrown if the change to which the patch set
-   *         belongs does not exist or is not visible to the user
-   * @throws OrmException thrown in case accessing the database fails
-   * @throws IOException thrown if rebase is not possible or not needed
-   * @throws InvalidChangeOperationException thrown if rebase is not allowed
+   * @param git the repository.
+   * @param inserter the object inserter.
+   * @param change the change to rebase.
+   * @param patchSetId the patch set ID to rebase.
+   * @param uploader the user that creates the rebased patch set.
+   * @param baseCommit the commit that should be the new base.
+   * @param mergeUtil merge utilities for the destination project.
+   * @param committerIdent the committer's identity.
+   * @param runHooks if hooks should be run for the new patch set.
+   * @param validate if commit validation should be run for the new patch set.
+   * @param rw the RevWalk.
+   * @return the new patch set, which is based on the given base commit.
+   * @throws NoSuchChangeException if the change to which the patch set belongs
+   *     does not exist or is not visible to the user.
+   * @throws OrmException if accessing the database fails.
+   * @throws IOException if rebase is not possible.
+   * @throws InvalidChangeOperationException if rebase is not possible or not
+   *     allowed.
    */
-  public PatchSet rebase(final Repository git, final RevWalk revWalk,
-      final ObjectInserter inserter, final PatchSet.Id patchSetId,
-      final Change change, final IdentifiedUser uploader, final RevCommit baseCommit,
-      final MergeUtil mergeUtil, PersonIdent committerIdent,
-      boolean runHooks, ValidatePolicy validate)
-          throws NoSuchChangeException,
-      OrmException, IOException, InvalidChangeOperationException,
-      MergeConflictException {
+  public PatchSet rebase(Repository git, RevWalk rw,
+      ObjectInserter inserter, Change change, PatchSet.Id patchSetId,
+      IdentifiedUser uploader, RevCommit baseCommit, MergeUtil mergeUtil,
+      PersonIdent committerIdent, boolean runHooks, ValidatePolicy validate)
+      throws NoSuchChangeException, OrmException, IOException,
+      InvalidChangeOperationException, MergeConflictException {
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
-    final PatchSet originalPatchSet = db.get().patchSets().get(patchSetId);
+    PatchSet originalPatchSet = db.get().patchSets().get(patchSetId);
 
-    final RevCommit rebasedCommit;
+    RevCommit rebasedCommit;
     ObjectId oldId = ObjectId.fromString(originalPatchSet.getRevision().get());
-    ObjectId newId = rebaseCommit(git, inserter, revWalk.parseCommit(oldId),
+    ObjectId newId = rebaseCommit(git, inserter, rw.parseCommit(oldId),
         baseCommit, mergeUtil, committerIdent);
 
-    rebasedCommit = revWalk.parseCommit(newId);
+    rebasedCommit = rw.parseCommit(newId);
 
-    final ChangeControl changeControl =
+    ChangeControl changeControl =
         changeControlFactory.validateFor(change, uploader);
 
     PatchSetInserter patchSetInserter = patchSetInserterFactory
-        .create(git, revWalk, changeControl, rebasedCommit)
+        .create(git, rw, changeControl, rebasedCommit)
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())
         .setUploader(uploader.getAccountId())
         .setSendMail(false)
         .setRunHooks(runHooks);
 
-    final PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
-    final ChangeMessage cmsg = new ChangeMessage(
+    PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
+    ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(db.get())), uploader.getAccountId(),
             TimeUtil.nowTs(), patchSetId);
@@ -357,8 +361,8 @@ public class RebaseChange {
         r.getPatchSet().getId(), r.getChange().getDest());
   }
 
-  public boolean canRebase(Project.NameKey project,
-      PatchSet.Id patchSetId, Branch.NameKey branch) {
+  public boolean canRebase(Project.NameKey project, PatchSet.Id patchSetId,
+      Branch.NameKey branch) {
     Repository git;
     try {
       git = gitManager.openRepository(project);
@@ -368,12 +372,7 @@ public class RebaseChange {
       return false;
     }
     try (RevWalk rw = new RevWalk(git)) {
-      findBaseRevision(
-          patchSetId,
-          db.get(),
-          branch,
-          git,
-          rw);
+      findBaseRevision(patchSetId, db.get(), branch, git, rw);
       return true;
     } catch (InvalidChangeOperationException e) {
       return false;

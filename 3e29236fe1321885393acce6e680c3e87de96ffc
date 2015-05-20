@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "4d827552_d265a4cd",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T09:57:16Z",
+      "side": 0,
+      "message": "Done in \n  https://gerrit-review.googlesource.com/67959",
+      "parentUuid": "ad705150_6dc975a6",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 7
+      },
+      "revId": "3e29236fe1321885393acce6e680c3e87de96ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d257942_d3c13436",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 4

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4d1d15f6_fa49a993",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-20T06:01:50Z",
+      "side": 1,
+      "message": "remove?  also on the next line.",
+      "range": {
+        "startLine": 163,
+        "startChar": 27,
+        "endLine": 163,
+        "endChar": 34
+      },
+      "revId": "58bbc8888c66eeb2397ab32b1134a7bcce2d95a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d854159_117a4cb5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
         "patchSetId": 1

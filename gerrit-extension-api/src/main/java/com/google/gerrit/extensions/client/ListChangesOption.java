@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 /** Output options available for retrieval change details. */
 public enum ListChangesOption {
@@ -90,7 +91,7 @@ public enum ListChangesOption {
     return r;
   }
 
-  public static int toBits(EnumSet<ListChangesOption> set) {
+  public static int toBits(Set<ListChangesOption> set) {
     int r = 0;
     for (ListChangesOption o : set) {
       r |= 1 << o.value;

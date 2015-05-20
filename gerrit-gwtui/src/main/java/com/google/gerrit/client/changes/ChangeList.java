@@ -20,20 +20,16 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 /** List of changes available from {@code /changes/}. */
 public class ChangeList extends JsArray<ChangeInfo> {
   private static final String URI = "/changes/";
-  // If changing default options, also update in
-  // ChangeIT#defaultSearchDoesNotTouchDatabase().
-  private static final EnumSet<ListChangesOption> OPTIONS = EnumSet.of(
-      ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS);
 
   /** Run multiple queries in a single remote invocation. */
   public static void queryMultiple(
       final AsyncCallback<JsArray<ChangeList>> callback,
-      EnumSet<ListChangesOption> options,
+      Set<ListChangesOption> options,
       String... queries) {
     if (queries.length == 0) {
       return;
@@ -42,8 +38,7 @@ public class ChangeList extends JsArray<ChangeInfo> {
     for (String q : queries) {
       call.addParameterRaw("q", KeyUtil.encode(q));
     }
-    OPTIONS.addAll(options);
-    addOptions(call, OPTIONS);
+    addOptions(call, options);
     if (queries.length == 1) {
       // Server unwraps a single query, so wrap it back in an array for the
       // callback.
@@ -66,7 +61,7 @@ public class ChangeList extends JsArray<ChangeInfo> {
   }
 
   public static void query(String query,
-      EnumSet<ListChangesOption> options,
+      Set<ListChangesOption> options,
       AsyncCallback<ChangeList> callback) {
     RestApi call = newQuery(query);
     addOptions(call, options);
@@ -75,19 +70,20 @@ public class ChangeList extends JsArray<ChangeInfo> {
 
   public static void next(String query,
       int start, int limit,
+      Set<ListChangesOption> options,
       AsyncCallback<ChangeList> callback) {
     RestApi call = newQuery(query);
     if (limit > 0) {
       call.addParameter("n", limit);
     }
-    addOptions(call, OPTIONS);
+    addOptions(call, options);
     if (start != 0) {
       call.addParameter("S", start);
     }
     call.get(callback);
   }
 
-  public static void addOptions(RestApi call, EnumSet<ListChangesOption> s) {
+  public static void addOptions(RestApi call, Set<ListChangesOption> s) {
     call.addParameterRaw("O", Integer.toHexString(ListChangesOption.toBits(s)));
   }
 

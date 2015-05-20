@@ -30,8 +30,16 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.Set;
 
 public class AccountDashboardScreen extends Screen implements ChangeListScreen {
+  private static final Set<ListChangesOption> MY_DASHBOARD_OPTIONS;
+  static {
+    EnumSet<ListChangesOption> options = EnumSet.copyOf(ChangeTable.OPTIONS);
+    options.add(ListChangesOption.REVIEWED);
+    MY_DASHBOARD_OPTIONS = Collections.unmodifiableSet(options);
+  }
+
   private final Account.Id ownerId;
   private final boolean mine;
   private ChangeTable table;
@@ -103,9 +111,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
             display(result);
           }
         },
-        mine
-          ? EnumSet.of(ListChangesOption.REVIEWED)
-          : EnumSet.noneOf(ListChangesOption.class),
+        mine ? MY_DASHBOARD_OPTIONS : DashboardTable.OPTIONS,
         queryOutgoing(who),
         queryIncoming(who),
         queryClosed(who) + " -age:4w limit:10");

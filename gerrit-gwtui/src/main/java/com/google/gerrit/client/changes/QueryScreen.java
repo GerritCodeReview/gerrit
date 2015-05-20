@@ -74,7 +74,8 @@ public class QueryScreen extends PagedSingleListScreen implements
   @Override
   protected void onLoad() {
     super.onLoad();
-    ChangeList.next(query, start, pageSize, loadCallback());
+    ChangeList.next(
+        query, start, pageSize, ChangeTable.OPTIONS, loadCallback());
   }
 
   private static boolean isSingleQuery(String query) {

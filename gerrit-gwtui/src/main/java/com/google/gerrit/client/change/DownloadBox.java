@@ -80,7 +80,7 @@ class DownloadBox extends VerticalPanel {
   protected void onLoad() {
     if (fetch == null) {
       if (psId.get() == 0) {
-        ChangeApi.editWithCommands(change.legacy_id().get()).get(
+        ChangeApi.editWithCommands(change.legacyId().get()).get(
             new AsyncCallback<EditInfo>() {
           @Override
           public void onSuccess(EditInfo result) {
@@ -93,9 +93,9 @@ class DownloadBox extends VerticalPanel {
           }
         });
       } else {
-        RestApi call = ChangeApi.detail(change.legacy_id().get());
+        RestApi call = ChangeApi.detail(change.legacyId().get());
         ChangeList.addOptions(call, EnumSet.of(
-            revision.equals(change.current_revision())
+            revision.equals(change.currentRevision())
                ? ListChangesOption.CURRENT_REVISION
                : ListChangesOption.ALL_REVISIONS,
             ListChangesOption.DOWNLOAD_COMMANDS));
@@ -268,7 +268,7 @@ class DownloadBox extends VerticalPanel {
     if (scheme != null && scheme != pref.getDownloadUrl()) {
       pref.setDownloadUrl(scheme);
       PreferenceInput in = PreferenceInput.create();
-      in.download_scheme(scheme);
+      in.downloadScheme(scheme);
       AccountApi.self().view("preferences")
           .put(in, new AsyncCallback<JavaScriptObject>() {
             @Override
@@ -303,11 +303,11 @@ class DownloadBox extends VerticalPanel {
       return createObject().cast();
     }
 
-    final void download_scheme(DownloadScheme s) {
-      download_scheme0(s.name());
+    final void downloadScheme(DownloadScheme s) {
+      downloadScheme0(s.name());
     }
 
-    private final native void download_scheme0(String n) /*-{
+    private final native void downloadScheme0(String n) /*-{
       this.download_scheme = n;
     }-*/;
 

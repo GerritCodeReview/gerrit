@@ -125,7 +125,7 @@ public class GroupApi {
     } else {
       MemberInput input = MemberInput.create();
       for (String member : members) {
-        input.add_member(member);
+        input.addMember(member);
       }
       members(group).post(input, cb);
     }
@@ -139,7 +139,7 @@ public class GroupApi {
     } else {
       MemberInput in = MemberInput.create();
       for (Integer id : ids) {
-        in.add_member(id.toString());
+        in.addMember(id.toString());
       }
       group(group).view("members.delete").post(in, cb);
     }
@@ -172,7 +172,7 @@ public class GroupApi {
     } else {
       IncludedGroupInput input = IncludedGroupInput.create();
       for (String includedGroup : includedGroups) {
-        input.add_group(includedGroup);
+        input.addGroup(includedGroup);
       }
       groups(group).post(input, cb);
     }
@@ -187,7 +187,7 @@ public class GroupApi {
     } else {
       IncludedGroupInput in = IncludedGroupInput.create();
       for (AccountGroup.UUID g : ids) {
-        in.add_group(g.get());
+        in.addGroup(g.get());
       }
       group(group).view("groups.delete").post(in, cb);
     }
@@ -235,7 +235,7 @@ public class GroupApi {
 
   private static class MemberInput extends JavaScriptObject {
     final native void init() /*-{ this.members = []; }-*/;
-    final native void add_member(String n) /*-{ this.members.push(n); }-*/;
+    final native void addMember(String n) /*-{ this.members.push(n); }-*/;
 
     static MemberInput create() {
       MemberInput m = (MemberInput) createObject();
@@ -249,7 +249,7 @@ public class GroupApi {
 
   private static class IncludedGroupInput extends JavaScriptObject {
     final native void init() /*-{ this.groups = []; }-*/;
-    final native void add_group(String n) /*-{ this.groups.push(n); }-*/;
+    final native void addGroup(String n) /*-{ this.groups.push(n); }-*/;
 
     static IncludedGroupInput create() {
       IncludedGroupInput g = (IncludedGroupInput) createObject();

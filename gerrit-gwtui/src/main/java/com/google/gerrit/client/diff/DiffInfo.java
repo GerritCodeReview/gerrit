@@ -30,24 +30,24 @@ public class DiffInfo extends JavaScriptObject {
   public static final String GITLINK = "x-git/gitlink";
   public static final String SYMLINK = "x-git/symlink";
 
-  public final native FileMeta meta_a() /*-{ return this.meta_a; }-*/;
-  public final native FileMeta meta_b() /*-{ return this.meta_b; }-*/;
-  public final native JsArrayString diff_header() /*-{ return this.diff_header; }-*/;
+  public final native FileMeta metaA() /*-{ return this.meta_a; }-*/;
+  public final native FileMeta metaB() /*-{ return this.meta_b; }-*/;
+  public final native JsArrayString diffHeader() /*-{ return this.diff_header; }-*/;
   public final native JsArray<Region> content() /*-{ return this.content; }-*/;
-  public final native JsArray<DiffWebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+  public final native JsArray<DiffWebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
 
-  public final List<WebLinkInfo> side_by_side_web_links() {
+  public final List<WebLinkInfo> sideBySideWebLinks() {
     return filterWebLinks(DiffView.SIDE_BY_SIDE);
   }
 
-  public final List<WebLinkInfo> unified_web_links() {
+  public final List<WebLinkInfo> unifiedWebLinks() {
     return filterWebLinks(DiffView.UNIFIED_DIFF);
   }
 
   private final List<WebLinkInfo> filterWebLinks(DiffView diffView) {
     List<WebLinkInfo> filteredDiffWebLinks = new LinkedList<>();
-    List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(web_links());
+    List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(webLinks());
     if (allDiffWebLinks != null) {
       for (DiffWebLinkInfo webLink : allDiffWebLinks) {
         if (diffView == DiffView.SIDE_BY_SIDE
@@ -63,22 +63,22 @@ public class DiffInfo extends JavaScriptObject {
     return filteredDiffWebLinks;
   }
 
-  public final ChangeType change_type() {
-    return ChangeType.valueOf(change_typeRaw());
+  public final ChangeType changeType() {
+    return ChangeType.valueOf(changeTypeRaw());
   }
-  private final native String change_typeRaw()
+  private final native String changeTypeRaw()
   /*-{ return this.change_type }-*/;
 
-  public final IntraLineStatus intraline_status() {
-    String s = intraline_statusRaw();
+  public final IntraLineStatus intralineStatus() {
+    String s = intralineStatusRaw();
     return s != null
         ? IntraLineStatus.valueOf(s)
         : IntraLineStatus.OFF;
   }
-  private final native String intraline_statusRaw()
+  private final native String intralineStatusRaw()
   /*-{ return this.intraline_status }-*/;
 
-  public final boolean has_skip() {
+  public final boolean hasSkip() {
     JsArray<Region> c = content();
     for (int i = 0; i < c.length(); i++) {
       if (c.get(i).skip() != 0) {
@@ -88,7 +88,7 @@ public class DiffInfo extends JavaScriptObject {
     return false;
   }
 
-  public final String text_a() {
+  public final String textA() {
     StringBuilder s = new StringBuilder();
     JsArray<Region> c = content();
     for (int i = 0; i < c.length(); i++) {
@@ -103,7 +103,7 @@ public class DiffInfo extends JavaScriptObject {
     return s.toString();
   }
 
-  public final String text_b() {
+  public final String textB() {
     StringBuilder s = new StringBuilder();
     JsArray<Region> c = content();
     for (int i = 0; i < c.length(); i++) {
@@ -133,9 +133,9 @@ public class DiffInfo extends JavaScriptObject {
 
   public static class FileMeta extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
-    public final native String content_type() /*-{ return this.content_type; }-*/;
+    public final native String contentType() /*-{ return this.content_type; }-*/;
     public final native int lines() /*-{ return this.lines || 0 }-*/;
-    public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+    public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
     protected FileMeta() {
     }
@@ -148,8 +148,8 @@ public class DiffInfo extends JavaScriptObject {
     public final native int skip() /*-{ return this.skip || 0; }-*/;
     public final native boolean common() /*-{ return this.common || false; }-*/;
 
-    public final native JsArray<Span> edit_a() /*-{ return this.edit_a }-*/;
-    public final native JsArray<Span> edit_b() /*-{ return this.edit_b }-*/;
+    public final native JsArray<Span> editA() /*-{ return this.edit_a }-*/;
+    public final native JsArray<Span> editB() /*-{ return this.edit_b }-*/;
 
     protected Region() {
     }

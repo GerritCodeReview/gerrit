@@ -84,7 +84,7 @@ public class ProjectApi {
     } else {
       DeleteBranchesInput d = DeleteBranchesInput.create();
       for (String ref : refs) {
-        d.add_branch(ref);
+        d.addBranch(ref);
       }
       project(name).view("branches:delete").post(d, cb);
     }
@@ -317,6 +317,6 @@ public class ProjectApi {
     }
 
     final native void init() /*-{ this.branches = []; }-*/;
-    final native void add_branch(String b) /*-{ this.branches.push(b); }-*/;
+    final native void addBranch(String b) /*-{ this.branches.push(b); }-*/;
   }
 }

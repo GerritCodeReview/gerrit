@@ -302,7 +302,7 @@ class RelatedChangesTab implements IsWidget {
 
       sb.openSpan();
       GitwebLink gw = Gerrit.getGitwebLink();
-      if (gw != null && (!info.has_change_number() || !info.has_revision_number())) {
+      if (gw != null && (!info.hasChangeNumber() || !info.hasRevisionNumber())) {
         sb.setStyleName(RelatedChanges.R.css().gitweb());
         sb.setAttribute("title", gw.getLinkName());
         sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
@@ -310,8 +310,8 @@ class RelatedChangesTab implements IsWidget {
         sb.setStyleName(RelatedChanges.R.css().indirect());
         sb.setAttribute("title", Resources.C.indirectAncestor());
         sb.append('~');
-      } else if (info.has_current_revision_number() && info.has_revision_number()
-          && info._current_revision_number() != info._revision_number()) {
+      } else if (info.hasCurrentRevisionNumber() && info.hasRevisionNumber()
+          && info._currentRevisionNumber() != info._revisionNumber()) {
         sb.setStyleName(RelatedChanges.R.css().notCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
         sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
@@ -328,8 +328,8 @@ class RelatedChangesTab implements IsWidget {
     }
 
     private String url() {
-      if (info.has_change_number() && info.has_revision_number()) {
-        PatchSet.Id id = info.patch_set_id();
+      if (info.hasChangeNumber() && info.hasRevisionNumber()) {
+        PatchSet.Id id = info.patchSetId();
         return "#" + PageLinks.toChange(
             id.getParentKey(),
             id.getId());

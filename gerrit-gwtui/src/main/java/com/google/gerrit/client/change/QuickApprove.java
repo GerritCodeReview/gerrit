@@ -42,12 +42,12 @@ class QuickApprove extends Button implements ClickHandler {
   }
 
   void set(ChangeInfo info, String commit, ReplyAction action) {
-    if (!info.has_permitted_labels() || !info.status().isOpen()) {
+    if (!info.hasPermittedLabels() || !info.status().isOpen()) {
       // Quick approve needs at least one label on an open change.
       setVisible(false);
       return;
     }
-    if (info.revision(commit).is_edit() || info.revision(commit).draft()) {
+    if (info.revision(commit).isEdit() || info.revision(commit).draft()) {
       setVisible(false);
       return;
     }
@@ -58,11 +58,11 @@ class QuickApprove extends Button implements ClickHandler {
 
     int index = info.getMissingLabelIndex();
     if (index != -1) {
-      LabelInfo label = Natives.asList(info.all_labels().values()).get(index);
-      JsArrayString values = info.permitted_values(label.name());
+      LabelInfo label = Natives.asList(info.allLabels().values()).get(index);
+      JsArrayString values = info.permittedValues(label.name());
       String s = values.get(values.length() - 1);
       short v = LabelInfo.parseValue(s);
-      if (v > 0 && s.equals(label.max_value())) {
+      if (v > 0 && s.equals(label.maxValue())) {
         qName = label.name();
         qValueStr = s;
         qValue = v;
@@ -70,7 +70,7 @@ class QuickApprove extends Button implements ClickHandler {
     }
 
     if (qName != null) {
-      changeId = info.legacy_id();
+      changeId = info.legacyId();
       revision = commit;
       input = ReviewInput.create();
       input.drafts(DraftHandling.PUBLISH_ALL_REVISIONS);

@@ -35,23 +35,23 @@ public class ConfigInfo extends JavaScriptObject {
   public final native String description()
   /*-{ return this.description }-*/;
 
-  public final native InheritedBooleanInfo require_change_id()
+  public final native InheritedBooleanInfo requireChangeId()
   /*-{ return this.require_change_id; }-*/;
 
-  public final native InheritedBooleanInfo use_content_merge()
+  public final native InheritedBooleanInfo useContentMerge()
   /*-{ return this.use_content_merge; }-*/;
 
-  public final native InheritedBooleanInfo use_contributor_agreements()
+  public final native InheritedBooleanInfo useContributorAgreements()
   /*-{ return this.use_contributor_agreements; }-*/;
 
-  public final native InheritedBooleanInfo create_new_change_for_all_not_in_target()
+  public final native InheritedBooleanInfo createNewChangeForAllNotInTarget()
   /*-{ return this.create_new_change_for_all_not_in_target; }-*/;
 
-  public final native InheritedBooleanInfo use_signed_off_by()
+  public final native InheritedBooleanInfo useSignedOffBy()
   /*-{ return this.use_signed_off_by; }-*/;
 
-  public final SubmitType submit_type() {
-    return SubmitType.valueOf(submit_typeRaw());
+  public final SubmitType submitType() {
+    return SubmitType.valueOf(submitTypeRaw());
   }
 
   public final native NativeMap<NativeMap<ConfigParameterInfo>> pluginConfig()
@@ -63,7 +63,7 @@ public class ConfigInfo extends JavaScriptObject {
   public final native NativeMap<ActionInfo> actions()
   /*-{ return this.actions; }-*/;
 
-  private final native String submit_typeRaw()
+  private final native String submitTypeRaw()
   /*-{ return this.submit_type }-*/;
 
   public final ProjectState state() {
@@ -75,7 +75,7 @@ public class ConfigInfo extends JavaScriptObject {
   private final native String stateRaw()
   /*-{ return this.state }-*/;
 
-  public final native MaxObjectSizeLimitInfo max_object_size_limit()
+  public final native MaxObjectSizeLimitInfo maxObjectSizeLimit()
   /*-{ return this.max_object_size_limit; }-*/;
 
   private final native NativeMap<CommentLinkInfo> commentlinks0()
@@ -131,13 +131,13 @@ public class ConfigInfo extends JavaScriptObject {
     public final native boolean value()
     /*-{ return this.value ? true : false; }-*/;
 
-    public final native boolean inherited_value()
+    public final native boolean inheritedValue()
     /*-{ return this.inherited_value ? true : false; }-*/;
 
-    public final InheritableBoolean configured_value() {
-      return InheritableBoolean.valueOf(configured_valueRaw());
+    public final InheritableBoolean configuredValue() {
+      return InheritableBoolean.valueOf(configuredValueRaw());
     }
-    private final native String configured_valueRaw()
+    private final native String configuredValueRaw()
     /*-{ return this.configured_value }-*/;
 
     public final void setConfiguredValue(InheritableBoolean v) {
@@ -152,8 +152,8 @@ public class ConfigInfo extends JavaScriptObject {
 
   public static class MaxObjectSizeLimitInfo extends JavaScriptObject {
     public final native String value() /*-{ return this.value; }-*/;
-    public final native String inherited_value() /*-{ return this.inherited_value; }-*/;
-    public final native String configured_value() /*-{ return this.configured_value }-*/;
+    public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;
+    public final native String configuredValue() /*-{ return this.configured_value }-*/;
 
     protected MaxObjectSizeLimitInfo() {
     }
@@ -179,8 +179,8 @@ public class ConfigInfo extends JavaScriptObject {
 
   public static class ConfigParameterValue extends JavaScriptObject {
     final native void init() /*-{ this.values = []; }-*/;
-    final native void add_value(String v) /*-{ this.values.push(v); }-*/;
-    final native void set_value(String v) /*-{ if(v)this.value = v; }-*/;
+    final native void addValue(String v) /*-{ this.values.push(v); }-*/;
+    final native void setValue(String v) /*-{ if(v)this.value = v; }-*/;
     public static ConfigParameterValue create() {
       ConfigParameterValue v = createObject().cast();
       return v;
@@ -189,13 +189,13 @@ public class ConfigInfo extends JavaScriptObject {
     public final ConfigParameterValue values(String[] values) {
       init();
       for (String v : values) {
-        add_value(v);
+        addValue(v);
       }
       return this;
     }
 
     public final ConfigParameterValue value(String v) {
-      set_value(v);
+      setValue(v);
       return this;
     }
 

@@ -39,7 +39,7 @@ class FollowUpAction extends ActionMessageBox {
         new GerritCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo result) {
-            Gerrit.display(PageLinks.toChange(result.legacy_id()));
+            Gerrit.display(PageLinks.toChange(result.legacyId()));
             hide();
           }
         });

@@ -30,7 +30,7 @@ public class ProjectInfo
 
   public final native String name() /*-{ return this.name; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
-  public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+  public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
   public final ProjectState state() {
     return ProjectState.valueOf(getStringState());

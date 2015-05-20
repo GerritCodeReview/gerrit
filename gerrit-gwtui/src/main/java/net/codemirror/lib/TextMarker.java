@@ -35,8 +35,8 @@ public class TextMarker extends JavaScriptObject {
 
     public static FromTo create(CommentRange range) {
       return create(
-          Pos.create(range.start_line() - 1, range.start_character()),
-          Pos.create(range.end_line() - 1, range.end_character()));
+          Pos.create(range.startLine() - 1, range.startCharacter()),
+          Pos.create(range.endLine() - 1, range.endCharacter()));
     }
 
     public final native Pos from() /*-{ return this.from }-*/;

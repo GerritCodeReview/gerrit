@@ -296,7 +296,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void initReplyButton(ChangeInfo info, String revision) {
-    if (!info.revision(revision).is_edit()) {
+    if (!info.revision(revision).isEdit()) {
       reply.setTitle(Gerrit.getConfig().getReplyTitle());
       reply.setHTML(new SafeHtmlBuilder()
         .openDiv()
@@ -310,7 +310,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void gotoSibling(final int offset) {
-    if (offset > 0 && changeInfo.current_revision().equals(revision)) {
+    if (offset > 0 && changeInfo.currentRevision().equals(revision)) {
       return;
     }
 
@@ -324,7 +324,7 @@ public class ChangeScreen extends Screen {
       if (revision.equals(revisions.get(i).name())) {
         if (0 <= i + offset && i + offset < revisions.length()) {
           Gerrit.display(PageLinks.toChange(
-              new PatchSet.Id(changeInfo.legacy_id(),
+              new PatchSet.Id(changeInfo.legacyId(),
               revisions.get(i + offset)._number())));
           return;
         }
@@ -336,7 +336,7 @@ public class ChangeScreen extends Screen {
   private void initIncludedInAction(ChangeInfo info) {
     if (info.status() == Status.MERGED) {
       includedInAction = new IncludedInAction(
-          info.legacy_id(),
+          info.legacyId(),
           style, headerLine, includedIn);
       includedIn.setVisible(true);
     }
@@ -344,7 +344,7 @@ public class ChangeScreen extends Screen {
 
   private void initChangeAction(ChangeInfo info) {
     if (info.status() == Status.DRAFT) {
-      NativeMap<ActionInfo> actions = info.has_actions()
+      NativeMap<ActionInfo> actions = info.hasActions()
           ? info.actions()
           : NativeMap.<ActionInfo> create();
       actions.copyKeysIntoChildren("id");
@@ -358,9 +358,9 @@ public class ChangeScreen extends Screen {
   private void initRevisionsAction(ChangeInfo info, String revision,
       NativeMap<ActionInfo> actions) {
     int currentPatchSet;
-    if (info.current_revision() != null
-        && info.revisions().containsKey(info.current_revision())) {
-      currentPatchSet = info.revision(info.current_revision())._number();
+    if (info.currentRevision() != null
+        && info.revisions().containsKey(info.currentRevision())) {
+      currentPatchSet = info.revision(info.currentRevision())._number();
     } else {
       JsArray<RevisionInfo> revList = info.revisions().values();
       RevisionInfo.sortRevisionInfoByNumber(revList);
@@ -379,7 +379,7 @@ public class ChangeScreen extends Screen {
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
-        info.legacy_id(), revision,
+        info.legacyId(), revision,
         style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);
@@ -402,20 +402,20 @@ public class ChangeScreen extends Screen {
 
   private void initProjectLinks(final ChangeInfo info) {
     projectSettingsLink.setHref(
-        "#" + PageLinks.toProject(info.project_name_key()));
+        "#" + PageLinks.toProject(info.projectNameKey()));
     projectSettings.addDomHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         if (Hyperlink.impl.handleAsClick((Event) event.getNativeEvent())) {
           event.stopPropagation();
           event.preventDefault();
-          Gerrit.display(PageLinks.toProject(info.project_name_key()));
+          Gerrit.display(PageLinks.toProject(info.projectNameKey()));
         }
       }
     }, ClickEvent.getType());
     projectDashboard.setText(info.project());
     projectDashboard.setTargetHistoryToken(
-        PageLinks.toProjectDefaultDashboard(info.project_name_key()));
+        PageLinks.toProjectDefaultDashboard(info.projectNameKey()));
   }
 
   private void initBranchLink(ChangeInfo info) {
@@ -423,7 +423,7 @@ public class ChangeScreen extends Screen {
     branchLink.setTargetHistoryToken(
         PageLinks.toChangeQuery(
             BranchLink.query(
-                info.project_name_key(),
+                info.projectNameKey(),
                 info.status(),
                 info.branch(),
                 null)));
@@ -453,7 +453,7 @@ public class ChangeScreen extends Screen {
         reviewMode.setVisible(false);
       }
 
-      if (rev.is_edit()) {
+      if (rev.isEdit()) {
         if (info.hasEditBasedOnCurrentPatchSet()) {
           publishEdit.setVisible(true);
         } else {
@@ -465,11 +465,11 @@ public class ChangeScreen extends Screen {
   }
 
   private boolean isEditModeEnabled(ChangeInfo info, RevisionInfo rev) {
-    if (rev.is_edit()) {
+    if (rev.isEdit()) {
       return true;
     }
     if (edit == null) {
-      return revision.equals(info.current_revision());
+      return revision.equals(info.currentRevision());
     }
     return rev._number() == RevisionInfo.findEditParent(
         info.revisions().values());
@@ -781,9 +781,9 @@ public class ChangeScreen extends Screen {
   private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
     if (edit != null) {
-      edit.set_name(edit.commit().commit());
-      info.set_edit(edit);
-      if (edit.has_files()) {
+      edit.setName(edit.commit().commit());
+      info.setEdit(edit);
+      if (edit.hasFiles()) {
         edit.files().copyKeysIntoChildren("path");
       }
       info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
@@ -801,14 +801,14 @@ public class ChangeScreen extends Screen {
       if (revision == null) {
         RevisionInfo.sortRevisionInfoByNumber(list);
         RevisionInfo rev = list.get(list.length() - 1);
-        if (rev.is_edit()) {
-          info.set_current_revision(rev.name());
+        if (rev.isEdit()) {
+          info.setCurrentRevision(rev.name());
         }
       } else if (revision.equals("edit") || revision.equals("0")) {
         for (int i = 0; i < list.length(); i++) {
           RevisionInfo r = list.get(i);
-          if (r.is_edit()) {
-            info.set_current_revision(r.name());
+          if (r.isEdit()) {
+            info.setCurrentRevision(r.name());
             break;
           }
         }
@@ -819,7 +819,7 @@ public class ChangeScreen extends Screen {
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
-    if (rev.is_edit()) {
+    if (rev.isEdit()) {
       loadFileList(b, rev, lastReply, group, null, null);
     } else {
       loadDiff(b, rev, lastReply, group);
@@ -833,7 +833,7 @@ public class ChangeScreen extends Screen {
 
     RevisionInfoCache.add(changeId, rev);
     ConfigInfoCache.add(info);
-    ConfigInfoCache.get(info.project_name_key(),
+    ConfigInfoCache.get(info.projectNameKey(),
       group.addFinal(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
         @Override
         protected void preDisplay(Entry result) {
@@ -848,10 +848,10 @@ public class ChangeScreen extends Screen {
 
   static Timestamp myLastReply(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.messages() != null) {
-      int self = Gerrit.getUserAccountInfo()._account_id();
+      int self = Gerrit.getUserAccountInfo()._accountId();
       for (int i = info.messages().length() - 1; i >= 0; i--) {
         MessageInfo m = info.messages().get(i);
-        if (m.author() != null && m.author()._account_id() == self) {
+        if (m.author() != null && m.author()._accountId() == self) {
           return m.date();
         }
       }
@@ -938,7 +938,7 @@ public class ChangeScreen extends Screen {
       JsArray<CommentInfo> thisRevision = JsArray.createArray().cast();
       for (int i = 0; i < allRevisions.length(); i++) {
         CommentInfo c = allRevisions.get(i);
-        if (c.patch_set() == id) {
+        if (c.patchSet() == id) {
           thisRevision.push(c);
         }
       }
@@ -971,7 +971,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
-    if (rev.is_edit()) {
+    if (rev.isEdit()) {
       return;
     }
 
@@ -979,7 +979,7 @@ public class ChangeScreen extends Screen {
         group.add(new AsyncCallback<CommitInfo>() {
           @Override
           public void onSuccess(CommitInfo info) {
-            rev.set_commit(info);
+            rev.setCommit(info);
           }
 
           @Override
@@ -1019,7 +1019,7 @@ public class ChangeScreen extends Screen {
 
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
     RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision,
-        info.current_revision());
+        info.currentRevision());
     if (rev != null) {
       revision = rev.name();
       return rev;
@@ -1036,7 +1036,7 @@ public class ChangeScreen extends Screen {
       return rev;
     } else {
       new ErrorDialog(
-          Resources.M.changeWithNoRevisions(info.legacy_id().get())).center();
+          Resources.M.changeWithNoRevisions(info.legacyId().get())).center();
       throw new IllegalStateException("no revision, cannot proceed");
     }
   }
@@ -1116,7 +1116,7 @@ public class ChangeScreen extends Screen {
 
     star.setValue(info.starred());
     permalink.setHref(ChangeLink.permalink(changeId));
-    permalink.setText(String.valueOf(info.legacy_id()));
+    permalink.setText(String.valueOf(info.legacyId()));
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
@@ -1128,7 +1128,7 @@ public class ChangeScreen extends Screen {
     }
 
     StringBuilder sb = new StringBuilder();
-    sb.append(Util.M.changeScreenTitleId(info.id_abbreviated()));
+    sb.append(Util.M.changeScreenTitleId(info.idAbbreviated()));
     if (info.subject() != null) {
       sb.append(": ");
       sb.append(info.subject());
@@ -1138,8 +1138,8 @@ public class ChangeScreen extends Screen {
     // Although this is related to the revision, we can process it early to
     // render it faster.
     if (!info.status().isOpen()
-        || !revision.equals(info.current_revision())
-        || info.revision(revision).is_edit()) {
+        || !revision.equals(info.currentRevision())
+        || info.revision(revision).isEdit()) {
       setVisible(strategy, false);
     }
 
@@ -1151,10 +1151,10 @@ public class ChangeScreen extends Screen {
     actions.reloadRevisionActions(emptyMap);
 
     RevisionInfo revisionInfo = info.revision(revision);
-    boolean current = revision.equals(info.current_revision())
-        && !revisionInfo.is_edit();
+    boolean current = revision.equals(info.currentRevision())
+        && !revisionInfo.isEdit();
 
-    if (revisionInfo.is_edit()) {
+    if (revisionInfo.isEdit()) {
       statusText.setInnerText(Util.C.changeEdit());
     } else if (!current) {
       statusText.setInnerText(Util.C.notCurrent());
@@ -1203,7 +1203,7 @@ public class ChangeScreen extends Screen {
         ? info.owner().name()
         : info.owner().email() != null
         ? info.owner().email()
-        : String.valueOf(info.owner()._account_id()), Change.Status.NEW));
+        : String.valueOf(info.owner()._accountId()), Change.Status.NEW));
   }
 
   private void renderSubmitType(String action) {

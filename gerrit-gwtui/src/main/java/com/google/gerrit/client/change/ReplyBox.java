@@ -291,7 +291,7 @@ class ReplyBox extends Composite {
     List<LabelAndValues> checkboxes = new ArrayList<>(labels.size());
     int row = 1;
     for (LabelAndValues lv : labels) {
-      if (isCheckBox(lv.info.value_set())) {
+      if (isCheckBox(lv.info.valueSet())) {
         checkboxes.add(lv);
       } else {
         renderRadio(row++, columns, lv);
@@ -328,7 +328,7 @@ class ReplyBox extends Composite {
     fmt.setStyleName(row, labelHelpColumn, style.label_help());
 
     ApprovalInfo self = Gerrit.isSignedIn()
-        ? lv.info.for_user(Gerrit.getUserAccount().getId().get())
+        ? lv.info.forUser(Gerrit.getUserAccount().getId().get())
         : null;
 
     final LabelRadioGroup group =
@@ -336,7 +336,7 @@ class ReplyBox extends Composite {
     for (int i = 0; i < columns.size(); i++) {
       Short v = columns.get(i);
       if (lv.permitted.contains(v)) {
-        String text = lv.info.value_text(LabelValue.formatValue(v));
+        String text = lv.info.valueText(LabelValue.formatValue(v));
         LabelRadioButton b = new LabelRadioButton(group, text, v);
         if ((self != null && v == self.value()) || (self == null && v.equals(dv))) {
           b.setValue(true);
@@ -352,7 +352,7 @@ class ReplyBox extends Composite {
 
   private void renderCheckBox(int row, LabelAndValues lv) {
     ApprovalInfo self = Gerrit.isSignedIn()
-        ? lv.info.for_user(Gerrit.getUserAccount().getId().get())
+        ? lv.info.forUser(Gerrit.getUserAccount().getId().get())
         : null;
 
     final String id = lv.info.name();
@@ -373,7 +373,7 @@ class ReplyBox extends Composite {
 
     CellFormatter fmt = labelsTable.getCellFormatter();
     fmt.setStyleName(row, labelHelpColumn, style.label_help());
-    labelsTable.setText(row, labelHelpColumn, lv.info.value_text("+1"));
+    labelsTable.setText(row, labelHelpColumn, lv.info.valueText("+1"));
   }
 
   private static boolean isCheckBox(Set<Short> values) {

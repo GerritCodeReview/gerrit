@@ -100,7 +100,7 @@ public class Reviewers extends Composite {
   }
 
   void set(ChangeInfo info) {
-    this.changeId = info.legacy_id();
+    this.changeId = info.legacyId();
     display(info);
     reviewerSuggestOracle.setChange(changeId);
     openForm.setVisible(Gerrit.isSignedIn());
@@ -125,7 +125,7 @@ public class Reviewers extends Composite {
 
   @UiHandler("addMe")
   void onAddMe(@SuppressWarnings("unused") ClickEvent e) {
-    String accountId = String.valueOf(Gerrit.getUserAccountInfo()._account_id());
+    String accountId = String.valueOf(Gerrit.getUserAccountInfo()._accountId());
     addReviewer(accountId, false);
   }
 
@@ -198,22 +198,22 @@ public class Reviewers extends Composite {
   private void display(ChangeInfo info) {
     Map<Integer, AccountInfo> r = new HashMap<>();
     Map<Integer, AccountInfo> cc = new HashMap<>();
-    for (LabelInfo label : Natives.asList(info.all_labels().values())) {
+    for (LabelInfo label : Natives.asList(info.allLabels().values())) {
       if (label.all() != null) {
         for (ApprovalInfo ai : Natives.asList(label.all())) {
-          (ai.value() != 0 ? r : cc).put(ai._account_id(), ai);
+          (ai.value() != 0 ? r : cc).put(ai._accountId(), ai);
         }
       }
     }
     for (Integer i : r.keySet()) {
       cc.remove(i);
     }
-    cc.remove(info.owner()._account_id());
+    cc.remove(info.owner()._accountId());
 
     Set<Integer> removable = new HashSet<>();
-    if (info.removable_reviewers() != null) {
-      for (AccountInfo a : Natives.asList(info.removable_reviewers())) {
-        removable.add(a._account_id());
+    if (info.removableReviewers() != null) {
+      for (AccountInfo a : Natives.asList(info.removableReviewers())) {
+        removable.add(a._accountId());
       }
     }
 
@@ -227,8 +227,8 @@ public class Reviewers extends Composite {
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
     if (Gerrit.isSignedIn()) {
-      int currentUser = Gerrit.getUserAccountInfo()._account_id();
-      boolean showAddMeButton = info.owner()._account_id() != currentUser
+      int currentUser = Gerrit.getUserAccountInfo()._accountId();
+      boolean showAddMeButton = info.owner()._accountId() != currentUser
           && !cc.containsKey(currentUser)
           && !r.containsKey(currentUser);
       addMe.setVisible(showAddMeButton);
@@ -241,13 +241,13 @@ public class Reviewers extends Composite {
       LabelInfo label = change.label(name);
       if (label.all() != null) {
         for (ApprovalInfo ai : Natives.asList(label.all())) {
-          int id = ai._account_id();
+          int id = ai._accountId();
           VotableInfo ad = d.get(id);
           if (ad == null) {
             ad = new VotableInfo();
             d.put(id, ad);
           }
-          if (ai.has_value()) {
+          if (ai.hasValue()) {
             ad.votable(name);
           }
         }

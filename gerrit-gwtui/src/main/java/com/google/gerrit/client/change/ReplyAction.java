@@ -54,7 +54,7 @@ class ReplyAction {
       Widget replyButton,
       Widget quickApproveButton) {
     this.psId = new PatchSet.Id(
-        info.legacy_id(),
+        info.legacyId(),
         info.revisions().get(revision)._number());
     this.revision = revision;
     this.hasDraftComments = hasDraftComments;
@@ -63,10 +63,10 @@ class ReplyAction {
     this.replyButton = replyButton;
     this.quickApproveButton = quickApproveButton;
 
-    boolean current = revision.equals(info.current_revision());
-    allLabels = info.all_labels();
-    permittedLabels = current && info.has_permitted_labels()
-        ? info.permitted_labels()
+    boolean current = revision.equals(info.currentRevision());
+    allLabels = info.allLabels();
+    permittedLabels = current && info.hasPermittedLabels()
+        ? info.permittedLabels()
         : NativeMap.<JsArrayString> create();
   }
 

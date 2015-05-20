@@ -22,6 +22,30 @@
       "revId": "81f2cd443cab964cc73543b7729cf76a306dfe5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad705150_4d27d9e1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T08:12:04Z",
+      "side": 1,
+      "message": "I know. We don\u0027t have a consistent format for parameter names when we read from the config. Sometimes we use all lowercase and sometimes camelCase. I prefer camelCase because it is consistent with how it\u0027s in the documentation. In config-gerrit.txt all parameter names are camelCase. So since I\u0027m anyway touching this now, I decided to go for the nicer camelCase.",
+      "parentUuid": "ad705150_0d08f158",
+      "range": {
+        "startLine": 238,
+        "startChar": 50,
+        "endLine": 238,
+        "endChar": 65
+      },
+      "revId": "81f2cd443cab964cc73543b7729cf76a306dfe5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

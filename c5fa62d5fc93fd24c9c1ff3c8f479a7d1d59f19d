@@ -22,6 +22,30 @@
       "revId": "c5fa62d5fc93fd24c9c1ff3c8f479a7d1d59f19d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_5291b41d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T08:12:04Z",
+      "side": 0,
+      "message": "I think it\u0027s not needed anymore.\n\nIn GitWebServlet where the git daemon url is used we have the following code (line 240 - 242):\n\n  if (url.endsWith(\"/\")) {\n    url \u003d url.substring(0, url.length() - 1);\n  }\n\nSo the trailing slash is removed. Then it makes no sense to add it first.",
+      "parentUuid": "4d827552_32af505f",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "c5fa62d5fc93fd24c9c1ff3c8f479a7d1d59f19d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

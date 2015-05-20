@@ -22,6 +22,30 @@
       "revId": "f5d686c26d4111750f951e49b0485244ebd28821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_f2f54852",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEditPreferences.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-20T13:24:58Z",
+      "side": 1,
+      "message": "This is optional, and can be added later. It\u0027s already big change and series. I could put a TODO here.",
+      "parentUuid": "4d827552_32e3d0a4",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "f5d686c26d4111750f951e49b0485244ebd28821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

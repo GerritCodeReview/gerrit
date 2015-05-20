@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d827552_f21ea818",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/KeyMapType.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T14:03:59Z",
+      "side": 1,
+      "message": "Badly formatted header, leading spaces are missing.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "2be1555a9498e392b836409476010250fee8b030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

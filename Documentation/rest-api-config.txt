@@ -94,10 +94,10 @@ As result a link:#server-info[ServerInfo] entity is returned.
         }
       ],
       "archives": [
-        "TGZ",
-        "TAR",
-        "TBZ2",
-        "TXZ"
+        "tgz",
+        "tar",
+        "tbz2",
+        "txz"
       ]
     },
     "gerrit": {
@@ -1001,8 +1001,8 @@ options.
 The supported download schemes as a map which maps the scheme name to a
 of link:#download-scheme-info[DownloadSchemeInfo] entity.
 |`archives` |
-List of supported archive formats. Possible values are `TGZ`, `TAR`,
-`TBZ2` and `TXZ`.
+List of supported archive formats. Possible values are `tgz`, `tar`,
+`tbz2` and `txz`.
 |=======================
 
 [[download-scheme-info]]

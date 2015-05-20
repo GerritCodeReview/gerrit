@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -30,6 +32,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
@@ -113,7 +116,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   public static class DownloadInfo {
     public Map<String, DownloadSchemeInfo> schemes;
-    public List<ArchiveFormat> archives;
+    public List<String> archives;
 
     public DownloadInfo(DownloadConfig downloadConfig,
         DynamicMap<DownloadScheme> downloadSchemes,
@@ -126,7 +129,14 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
               new DownloadSchemeInfo(scheme, downloadCommands));
         }
       }
-      archives = new ArrayList<>(downloadConfig.getArchiveFormats());
+      archives =
+          Lists.transform(new ArrayList<>(downloadConfig.getArchiveFormats()),
+              new Function<ArchiveFormat, String>() {
+                @Override
+                public String apply(ArchiveFormat archiveFormat) {
+                  return archiveFormat.name().toLowerCase(Locale.US);
+                }
+              });
     }
   }
 

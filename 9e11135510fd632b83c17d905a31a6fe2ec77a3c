@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d827552_728e3801",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T09:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d827552_d27cc46f",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "9e11135510fd632b83c17d905a31a6fe2ec77a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d827552_f281c8d4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ad705150_0d21d1ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T09:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d827552_f281c8d4",
+      "range": {
+        "startLine": 13,
+        "startChar": 63,
+        "endLine": 13,
+        "endChar": 69
+      },
+      "revId": "9e11135510fd632b83c17d905a31a6fe2ec77a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d827552_92763c8c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2015-05-20T06:05:01Z",
       "side": 1,
       "message": "Two questions:\n\n* Is the result of this request cached somehow? It\u0027s not obvious from the first glance. We don\u0027t want to call this check request for availability of the documentation again and again, right? I don\u0027t think the outcome can change in live server without reboot, right?\n* I am a big friend of parallel invocation. I see that you are using RequestBuilder that doesn\u0027t accept AsyncCallback and current CallbackGroup implementation accepts only derived classes from AsyncCallback for now. Otherwise we could easily parallelize the invocation of this check with host page data and server info requests, cache the outcome in local var in this class and re-use this flag to know if we should or shouldn\u0027t render documentation menu entry. Can we fix that? If not, then it worth put a TODO here, to fix it later.",
+      "range": {
+        "startLine": 825,
+        "startChar": 6,
+        "endLine": 825,
+        "endChar": 17
+      },
+      "revId": "9e11135510fd632b83c17d905a31a6fe2ec77a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_128b2cf0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T09:55:14Z",
+      "side": 1,
+      "message": "\u003e Is the result of this request cached somehow?\n\nIt\u0027s not explicitely cached, but this code is only invoked when the menu bar is refreshed. Refreshing of the menu bar happens only on initial load of the UI or in some rare cases when user contact info or preferences are updated. So in most cases it\u0027s loaded only once.\n\n \u003e Otherwise we could easily parallelize the invocation of \n \u003e this check with host page data and server info requests, \n \u003e cache the outcome in local var in this class and re-use \n \u003e this flag to know if we should or shouldn\u0027t render \n \u003e documentation menu entry. Can we fix that? If not, then \n \u003e it worth put a TODO here, to fix it later.\n\nGood idea, thanks for the suggestion. I like this much more.\n\nDone.",
+      "parentUuid": "4d827552_92763c8c",
       "range": {
         "startLine": 825,
         "startChar": 6,

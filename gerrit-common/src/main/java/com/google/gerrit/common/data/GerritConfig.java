@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AuthType;
 
 import java.util.List;
@@ -35,7 +34,6 @@ public class GerritConfig implements Cloneable {
 
   protected GitwebConfig gitweb;
   protected AuthType authType;
-  protected Set<DownloadScheme> downloadSchemes;
   protected String gitDaemonUrl;
   protected String gitHttpUrl;
   protected String sshdAddress;
@@ -133,14 +131,6 @@ public class GerritConfig implements Cloneable {
 
   public void setAuthType(final AuthType t) {
     authType = t;
-  }
-
-  public Set<DownloadScheme> getDownloadSchemes() {
-    return downloadSchemes;
-  }
-
-  public void setDownloadSchemes(final Set<DownloadScheme> s) {
-    downloadSchemes = s;
   }
 
   public GitwebConfig getGitwebLink() {

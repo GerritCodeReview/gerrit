@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad705150_adfe7d79",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-20T14:05:04Z",
+      "side": 1,
+      "message": "Each caller? Who supposed to ever call getEditPreferences() except edit screen? It\u0027s only cached there, so that when user enters second time inline editor, it\u0027s still there. Something similar happens with host page data that loads diff_account_preferences for the user on start.",
+      "parentUuid": "ad705150_edf4859f",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 11
+      },
+      "revId": "3da57ac9f7a5d170177054695ee9a21acc71d213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad705150_cdef49cb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 18

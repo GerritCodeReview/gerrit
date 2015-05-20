@@ -28,6 +28,7 @@ import com.google.gerrit.client.api.PluginLoader;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.ConfigServerApi;
+import com.google.gerrit.client.config.ServerInfo;
 import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
@@ -49,7 +50,6 @@ import com.google.gerrit.extensions.client.GerritTopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.EntryPoint;
@@ -106,6 +106,7 @@ public class Gerrit implements EntryPoint {
 
   private static String myHost;
   private static GerritConfig myConfig;
+  private static ServerInfo myServerInfo;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static String defaultScreenToken;
@@ -288,6 +289,11 @@ public class Gerrit implements EntryPoint {
     return myConfig;
   }
 
+  /** Get the public configuration data used by this Gerrit instance. */
+  public static ServerInfo info() {
+    return myServerInfo;
+  }
+
   public static GitwebLink getGitwebLink() {
     GitwebConfig gw = getConfig().getGitwebLink();
     return gw != null && gw.type != null ? new GitwebLink(gw) : null;
@@ -426,8 +432,16 @@ public class Gerrit implements EntryPoint {
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
 
-    final HostPageDataService hpd = GWT.create(HostPageDataService.class);
-    hpd.load(new GerritCallback<HostPageData>() {
+    RpcStatus.INSTANCE = new RpcStatus();
+    CallbackGroup cbg = new CallbackGroup();
+    ConfigServerApi.serverInfo(cbg.add(new GerritCallback<ServerInfo>() {
+      @Override
+      public void onSuccess(ServerInfo info) {
+        myServerInfo = info;
+      }
+    }));
+    HostPageDataService hpd = GWT.create(HostPageDataService.class);
+    hpd.load(cbg.addFinal(new GerritCallback<HostPageData>() {
       @Override
       public void onSuccess(final HostPageData result) {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
@@ -444,7 +458,7 @@ public class Gerrit implements EntryPoint {
         }
         onModuleLoad2(result);
       }
-    });
+    }));
   }
 
   private static void initHostname() {
@@ -538,7 +552,6 @@ public class Gerrit implements EntryPoint {
     };
     gBody.add(body);
 
-    RpcStatus.INSTANCE = new RpcStatus();
     JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
     JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {
@@ -705,9 +718,9 @@ public class Gerrit implements EntryPoint {
     }
 
     if (signedIn) {
-      whoAmI(cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP);
+      whoAmI(!info().auth().isClientSslCertLdap());
     } else {
-      switch (cfg.getAuthType()) {
+      switch (info().auth().authType()) {
         case CLIENT_SSL_CERT_LDAP:
           break;
 

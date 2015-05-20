@@ -17,7 +17,6 @@ package com.google.gerrit.client.download;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -129,7 +128,7 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
   public static boolean siteReliesOnHttp() {
     return Gerrit.getConfig().getGitHttpUrl() != null
-        && Gerrit.getConfig().getAuthType() == AuthType.CUSTOM_EXTENSION
+        && Gerrit.info().auth().isCustomExtension()
         && !Gerrit.getConfig().siteHasUsernames();
   }
 

@@ -30,19 +30,39 @@ public class ChangeList extends JsArray<ChangeInfo> {
   private static final EnumSet<ListChangesOption> OPTIONS = EnumSet.of(
       ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS);
 
-  /** Run 2 or more queries in a single remote invocation. */
-  public static void query(
-      AsyncCallback<JsArray<ChangeList>> callback,
+  /** Run multiple queries in a single remote invocation. */
+  public static void queryMultiple(
+      final AsyncCallback<JsArray<ChangeList>> callback,
       EnumSet<ListChangesOption> options,
       String... queries) {
-    assert queries.length >= 2; // At least 2 is required for correct result.
+    if (queries.length == 0) {
+      return;
+    }
     RestApi call = new RestApi(URI);
     for (String q : queries) {
       call.addParameterRaw("q", KeyUtil.encode(q));
     }
     OPTIONS.addAll(options);
     addOptions(call, OPTIONS);
-    call.get(callback);
+    if (queries.length == 1) {
+      // Server unwraps a single query, so wrap it back in an array for the
+      // callback.
+      call.get(new AsyncCallback<ChangeList>() {
+        @Override
+        public void onSuccess(ChangeList result) {
+          JsArray<ChangeList> wrapped = JsArray.createArray(1).cast();
+          wrapped.push(result);
+          callback.onSuccess(wrapped);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+          callback.onFailure(caught);
+        }
+      });
+    } else {
+      call.get(callback);
+    }
   }
 
   public static void query(String query,

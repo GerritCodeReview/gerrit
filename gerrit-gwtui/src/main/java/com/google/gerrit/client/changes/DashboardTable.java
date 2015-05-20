@@ -104,33 +104,19 @@ public class DashboardTable extends ChangeTable {
   @Override
   protected void onLoad() {
     super.onLoad();
-
-    if (queries.size() == 1) {
-      ChangeList.next(queries.get(0),
-          0, 0,
-          new GerritCallback<ChangeList>() {
-            @Override
-            public void onSuccess(ChangeList result) {
-              updateColumnsForLabels(result);
-              sections.get(0).display(result);
-              finishDisplay();
+    ChangeList.queryMultiple(
+        new GerritCallback<JsArray<ChangeList>>() {
+          @Override
+          public void onSuccess(JsArray<ChangeList> result) {
+            List<ChangeList> cls = Natives.asList(result);
+            updateColumnsForLabels(cls.toArray(new ChangeList[cls.size()]));
+            for (int i = 0; i < cls.size(); i++) {
+              sections.get(i).display(cls.get(i));
             }
-        });
-    } else if (! queries.isEmpty()) {
-      ChangeList.query(
-          new GerritCallback<JsArray<ChangeList>>() {
-            @Override
-            public void onSuccess(JsArray<ChangeList> result) {
-              List<ChangeList> cls = Natives.asList(result);
-              updateColumnsForLabels(cls.toArray(new ChangeList[cls.size()]));
-              for (int i = 0; i < cls.size(); i++) {
-                sections.get(i).display(cls.get(i));
-              }
-              finishDisplay();
-            }
-          },
-          EnumSet.noneOf(ListChangesOption.class),
-          queries.toArray(new String[queries.size()]));
-    }
+            finishDisplay();
+          }
+        },
+        EnumSet.noneOf(ListChangesOption.class),
+        queries.toArray(new String[queries.size()]));
   }
 }

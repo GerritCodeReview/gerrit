@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_ce44237f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/GroupPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T00:34:21Z",
+      "side": 1,
+      "message": "At one point we had to use cost 1 for all IndexPredicates in order to get the query processor to choose IndexPredicates over non-IndexPredicates. I don\u0027t actually remember if that\u0027s still the case. In any case this implementation could probably be pushed up into IndexPredicate itself, if not eliminated. Separate cleanup.",
+      "parentUuid": "2d854159_b131001e",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "6ece7656f70aafdaa28de2ffa0458184ad630032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_ce098365",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1

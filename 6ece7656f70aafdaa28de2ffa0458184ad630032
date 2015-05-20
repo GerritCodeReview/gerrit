@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d854159_b131001e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/GroupPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-20T00:22:45Z",
+      "side": 1,
+      "message": "How do we determine the cost here? (I\u0027ve seen quite a few of these getCost methods already, but they always return 1)",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "6ece7656f70aafdaa28de2ffa0458184ad630032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_ce098365",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1

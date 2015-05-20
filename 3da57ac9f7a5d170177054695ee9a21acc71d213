@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad705150_edf4859f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T13:55:59Z",
+      "side": 1,
+      "message": "Move this code into Gerrit.getEditPreferences()? Otherwise each caller would need to do this.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 11
+      },
+      "revId": "3da57ac9f7a5d170177054695ee9a21acc71d213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad705150_cdef49cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T13:55:59Z",
+      "side": 1,
+      "message": "I think the icon to edit the preferences should be displayed on the far right next to the icons for navigating back to side-by-side/unified diff view. Basically in the same place where the preference icon is shown in side-by-side diff view.",
+      "range": {
+        "startLine": 136,
+        "startChar": 9,
+        "endLine": 142,
+        "endChar": 20
+      },
+      "revId": "3da57ac9f7a5d170177054695ee9a21acc71d213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

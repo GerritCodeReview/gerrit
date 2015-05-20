@@ -78,10 +78,9 @@ public abstract class RebaseDialog extends CommentedActionDialog {
       public void onClick(ClickEvent event) {
         boolean checked = ((CheckBox) event.getSource()).getValue();
         if (checked) {
-          ChangeList.next(
+          ChangeList.query(
               "project:" + project + " AND branch:" + branch
                   + " AND is:open NOT age:90d",
-              0, 1000,
               Collections.<ListChangesOption> emptySet(),
               new GerritCallback<ChangeList>() {
                 @Override
@@ -89,7 +88,8 @@ public abstract class RebaseDialog extends CommentedActionDialog {
                   changes = Natives.asList(result);
                   updateControls(true);
                 }
-              });
+              },
+              0, 1000);
         } else {
           updateControls(false);
         }

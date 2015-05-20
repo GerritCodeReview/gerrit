@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_2e77e7cd",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T00:29:14Z",
+      "side": 1,
+      "message": "No difference, I\u0027m just morally opposed to using regexes where they\u0027re not required.\n\nI\u0027d really rather replace this with Guava\u0027s Splitter/Joiner but we don\u0027t have Guava in client code...",
+      "parentUuid": "cd75853f_2e1e078c",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6efbafba",
         "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
         "patchSetId": 2

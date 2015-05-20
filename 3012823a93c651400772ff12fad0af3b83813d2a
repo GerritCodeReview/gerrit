@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "4d1d15f6_1a533d3f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-20T07:51:03Z",
+      "side": 1,
+      "message": "\u003e I\u0027m just morally opposed to using regexes where they\u0027re not required.\n\nIs a regex required?  It should be possible to do with just:\n\n joinedGroups.split(\",\")\n\nas mentioned in the stackoverflow page linked by Stefan.  Or does that use regex under the hood?\n\nAs far as I can see in that page it only needs to use regex if you also want to strip off whitespace, which we shouldn\u0027t need to do if the joinedGroups is always going to be created by the joinGroups method above.",
+      "parentUuid": "2d854159_b16a60e8",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad705150_8d2ce1c6",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
         "patchSetId": 2

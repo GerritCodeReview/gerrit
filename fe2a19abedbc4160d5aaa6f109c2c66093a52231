@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad705150_8d3e21db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-20T11:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad705150_ed49e593",
+      "range": {
+        "startLine": 827,
+        "startChar": 10,
+        "endLine": 828,
+        "endChar": 32
+      },
+      "revId": "fe2a19abedbc4160d5aaa6f109c2c66093a52231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad705150_2d77edcd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 5

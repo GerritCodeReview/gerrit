@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -29,6 +30,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,8 +78,11 @@ public abstract class RebaseDialog extends CommentedActionDialog {
       public void onClick(ClickEvent event) {
         boolean checked = ((CheckBox) event.getSource()).getValue();
         if (checked) {
-          ChangeList.next("project:" + project + " AND branch:" + branch
-              + " AND is:open NOT age:90d", 0, 1000,
+          ChangeList.next(
+              "project:" + project + " AND branch:" + branch
+                  + " AND is:open NOT age:90d",
+              0, 1000,
+              Collections.<ListChangesOption> emptySet(),
               new GerritCallback<ChangeList>() {
                 @Override
                 public void onSuccess(ChangeList result) {

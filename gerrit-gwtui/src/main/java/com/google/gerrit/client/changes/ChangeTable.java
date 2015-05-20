@@ -27,6 +27,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.dom.client.Element;
@@ -45,9 +46,17 @@ import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class ChangeTable extends NavigationTable<ChangeInfo> {
+  // If changing default options, also update in
+  // ChangeIT#defaultSearchDoesNotTouchDatabase().
+  static final Set<ListChangesOption> OPTIONS =
+      Collections.unmodifiableSet(EnumSet.of(
+          ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS));
+
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
   private static final int C_SUBJECT = 3;

@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_6e9f2f62",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-20T17:05:32Z",
+      "side": 1,
+      "message": "Sigh, in my mind I was punting on the new schema version because I wanted GroupCollector available to write the migration, but of course it makes no sense to do it that way.\n\nI will need to reorder the series to:\n\n* add GroupCollector and test\n* add groups field to PatchSet; migration uses GroupCollector to produce groups for all open patch sets\n* use GroupCollector in ReceiveCommits",
+      "parentUuid": "ad705150_8d2ce1c6",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 26
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6efbafba",
         "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
         "patchSetId": 2

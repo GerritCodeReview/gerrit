@@ -89,7 +89,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                     .getSubmitter(n).getAccountId());
             PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.getPatchsetId(), n.change(), uploader,
+                    n.change(), n.getPatchsetId(), uploader,
                     mergeTip.getCurrentTip(), args.mergeUtil,
                     args.serverIdent.get(), false, ValidatePolicy.NONE);
 

@@ -96,7 +96,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     super.onLoad();
 
     String who = mine ? "self" : ownerId.toString();
-    ChangeList.query(
+    ChangeList.queryMultiple(
         new ScreenLoadCallback<JsArray<ChangeList>>(this) {
           @Override
           protected void preDisplay(JsArray<ChangeList> result) {

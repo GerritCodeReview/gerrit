@@ -97,6 +97,8 @@ public class RebaseChange {
    * E-mail notification and triggering of hooks happens for the creation of the
    * new patch set.
    *
+   * @param git the repository
+   * @param revWalk the RevWalk
    * @param change the change to perform the rebase for
    * @param patchSetId the id of the patch set
    * @param uploader the user that creates the rebased patch set
@@ -109,37 +111,36 @@ public class RebaseChange {
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
    */
-  public void rebase(Change change, PatchSet.Id patchSetId, final IdentifiedUser uploader,
-      final String newBaseRev) throws NoSuchChangeException, EmailException, OrmException,
-      IOException, InvalidChangeOperationException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl changeControl =
+  public void rebase(Repository git, RevWalk revWalk, Change change,
+      PatchSet.Id patchSetId, IdentifiedUser uploader, String newBaseRev)
+      throws NoSuchChangeException, EmailException, OrmException, IOException,
+      InvalidChangeOperationException {
+    Change.Id changeId = patchSetId.getParentKey();
+    ChangeControl changeControl =
         changeControlFactory.validateFor(change, uploader);
     if (!changeControl.canRebase()) {
       throw new InvalidChangeOperationException(
           "Cannot rebase: New patch sets are not allowed to be added to change: "
               + changeId.toString());
     }
-    try (Repository git = gitManager.openRepository(change.getProject());
-        RevWalk rw = new RevWalk(git);
-        ObjectInserter inserter = git.newObjectInserter()) {
+    try (ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {
-        baseRev =
-            findBaseRevision(patchSetId, db.get(), change.getDest(), git, rw);
+        baseRev = findBaseRevision(
+            patchSetId, db.get(), change.getDest(), git, revWalk);
       }
       ObjectId baseObjectId = git.resolve(baseRev);
       if (baseObjectId == null) {
         throw new InvalidChangeOperationException(
           "Cannot rebase: Failed to resolve baseRev: " + baseRev);
       }
-      final RevCommit baseCommit = rw.parseCommit(baseObjectId);
+      RevCommit baseCommit = revWalk.parseCommit(baseObjectId);
 
       PersonIdent committerIdent =
           uploader.newCommitterIdent(TimeUtil.nowTs(),
               serverTimeZone);
 
-      rebase(git, rw, inserter, patchSetId, change,
+      rebase(git, revWalk, inserter, patchSetId, change,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, true, ValidatePolicy.GERRIT);

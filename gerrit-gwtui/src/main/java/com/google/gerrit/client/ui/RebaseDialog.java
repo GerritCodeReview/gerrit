@@ -88,8 +88,7 @@ public abstract class RebaseDialog extends CommentedActionDialog {
                   changes = Natives.asList(result);
                   updateControls(true);
                 }
-              },
-              0, 1000);
+              });
         } else {
           updateControls(false);
         }

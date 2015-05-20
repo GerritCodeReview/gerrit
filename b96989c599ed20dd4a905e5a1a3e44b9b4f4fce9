@@ -16,6 +16,24 @@
       "revId": "b96989c599ed20dd4a905e5a1a3e44b9b4f4fce9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d4c9914_bb432772",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-20T05:28:13Z",
+      "side": 1,
+      "message": "It\u0027s only longer than the margin by 2 characters.  I already reduced the length by splitting currId out to a local instead of inlining.",
+      "parentUuid": "ad705150_6dfbb5ba",
+      "revId": "b96989c599ed20dd4a905e5a1a3e44b9b4f4fce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

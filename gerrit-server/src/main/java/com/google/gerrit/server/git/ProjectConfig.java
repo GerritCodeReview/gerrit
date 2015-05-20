@@ -689,7 +689,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
       if (isInRange(dv, values)) {
         label.setDefaultValue(dv);
-      } else {
+      } else if (!values.isEmpty()) {
         error(new ValidationError(PROJECT_CONFIG, String.format(
             "Invalid %s \"%s\" for label \"%s\"",
             KEY_DEFAULT_VALUE, dv, name)));

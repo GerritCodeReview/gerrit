@@ -7,11 +7,13 @@ def java_doc(
     deps = [],
     visibility = [],
     do_it_wrong = False,
+    external_docs = [],
   ):
   if do_it_wrong:
     sourcepath = paths
   else:
     sourcepath = ['$SRCDIR/' + n for n in paths]
+  external_docs.insert(0, 'http://docs.oracle.com/javase/7/docs/api')
   genrule(
     name = name,
     cmd = ' '.join([
@@ -23,7 +25,7 @@ def java_doc(
       '-charset UTF-8',
       '-notimestamp',
       '-windowtitle "' + title + '"',
-      '-link http://docs.oracle.com/javase/7/docs/api',
+      ' '.join(['-link %s' % url for url in external_docs]),
       '-subpackages ',
       ':'.join(pkgs),
       '-sourcepath ',

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d827552_f22d4813",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EditPreferencesInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-21T14:07:51Z",
+      "side": 1,
+      "message": "This is a cool feature, I would prefer the default to be true.",
+      "range": {
+        "startLine": 43,
+        "startChar": 22,
+        "endLine": 43,
+        "endChar": 27
+      },
+      "revId": "cfeb458aa3550cd0be7406c296332ac8b73c9104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

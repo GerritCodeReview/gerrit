@@ -41,7 +41,7 @@ interactively. The degradation increased linearly with number of open changes on
 the target branch.
 +
 Now, instead of indexing interactively, it falls back to a batch thread pool
-with the logical number of available CPUs.
+with the number of available logical CPUs.
 
 * Reduce unnecessary database access when queryng changes.
 +

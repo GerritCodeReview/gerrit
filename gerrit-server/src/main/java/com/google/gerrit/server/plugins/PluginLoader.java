@@ -217,7 +217,8 @@ public class PluginLoader implements LifecycleListener {
   private synchronized void unloadPlugin(Plugin plugin) {
     persistentCacheFactory.onStop(plugin);
     String name = plugin.getName();
-    log.info(String.format("Unloading plugin %s", name));
+    log.info(String.format("Unloading plugin %s, version %s",
+        name, plugin.getVersion()));
     plugin.stop(env);
     env.onStopPlugin(plugin);
     running.remove(name);
@@ -355,7 +356,9 @@ public class PluginLoader implements LifecycleListener {
         String name = active.getName();
         try {
           log.info(String.format("Reloading plugin %s", name));
-          runPlugin(name, active.getSrcFile(), active);
+          Plugin newPlugin = runPlugin(name, active.getSrcFile(), active);
+          log.info(String.format("Reloaded plugin %s, version %s",
+              newPlugin.getName(), newPlugin.getVersion()));
         } catch (PluginInstallException e) {
           log.warn(String.format("Cannot reload plugin %s", name), e.getCause());
           throw e;
@@ -395,14 +398,14 @@ public class PluginLoader implements LifecycleListener {
       }
 
       if (active != null) {
-        log.info(String.format("Reloading plugin %s, version %s",
-            active.getName(), active.getVersion()));
+        log.info(String.format("Reloading plugin %s", active.getName()));
       }
 
       try {
         Plugin loadedPlugin = runPlugin(name, path, active);
-        if (active == null && !loadedPlugin.isDisabled()) {
-          log.info(String.format("Loaded plugin %s, version %s",
+        if (!loadedPlugin.isDisabled()) {
+          log.info(String.format("%s plugin %s, version %s",
+              active == null ? "Loaded" : "Reloaded",
               loadedPlugin.getName(), loadedPlugin.getVersion()));
         }
       } catch (PluginInstallException e) {

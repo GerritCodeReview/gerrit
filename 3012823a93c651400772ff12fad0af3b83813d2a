@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "ad705150_4ddfd902",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-21T10:16:04Z",
+      "side": 1,
+      "message": "| I wanted GroupCollector available to write the migration, but of course it makes no sense to do it that way.\n\nWhy not? I see advantages with your original approach:\n\n* add groups field to PatchSet and bump schema version in this change\n* add GroupCollector and test\n* add migration and populate groups for all open patch sets\n* use GroupCollector in ReceiveCommits and when changes created from the UI\n\nThis way we could keep changes smaller. This would be easier for reviewer and simpler to provide test coverage. The only disadvantage is we would add a column without actually using it yet (on master). I don\u0027t see any problem with this. The advantages I mentioned certainly outweigh it.",
+      "parentUuid": "cd75853f_6e9f2f62",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 26
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6efbafba",
         "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
         "patchSetId": 2

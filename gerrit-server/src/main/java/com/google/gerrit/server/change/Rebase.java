@@ -67,7 +67,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   @Override
   public ChangeInfo apply(RevisionResource rsrc, RebaseInput input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, EmailException, OrmException {
+      ResourceConflictException, EmailException, OrmException, IOException {
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     if (!control.canRebase()) {
@@ -126,8 +126,6 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       rebaseChange.get().rebase(change, rsrc.getPatchSet().getId(),
           rsrc.getUser(), baseRev);
     } catch (InvalidChangeOperationException e) {
-      throw new ResourceConflictException(e.getMessage());
-    } catch (IOException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(change.getId().toString());
@@ -239,7 +237,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     @Override
     public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
         throws AuthException, ResourceNotFoundException,
-        ResourceConflictException, EmailException, OrmException {
+        ResourceConflictException, EmailException, OrmException, IOException {
       PatchSet ps =
           rebase.dbProvider.get().patchSets()
               .get(rsrc.getChange().currentPatchSetId());

@@ -193,7 +193,7 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
       return changes.id(rebase.apply(revision, in)._number);
-    } catch (OrmException | EmailException e) {
+    } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
   }

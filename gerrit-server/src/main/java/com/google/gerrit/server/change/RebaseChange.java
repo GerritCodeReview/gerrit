@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -50,13 +49,16 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.TimeZone;
 
 @Singleton
 public class RebaseChange {
+  private static final Logger log = LoggerFactory.getLogger(RebaseChange.class);
+
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
@@ -123,8 +125,8 @@ public class RebaseChange {
         ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {
-          baseRev = findBaseRevision(patchSetId, db.get(),
-              change.getDest(), git, null, null, null);
+        baseRev =
+            findBaseRevision(patchSetId, db.get(), change.getDest(), git, rw);
       }
       ObjectId baseObjectId = git.resolve(baseRev);
       if (baseObjectId == null) {
@@ -146,74 +148,62 @@ public class RebaseChange {
     }
   }
 
-  /**
-   * Finds the revision of commit on which the given patch set should be based.
-   *
-   * @param patchSetId the id of the patch set for which the new base commit
-   *        should be found
-   * @param db the ReviewDb
-   * @param destBranch the destination branch
-   * @param git the repository
-   * @param patchSetAncestors the original PatchSetAncestor of the given patch
-   *        set that should be based
-   * @param depPatchSetList the original patch set list on which the rebased
-   *        patch set depends
-   * @param depChangeList the original change list on whose patch set the
-   *        rebased patch set depends
-   * @return the revision of commit on which the given patch set should be based
-   * @throws IOException thrown if rebase is not possible or not needed
-   * @throws OrmException thrown in case accessing the database fails
-   */
-    private static String findBaseRevision(final PatchSet.Id patchSetId,
-        final ReviewDb db, final Branch.NameKey destBranch, final Repository git,
-        List<PatchSetAncestor> patchSetAncestors, List<PatchSet> depPatchSetList,
-        List<Change> depChangeList) throws IOException, OrmException {
+    /**
+     * Finds the revision of commit on which the given patch set should be based.
+     *
+     * @param patchSetId the id of the patch set for which the new base commit
+     *        should be found
+     * @param db the ReviewDb
+     * @param destBranch the destination branch
+     * @param git the repository
+     * @param rw the RevWalk
+     * @return the revision of commit on which the given patch set should be based
+     * @throws InvalidChangeOperationException if rebase is not possible or not
+     *     allowed
+     * @throws IOException thrown if accessing the repository fails
+     * @throws OrmException thrown if accessing the database fails
+     */
+    private static String findBaseRevision(PatchSet.Id patchSetId,
+        ReviewDb db, Branch.NameKey destBranch, Repository git, RevWalk rw)
+        throws InvalidChangeOperationException, IOException, OrmException {
 
       String baseRev = null;
 
-      if (patchSetAncestors == null) {
-        patchSetAncestors =
-            db.patchSetAncestors().ancestorsOf(patchSetId).toList();
+      PatchSet patchSet = db.patchSets().get(patchSetId);
+      if (patchSet == null) {
+        throw new InvalidChangeOperationException(
+            "Patch set " + patchSetId + " not found");
+      }
+      RevCommit commit = rw.parseCommit(
+          ObjectId.fromString(patchSet.getRevision().get()));
+
+      if (commit.getParentCount() > 1) {
+        throw new InvalidChangeOperationException(
+            "Cannot rebase a change with multiple parents.");
+      } else if (commit.getParentCount() == 0) {
+        throw new InvalidChangeOperationException(
+            "Cannot rebase a change without any parents"
+            + " (is this the initial commit?).");
       }
 
-      if (patchSetAncestors.size() > 1) {
-        throw new IOException(
-            "Cannot rebase a change with multiple parents. Parent commits: "
-                + patchSetAncestors.toString());
-      }
-      if (patchSetAncestors.size() == 0) {
-        throw new IOException(
-            "Cannot rebase a change without any parents (is this the initial commit?).");
-      }
+      RevId parentRev = new RevId(commit.getParent(0).name());
 
-      RevId ancestorRev = patchSetAncestors.get(0).getAncestorRevision();
-      if (depPatchSetList == null || depPatchSetList.size() != 1 ||
-          !depPatchSetList.get(0).getRevision().equals(ancestorRev)) {
-        depPatchSetList = db.patchSets().byRevision(ancestorRev).toList();
-      }
-
-      for (PatchSet depPatchSet : depPatchSetList) {
+      for (PatchSet depPatchSet : db.patchSets().byRevision(parentRev)) {
 
         Change.Id depChangeId = depPatchSet.getId().getParentKey();
-        Change depChange;
-        if (depChangeList == null || depChangeList.size() != 1 ||
-            !depChangeList.get(0).getId().equals(depChangeId)) {
-          depChange = db.changes().get(depChangeId);
-        } else {
-          depChange = depChangeList.get(0);
-        }
+        Change depChange = db.changes().get(depChangeId);
         if (!depChange.getDest().equals(destBranch)) {
           continue;
         }
 
         if (depChange.getStatus() == Status.ABANDONED) {
-          throw new IOException("Cannot rebase a change with an abandoned parent: "
+          throw new InvalidChangeOperationException("Cannot rebase a change with an abandoned parent: "
               + depChange.getKey().toString());
         }
 
         if (depChange.getStatus().isOpen()) {
           if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
-            throw new IOException(
+            throw new InvalidChangeOperationException(
                 "Change is already based on the latest patch set of the dependent change.");
           }
           PatchSet latestDepPatchSet =
@@ -228,13 +218,12 @@ public class RebaseChange {
         // dependencies at all.
         Ref destRef = git.getRef(destBranch.get());
         if (destRef == null) {
-          throw new IOException(
-              "The destination branch does not exist: "
-                  + destBranch.get());
+          throw new InvalidChangeOperationException(
+              "The destination branch does not exist: " + destBranch.get());
         }
         baseRev = destRef.getObjectId().getName();
-        if (baseRev.equals(ancestorRev.get())) {
-          throw new IOException("Change is already up to date.");
+        if (baseRev.equals(parentRev.get())) {
+          throw new InvalidChangeOperationException("Change is already up to date.");
         }
       }
       return baseRev;
@@ -328,11 +317,13 @@ public class RebaseChange {
    */
   private ObjectId rebaseCommit(Repository git, ObjectInserter inserter,
       RevCommit original, RevCommit base, MergeUtil mergeUtil,
-      PersonIdent committerIdent) throws MergeConflictException, IOException {
+      PersonIdent committerIdent) throws MergeConflictException, IOException,
+      InvalidChangeOperationException {
     RevCommit parentCommit = original.getParent(0);
 
     if (base.equals(parentCommit)) {
-      throw new IOException("Change is already up to date.");
+      throw new InvalidChangeOperationException(
+          "Change is already up to date.");
     }
 
     ThreeWayMerger merger = mergeUtil.newThreeWayMerger(git, inserter);
@@ -375,19 +366,19 @@ public class RebaseChange {
     } catch (IOException err) {
       return false;
     }
-    try {
+    try (RevWalk rw = new RevWalk(git)) {
       findBaseRevision(
           patchSetId,
           db.get(),
           branch,
           git,
-          null,
-          null,
-          null);
+          rw);
       return true;
-    } catch (IOException e) {
+    } catch (InvalidChangeOperationException e) {
       return false;
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
+      log.warn("Error checking if patch set " + patchSetId + " on " + branch
+          + " can be rebased", e);
       return false;
     } finally {
       git.close();

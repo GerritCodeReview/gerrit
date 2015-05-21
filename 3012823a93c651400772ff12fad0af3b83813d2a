@@ -288,6 +288,30 @@
     },
     {
       "key": {
+        "uuid": "4de0b53c_82d69a43",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-21T18:15:10Z",
+      "side": 1,
+      "message": "| No reason to deviate from it.\n\nOn second thought, there are reasons to deviate this time:\n\n* 1. when errors are found in GroupsCollector to re-run it, the schema must be upgraded. Decouple execution of GroupsCollector from chema upgrade could be helpful \n* 2. performance consideration and support for online groups column population on Gerrit installations that are not powered by Google Megastore and this not able to peform schema upgrades with zero downtime). This time we don\u0027t change AccountDiffPreference (with 10k records) but PatchSet (optimistic estimation for very big installation would be 1 million changes x 10 patch set per change: 10 million records; OpenStack has tons of changes with three digit patch set number). So it would be helpful to not wait for ages for offline schema migration (I havn\u0027t looked into GroupsCollector implementation), because nobody cares about related changes feature, not for the cost of many hours offline schema upgrade. Moreover, when Gerrit is upgraded from 2.8 that predates secondary index, it would need to wait ages for schema migration with groups column population and after it wait again ages for secondary index to be created.\n\nEven better, with support for online groups population we could fall back to patch set ancestor table for related changes computation and only when groups column online population is ready we would switch to PatchSet.groups column usage for related changes.\n\nCombining 1. and 2. we could introduce GroupsCollection algorithmus number (like index schema number) that we would store in $gerrit_site/etc/groupsCollection.config and check the current version and increase it when new version of GroupsCollector algorithm is available and upgrade when needed. Online.",
+      "parentUuid": "4d827552_12e9ec29",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 26
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6efbafba",
         "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
         "patchSetId": 2

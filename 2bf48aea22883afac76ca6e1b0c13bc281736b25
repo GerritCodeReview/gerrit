@@ -22,6 +22,30 @@
       "revId": "2bf48aea22883afac76ca6e1b0c13bc281736b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_12632c8d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-21T09:28:02Z",
+      "side": 1,
+      "message": "I guess it wouldn\u0027t be hard to fix the first item from your list. Every time change screen is opened, it could update stale mergeability flag as it was the case in Gerrit 2.8.\n\nI could also mention the effect of not turning it off (default):\n\n* On very big installations, with 10k open changes and 1k submits per day, triggering mergeability checks from ref-update listener for all opened changes on the target branch means that 10 million times small and big changes are tested for mergeability.",
+      "parentUuid": "4d827552_924e3c19",
+      "range": {
+        "startLine": 848,
+        "startChar": 0,
+        "endLine": 849,
+        "endChar": 38
+      },
+      "revId": "2bf48aea22883afac76ca6e1b0c13bc281736b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

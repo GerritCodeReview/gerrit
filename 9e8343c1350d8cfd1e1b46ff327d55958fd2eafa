@@ -16,6 +16,24 @@
       "revId": "9e8343c1350d8cfd1e1b46ff327d55958fd2eafa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d827552_52ef7430",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-05-21T15:35:30Z",
+      "side": 1,
+      "message": "The difference here is that this change wants to /allow/ compilation\nwith Java 8 (alongside with Java 7), while the change you linked is\nsetting source version to 1.8, and hence would /require/ Java 8 (no\nmore Java 7).\n\nI think we currently should allow compiling with Java 8, but should\nnot require Java 8. Hence, I did not bump the source version.",
+      "parentUuid": "ad705150_8d9dc13d",
+      "revId": "9e8343c1350d8cfd1e1b46ff327d55958fd2eafa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

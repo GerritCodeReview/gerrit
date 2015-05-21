@@ -132,6 +132,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreUploadHook;
 
@@ -142,14 +143,20 @@ import java.util.Set;
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
   private final AuthModule authModule;
+  private final Config config;
 
   @Inject
-  GerritGlobalModule(AuthModule authModule) {
+  GerritGlobalModule(AuthModule authModule,
+      @GerritServerConfig Config config) {
     this.authModule = authModule;
+    this.config = config;
   }
 
   @Override
   protected void configure() {
+    boolean updateMergeabilityOnRefUpdate = config.getBoolean(
+        "changeMerge", null, "updateMergeabilityOnRefUpdate", true);
+
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
 
@@ -262,7 +269,9 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), UsageDataPublishedListener.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(MergeabilityChecker.class);
+    if (updateMergeabilityOnRefUpdate) {
+      DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(MergeabilityChecker.class);
+    }
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);
     DynamicSet.setOf(binder(), ChangeListener.class);

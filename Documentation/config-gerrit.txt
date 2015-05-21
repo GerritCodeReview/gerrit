@@ -843,6 +843,13 @@ master node startup.
 +
 Default is 300 seconds (5 minutes).
 
+[[changeMerge.updateMergeabilityOnRefUpdate]]changeMerge.updateMergeabilityOnRefUpdate::
++
+Specify if mergeability flag should be updated for all open changes on
+the target branch on ref-update event.
++
+Default is true.
+
 [[changeMerge.threadPoolSize]]changeMerge.threadPoolSize::
 +
 Maximum size of the thread pool in which the mergeability flag of open

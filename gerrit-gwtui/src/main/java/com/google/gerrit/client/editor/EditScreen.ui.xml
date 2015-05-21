@@ -17,10 +17,16 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style>
+    @external .CodeMirror, .CodeMirror-cursor;
+
     .header {
       position: relative;
       height: 16px;
       line-height: 16px;
+    }
+
+    .header .CodeMirror div.CodeMirror-cursor {
+      border-left: 2px solid black;
     }
 
     .headerLine {

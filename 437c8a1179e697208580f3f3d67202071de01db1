@@ -22,6 +22,30 @@
       "revId": "437c8a1179e697208580f3f3d67202071de01db1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d1d15f6_7ab359db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-21T13:08:42Z",
+      "side": 0,
+      "message": "Line 204 on the new version.",
+      "parentUuid": "ad705150_4da83958",
+      "range": {
+        "startLine": 208,
+        "startChar": 13,
+        "endLine": 208,
+        "endChar": 56
+      },
+      "revId": "437c8a1179e697208580f3f3d67202071de01db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

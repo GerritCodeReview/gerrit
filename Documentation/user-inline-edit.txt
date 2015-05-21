@@ -44,10 +44,9 @@ image::images/inline-edit-enter-edit-mode-from-file-list.png[width=800, link="im
 While in edit mode, it is possible to add new files to the change by clicking
 the 'Add...' button at the top of the file list.
 
-Files can be removed from the change, or restored, by clicking the icon to the
-left of the file name. Reverting a file in the change is also supported and is
-achieved in two steps: remove file from the change and restore the file in the
-change.
+File changes can be reverted or files can be removed from the change or
+deleted files can be restored, by clicking the icons to the left of the file
+name.
 
 To switch from edit mode back to review mode, click the 'Done Editing' button.
 

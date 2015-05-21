@@ -456,6 +456,30 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertChanges() throws Exception {
+    assertThat(modifier.createEdit(change2, ps2)).isEqualTo(
+        RefUpdate.Result.NEW);
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
+    assertThat(modifier.restoreFile(edit.get(), FILE_NAME)).isEqualTo(
+        RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change2);
+    assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_OLD);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change2);
+    assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW);
+    assertThat(modifier.restoreFile(edit.get(), FILE_NAME)).isEqualTo(
+        RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change2);
+    assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_OLD);
+    editUtil.delete(edit.get());
+  }
+
+  @Test
   public void renameFileRest() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Post.Input in = new Post.Input();

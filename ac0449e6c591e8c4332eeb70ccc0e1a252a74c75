@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d1d15f6_ba17b143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-21T06:44:53Z",
+      "side": 1,
+      "message": "It might be better to move this logging and the logging at line 363, line 401 and lines 407-409 into the runPlugin method.\n\nThen since the only reason we catch the exception on line 362 is to log it and then re-throw it, we can get rid of the try-catch block here.",
+      "range": {
+        "startLine": 358,
+        "startChar": 10,
+        "endLine": 361,
+        "endChar": 60
+      },
+      "revId": "ac0449e6c591e8c4332eeb70ccc0e1a252a74c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

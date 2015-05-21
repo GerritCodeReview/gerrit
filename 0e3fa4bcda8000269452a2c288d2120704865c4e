@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_8e9dbb3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-21T02:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d1d15f6_fa9be96f",
+      "range": {
+        "startLine": 112,
+        "startChar": 55,
+        "endLine": 112,
+        "endChar": 70
+      },
+      "revId": "0e3fa4bcda8000269452a2c288d2120704865c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d1d15f6_9a90ad4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2d854159_110ecc36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-21T02:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d1d15f6_9a90ad4e",
+      "revId": "0e3fa4bcda8000269452a2c288d2120704865c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d1d15f6_ba95713d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2015-05-21T02:15:02Z",
       "side": 1,
       "message": "nit: remove \"thrown\" from the beginning, and add periods at the end.",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "0e3fa4bcda8000269452a2c288d2120704865c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd75853f_aea2f778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-21T02:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d1d15f6_ba95713d",
       "range": {
         "startLine": 167,
         "startChar": 0,

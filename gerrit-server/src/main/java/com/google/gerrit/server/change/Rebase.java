@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -40,6 +41,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,18 +78,17 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       ResourceConflictException, EmailException, OrmException, IOException {
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
-    if (!control.canRebase()) {
-      throw new AuthException("rebase not permitted");
-    } else if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is "
-          + change.getStatus().name().toLowerCase());
-    } else if (!hasOneParent(rsrc.getPatchSet().getId())) {
-      throw new ResourceConflictException(
-          "cannot rebase merge commits or commit with no ancestor");
-    }
-
     try (Repository repo = repoManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo)) {
+      if (!control.canRebase()) {
+        throw new AuthException("rebase not permitted");
+      } else if (!change.getStatus().isOpen()) {
+        throw new ResourceConflictException("change is "
+            + change.getStatus().name().toLowerCase());
+      } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
+        throw new ResourceConflictException(
+            "cannot rebase merge commits or commit with no ancestor");
+      }
       rebaseChange.get().rebase(repo, rw, change, rsrc.getPatchSet().getId(),
           rsrc.getUser(), findBaseRev(rw, rsrc, input));
     } catch (InvalidChangeOperationException e) {
@@ -185,27 +186,32 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     return basePatchSet;
   }
 
-  private boolean hasOneParent(PatchSet.Id patchSetId) {
-    try {
-      // Prevent rebase of exotic changes (merge commit, no ancestor).
-      return (dbProvider.get().patchSetAncestors()
-          .ancestorsOf(patchSetId).toList().size() == 1);
-    } catch (OrmException e) {
-      log.error("Failed to get ancestors of patch set "
-          + patchSetId.toRefName(), e);
-      return false;
-    }
+  private boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {
+    // Prevent rebase of exotic changes (merge commit, no ancestor).
+    RevCommit c = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+    return c.getParentCount() == 1;
   }
 
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
+    Project.NameKey project = resource.getChange().getProject();
+    boolean visible = resource.getChange().getStatus().isOpen()
+          && resource.isCurrent()
+          && resource.getControl().canRebase();
+    if (visible) {
+      try (Repository repo = repoManager.openRepository(project);
+          RevWalk rw = new RevWalk(repo)) {
+        visible = hasOneParent(rw, resource.getPatchSet());
+      } catch (IOException e) {
+        log.error("Failed to get ancestors of patch set "
+            + resource.getPatchSet().getId(), e);
+        visible = false;
+      }
+    }
     UiAction.Description descr = new UiAction.Description()
       .setLabel("Rebase")
       .setTitle("Rebase onto tip of branch or parent change")
-      .setVisible(resource.getChange().getStatus().isOpen()
-          && resource.isCurrent()
-          && resource.getControl().canRebase()
-          && hasOneParent(resource.getPatchSet().getId()));
+      .setVisible(visible);
     if (descr.isVisible()) {
       // Disable the rebase button in the RebaseDialog if
       // the change cannot be rebased.

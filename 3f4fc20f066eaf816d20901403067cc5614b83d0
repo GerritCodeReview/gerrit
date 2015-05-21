@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad705150_8d76218c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1557,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-21T13:26:30Z",
+      "side": 1,
+      "message": "Maybe mention that \u00270\u0027 disables the blinking.",
+      "revId": "3f4fc20f066eaf816d20901403067cc5614b83d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "437c8a1179e697208580f3f3d67202071de01db1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d854159_d1184478",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-21T15:29:59Z",
+      "side": 0,
+      "message": "Yeah, the new control flow is definitely harder to read, not much to be done about that. It happened that way because I wanted to short-circuit opening the repository and also handle exceptions.",
+      "parentUuid": "4d1d15f6_7ab359db",
+      "range": {
+        "startLine": 208,
+        "startChar": 13,
+        "endLine": 208,
+        "endChar": 56
+      },
+      "revId": "437c8a1179e697208580f3f3d67202071de01db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

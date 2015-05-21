@@ -240,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "4d827552_12e9ec29",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-21T15:58:54Z",
+      "side": 1,
+      "message": "| With the version but without the schema upgrade to populate the groups field, a server run from this commit will never get its groups field populated.\n\nNot when we provide rebuildGroups site program like we did for RebuildNotedb. But we have standard upgrade process for now for database schema upgrade. No reason to deviate from it. So you are right: bump database schema version + schema upgrade must go in the same change.",
+      "parentUuid": "cd75853f_ae7bd772",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 26
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6efbafba",
         "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
         "patchSetId": 2

@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_ae7bd772",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-21T15:40:28Z",
+      "side": 1,
+      "message": "Either we want to support running Gerrit from this commit (the commit that adds the groups field) or we don\u0027t.\n\nIf we want to support running Gerrit from this commit, then we need the schema version bump, and we need the schema upgrade to actually work. Without the new schema version, Gerrit won\u0027t start if run against an old db (as you noticed). With the version but without the schema upgrade to populate the groups field, a server run from this commit will never get its groups field populated.\n\nIf we don\u0027t want to support running Gerrit from this commit, then we don\u0027t even have to worry about the fact that existing sites won\u0027t start up.\n\nMy vote is that we want to support running Gerrit from this commit. This means we have to write the schema upgrade here.\n\nI don\u0027t think it\u0027s going to make it that much harder to review. GroupCollector is completely self-contained.",
+      "parentUuid": "ad705150_4ddfd902",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 26
+      },
+      "revId": "3012823a93c651400772ff12fad0af3b83813d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6efbafba",
         "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/PatchSetTest.java",
         "patchSetId": 2

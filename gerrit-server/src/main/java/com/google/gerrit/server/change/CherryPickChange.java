@@ -182,9 +182,13 @@ public class CherryPickChange {
       } else {
         // Change key not found on destination branch. We can create a new
         // change.
+        String newTopic = null;
+        if (change.getTopic() != null) {
+          newTopic = change.getTopic() + "-" + newDest.getShortName();
+        }
         Change newChange = createNewChange(git, revWalk, changeKey, project,
             destRef, cherryPickCommit, refControl,
-            identifiedUser, change.getTopic() + "-" + newDest.getShortName());
+            identifiedUser, newTopic);
 
         addMessageToSourceChange(change, patch.getId(), destinationBranch,
             cherryPickCommit, identifiedUser, refControl);

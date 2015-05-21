@@ -49,8 +49,7 @@ import java.io.IOException;
 public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     UiAction<RevisionResource> {
 
-  private static final Logger log =
-      LoggerFactory.getLogger(Rebase.class);
+  private static final Logger log = LoggerFactory.getLogger(Rebase.class);
 
   private final GitRepositoryManager repoManager;
   private final Provider<RebaseChange> rebaseChange;
@@ -128,18 +127,18 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       return null;
     }
     if (!baseChange.getProject().equals(change.getProject())) {
-      throw new ResourceConflictException("base change is in wrong project: "
-                                          + baseChange.getProject());
+      throw new ResourceConflictException(
+          "base change is in wrong project: " + baseChange.getProject());
     } else if (!baseChange.getDest().equals(change.getDest())) {
-      throw new ResourceConflictException("base change is targetting wrong branch: "
-                                          + baseChange.getDest());
+      throw new ResourceConflictException(
+          "base change is targeting wrong branch: " + baseChange.getDest());
     } else if (baseChange.getStatus() == Status.ABANDONED) {
-      throw new ResourceConflictException("base change is abandoned: "
-                                          + baseChange.getKey());
+      throw new ResourceConflictException(
+          "base change is abandoned: " + baseChange.getKey());
     } else if (isMergedInto(rw, rsrc.getPatchSet(), basePatchSet)) {
-      throw new ResourceConflictException("base change " + baseChange.getKey()
-                                          + " is a descendant of the current "
-                                          + " change - recursion not allowed");
+      throw new ResourceConflictException(
+          "base change " + baseChange.getKey()
+          + " is a descendant of the current  change - recursion not allowed");
     }
     return basePatchSet.getRevision().get();
   }
@@ -151,33 +150,35 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
   }
 
-  private PatchSet parseBase(final String base) throws OrmException {
+  private PatchSet parseBase(String base) throws OrmException {
     ReviewDb db = dbProvider.get();
 
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
-      // try parsing the base as a ref string
+      // Try parsing the base as a ref string.
       return db.patchSets().get(basePatchSetId);
     }
 
-    // try parsing base as a change number (assume current patch set)
+    // Try parsing base as a change number (assume current patch set).
     PatchSet basePatchSet = null;
     try {
       Change.Id baseChangeId = Change.Id.parse(base);
       if (baseChangeId != null) {
         for (PatchSet ps : db.patchSets().byChange(baseChangeId)) {
-          if (basePatchSet == null || basePatchSet.getId().get() < ps.getId().get()){
+          if (basePatchSet == null
+              || basePatchSet.getId().get() < ps.getId().get()) {
             basePatchSet = ps;
           }
         }
       }
-    } catch (NumberFormatException e) {  // probably a SHA1
+    } catch (NumberFormatException e) {  // Probably a SHA-1.
     }
 
-    // try parsing as SHA1
+    // Try parsing as SHA-1.
     if (basePatchSet == null) {
       for (PatchSet ps : db.patchSets().byRevision(new RevId(base))) {
-        if (basePatchSet == null || basePatchSet.getId().get() < ps.getId().get()) {
+        if (basePatchSet == null
+            || basePatchSet.getId().get() < ps.getId().get()) {
           basePatchSet = ps;
         }
       }
@@ -186,9 +187,9 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     return basePatchSet;
   }
 
-  private boolean hasOneParent(final PatchSet.Id patchSetId) {
+  private boolean hasOneParent(PatchSet.Id patchSetId) {
     try {
-      // prevent rebase of exotic changes (merge commit, no ancestor).
+      // Prevent rebase of exotic changes (merge commit, no ancestor).
       return (dbProvider.get().patchSetAncestors()
           .ancestorsOf(patchSetId).toList().size() == 1);
     } catch (OrmException e) {

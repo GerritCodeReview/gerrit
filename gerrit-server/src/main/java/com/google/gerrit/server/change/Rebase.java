@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -161,29 +162,26 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
     // Try parsing base as a change number (assume current patch set).
     PatchSet basePatchSet = null;
-    try {
-      Change.Id baseChangeId = Change.Id.parse(base);
-      if (baseChangeId != null) {
-        for (PatchSet ps : db.patchSets().byChange(baseChangeId)) {
-          if (basePatchSet == null
-              || basePatchSet.getId().get() < ps.getId().get()) {
-            basePatchSet = ps;
-          }
-        }
-      }
-    } catch (NumberFormatException e) {  // Probably a SHA-1.
-    }
-
-    // Try parsing as SHA-1.
-    if (basePatchSet == null) {
-      for (PatchSet ps : db.patchSets().byRevision(new RevId(base))) {
+    Integer baseChangeId = Ints.tryParse(base);
+    if (baseChangeId != null) {
+      for (PatchSet ps : db.patchSets().byChange(new Change.Id(baseChangeId))) {
         if (basePatchSet == null
             || basePatchSet.getId().get() < ps.getId().get()) {
           basePatchSet = ps;
         }
       }
+      if (basePatchSet != null) {
+        return basePatchSet;
+      }
     }
 
+    // Try parsing as SHA-1.
+    for (PatchSet ps : db.patchSets().byRevision(new RevId(base))) {
+      if (basePatchSet == null
+          || basePatchSet.getId().get() < ps.getId().get()) {
+        basePatchSet = ps;
+      }
+    }
     return basePatchSet;
   }
 

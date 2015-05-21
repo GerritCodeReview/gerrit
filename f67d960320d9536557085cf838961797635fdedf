@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d1d15f6_7a883923",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-21T02:19:44Z",
+      "side": 1,
+      "message": "I didn\u0027t know multiple objects can be instantiated inside a try-with-resources.  We can probably remove a few lines in other places where we have Repository and RevWalk created in nested blocks.",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 90,
+        "endChar": 38
+      },
+      "revId": "f67d960320d9536557085cf838961797635fdedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

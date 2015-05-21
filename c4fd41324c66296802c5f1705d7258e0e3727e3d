@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad705150_0db231c6",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-21T13:12:30Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 80
+      },
+      "revId": "c4fd41324c66296802c5f1705d7258e0e3727e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dea3d20_c0b7fe19",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-21T17:03:45Z",
+      "side": 1,
+      "message": "isNull()",
+      "revId": "634dd9c480e9c24fd3fa18b36e3d4e65d0a47ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2de3814b_c1b7021a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-21T17:03:45Z",
+      "side": 1,
+      "message": "!Strings.isNullOrEmpty(change.getTopic())",
+      "revId": "634dd9c480e9c24fd3fa18b36e3d4e65d0a47ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

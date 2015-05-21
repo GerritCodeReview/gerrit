@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cd75853f_eeef9fb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-21T00:33:56Z",
+      "side": 1,
+      "message": "Yes, that\u0027s what I meant.  The one at line 161 does not begin with \"throws\" so I thought it better to keep consistent.\n\nBut if you\u0027re planning to do another cleanup commit later, OK, let\u0027s leave it for now.",
+      "parentUuid": "2d854159_b1bca0cb",
+      "range": {
+        "startLine": 163,
+        "startChar": 27,
+        "endLine": 163,
+        "endChar": 34
+      },
+      "revId": "58bbc8888c66eeb2397ab32b1134a7bcce2d95a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d854159_117a4cb5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
         "patchSetId": 1

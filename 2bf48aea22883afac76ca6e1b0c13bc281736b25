@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d827552_924e3c19",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-21T07:41:50Z",
+      "side": 1,
+      "message": "You should describe the effects of turning this off:\n\n- \u0027Merge Conflict\u0027 is not shown on change screen, but for non-mergeable changes submit will just fail\n- is:mergeable search operator delivers wrong results\n- Merge Conflict info shown in change lists and dashboards is not up-to-date",
+      "range": {
+        "startLine": 848,
+        "startChar": 0,
+        "endLine": 849,
+        "endChar": 38
+      },
+      "revId": "2bf48aea22883afac76ca6e1b0c13bc281736b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

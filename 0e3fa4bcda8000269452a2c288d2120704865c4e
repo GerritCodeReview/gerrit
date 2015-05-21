@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d1d15f6_fa9be96f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-21T02:15:02Z",
+      "side": 1,
+      "message": "Should we distinguish what \"not possible\" means here compared to the \"not possible\" that causes an IOException?",
+      "range": {
+        "startLine": 112,
+        "startChar": 55,
+        "endLine": 112,
+        "endChar": 70
+      },
+      "revId": "0e3fa4bcda8000269452a2c288d2120704865c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d1d15f6_9a90ad4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-21T02:15:02Z",
+      "side": 1,
+      "message": "nit: add period at the end of the sentence",
+      "revId": "0e3fa4bcda8000269452a2c288d2120704865c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d1d15f6_ba95713d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-21T02:15:02Z",
+      "side": 1,
+      "message": "nit: remove \"thrown\" from the beginning, and add periods at the end.",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "0e3fa4bcda8000269452a2c288d2120704865c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4de0b53c_e2dfa651",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-22T04:03:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d827552_d2d12484",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 8
+      },
+      "revId": "73d5d25904df1453f1268979607a4da793af7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d827552_32343057",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-21T14:42:13Z",
       "side": 1,
       "message": "Add a test that a user gets no results if another user has an edit?",
+      "range": {
+        "startLine": 660,
+        "startChar": 2,
+        "endLine": 679,
+        "endChar": 3
+      },
+      "revId": "73d5d25904df1453f1268979607a4da793af7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_84136691",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-22T04:03:17Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "4d827552_32343057",
       "range": {
         "startLine": 660,
         "startChar": 2,

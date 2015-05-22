@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4de0b53c_e21846ad",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-22T04:38:14Z",
+      "side": 1,
+      "message": "Deafult is 0 and is different for every option. We normally don\u0027t mention the default in REST API, don\u0027t we? For example we don\u0027t mention what default is in diff-preferences-info description above.",
+      "parentUuid": "ad9cd1d8_ad445d7d",
+      "revId": "6adc5c5bd009ecc86c9ad7d7a7a0e7152386385e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad9cd1d8_4d77b9cc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesBox.ui.xml",
         "patchSetId": 9

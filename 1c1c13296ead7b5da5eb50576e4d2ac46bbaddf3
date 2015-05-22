@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4de0b53c_222a2e78",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3922,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T15:12:08Z",
+      "side": 1,
+      "message": "Sounds better to me.\n\nDone.",
+      "parentUuid": "ad9cd1d8_ad4e1d4a",
+      "range": {
+        "startLine": 3922,
+        "startChar": 2,
+        "endLine": 3922,
+        "endChar": 9
+      },
+      "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad9cd1d8_8d5361f2",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
         "patchSetId": 2
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8d58ede6_642aea79",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T15:12:08Z",
+      "side": 1,
+      "message": "If a production server runs 2.11-rc1 and we only provide the commit ID to the plugin, then the plugin needs to do a RevWalk to find out if 2.11-rc1 includes this commit. However Gerrit already computed the tags which contain this commit. If this list of tags is provided to the plugin, the plugin can simply check if the tag that the server is running is contained in this list, and hence avoid a RevWalk.\n\nIf a production server runs commit XYZ, we would still need to do a RevWalk to find out if it contains the given commit.",
+      "parentUuid": "ad9cd1d8_8d5361f2",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 73
+      },
+      "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_e217a642",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
         "patchSetId": 2
@@ -106,6 +154,30 @@
       "writtenOn": "2015-05-22T15:00:46Z",
       "side": 1,
       "message": "Now that this is an interface remove the \"public\" here?",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_e4c6da4b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T15:12:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4de0b53c_e217a642",
       "range": {
         "startLine": 39,
         "startChar": 2,

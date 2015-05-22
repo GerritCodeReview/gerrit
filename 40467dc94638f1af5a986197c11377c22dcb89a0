@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4de0b53c_620b9626",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T14:45:48Z",
+      "side": 1,
+      "message": "Cool. I hope there will be even more use-cases, like showing service packs etc.",
+      "parentUuid": "0dea3d20_60055241",
+      "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2de3814b_a1375e11",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-05-22T14:30:27Z",
       "side": 1,
       "message": "Does this have to live here and not in the plugin? i.e. If I wanted to add \u0027builds\u0027 in my own plugin, it would still require a change in core Gerrit?",
+      "range": {
+        "startLine": 3922,
+        "startChar": 2,
+        "endLine": 3922,
+        "endChar": 9
+      },
+      "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de0b53c_820e9a34",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3922,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T14:45:48Z",
+      "side": 1,
+      "message": "This should just work and would not require a change in Gerrit core.\n\u0027systems\u0027 is a map which maps a title/type to a list of systems of that type that contain the change.\n\nE.g.:\n\n \"systems\": {\n    \"Build\": [\n      \"X\",\n      \"Y\",\n      \"Z\"\n    ],\n    \"Landscape\": [\n      \"TEST\",\n      \"PROD\",\n      \"QUAL\"\n    ],\n    \"Package\": [\n      \"A\",\n      \"B\"\n    ]\n  }\n\nThe name \u0027system\u0027 is not covering all use-cases, but I couldn\u0027t come up with a better name. Please feel free to suggest a better name if you have one.",
+      "parentUuid": "2de3814b_a1375e11",
       "range": {
         "startLine": 3922,
         "startChar": 2,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_ad93bd32",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d58ede6_8490464e",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d58ede6_04ac5698",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_8d98814e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad9cd1d8_2ddfcd03",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d58ede6_24a95289",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
         "patchSetId": 1
@@ -65,6 +101,30 @@
       "writtenOn": "2015-05-22T13:40:41Z",
       "side": 1,
       "message": "Move these two also inside the try(...) ?",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 38
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_ed9dc53c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "No, these are already declared in the superclass.  Putting them in the try causes compilation errors.\n\nSee the original change; they are not moved there either.\n\nhttps://gerrit-review.googlesource.com/#/c/66011/7/gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+      "parentUuid": "8d58ede6_24a95289",
       "range": {
         "startLine": 112,
         "startChar": 0,
@@ -117,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_cda2897a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d58ede6_e49b3a70",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_e295e63c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 1
@@ -134,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_2da86d57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4de0b53c_e295e63c",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_22886e22",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
         "patchSetId": 1
@@ -145,6 +241,30 @@
       "writtenOn": "2015-05-22T13:40:41Z",
       "side": 1,
       "message": "remove final?",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 67
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_0da5b17f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "I intentionally left them to minimize the diff.  But done now.",
+      "parentUuid": "4de0b53c_22886e22",
       "range": {
         "startLine": 106,
         "startChar": 0,
@@ -215,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_6db275c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "This wasn\u0027t changed in the original.  I don\u0027t know if it was intentional.\n\nIt might be better to not change it in this commit. My intention was to do a merge up to stable-2.11 as soon as this one is submitted, using the \"ours\" strategy to avoid the many merge conflicts that are bound to occur.\n\nIf there are any additional fixes needed, they can be done in a separate follow-up which is then merged properly.\n\nWhat do you think?",
+      "parentUuid": "4de0b53c_8285fa0c",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 36
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_62827604",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
         "patchSetId": 1
@@ -226,6 +370,30 @@
       "writtenOn": "2015-05-22T13:40:41Z",
       "side": 1,
       "message": "Is reader auto-closeable?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 9
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_4dafb95d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Not sure.  The changes in this file are directly from the original commit without conflict.\n\nIf it needs to be fixed, do it in a follow up?",
+      "parentUuid": "4de0b53c_62827604",
       "range": {
         "startLine": 115,
         "startChar": 0,
@@ -261,6 +429,30 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_ad7c5d6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Wasn\u0027t changed in the original.  Note that the filename is different on the original:\n\nhttps://gerrit-review.googlesource.com/#/c/66011/7/gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+      "parentUuid": "8d58ede6_448b2e21",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 11
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d58ede6_6488aa23",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 1
@@ -272,6 +464,30 @@
       "writtenOn": "2015-05-22T13:40:41Z",
       "side": 1,
       "message": "try-with-resources and move the catch block down?",
+      "range": {
+        "startLine": 391,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 62
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_8d81a1d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Wasn\u0027t changed on the original.",
+      "parentUuid": "8d58ede6_6488aa23",
       "range": {
         "startLine": 391,
         "startChar": 0,
@@ -307,6 +523,30 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_ed76658c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Wasn\u0027t changed on the original.",
+      "parentUuid": "8d58ede6_0485360a",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d58ede6_2482b203",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 1
@@ -318,6 +558,30 @@
       "writtenOn": "2015-05-22T13:40:41Z",
       "side": 1,
       "message": "make this try-with-resources together with the RevWalk (line 88) and reuse the same catch (IOException e) block as both catch blocks are identical.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 61
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_cd7ba972",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:36:32Z",
+      "side": 1,
+      "message": "Wasn\u0027t changed on the original.",
+      "parentUuid": "8d58ede6_2482b203",
       "range": {
         "startLine": 82,
         "startChar": 0,

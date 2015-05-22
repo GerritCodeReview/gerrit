@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "4de0b53c_c218a278",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3922,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T14:52:20Z",
+      "side": 1,
+      "message": "I should have added that the system title is specified when binding the extention point implementation:\n\n bind(IncludedIn.class)\n      .annotatedWith(Exports.named(\"Build\"))\n      .to(IncludedInBuilds.class);\n\nwhere IncludedInBuilds implements IncludedIn.",
+      "parentUuid": "4de0b53c_820e9a34",
+      "range": {
+        "startLine": 3922,
+        "startChar": 2,
+        "endLine": 3922,
+        "endChar": 9
+      },
+      "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_02fa8a88",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
         "patchSetId": 1

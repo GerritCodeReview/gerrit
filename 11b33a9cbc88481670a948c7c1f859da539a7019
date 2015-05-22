@@ -16,6 +16,281 @@
       "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_04ac5698",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "Should this also be converted to a try-with-resources block?",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_24a95289",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "Move these two also inside the try(...) ?",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 38
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_c4963e4b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "See the previous comment",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 9
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_e49b3a70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "Move this down inside the try()?",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de0b53c_e295e63c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "Repository is also auto-closeable",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de0b53c_22886e22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "remove final?",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 67
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_a495423d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "Is this used from somewhere?\n\nSorry for my laziness to import this into eclipse and check.",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de0b53c_8285fa0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "try-with-resources?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 36
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de0b53c_62827604",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "Is reader auto-closeable?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 9
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_448b2e21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "try-with-resources?",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 11
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_6488aa23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "try-with-resources and move the catch block down?",
+      "range": {
+        "startLine": 391,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 62
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_0485360a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "try-with-resources?",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_2482b203",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T13:40:41Z",
+      "side": 1,
+      "message": "make this try-with-resources together with the RevWalk (line 88) and reuse the same catch (IOException e) block as both catch blocks are identical.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 61
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

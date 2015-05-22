@@ -423,8 +423,14 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class IncludedInInfo extends JavaScriptObject {
+    public final Set<String> systemTypes() {
+      return Natives.keys(_systems());
+    }
+
     public final native JsArrayString branches() /*-{ return this.branches; }-*/;
     public final native JsArrayString tags() /*-{ return this.tags; }-*/;
+    public final native JsArrayString system(String t) /*-{ return this.systems[t]; }-*/;
+    private final native NativeMap<JsArrayString> _systems() /*-{ return this.systems; }-*/;
 
     protected IncludedInInfo() {
     }

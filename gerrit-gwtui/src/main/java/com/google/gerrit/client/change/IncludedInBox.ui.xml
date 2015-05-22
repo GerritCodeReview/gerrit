@@ -63,7 +63,7 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.includedInBox}'>
-    <table class='{style.includedInTable}'>
+    <table class='{style.includedInTable}' ui:field='table'>
       <tr>
         <th><ui:msg>Branches</ui:msg></th>
           <td ui:field='branches'/>

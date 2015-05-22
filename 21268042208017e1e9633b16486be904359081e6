@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad9cd1d8_2d598d5e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1572,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T04:38:29Z",
+      "side": 1,
+      "message": "This should be written as \"Whether matching brackets should be highlighted\" to be consistent with the other descriptions.",
+      "revId": "21268042208017e1e9633b16486be904359081e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

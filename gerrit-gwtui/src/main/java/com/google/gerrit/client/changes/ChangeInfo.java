@@ -423,8 +423,14 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class IncludedInInfo extends JavaScriptObject {
+    public final Set<String> externalNames() {
+      return Natives.keys(external());
+    }
+
     public final native JsArrayString branches() /*-{ return this.branches; }-*/;
     public final native JsArrayString tags() /*-{ return this.tags; }-*/;
+    public final native JsArrayString external(String n) /*-{ return this.external[n]; }-*/;
+    private final native NativeMap<JsArrayString> external() /*-{ return this.external; }-*/;
 
     protected IncludedInInfo() {
     }

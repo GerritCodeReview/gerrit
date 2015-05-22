@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d58ede6_240b9227",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T14:28:25Z",
+      "side": 1,
+      "message": "Right, it can be an interface.\n\nDone.",
+      "parentUuid": "4de0b53c_02fa8a88",
+      "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d58ede6_040e9636",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-22T14:09:55Z",
       "side": 1,
       "message": "Maybe mention that the tags and branches are provided as convenience for the extension point implementors so that they can\navoid doing any RevWalk-s when they know that only tagged commits are deployed on their systems?",
+      "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_e41d7a65",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-22T14:28:25Z",
+      "side": 1,
+      "message": "Done.\n\nIt\u0027s not only convenience, but generally saves performance when a system runs a tag, because the RevWalk is not needed in this case.",
+      "parentUuid": "8d58ede6_040e9636",
       "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

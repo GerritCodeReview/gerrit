@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_c818afad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-22T18:56:28Z",
+      "side": 1,
+      "message": "If parseBody is false maybe add:\n\n  if (!parseBody) {\n    rw.setRetainBody(false);\n  }\n\nso the RevWalk deallocates immediately rather than returning them.",
+      "revId": "0319db80df0987a6caa8d53d28589adc0f1d56c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edd32994_27fedaaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-22T18:56:28Z",
+      "side": 1,
+      "message": "Since you only do one traversal, the body should already be loaded. This is no-op that protects us from a future where something changes that causes the body to discard when it shouldn\u0027t.",
+      "range": {
+        "startLine": 151,
+        "startChar": 12,
+        "endLine": 153,
+        "endChar": 13
+      },
+      "revId": "0319db80df0987a6caa8d53d28589adc0f1d56c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

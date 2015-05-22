@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_2ddfcd03",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:06:40Z",
+      "side": 1,
+      "message": "A lot of these files conflicted when I cherry-picked Dave\u0027s commit, so I just overwrote those with the original version from stable-2.10 and then modified to get rid of the warnings in Eclipse.\n\nIt\u0027s quite possible that I didn\u0027t get all the places where there wasn\u0027t a warning.  For example like here, Repository instances are all being closed correctly, so there are no warnings about unclosed resource.  Also the close() method is not deprecated so we don\u0027t see the deprecation warning like on the RevWalk.release() calls.",
+      "parentUuid": "8d58ede6_04ac5698",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d58ede6_24a95289",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
         "patchSetId": 1
@@ -150,6 +168,24 @@
       "writtenOn": "2015-05-22T13:40:41Z",
       "side": 1,
       "message": "Is this used from somewhere?\n\nSorry for my laziness to import this into eclipse and check.",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_0ddc910b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:06:40Z",
+      "side": 1,
+      "message": "It\u0027s needed to make the changes in ConflictsPredicate compile.\n\nOn stable-2.11 and master it was introduced in a separate commit, and is used in some other places too, but I\u0027ve only added it here to avoid having to rewrite the place it\u0027s used in ConflictsPredicate.",
+      "parentUuid": "8d58ede6_a495423d",
       "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -287,6 +323,29 @@
         "startChar": 0,
         "endLine": 84,
         "endChar": 61
+      },
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_6dd9d51b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:06:40Z",
+      "side": 1,
+      "message": "Here is where the newRevWalk method is used.",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 112,
+        "endChar": 52
       },
       "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

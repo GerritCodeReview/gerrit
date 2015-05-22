@@ -174,8 +174,7 @@ public class GitUtil {
 
   private static ObjectId computeChangeId(Git git, PersonIdent i, String msg)
       throws IOException {
-    RevWalk rw = new RevWalk(git.getRepository());
-    try {
+    try (RevWalk rw = new RevWalk(git.getRepository())) {
       Ref head = git.getRepository().getRef(Constants.HEAD);
       if (head.getObjectId() != null) {
         RevCommit parent = rw.lookupCommit(head.getObjectId());
@@ -183,8 +182,6 @@ public class GitUtil {
       } else {
         return ChangeIdUtil.computeChangeId(null, null, i, i, msg);
       }
-    } finally {
-      rw.release();
     }
   }
 

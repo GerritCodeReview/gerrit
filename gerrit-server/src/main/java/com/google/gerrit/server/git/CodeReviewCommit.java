@@ -21,12 +21,22 @@ import com.google.gerrit.server.project.ChangeControl;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
 public class CodeReviewCommit extends RevCommit {
+  public static RevWalk newRevWalk(Repository repo) {
+    return new RevWalk(repo) {
+      @Override
+      protected RevCommit createCommit(AnyObjectId id) {
+        return new CodeReviewCommit(id);
+      }
+    };
+  }
   static CodeReviewCommit revisionGone(ChangeControl ctl) {
     return error(ctl, CommitMergeStatus.REVISION_GONE);
   }

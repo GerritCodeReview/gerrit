@@ -147,7 +147,7 @@ class TagSet {
       }
     } finally {
       if (rw != null) {
-        rw.release();
+        rw.close();
       }
     }
   }
@@ -157,9 +157,8 @@ class TagSet {
       return;
     }
 
-    TagWalk rw = new TagWalk(git);
-    rw.setRetainBody(false);
-    try {
+    try (TagWalk rw = new TagWalk(git)) {
+      rw.setRetainBody(false);
       for (Ref ref : git.getRefDatabase().getRefs(RefDatabase.ALL).values()) {
         if (skip(ref)) {
           continue;
@@ -188,8 +187,6 @@ class TagSet {
       }
     } catch (IOException e) {
       log.warn("Error building tags for repository " + projectName, e);
-    } finally {
-      rw.release();
     }
   }
 

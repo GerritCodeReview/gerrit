@@ -82,28 +82,18 @@ class ListDashboards implements RestReadView<ProjectResource> {
 
   private List<DashboardInfo> scan(ProjectControl ctl, String project,
       boolean setDefault) throws ResourceNotFoundException, IOException {
-    Repository git;
-    try {
-      git = gitManager.openRepository(ctl.getProject().getNameKey());
+    try (Repository git = gitManager.openRepository(ctl.getProject().getNameKey());
+      RevWalk rw = new RevWalk(git)){
+      List<DashboardInfo> all = Lists.newArrayList();
+      for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
+        if (ctl.controlForRef(ref.getName()).canRead()) {
+          all.addAll(scanDashboards(ctl.getProject(), git, rw, ref,
+              project, setDefault));
+        }
+      }
+      return all;
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException();
-    }
-    try {
-      RevWalk rw = new RevWalk(git);
-      try {
-        List<DashboardInfo> all = Lists.newArrayList();
-        for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
-          if (ctl.controlForRef(ref.getName()).canRead()) {
-            all.addAll(scanDashboards(ctl.getProject(), git, rw, ref,
-                project, setDefault));
-          }
-        }
-        return all;
-      } finally {
-        rw.release();
-      }
-    } finally {
-      git.close();
     }
   }
 
@@ -111,8 +101,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
       Repository git, RevWalk rw, Ref ref, String project, boolean setDefault)
       throws IOException {
     List<DashboardInfo> list = Lists.newArrayList();
-    TreeWalk tw = new TreeWalk(rw.getObjectReader());
-    try {
+    try (TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
       tw.addTree(rw.parseTree(ref.getObjectId()));
       tw.setRecursive(true);
       while (tw.next()) {
@@ -133,8 +122,6 @@ class ListDashboards implements RestReadView<ProjectResource> {
           }
         }
       }
-    } finally {
-      tw.release();
     }
     return list;
   }

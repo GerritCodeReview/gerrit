@@ -283,37 +283,23 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private void assertCommit(Project.NameKey project, String branch) throws IOException {
-    Repository r = repoManager.openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(r);
-      try {
-        RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
-        assertEquals(PushOneCommit.SUBJECT, c.getShortMessage());
-        assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
-        assertEquals(admin.email, c.getCommitterIdent().getEmailAddress());
-      } finally {
-        rw.release();
-      }
-    } finally {
-      r.close();
+    try (Repository r = repoManager.openRepository(project);
+      RevWalk rw = new RevWalk(r)){
+      RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
+      assertEquals(PushOneCommit.SUBJECT, c.getShortMessage());
+      assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
+      assertEquals(admin.email, c.getCommitterIdent().getEmailAddress());
     }
   }
 
   private void assertMergeCommit(String branch, String subject) throws IOException {
-    Repository r = repoManager.openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(r);
-      try {
-        RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
-        assertEquals(2, c.getParentCount());
-        assertEquals("Merge \"" + subject + "\"", c.getShortMessage());
-        assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
-        assertEquals(serverIdent.getEmailAddress(), c.getCommitterIdent().getEmailAddress());
-      } finally {
-        rw.release();
-      }
-    } finally {
-      r.close();
+    try (Repository r = repoManager.openRepository(project);
+      RevWalk rw = new RevWalk(r)){
+      RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
+      assertEquals(2, c.getParentCount());
+      assertEquals("Merge \"" + subject + "\"", c.getShortMessage());
+      assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
+      assertEquals(serverIdent.getEmailAddress(), c.getCommitterIdent().getEmailAddress());
     }
   }
 

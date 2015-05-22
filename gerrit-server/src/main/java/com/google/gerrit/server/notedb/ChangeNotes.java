@@ -547,8 +547,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       loadDefaults();
       return;
     }
-    RevWalk walk = new RevWalk(reader);
-    try {
+
+    try (RevWalk walk = new RevWalk(reader)) {
       Change change = getChange();
       Parser parser = new Parser(change, rev, walk, repoManager);
       parser.parseAll();
@@ -574,8 +574,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     } catch (ParseException e1) {
       // TODO(yyonas): figure out how to handle this exception
       throw new IOException(e1);
-    } finally {
-      walk.release();
     }
   }
 

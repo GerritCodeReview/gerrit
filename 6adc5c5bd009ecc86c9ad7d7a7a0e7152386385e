@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad9cd1d8_ad445d7d",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T04:30:09Z",
+      "side": 1,
+      "message": "It\u0027s not mentioned what the default is.  That\u0027s the same case for all the others, so I guess it doesn\u0027t need to be fixed here.",
+      "revId": "6adc5c5bd009ecc86c9ad7d7a7a0e7152386385e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_4d77b9cc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesBox.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T04:30:09Z",
+      "side": 1,
+      "message": "Cursor",
+      "range": {
+        "startLine": 185,
+        "startChar": 20,
+        "endLine": 185,
+        "endChar": 25
+      },
+      "revId": "6adc5c5bd009ecc86c9ad7d7a7a0e7152386385e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

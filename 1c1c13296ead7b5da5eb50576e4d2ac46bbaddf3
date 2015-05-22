@@ -46,6 +46,52 @@
       "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_ad4e1d4a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3922,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:53:44Z",
+      "side": 1,
+      "message": "Maybe name it something a bit less specific?  Just \"external\" or something like that?",
+      "range": {
+        "startLine": 3922,
+        "startChar": 2,
+        "endLine": 3922,
+        "endChar": 9
+      },
+      "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9cd1d8_8d5361f2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T14:53:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure why this would be necessary.",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 73
+      },
+      "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

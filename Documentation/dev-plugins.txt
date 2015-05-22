@@ -1777,6 +1777,18 @@ commands by implementing
 The download schemes and download commands which are used most often
 are provided by the Gerrit core plugin `download-commands`.
 
+[[included-in]]
+== Included In
+
+For merged changes the link:user-review-ui.html#included-in[Included In]
+drop-down panel shows the branches and tags in which the change is
+included.
+
+Plugins can add additional systems in which the change can be included
+by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`,
+e.g. a plugin can provide a list of servers on which the change was
+deployed.
+
 [[links-to-external-tools]]
 == Links To External Tools
 

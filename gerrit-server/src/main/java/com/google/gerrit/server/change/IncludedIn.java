@@ -15,6 +15,8 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.data.IncludedInDetail;
+import com.google.gerrit.extensions.config.ExternalIncludedIn;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -37,17 +39,23 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 class IncludedIn implements RestReadView<ChangeResource> {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final DynamicMap<ExternalIncludedIn> includedIn;
 
   @Inject
-  IncludedIn(Provider<ReviewDb> db, GitRepositoryManager repoManager) {
+  IncludedIn(Provider<ReviewDb> db,
+      GitRepositoryManager repoManager,
+      DynamicMap<ExternalIncludedIn> includedIn) {
     this.db = db;
     this.repoManager = repoManager;
+    this.includedIn = includedIn;
   }
 
   @Override
@@ -68,17 +76,27 @@ class IncludedIn implements RestReadView<ChangeResource> {
       } catch (MissingObjectException err) {
         throw new ResourceConflictException(err.getMessage());
       }
-      return new IncludedInInfo(IncludedInResolver.resolve(r, rw, rev));
+
+      IncludedInDetail d = IncludedInResolver.resolve(r, rw, rev);
+      Map<String, Collection<String>> external = new HashMap<>();
+      for (DynamicMap.Entry<ExternalIncludedIn> i : includedIn) {
+        external.put(i.getExportName(),
+            i.getProvider().get().getIncludedIn(
+                project.get(), rev.name(), d.getTags(), d.getBranches()));
+      }
+      return new IncludedInInfo(d, (!external.isEmpty() ? external : null));
     }
   }
 
   static class IncludedInInfo {
     Collection<String> branches;
     Collection<String> tags;
+    Map<String, Collection<String>> external;
 
-    IncludedInInfo(IncludedInDetail in) {
+    IncludedInInfo(IncludedInDetail in, Map<String, Collection<String>> e) {
       branches = in.getBranches();
       tags = in.getTags();
+      external = e;
     }
   }
 }

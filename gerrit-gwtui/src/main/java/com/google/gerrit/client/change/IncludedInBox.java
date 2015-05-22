@@ -19,7 +19,11 @@ import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.TableCellElement;
+import com.google.gwt.dom.client.TableElement;
+import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -41,6 +45,7 @@ class IncludedInBox extends Composite {
   private boolean loaded;
 
   @UiField Style style;
+  @UiField TableElement table;
   @UiField Element branches;
   @UiField Element tags;
 
@@ -58,6 +63,12 @@ class IncludedInBox extends Composite {
         public void onSuccess(IncludedInInfo r) {
           branches.setInnerSafeHtml(formatList(r.branches()));
           tags.setInnerSafeHtml(formatList(r.tags()));
+          for (String n : r.externalNames()) {
+            JsArrayString external = r.external(n);
+            if (external.length() > 0) {
+              appendRow(n, external);
+            }
+          }
           loaded = true;
         }
 
@@ -81,5 +92,13 @@ class IncludedInBox extends Composite {
       }
     }
     return html;
+  }
+
+  private void appendRow(String title, JsArrayString l) {
+    TableRowElement row = table.insertRow(-1);
+    TableCellElement th = Document.get().createTHElement();
+    th.setInnerText(title);
+    row.appendChild(th);
+    row.insertCell(-1).setInnerSafeHtml(formatList(l));
   }
 }

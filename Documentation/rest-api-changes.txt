@@ -3912,14 +3912,17 @@ The `GroupBaseInfo` entity contains base information about the group.
 The `IncludedInInfo` entity contains information about the branches a
 change was merged into and tags it was tagged with.
 
-[options="header",cols="1,6"]
-|==========================
-|Field Name |Description
-|`branches` | The list of branches this change was merged into.
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`branches`||The list of branches this change was merged into.
 Each branch is listed without the 'refs/head/' prefix.
-|`tags`     | The list of tags this change was tagged with.
+|`tags`    ||The list of tags this change was tagged with.
 Each tag is listed without the 'refs/tags/' prefix.
-|==========================
+|`external`|optional|A map that maps a name to a list of external
+systems that include this change, e.g. a list of servers on which this
+change is deployed.
+|=======================
 
 [[label-info]]
 === LabelInfo

@@ -92,6 +92,29 @@
       "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de0b53c_e217a642",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T15:00:46Z",
+      "side": 1,
+      "message": "Now that this is an interface remove the \"public\" here?",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "edd32994_c7dffe51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d854159_7124f8db",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 67
+      },
+      "revId": "6225f15eb298f1bfa5df5b853ae07686954e3950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_ae6af7e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
         "patchSetId": 2
@@ -154,6 +178,30 @@
       "writtenOn": "2015-05-20T00:21:05Z",
       "side": 1,
       "message": "Would it be possible to rewrite this as \n\n    if (thisCommitGroups.isEmpty()) {\n         thisCommitGroups \u003d Sets.newTreeSet(parentGroupsNewInThisPush.get(0)); // garantueed to be not null\n    }\n\n    groups.putAll(c, thisCommitGroups);\n    for (String pg : parentGroupsNewInThisPush) {\n      groupAliases.putAll(pg, thisCommitGroups);\n    }\n\n? It sounds to me like this, though there might be a corner case I overlooked.",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 5
+      },
+      "revId": "6225f15eb298f1bfa5df5b853ae07686954e3950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_08f2c7e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:19Z",
+      "side": 1,
+      "message": "I think the issue with your example is that in the (thisComitGroups.isEmpty()) case, there would be a cycle in the alias graph for the parent group that we put into thisCommitGroups.\n\nI agree that the code here is a little hard to follow. I\u0027ve restructured it slightly to have less nesting. The two cases are still subtly different, but they are structured similarly so it should be easier to spot the differences between them.",
+      "parentUuid": "cd75853f_4e7033d7",
       "range": {
         "startLine": 187,
         "startChar": 0,

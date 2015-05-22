@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2de3814b_81d69a43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d854159_311e708c",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 36
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d854159_f10ea86a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
         "patchSetId": 1
@@ -66,6 +90,47 @@
         "endLine": 112,
         "endChar": 35
       },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dea3d20_00c28687",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d854159_f10ea86a",
+      "range": {
+        "startLine": 112,
+        "startChar": 25,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_a8e0db15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:10Z",
+      "side": 1,
+      "message": "Needs rw.sort(RevSort.TOPO) here, otherwise we can get arbitrary ordering for runs of commits with the same timestamp. These are not actually all that rare, e.g. rebase of a long series. Added a test for this case as well.\n\nIncidentally I considered allowing callers to set their own sort order, which would be done by collecting a list of RevSort objects that are applied to each RevWalk created by this class.  But since that wasn\u0027t needed for the current use cases, I didn\u0027t.",
       "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -119,6 +184,30 @@
     },
     {
       "key": {
+        "uuid": "0dea3d20_80d69643",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:10Z",
+      "side": 1,
+      "message": "Done. Just made PROJECT_LIST_SORTER work on all inputs. Added a test for this case.",
+      "parentUuid": "2d854159_d15b6461",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_6e240fdc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
         "patchSetId": 1
@@ -142,6 +231,30 @@
     },
     {
       "key": {
+        "uuid": "2de3814b_61d39655",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd75853f_6e240fdc",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 49
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd75853f_4e27d3e1",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/WalkSorterTest.java",
         "patchSetId": 1
@@ -153,6 +266,30 @@
       "writtenOn": "2015-05-19T23:31:45Z",
       "side": 1,
       "message": "assertSorted(sorter, changes, expected);\n\nshould work here as well?",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 5
+      },
+      "revId": "2e0e2d932258e357b52068a45b8f3018768f7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2de3814b_21c98ea7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/WalkSorterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T18:24:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd75853f_4e27d3e1",
       "range": {
         "startLine": 139,
         "startChar": 0,

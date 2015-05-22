@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "0dea3d20_60055241",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-05-22T14:30:27Z",
+      "side": 1,
+      "message": "We have another use case where there\u0027s a different data source of \"builds\" that we\u0027re interested in showing inclusion in. I think this would work well for that too!",
+      "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2de3814b_a1375e11",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3922,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-05-22T14:30:27Z",
+      "side": 1,
+      "message": "Does this have to live here and not in the plugin? i.e. If I wanted to add \u0027builds\u0027 in my own plugin, it would still require a change in core Gerrit?",
+      "range": {
+        "startLine": 3922,
+        "startChar": 2,
+        "endLine": 3922,
+        "endChar": 9
+      },
+      "revId": "40467dc94638f1af5a986197c11377c22dcb89a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_02fa8a88",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
         "patchSetId": 1

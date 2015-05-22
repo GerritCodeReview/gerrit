@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "4de0b53c_02cc4a68",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-05-22T15:38:23Z",
+      "side": 1,
+      "message": "\u003e If a production server runs commit XYZ, we would still need to do a RevWalk to find out if it contains the given commit.\n\nOr if it contains any of the provided tags or branches. The RevWalk is more likely to first reach a tag than the given commit.",
+      "parentUuid": "8d58ede6_642aea79",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 73
+      },
+      "revId": "1c1c13296ead7b5da5eb50576e4d2ac46bbaddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_e217a642",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/IncludedIn.java",
         "patchSetId": 2

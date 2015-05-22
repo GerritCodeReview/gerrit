@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_e82c93c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/GroupPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-22T19:34:21Z",
+      "side": 1,
+      "message": "Missing null check.",
+      "revId": "37c8e153af3615825d7833b494770ef2e767422d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

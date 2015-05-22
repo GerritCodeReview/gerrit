@@ -50,36 +50,26 @@ public class GetContent implements RestReadView<FileResource> {
 
   public BinaryResult apply(Project.NameKey project, String revstr, String path)
       throws ResourceNotFoundException, IOException {
-    Repository repo = repoManager.openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        RevCommit commit =
-            rw.parseCommit(repo.resolve(revstr));
-        TreeWalk tw =
-            TreeWalk.forPath(rw.getObjectReader(), path,
-                commit.getTree().getId());
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit =
+          rw.parseCommit(repo.resolve(revstr));
+      try (TreeWalk tw =
+          TreeWalk.forPath(rw.getObjectReader(), path,
+              commit.getTree().getId())) {
         if (tw == null) {
           throw new ResourceNotFoundException();
         }
-        try {
-          final ObjectLoader object = repo.open(tw.getObjectId(0));
-          @SuppressWarnings("resource")
-          BinaryResult result = new BinaryResult() {
-            @Override
-            public void writeTo(OutputStream os) throws IOException {
-              object.copyTo(os);
-            }
-          };
-          return result.setContentLength(object.getSize()).base64();
-        } finally {
-          tw.release();
-        }
-      } finally {
-        rw.release();
+        final ObjectLoader object = repo.open(tw.getObjectId(0));
+        @SuppressWarnings("resource")
+        BinaryResult result = new BinaryResult() {
+          @Override
+          public void writeTo(OutputStream os) throws IOException {
+            object.copyTo(os);
+          }
+        };
+        return result.setContentLength(object.getSize()).base64();
       }
-    } finally {
-      repo.close();
     }
   }
 }

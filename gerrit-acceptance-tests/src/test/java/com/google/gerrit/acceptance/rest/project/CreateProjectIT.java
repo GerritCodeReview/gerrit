@@ -229,21 +229,17 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   private void assertHead(String projectName, String expectedRef)
       throws RepositoryNotFoundException, IOException {
-    Repository repo = git.openRepository(new Project.NameKey(projectName));
-    try {
+    try (Repository repo = git.openRepository(new Project.NameKey(projectName))) {
       assertEquals(expectedRef, repo.getRef(Constants.HEAD).getTarget()
           .getName());
-    } finally {
-      repo.close();
     }
   }
 
   private void assertEmptyCommit(String projectName, String... refs)
       throws RepositoryNotFoundException, IOException {
-    Repository repo = git.openRepository(new Project.NameKey(projectName));
-    RevWalk rw = new RevWalk(repo);
-    TreeWalk tw = new TreeWalk(repo);
-    try {
+    try (Repository repo = git.openRepository(new Project.NameKey(projectName));
+        RevWalk rw = new RevWalk(repo);
+        TreeWalk tw = new TreeWalk(repo)) {
       for (String ref : refs) {
         RevCommit commit = rw.lookupCommit(repo.getRef(ref).getObjectId());
         rw.parseBody(commit);
@@ -251,10 +247,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
         assertFalse("ref " + ref + " has non empty commit", tw.next());
         tw.reset();
       }
-    } finally {
-      tw.release();
-      rw.release();
-      repo.close();
     }
   }
 }

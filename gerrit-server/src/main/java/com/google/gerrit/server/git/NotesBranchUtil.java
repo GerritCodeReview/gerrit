@@ -153,8 +153,8 @@ public class NotesBranchUtil {
       }
       updateRef(notesBranch);
     } finally {
-      revWalk.release();
-      reader.release();
+      revWalk.close();
+      reader.close();
     }
   }
 

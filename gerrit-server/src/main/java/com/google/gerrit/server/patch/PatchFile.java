@@ -48,9 +48,8 @@ public class PatchFile {
     this.repo = repo;
     this.entry = patchList.get(fileName);
 
-    final ObjectReader reader = repo.newObjectReader();
-    try {
-      final RevWalk rw = new RevWalk(reader);
+    try (ObjectReader reader = repo.newObjectReader();
+        RevWalk rw = new RevWalk(reader)) {
       final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
 
       if (Patch.COMMIT_MSG.equals(fileName)) {
@@ -74,8 +73,6 @@ public class PatchFile {
         }
         bTree = bCommit.getTree();
       }
-    } finally {
-      reader.release();
     }
   }
 

@@ -87,16 +87,10 @@ public class PatchSetNotificationSender {
       final Change updatedChange, final PatchSet updatedPatchSet,
       final LabelTypes labelTypes)
       throws OrmException, IOException, PatchSetInfoNotAvailableException {
-    final Repository git = repoManager.openRepository(updatedChange.getProject());
-    try {
-      final RevWalk revWalk = new RevWalk(git);
-      final RevCommit commit;
-      try {
-        commit = revWalk.parseCommit(ObjectId.fromString(
-            updatedPatchSet.getRevision().get()));
-      } finally {
-        revWalk.release();
-      }
+    try (final Repository git = repoManager.openRepository(updatedChange.getProject());
+        final RevWalk revWalk = new RevWalk(git);) {
+      final RevCommit commit =
+          revWalk.parseCommit(ObjectId.fromString(updatedPatchSet.getRevision().get()));
       final PatchSetInfo info = patchSetInfoFactory.get(commit, updatedPatchSet.getId());
       final List<FooterLine> footerLines = commit.getFooterLines();
       final Account.Id me = currentUser.getAccountId();
@@ -139,8 +133,6 @@ public class PatchSetNotificationSender {
           log.error("Cannot send email for new patch set " + updatedPatchSet.getId(), e);
         }
       }
-    } finally {
-      git.close();
     }
   }
 }

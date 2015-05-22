@@ -85,6 +85,8 @@ public class IncludedInResolverTest extends RepositoryTestCase {
 
      */
 
+    // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
+    @SuppressWarnings("resource")
     Git git = new Git(db);
     revWalk = new RevWalk(db);
     // Version 1.0
@@ -127,7 +129,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
 
   @After
   public void tearDown() throws Exception {
-    revWalk.release();
+    revWalk.close();
     super.tearDown();
   }
 

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
@@ -55,26 +56,19 @@ class IncludedIn implements RestReadView<ChangeResource> {
     ChangeControl ctl = rsrc.getControl();
     PatchSet ps =
         db.get().patchSets().get(ctl.getChange().currentPatchSetId());
-    Repository r =
-        repoManager.openRepository(ctl.getProject().getNameKey());
-    try {
-      RevWalk rw = new RevWalk(r);
+    Project.NameKey project = ctl.getProject().getNameKey();
+    try (Repository r = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(r)) {
+      rw.setRetainBody(false);
+      RevCommit rev;
       try {
-        rw.setRetainBody(false);
-        RevCommit rev;
-        try {
-          rev = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
-        } catch (IncorrectObjectTypeException err) {
-          throw new BadRequestException(err.getMessage());
-        } catch (MissingObjectException err) {
-          throw new ResourceConflictException(err.getMessage());
-        }
-        return new IncludedInInfo(IncludedInResolver.resolve(r, rw, rev));
-      } finally {
-        rw.release();
+        rev = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+      } catch (IncorrectObjectTypeException err) {
+        throw new BadRequestException(err.getMessage());
+      } catch (MissingObjectException err) {
+        throw new ResourceConflictException(err.getMessage());
       }
-    } finally {
-      r.close();
+      return new IncludedInInfo(IncludedInResolver.resolve(r, rw, rev));
     }
   }
 

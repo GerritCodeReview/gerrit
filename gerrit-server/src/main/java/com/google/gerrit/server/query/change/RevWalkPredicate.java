@@ -102,18 +102,9 @@ public abstract class RevWalkPredicate extends OperatorPredicate<ChangeData> {
 
     Arguments args = new Arguments(patchSet, revision, objectId, change, projectName);
 
-    try {
-      final Repository repo = repoManager.openRepository(projectName);
-      try {
-        final RevWalk rw = new RevWalk(repo);
-        try {
-          return match(repo, rw, args);
-        } finally {
-          rw.release();
-        }
-      } finally {
-        repo.close();
-      }
+    try (Repository repo = repoManager.openRepository(projectName);
+        RevWalk rw = new RevWalk(repo)) {
+      return match(repo, rw, args);
     } catch (RepositoryNotFoundException e) {
       log.error("Repository \"" + projectName.get() + "\" unknown.", e);
     } catch (IOException e) {

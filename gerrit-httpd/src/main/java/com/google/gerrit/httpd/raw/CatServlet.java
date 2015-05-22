@@ -157,25 +157,14 @@ public class CatServlet extends HttpServlet {
       return;
     }
 
-    final Repository repo;
-    try {
-      repo = repoManager.openRepository(project.getNameKey());
-    } catch (RepositoryNotFoundException e) {
-      getServletContext().log("Cannot open repository", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      return;
-    }
-
-    final ObjectLoader blobLoader;
-    final RevCommit fromCommit;
-    final String suffix;
-    final String path = patchKey.getFileName();
-    try {
-      final ObjectReader reader = repo.newObjectReader();
-      try {
-        final RevWalk rw = new RevWalk(reader);
+    try (final Repository repo = repoManager.openRepository(project.getNameKey())) {
+      final ObjectLoader blobLoader;
+      final RevCommit fromCommit;
+      final String suffix;
+      final String path = patchKey.getFileName();
+      try (ObjectReader reader = repo.newObjectReader();
+          RevWalk rw = new RevWalk(reader)) {
         final RevCommit c;
-        final TreeWalk tw;
 
         c = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
         if (side == 0) {
@@ -195,87 +184,88 @@ public class CatServlet extends HttpServlet {
           return;
         }
 
-        tw = TreeWalk.forPath(reader, path, fromCommit.getTree());
-        if (tw == null) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-          return;
-        }
+        try (TreeWalk tw = TreeWalk.forPath(reader, path, fromCommit.getTree())) {
+          if (tw == null) {
+            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+          }
 
-        if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
-          blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+          if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
+            blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
 
-        } else {
-          rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-          return;
+          } else {
+            rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+          }
         }
-      } finally {
-        reader.release();
+      } catch (IOException e) {
+        getServletContext().log("Cannot read repository", e);
+        rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        return;
+      } catch (RuntimeException e) {
+        getServletContext().log("Cannot read repository", e);
+        rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        return;
       }
-    } catch (IOException e) {
-      getServletContext().log("Cannot read repository", e);
+
+      final byte[] raw =
+          blobLoader.isLarge() ? null : blobLoader.getCachedBytes();
+      final long when = fromCommit.getCommitTime() * 1000L;
+
+      rsp.setDateHeader("Last-Modified", when);
+      CacheHeaders.setNotCacheable(rsp);
+
+      OutputStream out;
+      @SuppressWarnings("resource")
+      ZipOutputStream zo;
+
+      final MimeType contentType = registry.getMimeType(path, raw);
+      if (!registry.isSafeInline(contentType)) {
+        // The content may not be safe to transmit inline, as a browser might
+        // interpret it as HTML or JavaScript hosted by this site. Such code
+        // might then run in the site's security domain, and may be able to use
+        // the user's cookies to perform unauthorized actions.
+        //
+        // Usually, wrapping the content into a ZIP file forces the browser to
+        // save the content to the local system instead.
+        //
+
+        rsp.setContentType(ZIP.toString());
+        rsp.setHeader("Content-Disposition", "attachment; filename=\""
+            + safeFileName(path, suffix) + ".zip" + "\"");
+
+        zo = new ZipOutputStream(rsp.getOutputStream());
+
+        final ZipEntry e = new ZipEntry(safeFileName(path, rand(req, suffix)));
+        e.setComment(fromCommit.name() + ":" + path);
+        e.setSize(blobLoader.getSize());
+        e.setTime(when);
+        zo.putNextEntry(e);
+        out = zo;
+
+      } else {
+        rsp.setContentType(contentType.toString());
+        rsp.setHeader("Content-Length", "" + blobLoader.getSize());
+
+        out = rsp.getOutputStream();
+        zo = null;
+      }
+
+      if (raw != null) {
+        out.write(raw);
+      } else {
+        blobLoader.copyTo(out);
+      }
+
+      if (zo != null) {
+        zo.closeEntry();
+      }
+      out.close();
+    } catch (RepositoryNotFoundException e) {
+      getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
-    } catch (RuntimeException e) {
-      getServletContext().log("Cannot read repository", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      return;
-    } finally {
-      repo.close();
     }
-
-    final byte[] raw =
-        blobLoader.isLarge() ? null : blobLoader.getCachedBytes();
-    final long when = fromCommit.getCommitTime() * 1000L;
-
-    rsp.setDateHeader("Last-Modified", when);
-    CacheHeaders.setNotCacheable(rsp);
-
-    OutputStream out;
-    @SuppressWarnings("resource")
-    ZipOutputStream zo;
-
-    final MimeType contentType = registry.getMimeType(path, raw);
-    if (!registry.isSafeInline(contentType)) {
-      // The content may not be safe to transmit inline, as a browser might
-      // interpret it as HTML or JavaScript hosted by this site. Such code
-      // might then run in the site's security domain, and may be able to use
-      // the user's cookies to perform unauthorized actions.
-      //
-      // Usually, wrapping the content into a ZIP file forces the browser to
-      // save the content to the local system instead.
-      //
-
-      rsp.setContentType(ZIP.toString());
-      rsp.setHeader("Content-Disposition", "attachment; filename=\""
-          + safeFileName(path, suffix) + ".zip" + "\"");
-
-      zo = new ZipOutputStream(rsp.getOutputStream());
-
-      final ZipEntry e = new ZipEntry(safeFileName(path, rand(req, suffix)));
-      e.setComment(fromCommit.name() + ":" + path);
-      e.setSize(blobLoader.getSize());
-      e.setTime(when);
-      zo.putNextEntry(e);
-      out = zo;
-
-    } else {
-      rsp.setContentType(contentType.toString());
-      rsp.setHeader("Content-Length", "" + blobLoader.getSize());
-
-      out = rsp.getOutputStream();
-      zo = null;
-    }
-
-    if (raw != null) {
-      out.write(raw);
-    } else {
-      blobLoader.copyTo(out);
-    }
-
-    if (zo != null) {
-      zo.closeEntry();
-    }
-    out.close();
   }
 
   private static String safeFileName(String fileName, final String suffix) {

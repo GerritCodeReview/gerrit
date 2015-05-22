@@ -117,14 +117,9 @@ public class RebaseChange {
           "Cannot rebase: New patch sets are not allowed to be added to change: "
               + changeId.toString());
     }
-    Repository git = null;
-    RevWalk rw = null;
-    ObjectInserter inserter = null;
-    try {
-      git = gitManager.openRepository(change.getProject());
-      rw = new RevWalk(git);
-      inserter = git.newObjectInserter();
-
+    try (Repository git = gitManager.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(git);
+        ObjectInserter inserter = git.newObjectInserter()) {
       final String baseRev = findBaseRevision(patchSetId, db.get(),
           change.getDest(), git, null, null, null);
       final RevCommit baseCommit =
@@ -140,16 +135,6 @@ public class RebaseChange {
           committerIdent, true, true, ValidatePolicy.GERRIT);
     } catch (PathConflictException e) {
       throw new IOException(e.getMessage());
-    } finally {
-      if (inserter != null) {
-        inserter.release();
-      }
-      if (rw != null) {
-        rw.release();
-      }
-      if (git != null) {
-        git.close();
-      }
     }
   }
 

@@ -192,8 +192,7 @@ public class ChangeNotesTest {
     update.commit();
     assertEquals("refs/changes/01/1/meta", update.getRefName());
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
@@ -217,8 +216,6 @@ public class ChangeNotesTest {
       assertEquals("noreply@gerrit.com", committer.getEmailAddress());
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
-    } finally {
-      walk.release();
     }
   }
 
@@ -231,8 +228,7 @@ public class ChangeNotesTest {
     update.commit();
     assertEquals("refs/changes/01/1/meta", update.getRefName());
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
@@ -242,8 +238,6 @@ public class ChangeNotesTest {
           + "\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
-    } finally {
-      walk.release();
     }
   }
 
@@ -254,8 +248,7 @@ public class ChangeNotesTest {
     update.removeApproval("Code-Review");
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
@@ -263,8 +256,6 @@ public class ChangeNotesTest {
           + "Patch-set: 1\n"
           + "Label: -Code-Review\n",
           commit.getFullMessage());
-    } finally {
-      walk.release();
     }
   }
 
@@ -283,8 +274,7 @@ public class ChangeNotesTest {
           submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Submit patch set 1\n"
@@ -311,8 +301,6 @@ public class ChangeNotesTest {
       assertEquals("noreply@gerrit.com", committer.getEmailAddress());
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
-    } finally {
-      walk.release();
     }
   }
 
@@ -326,8 +314,7 @@ public class ChangeNotesTest {
         submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Submit patch set 1\n"
@@ -336,8 +323,6 @@ public class ChangeNotesTest {
           + "Status: submitted\n"
           + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
           commit.getFullMessage());
-    } finally {
-      walk.release();
     }
   }
 
@@ -707,8 +692,7 @@ public class ChangeNotesTest {
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
@@ -716,8 +700,6 @@ public class ChangeNotesTest {
           + "Patch-set: 1\n"
           + "Reviewer: Change Owner <1@gerrit>\n",
           commit.getFullMessage());
-    } finally {
-      walk.release();
     }
 
     ChangeNotes notes = newNotes(c);
@@ -735,8 +717,7 @@ public class ChangeNotesTest {
     update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
@@ -747,8 +728,6 @@ public class ChangeNotesTest {
           + "\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
-    } finally {
-      walk.release();
     }
 
     ChangeNotes notes = newNotes(c);
@@ -774,8 +753,7 @@ public class ChangeNotesTest {
     update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
+    try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getRevision());
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
@@ -788,8 +766,6 @@ public class ChangeNotesTest {
           + "\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
-    } finally {
-      walk.release();
     }
 
     ChangeNotes notes = newNotes(c);
@@ -881,43 +857,44 @@ public class ChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    RevWalk walk = new RevWalk(repo);
-    ArrayList<Note> notesInTree =
-        Lists.newArrayList(notes.getNoteMap().iterator());
-    Note note = Iterables.getOnlyElement(notesInTree);
+    try (RevWalk walk = new RevWalk(repo)) {
+      ArrayList<Note> notesInTree =
+          Lists.newArrayList(notes.getNoteMap().iterator());
+      Note note = Iterables.getOnlyElement(notesInTree);
 
-    byte[] bytes =
-        walk.getObjectReader().open(
-            note.getData(), Constants.OBJ_BLOB).getBytes();
-    String noteString = new String(bytes, UTF_8);
-    assertEquals("Patch-set: 1\n"
-        + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-        + "File: file1\n"
-        + "\n"
-        + "1:1-2:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
-        + "Bytes: 9\n"
-        + "comment 1\n"
-        + "\n"
-        + "2:1-3:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
-        + "Bytes: 9\n"
-        + "comment 2\n"
-        + "\n"
-        + "File: file2\n"
-        + "\n"
-        + "3:1-4:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time3) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
-        + "Bytes: 9\n"
-        + "comment 3\n"
-        + "\n",
-        noteString);
+      byte[] bytes =
+          walk.getObjectReader().open(
+              note.getData(), Constants.OBJ_BLOB).getBytes();
+      String noteString = new String(bytes, UTF_8);
+      assertEquals("Patch-set: 1\n"
+          + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "File: file1\n"
+          + "\n"
+          + "1:1-2:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid\n"
+          + "Bytes: 9\n"
+          + "comment 1\n"
+          + "\n"
+          + "2:1-3:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid\n"
+          + "Bytes: 9\n"
+          + "comment 2\n"
+          + "\n"
+          + "File: file2\n"
+          + "\n"
+          + "3:1-4:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time3) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid\n"
+          + "Bytes: 9\n"
+          + "comment 3\n"
+          + "\n",
+          noteString);
+      }
   }
 
   @Test
@@ -950,34 +927,35 @@ public class ChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    RevWalk walk = new RevWalk(repo);
-    ArrayList<Note> notesInTree =
-        Lists.newArrayList(notes.getNoteMap().iterator());
-    Note note = Iterables.getOnlyElement(notesInTree);
+    try (RevWalk walk = new RevWalk(repo)) {
+      ArrayList<Note> notesInTree =
+          Lists.newArrayList(notes.getNoteMap().iterator());
+      Note note = Iterables.getOnlyElement(notesInTree);
 
-    byte[] bytes =
-        walk.getObjectReader().open(
-            note.getData(), Constants.OBJ_BLOB).getBytes();
-    String noteString = new String(bytes, UTF_8);
-    assertEquals("Base-for-patch-set: 1\n"
-        + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-        + "File: file1\n"
-        + "\n"
-        + "1:1-2:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
-        + "Bytes: 9\n"
-        + "comment 1\n"
-        + "\n"
-        + "2:1-3:1\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
-        + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
-        + "Bytes: 9\n"
-        + "comment 2\n"
-        + "\n",
-        noteString);
+      byte[] bytes =
+          walk.getObjectReader().open(
+              note.getData(), Constants.OBJ_BLOB).getBytes();
+      String noteString = new String(bytes, UTF_8);
+      assertEquals("Base-for-patch-set: 1\n"
+          + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "File: file1\n"
+          + "\n"
+          + "1:1-2:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid\n"
+          + "Bytes: 9\n"
+          + "comment 1\n"
+          + "\n"
+          + "2:1-3:1\n"
+          + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid\n"
+          + "Bytes: 9\n"
+          + "comment 2\n"
+          + "\n",
+          noteString);
+    }
   }
 
 

@@ -199,13 +199,12 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Repository git,
       Map<String, Ref> refs,
       final Ref ref) throws IOException, OrmException {
-    RevWalk rw = new RevWalk(git) {
-      @Override
-      protected CodeReviewCommit createCommit(AnyObjectId id) {
-        return new CodeReviewCommit(id);
-      }
-    };
-    try {
+    try (RevWalk rw = new RevWalk(git) {
+        @Override
+        protected CodeReviewCommit createCommit(AnyObjectId id) {
+          return new CodeReviewCommit(id);
+        }
+      };) {
       ObjectId id;
       try {
         id = ObjectId.fromString(ps.getRevision().get());
@@ -244,8 +243,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
       log.error(String.format(
           "Cannot merge test change %d", change.getId().get()), e);
       return false;
-    } finally {
-      rw.release();
     }
   }
 

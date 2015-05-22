@@ -94,15 +94,16 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
           private void format(OutputStream out) throws IOException {
             out.write(formatEmailHeader(commit).getBytes(UTF_8));
-            DiffFormatter fmt = new DiffFormatter(out);
-            fmt.setRepository(repo);
-            fmt.format(base.getTree(), commit.getTree());
-            fmt.flush();
+            try (DiffFormatter fmt = new DiffFormatter(out)) {
+              fmt.setRepository(repo);
+              fmt.format(base.getTree(), commit.getTree());
+              fmt.flush();
+            }
           }
 
           @Override
           public void close() throws IOException {
-            rw.release();
+            rw.close();
             repo.close();
           }
         };
@@ -123,7 +124,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
         return bin;
       } finally {
         if (close) {
-          rw.release();
+          rw.close();
         }
       }
     } finally {

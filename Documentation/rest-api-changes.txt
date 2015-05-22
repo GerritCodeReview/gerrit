@@ -3919,6 +3919,9 @@ change was merged into and tags it was tagged with.
 Each branch is listed without the 'refs/head/' prefix.
 |`tags`     | The list of tags this change was tagged with.
 Each tag is listed without the 'refs/tags/' prefix.
+|`systems`  | A map that maps a system type to a list of systems that
+include this change, e.g. a list of servers on which this change was
+deployed.
 |==========================
 
 [[label-info]]

@@ -22,6 +22,7 @@ import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.config.IncludedIn;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
@@ -274,6 +275,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MessageOfTheDay.class);
     DynamicMap.mapOf(binder(), DownloadScheme.class);
     DynamicMap.mapOf(binder(), DownloadCommand.class);
+    DynamicMap.mapOf(binder(), IncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), FileWebLink.class);

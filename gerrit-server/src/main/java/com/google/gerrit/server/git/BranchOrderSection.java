@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.RefNames;
-
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 import java.util.List;
 

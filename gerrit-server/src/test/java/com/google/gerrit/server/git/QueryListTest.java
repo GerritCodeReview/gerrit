@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.replay;
-import static com.google.common.truth.Truth.assertThat;
 
 import junit.framework.TestCase;
 

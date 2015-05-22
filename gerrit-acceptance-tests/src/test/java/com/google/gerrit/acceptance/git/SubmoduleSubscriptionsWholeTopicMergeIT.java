@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
-import com.google.gerrit.acceptance.git.AbstractSubmoduleSubscription;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.testutil.ConfigSuite;

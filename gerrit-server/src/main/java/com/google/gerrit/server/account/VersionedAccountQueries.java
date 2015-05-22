@@ -22,7 +22,6 @@ import com.google.gerrit.server.git.VersionedMetaData;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d58ede6_8490464e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2015-05-22T12:18:30Z",
+      "side": 1,
+      "message": "maybe indent this line some more?\n\n  try (Repository r \u003d ...\n       Revwalk rw \u003d ... ){\n    RevCommit c \u003d ...\n\nThen it\u0027s more clear which variables are auto-closed.",
+      "revId": "11b33a9cbc88481670a948c7c1f859da539a7019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

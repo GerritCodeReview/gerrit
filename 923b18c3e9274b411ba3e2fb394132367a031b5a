@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d7f014e_81d31a54",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-05-25T00:20:35Z",
+      "side": 1,
+      "message": "I think the URL should somehow be computed as a variable in lib/jgit and imported here. the version does change and we would forget to update it here.\n\nAlso JGit is not in the extension-api, its in the plugin-api. So this is probably the wrong place to be providing links to JGit API docs?",
+      "revId": "923b18c3e9274b411ba3e2fb394132367a031b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

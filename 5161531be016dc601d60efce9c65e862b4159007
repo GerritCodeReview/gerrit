@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edd32994_87b226f9",
+        "filename": "tools/java_doc.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-25T16:56:36Z",
+      "side": 1,
+      "message": "We mirrorwed this and other basic Buck build blocks in bucklet repository. Consider to add it there too: [1].\n\n* [1] https://gerrit.googlesource.com/bucklets/+/master/java_doc.bucklet",
+      "revId": "5161531be016dc601d60efce9c65e862b4159007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

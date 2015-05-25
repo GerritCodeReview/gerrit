@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_e83e53db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-25T20:15:44Z",
+      "side": 1,
+      "message": "Now gerrit-review is broken (on 033c2a4c04de182d5ddcf6e158807ee3323e20ac) for me. When trying to call \"Contact Information\", JS exception is thrown: [1]:\n\n* https://gerrit-review.googlesource.com/?dbg\u003d1#/settings/contact\n* [1] http://paste.openstack.org/show/236312\n\nI wasn\u0027t able to reproduce it locally. I even tried to fake my JSON response and adjust my AuthInfo JSON:\n\n  {\"auth\":{\"auth_type\":\"CUSTOM_EXTENSION\",\n  \"use_contributor_agreements\":true,\n  \"editable_account_fields\":[\"REGISTER_NEW_EMAIL\"]}\n  [...]",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 58
+      },
+      "revId": "b1b475cb5ce1209bb6c8fd33320548e72fa526b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

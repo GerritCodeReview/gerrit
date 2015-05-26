@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edd32994_a793ea32",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-26T13:04:50Z",
+      "side": 1,
+      "message": "This change was included by mistake...\n\nFixed by patch set 3.",
+      "range": {
+        "startLine": 252,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 41
+      },
+      "revId": "4a85cd73f9b8f0c4ec54aa0650fcaf0ed4f75ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

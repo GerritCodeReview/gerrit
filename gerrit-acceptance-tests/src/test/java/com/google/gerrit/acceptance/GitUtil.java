@@ -184,7 +184,7 @@ public class GitUtil {
         return ChangeIdUtil.computeChangeId(null, null, i, i, msg);
       }
     } finally {
-      rw.release();
+      rw.close();
     }
   }
 

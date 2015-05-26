@@ -274,7 +274,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           db.get().accountPatchReviews().insert(inserts);
           return pathList;
         } finally {
-          reader.release();
+          reader.close();
         }
       } finally {
         git.close();

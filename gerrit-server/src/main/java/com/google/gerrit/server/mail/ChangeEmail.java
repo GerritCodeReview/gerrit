@@ -407,7 +407,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       log.error("Cannot format patch", e);
       return "";
     } finally {
-      fmt.release();
+      fmt.close();
       git.close();
     }
   }

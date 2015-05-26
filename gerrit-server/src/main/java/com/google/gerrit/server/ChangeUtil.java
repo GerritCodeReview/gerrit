@@ -300,7 +300,7 @@ public class ChangeUtil {
           oi.flush();
           revertCommit = revWalk.parseCommit(id);
         } finally {
-          oi.release();
+          oi.close();
         }
 
         RefControl refControl = ctl.getRefControl();
@@ -364,7 +364,7 @@ public class ChangeUtil {
 
         return change.getId();
       } finally {
-        revWalk.release();
+        revWalk.close();
       }
     } finally {
       git.close();
@@ -423,7 +423,7 @@ public class ChangeUtil {
           oi.flush();
           newCommit = revWalk.parseCommit(id);
         } finally {
-          oi.release();
+          oi.close();
         }
 
         PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
@@ -446,7 +446,7 @@ public class ChangeUtil {
 
         return change.getId();
       } finally {
-        revWalk.release();
+        revWalk.close();
       }
     } finally {
       git.close();

@@ -228,7 +228,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
       } finally {
         key.repo = null;
-        walk.release();
+        walk.close();
       }
     }
 

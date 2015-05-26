@@ -75,7 +75,7 @@ public class CommitsCollection implements
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       repo.close();

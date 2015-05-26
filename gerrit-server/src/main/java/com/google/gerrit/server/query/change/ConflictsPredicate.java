@@ -138,7 +138,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
               } catch (NoSuchProjectException e) {
                 throw new IllegalStateException(e);
               } finally {
-                rw.release();
+                rw.close();
               }
             } finally {
               repo.close();

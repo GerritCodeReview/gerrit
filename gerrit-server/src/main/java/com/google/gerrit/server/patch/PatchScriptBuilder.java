@@ -119,7 +119,7 @@ class PatchScriptBuilder {
     try {
       return build(content, comments, history);
     } finally {
-      reader.release();
+      reader.close();
     }
   }
 

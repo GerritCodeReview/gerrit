@@ -109,7 +109,7 @@ public abstract class RevWalkPredicate extends OperatorPredicate<ChangeData> {
         try {
           return match(repo, rw, args);
         } finally {
-          rw.release();
+          rw.close();
         }
       } finally {
         repo.close();

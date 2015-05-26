@@ -31,9 +31,11 @@ import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -42,6 +44,20 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetRelatedIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config byGroup() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "getRelatedByAncestors", false);
+    return cfg;
+  }
+
+  @ConfigSuite.Config
+  public static Config byAncestors() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "getRelatedByAncestors", true);
+    return cfg;
+  }
+
   @Inject
   private ChangeEditUtil editUtil;
 

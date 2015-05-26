@@ -20,12 +20,49 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
   /** Is the reference name a change reference? */
   public static boolean isRef(String name) {
     return Id.fromRef(name) != null;
+  }
+
+  public static String joinGroups(Iterable<String> groups) {
+    if (groups == null) {
+      return null;
+    }
+    StringBuilder sb = new StringBuilder();
+    boolean first = true;
+    for (String g : groups) {
+      if (!first) {
+        sb.append(',');
+      } else {
+        first = false;
+      }
+      sb.append(g);
+    }
+    return sb.toString();
+  }
+
+  public static List<String> splitGroups(String joinedGroups) {
+    if (joinedGroups == null) {
+      return null;
+    }
+    List<String> groups = new ArrayList<>();
+    int i = 0;
+    while (true) {
+      int idx = joinedGroups.indexOf(',', i);
+      if (idx < 0) {
+        groups.add(joinedGroups.substring(i, joinedGroups.length()));
+        break;
+      }
+      groups.add(joinedGroups.substring(i, idx));
+      i = idx + 1;
+    }
+    return groups;
   }
 
   public static class Id extends IntKey<Change.Id> {
@@ -140,6 +177,18 @@ public final class PatchSet {
   @Column(id = 5)
   protected boolean draft;
 
+  /**
+   * Opaque group identifier, usually assigned during creation.
+   * <p>
+   * This field is actually a comma-separated list of values, as in rare cases
+   * involving merge commits a patch set may belong to multiple groups.
+   * <p>
+   * Changes on the same branch having patch sets with intersecting groups are
+   * considered related, as in the "Related Changes" tab.
+   */
+  @Column(id = 6, notNull = false)
+  protected String groups;
+
   protected PatchSet() {
   }
 
@@ -185,6 +234,14 @@ public final class PatchSet {
 
   public void setDraft(boolean draftStatus) {
     draft = draftStatus;
+  }
+
+  public List<String> getGroups() {
+    return splitGroups(groups);
+  }
+
+  public void setGroups(Iterable<String> groups) {
+    this.groups = joinGroups(groups);
   }
 
   public String getRefName() {

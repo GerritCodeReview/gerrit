@@ -44,6 +44,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -1467,6 +1468,10 @@ public class ReceiveCommits {
   private void selectNewAndReplacedChangesFromMagicBranch() {
     newChanges = Lists.newArrayList();
     final RevWalk walk = rp.getRevWalk();
+
+    Set<ObjectId> existing = changeRefsById().keySet();
+    GroupCollector groupCollector = new GroupCollector(refsById, db);
+
     walk.reset();
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
@@ -1486,7 +1491,6 @@ public class ReceiveCommits {
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
-      Set<ObjectId> existing = changeRefsById().keySet();
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<>();
       final int maxBatchChanges =
@@ -1496,7 +1500,17 @@ public class ReceiveCommits {
         if (c == null) {
           break;
         }
+        groupCollector.visit(c);
         if (existing.contains(c)) { // Commit is already tracked.
+          // TODO(dborowitz): Corner case where an existing commit might need a
+          // new group:
+          // Let A<-B<-C, then:
+          //   1. Push A to refs/heads/master
+          //   2. Push B to refs/for/master
+          //   3. Force push A~ to refs/heads/master
+          //   4. Push C to refs/for/master.
+          // B will be in existing so we aren't replacing the patch set. It used
+          // to have its own group, but now needs to to be changed to A's group.
           continue;
         }
 
@@ -1605,8 +1619,20 @@ public class ReceiveCommits {
       reject(magicBranch.cmd, "edit is not supported for new changes");
       return;
     }
-    for (CreateRequest create : newChanges) {
-      batch.addCommand(create.cmd);
+
+    try {
+      Multimap<ObjectId, String> groups = groupCollector.getGroups();
+      for (CreateRequest create : newChanges) {
+        batch.addCommand(create.cmd);
+        create.groups = groups.get(create.commit);
+      }
+      for (ReplaceRequest replace : replaceByChange.values()) {
+        replace.groups = groups.get(replace.newCommit);
+      }
+    } catch (OrmException e) {
+      log.error("Error collecting groups for changes", e);
+      reject(magicBranch.cmd, "internal server error");
+      return;
     }
   }
 
@@ -1646,6 +1672,7 @@ public class ReceiveCommits {
     final ReceiveCommand cmd;
     final ChangeInserter ins;
     boolean created;
+    Collection<String> groups;
 
     CreateRequest(RefControl ctl, RevCommit c, Change.Key changeKey)
         throws OrmException {
@@ -1690,7 +1717,7 @@ public class ReceiveCommits {
     }
 
     private void insertChange(ReviewDb db) throws OrmException, IOException {
-      final PatchSet ps = ins.getPatchSet();
+      final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -1845,6 +1872,7 @@ public class ReceiveCommits {
     String mergedIntoRef;
     boolean skip;
     private PatchSet.Id priorPatchSet;
+    Collection<String> groups;
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
         final ReceiveCommand cmd, final boolean checkMergedInto) {
@@ -2020,6 +2048,7 @@ public class ReceiveCommits {
       newPatchSet.setCreatedOn(TimeUtil.nowTs());
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
+      newPatchSet.setGroups(groups);
       if (magicBranch != null && magicBranch.draft) {
         newPatchSet.setDraft(true);
       }
@@ -2124,6 +2153,9 @@ public class ReceiveCommits {
         }
 
         ChangeUtil.insertAncestors(db, newPatchSet.getId(), newCommit);
+        if (newPatchSet.getGroups() == null) {
+          newPatchSet.setGroups(GroupCollector.getCurrentGroups(db, change));
+        }
         db.patchSets().insert(Collections.singleton(newPatchSet));
 
         if (checkMergedInto) {

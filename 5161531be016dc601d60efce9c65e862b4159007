@@ -16,6 +16,24 @@
       "revId": "5161531be016dc601d60efce9c65e862b4159007",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_4824bfa9",
+        "filename": "tools/java_doc.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-05-26T12:18:53Z",
+      "side": 1,
+      "message": "Yay for duplication :-/\n\nDone (along with the patches that were missing for java_doc):\n\n* https://gerrit-review.googlesource.com/68096\n* https://gerrit-review.googlesource.com/68097\n* https://gerrit-review.googlesource.com/68098",
+      "parentUuid": "edd32994_87b226f9",
+      "revId": "5161531be016dc601d60efce9c65e862b4159007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

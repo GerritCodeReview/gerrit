@@ -16,19 +16,14 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
-import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.FancyFlexTableImpl;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
@@ -39,7 +34,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -50,7 +44,6 @@ import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.Collections;
-import java.util.EnumSet;
 
 class PatchSetsBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PatchSetsBox> {}
@@ -100,17 +93,16 @@ class PatchSetsBox extends Composite {
     String draft_comment();
   }
 
-  private final Change.Id changeId;
+  private final ChangeInfo changeInfo;
   private final String revision;
   private final EditInfo edit;
-  private boolean loaded;
   private JsArray<RevisionInfo> revisions;
 
   @UiField FlexTable table;
   @UiField Style style;
 
-  PatchSetsBox(Change.Id changeId, String revision, EditInfo edit) {
-    this.changeId = changeId;
+  PatchSetsBox(ChangeInfo changeInfo, String revision, EditInfo edit) {
+    this.changeInfo = changeInfo;
     this.revision = revision;
     this.edit = edit;
     initWidget(uiBinder.createAndBindUi(this));
@@ -118,28 +110,11 @@ class PatchSetsBox extends Composite {
 
   @Override
   protected void onLoad() {
-    if (!loaded) {
-      RestApi call = ChangeApi.detail(changeId.get());
-      ChangeList.addOptions(call, EnumSet.of(
-          ListChangesOption.ALL_COMMITS,
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.DRAFT_COMMENTS));
-      call.get(new AsyncCallback<ChangeInfo>() {
-        @Override
-        public void onSuccess(ChangeInfo result) {
-          if (edit != null) {
-            edit.setName(edit.commit().commit());
-            result.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
-          }
-          render(result.revisions());
-          loaded = true;
-        }
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+    if (edit != null) {
+      edit.setName(edit.commit().commit());
+      changeInfo.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
     }
+    render(changeInfo.revisions());
   }
 
   private void onOpenRow(int idx) {
@@ -225,7 +200,7 @@ class PatchSetsBox extends Composite {
   }
 
   private String url(RevisionInfo r) {
-    return PageLinks.toChange(changeId, r.id());
+    return PageLinks.toChange(changeInfo.legacyId(), r.id());
   }
 
   private void closeParent() {

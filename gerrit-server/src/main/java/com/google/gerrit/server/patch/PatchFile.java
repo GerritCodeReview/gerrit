@@ -75,7 +75,7 @@ public class PatchFile {
         bTree = bCommit.getTree();
       }
     } finally {
-      reader.release();
+      reader.close();
     }
   }
 

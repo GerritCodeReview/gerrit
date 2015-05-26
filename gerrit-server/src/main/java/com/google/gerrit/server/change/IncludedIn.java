@@ -71,7 +71,7 @@ class IncludedIn implements RestReadView<ChangeResource> {
         }
         return new IncludedInInfo(IncludedInResolver.resolve(r, rw, rev));
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       r.close();

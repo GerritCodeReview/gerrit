@@ -184,7 +184,7 @@ public class CreateChange implements
 
         return Response.created(json.format(change.getId()));
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       git.close();
@@ -250,7 +250,7 @@ public class CreateChange implements
       commit.setMessage(commitMessage);
       emptyCommit = rw.parseCommit(insert(oi, commit));
     } finally {
-      oi.release();
+      oi.close();
     }
     return emptyCommit;
   }

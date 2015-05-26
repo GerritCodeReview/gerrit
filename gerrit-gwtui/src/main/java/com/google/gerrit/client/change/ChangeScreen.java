@@ -249,7 +249,9 @@ public class ChangeScreen extends Screen {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CHANGE_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.ALL_COMMITS,
+      ListChangesOption.DRAFT_COMMENTS));
     if (!fg) {
       call.background();
     }
@@ -379,8 +381,7 @@ public class ChangeScreen extends Screen {
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
-        info.legacyId(), revision, edit,
-        style, headerLine, patchSets);
+        info, revision, style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);
     if (revInfo.draft()) {
@@ -950,7 +951,7 @@ public class ChangeScreen extends Screen {
   private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
       RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && rev.hasDraftComments()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("drafts")
         .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {

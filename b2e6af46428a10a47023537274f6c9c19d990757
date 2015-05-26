@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0dd15d8c_6885430a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/IncludedInBox.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T08:45:55Z",
+      "side": 1,
+      "message": "OK, we should then change it there as well.",
+      "parentUuid": "edd32994_a7180a77",
+      "range": {
+        "startLine": 66,
+        "startChar": 26,
+        "endLine": 66,
+        "endChar": 43
+      },
+      "revId": "b2e6af46428a10a47023537274f6c9c19d990757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dd15d8c_48a95f88",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 6

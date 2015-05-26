@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
-import static com.google.gerrit.server.query.change.InternalChangeQuery.schema;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
@@ -46,6 +45,7 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
@@ -151,11 +151,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
     final Provider<ListChildProjects> listChildProjects;
-    final IndexCollection indexes;
     final SubmitStrategyFactory submitStrategyFactory;
     final ConflictsCache conflictsCache;
     final TrackingFooters trackingFooters;
     final boolean allowsDrafts;
+    final ChangeIndex index;
 
     private final Provider<CurrentUser> self;
 
@@ -188,9 +188,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, indexes, submitStrategyFactory,
+          projectCache, listChildProjects, submitStrategyFactory,
           conflictsCache, trackingFooters,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
+          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
+          indexes != null ? indexes.getSearchIndex() : null);
     }
 
     private Arguments(
@@ -212,11 +213,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         Provider<ListChildProjects> listChildProjects,
-        IndexCollection indexes,
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
-        boolean allowsDrafts) {
+        boolean allowsDrafts,
+        ChangeIndex index) {
      this.db = db;
      this.queryProvider = queryProvider;
      this.rewriter = rewriter;
@@ -235,11 +236,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.repoManager = repoManager;
      this.projectCache = projectCache;
      this.listChildProjects = listChildProjects;
-     this.indexes = indexes;
      this.submitStrategyFactory = submitStrategyFactory;
      this.conflictsCache = conflictsCache;
      this.trackingFooters = trackingFooters;
      this.allowsDrafts = allowsDrafts;
+     this.index = index;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -248,8 +249,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, indexes, submitStrategyFactory,
-          conflictsCache, trackingFooters, allowsDrafts);
+          projectCache, listChildProjects, submitStrategyFactory,
+          conflictsCache, trackingFooters, allowsDrafts, index);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -283,6 +284,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       } catch (ProvisionException e) {
         throw new QueryParseException(NotSignedInException.MESSAGE, e);
       }
+    }
+
+    Schema<ChangeData> getSchema() {
+      return index != null ? index.getSchema() : null;
     }
   }
 
@@ -351,8 +356,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> comment(String value) {
-    ChangeIndex index = args.indexes.getSearchIndex();
-    return new CommentPredicate(index, value);
+    return new CommentPredicate(args.index, value);
   }
 
   @Operator
@@ -408,7 +412,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new IsMergeablePredicate(schema(args.indexes), args.fillArgs);
+      return new IsMergeablePredicate(args.getSchema(), args.fillArgs);
     }
 
     try {
@@ -471,9 +475,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> topic(String name) {
     if (name.startsWith("^")) {
-      return new RegexTopicPredicate(schema(args.indexes), name);
+      return new RegexTopicPredicate(args.getSchema(), name);
     }
-    return new TopicPredicate(schema(args.indexes), name);
+    return new TopicPredicate(args.getSchema(), name);
   }
 
   @Operator
@@ -563,8 +567,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> message(String text) {
-    ChangeIndex index = args.indexes.getSearchIndex();
-    return new MessagePredicate(index, text);
+    return new MessagePredicate(args.index, text);
   }
 
   @Operator

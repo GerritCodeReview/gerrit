@@ -165,7 +165,7 @@ public class InternalChangeQuery {
     }
   }
 
-  static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
+  private static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
     ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
     return index != null ? index.getSchema() : null;
   }

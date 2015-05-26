@@ -575,7 +575,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // TODO(yyonas): figure out how to handle this exception
       throw new IOException(e1);
     } finally {
-      walk.release();
+      walk.close();
     }
   }
 

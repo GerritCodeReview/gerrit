@@ -209,7 +209,7 @@ public class CatServlet extends HttpServlet {
           return;
         }
       } finally {
-        reader.release();
+        reader.close();
       }
     } catch (IOException e) {
       getServletContext().log("Cannot read repository", e);

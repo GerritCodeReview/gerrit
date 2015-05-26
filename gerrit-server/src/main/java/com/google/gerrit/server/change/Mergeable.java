@@ -245,7 +245,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
           "Cannot merge test change %d", change.getId().get()), e);
       return false;
     } finally {
-      rw.release();
+      rw.close();
     }
   }
 

@@ -147,7 +147,7 @@ class TagSet {
       }
     } finally {
       if (rw != null) {
-        rw.release();
+        rw.close();
       }
     }
   }
@@ -189,7 +189,7 @@ class TagSet {
     } catch (IOException e) {
       log.warn("Error building tags for repository " + projectName, e);
     } finally {
-      rw.release();
+      rw.close();
     }
   }
 

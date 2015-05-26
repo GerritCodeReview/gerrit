@@ -26,6 +26,8 @@ import java.util.Arrays;
 
 @Singleton
 public class InitLabels implements InitStep {
+  private static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE =
+      "copyAllScoresIfNoCodeChange";
   private static final String KEY_LABEL = "label";
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_VALUE = "value";
@@ -58,6 +60,7 @@ public class InitLabels implements InitStep {
       cfg.setString(KEY_LABEL, LABEL_VERIFIED, KEY_FUNCTION, "MaxWithBlock");
       cfg.setStringList(KEY_LABEL, LABEL_VERIFIED, KEY_VALUE,
           Arrays.asList(new String[] {"-1 Fails", " 0 No score", "+1 Verified"}));
+      cfg.setBoolean(KEY_LABEL, LABEL_VERIFIED, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, true);
       allProjectsConfig.save("Configure 'Verified' label");
     }
   }

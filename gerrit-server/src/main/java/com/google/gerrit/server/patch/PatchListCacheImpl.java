@@ -27,6 +27,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -79,7 +80,7 @@ public class PatchListCacheImpl implements PatchListCache {
   public PatchList get(PatchListKey key) throws PatchListNotAvailableException {
     try {
       return fileCache.get(key);
-    } catch (ExecutionException e) {
+    } catch (ExecutionException | LargeObjectException e) {
       PatchListLoader.log.warn("Error computing " + key, e);
       throw new PatchListNotAvailableException(e.getCause());
     }
@@ -104,7 +105,7 @@ public class PatchListCacheImpl implements PatchListCache {
     if (computeIntraline) {
       try {
         return intraCache.get(key);
-      } catch (ExecutionException e) {
+      } catch (ExecutionException | LargeObjectException e) {
         IntraLineLoader.log.warn("Error computing " + key, e);
         return new IntraLineDiff(IntraLineDiff.Status.ERROR);
       }

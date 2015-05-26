@@ -113,7 +113,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
       Collection<Ref> heads =
           db.getRefDatabase().getRefs(Constants.R_HEADS).values();
-      refs = new ArrayList<>(heads.size() + 2);
+      refs = new ArrayList<>(heads.size() + 3);
       refs.addAll(heads);
       addRef(db, refs, Constants.HEAD);
       addRef(db, refs, RefNames.REFS_CONFIG);

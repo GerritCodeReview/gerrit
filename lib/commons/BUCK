@@ -81,8 +81,8 @@ maven_jar(
 
 maven_jar(
   name = 'validator',
-  id = 'commons-validator:commons-validator:1.4.0',
-  sha1 = '42fa1046955ade59f5354a1876cfc523cea33815',
+  id = 'commons-validator:commons-validator:1.4.1',
+  sha1 = '2231238e391057a53f92bde5bbc588622c1956c3',
   license = 'Apache2.0',
 )
 

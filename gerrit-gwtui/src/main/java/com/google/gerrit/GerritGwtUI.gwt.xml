@@ -40,8 +40,12 @@
 
   <set-property name='gwt.logging.logLevel' value='SEVERE'/>
 
-  <!-- Disable GSS -->
-  <set-configuration-property name='CssResource.enableGss' value='false'/>
+  <!--
+    Disable GSS.
+    TODO(dborowitz): remove after final conversion to GSS (post-GWT 2.8).
+  -->
+  <set-configuration-property name='CssResource.enableGss' value='true'/>
+  <set-configuration-property name='CssResource.conversionMode' value='strict'/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>
 </module>

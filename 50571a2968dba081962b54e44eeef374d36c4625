@@ -22,6 +22,30 @@
       "revId": "50571a2968dba081962b54e44eeef374d36c4625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_680ee337",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-26T09:38:21Z",
+      "side": 1,
+      "message": "Done in the change on stable-2.11",
+      "parentUuid": "4dd7d57e_8a37cb11",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "50571a2968dba081962b54e44eeef374d36c4625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

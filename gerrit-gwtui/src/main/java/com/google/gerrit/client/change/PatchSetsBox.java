@@ -22,8 +22,6 @@ import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
-import com.google.gerrit.client.rpc.CallbackGroup;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
@@ -60,7 +58,6 @@ class PatchSetsBox extends Composite {
 
   private static final String OPEN;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
-  private EditInfo edit;
 
   static {
     OPEN = DOM.createUniqueId().replace('-', '_');
@@ -105,40 +102,29 @@ class PatchSetsBox extends Composite {
 
   private final Change.Id changeId;
   private final String revision;
+  private final EditInfo edit;
   private boolean loaded;
   private JsArray<RevisionInfo> revisions;
 
   @UiField FlexTable table;
   @UiField Style style;
 
-  PatchSetsBox(Change.Id changeId, String revision) {
+  PatchSetsBox(Change.Id changeId, String revision, EditInfo edit) {
     this.changeId = changeId;
     this.revision = revision;
+    this.edit = edit;
     initWidget(uiBinder.createAndBindUi(this));
   }
 
   @Override
   protected void onLoad() {
     if (!loaded) {
-      CallbackGroup group = new CallbackGroup();
-      if (Gerrit.isSignedIn()) {
-        // TODO(davido): It shouldn't be necessary to make this call.
-        // PatchSetsBox is constructed via PatchSetsAction which is
-        // only initialized by CS2 after loading the EditInfo in that path.
-        ChangeApi.edit(changeId.get(), group.add(
-            new GerritCallback<EditInfo>() {
-              @Override
-              public void onSuccess(EditInfo result) {
-                edit = result;
-              }
-            }));
-      }
       RestApi call = ChangeApi.detail(changeId.get());
       ChangeList.addOptions(call, EnumSet.of(
           ListChangesOption.ALL_COMMITS,
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.DRAFT_COMMENTS));
-      call.get(group.addFinal(new AsyncCallback<ChangeInfo>() {
+      call.get(new AsyncCallback<ChangeInfo>() {
         @Override
         public void onSuccess(ChangeInfo result) {
           if (edit != null) {
@@ -152,7 +138,7 @@ class PatchSetsBox extends Composite {
         @Override
         public void onFailure(Throwable caught) {
         }
-      }));
+      });
     }
   }
 

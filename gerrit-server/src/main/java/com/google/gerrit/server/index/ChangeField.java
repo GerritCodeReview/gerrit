@@ -43,6 +43,7 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -338,7 +339,8 @@ public class ChangeField {
       };
 
   /** Set true if the change has a non-zero label score. */
-  public static final FieldDef<ChangeData, String> REVIEWED =
+  @Deprecated
+  public static final FieldDef<ChangeData, String> LEGACY_REVIEWED =
       new FieldDef.Single<ChangeData, String>(
           "reviewed", FieldType.EXACT, false) {
         @Override
@@ -584,6 +586,36 @@ public class ChangeField {
           }));
         }
       };
+
+  /**
+   * Users the change was reviewed by since the last author update.
+   * <p>
+   * A change is considered reviewed by a user if the latest update by that user
+   * is newer than the latest update by the change author. Both top-level change
+   * messages and new patch sets are considered to be updates.
+   * <p>
+   * If the latest update is by the change owner, then the special value {@link
+   * #NOT_REVIEWED} is emitted.
+   */
+  public static final FieldDef<ChangeData, Iterable<String>> REVIEWEDBY =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_REVIEWEDBY, FieldType.EXACT, true) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<Account.Id> reviewedBy = input.reviewedBy();
+          if (reviewedBy.isEmpty()) {
+            return ImmutableSet.of(NOT_REVIEWED);
+          }
+          List<String> result = new ArrayList<>(reviewedBy.size());
+          for (Account.Id id : reviewedBy) {
+            result.add(Integer.toString(id.get()));
+          }
+          return result;
+        }
+      };
+
+  public static final String NOT_REVIEWED = "none";
 
   private static String getTopic(ChangeData input) throws OrmException {
     Change c = input.change();

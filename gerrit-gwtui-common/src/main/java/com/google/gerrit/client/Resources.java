@@ -18,90 +18,90 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
 public interface Resources extends ClientBundle {
+  @Source("addFileComment.png")
+  public ImageResource addFileComment();
+
+  @Source("arrowDown.png")
+  public ImageResource arrowDown();
+
   @Source("arrowRight.png")
   public ImageResource arrowRight();
 
   @Source("arrowUp.png")
   public ImageResource arrowUp();
 
-  @Source("arrowDown.png")
-  public ImageResource arrowDown();
-
-  @Source("editText.png")
-  public ImageResource edit();
-
-  @Source("mediaFloppy.png")
-  public ImageResource save();
-
-  @Source("starOpen.png")
-  public ImageResource starOpen();
-
-  @Source("starFilled.png")
-  public ImageResource starFilled();
-
-  @Source("greenCheck.png")
-  public ImageResource greenCheck();
-
-  @Source("redNot.png")
-  public ImageResource redNot();
-
-  @Source("editUndo.png")
-  public ImageResource editUndo();
-
-  @Source("downloadIcon.png")
-  public ImageResource downloadIcon();
-
-  @Source("queryIcon.png")
-  public ImageResource queryIcon();
-
-  @Source("addFileComment.png")
-  public ImageResource addFileComment();
-
-  @Source("diffy26.png")
-  public ImageResource gerritAvatar26();
-
-  @Source("draftComments.png")
-  public ImageResource draftComments();
-
-  @Source("readOnly.png")
-  public ImageResource readOnly();
-
-  @Source("gear.png")
-  public ImageResource gear();
-
-  @Source("info.png")
-  public ImageResource info();
-
-  @Source("warning.png")
-  public ImageResource warning();
-
-  @Source("listAdd.png")
-  public ImageResource listAdd();
-
-  @Source("merge.png")
-  public ImageResource merge();
+  @Source("deleteHover.png")
+  public ImageResource deleteHover();
 
   @Source("deleteNormal.png")
   public ImageResource deleteNormal();
 
-  @Source("deleteHover.png")
-  public ImageResource deleteHover();
+  @Source("diffy26.png")
+  public ImageResource gerritAvatar26();
 
-  @Source("undoNormal.png")
-  public ImageResource undoNormal();
+  @Source("downloadIcon.png")
+  public ImageResource downloadIcon();
 
-  @Source("goPrev.png")
-  public ImageResource goPrev();
+  @Source("draftComments.png")
+  public ImageResource draftComments();
+
+  @Source("editText.png")
+  public ImageResource edit();
+
+  @Source("editUndo.png")
+  public ImageResource editUndo();
+
+  @Source("gear.png")
+  public ImageResource gear();
 
   @Source("goNext.png")
   public ImageResource goNext();
 
+  @Source("goPrev.png")
+  public ImageResource goPrev();
+
   @Source("goUp.png")
   public ImageResource goUp();
+
+  @Source("greenCheck.png")
+  public ImageResource greenCheck();
+
+  @Source("info.png")
+  public ImageResource info();
+
+  @Source("listAdd.png")
+  public ImageResource listAdd();
+
+  @Source("mediaFloppy.png")
+  public ImageResource save();
+
+  @Source("merge.png")
+  public ImageResource merge();
+
+  @Source("queryIcon.png")
+  public ImageResource queryIcon();
+
+  @Source("readOnly.png")
+  public ImageResource readOnly();
+
+  @Source("redNot.png")
+  public ImageResource redNot();
 
   @Source("sideBySideDiff.png")
   public ImageResource sideBySideDiff();
 
+  @Source("starFilled.png")
+  public ImageResource starFilled();
+
+  @Source("starOpen.png")
+  public ImageResource starOpen();
+
+  @Source("undoNormal.png")
+  public ImageResource undoNormal();
+
   @Source("unifiedDiff.png")
   public ImageResource unifiedDiff();
+
+  @Source("warning.png")
+  public ImageResource warning();
 }

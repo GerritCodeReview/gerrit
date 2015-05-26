@@ -249,7 +249,9 @@ public class ChangeScreen extends Screen {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CHANGE_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.ALL_COMMITS,
+      ListChangesOption.DRAFT_COMMENTS));
     if (!fg) {
       call.background();
     }
@@ -379,7 +381,7 @@ public class ChangeScreen extends Screen {
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
-        info.legacyId(), revision,
+        info.legacyId(), revision, edit,
         style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);

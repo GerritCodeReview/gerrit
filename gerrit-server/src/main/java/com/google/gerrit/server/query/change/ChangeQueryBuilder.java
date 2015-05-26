@@ -117,6 +117,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_QUERY = "query";
   public static final String FIELD_REF = "ref";
+  public static final String FIELD_REVIEWEDBY = "reviewedby";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
   public static final String FIELD_STARREDBY = "starredby";
@@ -363,7 +364,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> status(String statusName) {
     if ("reviewed".equalsIgnoreCase(statusName)) {
-      return new IsReviewedPredicate();
+      return IsReviewedPredicate.create(args.getSchema());
     } else {
       return ChangeStatusPredicate.parse(statusName);
     }
@@ -404,7 +405,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewed".equalsIgnoreCase(value)) {
-      return new IsReviewedPredicate();
+      return IsReviewedPredicate.create(args.getSchema());
     }
 
     if ("owner".equalsIgnoreCase(value)) {
@@ -801,6 +802,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw new QueryParseException("Error parsing named query: " + name, e);
     }
     throw new QueryParseException("Unknown named query: " + name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> reviewedby(String who)
+      throws QueryParseException, OrmException {
+    return IsReviewedPredicate.create(args.getSchema(), parseAccount(who));
   }
 
   @Override

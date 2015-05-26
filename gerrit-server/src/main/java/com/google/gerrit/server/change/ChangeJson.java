@@ -828,7 +828,7 @@ public class ChangeJson {
     return reviewed;
   }
 
-  private boolean isChangeReviewed(Account.Id self, ChangeData cd,
+  public static boolean isChangeReviewed(Account.Id self, ChangeData cd,
       Iterable<ChangeMessage> msgs) throws OrmException {
     // Sort messages to keep the most recent ones at the beginning.
     List<ChangeMessage> reversed = ChangeNotes.MESSAGE_BY_TIME.reverse()

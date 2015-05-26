@@ -263,8 +263,8 @@ and thus is likely to notify the user when it updates.
 
 is:reviewed::
 +
-True if there is at least one non-zero score on the change, in any
-approval category, by any user.
+True if some user has commented on the change more recently than the
+last update (comment or patch set) from the change owner.
 
 is:owner::
 +
@@ -306,8 +306,9 @@ merge pending'.
 
 status:reviewed::
 +
-Same as 'is:reviewed', matches if there is at least one non-zero
-score on the change, in any approval category, by any user.
+Same as 'is:reviewed', matches if some user has commented on the change
+more recently than the last update (comment or patch set) from the
+change owner.
 
 status:submitted::
 +
@@ -349,6 +350,12 @@ from:'USER'::
 +
 Changes containing a top-level or inline comment by 'USER', or owned by
 'USER'. Equivalent to `(owner:USER OR commentby:USER)`.
+
+[[reviewedby]]
+reviewedby:'USER'::
++
+Changes where 'USER' has commented on the change more recently than the
+last update (comment or patch set) from the change owner.
 
 
 == Argument Quoting

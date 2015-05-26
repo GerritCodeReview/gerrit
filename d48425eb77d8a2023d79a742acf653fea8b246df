@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edd32994_c7e9beae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-05-26T12:51:46Z",
+      "side": 1,
+      "message": "Change this to 3, done in https://gerrit-review.googlesource.com/#/c/68111/",
+      "range": {
+        "startLine": 116,
+        "startChar": 44,
+        "endLine": 116,
+        "endChar": 45
+      },
+      "revId": "d48425eb77d8a2023d79a742acf653fea8b246df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

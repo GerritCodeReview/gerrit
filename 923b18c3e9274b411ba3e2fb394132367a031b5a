@@ -16,6 +16,24 @@
       "revId": "923b18c3e9274b411ba3e2fb394132367a031b5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edd32994_c7d09efe",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-05-26T11:13:41Z",
+      "side": 1,
+      "message": "\u003e I think the URL should somehow be computed as a variable in lib/jgit\n\u003e and imported here.\n\nDone in PS2.\n\n“Computing” the doc version number from the jar version number is not\ntrivial, as not each JGit jar version number has it\u0027s docs published\nat download.eclipse.org (or at least I could not find them).\n\nHence, I kept the jar and doc version number separate.\n\n\u003e Also JGit is not in the extension-api, its in the plugin-api. So\n\u003e this is probably the wrong place to be providing links to JGit API\n\u003e docs?\n\nAlthough JGit is not in the extension-api jar, the extension-api\ndocumentation references JGit nonetheless [1]. Hence, the java_doc\nof the extension-api is the one that will the JGit doc url in the end.\n\n\n[1] See line 34 of https://gerrit.googlesource.com/gerrit/+/3479786c930a73b5b3156ff10ef448ab75e4375a/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java#34",
+      "parentUuid": "2d7f014e_81d31a54",
+      "revId": "923b18c3e9274b411ba3e2fb394132367a031b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

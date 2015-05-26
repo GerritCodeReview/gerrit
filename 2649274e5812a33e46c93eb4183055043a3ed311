@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_c8d0affe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PatchSetsBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-26T13:02:05Z",
+      "side": 1,
+      "message": "This callback group is now not needed anymore.",
+      "revId": "2649274e5812a33e46c93eb4183055043a3ed311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

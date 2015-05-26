@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_68ac239a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/IncludedInBox.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T08:24:33Z",
+      "side": 1,
+      "message": "The logic is (unnecessary?) hidden behind this method call. My first impression was, you missed to check for null here. You don\u0027t as this method uses Natives.keys() and it always returns empty collections. I would prefer not to hide Natives.key() invocation in externalNames() implementation, like we did in other places:\n\n  private void renderCommands() {\n    commandTable.removeAllRows();\n    if (scheme.getItemCount() \u003e 0) {\n      FetchInfo fetchInfo \u003d\n          fetch.get(scheme.getValue(scheme.getSelectedIndex()));\n      for (String commandName : Natives.keys(fetchInfo.commands())) {\n        [...]",
+      "range": {
+        "startLine": 66,
+        "startChar": 26,
+        "endLine": 66,
+        "endChar": 43
+      },
+      "revId": "b2e6af46428a10a47023537274f6c9c19d990757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_48a95f88",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T08:24:33Z",
+      "side": 1,
+      "message": "Remove this abbreviation and force the callers to use Natives.keys(external()) instead?",
+      "range": {
+        "startLine": 426,
+        "startChar": 4,
+        "endLine": 428,
+        "endChar": 5
+      },
+      "revId": "b2e6af46428a10a47023537274f6c9c19d990757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_a8961b49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T08:24:33Z",
+      "side": 1,
+      "message": "We usually don\u0027t leave first line in ctor parameters empty?",
+      "revId": "b2e6af46428a10a47023537274f6c9c19d990757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_889b5771",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T08:24:33Z",
+      "side": 1,
+      "message": "Do we always passing empty map instances? IIRC Gson would serialize it as empty map \u0027{}\u0027 and not null. Can we pass null in this case instead?",
+      "range": {
+        "startLine": 88,
+        "startChar": 35,
+        "endLine": 88,
+        "endChar": 43
+      },
+      "revId": "b2e6af46428a10a47023537274f6c9c19d990757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

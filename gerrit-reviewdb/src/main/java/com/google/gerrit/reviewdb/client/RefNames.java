@@ -30,7 +30,10 @@ public class RefNames {
   public static final String REFS_CONFIG = "refs/meta/config";
 
   /** Preference settings for a user {@code refs/users} */
-  public static final String REFS_USER = "refs/users/";
+  public static final String REFS_USERS = "refs/users/";
+
+  /** Default user preference settings */
+  public static final String REFS_USERS_DEFAULT = RefNames.REFS_USERS + "default";
 
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
@@ -64,7 +67,7 @@ public class RefNames {
 
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
-    r.append(REFS_USER);
+    r.append(REFS_USERS);
     int account = accountId.get();
     int m = account % 100;
     if (m < 10) {

@@ -17,6 +17,8 @@ package com.google.gerrit.server.schema;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.schema.AclUtil.grant;
+import static com.google.gerrit.server.schema.AclUtil.rule;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -181,41 +183,6 @@ public class AllProjectsCreator {
     grant(config, meta, Permission.SUBMIT, admin, owners);
 
     config.commitToNewRef(md, RefNames.REFS_CONFIG);
-  }
-
-  private void grant(ProjectConfig config, AccessSection section,
-      String permission, GroupReference... groupList) {
-    grant(config, section, permission, false, groupList);
-  }
-
-  private void grant(ProjectConfig config, AccessSection section,
-      String permission, boolean force, GroupReference... groupList) {
-    Permission p = section.getPermission(permission, true);
-    for (GroupReference group : groupList) {
-      if (group != null) {
-        PermissionRule r = rule(config, group);
-        r.setForce(force);
-        p.add(r);
-      }
-    }
-  }
-
-  private void grant(ProjectConfig config,
-      AccessSection section, LabelType type,
-      int min, int max, GroupReference... groupList) {
-    String name = Permission.LABEL + type.getName();
-    Permission p = section.getPermission(name, true);
-    for (GroupReference group : groupList) {
-      if (group != null) {
-        PermissionRule r = rule(config, group);
-        r.setRange(min, max);
-        p.add(r);
-      }
-    }
-  }
-
-  private PermissionRule rule(ProjectConfig config, GroupReference group) {
-    return new PermissionRule(config.resolve(group));
   }
 
   public static LabelType initCodeReviewLabel(ProjectConfig c) {

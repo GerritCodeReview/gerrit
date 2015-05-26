@@ -117,6 +117,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       refs.addAll(heads);
       addRef(db, refs, Constants.HEAD);
       addRef(db, refs, RefNames.REFS_CONFIG);
+      addRef(db, refs, RefNames.REFS_USERS_DEFAULT);
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException();
     }

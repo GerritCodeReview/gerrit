@@ -27,7 +27,6 @@ import java.io.IOException;
 
 /** Preferences for user accounts. */
 public class VersionedAccountPreferences extends VersionedMetaData {
-  private static final String REFS_USER_DEFAULT = RefNames.REFS_USER + "default";
   private static final String PREFERENCES = "preferences.config";
 
   public static VersionedAccountPreferences forUser(Account.Id id) {
@@ -35,7 +34,7 @@ public class VersionedAccountPreferences extends VersionedMetaData {
   }
 
   public static VersionedAccountPreferences forDefault() {
-    return new VersionedAccountPreferences(REFS_USER_DEFAULT);
+    return new VersionedAccountPreferences(RefNames.REFS_USERS_DEFAULT);
   }
 
   private final String ref;
@@ -46,7 +45,7 @@ public class VersionedAccountPreferences extends VersionedMetaData {
   }
 
   public boolean isDefaults() {
-    return REFS_USER_DEFAULT.equals(getRefName());
+    return RefNames.REFS_USERS_DEFAULT.equals(getRefName());
   }
 
   @Override

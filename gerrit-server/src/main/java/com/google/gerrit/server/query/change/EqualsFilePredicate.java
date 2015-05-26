@@ -24,8 +24,7 @@ class EqualsFilePredicate extends IndexPredicate<ChangeData> {
   static Predicate<ChangeData> create(Arguments args, String value) {
     Predicate<ChangeData> eqPath =
         new EqualsPathPredicate(ChangeQueryBuilder.FIELD_FILE, value);
-    if (!args.indexes.getSearchIndex().getSchema().getFields().containsKey(
-        ChangeField.FILE_PART.getName())) {
+    if (!args.getSchema().hasField(ChangeField.FILE_PART)) {
       return eqPath;
     }
     return Predicate.or(eqPath, new EqualsFilePredicate(value));

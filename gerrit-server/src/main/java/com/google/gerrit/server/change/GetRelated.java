@@ -83,7 +83,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
         info.changes = walk(rsrc, rw, ref);
         return info;
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       git.close();

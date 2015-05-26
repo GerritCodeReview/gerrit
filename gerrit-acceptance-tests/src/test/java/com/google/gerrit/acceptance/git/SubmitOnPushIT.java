@@ -292,7 +292,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
         assertEquals(admin.email, c.getCommitterIdent().getEmailAddress());
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       r.close();
@@ -310,7 +310,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
         assertEquals(serverIdent.getEmailAddress(), c.getCommitterIdent().getEmailAddress());
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       r.close();

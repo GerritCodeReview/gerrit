@@ -69,7 +69,7 @@ public class BanCommit {
         RevCommit map = rw.parseCommit(ref.getObjectId());
         return NoteMap.read(rw.getObjectReader(), map);
       } finally {
-        rw.release();
+        rw.close();
       }
     } catch (IOException badMap) {
       throw new IOException("Cannot load " + RefNames.REFS_REJECT_COMMITS,
@@ -138,8 +138,8 @@ public class BanCommit {
         }
         return result;
       } finally {
-        revWalk.release();
-        inserter.release();
+        revWalk.close();
+        inserter.close();
       }
     } finally {
       repo.close();

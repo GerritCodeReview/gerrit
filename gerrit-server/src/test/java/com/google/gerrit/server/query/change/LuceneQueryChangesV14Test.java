@@ -14,10 +14,21 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.testutil.InMemoryModule;
+import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -51,5 +62,48 @@ public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
   @Test
   public void byTopic() {
     // Ignore.
+  }
+
+  @Override
+  @Ignore
+  @Test
+  public void reviewedBy() throws Exception {
+    // Ignore.
+  }
+
+  @Test
+  public void isReviewed() throws Exception {
+    clockStepMs = MILLISECONDS.convert(2, MINUTES);
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    Change change3 = newChange(repo, null, null, null, null).insert();
+
+    gApi.changes()
+      .id(change1.getId().get())
+      .current()
+      .review(new ReviewInput().message("comment"));
+
+    Account.Id user2 = accountManager
+        .authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId();
+    requestContext.setContext(newRequestContext(user2));
+
+    gApi.changes()
+        .id(change2.getId().get())
+        .current()
+        .review(ReviewInput.recommend());
+
+    PatchSet.Id ps3_1 = change3.currentPatchSetId();
+    change3 = newPatchSet(repo, change3);
+    assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
+    // Nonzero score on previous patch set does not count.
+    gApi.changes()
+        .id(change3.getId().get())
+        .revision(ps3_1.get())
+        .review(ReviewInput.recommend());
+
+    assertQuery("is:reviewed", change2);
+    assertQuery("-is:reviewed", change3, change1);
   }
 }

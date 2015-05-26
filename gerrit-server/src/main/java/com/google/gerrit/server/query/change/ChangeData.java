@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -69,11 +70,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -230,6 +233,7 @@ public class ChangeData {
   private ChangedLines changedLines;
   private Boolean mergeable;
   private Set<Account.Id> editsByUser;
+  private Set<Account.Id> reviewedBy;
 
   @AssistedInject
   private ChangeData(
@@ -684,6 +688,55 @@ public class ChangeData {
       }
     }
     return editsByUser;
+  }
+
+  public Set<Account.Id> reviewedBy() throws OrmException {
+    if (reviewedBy == null) {
+      Change c = change();
+      if (c == null) {
+        return Collections.emptySet();
+      }
+      List<ReviewedByEvent> events = new ArrayList<>();
+      for (ChangeMessage msg : messages()) {
+        if (msg.getAuthor() != null) {
+          events.add(ReviewedByEvent.create(msg));
+        }
+      }
+      for (PatchSet ps : patchSets()) {
+        events.add(ReviewedByEvent.create(ps));
+      }
+      Collections.sort(events, Collections.reverseOrder());
+      reviewedBy = new LinkedHashSet<>();
+      Account.Id owner = c.getOwner();
+      for (ReviewedByEvent event : events) {
+        if (owner.equals(event.author())) {
+          break;
+        }
+        reviewedBy.add(event.author());
+      }
+    }
+    return reviewedBy;
+  }
+
+  @AutoValue
+  abstract static class ReviewedByEvent implements Comparable<ReviewedByEvent> {
+    private static ReviewedByEvent create(PatchSet ps) {
+      return new AutoValue_ChangeData_ReviewedByEvent(
+          ps.getUploader(), ps.getCreatedOn());
+    }
+
+    private static ReviewedByEvent create(ChangeMessage msg) {
+      return new AutoValue_ChangeData_ReviewedByEvent(
+          msg.getAuthor(), msg.getWrittenOn());
+    }
+
+    public abstract Account.Id author();
+    public abstract Timestamp ts();
+
+    @Override
+    public int compareTo(ReviewedByEvent other) {
+      return ts().compareTo(other.ts());
+    }
   }
 
   @Override

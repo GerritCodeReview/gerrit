@@ -47,7 +47,7 @@ public class ChangeSchemas {
         ChangeField.COMMIT,
         ChangeField.TR,
         ChangeField.LABEL,
-        ChangeField.REVIEWED,
+        ChangeField.LEGACY_REVIEWED,
         ChangeField.COMMIT_MESSAGE,
         ChangeField.COMMENT,
         ChangeField.CHANGE,
@@ -77,7 +77,7 @@ public class ChangeSchemas {
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
-      ChangeField.REVIEWED,
+      ChangeField.LEGACY_REVIEWED,
       ChangeField.COMMIT_MESSAGE,
       ChangeField.COMMENT,
       ChangeField.CHANGE,
@@ -105,7 +105,7 @@ public class ChangeSchemas {
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
-      ChangeField.REVIEWED,
+      ChangeField.LEGACY_REVIEWED,
       ChangeField.COMMIT_MESSAGE,
       ChangeField.COMMENT,
       ChangeField.CHANGE,
@@ -133,7 +133,7 @@ public class ChangeSchemas {
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
-      ChangeField.REVIEWED,
+      ChangeField.LEGACY_REVIEWED,
       ChangeField.COMMIT_MESSAGE,
       ChangeField.COMMENT,
       ChangeField.CHANGE,
@@ -145,6 +145,7 @@ public class ChangeSchemas {
       ChangeField.HASHTAG,
       ChangeField.COMMENTBY);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V16 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
@@ -161,7 +162,7 @@ public class ChangeSchemas {
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
-      ChangeField.REVIEWED,
+      ChangeField.LEGACY_REVIEWED,
       ChangeField.COMMIT_MESSAGE,
       ChangeField.COMMENT,
       ChangeField.CHANGE,
@@ -173,6 +174,7 @@ public class ChangeSchemas {
       ChangeField.HASHTAG,
       ChangeField.COMMENTBY);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V17 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
@@ -189,7 +191,7 @@ public class ChangeSchemas {
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
-      ChangeField.REVIEWED,
+      ChangeField.LEGACY_REVIEWED,
       ChangeField.COMMIT_MESSAGE,
       ChangeField.COMMENT,
       ChangeField.CHANGE,
@@ -202,6 +204,7 @@ public class ChangeSchemas {
       ChangeField.COMMENTBY,
       ChangeField.PATCH_SET);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V18 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
@@ -218,7 +221,7 @@ public class ChangeSchemas {
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
-      ChangeField.REVIEWED,
+      ChangeField.LEGACY_REVIEWED,
       ChangeField.COMMIT_MESSAGE,
       ChangeField.COMMENT,
       ChangeField.CHANGE,
@@ -232,6 +235,7 @@ public class ChangeSchemas {
       ChangeField.PATCH_SET,
       ChangeField.GROUP);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V19 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
@@ -248,7 +252,7 @@ public class ChangeSchemas {
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
-      ChangeField.REVIEWED,
+      ChangeField.LEGACY_REVIEWED,
       ChangeField.COMMIT_MESSAGE,
       ChangeField.COMMENT,
       ChangeField.CHANGE,
@@ -262,6 +266,37 @@ public class ChangeSchemas {
       ChangeField.PATCH_SET,
       ChangeField.GROUP,
       ChangeField.EDITBY);
+
+  static final Schema<ChangeData> V20 = schema(
+      ChangeField.LEGACY_ID,
+      ChangeField.ID,
+      ChangeField.STATUS,
+      ChangeField.PROJECT,
+      ChangeField.PROJECTS,
+      ChangeField.REF,
+      ChangeField.TOPIC,
+      ChangeField.UPDATED,
+      ChangeField.FILE_PART,
+      ChangeField.PATH,
+      ChangeField.OWNER,
+      ChangeField.REVIEWER,
+      ChangeField.COMMIT,
+      ChangeField.TR,
+      ChangeField.LABEL,
+      ChangeField.COMMIT_MESSAGE,
+      ChangeField.COMMENT,
+      ChangeField.CHANGE,
+      ChangeField.APPROVAL,
+      ChangeField.MERGEABLE,
+      ChangeField.ADDED,
+      ChangeField.DELETED,
+      ChangeField.DELTA,
+      ChangeField.HASHTAG,
+      ChangeField.COMMENTBY,
+      ChangeField.PATCH_SET,
+      ChangeField.GROUP,
+      ChangeField.EDITBY,
+      ChangeField.REVIEWEDBY);
 
   private static Schema<ChangeData> schema(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<>(ImmutableList.copyOf(fields));

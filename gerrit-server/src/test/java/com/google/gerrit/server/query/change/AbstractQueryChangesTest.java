@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -50,7 +51,10 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
+import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -106,6 +110,8 @@ public abstract class AbstractQueryChangesTest {
   @ConfigSuite.Parameter public Config config;
   @Inject protected AccountManager accountManager;
   @Inject protected ChangeInserter.Factory changeFactory;
+  @Inject protected PatchSetInserter.Factory patchSetFactory;
+  @Inject protected ChangeControl.GenericFactory changeControlFactory;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected InMemoryDatabase schemaFactory;
@@ -144,7 +150,7 @@ public abstract class AbstractQueryChangesTest {
     requestContext.setContext(newRequestContext(userAccount.getId()));
   }
 
-  private RequestContext newRequestContext(Account.Id requestUserId) {
+  protected RequestContext newRequestContext(Account.Id requestUserId) {
     final CurrentUser requestUser =
         userFactory.create(Providers.of(db), requestUserId);
     return new RequestContext() {
@@ -1063,6 +1069,44 @@ public abstract class AbstractQueryChangesTest {
     assertQuery("conflicts:" + change4.getId().get());
   }
 
+  @Test
+  public void reviewedBy() throws Exception {
+    clockStepMs = MILLISECONDS.convert(2, MINUTES);
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    Change change3 = newChange(repo, null, null, null, null).insert();
+
+    gApi.changes()
+      .id(change1.getId().get())
+      .current()
+      .review(new ReviewInput().message("comment"));
+
+    Account.Id user2 = accountManager
+        .authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId();
+    requestContext.setContext(newRequestContext(user2));
+
+    gApi.changes()
+        .id(change2.getId().get())
+        .current()
+        .review(new ReviewInput().message("comment"));
+
+    PatchSet.Id ps3_1 = change3.currentPatchSetId();
+    change3 = newPatchSet(repo, change3);
+    assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
+    // Response to previous patch set still counts as reviewing.
+    gApi.changes()
+        .id(change3.getId().get())
+        .revision(ps3_1.get())
+        .review(new ReviewInput().message("comment"));
+
+    assertQuery("is:reviewed", change3, change2);
+    assertQuery("-is:reviewed", change1);
+    assertQuery("reviewedby:" + userId.get());
+    assertQuery("reviewedby:" + user2.get(), change3, change2);
+  }
+
   protected ChangeInserter newChange(
       TestRepository<Repo> repo,
       @Nullable RevCommit commit, @Nullable String key, @Nullable Integer owner,
@@ -1097,6 +1141,25 @@ public abstract class AbstractQueryChangesTest {
         projectControlFactory.controlFor(project, user),
         change,
         commit);
+  }
+
+  protected Change newPatchSet(TestRepository<Repo> repo, Change c)
+      throws Exception {
+    // Add a new file so the patch set is not a trivial rebase, to avoid default
+    // Code-Review label copying.
+    int n = c.currentPatchSetId().get() + 1;
+    RevCommit commit = repo.parseBody(
+        repo.commit()
+            .message("message")
+            .add("file" + n, "contents " + n)
+            .create());
+    ChangeControl ctl = changeControlFactory.controlFor(c.getId(), user);
+    return patchSetFactory.create(
+          repo.getRepository(), repo.getRevWalk(), ctl, commit)
+        .setSendMail(false)
+        .setRunHooks(false)
+        .setValidatePolicy(ValidatePolicy.NONE)
+        .insert();
   }
 
   protected void assertBadQuery(Object query) throws Exception {

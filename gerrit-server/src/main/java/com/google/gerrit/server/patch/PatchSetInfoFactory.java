@@ -94,7 +94,7 @@ public class PatchSetInfoFactory {
         info.setParents(toParentInfos(src.getParents(), rw));
         return info;
       } finally {
-        rw.release();
+        rw.close();
       }
     } catch (IOException e) {
       throw new PatchSetInfoNotAvailableException(e);

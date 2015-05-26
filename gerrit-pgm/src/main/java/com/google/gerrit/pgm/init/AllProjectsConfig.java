@@ -136,15 +136,15 @@ public class AllProjectsConfig extends VersionedMetaData {
           updateRef(repo, ident, newRevision, "commit: " + msg);
           revision = newRevision;
         } finally {
-          rw.release();
+          rw.close();
         }
       } finally {
         if (inserter != null) {
-          inserter.release();
+          inserter.close();
           inserter = null;
         }
         if (reader != null) {
-          reader.release();
+          reader.close();
           reader = null;
         }
       }

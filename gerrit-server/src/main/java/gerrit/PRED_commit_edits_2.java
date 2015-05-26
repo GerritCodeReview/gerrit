@@ -130,7 +130,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     } catch (IOException err) {
       throw new JavaException(this, 1, err);
     } finally {
-      reader.release();
+      reader.close();
     }
 
     return engine.fail();

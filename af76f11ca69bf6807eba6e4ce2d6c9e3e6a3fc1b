@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_a8c73b18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-26T23:49:53Z",
+      "side": 1,
+      "message": "Once upon a time, you told me we do this constant extraction just to be sure, so you could update the index live?\n\nIs my memory messing up something there?\n\nApart from that, the patch is good looking.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "af76f11ca69bf6807eba6e4ce2d6c9e3e6a3fc1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

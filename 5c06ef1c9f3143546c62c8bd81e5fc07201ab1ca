@@ -34,6 +34,24 @@
       "revId": "5c06ef1c9f3143546c62c8bd81e5fc07201ab1ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_4882ff03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T08:59:50Z",
+      "side": 1,
+      "message": "| I needed it while I was implementing the IncludedInExternal extension from [1] in a plugin that doesn\u0027t have a standalone BUCK build.\n\nThen it should be added to the plugin and not in core. In any event, we only add deps to core if it is used in core, otherwise we don\u0027t. Standalone build is not a prerequisite to add plugin own dependency. its-base and friends are adding dozens of plugin specific dependencies, yet they don\u0027t have (rejected) standalone build modes.\n\nAnd i would suggest to decouple the addition of new dependency from the upgrade of existing library, meant to do it in its own change.",
+      "parentUuid": "2d7f014e_6108d65a",
+      "revId": "5c06ef1c9f3143546c62c8bd81e5fc07201ab1ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

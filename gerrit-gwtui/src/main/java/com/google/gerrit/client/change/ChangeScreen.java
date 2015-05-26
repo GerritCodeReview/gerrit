@@ -426,7 +426,7 @@ public class ChangeScreen extends Screen {
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
-        info.legacy_id(), revision,
+        info.legacy_id(), revision, edit,
         style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);

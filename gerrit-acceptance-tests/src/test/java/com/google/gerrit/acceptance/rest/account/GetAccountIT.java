@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -26,14 +25,9 @@ import org.junit.Test;
 
 @NoHttpd
 public class GetAccountIT extends AbstractDaemonTest {
-  @Test
+  @Test(expected = ResourceNotFoundException.class)
   public void getNonExistingAccount_NotFound() throws Exception {
-    try {
-      gApi.accounts().id("non-existing").get();
-      fail("Expected account to not exist");
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    gApi.accounts().id("non-existing").get();
   }
 
   @Test

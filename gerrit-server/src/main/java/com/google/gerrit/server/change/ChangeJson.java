@@ -807,9 +807,9 @@ public class ChangeJson {
     Set<Change.Id> reviewed = Sets.newHashSet();
     if (userProvider.get().isIdentifiedUser()) {
       Account.Id self = ((IdentifiedUser) userProvider.get()).getAccountId();
+      List<Iterable<ChangeMessage>> m = new ArrayList<>(50);
       for (List<ChangeData> batch : Iterables.partition(all, 50)) {
-        List<List<ChangeMessage>> m =
-            Lists.newArrayListWithCapacity(batch.size());
+        m.clear();
         for (ChangeData cd : batch) {
           PatchSet.Id ps = cd.change().currentPatchSetId();
           if (ps != null && cd.change().getStatus().isOpen()) {
@@ -829,13 +829,13 @@ public class ChangeJson {
   }
 
   private boolean isChangeReviewed(Account.Id self, ChangeData cd,
-      List<ChangeMessage> msgs) throws OrmException {
+      Iterable<ChangeMessage> msgs) throws OrmException {
     // Sort messages to keep the most recent ones at the beginning.
-    msgs = ChangeNotes.MESSAGE_BY_TIME.sortedCopy(msgs);
-    Collections.reverse(msgs);
+    List<ChangeMessage> reversed = ChangeNotes.MESSAGE_BY_TIME.reverse()
+        .sortedCopy(msgs);
 
     Account.Id changeOwnerId = cd.change().getOwner();
-    for (ChangeMessage cm : msgs) {
+    for (ChangeMessage cm : reversed) {
       if (self.equals(cm.getAuthor())) {
         return true;
       } else if (changeOwnerId.equals(cm.getAuthor())) {

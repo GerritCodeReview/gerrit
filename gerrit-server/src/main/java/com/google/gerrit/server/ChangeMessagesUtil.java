@@ -58,10 +58,10 @@ public class ChangeMessagesUtil {
     }
   }
 
-  public List<ChangeMessage> byPatchSet(ReviewDb db, ChangeNotes notes,
+  public Iterable<ChangeMessage> byPatchSet(ReviewDb db, ChangeNotes notes,
       PatchSet.Id psId) throws OrmException {
     if (!migration.readChanges()) {
-      return sortChangeMessages(db.changeMessages().byPatchSet(psId));
+      return db.changeMessages().byPatchSet(psId);
     }
     return notes.load().getChangeMessages().get(psId);
   }

@@ -16,6 +16,24 @@
       "revId": "57e2b00dc96e74dbc5b361d545aca0c839e63b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd7d57e_2aa21faa",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-27T04:27:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edd32994_e7ea0272",
+      "revId": "57e2b00dc96e74dbc5b361d545aca0c839e63b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

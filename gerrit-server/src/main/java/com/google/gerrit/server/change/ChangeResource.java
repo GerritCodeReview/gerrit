@@ -21,11 +21,13 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.TypeLiteral;
 
@@ -36,14 +38,18 @@ public class ChangeResource implements RestResource, HasETag {
       new TypeLiteral<RestView<ChangeResource>>() {};
 
   private final ChangeControl control;
+  private final ChangeData changeData;
   private final RebaseChange rebaseChange;
 
-  public ChangeResource(ChangeControl control, RebaseChange rebaseChange) {
+  public ChangeResource(ChangeControl control, ChangeData cd,
+      RebaseChange rebaseChange) {
     this.control = control;
+    this.changeData = cd;
     this.rebaseChange = rebaseChange;
   }
 
   protected ChangeResource(ChangeResource copy) {
+    this.changeData = copy.changeData;
     this.control = copy.control;
     this.rebaseChange = copy.rebaseChange;
   }
@@ -54,6 +60,10 @@ public class ChangeResource implements RestResource, HasETag {
 
   public Change getChange() {
     return getControl().getChange();
+  }
+
+  public ChangeData getChangeData() {
+    return changeData;
   }
 
   public ChangeNotes getNotes() {
@@ -80,6 +90,14 @@ public class ChangeResource implements RestResource, HasETag {
     hashObjectId(h, noteId, buf);
     // TODO(dborowitz): Include more notedb and other related refs, e.g. drafts
     // and edits.
+
+    try {
+      for (PatchSet ps : changeData.patchSets()) {
+        h.putBoolean(changeData.hasDraftComments(ps.getId()));
+      }
+    } catch (OrmException e) {
+      // This ETag will be invalidated if it loads next time.
+    }
 
     for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
       hashObjectId(h, p.getConfig().getRevision(), buf);

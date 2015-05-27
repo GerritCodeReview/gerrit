@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6d79b3_33f2a8e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-27T22:05:07Z",
+      "side": 1,
+      "message": "So I was just reasoning if it would be possible to get the repo into a try block as well as it\u0027s also an AutoClosable, right?\n\nBut it\u0027s not possible, because it\u0027s still accessed via the BinaryResult bin outliving the try-resources block.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 69
+      },
+      "revId": "7de12fa54d42cfa0d8e53cf9e97a803a64f0d4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

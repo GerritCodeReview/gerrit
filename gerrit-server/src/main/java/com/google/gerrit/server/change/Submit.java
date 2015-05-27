@@ -26,6 +26,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.TimeUtil;
@@ -697,7 +698,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   private List<ChangeData> getChangesByTopic(String topic) {
     try {
-      return queryProvider.get().byTopicOpen(topic);
+      List<ChangeData> ret = Lists.newArrayList();
+      for (ChangeData c : queryProvider.get().byTopicOpen(topic)) {
+        if (topic.equals(c.change().getTopic())) {
+          ret.add(c);
+        }
+      }
+      return ret;
     } catch (OrmException e) {
       throw new OrmRuntimeException(e);
     }

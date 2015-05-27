@@ -76,6 +76,13 @@ public class AddressTest {
   }
 
   @Test
+  public void testParse_NewTLD() {
+    Address a = Address.parse("A U Thor <author@example.systems>");
+    assertThat(a.name).isEqualTo("A U Thor");
+    assertThat(a.email).isEqualTo("author@example.systems");
+  }
+
+  @Test
   public void testParseInvalid() {
     assertInvalid("");
     assertInvalid("a");

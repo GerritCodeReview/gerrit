@@ -96,42 +96,40 @@ public class GetArchive implements RestReadView<RevisionResource> {
     final Repository repo = repoManager
         .openRepository(rsrc.getControl().getProject().getNameKey());
     try {
-      final RevWalk rw = new RevWalk(repo);
-      try {
-        final RevCommit commit =
-            rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet()
-                .getRevision().get()));
-        BinaryResult bin = new BinaryResult() {
-          @Override
-          public void writeTo(OutputStream out) throws IOException {
-            try {
-              new ArchiveCommand(repo)
-                  .setFormat(f.name())
-                  .setTree(commit.getTree())
-                  .setOutputStream(out).call();
-            } catch (GitAPIException e) {
-              throw new IOException(e);
-            }
-          }
-
-          @Override
-          public void close() throws IOException {
-            rw.close();
-            repo.close();
-          }
-        };
-
-        bin.disableGzip()
-            .setContentType(f.getMimeType())
-            .setAttachmentName(name(f, rw, commit));
-
-        close = false;
-        return bin;
-      } finally {
-        if (close) {
-          rw.close();
-        }
+      final RevCommit commit;
+      String name;
+      try (RevWalk rw = new RevWalk(repo)) {
+        commit = rw.parseCommit(ObjectId.fromString(
+            rsrc.getPatchSet().getRevision().get()));
+        name = name(f, rw, commit);
       }
+
+      BinaryResult bin = new BinaryResult() {
+        @Override
+        public void writeTo(OutputStream out) throws IOException {
+          try {
+            new ArchiveCommand(repo)
+                .setFormat(f.name())
+                .setTree(commit.getTree())
+                .setOutputStream(out)
+                .call();
+          } catch (GitAPIException e) {
+            throw new IOException(e);
+          }
+        }
+
+        @Override
+        public void close() throws IOException {
+          repo.close();
+        }
+      };
+
+      bin.disableGzip()
+          .setContentType(f.getMimeType())
+          .setAttachmentName(name);
+
+      close = false;
+      return bin;
     } finally {
       if (close) {
         repo.close();

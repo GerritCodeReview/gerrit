@@ -26,7 +26,6 @@ import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
-import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -118,13 +117,10 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   private final IndexCollection indexes;
-  private final BasicChangeRewrites basicRewrites;
 
   @Inject
-  IndexRewriteImpl(IndexCollection indexes,
-      BasicChangeRewrites basicRewrites) {
+  IndexRewriteImpl(IndexCollection indexes) {
     this.indexes = indexes;
-    this.basicRewrites = basicRewrites;
   }
 
   @Override
@@ -132,7 +128,6 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       int limit) throws QueryParseException {
     checkArgument(limit > 0, "limit must be positive: %s", limit);
     ChangeIndex index = indexes.getSearchIndex();
-    in = basicRewrites.rewrite(in);
     // Increase the limit rather than skipping, since we don't know how many
     // skipped results would have been filtered out by the enclosing AndSource.
     limit += start;

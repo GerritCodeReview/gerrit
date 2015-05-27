@@ -22,7 +22,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -69,7 +68,6 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(ChangeQueryRewriter.class).to(IndexRewriteImpl.class);
-    bind(BasicChangeRewrites.class);
     bind(IndexCollection.class);
     listener().to(IndexCollection.class);
     factory(ChangeIndexer.Factory.class);

@@ -30,7 +30,6 @@ import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
-import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
@@ -54,7 +53,7 @@ public class IndexRewriteTest {
     indexes = new IndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new IndexRewriteImpl(indexes, new BasicChangeRewrites());
+    rewrite = new IndexRewriteImpl(indexes);
   }
 
   @Test

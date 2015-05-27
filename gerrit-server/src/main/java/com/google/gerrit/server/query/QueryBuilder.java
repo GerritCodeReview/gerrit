@@ -24,7 +24,6 @@ import static com.google.gerrit.server.query.QueryParser.FIELD_NAME;
 import static com.google.gerrit.server.query.QueryParser.NOT;
 import static com.google.gerrit.server.query.QueryParser.OR;
 import static com.google.gerrit.server.query.QueryParser.SINGLE_WORD;
-import static com.google.gerrit.server.query.QueryParser.VARIABLE_ASSIGN;
 
 import org.antlr.runtime.tree.Tree;
 
@@ -221,20 +220,6 @@ public abstract class QueryBuilder<T> {
 
       case FIELD_NAME:
         return operator(r.getText(), onlyChildOf(r));
-
-      case VARIABLE_ASSIGN: {
-        final String var = r.getText();
-        final Tree opTree = onlyChildOf(r);
-        if (opTree.getType() == FIELD_NAME) {
-          final Tree val = onlyChildOf(opTree);
-          if (val.getType() == SINGLE_WORD && "*".equals(val.getText())) {
-            final String op = opTree.getText();
-            final WildPatternPredicate<T> pat = new WildPatternPredicate<>(op);
-            return new VariablePredicate<>(var, pat);
-          }
-        }
-        return new VariablePredicate<>(var, toPredicate(opTree));
-      }
 
       default:
         throw error("Unsupported operator: " + r);

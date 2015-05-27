@@ -24,11 +24,13 @@ import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,6 +48,8 @@ public class ChangesCollection implements
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
+  private final Provider<ReviewDb> db;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUtil changeUtil;
   private final CreateChange createChange;
   private final ChangeIndexer changeIndexer;
@@ -57,6 +61,8 @@ public class ChangesCollection implements
       ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
+      Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       ChangeUtil changeUtil,
       CreateChange createChange,
       ChangeIndexer changeIndexer,
@@ -65,6 +71,8 @@ public class ChangesCollection implements
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
+    this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.changeUtil = changeUtil;
     this.createChange = createChange;
     this.changeIndexer = changeIndexer;
@@ -105,7 +113,8 @@ public class ChangesCollection implements
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(id);
     }
-    return new ChangeResource(control, rebaseChange);
+    return new ChangeResource(changeDataFactory.create(db.get(), control),
+        rebaseChange);
   }
 
   public ChangeResource parse(Change.Id id)
@@ -114,8 +123,9 @@ public class ChangesCollection implements
         IdString.fromUrl(Integer.toString(id.get())));
   }
 
-  public ChangeResource parse(ChangeControl control) {
-    return new ChangeResource(control, rebaseChange);
+  public ChangeResource parse(ChangeControl control) throws OrmException {
+    return new ChangeResource(changeDataFactory.create(db.get(), control),
+        rebaseChange);
   }
 
   @SuppressWarnings("unchecked")

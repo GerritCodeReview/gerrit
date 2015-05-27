@@ -35,6 +35,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Injector;
 
@@ -110,6 +111,13 @@ public class TestChanges {
     expect(ctl.getNotes()).andStubReturn(notes);
     EasyMock.replay(ctl);
     return ctl;
+  }
+
+  public static ChangeData stubChangeData(ChangeControl ctl) throws OrmException {
+    ChangeData cd = EasyMock.createNiceMock(ChangeData.class);
+    expect(cd.changeControl()).andStubReturn(ctl);
+    EasyMock.replay(cd);
+    return cd;
   }
 
   public static void incrementPatchSet(Change change) {

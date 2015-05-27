@@ -21,9 +21,12 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -36,15 +39,21 @@ import java.util.Map;
 public class ActionJson {
   private final Revisions revisions;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
+  private final Provider<ReviewDb> db;
+  private final ChangeData.Factory changeDataFactory;
   private final RebaseChange rebaseChange;
 
   @Inject
   ActionJson(
       Revisions revisions,
       DynamicMap<RestView<ChangeResource>> changeViews,
+      Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       RebaseChange rebaseChange) {
     this.revisions = revisions;
     this.changeViews = changeViews;
+    this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.rebaseChange = rebaseChange;
   }
 
@@ -52,7 +61,8 @@ public class ActionJson {
     return toActionMap(rsrc);
   }
 
-  public ChangeInfo addChangeActions(ChangeInfo to, ChangeControl ctl) {
+  public ChangeInfo addChangeActions(ChangeInfo to, ChangeControl ctl)
+      throws OrmException {
     to.actions = toActionMap(ctl);
     return to;
   }
@@ -63,7 +73,8 @@ public class ActionJson {
     return to;
   }
 
-  private Map<String, ActionInfo> toActionMap(ChangeControl ctl) {
+  private Map<String, ActionInfo> toActionMap(ChangeControl ctl)
+      throws OrmException {
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     if (!ctl.getCurrentUser().isIdentifiedUser()) {
       return out;
@@ -72,7 +83,7 @@ public class ActionJson {
     Provider<CurrentUser> userProvider = Providers.of(ctl.getCurrentUser());
     for (UiAction.Description d : UiActions.from(
         changeViews,
-        new ChangeResource(ctl, rebaseChange),
+        new ChangeResource(changeDataFactory.create(db.get(), ctl), rebaseChange),
         userProvider)) {
       out.put(d.getId(), new ActionInfo(d));
     }

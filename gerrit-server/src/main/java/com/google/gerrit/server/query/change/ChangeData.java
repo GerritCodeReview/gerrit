@@ -651,6 +651,17 @@ public class ChangeData {
     return mergeable;
   }
 
+  public boolean hasDraftComments(PatchSet.Id psId) throws OrmException {
+    CurrentUser user = changeControl().getCurrentUser();
+    if (user.isIdentifiedUser()) {
+      return plcUtil.draftByPatchSetAuthor(db, psId,
+          ((IdentifiedUser) user).getAccountId(), notes)
+              .iterator().hasNext();
+    } else {
+      return false;
+    }
+  }
+
   @Override
   public String toString() {
     MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);

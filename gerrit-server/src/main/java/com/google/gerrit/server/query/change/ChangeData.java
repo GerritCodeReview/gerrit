@@ -18,6 +18,7 @@ import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -78,6 +79,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class ChangeData {
+  private static final int BATCH_SIZE = 50;
+
   public static List<Change> asChanges(List<ChangeData> changeDatas)
       throws OrmException {
     List<Change> result = new ArrayList<>(changeDatas.size());
@@ -121,8 +124,15 @@ public class ChangeData {
 
   public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes)
       throws OrmException {
-    for (ChangeData cd : changes) {
-      cd.patchSets();
+    List<ResultSet<PatchSet>> results = new ArrayList<>(BATCH_SIZE);
+    for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
+      results.clear();
+      for (ChangeData cd : batch) {
+        results.add(cd.db.patchSets().byChange(cd.getId()));
+      }
+      for (int i = 0; i < batch.size(); i++) {
+        batch.get(i).setPatchSets(results.get(i).toList());
+      }
     }
   }
 

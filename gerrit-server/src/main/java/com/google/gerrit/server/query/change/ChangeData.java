@@ -526,8 +526,7 @@ public class ChangeData {
   private boolean loadCommitData() throws OrmException,
       RepositoryNotFoundException, IOException, MissingObjectException,
       IncorrectObjectTypeException {
-    PatchSet.Id psId = change().currentPatchSetId();
-    PatchSet ps = db.patchSets().get(psId);
+    PatchSet ps = currentPatchSet();
     if (ps == null) {
       return false;
     }

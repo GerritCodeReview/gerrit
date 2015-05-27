@@ -29,6 +29,9 @@ suggest.fullTextSearchRefresh] parameter.
 Bug Fixes
 ---------
 
+Performance
+~~~~~~~~~~~
+
 * link:http://code.google.com/p/gerrit/issues/detail?id=3363[Issue 3363]:
 Fix performance degrade in background mergeability checks.
 +
@@ -49,21 +52,24 @@ Searching for changes was retrieving more information than necessary from the
 database. This has been optimized to reduce database access and make better use
 of the secondary index.
 
+* Remove unnecessary REST API call when opening the 'Patch Sets' drop down.
++
+The change edit information was being loaded twice.
+
+Index
+~~~~~
+
 * Fix `PatchLineCommentsUtil.draftByChangeAuthor`.
 +
 There is not a native index for this, and the ReviewDb case was not properly
 filtering a result by change.
 
-* link:http://code.google.com/p/gerrit/issues/detail?id=3323[Issue 3323]:
-Fix internal server error when cloning from a slave while hiding some refs.
+* Don't show stack trace when failing to build BloomFilter during reindex.
+
+Permissions
+~~~~~~~~~~~
 
 * Require 'View Plugins' capability to list plugins through SSH.
-
-* link:http://code.google.com/p/gerrit/issues/detail?id=3191[Issue 3191]:
-Always show 'Not Current' as state when looking at old patch set.
-+
-For merged changes it was confusing for users to see the status as 'Merged' when
-they look at an old patch set.
 
 * Fix project creation with plugin config if user is not project owner.
 +
@@ -72,21 +78,29 @@ should be stored in the `project.config` file. This failed if the calling user
 was not becoming owner of the created project, because only project owners can
 edit the `project.config` file.
 
-* link:http://code.google.com/p/gerrit/issues/detail?id=3342[Issue 3342]:
-Log `IOException` on failure to update project configuration.
-+
-Without logging these exceptions it's hard to guess why the update of the
-project configuration is failing.
 
-* Don't show stack trace when failing to build BloomFilter during reindex.
+Change Screen / Diff / Inline Edit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3191[Issue 3191]:
+Always show 'Not Current' as state when looking at old patch set.
++
+For merged changes it was confusing for users to see the status as 'Merged' when
+they look at an old patch set.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3337[Issue 3337]:
 Reenable 'Revert' button when revert is cancelled.
 
-* link:http://code.google.com/p/gerrit/issues/detail?id=3325[Issue 3325]:
-Add missing `--newrev` parameter to the
-link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-hooks.html#_change_merged[
-change-merged hook documentation].
+* link:http://code.google.com/p/gerrit/issues/detail?id=3378[Issue 3378]:
+Improve the cursor style in side-by-side diff and inline editor.
++
+The cursor style is changed from an underscore to a solid vertical bar.
++
+In the side-by-side diff, the cursor is placed on the first column of the diff,
+rather than at the end.
+
+Web Container
+~~~~~~~~~~~~~
 
 * Fix `gc_log` when running in a web container.
 +
@@ -99,27 +113,16 @@ The SecureStore modules were not correctly added when Gerrit was deployed in a
 web container with the site path configured using the `gerrit.site_path`
 property.
 
+Plugins
+~~~~~~~
+
 * link:http://code.google.com/p/gerrit/issues/detail?id=3310[Issue 3310]:
 Fix disabling plugins when Gerrit is running on Windows.
 +
 When running Gerrit on Windows it was not possible to disable a plugin due to an
 error renaming the plugin's JAR file.
 
-* Remove temporary GitWeb config on Gerrit exit.
-+
-A temporary directory was being created but not removed.
-
-* link:http://code.google.com/p/gerrit/issues/detail?id=3346[Issue 3346]:
-Fix typo in the
-link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-reverseproxy.html[
-Apache 2 configuration documentation].
-
-* link:http://code.google.com/p/gerrit/issues/detail?id=3346[Issue 3346]:
-Fix incorrect documentatation of
-link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-gerrit.html#auth.registerUrl[
-auth types].
-
-* Replication plugin
+* Replication
 
 ** Fix creation of missing repositories.
 +
@@ -130,7 +133,45 @@ Missing projects were not being created on the destination.
 When `replicateOnStartup` is enabled, the plugin was not emitting the status
 events after the initial sync.
 
+Miscellaneous
+~~~~~~~~~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3323[Issue 3323]:
+Fix internal server error when cloning from a slave while hiding some refs.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3342[Issue 3342]:
+Log `IOException` on failure to update project configuration.
++
+Without logging these exceptions it's hard to guess why the update of the
+project configuration is failing.
+
+* Remove temporary GitWeb config on Gerrit exit.
++
+A temporary directory was being created but not removed.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2791[Issue 2791]:
+Fix email validation for new TLDs such as `.systems`.
+
+Documentation
+~~~~~~~~~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3325[Issue 3325]:
+Add missing `--newrev` parameter to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-hooks.html#_change_merged[
+change-merged hook documentation].
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3346[Issue 3346]:
+Fix typo in the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-reverseproxy.html[
+Apache 2 configuration documentation].
+
+* Fix incorrect documentatation of
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-gerrit.html#auth.registerUrl[
+auth types].
+
 Updates
 -------
 
 * Update CodeMirror to 5.0.
+
+* Update commons-validator to 1.4.1.

@@ -33,6 +33,8 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public class AccountDashboardScreen extends Screen implements ChangeListScreen {
+  // If changing default options, also update in
+  // ChangeIT#defaultSearchDoesNotTouchDatabase().
   private static final Set<ListChangesOption> MY_DASHBOARD_OPTIONS;
   static {
     EnumSet<ListChangesOption> options = EnumSet.copyOf(ChangeTable.OPTIONS);

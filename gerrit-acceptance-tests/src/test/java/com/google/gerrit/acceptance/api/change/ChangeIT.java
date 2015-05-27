@@ -463,9 +463,10 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().query()
           .withQuery(
             "project:{" + project.get() + "} (status:open OR status:closed)")
-          // Options should match defaults in ChangeTable.
+          // Options should match defaults in AccountDashboardScreen.
           .withOption(ListChangesOption.LABELS)
           .withOption(ListChangesOption.DETAILED_ACCOUNTS)
+          .withOption(ListChangesOption.REVIEWED)
           .get())
         .hasSize(2);
   }

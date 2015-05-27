@@ -30,6 +30,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -132,6 +133,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       sortFieldName(ChangeField.LEGACY_ID);
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
+  private static final String REVIEWEDBY_FIELD =
+      ChangeField.REVIEWEDBY.getName();
   private static final String UPDATED_SORT_FIELD =
       sortFieldName(ChangeField.UPDATED);
 
@@ -504,6 +507,21 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd.setMergeable(true);
     } else if ("0".equals(mergeable)) {
       cd.setMergeable(false);
+    }
+
+    // Reviewed-by.
+    IndexableField[] reviewedBy = doc.getFields(REVIEWEDBY_FIELD);
+    if (reviewedBy.length > 0) {
+      Set<Account.Id> accounts =
+          Sets.newHashSetWithExpectedSize(reviewedBy.length);
+      for (IndexableField r : reviewedBy) {
+        int id = r.numericValue().intValue();
+        if (reviewedBy.length == 1 && id == ChangeField.NOT_REVIEWED) {
+          break;
+        }
+        accounts.add(new Account.Id(id));
+      }
+      cd.setReviewedBy(accounts);
     }
 
     return cd;

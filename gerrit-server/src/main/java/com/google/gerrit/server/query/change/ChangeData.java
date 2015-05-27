@@ -179,6 +179,56 @@ public class ChangeData {
     }
   }
 
+  public static void ensureMessagesLoaded(Iterable<ChangeData> changes)
+      throws OrmException {
+    ChangeData first = Iterables.getFirst(changes, null);
+    if (first == null) {
+      return;
+    } else if (first.notesMigration.readChanges()) {
+      for (ChangeData cd : changes) {
+        cd.messages();
+      }
+      return;
+    }
+
+    List<ResultSet<ChangeMessage>> results = new ArrayList<>(BATCH_SIZE);
+    for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
+      results.clear();
+      for (ChangeData cd : batch) {
+        if (cd.messages == null) {
+          PatchSet.Id psId = cd.change().currentPatchSetId();
+          results.add(cd.db.changeMessages().byPatchSet(psId));
+        } else {
+          results.add(null);
+        }
+        for (int i = 0; i < batch.size(); i++) {
+          ResultSet<ChangeMessage> result = results.get(i);
+          if (result != null) {
+            batch.get(i).messages = result.toList();
+          }
+        }
+      }
+    }
+  }
+
+  public static void ensureReviewedByLoadedForOpenChanges(
+      Iterable<ChangeData> changes) throws OrmException {
+    List<ChangeData> pending = new ArrayList<>();
+    for (ChangeData cd : changes) {
+      if (cd.reviewedBy == null && cd.change().getStatus().isOpen()) {
+        pending.add(cd);
+      }
+    }
+
+    if (!pending.isEmpty()) {
+      ensureAllPatchSetsLoaded(pending);
+      ensureMessagesLoaded(pending);
+      for (ChangeData cd : pending) {
+        cd.reviewedBy();
+      }
+    }
+  }
+
   public interface Factory {
     ChangeData create(ReviewDb db, Change.Id id);
     ChangeData create(ReviewDb db, Change c);
@@ -717,6 +767,10 @@ public class ChangeData {
       }
     }
     return reviewedBy;
+  }
+
+  public void setReviewedBy(Set<Account.Id> reviewedBy) {
+    this.reviewedBy = reviewedBy;
   }
 
   @AutoValue

@@ -294,8 +294,13 @@ default. Optional fields are:
 
 [[reviewed]]
 --
-* `REVIEWED`: include the `reviewed` field if the caller is
-  authenticated and has commented on the current revision.
+* `REVIEWED`: include the `reviewed` field if all of the following are
+  true:
+  * the change is open
+  * the caller is authenticated
+  * the caller has commented on the change more recently than the last update
+    from the change owner, i.e. this change would show up in the results of
+    link:user-search.html#reviewedby[reviewedby:self].
 --
 
 [[web-links]]

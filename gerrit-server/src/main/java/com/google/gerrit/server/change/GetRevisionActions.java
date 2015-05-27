@@ -68,7 +68,8 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
     CurrentUser user = rsrc.getControl().getCurrentUser();
     try {
       for (ChangeData c : queryProvider.get().byExactTopicOpen(topic)) {
-        new ChangeResource(c.changeControl(), rebaseChange).prepareETag(h, user);
+        new ChangeResource(c.changeControl(), c, rebaseChange)
+            .prepareETag(h, user);
       }
     } catch (OrmException e){
       throw new OrmRuntimeException(e);

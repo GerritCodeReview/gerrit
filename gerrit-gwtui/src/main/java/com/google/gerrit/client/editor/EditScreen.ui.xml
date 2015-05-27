@@ -117,12 +117,13 @@ limitations under the License.
       padding-right: 3px;
     }
 
-    .preferences {
+    .misc {
       position: relative;
       top: 2px;
       cursor: pointer;
       outline: none;
     }
+
   </ui:style>
   <g:HTMLPanel styleName='{style.header}'>
     <div class='{style.headerLine}' ui:field='header'>
@@ -145,9 +146,16 @@ limitations under the License.
          <g:FlowPanel ui:field='linkPanel' styleName='{style.linkPanel}'/>
          <g:Image
              ui:field='editSettings'
-             styleName='{style.preferences}'
+             styleName='{style.misc}'
              resource='{ico.gear}'
              title='Edit screen preferences'>
+            <ui:attribute name='title'/>
+         </g:Image>
+         <g:Image
+             ui:field='help'
+             styleName='{style.misc}'
+             resource='{ico.help}'
+             title='Show Keyboad Shortcuts'>
             <ui:attribute name='title'/>
          </g:Image>
        </div>

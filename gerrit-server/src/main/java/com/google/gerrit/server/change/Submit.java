@@ -438,7 +438,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, rsrc.getControl());
 
-    List<ChangeData> changesByTopic = queryProvider.get().byTopicOpen(topic);
+    List<ChangeData> changesByTopic = getChangesByTopic(topic);
     String problems = problemsForSubmittingChanges(changesByTopic, caller);
     if (problems != null) {
       throw new ResourceConflictException(problems);

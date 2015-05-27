@@ -3,6 +3,15 @@ include_defs('//lib/maven.defs')
 VERSION = '4.4.1'
 
 maven_jar(
+  name = 'fluent-hc',
+  id = 'org.apache.httpcomponents:fluent-hc:' + VERSION,
+  bin_sha1 = '96fb842b68a44cc640c661186828b60590c71261',
+  src_sha1 = '702515612b2b94ce3374ed5b579d38cbd308eb4f',
+  license = 'Apache2.0',
+  deps = [':httpclient']
+)
+
+maven_jar(
   name = 'httpclient',
   id = 'org.apache.httpcomponents:httpclient:' + VERSION,
   bin_sha1 = '016d0bc512222f1253ee6b64d389c84e22f697f0',

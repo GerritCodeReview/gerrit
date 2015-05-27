@@ -29,6 +29,7 @@ java_library(
     '//lib:truth',
 
     '//lib/auto:auto-value',
+    '//lib/httpcomponents:fluent-hc',
     '//lib/httpcomponents:httpclient',
     '//lib/httpcomponents:httpcore',
     '//lib/log:impl_log4j',

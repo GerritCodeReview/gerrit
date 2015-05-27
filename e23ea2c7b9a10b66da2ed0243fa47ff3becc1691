@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dd7d57e_8ab22bf9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/IndexRewriteTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-27T04:00:53Z",
+      "side": 1,
+      "message": "What do you know, this is now actually testing what it claims to test rather than also testing BasicChangeRewrite magic :)",
+      "revId": "e23ea2c7b9a10b66da2ed0243fa47ff3becc1691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

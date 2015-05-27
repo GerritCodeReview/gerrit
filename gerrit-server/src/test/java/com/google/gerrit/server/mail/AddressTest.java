@@ -14,62 +14,65 @@
 
 package com.google.gerrit.server.mail;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static com.google.common.truth.Truth.assertThat;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.UnsupportedEncodingException;
 
 public class AddressTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   @Test
   public void testParse_NameEmail1() {
     final Address a = Address.parse("A U Thor <author@example.com>");
-    assertEquals("A U Thor", a.name);
-    assertEquals("author@example.com", a.email);
+    assertThat(a.name).isEqualTo("A U Thor");
+    assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
   public void testParse_NameEmail2() {
     final Address a = Address.parse("A <a@b>");
-    assertEquals("A", a.name);
-    assertEquals("a@b", a.email);
+    assertThat(a.name).isEqualTo("A");
+    assertThat(a.email).isEqualTo("a@b");
   }
 
   @Test
   public void testParse_NameEmail3() {
     final Address a = Address.parse("<a@b>");
-    assertNull(a.name);
-    assertEquals("a@b", a.email);
+    assertThat(a.name).isNull();
+    assertThat(a.email).isEqualTo("a@b");
   }
 
   @Test
   public void testParse_NameEmail4() {
     final Address a = Address.parse("A U Thor<author@example.com>");
-    assertEquals("A U Thor", a.name);
-    assertEquals("author@example.com", a.email);
+    assertThat(a.name).isEqualTo("A U Thor");
+    assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
   public void testParse_NameEmail5() {
     final Address a = Address.parse("A U Thor  <author@example.com>");
-    assertEquals("A U Thor", a.name);
-    assertEquals("author@example.com", a.email);
+    assertThat(a.name).isEqualTo("A U Thor");
+    assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
   public void testParse_Email1() {
     final Address a = Address.parse("author@example.com");
-    assertNull(a.name);
-    assertEquals("author@example.com", a.email);
+    assertThat(a.name).isNull();
+    assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
   public void testParse_Email2() {
     final Address a = Address.parse("a@b");
-    assertNull(a.name);
-    assertEquals("a@b", a.email);
+    assertThat(a.name).isNull();
+    assertThat(a.email).isEqualTo("a@b");
   }
 
   @Test
@@ -91,59 +94,57 @@ public class AddressTest {
     assertInvalid("a <@a>");
   }
 
-  private static void assertInvalid(final String in) {
-    try {
-      Address.parse(in);
-      fail("Incorrectly accepted " + in);
-    } catch (IllegalArgumentException e) {
-      assertEquals("Invalid email address: " + in, e.getMessage());
-    }
+  private void assertInvalid(final String in) {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("Invalid email address: " + in);
+    Address.parse(in);
   }
 
   @Test
   public void testToHeaderString_NameEmail1() {
-    assertEquals("A <a@a>", format("A", "a@a"));
+    assertThat(format("A", "a@a")).isEqualTo("A <a@a>");
   }
 
   @Test
   public void testToHeaderString_NameEmail2() {
-    assertEquals("A B <a@a>", format("A B", "a@a"));
+    assertThat(format("A B", "a@a")).isEqualTo("A B <a@a>");
   }
 
   @Test
   public void testToHeaderString_NameEmail3() {
-    assertEquals("\"A B. C\" <a@a>", format("A B. C", "a@a"));
+    assertThat(format("A B. C", "a@a")).isEqualTo("\"A B. C\" <a@a>");
   }
 
   @Test
   public void testToHeaderString_NameEmail4() {
-    assertEquals("\"A B, C\" <a@a>", format("A B, C", "a@a"));
+    assertThat(format("A B, C", "a@a")).isEqualTo("\"A B, C\" <a@a>");
   }
 
   @Test
   public void testToHeaderString_NameEmail5() {
-    assertEquals("\"A \\\" C\" <a@a>", format("A \" C", "a@a"));
+    assertThat(format("A \" C", "a@a")).isEqualTo("\"A \\\" C\" <a@a>");
   }
 
   @Test
   public void testToHeaderString_NameEmail6() {
-    assertEquals("=?UTF-8?Q?A_=E2=82=AC_B?= <a@a>", format("A \u20ac B", "a@a"));
+    assertThat(format("A \u20ac B", "a@a"))
+      .isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B?= <a@a>");
   }
 
   @Test
   public void testToHeaderString_NameEmail7() {
-    assertEquals("=?UTF-8?Q?A_=E2=82=AC_B_=28Code_Review=29?= <a@a>",
-        format("A \u20ac B (Code Review)", "a@a"));
+    assertThat(format("A \u20ac B (Code Review)", "a@a"))
+      .isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B_=28Code_Review=29?= <a@a>");
   }
 
   @Test
   public void testToHeaderString_Email1() {
-    assertEquals("a@a", format(null, "a@a"));
+    assertThat(format(null, "a@a")).isEqualTo("a@a");
   }
 
   @Test
   public void testToHeaderString_Email2() {
-    assertEquals("<a,b@a>", format(null, "a,b@a"));
+    assertThat(format(null, "a,b@a")).isEqualTo("<a,b@a>");
   }
 
   private static String format(final String name, final String email) {

@@ -773,6 +773,16 @@ public class ChangeData {
     return editsByUser;
   }
 
+  public boolean hasDraftComments(PatchSet.Id psId) throws OrmException {
+    CurrentUser user = changeControl().getCurrentUser();
+    if (user.isIdentifiedUser()) {
+      return plcUtil.draftByPatchSetAuthor(db, psId,
+          ((IdentifiedUser) user).getAccountId(), notes)
+              .iterator().hasNext();
+    }
+    return false;
+  }
+
   public Set<Account.Id> reviewedBy() throws OrmException {
     if (reviewedBy == null) {
       Change c = change();

@@ -86,7 +86,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -141,7 +140,6 @@ public class ChangeJson {
   private final WebLinks webLinks;
   private final EnumSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
-  private final PatchLineCommentsUtil plcUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final RebaseChange rebaseChange;
@@ -166,7 +164,6 @@ public class ChangeJson {
       DynamicMap<DownloadCommand> downloadCommands,
       WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       RebaseChange rebaseChange) {
@@ -185,7 +182,6 @@ public class ChangeJson {
     this.downloadCommands = downloadCommands;
     this.webLinks = webLinks;
     this.cmUtil = cmUtil;
-    this.plcUtil = plcUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.rebaseChange = rebaseChange;
@@ -208,7 +204,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
-    return format(changeDataFactory.create(db.get(), rsrc.getControl()));
+    return format(rsrc.getChangeData());
   }
 
   public ChangeInfo format(Change change) throws OrmException {
@@ -250,7 +246,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
+    ChangeData cd = rsrc.getChangeResource().getChangeData();
     return format(cd, Optional.of(rsrc.getPatchSet().getId()));
   }
 
@@ -418,7 +414,7 @@ public class ChangeJson {
     finish(out);
 
     if (needRevisions) {
-      out.revisions = revisions(ctl, src);
+      out.revisions = revisions(ctl, cd, src);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -793,7 +789,7 @@ public class ChangeJson {
     return result;
   }
 
-  private Map<String, RevisionInfo> revisions(ChangeControl ctl,
+  private Map<String, RevisionInfo> revisions(ChangeControl ctl, ChangeData cd,
       Map<PatchSet.Id, PatchSet> map)
       throws PatchListNotAvailableException, OrmException, IOException {
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
@@ -801,7 +797,7 @@ public class ChangeJson {
       if ((has(ALL_REVISIONS)
           || in.getId().equals(ctl.getChange().currentPatchSetId()))
           && ctl.isPatchVisible(in, db.get())) {
-        res.put(in.getRevision().get(), toRevisionInfo(ctl, in));
+        res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in));
       }
     }
     return res;
@@ -835,7 +831,7 @@ public class ChangeJson {
     return map;
   }
 
-  private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
+  private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd, PatchSet in)
       throws PatchListNotAvailableException, OrmException, IOException {
     Change c = ctl.getChange();
     RevisionInfo out = new RevisionInfo();
@@ -878,15 +874,12 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(out,
-          new RevisionResource(new ChangeResource(ctl, rebaseChange), in));
+          new RevisionResource(new ChangeResource(ctl, cd, rebaseChange), in));
     }
 
-    if (has(DRAFT_COMMENTS)
-        && userProvider.get().isIdentifiedUser()) {
-      IdentifiedUser user = (IdentifiedUser)userProvider.get();
+    if (has(DRAFT_COMMENTS)) {
       out.hasDraftComments =
-          plcUtil.draftByPatchSetAuthor(db.get(), in.getId(),
-              user.getAccountId(), ctl.getNotes()).iterator().hasNext()
+          cd.hasDraftComments(in.getId())
           ? true
           : null;
     }

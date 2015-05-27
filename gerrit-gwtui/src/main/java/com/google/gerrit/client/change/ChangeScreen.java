@@ -240,6 +240,15 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo info) {
             info.init();
+
+            JsArray<RevisionInfo> revisions = info.revisions().values();
+            for (int i = 0; i < revisions.length(); i++) {
+              if (revisions.get(i).hasDraftComments()) {
+                hasDraftComments = true;
+                break;
+              }
+            }
+
             loadConfigInfo(info, base);
           }
         }));
@@ -958,7 +967,6 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
             r.add(result);
-            hasDraftComments = !result.isEmpty();
           }
 
           @Override

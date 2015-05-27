@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_a8a61b37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-27T13:11:54Z",
+      "side": 1,
+      "message": "Omit else and return false unconditionally?",
+      "range": {
+        "startLine": 686,
+        "startChar": 4,
+        "endLine": 688,
+        "endChar": 5
+      },
+      "revId": "708d2987f1ce2e2c7b398429283b560efd7047e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

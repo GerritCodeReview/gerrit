@@ -43,9 +43,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -94,7 +92,6 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -127,9 +124,6 @@ import java.util.TreeMap;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
-
-  private static final List<ChangeMessage> NO_MESSAGES =
-      ImmutableList.of();
 
   private final Provider<ReviewDb> db;
   private final LabelNormalizer labelNormalizer;
@@ -242,11 +236,7 @@ public class ChangeJson {
       throws OrmException {
     try {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-      Set<Change.Id> reviewed = Sets.newHashSet();
-      if (has(REVIEWED)) {
-        reviewed = loadReviewed(Collections.singleton(cd));
-      }
-      ChangeInfo res = toChangeInfo(cd, reviewed, limitToPsId);
+      ChangeInfo res = toChangeInfo(cd, limitToPsId);
       accountLoader.fill();
       return res;
     } catch (PatchListNotAvailableException | OrmException | IOException
@@ -280,16 +270,15 @@ public class ChangeJson {
     } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
       ChangeData.ensureCurrentPatchSetLoaded(all);
     }
-    Set<Change.Id> reviewed = Sets.newHashSet();
-    if (has(REVIEWED)) {
-      reviewed = loadReviewed(all);
+    if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
+      ChangeData.ensureReviewedByLoadedForOpenChanges(all);
     }
     ChangeData.ensureCurrentApprovalsLoaded(all);
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     Map<Change.Id, ChangeInfo> out = Maps.newHashMap();
     for (QueryResult r : in) {
-      List<ChangeInfo> infos = toChangeInfo(out, r.changes(), reviewed);
+      List<ChangeInfo> infos = toChangeInfo(out, r.changes());
       if (r.moreChanges()) {
         infos.get(infos.size() - 1)._moreChanges = true;
       }
@@ -304,13 +293,13 @@ public class ChangeJson {
   }
 
   private List<ChangeInfo> toChangeInfo(Map<Change.Id, ChangeInfo> out,
-      List<ChangeData> changes, Set<Change.Id> reviewed) {
+      List<ChangeData> changes) {
     List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
     for (ChangeData cd : changes) {
       ChangeInfo i = out.get(cd.getId());
       if (i == null) {
         try {
-          i = toChangeInfo(cd, reviewed, Optional.<PatchSet.Id> absent());
+          i = toChangeInfo(cd, Optional.<PatchSet.Id> absent());
         } catch (PatchListNotAvailableException | OrmException | IOException
             | RuntimeException e) {
           if (has(CHECK)) {
@@ -354,7 +343,7 @@ public class ChangeJson {
     return info;
   }
 
-  private ChangeInfo toChangeInfo(ChangeData cd, Set<Change.Id> reviewed,
+  private ChangeInfo toChangeInfo(ChangeData cd,
       Optional<PatchSet.Id> limitToPsId)
       throws PatchListNotAvailableException, OrmException, IOException {
     ChangeInfo out = new ChangeInfo();
@@ -371,7 +360,8 @@ public class ChangeJson {
     }
 
     Change in = cd.change();
-    ChangeControl ctl = cd.changeControl().forUser(userProvider.get());
+    CurrentUser user = userProvider.get();
+    ChangeControl ctl = cd.changeControl().forUser(user);
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
@@ -392,12 +382,13 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
-    out.starred = userProvider.get().getStarredChanges().contains(in.getId())
+    out.starred = user.getStarredChanges().contains(in.getId())
         ? true
         : null;
-    out.reviewed = in.getStatus().isOpen()
-        && has(REVIEWED)
-        && reviewed.contains(cd.getId()) ? true : null;
+    if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
+      Account.Id accountId = ((IdentifiedUser) user).getAccountId();
+      out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;
+    }
 
     out.labels = labelsFor(ctl, cd, has(LABELS), has(DETAILED_LABELS));
 
@@ -800,49 +791,6 @@ public class ChangeJson {
       result.add(accountLoader.get(id));
     }
     return result;
-  }
-
-  private Set<Change.Id> loadReviewed(Iterable<ChangeData> all)
-      throws OrmException {
-    Set<Change.Id> reviewed = Sets.newHashSet();
-    if (userProvider.get().isIdentifiedUser()) {
-      Account.Id self = ((IdentifiedUser) userProvider.get()).getAccountId();
-      List<Iterable<ChangeMessage>> m = new ArrayList<>(50);
-      for (List<ChangeData> batch : Iterables.partition(all, 50)) {
-        m.clear();
-        for (ChangeData cd : batch) {
-          PatchSet.Id ps = cd.change().currentPatchSetId();
-          if (ps != null && cd.change().getStatus().isOpen()) {
-            m.add(cmUtil.byPatchSet(db.get(), cd.notes(), ps));
-          } else {
-            m.add(NO_MESSAGES);
-          }
-        }
-        for (int i = 0; i < m.size(); i++) {
-          if (isChangeReviewed(self, batch.get(i), m.get(i))) {
-            reviewed.add(batch.get(i).getId());
-          }
-        }
-      }
-    }
-    return reviewed;
-  }
-
-  public static boolean isChangeReviewed(Account.Id self, ChangeData cd,
-      Iterable<ChangeMessage> msgs) throws OrmException {
-    // Sort messages to keep the most recent ones at the beginning.
-    List<ChangeMessage> reversed = ChangeNotes.MESSAGE_BY_TIME.reverse()
-        .sortedCopy(msgs);
-
-    Account.Id changeOwnerId = cd.change().getOwner();
-    for (ChangeMessage cm : reversed) {
-      if (self.equals(cm.getAuthor())) {
-        return true;
-      } else if (changeOwnerId.equals(cm.getAuthor())) {
-        return false;
-      }
-    }
-    return false;
   }
 
   private Map<String, RevisionInfo> revisions(ChangeControl ctl,

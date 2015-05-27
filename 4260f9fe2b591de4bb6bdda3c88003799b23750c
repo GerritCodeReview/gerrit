@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_a828db04",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-27T14:06:18Z",
+      "side": 1,
+      "message": "The help is not updated when I change the keyMap in the edit preferences. It\u0027s only updated when the page is reloaded.",
+      "revId": "4260f9fe2b591de4bb6bdda3c88003799b23750c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

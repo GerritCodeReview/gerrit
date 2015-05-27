@@ -116,7 +116,6 @@ conditionAnd2
 conditionNot
   : '-' conditionBase -> ^(NOT conditionBase)
   | NOT^ conditionBase
-  | VARIABLE_ASSIGN^ conditionOr ')'!
   | conditionBase
   ;
 conditionBase
@@ -141,13 +140,6 @@ WS
 
 FIELD_NAME
   : ('a'..'z' | '_')+
-  ;
-
-VARIABLE_ASSIGN
-  : ('A'..'Z') ('A'..'Z' | 'a'..'Z')* '=' '(' {
-      String s = $text;
-      setText(s.substring(0, s.length() - 2));
-    }
   ;
 
 EXACT_PHRASE

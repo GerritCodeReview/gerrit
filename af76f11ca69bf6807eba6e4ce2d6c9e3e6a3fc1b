@@ -63,6 +63,24 @@
       "revId": "af76f11ca69bf6807eba6e4ce2d6c9e3e6a3fc1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edd32994_47e30ea3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-27T01:08:07Z",
+      "side": 1,
+      "message": "Rather than adding more sanity checks for BasicChangeRewrites, I just deleted a bunch of code.",
+      "parentUuid": "0dd15d8c_48e31fa3",
+      "revId": "af76f11ca69bf6807eba6e4ce2d6c9e3e6a3fc1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

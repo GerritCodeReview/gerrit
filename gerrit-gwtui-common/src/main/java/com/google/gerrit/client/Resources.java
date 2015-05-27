@@ -66,6 +66,9 @@ public interface Resources extends ClientBundle {
   @Source("greenCheck.png")
   public ImageResource greenCheck();
 
+  @Source("help.png")
+  public ImageResource help();
+
   @Source("info.png")
   public ImageResource info();
 

@@ -16,15 +16,22 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
 public class AccountIT extends AbstractDaemonTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   @Test
   public void get() throws Exception {
@@ -77,5 +84,28 @@ public class AccountIT extends AbstractDaemonTest {
     List<AccountInfo> emptyResult = gApi.accounts()
         .suggestAccounts("unknown").get();
     assertThat(emptyResult).isEmpty();
+  }
+
+  @Test
+  public void addEmail() throws Exception {
+    List<String> emails = ImmutableList.of(
+        "new.email@example.com", "new.email@example.systems");
+    for (String email : emails) {
+      EmailInput input = new EmailInput();
+      input.email = email;
+      input.noConfirmation = true;
+      gApi.accounts().self().addEmail(input);
+    }
+  }
+
+  @Test
+  public void addInvalidEmail() throws Exception {
+    EmailInput input  = new EmailInput();
+    input.email = "invalid@";
+    input.noConfirmation = true;
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("invalid email address");
+    gApi.accounts().self().addEmail(input);
   }
 }

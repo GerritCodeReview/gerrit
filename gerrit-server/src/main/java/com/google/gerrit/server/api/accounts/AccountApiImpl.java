@@ -14,13 +14,16 @@
 
 package com.google.gerrit.server.api.accounts;
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -38,18 +41,21 @@ public class AccountApiImpl implements AccountApi {
   private final AccountLoader.Factory accountLoaderFactory;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
+  private final CreateEmail.Factory createEmailFactory;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
       ChangesCollection changes,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
+      CreateEmail.Factory createEmailFactory,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
     this.changes = changes;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
+    this.createEmailFactory = createEmailFactory;
   }
 
   @Override
@@ -89,6 +95,17 @@ public class AccountApiImpl implements AccountApi {
           new StarredChanges.EmptyInput());
     } catch (OrmException e) {
       throw new RestApiException("Cannot unstar change", e);
+    }
+  }
+
+  @Override
+  public void addEmail(EmailInput input) throws RestApiException {
+    AccountResource.Email rsrc =
+        new AccountResource.Email(account.getUser(), input.email);
+    try {
+      createEmailFactory.create(input.email).apply(rsrc, input);
+    } catch (EmailException | OrmException e) {
+      throw new RestApiException("Cannot add email", e);
     }
   }
 }

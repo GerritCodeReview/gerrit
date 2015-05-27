@@ -16,12 +16,9 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.CharMatcher;
 
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.Executor;
+import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
 import java.net.URI;
@@ -29,33 +26,17 @@ import java.net.URI;
 public class HttpSession {
 
   protected final String url;
-  private final TestAccount account;
-  private HttpClient client;
+  private final Executor executor;
 
   public HttpSession(GerritServer server, TestAccount account) {
     this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
-    this.account = account;
+    this.executor = Executor
+        .newInstance()
+        .auth(new HttpHost(URI.create(url).getHost()),
+            account.username, account.httpPassword);
   }
 
-  public HttpResponse get(String path) throws IOException {
-    HttpGet get = new HttpGet(url + path);
-    return new HttpResponse(getClient().execute(get));
-  }
-
-  protected HttpClient getClient() {
-    if (client == null) {
-      URI uri = URI.create(url);
-      BasicCredentialsProvider creds = new BasicCredentialsProvider();
-      creds.setCredentials(new AuthScope(uri.getHost(), uri.getPort()),
-          new UsernamePasswordCredentials(account.username,
-              account.httpPassword));
-      client = HttpClientBuilder
-          .create()
-          .setDefaultCredentialsProvider(creds)
-          .setMaxConnPerRoute(512)
-          .setMaxConnTotal(1024)
-          .build();
-    }
-    return client;
+  protected RestResponse execute(Request request) throws IOException {
+    return new RestResponse(executor.execute(request).returnResponse());
   }
 }

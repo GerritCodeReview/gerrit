@@ -31,6 +31,7 @@ java_library(
     '//lib/auto:auto-value',
     '//lib/httpcomponents:httpclient',
     '//lib/httpcomponents:httpcore',
+    '//lib/httpcomponents:fluent-hc',
     '//lib/log:impl_log4j',
     '//lib/log:log4j',
     '//lib/guice:guice',

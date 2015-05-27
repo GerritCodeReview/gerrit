@@ -30,3 +30,12 @@ maven_jar(
   src_sha1 = '5394d3715181a87009032335a55b0a9789f6e26f',
   license = 'Apache2.0',
 )
+
+maven_jar(
+  name = 'fluent-hc',
+  id = 'org.apache.httpcomponents:fluent-hc:' + VERSION,
+  bin_sha1 = '96fb842b68a44cc640c661186828b60590c71261',
+  src_sha1 = '702515612b2b94ce3374ed5b579d38cbd308eb4f',
+  license = 'Apache2.0',
+  deps = [':httpclient']
+)

@@ -680,6 +680,39 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(approvals.get(0).value).isEqualTo(1);
   }
 
+  @Test
+  public void testHasEditPredicate() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(queryEdits()).hasSize(1);
+
+    PatchSet current = getCurrentPatchSet(changeId2);
+    assertThat(modifier.createEdit(change2, current)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    assertThat(queryEdits()).hasSize(2);
+
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    editUtil.delete(editUtil.byChange(change).get());
+    assertThat(queryEdits()).hasSize(1);
+
+    editUtil.publish(editUtil.byChange(change2).get());
+    assertThat(queryEdits()).hasSize(0);
+
+    setApiUser(user);
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(queryEdits()).hasSize(1);
+
+    setApiUser(admin);
+    assertThat(queryEdits()).hasSize(0);
+  }
+
+  private List<ChangeInfo> queryEdits() throws Exception {
+    return query("project:{" + project.get() + "} has:edit");
+  }
+
   private String newChange(PersonIdent ident) throws Exception {
     PushOneCommit push =
         pushFactory.create(db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME,

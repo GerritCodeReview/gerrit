@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -1101,10 +1102,25 @@ public abstract class AbstractQueryChangesTest {
         .revision(ps3_1.get())
         .review(new ReviewInput().message("comment"));
 
-    assertQuery("is:reviewed", change3, change2);
-    assertQuery("-is:reviewed", change1);
-    assertQuery("reviewedby:" + userId.get());
-    assertQuery("reviewedby:" + user2.get(), change3, change2);
+    List<ChangeInfo> actual;
+    actual = assertQuery(
+        newQuery("is:reviewed").withOption(REVIEWED),
+        change3, change2);
+    assertThat(actual.get(0).reviewed).isTrue();
+    assertThat(actual.get(1).reviewed).isTrue();
+
+    actual = assertQuery(
+        newQuery("-is:reviewed").withOption(REVIEWED),
+        change1);
+    assertThat(actual.get(0).reviewed).isNull();
+
+    actual = assertQuery("reviewedby:" + userId.get());
+
+    actual = assertQuery(
+        newQuery("reviewedby:" + user2.get()).withOption(REVIEWED),
+        change3, change2);
+    assertThat(actual.get(0).reviewed).isTrue();
+    assertThat(actual.get(1).reviewed).isTrue();
   }
 
   protected ChangeInserter newChange(
@@ -1181,29 +1197,18 @@ public abstract class AbstractQueryChangesTest {
     return gApi.changes().query(query.toString());
   }
 
-  protected void assertQuery(Object query, Change... changes)
+  protected List<ChangeInfo> assertQuery(Object query, Change... changes)
       throws Exception {
-    assertQuery(newQuery(query), changes);
+    return assertQuery(newQuery(query), changes);
   }
 
-  protected void assertQuery(QueryRequest query, Change... changes)
+  protected List<ChangeInfo> assertQuery(QueryRequest query, Change... changes)
       throws Exception {
-    assertThat(query(query)).named(query.toString())
+    List<ChangeInfo> result = query.get();
+    Iterable<Integer> ids = ids(result);
+    assertThat(ids).named(ids.toString())
         .containsExactlyElementsIn(ids(changes)).inOrder();
-  }
-
-  protected List<Integer> query(Object query) throws Exception {
-    return query(newQuery(query));
-  }
-
-  protected static List<Integer> query(QueryRequest query) throws Exception {
-    return FluentIterable.from(query.get())
-        .transform(new Function<ChangeInfo, Integer>() {
-          @Override
-          public Integer apply(ChangeInfo in) {
-            return in._number;
-          }
-        }).toList();
+    return result;
   }
 
   protected static Iterable<Integer> ids(Change... changes) {
@@ -1212,6 +1217,16 @@ public abstract class AbstractQueryChangesTest {
           @Override
           public Integer apply(Change in) {
             return in.getId().get();
+          }
+        });
+  }
+
+  protected static Iterable<Integer> ids(Iterable<ChangeInfo> changes) {
+    return FluentIterable.from(changes).transform(
+        new Function<ChangeInfo, Integer>() {
+          @Override
+          public Integer apply(ChangeInfo in) {
+            return in._number;
           }
         });
   }

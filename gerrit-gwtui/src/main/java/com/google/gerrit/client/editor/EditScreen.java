@@ -31,6 +31,7 @@ import com.google.gerrit.client.diff.DiffApi;
 import com.google.gerrit.client.diff.DiffInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
+import com.google.gerrit.client.diff.NoOpKeyCommand;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -69,6 +70,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.globalkey.client.ShowHelpCommand;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
@@ -80,6 +83,7 @@ import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditScreen extends Screen {
@@ -111,6 +115,10 @@ public class EditScreen extends Screen {
   private HandlerRegistration resizeHandler;
   private HandlerRegistration closeHandler;
   private int generation;
+  private KeyCommandSet keysMotion;
+  private KeyCommandSet keysActions;
+  private KeyCommandSet searchActions;
+  private List<HandlerRegistration> handlers;
 
   public EditScreen(PatchSet.Id base, Patch.Key patch, int startLine) {
     this.base = base;
@@ -119,6 +127,7 @@ public class EditScreen extends Screen {
     this.startLine = startLine - 1;
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
+    handlers = new ArrayList<>(3);
   }
 
   @Override
@@ -270,6 +279,38 @@ public class EditScreen extends Screen {
     }
 
     cm.addKeyMap(localKeyMap);
+
+    // TODO(davido): Add help for default and emacs modes
+    if (prefs.keyMapType() == KeyMapType.VIM) {
+      // TODO(davido): use define constants in Gerrit.C.foo()
+      keysMotion = new KeyCommandSet("Motions");
+      keysMotion.add(new NoOpKeyCommand(0, 'h', "Move left"));
+      keysMotion.add(new NoOpKeyCommand(0, 'j', "Move down"));
+      keysMotion.add(new NoOpKeyCommand(0, 'k', "Move up"));
+      keysMotion.add(new NoOpKeyCommand(0, 'l', "Move right"));
+      handlers.add(GlobalKey.add(this, keysMotion));
+
+      keysActions = new KeyCommandSet(Gerrit.C.sectionActions());
+      keysActions.add(new NoOpKeyCommand(0, 'a',
+          "Enter insert mode (after char)"));
+      keysActions.add(new NoOpKeyCommand(0, 'A', "Enter insert mode (eol)"));
+      keysActions.add(new NoOpKeyCommand(0, 'i',
+          "Enter insert mode (inplace)"));
+      keysActions.add(new NoOpKeyCommand(0, 'I',
+          "Enter insert mode (selected area)"));
+      handlers.add(GlobalKey.add(this, keysActions));
+
+      searchActions = new KeyCommandSet("Search");
+      searchActions.add(new NoOpKeyCommand(0, '/',
+          "Interactive search (forward)"));
+      searchActions.add(new NoOpKeyCommand(0, '?',
+          "Interactive search (backwards)"));
+      searchActions.add(new NoOpKeyCommand(0, '*',
+          "Search word under cursor (forward)"));
+      searchActions.add(new NoOpKeyCommand(0, '#',
+          "Search word under cursor (backwards)"));
+      handlers.add(GlobalKey.add(this, searchActions));
+    }
   }
 
   private Runnable gotoLine() {
@@ -352,6 +393,10 @@ public class EditScreen extends Screen {
     if (closeHandler != null) {
       closeHandler.removeHandler();
     }
+    for (HandlerRegistration h : handlers) {
+      h.removeHandler();
+    }
+    handlers.clear();
     Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
     JumpKeys.enable(true);
@@ -364,6 +409,11 @@ public class EditScreen extends Screen {
   @UiHandler("editSettings")
   void onEditSetting(@SuppressWarnings("unused") ClickEvent e) {
     editPrefsAction.show();
+  }
+
+  @UiHandler("help")
+  void onShowHelp(@SuppressWarnings("unused") ClickEvent e) {
+    new ShowHelpCommand().onKeyPress(null);
   }
 
   @UiHandler("save")

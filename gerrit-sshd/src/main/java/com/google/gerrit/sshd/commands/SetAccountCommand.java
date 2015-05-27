@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -270,7 +271,7 @@ final class SetAccountCommand extends SshCommand {
 
   private void addEmail(String email) throws UnloggedFailure, RestApiException,
       OrmException {
-    CreateEmail.Input in = new CreateEmail.Input();
+    EmailInput in = new EmailInput();
     in.email = email;
     in.noConfirmation = true;
     try {

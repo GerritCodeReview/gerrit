@@ -14,16 +14,16 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.account.CreateEmail.Input;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutEmail implements RestModifyView<AccountResource.Email, Input> {
+public class PutEmail implements RestModifyView<AccountResource.Email, EmailInput> {
   @Override
-  public Response<?> apply(AccountResource.Email rsrc, Input input)
+  public Response<?> apply(AccountResource.Email rsrc, EmailInput input)
       throws ResourceConflictException {
     throw new ResourceConflictException("email exists");
   }

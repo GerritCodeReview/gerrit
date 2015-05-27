@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6d79b3_b30eb869",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-27T22:30:23Z",
+      "side": 1,
+      "message": "In one case we would degrade the performance and would load unnecessary commit data: when PatchSet drop down isn\u0027t opened at all. Imagine that would happen on monster change from OpenStack project, like [1], [2] with three digit number of patch sets.\n\n* [1] https://review.openstack.org/27091 (by bot)\n* [2] https://review.openstack.org/136629 (by human)",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 35
+      },
+      "revId": "a245a60e7688ae61eba3dc6fbb10942d406bff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d4d415a_31f2b0e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-27T22:30:23Z",
+      "side": 1,
+      "message": "This option is confusing; this should be HAS_DRAFT_COMMENTS DRAFT_COMMENTS_EXIST. One could think that this caused the draft comments to be loaded.",
+      "range": {
+        "startLine": 254,
+        "startChar": 6,
+        "endLine": 254,
+        "endChar": 38
+      },
+      "revId": "a245a60e7688ae61eba3dc6fbb10942d406bff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d6d79b3_9309bc66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PatchSetsBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-27T22:30:23Z",
+      "side": 1,
+      "message": "Another option would be to remember here changeId and changeInfo.revisions(), because the other stuff isn\u0027t used.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "a245a60e7688ae61eba3dc6fbb10942d406bff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

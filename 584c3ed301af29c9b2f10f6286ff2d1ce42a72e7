@@ -22,6 +22,53 @@
       "revId": "584c3ed301af29c9b2f10f6286ff2d1ce42a72e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d4d415a_51857409",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-28T08:39:33Z",
+      "side": 1,
+      "message": "Argh, yes, you\u0027re right.  I didn\u0027t realise it was completing the test after the expected exception is raised.\n\nI\u0027ve reworked this into two separate tests, as it probably should have been in the first place.\n\nNew PS coming up when I\u0027ve finished running the test suite again.",
+      "parentUuid": "2d4d415a_118bec21",
+      "range": {
+        "startLine": 302,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 24
+      },
+      "revId": "584c3ed301af29c9b2f10f6286ff2d1ce42a72e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d4d415a_71827804",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-28T08:39:33Z",
+      "side": 1,
+      "message": "Same problem here, but I\u0027m not sure how to fix this one.",
+      "range": {
+        "startLine": 582,
+        "startChar": 4,
+        "endLine": 583,
+        "endChar": 59
+      },
+      "revId": "584c3ed301af29c9b2f10f6286ff2d1ce42a72e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

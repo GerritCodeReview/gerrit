@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_01cb6a94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T16:49:01Z",
+      "side": 1,
+      "message": "I think it\u0027s fine.\n\n\"X is a Z, and Y is a Z\" -\u003e \"Both X and Y are Zs\"\n\n* X \u003d \"A top-level change message\"\n* Y \u003d \"A new patch set\"\n* Z \u003d \"update\"\n\n\"A top-level change message is considered to be an update, and a new patch set is also considered to be an update\" -\u003e \"Both top-level change messages and new patch sets are considered to be updates.\"",
+      "parentUuid": "2d4d415a_91443c7e",
+      "range": {
+        "startLine": 595,
+        "startChar": 54,
+        "endLine": 595,
+        "endChar": 61
+      },
+      "revId": "882da35fbf57bee9f195ef5c92c73985254a5707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6d79b3_d390944f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_21c66e8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T16:49:01Z",
+      "side": 1,
+      "message": "Yes, I think we can use 0 for this, thanks for pointing it out. In a previous iteration of this change I had multiple sentinel values (including \"null\" for the null author, which occurs in some ChangeMessages produced by the server), so a string made more sense at the time.",
+      "parentUuid": "6d6d79b3_d390944f",
+      "range": {
+        "startLine": 600,
+        "startChar": 52,
+        "endLine": 600,
+        "endChar": 58
+      },
+      "revId": "882da35fbf57bee9f195ef5c92c73985254a5707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6d79b3_d33ed4db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-05-28T04:33:11Z",
       "side": 1,
       "message": "(ids.size())",
+      "range": {
+        "startLine": 50,
+        "startChar": 60,
+        "endLine": 50,
+        "endChar": 62
+      },
+      "revId": "882da35fbf57bee9f195ef5c92c73985254a5707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_e1c76684",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T16:49:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d6d79b3_d33ed4db",
       "range": {
         "startLine": 50,
         "startChar": 60,

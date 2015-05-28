@@ -69,6 +69,30 @@
       "revId": "02d9254c71fd3a7e8e28c4c3059f3dfd12e41802",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_81de5a50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T16:49:06Z",
+      "side": 1,
+      "message": "I moved two simple cases to the top and added early returns. It\u0027s more code but less nesting and possibly slightly easier to read.",
+      "parentUuid": "39ebc864_c1d46234",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 203,
+        "endChar": 11
+      },
+      "revId": "02d9254c71fd3a7e8e28c4c3059f3dfd12e41802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

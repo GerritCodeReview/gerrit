@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d4d415a_3156302f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T06:49:35Z",
+      "side": 1,
+      "message": "That\u0027s confusing and only done to be conform with asynchronous query optimization when Notedb wasn\u0027t enabled and NoSQL backend is used.",
+      "range": {
+        "startLine": 197,
+        "startChar": 10,
+        "endLine": 197,
+        "endChar": 28
+      },
+      "revId": "02d9254c71fd3a7e8e28c4c3059f3dfd12e41802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d6d79b3_b3b238f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T06:49:35Z",
+      "side": 1,
+      "message": "This logic is very confusing to add null in notedb path to only so skip it here; this has some parallels to what i said in another change about isAsyncQuerySupported() in gwtorm AbstractSchema interface.\n\nThe notedb doesn\u0027t support async queries. I think it would be  cleaner to separate the concerns and say something like:\n\n  boolean isBackendSupportsAsyncQuery() {\n    if (cd.notesMigration.readChanges()) {\n      return false;\n    }\n    return cd.db.isAsyncQuerySupported(); // doesn\u0027t exist yet\n  }\n\nOnce we have this method, the logic above would be much simpler to understand:\n\n  if (isBackendSupportsAsyncQuery()) {\n    ensureMessagesLoadedAsynchronously();\n  } else {\n  for (ChangeData cd : changes) {\n    cd.messages();\n  }",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 203,
+        "endChar": 11
+      },
+      "revId": "02d9254c71fd3a7e8e28c4c3059f3dfd12e41802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6d79b3_5353a43d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T06:31:19Z",
+      "side": 1,
+      "message": "The async query execution is happend here behind the scene and currenty makes only sense for exactly one NoSQL backend vendor. I wonder if it would make sense to extend AbstractSchema interface in gwtorm with something like:\n\n  boolean isAsyncQuerySupported();\n\nand implement it correspondingy for different Schema backends (JdbcSchema and NoSqlSchema) use it here and in other places:\n\n  if (cd.db.isAsyncQuerySupported()) {\n    loadAsynchronously();\n  } else {\n    for (ChangeData cd : changes) {\n      cd.patchSets();\n    }\n  }",
+      "range": {
+        "startLine": 134,
+        "startChar": 48,
+        "endLine": 134,
+        "endChar": 57
+      },
+      "revId": "c71836637a2b67329f5a991194428d94860cccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6d79b3_f395903c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T07:54:03Z",
+      "side": 1,
+      "message": "That conversion from string back to integer shows why storing integers would be advantageous.",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 524,
+        "endChar": 5
+      },
+      "revId": "3961c7be502ffd683555c989870cd2903bafd3c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

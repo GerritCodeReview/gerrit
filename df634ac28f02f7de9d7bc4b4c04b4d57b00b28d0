@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_c01c5e75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/MultiLock.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_c102223c",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_6131162a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 36
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_e00f6235",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_6131162a",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_412612f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 36
@@ -47,6 +83,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Optional: add a create(Change...) static factory on ChangeSet",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_a1c71e33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_412612f2",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

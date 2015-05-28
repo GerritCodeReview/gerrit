@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6d79b3_93445c7e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/EmailInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T03:28:14Z",
+      "side": 1,
+      "message": "noConfirmation?",
+      "range": {
+        "startLine": 26,
+        "startChar": 41,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "63d949930f2ed7ed3e6ab7f8c99718a32de85eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

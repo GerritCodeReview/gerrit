@@ -477,6 +477,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> exacttopic(String name) {
+    return new ExactTopicPredicate(args.getSchema(), name);
+  }
+
+  @Operator
   public Predicate<ChangeData> topic(String name) {
     if (name.startsWith("^")) {
       return new RegexTopicPredicate(args.getSchema(), name);

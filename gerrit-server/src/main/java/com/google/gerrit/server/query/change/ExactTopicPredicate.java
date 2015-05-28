@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.ChangeField.LEGACY_TOPIC2;
+import static com.google.gerrit.server.index.ChangeField.EXACT_TOPIC;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeField;
@@ -23,20 +23,28 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
-class TopicPredicate extends IndexPredicate<ChangeData> {
+class ExactTopicPredicate extends IndexPredicate<ChangeData> {
   @SuppressWarnings("deprecation")
   static FieldDef<ChangeData, ?> topicField(Schema<ChangeData> schema) {
     if (schema == null) {
       return ChangeField.LEGACY_TOPIC;
     }
-    FieldDef<ChangeData, ?> f = schema.getFields().get(LEGACY_TOPIC2.getName());
+    FieldDef<ChangeData, ?> f = schema.getFields().get(EXACT_TOPIC.getName());
+    if (f != null) {
+      return f;
+    }
+    f = schema.getFields().get(ChangeField.LEGACY_TOPIC.getName());
+    if (f != null) {
+      return f;
+    }
+    f = schema.getFields().get(ChangeField.LEGACY_TOPIC2.getName());
     if (f != null) {
       return f;
     }
     return schema.getFields().get(ChangeField.LEGACY_TOPIC.getName());
   }
 
-  TopicPredicate(Schema<ChangeData> schema, String topic) {
+  ExactTopicPredicate(Schema<ChangeData> schema, String topic) {
     super(topicField(schema), topic);
   }
 
@@ -47,7 +55,7 @@ class TopicPredicate extends IndexPredicate<ChangeData> {
       return false;
     }
     String t = change.getTopic();
-    if (t == null && getField() == LEGACY_TOPIC2) {
+    if (t == null && getField() == ChangeField.LEGACY_TOPIC ) {
       t = "";
     }
     return getValue().equals(t);

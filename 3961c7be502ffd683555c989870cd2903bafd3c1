@@ -22,6 +22,30 @@
       "revId": "3961c7be502ffd683555c989870cd2903bafd3c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_21dd4e52",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T16:49:16Z",
+      "side": 1,
+      "message": "It makes the ChangeField definition more readable and I\u0027m willing to stick with it for that reason. But as you\u0027ll see, this code is actually less readable when it has to deal with integers, and not obviously more performant.",
+      "parentUuid": "6d6d79b3_f395903c",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 524,
+        "endChar": 5
+      },
+      "revId": "3961c7be502ffd683555c989870cd2903bafd3c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

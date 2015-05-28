@@ -20,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
@@ -74,7 +73,9 @@ import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
@@ -93,6 +94,9 @@ public abstract class AbstractQueryChangesTest {
   public static Config noteDbEnabled() {
     return updateConfig(NotesMigration.allEnabledConfig());
   }
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   private static Config updateConfig(Config cfg) {
     cfg.setInt("index", null, "maxPages", 10);
@@ -1100,12 +1104,8 @@ public abstract class AbstractQueryChangesTest {
   }
 
   protected void assertBadQuery(QueryRequest query) throws Exception {
-    try {
-      query.get();
-      fail("expected BadRequestException for query: " + query);
-    } catch (BadRequestException e) {
-      // Expected.
-    }
+    exception.expect(BadRequestException.class);
+    query.get();
   }
 
   protected TestRepository<Repo> createProject(String name) throws Exception {

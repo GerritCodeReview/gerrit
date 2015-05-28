@@ -14,12 +14,10 @@
 
 package com.google.gerrit.rules;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -42,7 +40,9 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.PushbackReader;
 import java.io.StringReader;
@@ -61,6 +61,9 @@ public class GerritCommonTest extends PrologTestCase {
   private final Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;
   private Util util;
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   @Before
   public void setUp() throws Exception {
@@ -125,12 +128,9 @@ public class GerritCommonTest extends PrologTestCase {
       throw new CompileException("Cannot consult " + nameTerm);
     }
 
-    try {
-      env.once(Prolog.BUILTIN, "call", new StructureTerm(":",
-          SymbolTerm.create("user"), SymbolTerm.create("loopy")));
-      fail("long running loop did not abort with ReductionLimitException");
-    } catch (ReductionLimitException e) {
-      assertThat(e.getMessage()).isEqualTo("exceeded reduction limit of 1300");
-    }
+    exception.expect(ReductionLimitException.class);
+    exception.expectMessage("exceeded reduction limit of 1300");
+    env.once(Prolog.BUILTIN, "call", new StructureTerm(":",
+        SymbolTerm.create("user"), SymbolTerm.create("loopy")));
   }
 }

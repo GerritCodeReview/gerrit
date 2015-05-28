@@ -18,11 +18,15 @@ import static com.google.gwtexpui.safehtml.client.LinkFindReplace.hasValidScheme
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class LinkFindReplaceTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   @Test
   public void testNoEscaping() {
     String find = "find";
@@ -55,21 +59,15 @@ public class LinkFindReplaceTest {
 
   @Test
   public void testInvalidSchemeInReplace() {
-    try {
-      new LinkFindReplace("find", "javascript:alert(1)").replace("find");
-      fail("Expected IllegalStateException");
-    } catch (IllegalArgumentException expected) {
-    }
+    exception.expect(IllegalArgumentException.class);
+    new LinkFindReplace("find", "javascript:alert(1)").replace("find");
   }
 
   @Test
   public void testInvalidSchemeWithBackreference() {
-    try {
-      new LinkFindReplace(".*(script:[^;]*)", "java$1")
-          .replace("Look at this script: alert(1);");
-      fail("Expected IllegalStateException");
-    } catch (IllegalArgumentException expected) {
-    }
+    exception.expect(IllegalArgumentException.class);
+    new LinkFindReplace(".*(script:[^;]*)", "java$1")
+        .replace("Look at this script: alert(1);");
   }
 
   @Test

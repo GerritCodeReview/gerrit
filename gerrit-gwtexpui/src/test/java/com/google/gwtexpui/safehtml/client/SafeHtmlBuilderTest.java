@@ -20,11 +20,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class SafeHtmlBuilderTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   @Test
   public void testEmpty() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
@@ -258,34 +262,25 @@ public class SafeHtmlBuilderTest {
   @Test
   public void testRejectJavaScript_AnchorHref() {
     final String href = "javascript:window.close();";
-    try {
-      new SafeHtmlBuilder().openAnchor().setAttribute("href", href);
-      fail("accepted javascript in a href");
-    } catch (RuntimeException e) {
-      assertEquals("javascript unsafe in href: " + href, e.getMessage());
-    }
+    exception.expect(RuntimeException.class);
+    exception.expectMessage("javascript unsafe in href: " + href);
+    new SafeHtmlBuilder().openAnchor().setAttribute("href", href);
   }
 
   @Test
   public void testRejectJavaScript_ImgSrc() {
     final String href = "javascript:window.close();";
-    try {
-      new SafeHtmlBuilder().openElement("img").setAttribute("src", href);
-      fail("accepted javascript in img src");
-    } catch (RuntimeException e) {
-      assertEquals("javascript unsafe in href: " + href, e.getMessage());
-    }
+    exception.expect(RuntimeException.class);
+    exception.expectMessage("javascript unsafe in href: " + href);
+    new SafeHtmlBuilder().openElement("img").setAttribute("src", href);
   }
 
   @Test
   public void testRejectJavaScript_FormAction() {
     final String href = "javascript:window.close();";
-    try {
-      new SafeHtmlBuilder().openElement("form").setAttribute("action", href);
-      fail("accepted javascript in form action");
-    } catch (RuntimeException e) {
-      assertEquals("javascript unsafe in href: " + href, e.getMessage());
-    }
+    exception.expect(RuntimeException.class);
+    exception.expectMessage("javascript unsafe in href: " + href);
+    new SafeHtmlBuilder().openElement("form").setAttribute("action", href);
   }
 
   private static String escape(final char c) {

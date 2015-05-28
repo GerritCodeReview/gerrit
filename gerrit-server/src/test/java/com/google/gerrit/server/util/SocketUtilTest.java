@@ -23,9 +23,10 @@ import static java.net.InetSocketAddress.createUnresolved;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -34,6 +35,9 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
 public class SocketUtilTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   @Test
   public void testIsIPv6() throws UnknownHostException {
     final InetAddress ipv6 = getByName("1:2:3:4:5:6:7:8");
@@ -92,20 +96,20 @@ public class SocketUtilTest {
         parse("[foo.bar.example.com]:1234", 80));
     assertEquals(createUnresolved("foo.bar.example.com", 80), //
         parse("[foo.bar.example.com]", 80));
+  }
 
-    try {
-      parse("[:3", 80);
-      fail("did not throw exception");
-    } catch (IllegalArgumentException e) {
-      assertEquals("invalid IPv6: [:3", e.getMessage());
-    }
+  @Test
+  public void testParseInvalidIPv6() {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("invalid IPv6: [:3");
+    parse("[:3", 80);
+  }
 
-    try {
-      parse("localhost:A", 80);
-      fail("did not throw exception");
-    } catch (IllegalArgumentException e) {
-      assertEquals("invalid port: localhost:A", e.getMessage());
-    }
+  @Test
+  public void testParseInvalidPort() {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("invalid port: localhost:A");
+    parse("localhost:A", 80);
   }
 
   @Test

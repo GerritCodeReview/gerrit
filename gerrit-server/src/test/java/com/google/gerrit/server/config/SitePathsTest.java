@@ -19,11 +19,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.server.util.HostPlatform;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,6 +33,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SitePathsTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   @Test
   public void testCreate_NotExisting() throws IOException {
     final Path root = random();
@@ -77,12 +81,8 @@ public class SitePathsTest {
     final Path root = random();
     try {
       Files.createFile(root);
-      try {
-        new SitePaths(root);
-        fail("Did not throw exception");
-      } catch (NotDirectoryException e) {
-        // Expected.
-      }
+      exception.expect(NotDirectoryException.class);
+      new SitePaths(root);
     } finally {
       Files.delete(root);
     }

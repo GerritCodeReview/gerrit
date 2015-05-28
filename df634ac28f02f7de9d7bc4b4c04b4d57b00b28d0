@@ -916,6 +916,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_608d9239",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T19:10:41Z",
+      "side": 1,
+      "message": "Arbitrary threads can idle for a long time if the system is under heavy load, like, say, when you\u0027re running a bunch of Gerrit acceptance tests.\n\nThe solution is latches, which you\u0027re already using in some places to ensure deterministic operation.",
+      "parentUuid": "39ebc864_210e6e3d",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_6058f25b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36

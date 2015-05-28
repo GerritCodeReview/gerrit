@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "6d6d79b3_d390944f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T07:52:11Z",
+      "side": 1,
+      "message": "I assume it\u0027s not Integer, like for all other fields that are storing users, because of special no reviewers case, that is represented with \"none\"? Can\u0027t it be represented by 0 as it\u0027s garanteed, that such user id doesn\u0027t exist?",
+      "range": {
+        "startLine": 600,
+        "startChar": 52,
+        "endLine": 600,
+        "endChar": 58
+      },
+      "revId": "882da35fbf57bee9f195ef5c92c73985254a5707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6d79b3_d33ed4db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
         "patchSetId": 2

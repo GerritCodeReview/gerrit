@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6d79b3_53856409",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-28T08:05:02Z",
+      "side": 1,
+      "message": "Why are we not providing the port anymore? Shouldn\u0027t it be\n\n  new HttpHost(URI.create(url).getHost(), URI.create(url).getPort())\n\n?",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 53
+      },
+      "revId": "78dee92378b41c41f7ca4c4535f5ba7b5eefae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

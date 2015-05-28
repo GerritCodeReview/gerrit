@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6d79b3_339f0863",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-28T07:21:02Z",
+      "side": 1,
+      "message": "This and the others are still named with underscores in the documentation.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info",
+      "range": {
+        "startLine": 311,
+        "startChar": 12,
+        "endLine": 311,
+        "endChar": 27
+      },
+      "revId": "4030c6f075b1b0b03500c0433fddaf9d7f9e9663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

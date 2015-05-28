@@ -22,6 +22,30 @@
       "revId": "4030c6f075b1b0b03500c0433fddaf9d7f9e9663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d4d415a_11a20caa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-28T07:23:15Z",
+      "side": 1,
+      "message": "Yes, this is correct. The fields in the JSON output are always with lowercase_underscore syntax. Only in our code we use camelCase names for them.",
+      "parentUuid": "6d6d79b3_339f0863",
+      "range": {
+        "startLine": 311,
+        "startChar": 12,
+        "endLine": 311,
+        "endChar": 27
+      },
+      "revId": "4030c6f075b1b0b03500c0433fddaf9d7f9e9663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

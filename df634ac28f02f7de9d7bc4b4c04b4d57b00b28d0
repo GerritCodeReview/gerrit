@@ -423,6 +423,30 @@
     },
     {
       "key": {
+        "uuid": "19f28455_a0195a83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T19:40:10Z",
+      "side": 1,
+      "message": "The expected size is a function of the capacity, but it is not the same thing as the capacity. This is why Guava distinguishes between new*WithCapacity and new*WithExpectedSize",
+      "parentUuid": "19f28455_c09e9e6b",
+      "range": {
+        "startLine": 61,
+        "startChar": 37,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_e163e60b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -879,6 +903,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_61f9167b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T19:40:10Z",
+      "side": 1,
+      "message": "I agree that only one thread can enter this block at a time, because it is guarded by the call to locks.lock.\n\nWhat I am unsure about is whether a write to currentTasks in this block is guaranteed to be visible to other threads. In the case of a standard synchronized{} block, if writes and reads only happen while actually holding the lock, then any reader is guaranteed to see the results of all writes. Since you are not holding an _actual_ lock (from the perspective of the java memory model) in this block, I don\u0027t know if that is the case.",
+      "parentUuid": "39ebc864_a1303ef1",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_4134d209",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -925,6 +967,24 @@
       "side": 1,
       "message": "That\u0027s the problem we were discussing earlier as well. Once we hand off the work to another thread, we cannot be sure if that thread takes a long time or just dies. So we need to have a guarantee that processingAsyncTaskDone is called eventually, such that we don\u0027t lock up.\n\nMaybe I should document the contract of processAsyncTask a bit more. Either you finish in time and call processingAsyncTaskDone or that call is assumed to be dead.\n\nPractically we could just have quite a long time out here, say 30 seconds, as no merge operation will take that long?",
       "parentUuid": "39ebc864_e14ac675",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_802656c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T19:40:10Z",
+      "side": 1,
+      "message": "We can\u0027t be sure how long it\u0027s going to take, but we can kill it if it\u0027s taking too long.\n\nGuessing an arbitrary timeout and hoping is not good enough unless there is really really no other option.",
+      "parentUuid": "39ebc864_81cd3a5d",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

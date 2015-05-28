@@ -739,6 +739,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_40abae91",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:02:33Z",
+      "side": 1,
+      "message": "Oh I just messed up with the braces/parentheses",
+      "parentUuid": "19f28455_a044ba67",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_c19ea26b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36
@@ -874,6 +892,24 @@
       "side": 1,
       "message": "Ok.\n\nBut this seems racy. Can the following happen?\n\n* New thread starts\n* task1 is scheduled for 25ms from now\n* 25ms pass without main thread proceeding\n* queue wakes up, decides to run task1\n* task1 gets lock\n* main thread reaches l. 82, assertion fails",
       "parentUuid": "19f28455_603fd2e9",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_210e6e3d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:02:33Z",
+      "side": 1,
+      "message": "Yes this is racy, because we don\u0027t have a DeterministicScheduler (I removed that thing as it cannot really deal with multi threading).\n\nI thought 25 ms are long enough to prevent this race from happen. (25ms are a long time in computers, so why should the main thread just sit idle for that time? Maybe by OS interruptions).\nAnd as we don\u0027t have a testing scheduler we cannot make it too long as it\u0027s wall clock time passing here. \n\nMaybe we could increase it to 250 ms though?",
+      "parentUuid": "19f28455_60a6b2cb",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -1021,6 +1057,24 @@
       "side": 1,
       "message": "It\u0027s not reassigned anywhere.\n\nParticularly in multithreaded code, putting \"final\" in there is a strong signal that we don\u0027t have to worry about whether a write to this value in one thread is going to be visible to another thread.",
       "parentUuid": "39ebc864_a1727ebf",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_20b0aafb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:02:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_6104761d",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

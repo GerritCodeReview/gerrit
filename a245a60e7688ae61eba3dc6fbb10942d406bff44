@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d6d79b3_d3b7b4e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-28T07:03:39Z",
+      "side": 1,
+      "message": "Yes, what do you suggest then?\n\nShould I remove the ALL_COMMITS option here and rather reload change detail when the \u0027Patch Sets\u0027 drop-down panel is opened?\n\nI\u0027m really only interested in adding the DRAFT_COMMENTS option because I need this info for highlighting the \u0027Reply\u0027 button. ALL_COMMITS is not needed in change screen, it would only save the request when the \u0027Patch Sets\u0027 drop-down panel is opened.",
+      "parentUuid": "6d6d79b3_b30eb869",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 35
+      },
+      "revId": "a245a60e7688ae61eba3dc6fbb10942d406bff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d4d415a_31f2b0e7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2d4d415a_b1b220f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-28T07:03:39Z",
+      "side": 1,
+      "message": "Yes, I was also confused by this option name and had the same wrong assumption about it. A rename would be good.",
+      "parentUuid": "2d4d415a_31f2b0e7",
+      "range": {
+        "startLine": 254,
+        "startChar": 6,
+        "endLine": 254,
+        "endChar": 38
+      },
+      "revId": "a245a60e7688ae61eba3dc6fbb10942d406bff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6d79b3_9309bc66",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PatchSetsBox.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2015-05-27T22:30:23Z",
       "side": 1,
       "message": "Another option would be to remember here changeId and changeInfo.revisions(), because the other stuff isn\u0027t used.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "a245a60e7688ae61eba3dc6fbb10942d406bff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d4d415a_d1b7a4e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PatchSetsBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-28T07:03:39Z",
+      "side": 1,
+      "message": "Yes, will do so when we agreed on how to go one with the other comment.",
+      "parentUuid": "6d6d79b3_9309bc66",
       "range": {
         "startLine": 103,
         "startChar": 4,

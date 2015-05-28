@@ -668,6 +668,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_81ff7a79",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_21b0aefb",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_c019feab",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36
@@ -679,6 +697,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Optional, reduce one level of nesting:\n\n new Thread() {\n   @Override\n   public void run() {\n     ..\n   }\n }.start();",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_e04ac275",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "Syntax error, type annotations are available only when source level is at least 1.8\n\nWhen did we drop support for java 7 and below?\n(At least I seem to use some java version \u003c 8)",
+      "parentUuid": "19f28455_c019feab",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -702,6 +738,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_e17886a5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "The lock is locked in PriorityLockedQueue before the \u0027before\u0027 latch is counted down in the TestingTask, so it is guaranteed\nto be locked inside the PriorityLockedQueue during the whole time in processTask(). So I think you\u0027re missing the locking in the second step process(task1) is only called if lock.lock(task1.resources) could be met.",
+      "parentUuid": "39ebc864_c19ea26b",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_a016fa77",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36
@@ -713,6 +767,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Maybe a comment here, like \"Couldn\u0027t lock A because task1 holds the lock\"",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_004ec68b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_a016fa77",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -736,6 +808,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_603fd2e9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "When the assertion before this line is true, then the lock belongs to us as the lock method only returns true if the lock could be locked. So we need to unlock it, such that task1 can actually start.",
+      "parentUuid": "19f28455_8053f63f",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_6058f25b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36
@@ -747,6 +837,30 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Unnecessary",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 9
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_4034ce09",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_6058f25b",
       "range": {
         "startLine": 94,
         "startChar": 4,
@@ -782,6 +896,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_c17582ab",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_a19b9e79",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_0195aa47",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36
@@ -799,6 +937,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_a1727ebf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "Why here?",
+      "parentUuid": "39ebc864_0195aa47",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_e191a65b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36
@@ -810,6 +966,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Use Guava\u0027s AtomicLongMap instead, then you don\u0027t need to synchronize on processedEntries at all",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_2039ca01",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T18:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_e191a65b",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

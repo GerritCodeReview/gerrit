@@ -23,6 +23,7 @@ public interface AccountApi {
 
   void starChange(String id) throws RestApiException;
   void unstarChange(String id) throws RestApiException;
+  void addEmail(EmailInput input) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -41,6 +42,11 @@ public interface AccountApi {
 
     @Override
     public void unstarChange(String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void addEmail(EmailInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -45,6 +45,30 @@
       "revId": "02d9254c71fd3a7e8e28c4c3059f3dfd12e41802",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_c1d46234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T16:09:01Z",
+      "side": 1,
+      "message": "Unfortunately the null element thing is not just to handle notedb, it\u0027s to handle where messages were already loaded (l. 193 above). So we could separate out the readChanges case into a separate methods, but we would still have to have this null check.",
+      "parentUuid": "6d6d79b3_b3b238f9",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 203,
+        "endChar": 11
+      },
+      "revId": "02d9254c71fd3a7e8e28c4c3059f3dfd12e41802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -409,7 +409,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         && !currentAttentionSet.contains(to)) {
       return;
     }
-    if (emailOnlyAuthors && !authors.contains(to)) {
+    if (emailOnlyAuthors) {
       return;
     }
     super.add(rt, to);

@@ -20,6 +20,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -192,6 +193,9 @@ public class ChangeEditUtil {
         bu.setRepository(repo, rw, oi);
         bu.setNotify(notify);
         bu.addOp(change.getId(), inserter.setMessage(message.toString()));
+        if (kind == ChangeKind.NO_CODE_CHANGE) {
+          bu.setNotify(NotifyResolver.Result.create(NotifyHandling.NONE));
+        }
         bu.addOp(
             change.getId(),
             new BatchUpdateOp() {

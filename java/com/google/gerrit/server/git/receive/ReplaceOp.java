@@ -495,7 +495,7 @@ public class ReplaceOp implements BatchUpdateOp {
   @Override
   public void postUpdate(Context ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
-    if (changeKind != ChangeKind.TRIVIAL_REBASE) {
+    if (changeKind == ChangeKind.REWORK) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
       Runnable e = new ReplaceEmailTask(ctx);
       if (requestScopePropagator != null) {

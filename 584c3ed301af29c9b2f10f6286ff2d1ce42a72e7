@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d4d415a_118bec21",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-05-28T08:30:18Z",
+      "side": 1,
+      "message": "Now this part is not executed anymore?",
+      "range": {
+        "startLine": 302,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 24
+      },
+      "revId": "584c3ed301af29c9b2f10f6286ff2d1ce42a72e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

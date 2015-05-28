@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_2162ee0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T17:42:26Z",
+      "side": 1,
+      "message": "[Optional] I had problems to understand this batching idiom, until I realized, that these idioms only needed for NoSQL dialect for asynchronous query execution. You mention this in the commit message: [1] \"(if supported by the backend)\". I think it worth to mention it here as well.\n\n[1] https://gerrit-review.googlesource.com/68171",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "97c7803b7a074ae549b41721f70e3a8ff6e70a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

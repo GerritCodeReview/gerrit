@@ -22,6 +22,30 @@
       "revId": "78dee92378b41c41f7ca4c4535f5ba7b5eefae6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d6d79b3_1304cc17",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-28T08:18:59Z",
+      "side": 1,
+      "message": "This was an oversight.  Done in the next patch set.",
+      "parentUuid": "6d6d79b3_53856409",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 53
+      },
+      "revId": "78dee92378b41c41f7ca4c4535f5ba7b5eefae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,7 +21,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -104,76 +103,110 @@ public class ChangeData {
 
   public static void ensureChangeLoaded(Iterable<ChangeData> changes)
       throws OrmException {
+    ChangeData first = Iterables.getFirst(changes, null);
+    if (first == null) {
+      return;
+    } else if (first.notesMigration.readChanges()) {
+      for (ChangeData cd : changes) {
+        cd.change();
+      }
+    }
+
     Map<Change.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
       if (cd.change == null) {
         missing.put(cd.getId(), cd);
       }
     }
-    if (!missing.isEmpty()) {
-      ChangeData first = missing.values().iterator().next();
-      if (!first.notesMigration.readChanges()) {
-        ReviewDb db = missing.values().iterator().next().db;
-        for (Change change : db.changes().get(missing.keySet())) {
-          missing.get(change.getId()).change = change;
-        }
-      } else {
-        for (ChangeData cd : missing.values()) {
-          cd.change();
-        }
-      }
+    if (missing.isEmpty()) {
+      return;
+    }
+    for (Change change : first.db.changes().get(missing.keySet())) {
+      missing.get(change.getId()).change = change;
     }
   }
 
   public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes)
       throws OrmException {
+    ChangeData first = Iterables.getFirst(changes, null);
+    if (first == null) {
+      return;
+    } else if (first.notesMigration.readChanges()) {
+      for (ChangeData cd : changes) {
+        cd.patchSets();
+      }
+    }
+
     List<ResultSet<PatchSet>> results = new ArrayList<>(BATCH_SIZE);
     for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
       results.clear();
       for (ChangeData cd : batch) {
-        results.add(cd.db.patchSets().byChange(cd.getId()));
+        if (cd.patchSets == null) {
+          results.add(cd.db.patchSets().byChange(cd.getId()));
+        } else {
+          results.add(null);
+        }
       }
       for (int i = 0; i < batch.size(); i++) {
-        batch.get(i).setPatchSets(results.get(i).toList());
+        ResultSet<PatchSet> result = results.get(i);
+        if (result != null) {
+          batch.get(i).patchSets = result.toList();
+        }
       }
     }
   }
 
   public static void ensureCurrentPatchSetLoaded(Iterable<ChangeData> changes)
       throws OrmException {
+    ChangeData first = Iterables.getFirst(changes, null);
+    if (first == null) {
+      return;
+    } else if (first.notesMigration.readChanges()) {
+      for (ChangeData cd : changes) {
+        cd.currentPatchSet();
+      }
+    }
+
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
       if (cd.currentPatchSet == null && cd.patchSets == null) {
         missing.put(cd.change().currentPatchSetId(), cd);
       }
     }
-    if (!missing.isEmpty()) {
-      ReviewDb db = missing.values().iterator().next().db;
-      for (PatchSet ps : db.patchSets().get(missing.keySet())) {
-        ChangeData cd = missing.get(ps.getId());
-        cd.currentPatchSet = ps;
-      }
+    if (missing.isEmpty()) {
+      return;
+    }
+    for (PatchSet ps : first.db.patchSets().get(missing.keySet())) {
+      missing.get(ps.getId()).currentPatchSet = ps;
     }
   }
 
   public static void ensureCurrentApprovalsLoaded(Iterable<ChangeData> changes)
       throws OrmException {
-    List<ResultSet<PatchSetApproval>> pending = Lists.newArrayList();
-    for (ChangeData cd : changes) {
-      if (!cd.notesMigration.readChanges()) {
-        if (cd.currentApprovals == null) {
-          pending.add(cd.db.patchSetApprovals()
-              .byPatchSet(cd.change().currentPatchSetId()));
-        }
-      } else {
+    ChangeData first = Iterables.getFirst(changes, null);
+    if (first == null) {
+      return;
+    } else if (first.notesMigration.readChanges()) {
+      for (ChangeData cd : changes) {
         cd.currentApprovals();
       }
     }
-    if (!pending.isEmpty()) {
-      int idx = 0;
-      for (ChangeData cd : changes) {
+
+    List<ResultSet<PatchSetApproval>> results = new ArrayList<>(BATCH_SIZE);
+    for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
+      results.clear();
+      for (ChangeData cd : batch) {
         if (cd.currentApprovals == null) {
-          cd.currentApprovals = sortApprovals(pending.get(idx++));
+          PatchSet.Id psId = cd.change().currentPatchSetId();
+          results.add(cd.db.patchSetApprovals().byPatchSet(psId));
+        } else {
+          results.add(null);
+        }
+      }
+      for (int i = 0; i < batch.size(); i++) {
+        ResultSet<PatchSetApproval> result = results.get(i);
+        if (result != null) {
+          batch.get(i).currentApprovals = sortApprovals(result);
         }
       }
     }
@@ -201,11 +234,11 @@ public class ChangeData {
         } else {
           results.add(null);
         }
-        for (int i = 0; i < batch.size(); i++) {
-          ResultSet<ChangeMessage> result = results.get(i);
-          if (result != null) {
-            batch.get(i).messages = result.toList();
-          }
+      }
+      for (int i = 0; i < batch.size(); i++) {
+        ResultSet<ChangeMessage> result = results.get(i);
+        if (result != null) {
+          batch.get(i).messages = result.toList();
         }
       }
     }

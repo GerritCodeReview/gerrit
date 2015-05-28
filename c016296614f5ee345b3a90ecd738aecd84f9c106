@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2d4d415a_b1378011",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/EmailInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-28T00:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7f014e_81a95a8b",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "c016296614f5ee345b3a90ecd738aecd84f9c106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dd15d8c_48879faa",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/EmailInput.java",
         "patchSetId": 1
@@ -60,6 +84,24 @@
       "writtenOn": "2015-05-27T08:48:05Z",
       "side": 1,
       "message": "Now, that it\u0027s a part of the public API describe the fields? See, for example:\n\n* https://github.com/gerrit-review/gerrit/blob/master/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java\n* https://github.com/gerrit-review/gerrit/blob/master/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+      "revId": "c016296614f5ee345b3a90ecd738aecd84f9c106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d4d415a_91327c22",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/EmailInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-28T00:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dd15d8c_48879faa",
       "revId": "c016296614f5ee345b3a90ecd738aecd84f9c106",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

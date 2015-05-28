@@ -42,7 +42,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Patch;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -281,7 +281,7 @@ public class RevisionIT extends AbstractDaemonTest {
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
 
-    exception.expect(RestApiException.class);
+    exception.expect(ResourceConflictException.class);
     exception.expectMessage("Cherry pick failed: identical tree");
     orig.revision(r.getCommit().name()).cherryPick(in);
   }
@@ -306,7 +306,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes().id(triplet);
     assertThat(orig.get().messages).hasSize(1);
 
-    exception.expect(RestApiException.class);
+    exception.expect(ResourceConflictException.class);
     exception.expectMessage("Cherry pick failed: merge conflict");
     orig.revision(r.getCommit().name()).cherryPick(in);
   }

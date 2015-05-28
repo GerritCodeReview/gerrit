@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_a1defef8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T20:07:22Z",
+      "side": 1,
+      "message": "This JGit version is broken: [1].\n\n* [1] https://git.eclipse.org/r/48904",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "b56a626fde27ebf2e46127d5eb27768be01cd18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -218,6 +218,16 @@ public class ChangeEditUtil {
     ps.setUploader(edit.getUser().getAccountId());
     ps.setCreatedOn(TimeUtil.nowTs());
 
+    RevCommit parent = rw.parseCommit(ObjectId.fromString(
+        basePatchSet.getRevision().get()));
+    boolean commitMessageOnly = parent.getTree().equals(squashed.getTree());
+    String message = String.format("Patch Set %d: ", ps.getPatchSetId());
+    if (commitMessageOnly) {
+      message += "Commit message was edited";
+    } else {
+      message += String.format("Published edit on patch set %d",
+                               basePatchSet.getPatchSetId());
+    }
     PatchSetInserter insr =
         patchSetInserterFactory.create(repo, rw,
             changeControlFactory.controlFor(change, edit.getUser()),
@@ -225,10 +235,7 @@ public class ChangeEditUtil {
     return insr.setPatchSet(ps)
         .setDraft(change.getStatus() == Status.DRAFT ||
             basePatchSet.isDraft())
-        .setMessage(
-            String.format("Patch Set %d: Published edit on patch set %d",
-                ps.getPatchSetId(),
-                basePatchSet.getPatchSetId()))
+        .setMessage(message)
         .insert();
   }
 

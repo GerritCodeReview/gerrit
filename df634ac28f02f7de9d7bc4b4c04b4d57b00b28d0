@@ -721,6 +721,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_a044ba67",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T18:53:23Z",
+      "side": 1,
+      "message": "Huh?\n\n $ cat Foo.java \u0026\u0026 javac Foo.java \u0026\u0026 java Foo\n public class Foo {\n   public static void main(String[] args) throws Exception {\n     new Thread() {\n       @Override\n       public void run() {\n         System.out.println(\"running\");\n       }\n     }.start();\n     Thread.sleep(1000);\n   }\n }\n running",
+      "parentUuid": "19f28455_e04ac275",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_c19ea26b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
         "patchSetId": 36
@@ -750,6 +768,24 @@
       "side": 1,
       "message": "The lock is locked in PriorityLockedQueue before the \u0027before\u0027 latch is counted down in the TestingTask, so it is guaranteed\nto be locked inside the PriorityLockedQueue during the whole time in processTask(). So I think you\u0027re missing the locking in the second step process(task1) is only called if lock.lock(task1.resources) could be met.",
       "parentUuid": "39ebc864_c19ea26b",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_80a1b6b3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T18:53:23Z",
+      "side": 1,
+      "message": "Ack, thank you.",
+      "parentUuid": "39ebc864_e17886a5",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -820,6 +856,24 @@
       "side": 1,
       "message": "When the assertion before this line is true, then the lock belongs to us as the lock method only returns true if the lock could be locked. So we need to unlock it, such that task1 can actually start.",
       "parentUuid": "19f28455_8053f63f",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_60a6b2cb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T18:53:23Z",
+      "side": 1,
+      "message": "Ok.\n\nBut this seems racy. Can the following happen?\n\n* New thread starts\n* task1 is scheduled for 25ms from now\n* 25ms pass without main thread proceeding\n* queue wakes up, decides to run task1\n* task1 gets lock\n* main thread reaches l. 82, assertion fails",
+      "parentUuid": "19f28455_603fd2e9",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -949,6 +1003,24 @@
       "side": 1,
       "message": "Why here?",
       "parentUuid": "39ebc864_0195aa47",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_6104761d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/PriorityLockedQueueTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T18:53:23Z",
+      "side": 1,
+      "message": "It\u0027s not reassigned anywhere.\n\nParticularly in multithreaded code, putting \"final\" in there is a strong signal that we don\u0027t have to worry about whether a write to this value in one thread is going to be visible to another thread.",
+      "parentUuid": "39ebc864_a1727ebf",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

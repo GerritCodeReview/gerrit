@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -292,11 +291,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   private void assertCreateFails(ProjectInput in,
       Class<? extends RestApiException> errType) throws Exception {
-    try {
-      gApi.projects().create(in);
-      fail("Expected " + errType.getSimpleName());
-    } catch (RestApiException expected) {
-      assertThat(expected).isInstanceOf(errType);
-    }
+    exception.expect(errType);
+    gApi.projects().create(in);
   }
 }

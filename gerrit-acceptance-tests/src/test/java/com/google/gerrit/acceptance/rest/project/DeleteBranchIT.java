@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -94,21 +93,13 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   private void assertDeleteSucceeds() throws Exception {
     branch().delete();
-    try {
-      branch().get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    branch().get();
   }
 
   private void assertDeleteForbidden() throws Exception {
-    try {
-      branch().delete();
-      fail("Expected AuthException");
-    } catch (AuthException expected) {
-      // Expected.
-    }
+    exception.expect(AuthException.class);
+    branch().delete();
     branch().get();
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_a1ff1ea2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-28T17:31:59Z",
+      "side": 1,
+      "message": "Was it a bad rebase? This nesting is wrong here. I saw, you fixed in the follow-up change. Fix it here?",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 209,
+        "endChar": 9
+      },
+      "revId": "6cbe0865274ee2231ca008e79b62d6e453f85219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

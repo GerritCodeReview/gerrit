@@ -71,6 +71,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
 import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -156,6 +157,9 @@ public abstract class AbstractDaemonTest {
   protected SshSession sshSession;
   protected ReviewDb db;
   protected Project.NameKey project;
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   private String resourcePrefix;
   private List<Repository> toClose;

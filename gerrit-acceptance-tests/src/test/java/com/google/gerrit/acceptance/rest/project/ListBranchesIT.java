@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertBranches;
 import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertRefNames;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -32,24 +31,16 @@ import org.junit.Test;
 public class ListBranchesIT extends AbstractDaemonTest {
   @Test
   public void listBranchesOfNonExistingProject_NotFound() throws Exception {
-    try {
-      gApi.projects().name("non-existing").branches().get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name("non-existing").branches().get();
   }
 
   @Test
   public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
     blockRead(project, "refs/*");
     setApiUser(user);
-    try {
-      gApi.projects().name(project.get()).branches().get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name(project.get()).branches().get();
   }
 
   @Test

@@ -23,7 +23,6 @@ import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
-import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
@@ -293,15 +292,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
 
-    try {
-      modifier.modifyMessage(
-          edit.get(),
-          edit.get().getEditCommit().getFullMessage());
-      fail("UnchangedCommitMessageException expected");
-    } catch (UnchangedCommitMessageException ex) {
-      assertThat(ex.getMessage()).isEqualTo(
-          "New commit message cannot be same as existing commit message");
-    }
+    exception.expect(UnchangedCommitMessageException.class);
+    exception.expectMessage(
+        "New commit message cannot be same as existing commit message");
+    modifier.modifyMessage(
+        edit.get(),
+        edit.get().getEditCommit().getFullMessage());
 
     String msg = String.format("New commit message\n\nChange-Id: %s",
         change.getKey());
@@ -385,12 +381,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.deleteFile(edit.get(), FILE_NAME)).isEqualTo(
         RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    try {
-      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
+    exception.expect(ResourceNotFoundException.class);
+    fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
   }
 
   @Test
@@ -402,12 +395,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME3), CONTENT_OLD);
-    try {
-      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
+    exception.expect(ResourceNotFoundException.class);
+    fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
   }
 
   @Test
@@ -415,12 +405,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     RestResponse r = adminSession.delete(urlEditFile());
     assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    try {
-      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
+    exception.expect(ResourceNotFoundException.class);
+    fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
   }
 
   @Test
@@ -435,12 +422,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(adminSession.delete(urlEditFile()).getStatusCode()).isEqualTo(
         SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    try {
-      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
+    exception.expect(ResourceNotFoundException.class);
+    fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
   }
 
   @Test
@@ -490,12 +474,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME3), CONTENT_OLD);
-    try {
-      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
+    exception.expect(ResourceNotFoundException.class);
+    fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
   }
 
   @Test
@@ -595,12 +576,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(adminSession.delete(urlEditFile()).getStatusCode()).isEqualTo(
         SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    try {
-      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
-          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
+    exception.expect(ResourceNotFoundException.class);
+    fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
     RestResponse r = adminSession.get(urlEditFile());
     assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
   }
@@ -635,15 +613,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void writeNoChanges() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
-    try {
-      modifier.modifyFile(
-          editUtil.byChange(change).get(),
-          FILE_NAME,
-          RestSession.newRawInput(CONTENT_OLD));
-      fail();
-    } catch (InvalidChangeOperationException e) {
-      assertThat(e.getMessage()).isEqualTo("no changes were made");
-    }
+    exception.expect(InvalidChangeOperationException.class);
+    exception.expectMessage("no changes were made");
+    modifier.modifyFile(
+        editUtil.byChange(change).get(),
+        FILE_NAME,
+        RestSession.newRawInput(CONTENT_OLD));
   }
 
   @Test

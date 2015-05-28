@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -105,13 +104,9 @@ public class CreateChangeIT extends AbstractDaemonTest {
   private void assertCreateFails(ChangeInfo in,
       Class<? extends RestApiException> errType, String errSubstring)
       throws Exception {
-    try {
-      gApi.changes().create(in);
-      fail("Expected " + errType.getSimpleName());
-    } catch (RestApiException expected) {
-      assertThat(expected).isInstanceOf(errType);
-      assertThat(expected.getMessage()).contains(errSubstring);
-    }
+    exception.expect(errType);
+    exception.expectMessage(errSubstring);
+    gApi.changes().create(in);
   }
 
   private ChangeStatus booleanToDraftStatus(Boolean draft) {

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -282,12 +281,9 @@ public class RevisionIT extends AbstractDaemonTest {
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
 
-    try {
-      orig.revision(r.getCommit().name()).cherryPick(in);
-      fail("Cherry-pick identical tree error expected");
-    } catch (RestApiException e) {
-      assertThat(e.getMessage()).isEqualTo("Cherry pick failed: identical tree");
-    }
+    exception.expect(RestApiException.class);
+    exception.expectMessage("Cherry pick failed: identical tree");
+    orig.revision(r.getCommit().name()).cherryPick(in);
   }
 
   @Test
@@ -310,12 +306,9 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes().id(triplet);
     assertThat(orig.get().messages).hasSize(1);
 
-    try {
-      orig.revision(r.getCommit().name()).cherryPick(in);
-      fail("Cherry-pick merge conflict error expected");
-    } catch (RestApiException e) {
-      assertThat(e.getMessage()).isEqualTo("Cherry pick failed: merge conflict");
-    }
+    exception.expect(RestApiException.class);
+    exception.expectMessage("Cherry pick failed: merge conflict");
+    orig.revision(r.getCommit().name()).cherryPick(in);
   }
 
   @Test

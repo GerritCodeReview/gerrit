@@ -23,16 +23,11 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
 public class AccountIT extends AbstractDaemonTest {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
-
   @Test
   public void get() throws Exception {
     AccountInfo info = gApi

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "39ebc864_610a365c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-28T17:15:57Z",
+      "side": 1,
+      "message": "Ouch. This was never actually working, since we forgot to request the reviewedby field be returned. The issue only cropped up when I changed to protect the whole thing by if (reviewedBy.length \u003e 0).\n\nFixed, and added a check to the index tests.",
+      "revId": "3961c7be502ffd683555c989870cd2903bafd3c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6d79b3_f395903c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2

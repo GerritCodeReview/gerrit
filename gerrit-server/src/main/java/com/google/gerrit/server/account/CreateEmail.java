@@ -15,9 +15,9 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.CreateEmail.Input;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -40,15 +39,8 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CreateEmail implements RestModifyView<AccountResource, Input> {
+public class CreateEmail implements RestModifyView<AccountResource, EmailInput> {
   private final Logger log = LoggerFactory.getLogger(getClass());
-
-  public static class Input {
-    @DefaultInput
-    public String email;
-    public boolean preferred;
-    public boolean noConfirmation;
-  }
 
   public static interface Factory {
     CreateEmail create(String email);
@@ -80,7 +72,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Response<EmailInfo> apply(AccountResource rsrc, Input input)
+  public Response<EmailInfo> apply(AccountResource rsrc, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, OrmException, EmailException,
       MethodNotAllowedException {
@@ -90,7 +82,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     }
 
     if (input == null) {
-      input = new Input();
+      input = new EmailInput();
     }
 
     if (!EmailValidator.getInstance().isValid(email)) {
@@ -105,7 +97,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     return apply(rsrc.getUser(), input);
   }
 
-  public Response<EmailInfo> apply(IdentifiedUser user, Input input)
+  public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, OrmException, EmailException,
       MethodNotAllowedException {

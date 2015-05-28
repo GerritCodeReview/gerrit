@@ -76,6 +76,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_e1bd26b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Oh :(\n\nWrong documentation is even worse than no documentation.\nActually the implementation in CMQ is to schedule it\n\n    ChangeSetTask task \u003d new ChangeSetTask(changes);\n    if (!queue.process(task)) {\n      queue.schedule(task, 0);\n    }\n\nI\u0027ll adapt the documentation.",
+      "parentUuid": "39ebc864_e11c069e",
+      "range": {
+        "startLine": 25,
+        "startChar": 5,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_a116fe77",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -87,6 +111,30 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Is this prefix actually required to get it to compile?",
+      "range": {
+        "startLine": 38,
+        "startChar": 55,
+        "endLine": 38,
+        "endChar": 76
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_e10f6635",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "In the current code yes.\n\nI could \n\n    import com.google.gerrit.server.git.PriorityLockedQueue.Task;\n\nthough, which makes it compile without the prefix.\nI\u0027ll do that for now, though I think as it\u0027s an inner class, we may want to point it out here?",
+      "parentUuid": "39ebc864_a116fe77",
       "range": {
         "startLine": 38,
         "startChar": 55,
@@ -116,6 +164,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_0095a647",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_8005364c",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_6158f65b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -127,6 +193,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "final",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_c11c6275",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_6158f65b",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -150,6 +234,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_a1195e83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_a0e83af0",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_415df249",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -167,6 +269,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_e091a25b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "39ebc864_415df249",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_e0ee42fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -178,6 +298,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "final",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_81265ac1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_e0ee42fe",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -207,6 +345,30 @@
     },
     {
       "key": {
+        "uuid": "19f28455_c09e9e6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "We should use the expected queue length here IMO, but even here at Google there will be less than one call to process/schedule per second, so the queue will be empty most of the time. \n\nI removed the 1, so we have a default sized PriorityQueue.",
+      "parentUuid": "39ebc864_8153fa3f",
+      "range": {
+        "startLine": 61,
+        "startChar": 37,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_e163e60b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -224,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_a09b9a79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_e163e60b",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_600a325c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -235,6 +415,30 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "\u003cp\u003e",
+      "range": {
+        "startLine": 68,
+        "startChar": 78,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_8088962b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_600a325c",
       "range": {
         "startLine": 68,
         "startChar": 78,
@@ -270,6 +474,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_412052a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_400f2e6a",
+      "range": {
+        "startLine": 85,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 23
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_c170e2d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -281,6 +509,30 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "s/a //",
+      "range": {
+        "startLine": 88,
+        "startChar": 33,
+        "endLine": 88,
+        "endChar": 35
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_612b568b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_c170e2d3",
       "range": {
         "startLine": 88,
         "startChar": 33,
@@ -310,6 +562,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_21254eb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_20142a7c",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_e0f522c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -321,6 +591,30 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Unnecessary final",
+      "range": {
+        "startLine": 97,
+        "startChar": 45,
+        "endLine": 97,
+        "endChar": 50
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_40828e09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_e0f522c4",
       "range": {
         "startLine": 97,
         "startChar": 45,
@@ -373,6 +667,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_e13646ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_613fd6e9",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_813adaf7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -384,6 +696,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_20878a19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_813adaf7",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -407,6 +737,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_c13342fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_00f926c0",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_802c16d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -424,6 +772,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_007c8697",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_802c16d4",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_2139ce01",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -435,6 +801,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "currentTasks is not a synchronized set, and presumably this method can be called from a variety of threads. I haven\u0027t thought through whether the call to locks.lock is enough to ensure whether a write to currentTasks after locks.lock returns is guaranteed to be seen by all threads.\n\nWould it make sense for this whole method be synchronized?",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_a1303ef1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "If I understand the synchronized semantics correctly, then only one thread can enter this method at a time,\nbut we want to be able to run this code from different threads which utilize different resources at the same time?\n\nSo actually we could run the code of this method synchronized except for processTask/processAsyncTask which should be excluded from the synchronization.",
+      "parentUuid": "39ebc864_2139ce01",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -475,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_81cd3a5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "That\u0027s the problem we were discussing earlier as well. Once we hand off the work to another thread, we cannot be sure if that thread takes a long time or just dies. So we need to have a guarantee that processingAsyncTaskDone is called eventually, such that we don\u0027t lock up.\n\nMaybe I should document the contract of processAsyncTask a bit more. Either you finish in time and call processingAsyncTaskDone or that call is assumed to be dead.\n\nPractically we could just have quite a long time out here, say 30 seconds, as no merge operation will take that long?",
+      "parentUuid": "39ebc864_e14ac675",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_40260ef2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -486,6 +888,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Schedule",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_80ff7679",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_40260ef2",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -509,6 +929,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_a0727abf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_c147c26b",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_202b0aba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -520,6 +958,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_6004721d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_202b0aba",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -543,6 +999,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_40096e33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Introducing a synchronized(queue) { ... }",
+      "parentUuid": "19f28455_002006d0",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_6031122a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -554,6 +1028,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "Need to finish this sentence",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_00136665",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_6031122a",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -600,6 +1092,48 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_21dc2e0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_a144be67",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_01c12a21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "No. :(",
+      "parentUuid": "39ebc864_81a1bab3",
+      "range": {
+        "startLine": 212,
+        "startChar": 45,
+        "endLine": 212,
+        "endChar": 65
+      },
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_e01c029e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -611,6 +1145,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "final",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_41d732eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_e01c029e",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -634,6 +1186,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_61d236fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_61a6b6cb",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_41abb291",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
         "patchSetId": 36
@@ -645,6 +1215,24 @@
       "writtenOn": "2015-05-28T18:21:02Z",
       "side": 1,
       "message": "synchronized?",
+      "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_200e6a3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PriorityLockedQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-28T19:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_41abb291",
       "revId": "df634ac28f02f7de9d7bc4b4c04b4d57b00b28d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_61cc762e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-29T06:19:59Z",
+      "side": 1,
+      "message": "There are two changes changeId and changeId2 that are used in this test. changeId is amended, so that immediately two patch sets are created. For some reasons, that I curently don\u0027t understand, the second patch set has earlier timestamp that the first one:\n\n* 1: 2015-05-29 10:03:48.659\n* 2: 2015-05-29 10:03:48.88\n\nThis problem is entirely unrelated to the change edit stuff. So that i would propose to just use changeId2 instead, that doesn\u0027t suffer from this problem, as the first patch set is not amended. Here is the fix to pass the test [1].\n\n* [1] http://paste.openstack.org/show/244075",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "94e0342238c72cb4d3e2f54efafcf2bc921a8d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

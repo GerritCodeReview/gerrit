@@ -76,7 +76,7 @@ public class BranchLink extends InlineHyperlink {
     }
 
     if (topic != null && !topic.isEmpty()) {
-      query += " " + PageLinks.op("topic", topic);
+      query += " " + PageLinks.op("exacttopic", topic);
     }
 
     return query;

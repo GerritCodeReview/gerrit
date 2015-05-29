@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -73,6 +74,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -153,7 +155,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
             RestSession.newRawInput(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
     editUtil.publish(editUtil.byChange(change).get());
-    assertThat(editUtil.byChange(change).isPresent()).isFalse();
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertThat(edit.isPresent()).isFalse();
+    assertPublishedEditMessage(change);
   }
 
   @Test
@@ -320,6 +324,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
         ListChangesOption.CURRENT_REVISION);
     assertThat(info.revisions.get(info.currentRevision).commit.message)
         .isEqualTo(msg);
+
+    assertCommitMessageUpdatedMessage(change);
   }
 
   @Test
@@ -345,6 +351,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
+
+    assertCommitMessageUpdatedMessage(change);
   }
 
   @Test
@@ -784,4 +792,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
     jsonReader.setLenient(true);
     return newGson().fromJson(jsonReader, String.class);
   }
+
+  private void assertChangeMessage(Change change, String expectedMessage)
+      throws Exception {
+    ChangeInfo c = get(change.getId().toString());
+    assertThat(c.messages).isNotNull();
+    assertThat(c.messages).hasSize(2);
+    Iterator<ChangeMessageInfo> it = c.messages.iterator();
+    assertThat(it.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(it.next().message)
+      .isEqualTo("Uploaded Patch Set 2: " + expectedMessage + ".");
+  }
+
+  private void assertCommitMessageUpdatedMessage(Change change) throws Exception {
+    assertChangeMessage(change, "Commit message was updated");
+  }
+
+  private void assertPublishedEditMessage(Change change) throws Exception {
+    assertChangeMessage(change, "Published edit on patch set 1");
+  }
+
 }

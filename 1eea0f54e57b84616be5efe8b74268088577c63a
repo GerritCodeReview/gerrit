@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f28455_605592ca",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:46:49Z",
+      "side": 1,
+      "message": "\"contains \u0027TOPIC\u0027, using a full-text search\"",
+      "range": {
+        "startLine": 159,
+        "startChar": 31,
+        "endLine": 159,
+        "endChar": 52
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_c129023e",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:46:49Z",
+      "side": 1,
+      "message": "I think this sentence is more appropriate for exacttopic",
+      "range": {
+        "startLine": 159,
+        "startChar": 54,
+        "endLine": 161,
+        "endChar": 32
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_805096dc",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:46:49Z",
+      "side": 1,
+      "message": "exacttopic",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_404a8e2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/TopicPredicate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:46:49Z",
+      "side": 1,
+      "message": "Extra space.",
+      "range": {
+        "startLine": 57,
+        "startChar": 64,
+        "endLine": 57,
+        "endChar": 65
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_a126fe69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/TopicPredicate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:46:49Z",
+      "side": 1,
+      "message": "This is not the same as what the underlying index would do. Look at MessagePredicate.java. Do that.",
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

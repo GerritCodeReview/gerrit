@@ -85,6 +85,24 @@
       "revId": "f54bfc241f7a2402b73463254f6f5100dfde4efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_614fd60b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T18:38:46Z",
+      "side": 1,
+      "message": "That\u0027s fine with me, I just put a check into ChangeQueryBuilder.topic for now and adapted the search for empty topic here.",
+      "parentUuid": "39ebc864_814adaf9",
+      "revId": "f54bfc241f7a2402b73463254f6f5100dfde4efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

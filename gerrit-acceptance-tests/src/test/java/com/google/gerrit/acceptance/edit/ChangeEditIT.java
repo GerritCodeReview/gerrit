@@ -25,6 +25,7 @@ import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -37,6 +38,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -72,7 +74,9 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -147,30 +151,37 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void publishEdit() throws Exception {
-    assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
+    assertThat(modifier.createEdit(change2, getCurrentPatchSet(changeId2)))
         .isEqualTo(RefUpdate.Result.NEW);
     assertThat(
-        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
             RestSession.newRawInput(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
-    editUtil.publish(editUtil.byChange(change).get());
-    assertThat(editUtil.byChange(change).isPresent()).isFalse();
+    editUtil.publish(editUtil.byChange(change2).get());
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
+    assertThat(edit.isPresent()).isFalse();
+    assertChangeMessages(change2,
+        ImmutableList.of("Patch set 2: Published edit on patch set 1.",
+            "Uploaded patch set 1."));
   }
 
   @Test
   public void publishEditRest() throws Exception {
-    PatchSet oldCurrentPatchSet = getCurrentPatchSet(changeId);
-    assertThat(modifier.createEdit(change, oldCurrentPatchSet)).isEqualTo(
+    PatchSet oldCurrentPatchSet = getCurrentPatchSet(changeId2);
+    assertThat(modifier.createEdit(change2, oldCurrentPatchSet)).isEqualTo(
         RefUpdate.Result.NEW);
     assertThat(
-        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+        modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
             RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
-    Optional<ChangeEdit> edit = editUtil.byChange(change);
-    RestResponse r = adminSession.post(urlPublish());
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
+    RestResponse r = adminSession.post(urlPublish(change2));
     assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
-    edit = editUtil.byChange(change);
+    edit = editUtil.byChange(change2);
     assertThat(edit.isPresent()).isFalse();
-    PatchSet newCurrentPatchSet = getCurrentPatchSet(changeId);
+    PatchSet newCurrentPatchSet = getCurrentPatchSet(changeId2);
     assertThat(newCurrentPatchSet.getId()).isNotEqualTo(oldCurrentPatchSet.getId());
+    assertChangeMessages(change2,
+        ImmutableList.of("Patch set 2: Published edit on patch set 1.",
+            "Uploaded patch set 1."));
   }
 
   @Test
@@ -302,49 +313,57 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void updateMessage() throws Exception {
-    assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
+    assertThat(modifier.createEdit(change2, getCurrentPatchSet(changeId2)))
         .isEqualTo(RefUpdate.Result.NEW);
-    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
 
     String msg = String.format("New commit message\n\nChange-Id: %s",
-        change.getKey());
+        change2.getKey());
     assertThat(modifier.modifyMessage(edit.get(), msg)).isEqualTo(
         RefUpdate.Result.FORCED);
-    edit = editUtil.byChange(change);
+    edit = editUtil.byChange(change2);
     assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
 
     editUtil.publish(edit.get());
-    assertThat(editUtil.byChange(change).isPresent()).isFalse();
+    assertThat(editUtil.byChange(change2).isPresent()).isFalse();
 
-    ChangeInfo info = get(changeId, ListChangesOption.CURRENT_COMMIT,
+    ChangeInfo info = get(changeId2, ListChangesOption.CURRENT_COMMIT,
         ListChangesOption.CURRENT_REVISION);
     assertThat(info.revisions.get(info.currentRevision).commit.message)
         .isEqualTo(msg);
+
+    assertChangeMessages(change2,
+        ImmutableList.of("Patch set 2: Commit message was updated.",
+            "Uploaded patch set 1."));
   }
 
   @Test
   public void updateMessageRest() throws Exception {
-    assertThat(adminSession.get(urlEditMessage()).getStatusCode())
+    assertThat(adminSession.get(urlEditMessage(change2)).getStatusCode())
         .isEqualTo(SC_NOT_FOUND);
     EditMessage.Input in = new EditMessage.Input();
     in.message = String.format("New commit message\n\n" +
         CONTENT_NEW2_STR + "\n\nChange-Id: %s",
-        change.getKey());
-    assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
+        change2.getKey());
+    assertThat(adminSession.put(urlEditMessage(change2), in).getStatusCode())
         .isEqualTo(SC_NO_CONTENT);
-    RestResponse r = adminSession.getJsonAccept(urlEditMessage());
+    RestResponse r = adminSession.getJsonAccept(urlEditMessage(change2));
     assertThat(r.getStatusCode()).isEqualTo(SC_OK);
     assertThat(readContentFromJson(r)).isEqualTo(in.message);
-    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
     in.message = String.format("New commit message2\n\nChange-Id: %s",
-        change.getKey());
-    assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
+        change2.getKey());
+    assertThat(adminSession.put(urlEditMessage(change2), in).getStatusCode())
         .isEqualTo(SC_NO_CONTENT);
-    edit = editUtil.byChange(change);
+    edit = editUtil.byChange(change2);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
+    editUtil.publish(edit.get());
+    assertChangeMessages(change2,
+        ImmutableList.of("Patch set 2: Commit message was updated.",
+            "Uploaded patch set 1."));
   }
 
   @Test
@@ -744,9 +763,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/edit/";
   }
 
-  private String urlEditMessage() {
+  private String urlEditMessage(Change c) {
     return "/changes/"
-        + change.getChangeId()
+        + c.getChangeId()
         + "/edit:message";
   }
 
@@ -761,9 +780,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "?list";
   }
 
-  private String urlPublish() {
+  private String urlPublish(Change c) {
     return "/changes/"
-        + change.getChangeId()
+        + c.getChangeId()
         + "/edit:publish";
   }
 
@@ -783,5 +802,20 @@ public class ChangeEditIT extends AbstractDaemonTest {
     JsonReader jsonReader = new JsonReader(r.getReader());
     jsonReader.setLenient(true);
     return newGson().fromJson(jsonReader, String.class);
+  }
+
+  private void assertChangeMessages(Change c, List<String> expectedMessages)
+      throws Exception {
+    ChangeInfo ci = get(c.getId().toString());
+    assertThat(ci.messages).isNotNull();
+    assertThat(ci.messages).hasSize(expectedMessages.size());
+    List<String> actualMessages = new ArrayList<>();
+    Iterator<ChangeMessageInfo> it = ci.messages.iterator();
+    while (it.hasNext()) {
+      actualMessages.add(it.next().message);
+    }
+    assertThat(actualMessages)
+      .containsExactlyElementsIn(expectedMessages)
+      .inOrder();
   }
 }

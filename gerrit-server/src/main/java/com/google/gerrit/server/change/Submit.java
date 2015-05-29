@@ -697,7 +697,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   private List<ChangeData> getChangesByTopic(String topic) {
     try {
-      return queryProvider.get().byTopicOpen(topic);
+      return queryProvider.get().byExactTopicOpen(topic);
     } catch (OrmException e) {
       throw new OrmRuntimeException(e);
     }

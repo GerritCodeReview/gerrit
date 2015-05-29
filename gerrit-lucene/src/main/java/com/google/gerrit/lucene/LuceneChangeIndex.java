@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
@@ -393,7 +394,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     private QuerySource(List<SubIndex> indexes, Query query, int start,
         int limit, Sort sort) {
       this.indexes = indexes;
-      this.query = query;
+      this.query = checkNotNull(query, "null query from Lucene");
       this.start = start;
       this.limit = limit;
       this.sort = sort;

@@ -66,7 +66,9 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -105,6 +107,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private PatchSet ps;
   private PatchSet ps2;
 
+  @BeforeClass
+  public static void setTimeForTesting() {
+    final long clockStepMs = MILLISECONDS.convert(1, SECONDS);
+    final AtomicLong clockMs = new AtomicLong(
+        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
+    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
+      @Override
+      public long getMillis() {
+        return clockMs.getAndAdd(clockStepMs);
+      }
+    });
+  }
+
+  @AfterClass
+  public static void restoreTime() {
+    DateTimeUtils.setCurrentMillisSystem();
+  }
+
   @Before
   public void setUp() throws Exception {
     db = reviewDbProvider.open();
@@ -118,20 +138,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(change2).isNotNull();
     ps2 = getCurrentPatchSet(changeId2);
     assertThat(ps2).isNotNull();
-    final long clockStepMs = MILLISECONDS.convert(1, SECONDS);
-    final AtomicLong clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
   }
 
   @After
   public void cleanup() {
-    DateTimeUtils.setCurrentMillisSystem();
     db.close();
   }
 

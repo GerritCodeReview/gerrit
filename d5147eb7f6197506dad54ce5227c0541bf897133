@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f90db02c_77b79029",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-29T04:56:16Z",
+      "side": 1,
+      "message": "This fails because the messages are not in the expected order.\n\n java.lang.AssertionError: Not true that \u003c[Uploaded patch set 3: Published edit on patch set 2., Uploaded patch set 1., Uploaded patch set 2.]\u003e contains exactly \u003c[Uploaded patch set 1., Uploaded patch set 2., Patch set 3: Published edit on patch set 2.]\u003e. It is missing \u003c[Patch set 3: Published edit on patch set 2.]\u003e and has unexpected items \u003c[Uploaded patch set 3: Published edit on patch set 2.]\u003e",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 69
+      },
+      "revId": "d5147eb7f6197506dad54ce5227c0541bf897133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

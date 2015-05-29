@@ -61,7 +61,6 @@ public class IncludedInResolver {
   private final RevWalk rw;
   private final RevCommit target;
 
-  private final RevFlag containsTarget;
   private Multimap<RevCommit, String> commitToRef;
   private List<RevCommit> tipsByCommitTime;
 
@@ -70,7 +69,6 @@ public class IncludedInResolver {
     this.repo = repo;
     this.rw = rw;
     this.target = target;
-    this.containsTarget = rw.newFlag("CONTAINS_TARGET");
   }
 
   private IncludedInDetail resolve() throws IOException {
@@ -109,20 +107,14 @@ public class IncludedInResolver {
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     Set<String> result = Sets.newHashSet();
     for (RevCommit tip : tips) {
-      boolean commitFound = false;
-      rw.resetRetain(RevFlag.UNINTERESTING, containsTarget);
+      rw.resetRetain(RevFlag.UNINTERESTING);
       rw.markStart(tip);
-      for (RevCommit commit : rw) {
-        if (commit.equals(target) || commit.has(containsTarget)) {
-          commitFound = true;
-          tip.add(containsTarget);
-          result.addAll(commitToRef.get(tip));
-          break;
-        }
-      }
-      if (!commitFound) {
+      if (rw.isMergedInto(target, tip)) {
+        result.addAll(commitToRef.get(tip));
+      } else {
         rw.markUninteresting(tip);
-      } else if (0 < limit && limit < result.size()) {
+      }
+      if (0 < limit && limit < result.size()) {
         break;
       }
     }

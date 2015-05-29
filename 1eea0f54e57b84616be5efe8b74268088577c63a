@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19f28455_e0408206",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T18:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_605592ca",
+      "range": {
+        "startLine": 159,
+        "startChar": 31,
+        "endLine": 159,
+        "endChar": 52
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_c129023e",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-29T17:46:49Z",
       "side": 1,
       "message": "I think this sentence is more appropriate for exacttopic",
+      "range": {
+        "startLine": 159,
+        "startChar": 54,
+        "endLine": 161,
+        "endChar": 32
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_00448618",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T18:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_c129023e",
       "range": {
         "startLine": 159,
         "startChar": 54,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_416df27b",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T18:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_805096dc",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_404a8e2a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/TopicPredicate.java",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2015-05-29T17:46:49Z",
       "side": 1,
       "message": "Extra space.",
+      "range": {
+        "startLine": 57,
+        "startChar": 64,
+        "endLine": 57,
+        "endChar": 65
+      },
+      "revId": "1eea0f54e57b84616be5efe8b74268088577c63a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_c03d7e9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/TopicPredicate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T18:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_404a8e2a",
       "range": {
         "startLine": 57,
         "startChar": 64,

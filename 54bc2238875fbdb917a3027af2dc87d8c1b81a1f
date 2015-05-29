@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_21ed4e84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T16:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_00afe66c",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_e0abe25c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "19f28455_c08fbefc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T16:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f28455_e0abe25c",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_015daaf8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
         "patchSetId": 3
@@ -64,6 +100,24 @@
       "writtenOn": "2015-05-29T03:05:47Z",
       "side": 1,
       "message": "if (schema.hasField(EXACT_TOPIC)), etc.",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_a08cba08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T16:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_015daaf8",
       "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_01024ac6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T16:38:51Z",
+      "side": 1,
+      "message": "Done, do we need to check for the other LEGACY_TOPIC3 and EXACT_TOPIC here as well?\n\nI don\u0027t understand why we do need to manually do a null -\u003e empty string conversion here. I admit to having it copied over from TopicPredicate.java",
+      "parentUuid": "39ebc864_e159a60c",
+      "range": {
+        "startLine": 58,
+        "startChar": 59,
+        "endLine": 58,
+        "endChar": 61
+      },
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_c166a2cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 3
@@ -110,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_e1fe4630",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T16:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_c166a2cc",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_a1639eba",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 3
@@ -121,6 +217,24 @@
       "writtenOn": "2015-05-29T03:05:47Z",
       "side": 1,
       "message": "Also include a topic that is the prefix of another topic, and ensure an exacttopic search for the prefix does not return the longer one.",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_8069b6a4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T16:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ebc864_a1639eba",
       "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -21,10 +21,7 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
 
 import org.apache.http.Header;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
@@ -41,7 +38,6 @@ public class RestSession extends HttpSession {
     super(server, account);
   }
 
-  @Override
   public RestResponse get(String endPoint) throws IOException {
     return getWithHeader(endPoint, null);
   }
@@ -53,11 +49,11 @@ public class RestSession extends HttpSession {
 
   private RestResponse getWithHeader(String endPoint, Header header)
       throws IOException {
-    HttpGet get = new HttpGet(url + "/a" + endPoint);
+    Request get = Request.Get(url + "/a" + endPoint);
     if (header != null) {
       get.addHeader(header);
     }
-    return new RestResponse(getClient().execute(get));
+    return execute(get);
   }
 
   public RestResponse put(String endPoint) throws IOException {
@@ -75,28 +71,28 @@ public class RestSession extends HttpSession {
 
   public RestResponse putWithHeader(String endPoint, Header header,
       Object content) throws IOException {
-    HttpPut put = new HttpPut(url + "/a" + endPoint);
+    Request put = Request.Put(url + "/a" + endPoint);
     if (header != null) {
       put.addHeader(header);
     }
     if (content != null) {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
-      put.setEntity(new StringEntity(
+      put.body(new StringEntity(
           OutputFormat.JSON_COMPACT.newGson().toJson(content),
           Charsets.UTF_8.name()));
     }
-    return new RestResponse(getClient().execute(put));
+    return execute(put);
   }
 
   public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
     Preconditions.checkNotNull(stream);
-    HttpPut put = new HttpPut(url + "/a" + endPoint);
+    Request put = Request.Put(url + "/a" + endPoint);
     put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
-    put.setEntity(new BufferedHttpEntity(
+    put.body(new BufferedHttpEntity(
         new InputStreamEntity(
             stream.getInputStream(),
             stream.getContentLength())));
-    return new RestResponse(getClient().execute(put));
+    return execute(put);
   }
 
   public RestResponse post(String endPoint) throws IOException {
@@ -104,19 +100,18 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse post(String endPoint, Object content) throws IOException {
-    HttpPost post = new HttpPost(url + "/a" + endPoint);
+    Request post = Request.Post(url + "/a" + endPoint);
     if (content != null) {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
-      post.setEntity(new StringEntity(
+      post.body(new StringEntity(
           OutputFormat.JSON_COMPACT.newGson().toJson(content),
           Charsets.UTF_8.name()));
     }
-    return new RestResponse(getClient().execute(post));
+    return execute(post);
   }
 
   public RestResponse delete(String endPoint) throws IOException {
-    HttpDelete delete = new HttpDelete(url + "/a" + endPoint);
-    return new RestResponse(getClient().execute(delete));
+    return execute(Request.Delete(url + "/a" + endPoint));
   }
 
 

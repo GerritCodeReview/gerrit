@@ -202,7 +202,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       return false;
     }
     IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
-    return index.getSchema().getFields().containsKey(p.getField().getName());
+    return index.getSchema().hasField(p.getField());
   }
 
   private Predicate<ChangeData> partitionChildren(

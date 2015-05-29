@@ -33,17 +33,7 @@ class TopicPredicate extends IndexPredicate<ChangeData> {
 
   @SuppressWarnings("deprecation")
   static FieldDef<ChangeData, ?> topicField(Schema<ChangeData> schema) {
-    if (schema == null) {
-      return LEGACY_TOPIC2;
-    }
-    if (schema.hasField(FUZZY_TOPIC)) {
-      return schema.getFields().get(FUZZY_TOPIC.getName());
-    }
-    if (schema.hasField(LEGACY_TOPIC3)) {
-      return schema.getFields().get(LEGACY_TOPIC3.getName());
-    }
-
-    return schema.getFields().get(LEGACY_TOPIC2.getName());
+    return schema.getField(FUZZY_TOPIC, LEGACY_TOPIC3, LEGACY_TOPIC2).get();
   }
 
   TopicPredicate(Schema<ChangeData> schema, String topic, ChangeIndex index) {

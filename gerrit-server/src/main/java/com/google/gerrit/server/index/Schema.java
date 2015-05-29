@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
@@ -50,6 +53,13 @@ public class Schema<T> {
     }
   }
 
+  private static <T> FieldDef<T, ?> checkSame(FieldDef<T, ?> f1,
+      FieldDef<T, ?> f2) {
+    checkState(f1 == f2, "Mismatched %s fields: %s != %s",
+        f1.getName(), f1, f2);
+    return f1;
+  }
+
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
   private int version;
 
@@ -71,12 +81,56 @@ public class Schema<T> {
     return version;
   }
 
+  /**
+   * Get all fields in this schema.
+   * <p>
+   * This is primarily useful for iteration. Most callers should prefer one
+   * of the helper methods {@link #getField(FieldDef, FieldDef...)} or {@link
+   * #hasField(FieldDef)} to looking up fields by name
+   *
+   * @return all fields in this schema indexed by name.
+   */
   public final ImmutableMap<String, FieldDef<T, ?>> getFields() {
     return fields;
   }
 
+  /**
+   * Look up fields in this schema.
+   *
+   * @param first the preferred field to look up.
+   * @param rest additional fields to look up.
+   * @return the first field in the schema matching {@code first} or {@code
+   *     rest}, in order, or absent if no field matches.
+   */
+  @SafeVarargs
+  public final Optional<FieldDef<T, ?>> getField(FieldDef<T, ?> first,
+      FieldDef<T, ?>... rest) {
+    FieldDef<T, ?> field = fields.get(first.getName());
+    if (field != null) {
+      return Optional.<FieldDef<T, ?>> of(checkSame(field, first));
+    }
+    for (FieldDef<T, ?> f : rest) {
+      field = fields.get(f.getName());
+      if (field != null) {
+        return Optional.<FieldDef<T, ?>> of(checkSame(field, f));
+      }
+    }
+    return Optional.absent();
+  }
+
+  /**
+   * Check whether a field is present in this schema.
+   *
+   * @param field field to look up.
+   * @return whether the field is present.
+   */
   public final boolean hasField(FieldDef<T, ?> field) {
-    return fields.get(field.getName()) == field;
+    FieldDef<T, ?> f = fields.get(field.getName());
+    if (f == null) {
+      return false;
+    }
+    checkSame(f, field);
+    return true;
   }
 
   /**

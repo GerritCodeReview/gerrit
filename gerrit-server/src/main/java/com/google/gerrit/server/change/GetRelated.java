@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.index.ChangeField.GROUP;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
@@ -27,7 +29,6 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GroupCollector;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -79,7 +80,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     List<String> thisPatchSetGroups = GroupCollector.getGroups(rsrc);
     if (byAncestorsOnly
         || thisPatchSetGroups == null
-        || !indexes.getSearchIndex().getSchema().hasField(ChangeField.GROUP)) {
+        || !indexes.getSearchIndex().getSchema().hasField(GROUP)) {
       return byAncestors.getRelated(rsrc);
     }
     RelatedInfo relatedInfo = new RelatedInfo();

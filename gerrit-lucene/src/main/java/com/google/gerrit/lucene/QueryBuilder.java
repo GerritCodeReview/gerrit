@@ -242,8 +242,14 @@ public class QueryBuilder {
     return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private Query fullTextQuery(IndexPredicate<ChangeData> p) {
-    return queryBuilder.createPhraseQuery(p.getField().getName(), p.getValue());
+  private Query fullTextQuery(IndexPredicate<ChangeData> p)
+      throws QueryParseException {
+    String value = p.getValue();
+    if (value == null) {
+      throw new QueryParseException(
+          "Full-text search over empty string not supported");
+    }
+    return queryBuilder.createPhraseQuery(p.getField().getName(), value);
   }
 
   public int toIndexTimeInMinutes(Date ts) {

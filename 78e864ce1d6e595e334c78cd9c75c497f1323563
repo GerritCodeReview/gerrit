@@ -2,6 +2,103 @@
   "comments": [
     {
       "key": {
+        "uuid": "39ebc864_411f321c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:15:16Z",
+      "side": 1,
+      "message": "You can\u0027t change an existing schema, you need to add this as V21.",
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_21242e6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:15:16Z",
+      "side": 1,
+      "message": "Documentation for this operator in user-search.txt",
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_01092ae2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:15:16Z",
+      "side": 1,
+      "message": "FWIW the other alternative is to throw QueryParseException.\n\nDon\u0027t worry too much about cleaning this up though. I have an idea in mind for later.",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 45
+      },
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_005da6f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:15:16Z",
+      "side": 1,
+      "message": "Capitalize and end with a period.",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 10
+      },
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_e059a20c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/TopicPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:15:16Z",
+      "side": 1,
+      "message": "This implementation is wrong in some cases.\n\n* For LEGACY_TOPIC2 do the exact match.\n* For FUZZY_TOPIC, do the thing we do for e.g. the message field where we do a full-text search for \"id:X topic:foo\".\n* For LEGACY_TOPIC3, either do a prefix match, or do the same thing as for FUZZY_TOPIC.",
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_4073ae92",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 6
@@ -36,6 +133,30 @@
       "writtenOn": "2015-05-29T17:06:35Z",
       "side": 1,
       "message": "The fuzzy search however does not.",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 460,
+        "endChar": 60
+      },
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_e10526c6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:15:16Z",
+      "side": 1,
+      "message": "I don\u0027t think this is expected to work, at least in Lucene. Full-text search generally does not mean prefix search.\n\nI would expect \"topic:fixup\" to work, however.",
+      "parentUuid": "39ebc864_81153afe",
       "range": {
         "startLine": 460,
         "startChar": 4,

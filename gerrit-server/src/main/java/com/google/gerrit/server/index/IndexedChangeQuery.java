@@ -85,8 +85,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public boolean hasChange() {
-    return index.getSchema().getFields()
-        .containsKey(ChangeField.CHANGE.getName());
+    return index.getSchema().hasField(ChangeField.CHANGE);
   }
 
   @Override

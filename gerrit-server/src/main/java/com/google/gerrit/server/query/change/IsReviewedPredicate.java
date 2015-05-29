@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.index.ChangeField.LEGACY_REVIEWED;
+import static com.google.gerrit.server.index.ChangeField.REVIEWEDBY;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
@@ -35,20 +39,18 @@ class IsReviewedPredicate extends IndexPredicate<ChangeData> {
 
   @SuppressWarnings("deprecation")
   static Predicate<ChangeData> create(Schema<ChangeData> schema) {
-    if (schema == null || schema.hasField(ChangeField.LEGACY_REVIEWED)) {
+    if (getField(schema) == LEGACY_REVIEWED) {
       return new LegacyIsReviewedPredicate();
     }
-    checkSchema(schema);
     return Predicate.not(new IsReviewedPredicate(NOT_REVIEWED));
   }
 
   @SuppressWarnings("deprecation")
   static Predicate<ChangeData> create(Schema<ChangeData> schema,
       Collection<Account.Id> ids) throws QueryParseException {
-    if (schema == null || schema.hasField(ChangeField.LEGACY_REVIEWED)) {
+    if (getField(schema) == LEGACY_REVIEWED) {
       throw new QueryParseException("Only is:reviewed is supported");
     }
-    checkSchema(schema);
     List<Predicate<ChangeData>> predicates = new ArrayList<>(ids.size());
     for (Account.Id id : ids) {
       predicates.add(new IsReviewedPredicate(id));
@@ -56,16 +58,19 @@ class IsReviewedPredicate extends IndexPredicate<ChangeData> {
     return Predicate.or(predicates);
   }
 
-  private static void checkSchema(Schema<ChangeData> schema) {
-    checkArgument(schema.hasField(ChangeField.REVIEWEDBY),
-        "Schema %s missing field %s",
-        schema.getVersion(), ChangeField.REVIEWEDBY.getName());
+  @SuppressWarnings("deprecation")
+  private static FieldDef<ChangeData, ?> getField(Schema<ChangeData> schema) {
+    Optional<FieldDef<ChangeData, ?>> f =
+        schema.getField(REVIEWEDBY, LEGACY_REVIEWED);
+    checkState(f.isPresent(), "Schema %s missing field %s",
+        schema.getVersion(), REVIEWEDBY.getName());
+    return f.get();
   }
 
   private final Account.Id id;
 
   private IsReviewedPredicate(Account.Id id) {
-    super(ChangeField.REVIEWEDBY, Integer.toString(id.get()));
+    super(REVIEWEDBY, Integer.toString(id.get()));
     this.id = id;
   }
 

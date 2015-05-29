@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f28455_4073ae92",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T17:06:35Z",
+      "side": 1,
+      "message": "This works just fine now.",
+      "range": {
+        "startLine": 459,
+        "startChar": 3,
+        "endLine": 459,
+        "endChar": 48
+      },
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_81153afe",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-05-29T17:06:35Z",
+      "side": 1,
+      "message": "The fuzzy search however does not.",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 460,
+        "endChar": 60
+      },
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

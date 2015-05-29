@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "39ebc864_e1d766b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-29T07:29:20Z",
+      "side": 1,
+      "message": "I think I have an idea what going on here. The custom millisProvider is set too late, after the patch sets were already created. Can you change it to be the first statement in the setUp() method? Does it actually fix the original problem with change (and not change2) you had?",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 7
+      },
+      "revId": "876b32b2a129916e9378b6d5c1aee20c800860f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9246ca6_d6ee64fe",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 7
@@ -25,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_01db6ae6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-29T07:29:20Z",
+      "side": 1,
+      "message": "Good question. I will have a look.",
+      "parentUuid": "d9246ca6_d6ee64fe",
+      "range": {
+        "startLine": 261,
+        "startChar": 39,
+        "endLine": 261,
+        "endChar": 48
+      },
+      "revId": "876b32b2a129916e9378b6d5c1aee20c800860f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9246ca6_36d8f861",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 7
@@ -36,6 +83,30 @@
       "writtenOn": "2015-05-29T06:41:52Z",
       "side": 1,
       "message": "I\u0027m not 100% sure that this is correct.  In the ChangeMessagesIT they are in the opposite order:\n\n  @Test\n  public void messagesReturnedInChronologicalOrder() throws Exception {\n    String changeId \u003d createChange().getChangeId();\n    String firstMessage \u003d \"Some nits need to be fixed.\";\n    postMessage(changeId, firstMessage);\n    String secondMessage \u003d \"I like this feature.\";\n    postMessage(changeId, secondMessage);\n    ChangeInfo c \u003d get(changeId);\n    assertThat(c.messages).isNotNull();\n    assertThat(c.messages).hasSize(3);\n    Iterator\u003cChangeMessageInfo\u003e it \u003d c.messages.iterator();\n    assertThat(it.next().message).isEqualTo(\"Uploaded patch set 1.\");\n    assertMessage(firstMessage, it.next().message);\n    assertMessage(secondMessage, it.next().message);\n  }",
+      "range": {
+        "startLine": 336,
+        "startChar": 25,
+        "endLine": 337,
+        "endChar": 35
+      },
+      "revId": "876b32b2a129916e9378b6d5c1aee20c800860f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_21d66ebe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-29T07:29:20Z",
+      "side": 1,
+      "message": "See my comment above.",
+      "parentUuid": "d9246ca6_36d8f861",
       "range": {
         "startLine": 336,
         "startChar": 25,

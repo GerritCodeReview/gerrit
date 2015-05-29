@@ -25,6 +25,7 @@ import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -37,6 +38,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -72,7 +74,9 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -153,7 +157,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
             RestSession.newRawInput(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
     editUtil.publish(editUtil.byChange(change).get());
-    assertThat(editUtil.byChange(change).isPresent()).isFalse();
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertThat(edit.isPresent()).isFalse();
+    assertChangeMessages(change,
+        ImmutableList.of("Uploaded patch set 1.", "Uploaded patch set 2.",
+            "Uploaded patch set 3: Published edit on patch set 2."));
   }
 
   @Test
@@ -783,5 +791,20 @@ public class ChangeEditIT extends AbstractDaemonTest {
     JsonReader jsonReader = new JsonReader(r.getReader());
     jsonReader.setLenient(true);
     return newGson().fromJson(jsonReader, String.class);
+  }
+
+  private void assertChangeMessages(Change c, List<String> expectedMessages)
+      throws Exception {
+    ChangeInfo ci = get(c.getId().toString());
+    assertThat(ci.messages).isNotNull();
+    assertThat(ci.messages).hasSize(expectedMessages.size());
+    List<String> actualMessages = new ArrayList<>();
+    Iterator<ChangeMessageInfo> it = ci.messages.iterator();
+    while (it.hasNext()) {
+      actualMessages.add(it.next().message);
+    }
+    assertThat(actualMessages)
+      .containsExactlyElementsIn(expectedMessages)
+      .inOrder();
   }
 }

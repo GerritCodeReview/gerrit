@@ -105,6 +105,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private PatchSet ps;
   private PatchSet ps2;
 
+  private volatile long clockStepMs;
+  private String systemTimeZone;
+
   @Before
   public void setUp() throws Exception {
     db = reviewDbProvider.open();
@@ -118,7 +121,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(change2).isNotNull();
     ps2 = getCurrentPatchSet(changeId2);
     assertThat(ps2).isNotNull();
-    final long clockStepMs = MILLISECONDS.convert(1, SECONDS);
+
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+
+    clockStepMs = MILLISECONDS.convert(1, SECONDS);
     final AtomicLong clockMs = new AtomicLong(
         new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
     DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
@@ -132,6 +138,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @After
   public void cleanup() {
     DateTimeUtils.setCurrentMillisSystem();
+    System.setProperty("user.timezone", systemTimeZone);
     db.close();
   }
 

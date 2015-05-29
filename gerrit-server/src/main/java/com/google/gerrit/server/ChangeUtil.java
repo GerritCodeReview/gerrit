@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server;
 
-import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
@@ -34,7 +32,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeTriplet;
-import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -75,11 +72,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -202,7 +197,6 @@ public class ChangeUtil {
   private final Provider<InternalChangeQuery> queryProvider;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeInserter.Factory changeInserterFactory;
-  private final PatchSetInserter.Factory patchSetInserterFactory;
   private final GitRepositoryManager gitManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeIndexer indexer;
@@ -214,7 +208,6 @@ public class ChangeUtil {
       Provider<InternalChangeQuery> queryProvider,
       RevertedSender.Factory revertedSenderFactory,
       ChangeInserter.Factory changeInserterFactory,
-      PatchSetInserter.Factory patchSetInserterFactory,
       GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated,
       ChangeIndexer indexer) {
@@ -224,7 +217,6 @@ public class ChangeUtil {
     this.queryProvider = queryProvider;
     this.revertedSenderFactory = revertedSenderFactory;
     this.changeInserterFactory = changeInserterFactory;
-    this.patchSetInserterFactory = patchSetInserterFactory;
     this.gitManager = gitManager;
     this.gitRefUpdated = gitRefUpdated;
     this.indexer = indexer;
@@ -338,70 +330,6 @@ public class ChangeUtil {
         log.error("Cannot send email for revert change " + change.getId(),
             err);
       }
-
-      return change.getId();
-    } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
-    }
-  }
-
-  public Change.Id editCommitMessage(ChangeControl ctl, PatchSet ps,
-      String message, PersonIdent myIdent) throws NoSuchChangeException,
-      OrmException, MissingObjectException, IncorrectObjectTypeException,
-      IOException, InvalidChangeOperationException {
-    Change change = ctl.getChange();
-    Change.Id changeId = change.getId();
-
-    if (Strings.isNullOrEmpty(message)) {
-      throw new InvalidChangeOperationException(
-          "The commit message cannot be empty");
-    }
-
-    Project.NameKey project = ctl.getChange().getProject();
-    try (Repository git = gitManager.openRepository(project);
-        RevWalk revWalk = new RevWalk(git)) {
-      RevCommit commit =
-          revWalk.parseCommit(ObjectId.fromString(ps.getRevision()
-              .get()));
-      if (commit.getFullMessage().equals(message)) {
-        throw new InvalidChangeOperationException(
-            "New commit message cannot be same as existing commit message");
-      }
-
-      Date now = myIdent.getWhen();
-      PersonIdent authorIdent =
-          user().newCommitterIdent(now, myIdent.getTimeZone());
-
-      CommitBuilder commitBuilder = new CommitBuilder();
-      commitBuilder.setTreeId(commit.getTree());
-      commitBuilder.setParentIds(commit.getParents());
-      commitBuilder.setAuthor(commit.getAuthorIdent());
-      commitBuilder.setCommitter(authorIdent);
-      commitBuilder.setMessage(message);
-
-      RevCommit newCommit;
-      try (ObjectInserter oi = git.newObjectInserter()) {
-        ObjectId id = oi.insert(commitBuilder);
-        oi.flush();
-        newCommit = revWalk.parseCommit(id);
-      }
-
-      PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
-      PatchSet newPatchSet = new PatchSet(id);
-      newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
-      newPatchSet.setUploader(user().getAccountId());
-      newPatchSet.setRevision(new RevId(newCommit.name()));
-
-      String msg = "Patch Set " + newPatchSet.getPatchSetId()
-          + ": Commit message was updated";
-
-      change = patchSetInserterFactory
-          .create(git, revWalk, ctl, newCommit)
-          .setPatchSet(newPatchSet)
-          .setMessage(msg)
-          .setValidatePolicy(RECEIVE_COMMITS)
-          .setDraft(ps.isDraft())
-          .insert();
 
       return change.getId();
     } catch (RepositoryNotFoundException e) {

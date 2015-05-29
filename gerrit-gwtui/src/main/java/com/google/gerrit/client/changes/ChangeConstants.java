@@ -67,7 +67,6 @@ public interface ChangeConstants extends Constants {
   String keyReloadSearch();
   String keyPublishComments();
   String keyEditTopic();
-  String keyEditMessage();
   String keyAddReviewers();
   String keyExpandAllMessages();
   String keyCollapseAllMessages();
@@ -154,10 +153,6 @@ public interface ChangeConstants extends Constants {
   String buttonRevertChangeSend();
   String headingRevertMessage();
   String revertChangeTitle();
-
-  String headingEditCommitMessage();
-  String editCommitMessageToolTip();
-  String titleEditCommitMessage();
 
   String buttonCherryPickChangeBegin();
   String buttonCherryPickChangeSend();

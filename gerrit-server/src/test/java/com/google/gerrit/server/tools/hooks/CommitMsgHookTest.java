@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.tools.hooks;
 
+import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
 
 import com.google.gerrit.server.util.HostPlatform;
 
@@ -31,9 +31,8 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.rules.TestName;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,20 +43,14 @@ public class CommitMsgHookTest extends HookTestCase {
   private final String SOB1 = "Signed-off-by: J Author <ja@example.com>\n";
   private final String SOB2 = "Signed-off-by: J Committer <jc@example.com>\n";
 
-  @Rule public TestName test = new TestName();
-
-  private void skipIfWin32Platform() {
-    if (HostPlatform.isWin32()) {
-      System.err.println(" - Skipping " + test.getMethodName() + " on this system");
-      assumeTrue(false);
-    }
+  @BeforeClass
+  public static void skipIfWin32Platform() {
+    assume().that(HostPlatform.isWin32()).isFalse();
   }
 
   @Override
   @Before
   public void setUp() throws Exception {
-    skipIfWin32Platform();
-
     super.setUp();
     final Date when = author.getWhen();
     final TimeZone tz = author.getTimeZone();

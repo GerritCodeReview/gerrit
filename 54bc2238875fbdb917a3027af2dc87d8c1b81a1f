@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f28455_00afe66c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T03:05:47Z",
+      "side": 1,
+      "message": "This is silly, but not your fault. LEGACY_TOPIC2 is named \"topic3\"?\n\nMaybe rename this LEGACY_TOPIC3 and rename LEGACY_TOPIC to LEGACY_TOPIC2?",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_e0abe25c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T03:05:47Z",
+      "side": 1,
+      "message": "V20 was merged earlier today, you should rebase.",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_015daaf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T03:05:47Z",
+      "side": 1,
+      "message": "if (schema.hasField(EXACT_TOPIC)), etc.",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_e159a60c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T03:05:47Z",
+      "side": 1,
+      "message": "Extra space",
+      "range": {
+        "startLine": 58,
+        "startChar": 59,
+        "endLine": 58,
+        "endChar": 61
+      },
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_c166a2cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T03:05:47Z",
+      "side": 1,
+      "message": "Optional: I think this method could just be inlined?",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_a1639eba",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T03:05:47Z",
+      "side": 1,
+      "message": "Also include a topic that is the prefix of another topic, and ensure an exacttopic search for the prefix does not return the longer one.",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

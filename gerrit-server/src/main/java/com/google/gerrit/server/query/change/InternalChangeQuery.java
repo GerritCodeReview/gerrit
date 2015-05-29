@@ -86,10 +86,6 @@ public class InternalChangeQuery {
     return this;
   }
 
-  private Predicate<ChangeData> topic(String topic) {
-    return new TopicPredicate(schema(indexes), topic);
-  }
-
   public List<ChangeData> byKey(Change.Key key) throws OrmException {
     return byKeyPrefix(key.get());
   }
@@ -135,9 +131,9 @@ public class InternalChangeQuery {
     return query(and(project(project), open()));
   }
 
-  public List<ChangeData> byTopicOpen(String topic)
+  public List<ChangeData> byExactTopicOpen(String topic)
       throws OrmException {
-    return query(and(topic(topic), open()));
+    return query(and(new ExactTopicPredicate(schema(indexes), topic), open()));
   }
 
   public List<ChangeData> byCommitPrefix(String prefix) throws OrmException {

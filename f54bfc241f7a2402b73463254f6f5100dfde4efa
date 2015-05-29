@@ -68,6 +68,23 @@
       "revId": "f54bfc241f7a2402b73463254f6f5100dfde4efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_814adaf9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T18:32:43Z",
+      "side": 1,
+      "message": "The issue here is that Lucene\u0027s QueryBuilder apparently returns a null query when you do a full-text search for the empty string. So, we should add some checks to LuceneChangeIndex to make this obvious.\n\nBut I guess the question is what is the right behavior here from the search side. Maybe ChangeQueryBuilder.topic() should return an ExactTopicPredicate if the value is \"\"?",
+      "revId": "f54bfc241f7a2402b73463254f6f5100dfde4efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

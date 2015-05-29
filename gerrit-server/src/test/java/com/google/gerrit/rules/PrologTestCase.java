@@ -14,9 +14,8 @@
 
 package com.google.gerrit.rules;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.inject.Guice;
@@ -78,7 +77,7 @@ public abstract class PrologTestCase {
     for (Term[] pair : env.all(Prolog.BUILTIN, "clause", head, new VariableTerm())) {
       tests.add(pair[0]);
     }
-    assertTrue("has tests", tests.size() > 0);
+    assertThat(tests).isNotEmpty();
     machine = PrologMachineCopy.save(env);
   }
 
@@ -173,14 +172,15 @@ public abstract class PrologTestCase {
         tests.size(), errors, (end - start) / 1000.0);
     System.out.println();
 
-    assertEquals("No Errors", 0, errors);
+    assertThat(errors).isEqualTo(0);
   }
 
   private void call(BufferingPrologControl env, String name) {
     StructureTerm head = SymbolTerm.create(pkg, name, 0);
-    if (!env.execute(Prolog.BUILTIN, "call", head)) {
-      fail("Cannot invoke " + pkg + ":" + name);
-    }
+    assert_()
+      .withFailureMessage("Cannot invoke " + pkg + ":" + name)
+      .that(env.execute(Prolog.BUILTIN, "call", head))
+      .isTrue();
   }
 
   private Term removePackage(Term test) {

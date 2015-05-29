@@ -30,6 +30,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeKind;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -67,6 +69,7 @@ public class ChangeEditUtil {
   private final ChangeIndexer indexer;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
+  private final ChangeKindCache changeKindCache;
 
   @Inject
   ChangeEditUtil(GitRepositoryManager gitManager,
@@ -74,13 +77,15 @@ public class ChangeEditUtil {
       ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
       Provider<ReviewDb> db,
-      Provider<CurrentUser> user) {
+      Provider<CurrentUser> user,
+      ChangeKindCache changeKindCache) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.changeControlFactory = changeControlFactory;
     this.indexer = indexer;
     this.db = db;
     this.user = user;
+    this.changeKindCache = changeKindCache;
   }
 
   /**
@@ -218,17 +223,27 @@ public class ChangeEditUtil {
     ps.setUploader(edit.getUser().getAccountId());
     ps.setCreatedOn(TimeUtil.nowTs());
 
-    PatchSetInserter insr =
+    StringBuilder message = new StringBuilder("Uploaded patch set ")
+      .append(ps.getPatchSetId())
+      .append(": ");
+
+    ChangeKind kind = changeKindCache.getChangeKind(db.get(), change, ps);
+    if (kind == ChangeKind.NO_CODE_CHANGE) {
+      message.append("Commit message was updated.");
+    } else {
+      message.append("Published edit on patch set ")
+        .append(basePatchSet.getPatchSetId())
+        .append(".");
+    }
+
+    PatchSetInserter inserter =
         patchSetInserterFactory.create(repo, rw,
             changeControlFactory.controlFor(change, edit.getUser()),
             squashed);
-    return insr.setPatchSet(ps)
+    return inserter.setPatchSet(ps)
         .setDraft(change.getStatus() == Status.DRAFT ||
             basePatchSet.isDraft())
-        .setMessage(
-            String.format("Patch Set %d: Published edit on patch set %d",
-                ps.getPatchSetId(),
-                basePatchSet.getPatchSetId()))
+        .setMessage(message.toString())
         .insert();
   }
 

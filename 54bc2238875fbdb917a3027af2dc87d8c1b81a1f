@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "39ebc864_615596ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T03:57:32Z",
+      "side": 1,
+      "message": "Flesh out this commit message a little more, explaining thta twe now have two fields, etc.",
+      "revId": "54bc2238875fbdb917a3027af2dc87d8c1b81a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_00afe66c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 3

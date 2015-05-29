@@ -156,14 +156,19 @@ library] is used for evaluation of such patterns.
 [[topic]]
 topic:'TOPIC'::
 +
-Changes whose designated topic at upload was 'TOPIC'.  This is
-often combined with 'branch:' and 'project:' operators to select
-all related changes in a series.
+Changes whose designated topic contains 'TOPIC', using a full-text search.
 +
 If 'TOPIC' starts with `^` it matches topic names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
+
+[[exacttopic]]
+exacttopic:'TOPIC'::
++
+Changes whose designated topic matches 'TOPIC' exactly.  This is
+often combined with 'branch:' and 'project:' operators to select
+all related changes in a series.
 
 [[ref]]
 ref:'REF'::

@@ -1219,7 +1219,7 @@ public abstract class AbstractQueryChangesTest {
       throws Exception {
     List<ChangeInfo> result = query.get();
     Iterable<Integer> ids = ids(result);
-    assertThat(ids).named(ids.toString())
+    assertThat(ids).named(query.getQuery())
         .containsExactlyElementsIn(ids(changes)).inOrder();
     return result;
   }

@@ -43,6 +43,7 @@ class ExactTopicPredicate extends IndexPredicate<ChangeData> {
     super(topicField(schema), topic);
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();

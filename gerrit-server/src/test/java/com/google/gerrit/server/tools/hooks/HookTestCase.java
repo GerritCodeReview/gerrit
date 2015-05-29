@@ -115,18 +115,12 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
       hook.setLastModified(time);
       hooks.put(name, hook);
     } else if ("jar".equals(protocol)) {
-      InputStream in = url.openStream();
-      try {
+      try (InputStream in = url.openStream()) {
         hook = File.createTempFile("hook_", ".sh");
         cleanup.add(hook);
-        FileOutputStream out = new FileOutputStream(hook);
-        try {
+        try (FileOutputStream out = new FileOutputStream(hook)) {
           ByteStreams.copy(in, out);
-        } finally {
-          out.close();
         }
-      } finally {
-        in.close();
       }
       hook.setExecutable(true);
       hooks.put(name, hook);

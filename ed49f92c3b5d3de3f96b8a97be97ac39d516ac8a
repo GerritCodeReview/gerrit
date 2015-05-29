@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_81b1ba85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T19:15:15Z",
+      "side": 0,
+      "message": "Whoops.",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

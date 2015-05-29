@@ -50,7 +50,7 @@
 
 package com.google.gerrit.server.tools.hooks;
 
-import static org.junit.Assert.fail;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -99,24 +99,29 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
       return hook;
     }
 
-    final String scproot = "com/google/gerrit/server/tools/root";
-    final String path = scproot + "/hooks/" + name;
+    String scproot = "com/google/gerrit/server/tools/root";
+    String path = scproot + "/hooks/" + name;
+    String errorMessage = "Cannot locate " + path + " in CLASSPATH";
     URL url = cl().getResource(path);
-    if (url == null) {
-      fail("Cannot locate " + path + " in CLASSPATH");
-    }
+    assert_()
+      .withFailureMessage(errorMessage)
+      .that(url).isNotNull();
 
-    if ("file".equals(url.getProtocol())) {
+    String protocol = url.getProtocol();
+    assert_()
+      .withFailureMessage("Cannot invoke " + url)
+      .that(protocol).isAnyOf("file", "jar");
+
+    if ("file".equals(protocol)) {
       hook = new File(url.getPath());
-      if (!hook.isFile()) {
-        fail("Cannot locate " + path + " in CLASSPATH");
-      }
+      assert_()
+        .withFailureMessage(errorMessage)
+        .that(hook.isFile()).isTrue();
       long time = hook.lastModified();
       hook.setExecutable(true);
       hook.setLastModified(time);
       hooks.put(name, hook);
-      return hook;
-    } else if ("jar".equals(url.getProtocol())) {
+    } else if ("jar".equals(protocol)) {
       InputStream in = url.openStream();
       try {
         hook = File.createTempFile("hook_", ".sh");
@@ -132,11 +137,8 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
       }
       hook.setExecutable(true);
       hooks.put(name, hook);
-      return hook;
-    } else {
-      fail("Cannot invoke " + url);
-      return null;
     }
+    return hook;
   }
 
   private ClassLoader cl() {

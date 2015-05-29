@@ -441,13 +441,24 @@ public abstract class AbstractQueryChangesTest {
     change2.setTopic("feature2");
     ins2.insert();
 
-    Change change3 = newChange(repo, null, null, null, null).insert();
+    ChangeInserter ins3 = newChange(repo, null, null, null, null);
+    Change change3 = ins3.getChange();
+    change3.setTopic("Cherrypick-feature2");
+    ins3.insert();
+
+    ChangeInserter ins4 = newChange(repo, null, null, null, null);
+    Change change4 = ins4.getChange();
+    change4.setTopic("feature2-fixup");
+    ins4.insert();
+
+    Change change5 = newChange(repo, null, null, null, null).insert();
 
     assertQuery("topic:foo");
     assertQuery("topic:feature1", change1);
-    assertQuery("topic:feature2", change2);
-    assertQuery("topic:feature", change2, change1);
-    assertQuery("topic:\"\"", change3, change2, change1);
+    assertQuery("topic:feature2", change2, change3, change4);
+    assertQuery("exacttopic:feature2", change2);
+    assertQuery("topic:feature", change3, change2, change1);
+    assertQuery("topic:\"\"", change5, change4, change3, change2, change1);
   }
 
   @Test

@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "19f28455_a0639aba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ExactTopicPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:46:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by \"unrelated topic searches\".\n\nIf the schema doesn\u0027t have any topic field, then searching in the index for documents having field named LEGACY_TOPIC3.getName() is going to return nothing. That\u0027s what you\u0027ve implemented here.\n\nThe alternative is to throw QueryParseException with a descriptive error message, which bubbles up to the end user as an HTTP 400 response and is displayed in the UI.\n\nSo it depends whether you want to fail loudly or silently return no results. I don\u0027t think we\u0027re consistent elsewhere, which is why I think it\u0027s ok to leave it as-is until I finish a later cleanup.",
+      "parentUuid": "39ebc864_813c1a86",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 45
+      },
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19f28455_e059a20c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/TopicPredicate.java",
         "patchSetId": 6
@@ -283,6 +307,30 @@
       "side": 1,
       "message": "So the topic is tokenized?\n\nThis does pass however, just the last empty search throws a NPE by now.",
       "parentUuid": "39ebc864_e10526c6",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 460,
+        "endChar": 60
+      },
+      "revId": "78e864ce1d6e595e334c78cd9c75c497f1323563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_204f8a3a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T17:46:49Z",
+      "side": 1,
+      "message": "\u003e So the topic is tokenized?\n\nYes, that is what full text search means.\n\n\u003e This does pass however, just the last empty search throws a NPE by now.\n\nThat seems like it should be fixed...",
+      "parentUuid": "39ebc864_213b0e8c",
       "range": {
         "startLine": 460,
         "startChar": 4,

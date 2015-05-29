@@ -14,33 +14,16 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.ChangeField.MERGEABLE;
-
 import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
 class IsMergeablePredicate extends IndexPredicate<ChangeData> {
-  @SuppressWarnings("deprecation")
-  static FieldDef<ChangeData, ?> mergeableField(Schema<ChangeData> schema) {
-    if (schema == null) {
-      return ChangeField.LEGACY_MERGEABLE;
-    }
-    FieldDef<ChangeData, ?> f = schema.getFields().get(MERGEABLE.getName());
-    if (f != null) {
-      return f;
-    }
-    return schema.getFields().get(ChangeField.LEGACY_MERGEABLE.getName());
-  }
-
   private final FillArgs args;
 
-  IsMergeablePredicate(Schema<ChangeData> schema,
-      FillArgs args) {
-    super(mergeableField(schema), "1");
+  IsMergeablePredicate(FillArgs args) {
+    super(ChangeField.MERGEABLE, "1");
     this.args = args;
   }
 

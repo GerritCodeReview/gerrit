@@ -465,22 +465,6 @@ public class ChangeField {
       };
 
   /** Whether the change is mergeable. */
-  @Deprecated
-  public static final FieldDef<ChangeData, String> LEGACY_MERGEABLE =
-      new FieldDef.Single<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_MERGEABLE, FieldType.EXACT, false) {
-        @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
-          Boolean m = input.isMergeable();
-          if (m == null) {
-            return null;
-          }
-          return m ? "1" : null;
-        }
-      };
-
-  /** Whether the change is mergeable. */
   public static final FieldDef<ChangeData, String> MERGEABLE =
       new FieldDef.Single<ChangeData, String>(
           "mergeable2", FieldType.EXACT, true) {

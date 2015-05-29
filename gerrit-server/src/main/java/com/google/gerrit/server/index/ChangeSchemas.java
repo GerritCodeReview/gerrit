@@ -31,64 +31,6 @@ import java.util.Map;
 /** Secondary index schemas for changes. */
 public class ChangeSchemas {
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V11 = schema(
-        ChangeField.LEGACY_ID,
-        ChangeField.ID,
-        ChangeField.STATUS,
-        ChangeField.PROJECT,
-        ChangeField.PROJECTS,
-        ChangeField.REF,
-        ChangeField.LEGACY_TOPIC2,
-        ChangeField.UPDATED,
-        ChangeField.FILE_PART,
-        ChangeField.PATH,
-        ChangeField.OWNER,
-        ChangeField.REVIEWER,
-        ChangeField.COMMIT,
-        ChangeField.TR,
-        ChangeField.LABEL,
-        ChangeField.LEGACY_REVIEWED,
-        ChangeField.COMMIT_MESSAGE,
-        ChangeField.COMMENT,
-        ChangeField.CHANGE,
-        ChangeField.APPROVAL,
-        ChangeField.LEGACY_MERGEABLE,
-        ChangeField.ADDED,
-        ChangeField.DELETED,
-        ChangeField.DELTA);
-
-  // For upgrade to Lucene 4.10.0 index format only.
-  static final Schema<ChangeData> V12 = schema(V11.getFields().values());
-
-  @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V13 = schema(
-      ChangeField.LEGACY_ID,
-      ChangeField.ID,
-      ChangeField.STATUS,
-      ChangeField.PROJECT,
-      ChangeField.PROJECTS,
-      ChangeField.REF,
-      ChangeField.LEGACY_TOPIC2,
-      ChangeField.UPDATED,
-      ChangeField.FILE_PART,
-      ChangeField.PATH,
-      ChangeField.OWNER,
-      ChangeField.REVIEWER,
-      ChangeField.COMMIT,
-      ChangeField.TR,
-      ChangeField.LABEL,
-      ChangeField.LEGACY_REVIEWED,
-      ChangeField.COMMIT_MESSAGE,
-      ChangeField.COMMENT,
-      ChangeField.CHANGE,
-      ChangeField.APPROVAL,
-      ChangeField.LEGACY_MERGEABLE,
-      ChangeField.ADDED,
-      ChangeField.DELETED,
-      ChangeField.DELTA,
-      ChangeField.HASHTAG);
-
-  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V14 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,

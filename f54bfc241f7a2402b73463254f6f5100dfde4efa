@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_0177ea4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/TopicPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-05-29T18:14:34Z",
+      "side": 1,
+      "message": "No, you still need the LegacyChangeIdPredicate here. Otherwise this will just return some arbitrary change matching the topic predicate, which may or may not be the change we\u0027re interested in.\n\n Predicate\u003cChangeData\u003e thisId \u003d new LegacyChangeIdPredicate(cd.getId());\n Iterable\u003cChangeData\u003e results \u003d index.getSource(and(thisId, this), 0, 1);\n return !Iterables.isEmpty(results.read());",
+      "revId": "f54bfc241f7a2402b73463254f6f5100dfde4efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

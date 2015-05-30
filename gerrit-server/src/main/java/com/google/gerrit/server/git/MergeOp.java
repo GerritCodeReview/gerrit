@@ -254,7 +254,8 @@ public class MergeOp {
           if (reopen) {
             branchUpdate = openBranch();
           }
-          final SubmitStrategy strategy = createStrategy(submitType);
+          final SubmitStrategy strategy = createStrategy(submitType,
+              toMerge.get(submitType));
           preMerge(strategy, toMerge.get(submitType));
           RefUpdate update = updateBranch(strategy, branchUpdate);
           reopen = true;
@@ -372,10 +373,11 @@ public class MergeOp {
     commits.putAll(strategy.getNewCommits());
   }
 
-  private SubmitStrategy createStrategy(final SubmitType submitType)
+  private SubmitStrategy createStrategy(final SubmitType submitType,
+      final List<CodeReviewCommit> toMerge)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
+        canMergeFlag, getAlreadyAccepted(branchTip, toMerge), destBranch);
   }
 
   private void openRepository() throws MergeException, NoSuchProjectException {
@@ -423,8 +425,8 @@ public class MergeOp {
     }
   }
 
-  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip)
-      throws MergeException {
+  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip,
+      final List<CodeReviewCommit> toMerge) throws MergeException {
     final Set<RevCommit> alreadyAccepted = new HashSet<>();
 
     if (branchTip != null) {
@@ -435,7 +437,12 @@ public class MergeOp {
       for (final Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
         if (r.getName().startsWith(Constants.R_HEADS)) {
           try {
-            alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
+            RevCommit commit = rw.parseCommit(r.getObjectId());
+            // The %base argument allows review of commits, which have already been pushed.
+            // Only add the branch tips thar are not merge candidates.
+            if (!toMerge.contains(commit)) {
+              alreadyAccepted.add(commit);
+            }
           } catch (IncorrectObjectTypeException iote) {
             // Not a commit? Skip over it.
           }

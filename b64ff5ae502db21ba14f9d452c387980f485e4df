@@ -22,6 +22,30 @@
       "revId": "b64ff5ae502db21ba14f9d452c387980f485e4df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f90db02c_570a4c5b",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-30T12:01:57Z",
+      "side": 1,
+      "message": "Yes, it\u0027s needed.  Truth has a dependency on Guava.\n\nIt works without this explicit dependency if you compile it in Eclipse, but if you run it on the command line:\n\n buck test -f com.google.gerrit.rules.GerritCommonTest\n\nthen it doesn\u0027t compile:\n\nhttp://paste.openstack.org/show/247153/",
+      "parentUuid": "39ebc864_c1aea21d",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 18
+      },
+      "revId": "b64ff5ae502db21ba14f9d452c387980f485e4df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

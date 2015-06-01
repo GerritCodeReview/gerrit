@@ -70,6 +70,30 @@
       "revId": "3faca8769adff23047ac6132a7b1ca8b8d4e6c4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_21030e7d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-01T11:40:46Z",
+      "side": 1,
+      "message": "Yes, I want to keep this option if the draft status is included in the ETag. If not, then this option is useless and we should replace it with a REST endpoint, e.g. \u0027draft.exists\u0027.",
+      "parentUuid": "39ebc864_6109169d",
+      "range": {
+        "startLine": 262,
+        "startChar": 24,
+        "endLine": 262,
+        "endChar": 38
+      },
+      "revId": "3faca8769adff23047ac6132a7b1ca8b8d4e6c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

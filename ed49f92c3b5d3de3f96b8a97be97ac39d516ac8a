@@ -22,6 +22,30 @@
       "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_00a5a639",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-01T14:11:52Z",
+      "side": 1,
+      "message": "| Do we really want to delete these schemas?\n\nNote, that since this change: [1], you cannot upgrade from 2.7 to 2.10 anyway, and forced to to this in two steps:\n\n* upgrade to 2.8 or 2.9\n* upgrade to 2.10\n\nThis trivial fix to support non disruptive migration path was rejected: [2]. So yes we do want to prune old schema versions, both database and index schemas, and no, we don\u0027t care about long offline times and to force performing single version migration steps. Nobody prevent us to write in the release notes, to do the upgrade with single release steps to benefit from online reindexing:\n\n* 2.6 -\u003e 2.9\n* 2.9 -\u003e 2.10\n* 2.10 -\u003e 2.11\n* 2.11 -\u003e 2.12\n* [...]\n\n| E.g. they upgrade from 2.10 -\u003e 2.12 and only then realize that online reindexing is not working with this upgrade, but now there is no way back...\n\n\nThis is wrong, of course, see this trivial downgrade SQL, that was provided by OpenStack infrastructure team to downgrade from 2.10 (broken JGit version) to 2.8.2 version: [3].\n\n* [1] https://gerrit-review.googlesource.com/63678\n* [2] https://gerrit-review.googlesource.com/63674\n* [3] https://review.openstack.org/#/c/182113/1/tools/gerrit-rollback-2.10-2.8.sql",
+      "parentUuid": "19f28455_e05ac2c7",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

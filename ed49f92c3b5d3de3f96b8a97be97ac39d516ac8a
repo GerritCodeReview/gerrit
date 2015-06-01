@@ -94,6 +94,30 @@
       "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_a0827a81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-01T16:22:44Z",
+      "side": 1,
+      "message": "\u003e We decided before the secondary index was even \n \u003e implemented (in person, at the Boulder hackathon) that \n \u003e we would only support online upgrades between single \n \u003e Gerrit versions.\n\nI remember this as \"we don\u0027t guarentee online upgrades for older version\", which includes the possibility to actually still do it.\n\n \u003e The reason I did this now is the topic stuff just got \n \u003e considerably more complicated, so I figured I would \n \u003e counterbalance that with reducing some of the complexity \n \u003e elsewhere.\n\nThis is a good reason to do it. Maybe it should have been mentioned in the commit message. \nI\u0027m fine with pruning the schema if we gain something from it, but I would keep the old schema versions as long as there is no effort with having them around.\n\nIn any case we should document online reindexing somewhere. Having it in each release notes seems to be the wrong place.",
+      "parentUuid": "39ebc864_01a6ca0e",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

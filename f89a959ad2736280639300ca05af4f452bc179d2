@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_a1eefe2a",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-01T13:10:05Z",
+      "side": 1,
+      "message": "How about naming this operator just \"topic\" and renaming the previous one to \"intopic\"? The \"intopic\" means that the given text appears in the topic similarly like \"inurl\" in Google search means a text appears in the URL.",
+      "revId": "f89a959ad2736280639300ca05af4f452bc179d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

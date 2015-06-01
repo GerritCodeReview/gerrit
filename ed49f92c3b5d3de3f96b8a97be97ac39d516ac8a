@@ -70,6 +70,30 @@
       "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_01a6ca0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-01T15:37:15Z",
+      "side": 1,
+      "message": "We decided before the secondary index was even implemented (in person, at the Boulder hackathon) that we would only support online upgrades between single Gerrit versions. Your choices are do a single version upgrade with an online reindex or do a multi-version upgrade with an offline reindex.\n\nMaintaining extra schemas is a pretty big headache. Take a look at all the *Predicate classes that have different behavior depending on which fields are in the schema. The reason I did this now is the topic stuff just got considerably more complicated, so I figured I would counterbalance that with reducing some of the complexity elsewhere.",
+      "parentUuid": "39ebc864_01bfea1e",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

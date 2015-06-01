@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f28455_e05ac2c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-01T12:49:02Z",
+      "side": 1,
+      "message": "Do we really want to delete these schemas? Effectively this means that we force everyone to upgrade Gerrit version by version. E.g. instead of upgrading from 2.10 -\u003e 2.12. One must upgrade from 2.10 -\u003e 2.11 -\u003e 2.12. At least if you want to have online reindexing which is the case for any larger site which cannot effort a long downtime to do offline reindexing. This is especially bad, if admins are not aware of this problem. E.g. they upgrade from 2.10 -\u003e 2.12 and only then realize that online reindexing is not working with this upgrade, but now there is no way back...",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

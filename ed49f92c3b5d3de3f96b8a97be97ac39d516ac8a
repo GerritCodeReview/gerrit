@@ -118,6 +118,30 @@
       "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f90db02c_1762940b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-01T16:53:36Z",
+      "side": 1,
+      "message": "\u003e I remember this as \"we don\u0027t guarentee online upgrades for older version\", which includes the possibility to actually still do it.\n\nTrue. I keep thinking that one of these days, there is going to be almost no index churn between Gerrit versions, so the additional complexity in the code for supporting even more Gerrit versions will be low.\n\nThat day doesn\u0027t seem to have arrived, however :)\n\n\u003e In any case we should document online reindexing somewhere. Having it in each release notes seems to be the wrong place.\n\nYes and no. I thought we put them in the release notes because that\u0027s the only documentation we expect the majority of admins to read when upgrading between versions. (Not that I would know, since our upgrade scheme is way different.) But I would be fine with a single boilerplate sentence that says \"If you are upgrading from a version earlier than $N-1, follow these instructions to upgrade your index.\"",
+      "parentUuid": "19f28455_a0827a81",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

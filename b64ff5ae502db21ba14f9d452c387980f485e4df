@@ -46,6 +46,30 @@
       "revId": "b64ff5ae502db21ba14f9d452c387980f485e4df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_609d92eb",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-06-01T15:15:37Z",
+      "side": 1,
+      "message": "Ok, I thought I tested with buck but looks like I did something wrong, I should have seen the same error. Thanks for your response.",
+      "parentUuid": "f90db02c_570a4c5b",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 18
+      },
+      "revId": "b64ff5ae502db21ba14f9d452c387980f485e4df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

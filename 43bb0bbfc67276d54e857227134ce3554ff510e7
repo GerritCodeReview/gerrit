@@ -22,6 +22,30 @@
       "revId": "43bb0bbfc67276d54e857227134ce3554ff510e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_415a927c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-01T18:31:51Z",
+      "side": 1,
+      "message": "Wasn\u0027t paying close enough attention, my main goal was to eliminate the warning in Eclipse.",
+      "parentUuid": "4d1d15f6_da5b8561",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 6
+      },
+      "revId": "43bb0bbfc67276d54e857227134ce3554ff510e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

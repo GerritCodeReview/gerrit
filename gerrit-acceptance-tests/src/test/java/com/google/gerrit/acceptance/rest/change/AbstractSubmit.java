@@ -145,15 +145,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     change1.assertChange(Change.Status.MERGED, "test-topic", admin);
     change2.assertChange(Change.Status.MERGED, "test-topic", admin);
     change3.assertChange(Change.Status.MERGED, "test-topic", admin);
-    assertSubmitter(change1);
-    assertSubmitter(change2);
-    assertSubmitter(change3);
+    assertSubmitter(change1, 3);
+    assertSubmitter(change2, 3);
+    assertSubmitter(change3, 4);
   }
 
-  private void assertSubmitter(PushOneCommit.Result change) throws Exception {
+  private void assertSubmitter(PushOneCommit.Result change, int messages) throws Exception {
     ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info.messages).isNotNull();
-    assertThat(info.messages).hasSize(3);
+    assertThat(info.messages).hasSize(messages);
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
       assertThat(Iterables.getLast(info.messages).message).startsWith(
           "Change has been successfully cherry-picked as ");

@@ -46,6 +46,30 @@
       "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_01bfea1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-01T14:22:41Z",
+      "side": 1,
+      "message": "\u003e Note, that since this change: [1], you cannot upgrade \n \u003e from 2.7 to 2.10 anyway\n\nI\u0027m not saying that we should never prune old schemas. If there is a good reason for pruning, we should do it (e.g. if there is a real effort for maintaining the old schemas). This was the case with [1]. But if there is no need, why not to keep the old schema versions around as long as they work?\n\n \u003e Nobody prevent us to write in the release notes, to do \n \u003e the upgrade with single release steps to benefit from \n \u003e online reindexing\n\nYes, I did this for the 2.11 release [4] and it\u0027s quite a paragraph to explain this. Just requiring everyone to read about and understand these details makes the upgrade unnecessarily complex.\n\n \u003e This is wrong, of course, see this trivial downgrade \n \u003e SQL, that was provided by OpenStack infrastructure\n\nYes, one can write such a script. But it is not part of the official Gerrit release and it doesn\u0027t work for arbitary schema downgrades.\n\n[4] https://gerrit-review.googlesource.com/66983",
+      "parentUuid": "19f28455_00a5a639",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

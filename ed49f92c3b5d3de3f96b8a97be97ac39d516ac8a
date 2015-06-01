@@ -142,6 +142,30 @@
       "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_c19fc2ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-01T17:03:14Z",
+      "side": 1,
+      "message": "\u003e True. I keep thinking that one of these days, there is \n \u003e going to be almost no index churn between Gerrit \n \u003e versions, so the additional complexity in the code for \n \u003e supporting even more Gerrit versions will be low\n\nRight, the index should get more stable over time :-)\n\n\n \u003e But I would be fine with a single boilerplate sentence \n \u003e that says \"If you are upgrading from a version earlier \n \u003e than $N-1, follow these instructions to upgrade your \n \u003e index.\"\n\nYes, this is what I meant.",
+      "parentUuid": "f90db02c_1762940b",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "ed49f92c3b5d3de3f96b8a97be97ac39d516ac8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

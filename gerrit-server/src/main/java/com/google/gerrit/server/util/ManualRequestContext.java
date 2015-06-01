@@ -31,7 +31,7 @@ public class ManualRequestContext implements RequestContext, AutoCloseable {
   private final ThreadLocalRequestContext requestContext;
   private final RequestContext old;
 
-  ManualRequestContext(CurrentUser user, SchemaFactory<ReviewDb> schemaFactory,
+  public ManualRequestContext(CurrentUser user, SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext) throws OrmException {
     this.user = user;
     this.db = Providers.of(schemaFactory.open());

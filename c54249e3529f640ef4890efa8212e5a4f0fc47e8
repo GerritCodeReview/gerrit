@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ebc864_21baee2e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/HookTestCase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-01T13:25:49Z",
+      "side": 0,
+      "message": "Shouldn\u0027t we keep this message?",
+      "range": {
+        "startLine": 106,
+        "startChar": 11,
+        "endLine": 106,
+        "endChar": 52
+      },
+      "revId": "c54249e3529f640ef4890efa8212e5a4f0fc47e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "f89a959ad2736280639300ca05af4f452bc179d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f28455_60b6b27d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-01T13:16:20Z",
+      "side": 1,
+      "message": "+1 I also don\u0027t like \u0027exacttopic\u0027.\n\nAlso please add suggesting support for the new query operator in SearchSuggestOracle.",
+      "parentUuid": "39ebc864_a1eefe2a",
+      "revId": "f89a959ad2736280639300ca05af4f452bc179d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

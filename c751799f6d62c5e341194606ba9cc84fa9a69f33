@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "39ebc864_a1739e0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-01T17:46:21Z",
+      "side": 1,
+      "message": "com.google.gerrit.server.query.QueryBuilder.Definition uses method names to map fields in the query syntax to predicates. But actually looking at that, it does call toLowerCase() on the method name before storing it in the map.\n\nSo the only answer I have here is consistency with the rest of the file (e.g. starredby below). I wouldn\u0027t object to a cleanup change though.",
+      "parentUuid": "19f28455_603b525d",
+      "range": {
+        "startLine": 486,
+        "startChar": 32,
+        "endLine": 486,
+        "endChar": 35
+      },
+      "revId": "c751799f6d62c5e341194606ba9cc84fa9a69f33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ebc864_e169a61e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1

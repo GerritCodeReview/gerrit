@@ -22,6 +22,29 @@
       "revId": "c751799f6d62c5e341194606ba9cc84fa9a69f33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_e169a61e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-01T17:31:13Z",
+      "side": 1,
+      "message": "Should ExactTopicPredicate be renamed to just TopicPredicate,\nto match the function names and documentation?",
+      "range": {
+        "startLine": 136,
+        "startChar": 25,
+        "endLine": 136,
+        "endChar": 31
+      },
+      "revId": "c751799f6d62c5e341194606ba9cc84fa9a69f33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -240,6 +240,15 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo info) {
             info.init();
+
+            JsArray<RevisionInfo> revisions = info.revisions().values();
+            for (int i = revisions.length() - 1; i >= 0; i--) {
+              if (revisions.get(i).hasDraftComments()) {
+                hasDraftComments = true;
+                break;
+              }
+            }
+
             loadConfigInfo(info, base);
           }
         }));
@@ -249,7 +258,8 @@ public class ChangeScreen extends Screen {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CHANGE_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.DRAFT_COMMENTS));
     if (!fg) {
       call.background();
     }
@@ -950,14 +960,13 @@ public class ChangeScreen extends Screen {
   private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
       RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && rev.hasDraftComments()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("drafts")
         .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
           @Override
           public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
             r.add(result);
-            hasDraftComments = !result.isEmpty();
           }
 
           @Override

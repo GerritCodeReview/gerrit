@@ -28,7 +28,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
-class TopicPredicate extends IndexPredicate<ChangeData> {
+class FuzzyTopicPredicate extends IndexPredicate<ChangeData> {
   private final ChangeIndex index;
 
   @SuppressWarnings("deprecation")
@@ -36,7 +36,8 @@ class TopicPredicate extends IndexPredicate<ChangeData> {
     return schema.getField(FUZZY_TOPIC, LEGACY_TOPIC3, LEGACY_TOPIC2).get();
   }
 
-  TopicPredicate(Schema<ChangeData> schema, String topic, ChangeIndex index) {
+  FuzzyTopicPredicate(Schema<ChangeData> schema, String topic,
+      ChangeIndex index) {
     super(topicField(schema), topic);
     this.index = index;
   }

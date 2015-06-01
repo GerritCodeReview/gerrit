@@ -131,7 +131,7 @@ public class InternalChangeQuery {
     return query(and(project(project), open()));
   }
 
-  public List<ChangeData> byExactTopicOpen(String topic)
+  public List<ChangeData> byTopicOpen(String topic)
       throws OrmException {
     return query(and(new ExactTopicPredicate(schema(indexes), topic), open()));
   }

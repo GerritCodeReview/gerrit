@@ -67,7 +67,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
     Hasher h = Hashing.md5().newHasher();
     CurrentUser user = rsrc.getControl().getCurrentUser();
     try {
-      for (ChangeData c : queryProvider.get().byExactTopicOpen(topic)) {
+      for (ChangeData c : queryProvider.get().byTopicOpen(topic)) {
         new ChangeResource(c.changeControl(), rebaseChange).prepareETag(h, user);
       }
     } catch (OrmException e){

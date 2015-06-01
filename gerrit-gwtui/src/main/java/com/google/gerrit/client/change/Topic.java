@@ -86,7 +86,7 @@ class Topic extends Composite {
       text.setText(info.topic());
       text.setTargetHistoryToken(
           PageLinks.toChangeQuery(
-              PageLinks.op("exacttopic", info.topic())));
+              PageLinks.op("topic", info.topic())));
     }
   }
 

@@ -200,7 +200,7 @@ public class RelatedChanges extends TabPanel {
     if (info.topic() != null && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
       topicQuery.append("status:open");
-      topicQuery.append(" ").append(op("exacttopic", info.topic()));
+      topicQuery.append(" ").append(op("topic", info.topic()));
       ChangeList.query(topicQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION,
                      ListChangesOption.CURRENT_COMMIT,

@@ -153,8 +153,8 @@ expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
-[[topic]]
-topic:'TOPIC'::
+[[intopic]]
+intopic:'TOPIC'::
 +
 Changes whose designated topic contains 'TOPIC', using a full-text search.
 +
@@ -163,8 +163,8 @@ expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
-[[exacttopic]]
-exacttopic:'TOPIC'::
+[[topic]]
+topic:'TOPIC'::
 +
 Changes whose designated topic matches 'TOPIC' exactly.  This is
 often combined with 'branch:' and 'project:' operators to select

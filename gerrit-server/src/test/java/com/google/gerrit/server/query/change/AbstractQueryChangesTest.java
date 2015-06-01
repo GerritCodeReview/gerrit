@@ -453,14 +453,14 @@ public abstract class AbstractQueryChangesTest {
 
     Change change5 = newChange(repo, null, null, null, null).insert();
 
-    assertQuery("topic:foo");
-    assertQuery("topic:feature1", change1);
-    assertQuery("topic:feature2", change4, change3, change2);
-    assertQuery("exacttopic:feature2", change2);
-    assertQuery("topic:feature2", change4, change3, change2);
-    assertQuery("topic:fixup", change4);
-    assertQuery("exacttopic:\"\"", change5);
+    assertQuery("intopic:foo");
+    assertQuery("intopic:feature1", change1);
+    assertQuery("intopic:feature2", change4, change3, change2);
+    assertQuery("topic:feature2", change2);
+    assertQuery("intopic:feature2", change4, change3, change2);
+    assertQuery("intopic:fixup", change4);
     assertQuery("topic:\"\"", change5);
+    assertQuery("intopic:\"\"", change5);
   }
 
   @Test

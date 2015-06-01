@@ -76,9 +76,14 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("reviewer:");
     suggestions.add("reviewer:self");
     suggestions.add("reviewerin:");
+    suggestions.add("reviewedby:");
 
     suggestions.add("commit:");
     suggestions.add("comment:");
+    suggestions.add("message:");
+    suggestions.add("commentby:");
+    suggestions.add("from:");
+    suggestions.add("file:");
     suggestions.add("conflicts:");
     suggestions.add("project:");
     suggestions.add("projects:");
@@ -90,8 +95,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("tr:");
     suggestions.add("bug:");
     suggestions.add("label:");
-    suggestions.add("message:");
-    suggestions.add("file:");
+    suggestions.add("query:");
     suggestions.add("has:");
     suggestions.add("has:draft");
     suggestions.add("has:edit");

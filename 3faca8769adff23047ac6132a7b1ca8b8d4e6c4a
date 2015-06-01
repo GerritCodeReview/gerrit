@@ -46,6 +46,30 @@
       "revId": "3faca8769adff23047ac6132a7b1ca8b8d4e6c4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ebc864_6109169d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-01T11:29:01Z",
+      "side": 1,
+      "message": "I wouldn\u0027t remove it. I think this option (renamed in DRAFT_COMMENTS_EXIST) is justified in case another client would like to know in addition if patch sets have drafts or not. The caching of response GET /changes/\u003cid\u003e/detail REST endpoint in Gerrit UI prevents us from being able to re-load this information. For exact these reasons we extracted the reading of the draft comments and change edits (this was seonc major re-factoring of change edit implementation) from GET /changes/\u003cid\u003e/detail REST endpoint in own dedicated endpoints. So indeed the GET /changes/\u003cid\u003e/drafts::exists would be an alternative approach here, instead making ETag cache draft_comments_exist flag aware (per patch set) and as the consequence ChangeResourse ChangeData aware. This would be less intrusive change.",
+      "parentUuid": "19f28455_e073e25d",
+      "range": {
+        "startLine": 262,
+        "startChar": 24,
+        "endLine": 262,
+        "endChar": 38
+      },
+      "revId": "3faca8769adff23047ac6132a7b1ca8b8d4e6c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

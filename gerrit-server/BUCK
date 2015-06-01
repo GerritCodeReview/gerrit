@@ -137,7 +137,9 @@ java_library(
   deps = [
     ':server',
     '//gerrit-common:server',
+    '//lib:guava',
     '//lib:junit',
+    '//lib:truth',
     '//lib/guice:guice',
     '//lib/prolog:runtime',
   ],

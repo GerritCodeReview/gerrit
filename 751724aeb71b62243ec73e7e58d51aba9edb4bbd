@@ -46,6 +46,30 @@
       "revId": "751724aeb71b62243ec73e7e58d51aba9edb4bbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1959a445_6888e32a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-02T18:10:30Z",
+      "side": 1,
+      "message": "| Yes, once the highlighting of the Reply button works properly, we may consider removing these icons.\n\nI think that the order is important here. I believe that the reason the draft icons in PatchSets drop down were needed, was a workaround for the problem: missing publishing draft comments across patch sets boundaries. That why the workflow was:\n\n* 1. Open change screen (probably from result of \"has:draft\" query)\n* 2. Open PatchSet drop down and check which patch sets have draft comments\n* 3. Switch to patch set i, publish comment\n* 4. Switch to patch set k, publish comment\n* ... repeat for all patch sets with draft commenst\n* 42. done\n\nAfter publishing draft comments across patch set boundaries feature was implemented, we should leave the workflow above behind us, and move forward:\n\nThe new workflow now is:\n\n* 1. Open change screen (probably from result of \"has:draft\" query)\n* 2. Reply button is highlighted\n* 3. Click Reply\n* 4. Publish\n* 5. Done\n\nSo I think to efficiently support the new workflow we just need:\n\n* 1. Drop draft icons from PatchSet drop down box\n* 2. Implement new REST endpoint: GET /changes/\u003cid\u003e/draft:exist in optimized way: by using seconary index has:draft predicate, in not in the way it\u0027s currently done by reading the draft comments per patch set!\n* 4. Drop or rename DARFT_COMMENTS option from /detail endpoint\n* 5. Highlight Reply button when draft comments exist in any patch sets, based on the outcome from Step 2. above.\n\nIn any events, this change is too intrusive, and very inefficent in many ways:\n\n* It combines static and dynamic data in ETag cache, an de facto jeopardaize the whole cache. Every time draft comments are changed, the cache is invalidated\n* It makes ChangeResource unnesessary ChangData aware and allocate it for every use case the doesn\u0027t care about it (and wasn\u0027t needed it until now).\n* It reads to much details: Draft comments per patch set, even though, the only flag per change: \"draft comments exist\" would be sufficient to highlight Reply button. And after this expensive information was retrieved, it\u0027s going to be discared anyway, because Reply button doesn\u0027t reflect for which patch set the draft comments exist.",
+      "parentUuid": "1959a445_48319f29",
+      "range": {
+        "startLine": 20,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "751724aeb71b62243ec73e7e58d51aba9edb4bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

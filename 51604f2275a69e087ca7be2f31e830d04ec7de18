@@ -22,6 +22,30 @@
       "revId": "51604f2275a69e087ca7be2f31e830d04ec7de18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1959a445_a89edb69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-02T17:21:08Z",
+      "side": 1,
+      "message": "Yeah, we have one lying around somewhere (it\u0027s what we used to migrate AOSP to googlesource.com), which is why I didn\u0027t go and rewrite it yesterday.",
+      "parentUuid": "3962e8ee_69dea553",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "51604f2275a69e087ca7be2f31e830d04ec7de18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

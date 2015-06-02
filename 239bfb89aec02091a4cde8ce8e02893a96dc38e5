@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1959a445_68ffc37a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-02T21:44:35Z",
+      "side": 1,
+      "message": "My thought was that if you click submit on a change it should always submit that change and all its submittable ancestors, but not necessarily descendants. I could go either way though.",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 31,
+        "endChar": 58
+      },
+      "revId": "239bfb89aec02091a4cde8ce8e02893a96dc38e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

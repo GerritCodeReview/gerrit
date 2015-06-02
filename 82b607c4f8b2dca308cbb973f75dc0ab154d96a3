@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9c09816_ed1c059e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T10:00:12Z",
+      "side": 1,
+      "message": "How is the performance of this on a change that has a large number of patch sets?\n\nI get the feeling that draft comments are more likely to be present on later patch sets than older ones, so would it make sense to iterate over the revisions in descending order so we can exit this loop early?",
+      "range": {
+        "startLine": 244,
+        "startChar": 12,
+        "endLine": 250,
+        "endChar": 13
+      },
+      "revId": "82b607c4f8b2dca308cbb973f75dc0ab154d96a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

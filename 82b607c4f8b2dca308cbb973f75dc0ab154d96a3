@@ -46,6 +46,30 @@
       "revId": "82b607c4f8b2dca308cbb973f75dc0ab154d96a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1959a445_88ff97a2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-02T10:15:49Z",
+      "side": 1,
+      "message": "\u003e The question is, if this is okay, or if we need a new \n \u003e REST endpoint for this, that can be fired in the \n \u003e background \n\nThe same performance concerns apply to the predecessor change which includes the draft status into the etag computation [1].\n\n[1] https://gerrit-review.googlesource.com/68146",
+      "parentUuid": "3962e8ee_a9025d3a",
+      "range": {
+        "startLine": 244,
+        "startChar": 12,
+        "endLine": 250,
+        "endChar": 13
+      },
+      "revId": "82b607c4f8b2dca308cbb973f75dc0ab154d96a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99cf5447_2c14537c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/CommitMsgHookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T10:37:48Z",
+      "side": 1,
+      "message": "Note that I have intentionally not done a full conversion to use Truth yet, as it\u0027s a bigger change than I currently have time to do.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 42
+      },
+      "revId": "f6dc4a2dfa4dc41500f0383a3185e72310e84bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

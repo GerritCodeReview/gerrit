@@ -208,7 +208,6 @@ public class GerritServer {
       protected void configure() {
         bind(AccountCreator.class);
         factory(PushOneCommit.Factory.class);
-        factory(SubmoduleOp.Factory.class);
         install(InProcessProtocol.module());
         install(new NoSshModule());
         install(new AsyncReceiveCommits.Module());

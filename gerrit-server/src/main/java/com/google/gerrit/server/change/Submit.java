@@ -53,13 +53,16 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
-import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -126,7 +129,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final MergeQueue mergeQueue;
   private final ChangeIndexer indexer;
   private final LabelNormalizer labelNormalizer;
   private final AccountsCollection accounts;
@@ -137,6 +139,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<MergeOp.Factory> integrationProvider;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -147,12 +150,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      MergeQueue mergeQueue,
       AccountsCollection accounts,
       ChangesCollection changes,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer,
       @GerritServerConfig Config cfg,
+      Provider<MergeOp.Factory> integrationProvider,
       Provider<InternalChangeQuery> queryProvider) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
@@ -162,7 +165,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.mergeQueue = mergeQueue;
     this.accounts = accounts;
     this.changes = changes;
     this.indexer = indexer;
@@ -181,6 +183,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         cfg.getString("change", null, "submitTopicTooltip"),
         DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
+    this.integrationProvider = integrationProvider;
   }
 
   @Override
@@ -210,24 +213,16 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    List<Change> submittedChanges = submit(rsrc, caller, false);
+    ChangeSet submittedChanges = ChangeSet.create(submit(rsrc, caller, false));
 
-    if (input.waitForMerge) {
-      for (Change c : submittedChanges) {
-        // TODO(sbeller): We should make schedule return a Future, then we
-        // could do these all in parallel and still block until they're done.
-        mergeQueue.merge(c.getDest());
-      }
-      change = dbProvider.get().changes().get(change.getId());
-    } else {
-      for (Change c : submittedChanges) {
-        mergeQueue.schedule(c.getDest());
-      }
-    }
+    try {
+      MergeOp m = integrationProvider.get().create(submittedChanges);
 
-    if (change == null) {
-      throw new ResourceConflictException("change is deleted");
+      m.merge();
+    } catch (MergeException | NoSuchChangeException e) {
+      throw new OrmException(e);
     }
+    change = dbProvider.get().changes().get(change.getId());
     switch (change.getStatus()) {
       case SUBMITTED:
         return new Output(Status.SUBMITTED, change);

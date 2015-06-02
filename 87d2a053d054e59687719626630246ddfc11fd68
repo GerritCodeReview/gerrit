@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b9c09816_2d144d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T09:30:40Z",
+      "side": 1,
+      "message": "It has been used on several changes before.\n\nThe linkification works because it matches on the `Issue 1234` part.\n\nDoes anyone still use the gitlog2asciidoc.py script?  I have never used it for any of the release notes I\u0027ve made.",
+      "parentUuid": "1959a445_280f8b6b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "87d2a053d054e59687719626630246ddfc11fd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c09816_cdf109e1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "\u003e Looking at the code this option seems to only be \n \u003e considered for HTTP and LDAP auth. If this is correct, \n \u003e should it be mentioned here?\n\nDone.\n\n \u003e Also should we mention what happens in the case where \n \u003e the auth backend itself does not allow it?\n\nAs I understand it, new email addresses are only stored in Gerrit and are never propagated back to the auth backend. So it doesn\u0027t matter if the auth backend allows it or not?",
       "parentUuid": "b9c09816_cdf109e1",
+      "revId": "87d2a053d054e59687719626630246ddfc11fd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c09816_cdf829bf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2979,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T09:30:40Z",
+      "side": 1,
+      "message": "I\u0027m not really sure how the adding new emails works.  On all of the live servers I use, there is no option to add a new email address.",
+      "parentUuid": "3962e8ee_490ac15b",
       "revId": "87d2a053d054e59687719626630246ddfc11fd68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

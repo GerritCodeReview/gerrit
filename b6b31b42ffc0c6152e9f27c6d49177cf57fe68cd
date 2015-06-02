@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1959a445_e812935f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-02T22:56:40Z",
+      "side": 1,
+      "message": "Sounds like even if after the upgrades are complete this case can happen. So we may want this code, as gross as it is.",
+      "range": {
+        "startLine": 1515,
+        "startChar": 0,
+        "endLine": 1522,
+        "endChar": 28
+      },
+      "revId": "b6b31b42ffc0c6152e9f27c6d49177cf57fe68cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

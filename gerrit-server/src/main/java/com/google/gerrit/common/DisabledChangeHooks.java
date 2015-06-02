@@ -124,4 +124,8 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   @Override
   public void postEvent(Branch.NameKey branchName, Event event) {
   }
+
+  @Override
+  public void postEvent(Project.NameKey projectName, Event event) {
+  }
 }

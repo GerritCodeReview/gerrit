@@ -725,6 +725,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEvent(branchName, event);
     }
 
+    @Override
+    public void postEvent(Project.NameKey projectName, com.google.gerrit.server.events.Event event) {
+      fireEvent(projectName, (ProjectCreatedEvent)event);
+    }
+
     private void fireEventForUnrestrictedListeners(com.google.gerrit.server.events.Event event) {
       for (EventListener listener : unrestrictedListeners) {
         listener.onEvent(event);

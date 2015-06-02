@@ -737,6 +737,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEvent(branchName, event);
     }
 
+    @Override
+    public void postEvent(Project.NameKey projectName, com.google.gerrit.server.events.Event event) {
+      fireEvent(projectName, event);
+    }
+
     private void fireEventForUnrestrictedListeners(com.google.gerrit.server.events.Event event) {
       for (EventListener listener : unrestrictedListeners) {
         listener.onEvent(event);
@@ -754,9 +759,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEventForUnrestrictedListeners( event );
     }
 
-    private void fireEvent(Project.NameKey project, ProjectCreatedEvent event) {
+    private void fireEvent(Project.NameKey project, com.google.gerrit.server.events.Event event) {
       for (EventListenerHolder holder : listeners.values()) {
-        if (isVisibleTo(project, event, holder.user)) {
+        if (isVisibleTo(project, ((ProjectCreatedEvent)event).getHeadName(), holder.user)) {
           holder.listener.onEvent(event);
         }
       }
@@ -764,19 +769,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEventForUnrestrictedListeners(event);
     }
 
-    private void fireEventForUnrestrictedListeners(ProjectCreatedEvent event) {
-      for (EventListener listener : unrestrictedListeners) {
-        listener.onEvent(event);
-      }
-    }
-
-    private boolean isVisibleTo(Project.NameKey project, ProjectCreatedEvent event, CurrentUser user) {
+    private boolean isVisibleTo(Project.NameKey project, String headName, CurrentUser user) {
       ProjectState pe = projectCache.get(project);
       if (pe == null) {
         return false;
       }
       ProjectControl pc = pe.controlFor(user);
-      return pc.controlForRef(event.getHeadName()).isVisible();
+      return pc.controlForRef(headName).isVisible();
     }
 
     private void fireEvent(Branch.NameKey branchName, com.google.gerrit.server.events.Event event) {

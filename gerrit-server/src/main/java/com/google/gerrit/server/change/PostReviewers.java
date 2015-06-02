@@ -256,8 +256,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
     accountLoaderFactory.create(true).fill(result.reviewers);
     indexFuture.checkedGet();
-    emailReviewers(rsrc.getChange(), added);
     if (!added.isEmpty()) {
+      emailReviewers(rsrc.getChange(), added);
       PatchSet patchSet = dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
       for (PatchSetApproval psa : added) {
         Account account = accountCache.get(psa.getAccountId()).getAccount();
@@ -266,31 +266,38 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
   }
 
-  private void emailReviewers(Change change, List<PatchSetApproval> added) {
-    if (added.isEmpty()) {
-      return;
-    }
-
+  private void emailReviewers(final Change change, List<PatchSetApproval> added) {
     // Email the reviewers
     //
     // The user knows they added themselves, don't bother emailing them.
-    List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
-    IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
+    final List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
+    final IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
     for (PatchSetApproval psa : added) {
       if (!psa.getAccountId().equals(identifiedUser.getAccountId())) {
         toMail.add(psa.getAccountId());
       }
     }
     if (!toMail.isEmpty()) {
-      try {
-        AddReviewerSender cm = addReviewerSenderFactory.create(change.getId());
-        cm.setFrom(identifiedUser.getAccountId());
-        cm.addReviewers(toMail);
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot send email to new reviewers of change "
-            + change.getId(), err);
-      }
+      Runnable sender = new Runnable() {
+        @Override
+        public void run() {
+          try {
+            AddReviewerSender cm = addReviewerSenderFactory.create(change.getId());
+            cm.setFrom(identifiedUser.getAccountId());
+            cm.addReviewers(toMail);
+            cm.send();
+          } catch (Exception err) {
+            log.error("Cannot send email to new reviewers of change "
+                + change.getId(), err);
+          }
+        }
+
+        @Override
+        public String toString() {
+          return "send-email add-reviewer";
+        }
+      };
+      sender.run();
     }
   }
 

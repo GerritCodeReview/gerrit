@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99cf5447_ccf82fbf",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T10:50:56Z",
+      "side": 1,
+      "message": "[optional] put this on the end of the previous bullet, i.e.\n\n\"Include a `Bug: Issue \u003c#\u003e` line if fixing a Gerrit issue, or a `Feature: Issue \u003c#\u003e` line if implementing a feature request.\"",
+      "revId": "1ba1991bfb1235f48a152a8c2bcda58903f84059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

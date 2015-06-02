@@ -843,6 +843,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     @Override
+    public void postEvent(Project.NameKey projectName, ProjectEvent event) {
+      fireEvent(projectName, event);
+    }
+
+    @Override
     public void postEvent(com.google.gerrit.server.events.Event event,
         ReviewDb db) throws OrmException {
       fireEvent(event, db);

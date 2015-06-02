@@ -22,6 +22,76 @@
       "revId": "c54249e3529f640ef4890efa8212e5a4f0fc47e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c09816_cdca698f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/HookTestCase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T00:55:31Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "39ebc864_21baee2e",
+      "range": {
+        "startLine": 106,
+        "startChar": 11,
+        "endLine": 106,
+        "endChar": 52
+      },
+      "revId": "c54249e3529f640ef4890efa8212e5a4f0fc47e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c09816_edc72584",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/HookTestCase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T00:55:31Z",
+      "side": 0,
+      "message": "And here",
+      "range": {
+        "startLine": 112,
+        "startChar": 13,
+        "endLine": 112,
+        "endChar": 54
+      },
+      "revId": "c54249e3529f640ef4890efa8212e5a4f0fc47e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99cf5447_8cd46733",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/HookTestCase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T00:55:31Z",
+      "side": 0,
+      "message": "and here",
+      "range": {
+        "startLine": 137,
+        "startChar": 11,
+        "endLine": 137,
+        "endChar": 35
+      },
+      "revId": "c54249e3529f640ef4890efa8212e5a4f0fc47e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

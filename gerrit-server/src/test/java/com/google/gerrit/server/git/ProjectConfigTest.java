@@ -14,12 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -40,6 +36,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -91,30 +88,30 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         ));
 
     ProjectConfig cfg = read(rev);
-    assertEquals(2, cfg.getAccountsSection().getSameGroupVisibility().size());
+    assertThat(cfg.getAccountsSection().getSameGroupVisibility()).hasSize(2);
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
-    assertEquals("Individual", ca.getName());
-    assertEquals("A simple description", ca.getDescription());
-    assertEquals("http://www.example.com/agree", ca.getAgreementUrl());
-    assertEquals(2, ca.getAccepted().size());
-    assertEquals(developers, ca.getAccepted().get(0).getGroup());
-    assertEquals("Staff", ca.getAccepted().get(1).getGroup().getName());
-    assertEquals("Developers", ca.getAutoVerify().getName());
-    assertTrue(ca.isRequireContactInformation());
+    assertThat(ca.getName()).isEqualTo("Individual");
+    assertThat(ca.getDescription()).isEqualTo("A simple description");
+    assertThat(ca.getAgreementUrl()).isEqualTo("http://www.example.com/agree");
+    assertThat(ca.getAccepted()).hasSize(2);
+    assertThat(ca.getAccepted().get(0).getGroup()).isEqualTo(developers);
+    assertThat(ca.getAccepted().get(1).getGroup().getName()).isEqualTo("Staff");
+    assertThat(ca.getAutoVerify().getName()).isEqualTo("Developers");
+    assertThat(ca.isRequireContactInformation()).isTrue();
 
     AccessSection section = cfg.getAccessSection("refs/heads/*");
-    assertNotNull("has refs/heads/*", section);
-    assertNull("no refs/*", cfg.getAccessSection("refs/*"));
+    assertThat(section).isNotNull();
+    assertThat(cfg.getAccessSection("refs/*")).isNull();
 
     Permission create = section.getPermission(Permission.CREATE);
     Permission submit = section.getPermission(Permission.SUBMIT);
     Permission read = section.getPermission(Permission.READ);
     Permission push = section.getPermission(Permission.PUSH);
 
-    assertTrue(create.getExclusiveGroup());
-    assertTrue(submit.getExclusiveGroup());
-    assertTrue(read.getExclusiveGroup());
-    assertFalse(push.getExclusiveGroup());
+    assertThat(create.getExclusiveGroup()).isTrue();
+    assertThat(submit.getExclusiveGroup()).isTrue();
+    assertThat(read.getExclusiveGroup()).isTrue();
+    assertThat(push.getExclusiveGroup()).isFalse();
   }
 
   @Test
@@ -131,7 +128,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
     Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
-    assertEquals(0, (int) dv);
+    assertThat((int)dv).isEqualTo(0);
   }
 
   @Test
@@ -149,7 +146,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
     Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
-    assertEquals(-1, (int) dv);
+    assertThat((int)dv).isEqualTo(-1);
   }
 
   @Test
@@ -165,10 +162,10 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         ));
 
     ProjectConfig cfg = read(rev);
-    assertEquals(1, cfg.getValidationErrors().size());
-    assertEquals("project.config: Invalid defaultValue \"-2\" "
-        + "for label \"CustomLabel\"",
-        Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage());
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+      .isEqualTo("project.config: Invalid defaultValue \"-2\" "
+        + "for label \"CustomLabel\"");
   }
 
   @Test
@@ -205,7 +202,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ca.setAutoVerify(null);
     ca.setDescription("A new description");
     rev = commit(cfg);
-    assertEquals(""//
+    assertThat(text(rev, "project.config")).isEqualTo(""//
         + "[access \"refs/heads/*\"]\n" //
         + "  exclusiveGroupPermissions = read submit\n" //
         + "  submit = group Developers\n" //
@@ -217,8 +214,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "[contributor-agreement \"Individual\"]\n" //
         + "  description = A new description\n" //
         + "  accepted = group Staff\n" //
-        + "  agreementUrl = http://www.example.com/agree\n",
-        text(rev, "project.config"));
+        + "  agreementUrl = http://www.example.com/agree\n");
   }
 
   @Test
@@ -239,13 +235,13 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(new PermissionRule(cfg.resolve(staff)));
     rev = commit(cfg);
-    assertEquals(""//
+    assertThat(text(rev, "project.config")).isEqualTo(""//
         + "[access \"refs/heads/*\"]\n" //
         + "  exclusiveGroupPermissions = read submit\n" //
         + "  submit = group People Who Can Submit\n" //
         + "\tsubmit = group Staff\n" //
         + "  upload = group Developers\n" //
-        + "  read = group Developers\n", text(rev, "project.config"));
+        + "  read = group Developers\n");
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException,
@@ -274,15 +270,11 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     RefUpdate u = db.updateRef(RefNames.REFS_CONFIG);
     u.disableRefLog();
     u.setNewObjectId(rev);
-    switch (u.forceUpdate()) {
-      case FAST_FORWARD:
-      case FORCED:
-      case NEW:
-      case NO_CHANGE:
-        break;
-      default:
-        fail("Cannot update ref for test: " + u.getResult());
-    }
+    Result result = u.forceUpdate();
+    assert_()
+      .withFailureMessage("Cannot update ref for test: " + result)
+      .that(result)
+      .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
   }
 
   private String text(RevCommit rev, String path) throws Exception {

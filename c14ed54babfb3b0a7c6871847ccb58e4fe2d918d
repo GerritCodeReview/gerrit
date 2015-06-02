@@ -22,6 +22,30 @@
       "revId": "c14ed54babfb3b0a7c6871847ccb58e4fe2d918d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3962e8ee_09c6098c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/ConfigImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-06-02T05:53:18Z",
+      "side": 1,
+      "message": "No, I will remove it.",
+      "parentUuid": "b9c09816_4dde7953",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 53
+      },
+      "revId": "c14ed54babfb3b0a7c6871847ccb58e4fe2d918d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

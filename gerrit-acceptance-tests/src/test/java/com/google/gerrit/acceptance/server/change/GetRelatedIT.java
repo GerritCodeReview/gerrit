@@ -64,6 +64,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Inject
   private ChangeEditModifier editModifier;
 
+  @Inject
+  private ChangeData.Factory changeDataFactory;
+
   @Test
   public void getRelatedNoResult() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
@@ -217,6 +220,53 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(ps2_edit,
         changeAndCommit(id3, c3_1, 1, 1),
         changeAndCommit(id2, editRev, 0, 1),
+        changeAndCommit(id1, c1_1, 1, 1));
+  }
+
+  @Test
+  public void pushNewPatchSetWhenParentHasNullGroup() throws Exception {
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id psId1_1 = getPatchSetId(c1_1);
+    PatchSet.Id psId2_1 = getPatchSetId(c2_1);
+
+    for (PatchSet.Id psId : ImmutableList.of(psId1_1, psId2_1)) {
+      assertRelated(psId,
+          changeAndCommit(id2, c2_1, 1, 1),
+          changeAndCommit(id1, c1_1, 1, 1));
+    }
+
+    // Pretend PS1,1 was pushed before the groups field was added.
+    PatchSet ps1_1 = db.patchSets().get(psId1_1);
+    ps1_1.setGroups(null);
+    db.patchSets().update(ImmutableList.of(ps1_1));
+    indexer.index(changeDataFactory.create(db, psId1_1.getParentKey()));
+
+    if (!cfg.getBoolean("change", null, "getRelatedByAncestors", false)) {
+      // PS1,1 has no groups, so disappeared from related chanegs.
+      assertRelated(psId2_1);
+    }
+
+    RevCommit c2_2 = testRepo.amend(c2_1)
+        .add("c.txt", "2")
+        .create();
+    testRepo.reset(c2_2);
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id psId2_2 = getPatchSetId(c2_2);
+
+    // Push updated the group for PS1,1, so it shows up in related changes even
+    // though a new patch set was not pushed.
+    assertRelated(psId2_2,
+        changeAndCommit(id2, c2_2, 2, 2),
         changeAndCommit(id1, c1_1, 1, 1));
   }
 

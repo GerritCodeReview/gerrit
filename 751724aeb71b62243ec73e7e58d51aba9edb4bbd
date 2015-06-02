@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3962e8ee_69058549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-02T09:36:49Z",
+      "side": 1,
+      "message": "Another approach would be to remove these draft icons entirely. It was ported from old change screen in the time that predated publishing draft comments across patch set boundaries. Before this feature there were no way to tell if non-selected patch sets have draft comments or not.\n\nWith this feature the user could just click on reply button and would see not only the existence of the draft comment across patch set boundaries, but also the content of draft comments.\n\nEvent better, combined with the follow-up change, where Reply button is get highlighted also when draft comments for other patch sets exist, the existence of draft comment icons per patch set in PastSets drop down is useless.\n\nStill the question is how to fix caching problem to highlight the Reply button when draft comments exist across patch set boundaries.",
+      "range": {
+        "startLine": 20,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "751724aeb71b62243ec73e7e58d51aba9edb4bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

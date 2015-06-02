@@ -79,6 +79,8 @@ change to be reviewed.
   * Use the present tense (fix instead of fixed)
   * Use the past tense when describing the status before this commit
   * Include a `Bug: Issue <#>` line if fixing a Gerrit issue
+  * Include a `Feature: Issue <#>` line if implementing a feature
+    requested by a Gerrit issue
   * Include a `Change-Id` line
 
 === Setting up Vim for Git commit message

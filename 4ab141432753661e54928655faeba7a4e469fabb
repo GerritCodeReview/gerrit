@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1959a445_c81c6f9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-02T10:56:54Z",
+      "side": 1,
+      "message": "Maybe better write this as:\n\n    if (!values.isEmpty())\n      short dv \u003d (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);\n      if (isInRange(dv, values)) {\n        label.setDefaultValue(dv);\n      } else {\n        error(new ValidationError(PROJECT_CONFIG, String.format(\n            \"Invalid %s \\\"%s\\\" for label \\\"%s\\\"\",\n            KEY_DEFAULT_VALUE, dv, name)));\n      }\n    }\n\n?",
+      "range": {
+        "startLine": 687,
+        "startChar": 6,
+        "endLine": 694,
+        "endChar": 7
+      },
+      "revId": "4ab141432753661e54928655faeba7a4e469fabb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
@@ -319,6 +320,7 @@ public class ReceiveCommits {
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new HashMap<>();
+  private final List<UpdateGroupsRequest> updateGroups = new ArrayList<>();
   private final Set<RevCommit> validCommits = new HashSet<>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
@@ -797,6 +799,10 @@ public class ReceiveCommits {
 
       for (CreateRequest create : newChanges) {
         futures.add(create.insertChange());
+      }
+
+      for (UpdateGroupsRequest update : updateGroups) {
+        futures.add(update.updateGroups());
       }
 
       for (CheckedFuture<?, InsertException> f : futures) {
@@ -1469,7 +1475,7 @@ public class ReceiveCommits {
     newChanges = Lists.newArrayList();
     final RevWalk walk = rp.getRevWalk();
 
-    Set<ObjectId> existing = changeRefsById().keySet();
+    SetMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector = new GroupCollector(refsById, db);
 
     walk.reset();
@@ -1501,16 +1507,22 @@ public class ReceiveCommits {
           break;
         }
         groupCollector.visit(c);
-        if (existing.contains(c)) { // Commit is already tracked.
-          // TODO(dborowitz): Corner case where an existing commit might need a
-          // new group:
-          // Let A<-B<-C, then:
-          //   1. Push A to refs/heads/master
-          //   2. Push B to refs/for/master
-          //   3. Force push A~ to refs/heads/master
-          //   4. Push C to refs/for/master.
-          // B will be in existing so we aren't replacing the patch set. It used
-          // to have its own group, but now needs to to be changed to A's group.
+        Collection<Ref> existingRefs = existing.get(c);
+        if (!existingRefs.isEmpty()) { // Commit is already tracked.
+          // Corner cases where an existing commit might need a new group:
+          // A) Existing commit has a null group; wasn't assigned during schema
+          //    upgrade, or schema upgrade is performed on a running server.
+          // B) Let A<-B<-C, then:
+          //      1. Push A to refs/heads/master
+          //      2. Push B to refs/for/master
+          //      3. Force push A~ to refs/heads/master
+          //      4. Push C to refs/for/master.
+          //      B will be in existing so we aren't replacing the patch set. It
+          //      used to have its own group, but now needs to to be changed to
+          //      A's group.
+          for (Ref ref : existingRefs) {
+            updateGroups.add(new UpdateGroupsRequest(ref, c));
+          }
           continue;
         }
 
@@ -1628,6 +1640,9 @@ public class ReceiveCommits {
       }
       for (ReplaceRequest replace : replaceByChange.values()) {
         replace.groups = groups.get(replace.newCommit);
+      }
+      for (UpdateGroupsRequest update : updateGroups) {
+        update.groups = Sets.newHashSet(groups.get(update.commit));
       }
     } catch (OrmException e) {
       log.error("Error collecting groups for changes", e);
@@ -2281,6 +2296,64 @@ public class ReceiveCommits {
       }
 
       return newPatchSet.getId();
+    }
+  }
+
+  private class UpdateGroupsRequest {
+    private final PatchSet.Id psId;
+    private final RevCommit commit;
+    Set<String> groups;
+
+    UpdateGroupsRequest(Ref ref, RevCommit commit) {
+      this.psId = checkNotNull(PatchSet.Id.fromRef(ref.getName()));
+      this.commit = commit;
+    }
+
+    private void updateGroups(ReviewDb db) throws OrmException, IOException {
+      PatchSet ps = db.patchSets().atomicUpdate(psId,
+          new AtomicUpdate<PatchSet>() {
+            @Override
+            public PatchSet update(PatchSet ps) {
+              List<String> oldGroups = ps.getGroups();
+              if (oldGroups == null) {
+                if (groups == null) {
+                  return null;
+                }
+              } else if (Sets.newHashSet(oldGroups).equals(groups)) {
+                return null;
+              }
+              ps.setGroups(groups);
+              return ps;
+            }
+          });
+      if (ps != null) {
+        Change change = db.changes().get(psId.getParentKey());
+        if (change != null) {
+          indexer.index(db, change);
+        }
+      }
+    }
+
+    CheckedFuture<Void, InsertException> updateGroups() {
+      final Thread caller = Thread.currentThread();
+      ListenableFuture<Void> future = changeUpdateExector.submit(
+          requestScopePropagator.wrap(new Callable<Void>() {
+        @Override
+        public Void call() throws OrmException, IOException {
+          if (caller == Thread.currentThread()) {
+            updateGroups(db);
+          } else {
+            ReviewDb db = schemaFactory.open();
+            try {
+              updateGroups(db);
+            } finally {
+              db.close();
+            }
+          }
+          return null;
+        }
+      }));
+      return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1959a445_e894d34d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-06-02T16:04:32Z",
+      "side": 1,
+      "message": "this adapts Gerrit to https://git.eclipse.org/r/#/c/45709/ though I am not sure if this is the right fix",
+      "revId": "9c3605229b2180943b536d3e89e07e677bc94366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

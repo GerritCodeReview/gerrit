@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9c09816_2ddd2d52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T02:23:28Z",
+      "side": 1,
+      "message": "Feature?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "87d2a053d054e59687719626630246ddfc11fd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c09816_cdf109e1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2979,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-02T02:23:28Z",
+      "side": 1,
+      "message": "Looking at the code this option seems to only be considered for HTTP and LDAP auth.  If this is correct, should it be mentioned here?\n\nAlso should we mention what happens in the case where the auth backend itself does not allow it?",
+      "revId": "87d2a053d054e59687719626630246ddfc11fd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

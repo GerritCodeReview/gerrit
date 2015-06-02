@@ -20,7 +20,6 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
-import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
@@ -88,7 +87,9 @@ import org.easymock.IAnswer;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.sql.Timestamp;
@@ -110,6 +111,9 @@ public class CommentsTest  {
   public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   private Injector injector;
   private ReviewDb db;
@@ -349,12 +353,19 @@ public class CommentsTest  {
   }
 
   @Test
-  public void testGetComment() throws Exception {
+  public void testGetCommentExisting() throws Exception {
     // test GetComment for existing comment
-    assertGetComment(revRes1, plc1, plc1.getKey().get());
+    String uuid = plc1.getKey().get();
+    CommentResource commentRes = comments.parse(revRes1, IdString.fromUrl(uuid));
+    CommentInfo actual = getComment.apply(commentRes);
+    assertComment(plc1, actual, true);
+  }
 
+  @Test
+  public void testGetCommentNotExisting() throws Exception {
     // test GetComment for non-existent comment
-    assertGetComment(revRes1, null, "BadComment");
+    exception.expect(ResourceNotFoundException.class);
+    comments.parse(revRes1, IdString.fromUrl("BadComment"));
   }
 
   @Test
@@ -391,22 +402,6 @@ public class CommentsTest  {
       public ResultSet<PatchLineComment> answer() throws Throwable {
         return new ListResultSet<>(Lists.newArrayList(comments));
       }};
-  }
-
-  private void assertGetComment(RevisionResource res, PatchLineComment expected,
-      String uuid) throws Exception {
-    try {
-      CommentResource commentRes = comments.parse(res, IdString.fromUrl(uuid));
-      if (expected == null) {
-        fail("Expected no comment");
-      }
-      CommentInfo actual = getComment.apply(commentRes);
-      assertComment(expected, actual, true);
-    } catch (ResourceNotFoundException e) {
-      if (expected != null) {
-        fail("Expected to find comment");
-      }
-    }
   }
 
   private void assertListComments(RevisionResource res,

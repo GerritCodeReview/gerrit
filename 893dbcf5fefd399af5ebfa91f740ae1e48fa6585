@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3962e8ee_e994d54d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-02T18:29:21Z",
+      "side": 1,
+      "message": "We could remove the check for isEmpty() here and the for loop would just iterate over an empty collection. The downside of that would be the missing continue. But looking at the code below that would be no disadvantage?",
+      "range": {
+        "startLine": 1511,
+        "startChar": 25,
+        "endLine": 1511,
+        "endChar": 26
+      },
+      "revId": "893dbcf5fefd399af5ebfa91f740ae1e48fa6585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

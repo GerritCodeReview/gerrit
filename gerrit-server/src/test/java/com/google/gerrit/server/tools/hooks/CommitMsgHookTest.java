@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.tools.hooks;
 
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.server.util.HostPlatform;
 
@@ -30,6 +30,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -436,15 +437,11 @@ public class CommitMsgHookTest extends HookTestCase {
 
       final RefUpdate ref = repository.updateRef(Constants.HEAD);
       ref.setNewObjectId(commitId);
-      switch (ref.forceUpdate()) {
-        case NEW:
-        case FAST_FORWARD:
-        case FORCED:
-        case NO_CHANGE:
-          break;
-        default:
-          fail(Constants.HEAD + " did not change: " + ref.getResult());
-      }
+      Result result = ref.forceUpdate();
+      assert_()
+        .withFailureMessage(Constants.HEAD + " did not change: " + ref.getResult())
+        .that(result)
+        .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
     }
   }
 }

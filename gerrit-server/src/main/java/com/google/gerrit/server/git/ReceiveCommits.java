@@ -327,7 +327,7 @@ public class ReceiveCommits {
 
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<Submit> submitProvider;
-  private final MergeQueue mergeQueue;
+  private final Provider<MergeOp.Factory> integrationProvider;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
@@ -377,7 +377,7 @@ public class ReceiveCommits {
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
-      final MergeQueue mergeQueue,
+      final Provider<MergeOp.Factory> integrationProvider,
       final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
@@ -424,7 +424,7 @@ public class ReceiveCommits {
 
     this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
-    this.mergeQueue = mergeQueue;
+    this.integrationProvider = integrationProvider;
     this.pluginConfigEntries = pluginConfigEntries;
     this.notesMigration = notesMigration;
 
@@ -1763,8 +1763,12 @@ public class ReceiveCommits {
       throw new IOException(e);
     }
     addMessage("");
+    try {
+      integrationProvider.get().create(ChangeSet.create(changes)).merge();
+    } catch (MergeException | NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
     for (Change c : changes) {
-      mergeQueue.merge(c.getDest());
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:

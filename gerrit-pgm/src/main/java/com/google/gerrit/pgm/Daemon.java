@@ -50,7 +50,6 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.contact.ContactStoreModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
@@ -357,9 +356,6 @@ public class Daemon extends SiteProgram {
       modules.add(SshKeyCacheImpl.module());
     } else {
       modules.add(NoSshKeyCache.module());
-    }
-    if (!slave) {
-      modules.add(new MasterNodeStartup());
     }
     modules.add(new AbstractModule() {
       @Override

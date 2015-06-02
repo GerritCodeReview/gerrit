@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1959a445_280f8b6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-02T09:26:14Z",
+      "side": 1,
+      "message": "Do we ever use \u0027Feature\u0027?\n\nOur contribution documentation [1] doesn\u0027t mention it and it is also not handled by the \u0027tools/gitlog2asciidoc.py\u0027 script.\n\nAlso is the \u0027Feature\u0027 footer configured to be linkified?\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "parentUuid": "b9c09816_2ddd2d52",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "87d2a053d054e59687719626630246ddfc11fd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c09816_cdf109e1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-06-02T02:23:28Z",
       "side": 1,
       "message": "Looking at the code this option seems to only be considered for HTTP and LDAP auth.  If this is correct, should it be mentioned here?\n\nAlso should we mention what happens in the case where the auth backend itself does not allow it?",
+      "revId": "87d2a053d054e59687719626630246ddfc11fd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3962e8ee_490ac15b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2979,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-02T09:26:14Z",
+      "side": 1,
+      "message": "\u003e Looking at the code this option seems to only be \n \u003e considered for HTTP and LDAP auth. If this is correct, \n \u003e should it be mentioned here?\n\nDone.\n\n \u003e Also should we mention what happens in the case where \n \u003e the auth backend itself does not allow it?\n\nAs I understand it, new email addresses are only stored in Gerrit and are never propagated back to the auth backend. So it doesn\u0027t matter if the auth backend allows it or not?",
+      "parentUuid": "b9c09816_cdf109e1",
       "revId": "87d2a053d054e59687719626630246ddfc11fd68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

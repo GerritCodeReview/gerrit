@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -24,19 +23,12 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     public RegisterNewEmailSender create(String address);
   }
 
-  private final EmailTokenVerifier tokenVerifier;
-  private final IdentifiedUser user;
   private final String addr;
-  private String emailToken;
 
   @Inject
   public RegisterNewEmailSender(EmailArguments ea,
-      EmailTokenVerifier etv,
-      IdentifiedUser callingUser,
       @Assisted final String address) {
     super(ea, "registernewemail");
-    tokenVerifier = etv;
-    user = callingUser;
     addr = address;
   }
 
@@ -55,31 +47,5 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   @Override
   protected void format() throws EmailException {
     appendText(velocifyFile("RegisterNewEmail.vm"));
-  }
-
-  public String getUserNameEmail() {
-    String name = user.getAccount().getFullName();
-    String email = user.getAccount().getPreferredEmail();
-
-    if (name != null && email != null) {
-      return name + " <" + email + ">";
-    } else if (email != null) {
-      return email;
-    } else if (name != null) {
-      return name;
-    } else {
-      String username = user.getUserName();
-      if (username != null) {
-        return username;
-      }
-    }
-    return null;
-  }
-
-  public String getEmailRegistrationToken() {
-    if (emailToken == null) {
-      emailToken = tokenVerifier.encode(user.getAccountId(), addr);
-    }
-    return emailToken;
   }
 }

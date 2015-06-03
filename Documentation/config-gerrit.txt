@@ -910,6 +910,72 @@ keyboard shortcut is appended.
 Default is "Reply and score". In the user interface it becomes "Reply
 and score (Shortcut: a)".
 
+[[changeCleanup]]
+=== Section changeCleanup
+
+This section allows to configure change cleanups and schedules them to
+run periodically.
+
+[[changeCleanup.abandonAfter]]changeCleanup.abandonAfter::
++
+Period of inactivity after which open changes should be abandoned
+automatically.
++
+By default `0`, never abandon open changes.
++
+The following suffixes are supported to define the time unit:
++
+* `s, sec, second, seconds`
+* `m, min, minute, minutes`
+* `h, hr, hour, hours`
+* `d, day, days`
+* `w, week, weeks` (`1 week` is treated as `7 days`)
+* `mon, month, months` (`1 month` is treated as `30 days`)
+* `y, year, years` (`1 year` is treated as `365 days`)
+
+[[changeCleanup.abandonMessage]]changeCleanup.abandonMessage::
++
+Change message that should be posted when a change is abandoned.
++
+By default "Auto-Abandoned due to inactivity.\nIf this change is still
+wanted it should be restored.".
+
+[[changeCleanup.startTime]]changeCleanup.startTime::
++
+Start time to define the first execution of the change cleanups.
+If the configured `'changeCleanup.interval'` is shorter than
+`'changeCleanup.startTime - now'` the start time will be preponed by
+the maximum integral multiple of `'changeCleanup.interval'` so that the
+start time is still in the future.
++
+----
+<day of week> <hours>:<minutes>
+or
+<hours>:<minutes>
+
+<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
+<hours>       : 00-23
+<minutes>     : 0-59
+----
+
+
+[[changeCleanup.interval]]changeCleanup.interval::
++
+Interval for periodic repetition of triggering the change cleanups.
+The interval must be larger than zero. The following suffixes are supported
+to define the time unit for the interval:
++
+* `s, sec, second, seconds`
+* `m, min, minute, minutes`
+* `h, hr, hour, hours`
+* `d, day, days`
+* `w, week, weeks` (`1 week` is treated as `7 days`)
+* `mon, month, months` (`1 month` is treated as `30 days`)
+* `y, year, years` (`1 year` is treated as `365 days`)
+
+link:#schedule-examples[Schedule examples] can be found in the
+link:#gc[gc] section.
+
 [[changeMerge]]
 === Section changeMerge
 
@@ -1519,6 +1585,7 @@ to define the time unit for the interval:
 * `mon, month, months` (`1 month` is treated as `30 days`)
 * `y, year, years` (`1 year` is treated as `365 days`)
 
+[[schedule-examples]]
 Examples::
 +
 ----

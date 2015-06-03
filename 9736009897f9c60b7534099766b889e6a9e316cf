@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1959a445_08dcc70c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-03T08:55:19Z",
+      "side": 1,
+      "message": "It wouldn\u0027t be needed even without exporting the dependencies when transitive build dependency option is used. So as a test you can replace exported_deps in deps again in lib/BUCK and keep all junit and guava removed and run:\n\n  $ buck build --build-dependencies\u003dTRANSITIVE \u003crule\u003e\n\nand this would work. So to makes commit message more clear why the exporting is actually needed here, I would add this statement:\n\n  \"Buck, by default, builds java_library targets with first order deps\nonly, so that transitive dependencies don\u0027t considered.\"\n\nas I did in: [1].\n\n* [1] https://github.com/facebook/buck/commit/9d24d650c57458b33adad3027491a01f20b7455e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "9736009897f9c60b7534099766b889e6a9e316cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

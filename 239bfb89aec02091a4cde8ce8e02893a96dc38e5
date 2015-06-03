@@ -69,6 +69,30 @@
       "revId": "239bfb89aec02091a4cde8ce8e02893a96dc38e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99667435_54c68c8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-03T20:00:14Z",
+      "side": 1,
+      "message": "In my ideal world we would not even make it configurable but I agree, I would predict screaming.",
+      "parentUuid": "99667435_34b7902a",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 31,
+        "endChar": 58
+      },
+      "revId": "239bfb89aec02091a4cde8ce8e02893a96dc38e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

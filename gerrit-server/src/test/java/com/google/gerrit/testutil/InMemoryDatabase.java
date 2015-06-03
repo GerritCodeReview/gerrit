@@ -14,7 +14,7 @@
 
 package com.google.gerrit.testutil;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
@@ -160,7 +160,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   }
 
   public void assertSchemaVersion() throws OrmException {
-    final CurrentSchemaVersion act = getSchemaVersion();
-    assertEquals(SchemaVersion.getBinaryVersion(), act.versionNbr);
+    assertThat(getSchemaVersion().versionNbr)
+      .isEqualTo(SchemaVersion.getBinaryVersion());
   }
 }

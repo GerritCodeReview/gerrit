@@ -22,6 +22,30 @@
       "revId": "9792c6a5653ece5b9b2618ab7114297d36e4ed80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c09816_cd4d8990",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-03T13:17:52Z",
+      "side": 1,
+      "message": "Actually, it might be better to split this and the above out into a helper method.\n\nWill rework it tomorrow.",
+      "parentUuid": "3962e8ee_a9ca5d3b",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 46
+      },
+      "revId": "9792c6a5653ece5b9b2618ab7114297d36e4ed80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

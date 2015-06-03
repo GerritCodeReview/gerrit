@@ -14,8 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
@@ -31,56 +30,56 @@ public class SafeHtml_WikifyPreformatTest {
   public void testPreformat1() {
     final SafeHtml o = html("A\n\n  This is pre\n  formatted");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>A</p>"//
-        + "<p>" //
-        + pre("  This is pre") //
-        + pre("  formatted") //
-        + "</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>A</p>"
+        + "<p>"
+        + pre("  This is pre")
+        + pre("  formatted")
+        + "</p>");
   }
 
   @Test
   public void testPreformat2() {
     final SafeHtml o = html("A\n\n  This is pre\n  formatted\n\nbut this is not");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>A</p>" //
-        + "<p>" //
-        + pre("  This is pre") //
-        + pre("  formatted") //
-        + "</p>" //
-        + "<p>but this is not</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>A</p>"
+        + "<p>"
+        + pre("  This is pre")
+        + pre("  formatted")
+        + "</p>"
+        + "<p>but this is not</p>");
   }
 
   @Test
   public void testPreformat3() {
     final SafeHtml o = html("A\n\n  Q\n    <R>\n  S\n\nB");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>A</p>" //
-        + "<p>" //
-        + pre("  Q") //
-        + pre("    &lt;R&gt;") //
-        + pre("  S") //
-        + "</p>" //
-        + "<p>B</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>A</p>"
+        + "<p>"
+        + pre("  Q")
+        + pre("    &lt;R&gt;")
+        + pre("  S")
+        + "</p>"
+        + "<p>B</p>");
   }
 
   @Test
   public void testPreformat4() {
     final SafeHtml o = html("  Q\n    <R>\n  S\n\nB");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>" //
-        + pre("  Q") //
-        + pre("    &lt;R&gt;") //
-        + pre("  S") //
-        + "</p>" //
-        + "<p>B</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>"
+        + pre("  Q")
+        + pre("    &lt;R&gt;")
+        + pre("  S")
+        + "</p>"
+        + "<p>B</p>");
   }
 
   private static SafeHtml html(String text) {

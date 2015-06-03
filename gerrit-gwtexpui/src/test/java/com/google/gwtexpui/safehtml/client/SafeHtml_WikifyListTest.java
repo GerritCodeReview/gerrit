@@ -14,8 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
@@ -31,40 +30,40 @@ public class SafeHtml_WikifyListTest {
   public void testBulletList1() {
     final SafeHtml o = html("A\n\n* line 1\n* 2nd line");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>A</p>"//
-        + BEGIN_LIST //
-        + item("line 1") //
-        + item("2nd line") //
-        + END_LIST //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>A</p>"
+        + BEGIN_LIST
+        + item("line 1")
+        + item("2nd line")
+        + END_LIST);
   }
 
   @Test
   public void testBulletList2() {
     final SafeHtml o = html("A\n\n* line 1\n* 2nd line\n\nB");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>A</p>"//
-        + BEGIN_LIST //
-        + item("line 1") //
-        + item("2nd line") //
-        + END_LIST //
-        + "<p>B</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>A</p>"
+        + BEGIN_LIST
+        + item("line 1")
+        + item("2nd line")
+        + END_LIST
+        + "<p>B</p>");
   }
 
   @Test
   public void testBulletList3() {
     final SafeHtml o = html("* line 1\n* 2nd line\n\nB");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals(BEGIN_LIST //
-        + item("line 1") //
-        + item("2nd line") //
-        + END_LIST //
-        + "<p>B</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        BEGIN_LIST
+        + item("line 1")
+        + item("2nd line")
+        + END_LIST
+        + "<p>B</p>");
   }
 
   @Test
@@ -73,13 +72,13 @@ public class SafeHtml_WikifyListTest {
         + "* Be on IMAP or EAS (not on POP)\n"//
         + "* Be very unlucky\n");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>To see this bug, you have to:</p>" //
-        + BEGIN_LIST //
-        + item("Be on IMAP or EAS (not on POP)") //
-        + item("Be very unlucky") //
-        + END_LIST //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>To see this bug, you have to:</p>"
+        + BEGIN_LIST
+        + item("Be on IMAP or EAS (not on POP)")
+        + item("Be very unlucky")
+        + END_LIST);
   }
 
   @Test
@@ -89,53 +88,53 @@ public class SafeHtml_WikifyListTest {
         + "* Be on IMAP or EAS (not on POP)\n"//
         + "* Be very unlucky\n");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>To see this bug, you have to:</p>" //
-        + BEGIN_LIST //
-        + item("Be on IMAP or EAS (not on POP)") //
-        + item("Be very unlucky") //
-        + END_LIST //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>To see this bug, you have to:</p>"
+        + BEGIN_LIST
+        + item("Be on IMAP or EAS (not on POP)")
+        + item("Be very unlucky")
+        + END_LIST);
   }
 
   @Test
   public void testDashList1() {
     final SafeHtml o = html("A\n\n- line 1\n- 2nd line");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>A</p>"//
-        + BEGIN_LIST //
-        + item("line 1") //
-        + item("2nd line") //
-        + END_LIST //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>A</p>"
+        + BEGIN_LIST
+        + item("line 1")
+        + item("2nd line")
+        + END_LIST);
   }
 
   @Test
   public void testDashList2() {
     final SafeHtml o = html("A\n\n- line 1\n- 2nd line\n\nB");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals("<p>A</p>"//
-        + BEGIN_LIST //
-        + item("line 1") //
-        + item("2nd line") //
-        + END_LIST //
-        + "<p>B</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<p>A</p>"
+        + BEGIN_LIST
+        + item("line 1")
+        + item("2nd line")
+        + END_LIST
+        + "<p>B</p>");
   }
 
   @Test
   public void testDashList3() {
     final SafeHtml o = html("- line 1\n- 2nd line\n\nB");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals(BEGIN_LIST //
-        + item("line 1") //
-        + item("2nd line") //
-        + END_LIST //
-        + "<p>B</p>" //
-    , n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        BEGIN_LIST
+        + item("line 1")
+        + item("2nd line")
+        + END_LIST
+        + "<p>B</p>");
   }
 
   private static SafeHtml html(String text) {

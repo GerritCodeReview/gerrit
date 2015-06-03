@@ -73,7 +73,7 @@ java_test(
   ]),
   deps = [
     ':SafeHtml',
-    '//lib:junit',
+    '//lib:truth',
     '//lib/gwt:user',
     '//lib/gwt:dev',
   ],

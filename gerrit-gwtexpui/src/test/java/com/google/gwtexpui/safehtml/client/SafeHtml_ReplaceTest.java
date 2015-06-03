@@ -14,9 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
@@ -28,8 +26,8 @@ public class SafeHtml_ReplaceTest {
   @Test
   public void testReplaceEmpty() {
     SafeHtml o = html("A\nissue42\nB");
-    assertSame(o, o.replaceAll(null));
-    assertSame(o, o.replaceAll(Collections.<FindReplace> emptyList()));
+    assertThat(o.replaceAll(null)).isSameAs(o);
+    assertThat(o.replaceAll(Collections.<FindReplace> emptyList())).isSameAs(o);
   }
 
   @Test
@@ -37,8 +35,9 @@ public class SafeHtml_ReplaceTest {
     SafeHtml o = html("A\nissue 42\nB");
     SafeHtml n = o.replaceAll(repls(
         new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
-    assertNotSame(o, n);
-    assertEquals("A\n<a href=\"?42\">issue 42</a>\nB", n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "A\n<a href=\"?42\">issue 42</a>\nB");
   }
 
   @Test
@@ -46,8 +45,9 @@ public class SafeHtml_ReplaceTest {
     SafeHtml o = html("issue 42");
     SafeHtml n = o.replaceAll(repls(
         new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
-    assertNotSame(o, n);
-    assertEquals("<a href=\"?42\">issue 42</a>", n.asString());
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "<a href=\"?42\">issue 42</a>");
   }
 
   @Test
@@ -55,12 +55,12 @@ public class SafeHtml_ReplaceTest {
     SafeHtml o = html("A\nissue 42\nissue 9918\nB");
     SafeHtml n = o.replaceAll(repls(
         new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
-    assertNotSame(o, n);
-    assertEquals("A\n"
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "A\n"
         + "<a href=\"?42\">issue 42</a>\n"
         + "<a href=\"?9918\">issue 9918</a>\n"
-        + "B"
-    , n.asString());
+        + "B");
   }
 
   @Test
@@ -71,12 +71,12 @@ public class SafeHtml_ReplaceTest {
             "<a href=\"gwtexpui-bug?$2\">$1</a>"),
         new RawFindReplace("(issue\\s+(\\d+))",
             "<a href=\"generic-bug?$2\">$1</a>")));
-    assertNotSame(o, n);
-    assertEquals("A\n"
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
+        "A\n"
         + "<a href=\"generic-bug?42\">issue 42</a>\n"
         + "Really <a href=\"gwtexpui-bug?9918\">GWTEXPUI-9918</a> is better\n"
-        + "B"
-    , n.asString());
+        + "B");
   }
 
   @Test
@@ -86,9 +86,9 @@ public class SafeHtml_ReplaceTest {
     RawFindReplace bc = new RawFindReplace("bc", "23");
     RawFindReplace cd = new RawFindReplace("cd", "YZ");
 
-    assertEquals("ABcd", o.replaceAll(repls(ab, bc)).asString());
-    assertEquals("ABcd", o.replaceAll(repls(bc, ab)).asString());
-    assertEquals("ABYZ", o.replaceAll(repls(ab, bc, cd)).asString());
+    assertThat(o.replaceAll(repls(ab, bc)).asString()).isEqualTo("ABcd");
+    assertThat(o.replaceAll(repls(bc, ab)).asString()).isEqualTo("ABcd");
+    assertThat(o.replaceAll(repls(ab, bc, cd)).asString()).isEqualTo("ABYZ");
   }
 
   @Test
@@ -97,8 +97,8 @@ public class SafeHtml_ReplaceTest {
     RawFindReplace ab = new RawFindReplace("ab", "AB");
     RawFindReplace abc = new RawFindReplace("[^d][^d][^d]", "234");
 
-    assertEquals("ABcd", o.replaceAll(repls(ab, abc)).asString());
-    assertEquals("234d", o.replaceAll(repls(abc, ab)).asString());
+    assertThat(o.replaceAll(repls(ab, abc)).asString()).isEqualTo("ABcd");
+    assertThat(o.replaceAll(repls(abc, ab)).asString()).isEqualTo("234d");
   }
 
   @Test
@@ -107,8 +107,8 @@ public class SafeHtml_ReplaceTest {
     RawFindReplace ab1 = new RawFindReplace("ab", "AB");
     RawFindReplace ab2 = new RawFindReplace("[^cd][^cd]", "12");
 
-    assertEquals("ABcd", o.replaceAll(repls(ab1, ab2)).asString());
-    assertEquals("12cd", o.replaceAll(repls(ab2, ab1)).asString());
+    assertThat(o.replaceAll(repls(ab1, ab2)).asString()).isEqualTo("ABcd");
+    assertThat(o.replaceAll(repls(ab2, ab1)).asString()).isEqualTo("12cd");
   }
 
   @Test
@@ -116,10 +116,10 @@ public class SafeHtml_ReplaceTest {
     SafeHtml o = html("abcd");
     LinkFindReplace evil = new LinkFindReplace("(b)", "javascript:alert('$1')");
     LinkFindReplace ok = new LinkFindReplace("(b)", "/$1");
-    assertEquals("abcd", o.replaceAll(repls(evil)).asString());
+    assertThat(o.replaceAll(repls(evil)).asString()).isEqualTo("abcd");
     String linked = "a<a href=\"/b\">b</a>cd";
-    assertEquals(linked, o.replaceAll(repls(ok)).asString());
-    assertEquals(linked, o.replaceAll(repls(evil, ok)).asString());
+    assertThat(o.replaceAll(repls(ok)).asString()).isEqualTo(linked);
+    assertThat(o.replaceAll(repls(evil, ok)).asString()).isEqualTo(linked);
   }
 
   private static SafeHtml html(String text) {

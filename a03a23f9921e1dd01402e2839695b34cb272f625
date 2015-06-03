@@ -16,6 +16,23 @@
       "revId": "a03a23f9921e1dd01402e2839695b34cb272f625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99cf5447_ac160378",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-03T04:26:43Z",
+      "side": 1,
+      "message": "Sorry, I misclicked.  It\u0027s actually on this line (139).",
+      "revId": "a03a23f9921e1dd01402e2839695b34cb272f625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

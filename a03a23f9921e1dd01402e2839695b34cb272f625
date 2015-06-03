@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3962e8ee_29d78dec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-03T11:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99cf5447_ec1c0b9e",
+      "revId": "a03a23f9921e1dd01402e2839695b34cb272f625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99cf5447_ac160378",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 10
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "3962e8ee_09dcc90c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-03T11:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99cf5447_4c53df40",
+      "revId": "a03a23f9921e1dd01402e2839695b34cb272f625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1959a445_8830b7f1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
         "patchSetId": 10
@@ -65,6 +101,30 @@
       "writtenOn": "2015-06-03T07:52:51Z",
       "side": 1,
       "message": "I\u0027m seeing the same problem, as reported by David. I debugged it and it seems the somehow naked object is returned here and not instance of GitWebType, even though all attributes are known:\n\n  t_0_g$: Object\n  branch: \"gitblit/log/?r\u003d${project}\u0026h\u003d${branch}\"\n  file: \"gitblit/blob/?r\u003d${project}\u0026h\u003d${commit}\u0026f\u003d${file}\"\n  file_history: \"gitblit/history/?\n  [...]\n\nI wonder if this problem is somehow related to the breakage on gerrit-review and all other Google Gerrit sites (gwt-review) since this series was partially merged: [1].\n\n* [1] https://code.google.com/p/gerrit/issues/detail?id\u003d3389",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "a03a23f9921e1dd01402e2839695b34cb272f625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1959a445_88de77f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-03T11:52:57Z",
+      "side": 1,
+      "message": "Ah, I mistakenly assumed that GitWebType is an enum, but it\u0027s not.\n\nDone.\n\n \u003e I wonder if this problem is somehow related to the \n \u003e breakage on gerrit-review and all other Google Gerrit \n \u003e sites (gwt-review)\n\nSeems to be slightly different... :-( Still can\u0027t reproduce this one.",
+      "parentUuid": "1959a445_8830b7f1",
       "range": {
         "startLine": 31,
         "startChar": 2,

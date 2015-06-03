@@ -51,6 +51,29 @@
       "revId": "a03a23f9921e1dd01402e2839695b34cb272f625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1959a445_8830b7f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GitWebInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-03T07:52:51Z",
+      "side": 1,
+      "message": "I\u0027m seeing the same problem, as reported by David. I debugged it and it seems the somehow naked object is returned here and not instance of GitWebType, even though all attributes are known:\n\n  t_0_g$: Object\n  branch: \"gitblit/log/?r\u003d${project}\u0026h\u003d${branch}\"\n  file: \"gitblit/blob/?r\u003d${project}\u0026h\u003d${commit}\u0026f\u003d${file}\"\n  file_history: \"gitblit/history/?\n  [...]\n\nI wonder if this problem is somehow related to the breakage on gerrit-review and all other Google Gerrit sites (gwt-review) since this series was partially merged: [1].\n\n* [1] https://code.google.com/p/gerrit/issues/detail?id\u003d3389",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "a03a23f9921e1dd01402e2839695b34cb272f625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,9 +16,7 @@ java_library(
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
-    '//lib:guava',
     '//lib:gwtorm',
-    '//lib:junit',
     '//lib:truth',
   ],
 )

@@ -15,8 +15,6 @@ java_library(
     'BranchAssert.java',
   ],
   deps = [
-    '//lib:guava',
-    '//lib:junit',
     '//lib:truth',
     '//gerrit-extension-api:api',
     '//gerrit-server:server',
@@ -33,8 +31,6 @@ java_library(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//lib:gwtorm',
-    '//lib:guava',
-    '//lib:junit',
     '//lib:truth',
   ],
 )

@@ -74,8 +74,6 @@ java_test(
   name = 'auto_value_tests',
   srcs = AUTO_VALUE_TEST_SRCS,
   deps = [
-    '//lib:guava',
-    '//lib:junit',
     '//lib:truth',
     '//lib/auto:auto-value',
   ],

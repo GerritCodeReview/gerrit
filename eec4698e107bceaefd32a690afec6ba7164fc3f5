@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99cf5447_ec63ab0b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-03T13:39:29Z",
+      "side": 1,
+      "message": "Do we want to allow scheduling this at such granularity?",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 969,
+        "endChar": 27
+      },
+      "revId": "eec4698e107bceaefd32a690afec6ba7164fc3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

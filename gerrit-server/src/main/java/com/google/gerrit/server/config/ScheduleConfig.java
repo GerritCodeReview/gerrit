@@ -38,6 +38,11 @@ public class ScheduleConfig {
   private static final String KEY_INTERVAL = "interval";
   private static final String KEY_STARTTIME = "startTime";
 
+  private final Config rc;
+  private final String section;
+  private final String subsection;
+  private final String keyInterval;
+  private final String keyStartTime;
   private final long initialDelay;
   private final long interval;
 
@@ -62,6 +67,11 @@ public class ScheduleConfig {
   @VisibleForTesting
   ScheduleConfig(Config rc, String section, String subsection,
       String keyInterval, String keyStartTime, DateTime now) {
+    this.rc = rc;
+    this.section = section;
+    this.subsection = subsection;
+    this.keyInterval = keyInterval;
+    this.keyStartTime = keyStartTime;
     this.interval = interval(rc, section, subsection, keyInterval);
     if (interval > 0) {
       this.initialDelay = initialDelay(rc, section, subsection, keyStartTime, now,
@@ -150,4 +160,31 @@ public class ScheduleConfig {
     return delay;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder b = new StringBuilder();
+    b.append(formatValue(keyInterval));
+    b.append(", ");
+    b.append(formatValue(keyStartTime));
+    return b.toString();
+  }
+
+  private String formatValue(String key) {
+    StringBuilder b = new StringBuilder();
+    b.append(section);
+    if (subsection != null) {
+      b.append(".");
+      b.append(subsection);
+    }
+    b.append(".");
+    b.append(key);
+    String value = rc.getString(section, subsection, key);
+    if (value != null) {
+      b.append(" = ");
+      b.append(value);
+    } else {
+      b.append(": NA");
+    }
+    return b.toString();
+  }
 }

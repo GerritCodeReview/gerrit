@@ -489,6 +489,10 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public AccountAttribute asAccountAttribute(final Account account) {
+    if (account == null) {
+      return null;
+    }
+
     AccountAttribute who = new AccountAttribute();
     who.name = account.getFullName();
     who.email = account.getPreferredEmail();

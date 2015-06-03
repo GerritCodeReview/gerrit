@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -23,11 +24,13 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -64,6 +67,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
   private final Project.NameKey projectName;
   private ProjectControl pc;
+  private WebLinks webLinks;
 
   @Inject
   ProjectAccessFactory(final GroupBackend groupBackend,
@@ -72,6 +76,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       final GroupControl.Factory groupControlFactory,
       final MetaDataUpdate.Server metaDataUpdateFactory,
       final AllProjectsName allProjectsName,
+      final WebLinks webLinks,
 
       @Assisted final Project.NameKey name) {
     this.groupBackend = groupBackend;
@@ -80,6 +85,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjectsName = allProjectsName;
+    this.webLinks = webLinks;
 
     this.projectName = name;
   }
@@ -209,7 +215,19 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setConfigVisible(pc.isOwner() || metaConfigControl.isVisible());
     detail.setGroupInfo(buildGroupInfo(local));
     detail.setLabelTypes(pc.getLabelTypes());
+    detail.setFileHistoryLinks(getConfigFileLogLinks(projectName.get()));
     return detail;
+  }
+
+  private List<WebLinkInfoCommon> getConfigFileLogLinks(String projectName) {
+    FluentIterable<WebLinkInfoCommon> links =
+        webLinks.getFileHistoryLinksCommon(projectName, RefNames.REFS_CONFIG,
+            ProjectConfig.PROJECT_CONFIG);
+    if (links.isEmpty()) {
+      return null;
+    } else {
+      return links.toList();
+    }
   }
 
   private Map<AccountGroup.UUID, GroupInfo> buildGroupInfo(List<AccessSection> local) {

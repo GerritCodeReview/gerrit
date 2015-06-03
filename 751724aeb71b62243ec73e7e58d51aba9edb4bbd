@@ -70,6 +70,30 @@
       "revId": "751724aeb71b62243ec73e7e58d51aba9edb4bbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1959a445_68cd835a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-03T07:54:17Z",
+      "side": 1,
+      "message": "\u003e 2. Implement new REST endpoint: GET /changes\n \u003e /\u003cid\u003e/draft:exist in optimized way: by using seconary \n \u003e index has:draft predicate, in not in the way it\u0027s \n \u003e currently done by reading the draft comments per patch \n \u003e set!\n\nTo rely on the has:draft predicate is a very good idea!\nThis should be much more performant.\nMaybe we even don\u0027t need a new REST endpoint for this, but can just query, using the change ID + has:draft, and see whether the change is found or not.\n\nWill abandon these changes and then try to implement the workflow that you proposed.",
+      "parentUuid": "1959a445_6888e32a",
+      "range": {
+        "startLine": 20,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "751724aeb71b62243ec73e7e58d51aba9edb4bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

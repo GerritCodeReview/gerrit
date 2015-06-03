@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -88,14 +89,24 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     } else if (change.getStatus() == Change.Status.DRAFT) {
       throw new ResourceConflictException("draft changes cannot be abandoned");
     }
+    change =
+        abandon(control, input.message, caller.getAccount());
+    ChangeInfo result = json.format(change);
+    return result;
+  }
 
+  public Change abandon(ChangeControl control,
+      String msgTxt, Account acc) throws ResourceConflictException,
+      OrmException, IOException {
+    Change change;
     ChangeMessage message;
     ChangeUpdate update;
+    Change.Id changeId = control.getChange().getId();
     ReviewDb db = dbProvider.get();
-    db.changes().beginTransaction(change.getId());
+    db.changes().beginTransaction(changeId);
     try {
       change = db.changes().atomicUpdate(
-        change.getId(),
+        changeId,
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
@@ -109,12 +120,12 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         });
       if (change == null) {
         throw new ResourceConflictException("change is "
-            + status(db.changes().get(req.getChange().getId())));
+            + status(db.changes().get(changeId)));
       }
 
       //TODO(yyonas): atomic update was not propagated
       update = updateFactory.create(control, change.getLastUpdatedOn());
-      message = newMessage(input, caller, change);
+      message = newMessage(msgTxt, acc != null ? acc.getId() : null, change);
       cmUtil.addChangeMessage(db, update, message);
       db.commit();
     } finally {
@@ -125,19 +136,20 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     indexer.index(db, change);
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(change.getId());
-      cm.setFrom(caller.getAccountId());
+      if (acc != null) {
+        cm.setFrom(acc.getId());
+      }
       cm.setChangeMessage(message);
       cm.send();
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getChangeId(), e);
     }
     hooks.doChangeAbandonedHook(change,
-        caller.getAccount(),
+        acc,
         db.patchSets().get(change.currentPatchSetId()),
-        Strings.emptyToNull(input.message),
+        Strings.emptyToNull(msgTxt),
         db);
-    ChangeInfo result = json.format(change);
-    return result;
+    return change;
   }
 
   @Override
@@ -150,20 +162,20 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
           && resource.getControl().canAbandon());
   }
 
-  private ChangeMessage newMessage(AbandonInput input, IdentifiedUser caller,
+  private ChangeMessage newMessage(String msgTxt, Account.Id accId,
       Change change) throws OrmException {
     StringBuilder msg = new StringBuilder();
     msg.append("Abandoned");
-    if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {
+    if (!Strings.nullToEmpty(msgTxt).trim().isEmpty()) {
       msg.append("\n\n");
-      msg.append(input.message.trim());
+      msg.append(msgTxt.trim());
     }
 
     ChangeMessage message = new ChangeMessage(
         new ChangeMessage.Key(
             change.getId(),
             ChangeUtil.messageUUID(dbProvider.get())),
-        caller.getAccountId(),
+        accId,
         change.getLastUpdatedOn(),
         change.currentPatchSetId());
     message.setMessage(msg.toString());

@@ -14,12 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,13 +27,13 @@ public class SafeHtmlBuilderTest {
   @Test
   public void testEmpty() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertTrue(b.isEmpty());
-    assertFalse(b.hasContent());
-    assertEquals("", b.asString());
+    assertThat(b.isEmpty()).isTrue();
+    assertThat(b.hasContent()).isFalse();
+    assertThat(b.asString()).isEmpty();
 
     b.append("a");
-    assertTrue(b.hasContent());
-    assertEquals("a", b.asString());
+    assertThat(b.hasContent()).isTrue();
+    assertThat(b.asString()).isEqualTo("a");
   }
 
   @Test
@@ -47,216 +42,216 @@ public class SafeHtmlBuilderTest {
     b.append(1);
 
     final SafeHtml h = b.toSafeHtml();
-    assertNotNull(h);
-    assertNotSame(h, b);
-    assertFalse(h instanceof SafeHtmlBuilder);
-    assertEquals("1", h.asString());
+    assertThat(h).isNotNull();
+    assertThat(h).isNotSameAs(b);
+    assertThat(h).isNotInstanceOf(SafeHtmlBuilder.class);
+    assertThat(h.asString()).isEqualTo("1");
   }
 
   @Test
   public void testAppend_boolean() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append(true));
-    assertSame(b, b.append(false));
-    assertEquals("truefalse", b.asString());
+    assertThat(b).isSameAs(b.append(true));
+    assertThat(b).isSameAs(b.append(false));
+    assertThat(b.asString()).isEqualTo("truefalse");
   }
 
   @Test
   public void testAppend_char() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append('a'));
-    assertSame(b, b.append('b'));
-    assertEquals("ab", b.asString());
+    assertThat(b).isSameAs(b.append('a'));
+    assertThat(b).isSameAs(b.append('b'));
+    assertThat("ab");
   }
 
   @Test
   public void testAppend_int() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append(4));
-    assertSame(b, b.append(2));
-    assertSame(b, b.append(-100));
-    assertEquals("42-100", b.asString());
+    assertThat(b).isSameAs(b.append(4));
+    assertThat(b).isSameAs(b.append(2));
+    assertThat(b).isSameAs(b.append(-100));
+    assertThat(b.asString()).isEqualTo("42-100");
   }
 
   @Test
   public void testAppend_long() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append(4L));
-    assertSame(b, b.append(2L));
-    assertEquals("42", b.asString());
+    assertThat(b).isSameAs(b.append(4L));
+    assertThat(b).isSameAs(b.append(2L));
+    assertThat(b.asString()).isEqualTo("42");
   }
 
   @Test
   public void testAppend_float() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append(0.0f));
-    assertEquals("0.0", b.asString());
+    assertThat(b).isSameAs(b.append(0.0f));
+    assertThat(b.asString()).isEqualTo("0.0");
   }
 
   @Test
   public void testAppend_double() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append(0.0));
-    assertEquals("0.0", b.asString());
+    assertThat(b).isSameAs(b.append(0.0));
+    assertThat(b.asString()).isEqualTo("0.0");
   }
 
   @Test
   public void testAppend_String() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append((String) null));
-    assertEquals("", b.asString());
-    assertSame(b, b.append("foo"));
-    assertSame(b, b.append("bar"));
-    assertEquals("foobar", b.asString());
+    assertThat(b).isSameAs(b.append((String) null));
+    assertThat(b.asString()).isEmpty();
+    assertThat(b).isSameAs(b.append("foo"));
+    assertThat(b).isSameAs(b.append("bar"));
+    assertThat(b.asString()).isEqualTo("foobar");
   }
 
   @Test
   public void testAppend_StringBuilder() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append((StringBuilder) null));
-    assertEquals("", b.asString());
-    assertSame(b, b.append(new StringBuilder("foo")));
-    assertSame(b, b.append(new StringBuilder("bar")));
-    assertEquals("foobar", b.asString());
+    assertThat(b).isSameAs(b.append((StringBuilder) null));
+    assertThat(b.asString()).isEmpty();
+    assertThat(b).isSameAs(b.append(new StringBuilder("foo")));
+    assertThat(b).isSameAs(b.append(new StringBuilder("bar")));
+    assertThat(b.asString()).isEqualTo("foobar");
   }
 
   @Test
   public void testAppend_StringBuffer() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append((StringBuffer) null));
-    assertEquals("", b.asString());
-    assertSame(b, b.append(new StringBuffer("foo")));
-    assertSame(b, b.append(new StringBuffer("bar")));
-    assertEquals("foobar", b.asString());
+    assertThat(b).isSameAs(b.append((StringBuffer) null));
+    assertThat(b.asString()).isEmpty();
+    assertThat(b).isSameAs(b.append(new StringBuffer("foo")));
+    assertThat(b).isSameAs(b.append(new StringBuffer("bar")));
+    assertThat(b.asString()).isEqualTo("foobar");
   }
 
   @Test
   public void testAppend_Object() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append((Object) null));
-    assertEquals("", b.asString());
-    assertSame(b, b.append(new Object() {
+    assertThat(b).isSameAs(b.append((Object) null));
+    assertThat(b.asString()).isEmpty();
+    assertThat(b).isSameAs(b.append(new Object() {
       @Override
       public String toString() {
         return "foobar";
       }
     }));
-    assertEquals("foobar", b.asString());
+    assertThat(b.asString()).isEqualTo("foobar");
   }
 
   @Test
   public void testAppend_CharSequence() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append((CharSequence) null));
-    assertEquals("", b.asString());
-    assertSame(b, b.append((CharSequence) "foo"));
-    assertSame(b, b.append((CharSequence) "bar"));
-    assertEquals("foobar", b.asString());
+    assertThat(b).isSameAs(b.append((CharSequence) null));
+    assertThat(b.asString()).isEmpty();
+    assertThat(b).isSameAs(b.append((CharSequence) "foo"));
+    assertThat(b).isSameAs(b.append((CharSequence) "bar"));
+    assertThat(b.asString()).isEqualTo("foobar");
   }
 
   @Test
   public void testAppend_SafeHtml() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.append((SafeHtml) null));
-    assertEquals("", b.asString());
-    assertSame(b, b.append(new SafeHtmlString("foo")));
-    assertSame(b, b.append(new SafeHtmlBuilder().append("bar")));
-    assertEquals("foobar", b.asString());
+    assertThat(b).isSameAs(b.append((SafeHtml) null));
+    assertThat(b.asString()).isEmpty();
+    assertThat(b).isSameAs(b.append(new SafeHtmlString("foo")));
+    assertThat(b).isSameAs(b.append(new SafeHtmlBuilder().append("bar")));
+    assertThat(b.asString()).isEqualTo("foobar");
   }
 
   @Test
   public void testHtmlSpecialCharacters() {
-    assertEquals("&amp;", escape("&"));
-    assertEquals("&lt;", escape("<"));
-    assertEquals("&gt;", escape(">"));
-    assertEquals("&quot;", escape("\""));
-    assertEquals("&#39;", escape("'"));
+    assertThat(escape("&")).isEqualTo("&amp;");
+    assertThat(escape("<")).isEqualTo("&lt;");
+    assertThat(escape(">")).isEqualTo("&gt;");
+    assertThat(escape("\"")).isEqualTo("&quot;");
+    assertThat(escape("'")).isEqualTo("&#39;");
 
-    assertEquals("&amp;", escape('&'));
-    assertEquals("&lt;", escape('<'));
-    assertEquals("&gt;", escape('>'));
-    assertEquals("&quot;", escape('"'));
-    assertEquals("&#39;", escape('\''));
+    assertThat(escape('&')).isEqualTo("&amp;");
+    assertThat(escape('<')).isEqualTo("&lt;");
+    assertThat(escape('>')).isEqualTo("&gt;");
+    assertThat(escape('"')).isEqualTo("&quot;");
+    assertThat(escape('\'')).isEqualTo("&#39;");
 
-    assertEquals("&lt;b&gt;", escape("<b>"));
-    assertEquals("&amp;lt;b&amp;gt;", escape("&lt;b&gt;"));
+    assertThat(escape("<b>")).isEqualTo("&lt;b&gt;");
+    assertThat(escape("&lt;b&gt;")).isEqualTo("&amp;lt;b&amp;gt;");
   }
 
   @Test
   public void testEntityNbsp() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.nbsp());
-    assertEquals("&nbsp;", b.asString());
+    assertThat(b).isSameAs(b.nbsp());
+    assertThat(b.asString()).isEqualTo("&nbsp;");
   }
 
   @Test
   public void testTagBr() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.br());
-    assertEquals("<br />", b.asString());
+    assertThat(b).isSameAs(b.br());
+    assertThat(b.asString()).isEqualTo("<br />");
   }
 
   @Test
   public void testTagTableTrTd() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.openElement("table"));
-    assertSame(b, b.openTr());
-    assertSame(b, b.openTd());
-    assertSame(b, b.append("d<a>ta"));
-    assertSame(b, b.closeTd());
-    assertSame(b, b.closeTr());
-    assertSame(b, b.closeElement("table"));
-    assertEquals("<table><tr><td>d&lt;a&gt;ta</td></tr></table>", b.asString());
+    assertThat(b).isSameAs(b.openElement("table"));
+    assertThat(b).isSameAs(b.openTr());
+    assertThat(b).isSameAs(b.openTd());
+    assertThat(b).isSameAs(b.append("d<a>ta"));
+    assertThat(b).isSameAs(b.closeTd());
+    assertThat(b).isSameAs(b.closeTr());
+    assertThat(b).isSameAs(b.closeElement("table"));
+    assertThat(b.asString()).isEqualTo("<table><tr><td>d&lt;a&gt;ta</td></tr></table>");
   }
 
   @Test
   public void testTagDiv() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.openDiv());
-    assertSame(b, b.append("d<a>ta"));
-    assertSame(b, b.closeDiv());
-    assertEquals("<div>d&lt;a&gt;ta</div>", b.asString());
+    assertThat(b).isSameAs(b.openDiv());
+    assertThat(b).isSameAs(b.append("d<a>ta"));
+    assertThat(b).isSameAs(b.closeDiv());
+    assertThat(b.asString()).isEqualTo("<div>d&lt;a&gt;ta</div>");
   }
 
   @Test
   public void testTagAnchor() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.openAnchor());
+    assertThat(b).isSameAs(b.openAnchor());
 
-    assertEquals("", b.getAttribute("href"));
-    assertSame(b, b.setAttribute("href", "http://here"));
-    assertEquals("http://here", b.getAttribute("href"));
-    assertSame(b, b.setAttribute("href", "d<a>ta"));
-    assertEquals("d<a>ta", b.getAttribute("href"));
+    assertThat(b.getAttribute("href")).isEmpty();
+    assertThat(b).isSameAs(b.setAttribute("href", "http://here"));
+    assertThat(b.getAttribute("href")).isEqualTo("http://here");
+    assertThat(b).isSameAs(b.setAttribute("href", "d<a>ta"));
+    assertThat(b.getAttribute("href")).isEqualTo("d<a>ta");
 
-    assertEquals("", b.getAttribute("target"));
-    assertSame(b, b.setAttribute("target", null));
-    assertEquals("", b.getAttribute("target"));
+    assertThat(b.getAttribute("target")).isEmpty();
+    assertThat(b).isSameAs(b.setAttribute("target", null));
+    assertThat(b.getAttribute("target")).isEmpty();
 
-    assertSame(b, b.append("go"));
-    assertSame(b, b.closeAnchor());
-    assertEquals("<a href=\"d&lt;a&gt;ta\">go</a>", b.asString());
+    assertThat(b).isSameAs(b.append("go"));
+    assertThat(b).isSameAs(b.closeAnchor());
+    assertThat(b.asString()).isEqualTo("<a href=\"d&lt;a&gt;ta\">go</a>");
   }
 
   @Test
   public void testTagHeightWidth() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.openElement("img"));
-    assertSame(b, b.setHeight(100));
-    assertSame(b, b.setWidth(42));
-    assertSame(b, b.closeSelf());
-    assertEquals("<img height=\"100\" width=\"42\" />", b.asString());
+    assertThat(b).isSameAs(b.openElement("img"));
+    assertThat(b).isSameAs(b.setHeight(100));
+    assertThat(b).isSameAs(b.setWidth(42));
+    assertThat(b).isSameAs(b.closeSelf());
+    assertThat(b.asString()).isEqualTo("<img height=\"100\" width=\"42\" />");
   }
 
   @Test
   public void testStyleName() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    assertSame(b, b.openSpan());
-    assertSame(b, b.setStyleName("foo"));
-    assertSame(b, b.addStyleName("bar"));
-    assertSame(b, b.append("d<a>ta"));
-    assertSame(b, b.closeSpan());
-    assertEquals("<span class=\"foo bar\">d&lt;a&gt;ta</span>", b.asString());
+    assertThat(b).isSameAs(b.openSpan());
+    assertThat(b).isSameAs(b.setStyleName("foo"));
+    assertThat(b).isSameAs(b.addStyleName("bar"));
+    assertThat(b).isSameAs(b.append("d<a>ta"));
+    assertThat(b).isSameAs(b.closeSpan());
+    assertThat(b.asString()).isEqualTo("<span class=\"foo bar\">d&lt;a&gt;ta</span>");
   }
 
   @Test

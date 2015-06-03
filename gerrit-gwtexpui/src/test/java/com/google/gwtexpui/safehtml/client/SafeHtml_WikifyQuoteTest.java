@@ -14,8 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
@@ -31,32 +30,28 @@ public class SafeHtml_WikifyQuoteTest {
   public void testQuote1() {
     final SafeHtml o = html("> I'm happy\n > with quotes!\n\nSee above.");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals(
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
         quote("I&#39;m happy\nwith quotes!")
-        + "<p>See above.</p>",
-      n.asString());
+        + "<p>See above.</p>");
   }
 
   @Test
   public void testQuote2() {
     final SafeHtml o = html("See this said:\n\n > a quoted\n > string block\n\nOK?");
     final SafeHtml n = o.wikify();
-    assertNotSame(o, n);
-    assertEquals(
+    assertThat(o).isNotSameAs(n);
+    assertThat(n.asString()).isEqualTo(
         "<p>See this said:</p>"
         + quote("a quoted\nstring block")
-        + "<p>OK?</p>",
-      n.asString());
+        + "<p>OK?</p>");
   }
 
   @Test
   public void testNestedQuotes1() {
     final SafeHtml o = html(" > > prior\n > \n > next\n");
     final SafeHtml n = o.wikify();
-    assertEquals(
-      quote(quote("prior") + "next\n"),
-      n.asString());
+    assertThat(n.asString()).isEqualTo(quote(quote("prior") + "next\n"));
   }
 
   private static SafeHtml html(String text) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -32,6 +33,7 @@ public class ProjectAccess {
   protected LabelTypes labelTypes;
   protected Map<String, String> capabilities;
   protected Map<AccountGroup.UUID, GroupInfo> groupInfo;
+  protected List<WebLinkInfoCommon> fileHistoryLinks;
 
   public ProjectAccess() {
   }
@@ -131,5 +133,13 @@ public class ProjectAccess {
 
   public void setGroupInfo(Map<AccountGroup.UUID, GroupInfo> m) {
     groupInfo = m;
+  }
+
+  public void setFileHistoryLinks(List<WebLinkInfoCommon> links) {
+    fileHistoryLinks = links;
+  }
+
+  public List<WebLinkInfoCommon> getFileHistoryLinks() {
+    return fileHistoryLinks;
   }
 }

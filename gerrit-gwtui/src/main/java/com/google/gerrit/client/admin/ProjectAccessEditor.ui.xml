@@ -39,8 +39,11 @@ limitations under the License.
   .historyTitle {
     font-weight: bold;
   }
-  .gitwebLink {
+  .webLinkPanel a {
     display: inline;
+  }
+  .webLinkPanel>a {
+    margin-left:2px;
   }
 
   .addContainer {
@@ -62,7 +65,9 @@ limitations under the License.
   </div>
   <div ui:field='history' class='{style.history}'>
     <span class='{style.historyTitle}'><ui:msg>History:</ui:msg></span>
-    <g:Anchor ui:field='gitweb' styleName='{style.gitwebLink}'></g:Anchor>
+    <td>
+      <g:FlowPanel ui:field="webLinkPanel" styleName='{style.webLinkPanel}'/>
+    </td>
   </div>
 
   <g:FlowPanel ui:field='localContainer'/>

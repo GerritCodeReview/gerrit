@@ -22,6 +22,30 @@
       "revId": "eec4698e107bceaefd32a690afec6ba7164fc3f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1959a445_a88ffbfc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-03T13:42:11Z",
+      "side": 1,
+      "message": "I doubt that this granularity will be ever needed, but it\u0027s already supported by the scheduling framework which also handles the scheduling of the Git garbage collection.",
+      "parentUuid": "99cf5447_ec63ab0b",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 969,
+        "endChar": 27
+      },
+      "revId": "eec4698e107bceaefd32a690afec6ba7164fc3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

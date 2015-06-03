@@ -14,9 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
 
@@ -40,8 +38,8 @@ public class ProjectConfigParamParserTest {
     Map<String, Map<String, ConfigValue>> r =
         cmd.parsePluginConfigValues(Collections.singletonList(in));
     ConfigValue configValue = r.get("a").get("b");
-    assertEquals("c", configValue.value);
-    assertNull(configValue.values);
+    assertThat(configValue.value).isEqualTo("c");
+    assertThat(configValue.values).isNull();
   }
 
   @Test
@@ -50,7 +48,7 @@ public class ProjectConfigParamParserTest {
     Map<String, Map<String, ConfigValue>> r =
         cmd.parsePluginConfigValues(Collections.singletonList(in));
     ConfigValue configValue = r.get("a").get("b");
-    assertArrayEquals(new String[] {"c", "d", "e"}, configValue.values.toArray());
-    assertNull(configValue.value);
+    assertThat(configValue.values).containsExactly("c", "d", "e").inOrder();
+    assertThat(configValue.value).isNull();
   }
 }

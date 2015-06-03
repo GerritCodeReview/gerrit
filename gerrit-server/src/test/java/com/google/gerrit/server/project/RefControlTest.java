@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
@@ -30,8 +31,6 @@ import static com.google.gerrit.server.project.Util.block;
 import static com.google.gerrit.server.project.Util.deny;
 import static com.google.gerrit.server.project.Util.doNotInherit;
 import static com.google.gerrit.testutil.InMemoryRepositoryManager.newRepository;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRange;
@@ -44,12 +43,132 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RefControlTest {
-  private static void assertOwner(String ref, ProjectControl u) {
-    assertTrue("OWN " + ref, u.controlForRef(ref).isOwner());
+  private void assertAdminsAreOwnersAndDevsAreNot() {
+    ProjectControl uBlah = util.user(local, DEVS);
+    ProjectControl uAdmin = util.user(local, DEVS, ADMIN);
+
+    assertThat(uBlah.isOwner()).named("not owner").isFalse();
+    assertThat(uAdmin.isOwner()).named("is owner").isTrue();
   }
 
-  private static void assertNotOwner(String ref, ProjectControl u) {
-    assertFalse("NOT OWN " + ref, u.controlForRef(ref).isOwner());
+  private void assertOwner(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).isOwner())
+      .named("OWN " + ref)
+      .isTrue();
+  }
+
+  private void assertNotOwner(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).isOwner())
+      .named("NOT OWN " + ref)
+      .isFalse();
+  }
+
+  private void assertCanRead(ProjectControl u) {
+    assertThat(u.isVisible())
+      .named("can read")
+      .isTrue();
+  }
+
+  private void assertCannotRead(ProjectControl u) {
+    assertThat(u.isVisible())
+      .named("cannot read")
+      .isFalse();
+  }
+
+  private void assertCanRead(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).isVisible())
+      .named("can read " + ref)
+      .isTrue();
+  }
+
+  private void assertCannotRead(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).isVisible())
+      .named("cannot read " + ref)
+      .isFalse();
+  }
+
+  private void assertCanSubmit(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canSubmit())
+      .named("can submit " + ref)
+      .isTrue();
+  }
+
+  private void assertCannotSubmit(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canSubmit())
+      .named("can submit " + ref)
+      .isFalse();
+  }
+
+  private void assertCanUpload(ProjectControl u) {
+    assertThat(u.canPushToAtLeastOneRef())
+      .named("can upload")
+      .isEqualTo(Capable.OK);
+  }
+
+  private void assertCanUpload(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canUpload())
+      .named("can upload " + ref)
+      .isTrue();
+  }
+
+  private void assertCannotUpload(ProjectControl u) {
+    assertThat(u.canPushToAtLeastOneRef())
+      .named("cannot upload")
+      .isNotEqualTo(Capable.OK);
+  }
+
+  private void assertCannotUpload(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canUpload())
+      .named("cannot upload " + ref)
+      .isFalse();
+  }
+
+  private void assertBlocked(String p, String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).isBlocked(p))
+      .named(p + " is blocked for " + ref)
+      .isTrue();
+  }
+
+  private void assertNotBlocked(String p, String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).isBlocked(p))
+      .named(p + " is blocked for " + ref)
+      .isFalse();
+  }
+
+  private void assertCanUpdate(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canUpdate())
+      .named("can update " + ref)
+      .isTrue();
+  }
+
+  private void assertCannotUpdate(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canUpdate())
+      .named("cannot update " + ref)
+      .isFalse();
+  }
+
+  private void assertCanForceUpdate(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canForceUpdate())
+      .named("can force push " + ref)
+      .isTrue();
+  }
+
+  private void assertCannotForceUpdate(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canForceUpdate())
+      .named("cannot force push " + ref)
+      .isFalse();
+  }
+
+  private void assertCanVote(int score, PermissionRange range) {
+    assertThat(range.contains(score))
+      .named("can vote " + score)
+      .isTrue();
+  }
+
+  private void assertCannotVote(int score, PermissionRange range) {
+    assertThat(range.contains(score))
+      .named("cannot vote " + score)
+      .isFalse();
   }
 
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
@@ -104,8 +223,8 @@ public class RefControlTest {
     allow(local, OWNER, DEVS, "refs/heads/x/*");
 
     ProjectControl uDev = util.user(local, DEVS);
-    assertFalse("not owner", uDev.isOwner());
-    assertTrue("owns ref", uDev.isOwnerAnyRef());
+    assertThat(uDev.isOwner()).named("not owner").isFalse();
+    assertThat(uDev.isOwnerAnyRef()).named("owns ref").isTrue();
 
     assertOwner("refs/heads/x/*", uDev);
     assertOwner("refs/heads/x/y", uDev);
@@ -123,8 +242,8 @@ public class RefControlTest {
     doNotInherit(local, OWNER, "refs/heads/x/y/*");
 
     ProjectControl uDev = util.user(local, DEVS);
-    assertFalse("not owner", uDev.isOwner());
-    assertTrue("owns ref", uDev.isOwnerAnyRef());
+    assertThat(uDev.isOwner()).named("not owner").isFalse();
+    assertThat(uDev.isOwnerAnyRef()).named("owns ref").isTrue();
 
     assertOwner("refs/heads/x/*", uDev);
     assertOwner("refs/heads/x/y", uDev);
@@ -133,8 +252,8 @@ public class RefControlTest {
     assertNotOwner("refs/heads/master", uDev);
 
     ProjectControl uFix = util.user(local, fixers);
-    assertFalse("not owner", uFix.isOwner());
-    assertTrue("owns ref", uFix.isOwnerAnyRef());
+    assertThat(uFix.isOwner()).isFalse();
+    assertThat(uFix.isOwnerAnyRef()).isTrue();
 
     assertOwner("refs/heads/x/y/*", uFix);
     assertOwner("refs/heads/x/y/bar", uFix);
@@ -153,13 +272,9 @@ public class RefControlTest {
     doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
 
     ProjectControl u = util.user(local);
-    assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
-
-    assertTrue("can upload refs/heads/master", //
-        u.controlForRef("refs/heads/master").canUpload());
-
-    assertFalse("deny refs/heads/foobar", //
-        u.controlForRef("refs/heads/foobar").canUpload());
+    assertCanUpload(u);
+    assertCanUpload("refs/heads/master", u);
+    assertCannotUpload("refs/heads/foobar", u);
   }
 
   @Test
@@ -168,10 +283,8 @@ public class RefControlTest {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
 
     ProjectControl u = util.user(local);
-    assertTrue("can upload refs/heads/master",
-        u.controlForRef("refs/heads/master").canUpload());
-    assertTrue("push is blocked to refs/drafts/master",
-        u.controlForRef("refs/drafts/refs/heads/master").isBlocked(PUSH));
+    assertCanUpload("refs/heads/master", u);
+    assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
   }
 
   @Test
@@ -179,12 +292,10 @@ public class RefControlTest {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(parent, PUSH, ADMIN, "refs/drafts/*");
 
-    assertTrue("push is blocked for anonymous to refs/drafts/master",
-        util.user(local).controlForRef("refs/drafts/refs/heads/master")
-            .isBlocked(PUSH));
-    assertFalse("push is blocked for admin refs/drafts/master",
-        util.user(local, "a", ADMIN).controlForRef("refs/drafts/refs/heads/master")
-            .isBlocked(PUSH));
+    ProjectControl u = util.user(local);
+    ProjectControl a = util.user(local, "a", ADMIN);
+    assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
+    assertNotBlocked(PUSH, "refs/drafts/refs/heads/master", a);
   }
 
   @Test
@@ -194,26 +305,22 @@ public class RefControlTest {
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
 
     ProjectControl u = util.user(local);
-    assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
-
-    assertTrue("can upload refs/heads/master", //
-        u.controlForRef("refs/heads/master").canUpload());
-
-    assertTrue("can upload refs/heads/foobar", //
-        u.controlForRef("refs/heads/foobar").canUpload());
+    assertCanUpload(u);
+    assertCanUpload("refs/heads/master", u);
+    assertCanUpload("refs/heads/foobar", u);
   }
 
   @Test
   public void testInheritDuplicateSections() throws Exception {
     allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
-    assertTrue("a can read", util.user(local, "a", ADMIN).isVisible());
+    assertCanRead(util.user(local, "a", ADMIN));
 
     local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
     local.getProject().setParentName(parentKey);
     allow(local, READ, DEVS, "refs/*");
-    assertTrue("d can read", util.user(local, "d", DEVS).isVisible());
+    assertCanRead(util.user(local, "d", DEVS));
   }
 
   @Test
@@ -221,8 +328,7 @@ public class RefControlTest {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
 
-    ProjectControl u = util.user(local);
-    assertFalse("can't read", u.isVisible());
+    assertCannotRead(util.user(local));
   }
 
   @Test
@@ -231,10 +337,10 @@ public class RefControlTest {
     deny(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local);
-    assertTrue("can read", u.isVisible());
-    assertTrue("can read", u.controlForRef("refs/master").isVisible());
-    assertTrue("can read", u.controlForRef("refs/tags/foobar").isVisible());
-    assertTrue("no master", u.controlForRef("refs/heads/master").isVisible());
+    assertCanRead(u);
+    assertCanRead("refs/master", u);
+    assertCanRead("refs/tags/foobar", u);
+    assertCanRead("refs/heads/master", u);
   }
 
   @Test
@@ -244,10 +350,10 @@ public class RefControlTest {
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local);
-    assertTrue("can read", u.isVisible());
-    assertFalse("can't read", u.controlForRef("refs/foobar").isVisible());
-    assertFalse("can't read", u.controlForRef("refs/tags/foobar").isVisible());
-    assertTrue("can read", u.controlForRef("refs/heads/foobar").isVisible());
+    assertCanRead(u);
+    assertCannotRead("refs/foobar", u);
+    assertCannotRead("refs/tags/foobar", u);
+    assertCanRead("refs/heads/foobar", u);
   }
 
   @Test
@@ -257,9 +363,9 @@ public class RefControlTest {
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local);
-    assertFalse("can't submit", u.controlForRef("refs/foobar").canSubmit());
-    assertFalse("can't submit", u.controlForRef("refs/tags/foobar").canSubmit());
-    assertTrue("can submit", u.controlForRef("refs/heads/foobar").canSubmit());
+    assertCannotSubmit("refs/foobar", u);
+    assertCannotSubmit("refs/tags/foobar", u);
+    assertCanSubmit("refs/heads/foobar", u);
   }
 
   @Test
@@ -269,16 +375,15 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/for/refs/heads/*");
 
     ProjectControl u = util.user(local);
-    assertFalse("cannot upload", u.canPushToAtLeastOneRef() == Capable.OK);
-    assertFalse("cannot upload refs/heads/master", //
-        u.controlForRef("refs/heads/master").canUpload());
+    assertCannotUpload(u);
+    assertCannotUpload("refs/heads/master", u);
   }
 
   @Test
   public void testUsernamePatternCanUploadToAnyRef() {
     allow(local, PUSH, REGISTERED_USERS, "refs/heads/users/${username}/*");
     ProjectControl u = util.user(local, "a-registered-user");
-    assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
+    assertCanUpload(u);
   }
 
   @Test
@@ -287,8 +392,8 @@ public class RefControlTest {
 
     ProjectControl u = util.user(local, "u", DEVS);
     ProjectControl d = util.user(local, "d", DEVS);
-    assertFalse("u can't read", u.controlForRef("refs/sb/d/heads/foobar").isVisible());
-    assertTrue("d can read", d.controlForRef("refs/sb/d/heads/foobar").isVisible());
+    assertCannotRead("refs/sb/d/heads/foobar", u);
+    assertCanRead("refs/sb/d/heads/foobar", d);
   }
 
   @Test
@@ -297,8 +402,8 @@ public class RefControlTest {
 
     ProjectControl u = util.user(local, "d.v", DEVS);
     ProjectControl d = util.user(local, "dev", DEVS);
-    assertFalse("u can't read", u.controlForRef("refs/sb/dev/heads/foobar").isVisible());
-    assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar").isVisible());
+    assertCannotRead("refs/sb/dev/heads/foobar", u);
+    assertCanRead("refs/sb/dev/heads/foobar", d);
   }
 
   @Test
@@ -307,10 +412,8 @@ public class RefControlTest {
 
     ProjectControl u = util.user(local, "d.v@ger-rit.org", DEVS);
     ProjectControl d = util.user(local, "dev@ger-rit.org", DEVS);
-    assertFalse("u can't read",
-        u.controlForRef("refs/sb/dev@ger-rit.org/heads/foobar").isVisible());
-    assertTrue("d can read",
-        d.controlForRef("refs/sb/dev@ger-rit.org/heads/foobar").isVisible());
+    assertCannotRead("refs/sb/dev@ger-rit.org/heads/foobar", u);
+    assertCanRead("refs/sb/dev@ger-rit.org/heads/foobar", d);
   }
 
   @Test
@@ -320,8 +423,8 @@ public class RefControlTest {
 
     ProjectControl u = util.user(local, DEVS);
     ProjectControl d = util.user(local, DEVS);
-    assertTrue("u can read", u.controlForRef("refs/heads/foo-QA-bar").isVisible());
-    assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
+    assertCanRead("refs/heads/foo-QA-bar", u);
+    assertCanRead("refs/heads/foo-QA-bar", d);
   }
 
   @Test
@@ -329,7 +432,7 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/tags/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
     ProjectControl u = util.user(local, DEVS);
-    assertFalse("u can't update tag", u.controlForRef("refs/tags/V10").canUpdate());
+    assertCannotUpdate("refs/tags/V10", u);
   }
 
   @Test
@@ -339,7 +442,7 @@ public class RefControlTest {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
 
     ProjectControl u = util.user(local, DEVS);
-    assertFalse("u can't update tag", u.controlForRef("refs/tags/V10").canUpdate());
+    assertCannotUpdate("refs/tags/V10", u);
   }
 
   @Test
@@ -350,10 +453,10 @@ public class RefControlTest {
     ProjectControl u = util.user(local, DEVS);
 
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
-    assertTrue("u can vote -1", range.contains(-1));
-    assertTrue("u can vote +1", range.contains(1));
-    assertFalse("u can't vote -2", range.contains(-2));
-    assertFalse("u can't vote 2", range.contains(2));
+    assertCanVote(-1, range);
+    assertCanVote(1, range);
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
   }
 
   @Test
@@ -367,10 +470,10 @@ public class RefControlTest {
 
     PermissionRange range =
         u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
-    assertTrue("u can vote -1", range.contains(-1));
-    assertTrue("u can vote +1", range.contains(1));
-    assertFalse("u can't vote -2", range.contains(-2));
-    assertFalse("u can't vote 2", range.contains(2));
+    assertCanVote(-1, range);
+    assertCanVote(1, range);
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
   }
 
   @Test
@@ -380,8 +483,7 @@ public class RefControlTest {
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local);
-    assertFalse("not blocked from submitting", u.controlForRef(
-        "refs/heads/master").isBlocked(SUBMIT));
+    assertNotBlocked(SUBMIT, "refs/heads/master", u);
   }
 
   @Test
@@ -390,7 +492,7 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/heads/*");
 
     ProjectControl u = util.user(local, DEVS);
-    assertTrue("u can push", u.controlForRef("refs/heads/master").canUpdate());
+    assertCanUpdate("refs/heads/master", u);
   }
 
   @Test
@@ -400,7 +502,7 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = util.user(local, DEVS);
-    assertTrue("u can force push", u.controlForRef("refs/heads/master").canForceUpdate());
+    assertCanForceUpdate("refs/heads/master", u);
   }
 
   @Test
@@ -410,7 +512,7 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/heads/*");
 
     ProjectControl u = util.user(local, DEVS);
-    assertFalse("u can't force push", u.controlForRef("refs/heads/master").canForceUpdate());
+    assertCannotForceUpdate("refs/heads/master", u);
   }
 
   @Test
@@ -419,7 +521,7 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/heads/master");
 
     ProjectControl u = util.user(local, DEVS);
-    assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
+    assertCannotUpdate("refs/heads/master", u);
   }
 
   @Test
@@ -428,7 +530,7 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/heads/*");
 
     ProjectControl u = util.user(local, DEVS);
-    assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
+    assertCannotUpdate("refs/heads/master", u);
   }
 
   @Test
@@ -437,7 +539,7 @@ public class RefControlTest {
     allow(local, PUSH, fixers, "refs/heads/*");
 
     ProjectControl f = util.user(local, fixers);
-    assertFalse("u can't push", f.controlForRef("refs/heads/master").canUpdate());
+    assertCannotUpdate("refs/heads/master", f);
   }
 
   @Test
@@ -447,7 +549,7 @@ public class RefControlTest {
     block(local, PUSH, DEVS, "refs/heads/*");
 
     ProjectControl d = util.user(local, DEVS);
-    assertFalse("u can't push", d.controlForRef("refs/heads/master").canUpdate());
+    assertCannotUpdate("refs/heads/master", d);
   }
 
   @Test
@@ -456,7 +558,9 @@ public class RefControlTest {
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local, REGISTERED_USERS);
-    assertTrue("u can read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
+    assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
+      .named("u can read")
+      .isTrue();
   }
 
   @Test
@@ -465,7 +569,9 @@ public class RefControlTest {
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local, REGISTERED_USERS);
-    assertFalse("u can't read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
+    assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
+      .named("u can't read")
+      .isFalse();
   }
 
   @Test
@@ -474,8 +580,9 @@ public class RefControlTest {
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = util.user(local, DEVS);
-    assertTrue("u can edit topic name", u.controlForRef("refs/heads/master")
-        .canForceEditTopicName());
+    assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
+      .named("u can edit topic name")
+      .isTrue();
   }
 
   @Test
@@ -484,8 +591,9 @@ public class RefControlTest {
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = util.user(local, REGISTERED_USERS);
-    assertFalse("u can't edit topic name", u.controlForRef("refs/heads/master")
-        .canForceEditTopicName());
+    assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
+      .named("u can't edit topic name")
+      .isFalse();
   }
 
   @Test
@@ -495,8 +603,8 @@ public class RefControlTest {
 
     ProjectControl u = util.user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
-    assertTrue("u can vote -2", range.contains(-2));
-    assertTrue("u can vote +2", range.contains(2));
+    assertCanVote(-2, range);
+    assertCanVote(2, range);
   }
 
   @Test
@@ -506,8 +614,8 @@ public class RefControlTest {
 
     ProjectControl u = util.user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
-    assertFalse("u can't vote -2", range.contains(-2));
-    assertFalse("u can't vote +2", range.contains(-2));
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
   }
 
   @Test
@@ -517,8 +625,8 @@ public class RefControlTest {
 
     ProjectControl u = util.user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
-    assertFalse("u can't vote -2", range.contains(-2));
-    assertFalse("u can't vote +2", range.contains(-2));
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
   }
 
   @Test
@@ -530,8 +638,8 @@ public class RefControlTest {
     ProjectControl u = util.user(local, DEVS);
     PermissionRange range =
         u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
-    assertFalse("u can't vote -2", range.contains(-2));
-    assertFalse("u can't vote 2", range.contains(2));
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
   }
 
   @Test
@@ -541,8 +649,8 @@ public class RefControlTest {
     ProjectControl u = util.user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master")
         .getRange(LABEL + "Code-Review", true);
-    assertTrue("u can vote -2", range.contains(-2));
-    assertTrue("u can vote +2", range.contains(2));
+    assertCanVote(-2, range);
+    assertCanVote(2, range);
   }
 
   @Test
@@ -552,15 +660,7 @@ public class RefControlTest {
     ProjectControl u = util.user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master")
         .getRange(LABEL + "Code-Review");
-    assertFalse("u can vote -2", range.contains(-2));
-    assertFalse("u can vote +2", range.contains(2));
-  }
-
-  private void assertAdminsAreOwnersAndDevsAreNot() {
-    ProjectControl uBlah = util.user(local, DEVS);
-    ProjectControl uAdmin = util.user(local, DEVS, ADMIN);
-
-    assertFalse("not owner", uBlah.isOwner());
-    assertTrue("is owner", uAdmin.isOwner());
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
   }
 }

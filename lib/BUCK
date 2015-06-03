@@ -191,7 +191,7 @@ maven_jar(
   id = 'com.google.truth:truth:0.26',
   sha1 = 'b5802815625d82f39c33219299771f3d64301b06',
   license = 'DO_NOT_DISTRIBUTE',
-  deps = [
+  exported_deps = [
     ':guava',
     ':junit',
   ],

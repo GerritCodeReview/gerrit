@@ -44,6 +44,7 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -373,6 +374,7 @@ public class Daemon extends SiteProgram {
       }
     });
     modules.add(new GarbageCollectionModule());
+    modules.add(new ChangeCleanupRunner.Module());
     return cfgInjector.createChildInjector(modules);
   }
 

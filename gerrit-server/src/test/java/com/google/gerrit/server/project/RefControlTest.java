@@ -534,6 +534,7 @@ public class RefControlTest {
     assertFalse("u can't vote 2", range.contains(2));
   }
 
+  @Test
   public void testUnblockRangeForChangeOwner() {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
@@ -544,6 +545,7 @@ public class RefControlTest {
     assertTrue("u can vote +2", range.contains(2));
   }
 
+  @Test
   public void testUnblockRangeForNotChangeOwner() {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 

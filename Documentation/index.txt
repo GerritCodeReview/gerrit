@@ -21,6 +21,7 @@
 .. Changes
 ... link:user-changeid.html[Change-Id Lines]
 ... link:user-signedoffby.html[Signed-off-by Lines]
+... link:user-change-cleanup.html[Change Cleanup]
 
 == Project Management
 . link:project-configuration.html[Project Configuration]

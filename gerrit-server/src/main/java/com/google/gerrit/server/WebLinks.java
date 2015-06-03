@@ -18,11 +18,13 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
+import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.DiffWebLink;
+import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
@@ -53,9 +55,26 @@ public class WebLinks {
           return true;
         }
       };
+  private static final Predicate<WebLinkInfoCommon> INVALID_WEBLINK_COMMON =
+      new Predicate<WebLinkInfoCommon>() {
+
+        @Override
+        public boolean apply(WebLinkInfoCommon link) {
+          if (link == null) {
+            return false;
+          } else if (Strings.isNullOrEmpty(link.name)
+              || Strings.isNullOrEmpty(link.url)) {
+            log.warn(String.format("%s is missing name and/or url", link
+                .getClass().getName()));
+            return false;
+          }
+          return true;
+        }
+      };
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
   private final DynamicSet<FileWebLink> fileLinks;
+  private final DynamicSet<FileHistoryWebLink> fileHistoryLinks;
   private final DynamicSet<DiffWebLink> diffLinks;
   private final DynamicSet<ProjectWebLink> projectLinks;
   private final DynamicSet<BranchWebLink> branchLinks;
@@ -63,11 +82,14 @@ public class WebLinks {
   @Inject
   public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
       DynamicSet<FileWebLink> fileLinks,
+      DynamicSet<FileHistoryWebLink> fileLogLinks,
       DynamicSet<DiffWebLink> diffLinks,
       DynamicSet<ProjectWebLink> projectLinks,
-      DynamicSet<BranchWebLink> branchLinks) {
+      DynamicSet<BranchWebLink> branchLinks
+      ) {
     this.patchSetLinks = patchSetLinks;
     this.fileLinks = fileLinks;
+    this.fileHistoryLinks = fileLogLinks;
     this.diffLinks = diffLinks;
     this.projectLinks = projectLinks;
     this.branchLinks = branchLinks;
@@ -106,6 +128,46 @@ public class WebLinks {
         return ((FileWebLink)webLink).getFileWebLink(project, revision, file);
       }
     });
+  }
+
+  /**
+   *
+   * @param project Project name.
+   * @param revision SHA1 of revision,
+   * @param file File name.
+   * @return Link to file history
+   */
+  public FluentIterable<WebLinkInfo> getFileHistoryLinks(final String project,
+      final String revision, final String file) {
+    return filterLinks(fileHistoryLinks, new Function<WebLink, WebLinkInfo>() {
+
+      @Override
+      public WebLinkInfo apply(WebLink webLink) {
+        return ((FileHistoryWebLink) webLink).getFileHistoryWebLink(project,
+            revision, file);
+      }
+    });
+  }
+
+  public FluentIterable<WebLinkInfoCommon> getFileHistoryLinksCommon(
+      final String project, final String revision, final String file) {
+    return FluentIterable
+        .from(fileHistoryLinks)
+        .transform(new Function<WebLink, WebLinkInfoCommon>() {
+          @Override
+          public WebLinkInfoCommon apply(WebLink webLink) {
+            WebLinkInfo info =
+                ((FileHistoryWebLink) webLink).getFileHistoryWebLink(project,
+                    revision, file);
+            WebLinkInfoCommon commonInfo = new WebLinkInfoCommon();
+            commonInfo.name = info.name;
+            commonInfo.imageUrl = info.imageUrl;
+            commonInfo.url = info.url;
+            commonInfo.target = info.target;
+            return commonInfo;
+          }
+        })
+        .filter(INVALID_WEBLINK_COMMON);
   }
 
   /**

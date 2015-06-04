@@ -54,9 +54,6 @@ public class KillTaskIT extends AbstractDaemonTest {
     List<TaskInfo> result = newGson().fromJson(r.getReader(),
         new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
-    assertThat(result.size()).isGreaterThan(0);
-
-    r = userSession.delete("/config/server/tasks/" + result.get(0).id);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    assertThat(result.size()).isEqualTo(0);
   }
 }

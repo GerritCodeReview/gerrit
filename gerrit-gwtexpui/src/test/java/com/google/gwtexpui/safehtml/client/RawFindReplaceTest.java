@@ -14,7 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
@@ -24,8 +24,8 @@ public class RawFindReplaceTest {
     final String find = "find";
     final String replace = "replace";
     final RawFindReplace a = new RawFindReplace(find, replace);
-    assertEquals(find, a.pattern().getSource());
-    assertEquals(replace, a.replace(find));
-    assertEquals("find = " + find + ", replace = " + replace, a.toString());
+    assertThat(a.pattern().getSource()).isEqualTo(find);
+    assertThat(a.replace(find)).isEqualTo(replace);
+    assertThat(a.toString()).isEqualTo("find = " + find + ", replace = " + replace);
   }
 }

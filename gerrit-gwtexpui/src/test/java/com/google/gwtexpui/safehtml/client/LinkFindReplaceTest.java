@@ -14,10 +14,8 @@
 
 package com.google.gwtexpui.safehtml.client;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gwtexpui.safehtml.client.LinkFindReplace.hasValidScheme;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,29 +30,30 @@ public class LinkFindReplaceTest {
     String find = "find";
     String link = "link";
     LinkFindReplace a = new LinkFindReplace(find, link);
-    assertEquals(find, a.pattern().getSource());
-    assertEquals("<a href=\"link\">find</a>", a.replace(find));
-    assertEquals("find = " + find + ", link = " + link, a.toString());
+    assertThat(a.pattern().getSource()).isEqualTo(find);
+    assertThat(a.replace(find)).isEqualTo("<a href=\"link\">find</a>");
+    assertThat(a.toString()).isEqualTo("find = " + find + ", link = " + link);
   }
 
   @Test
   public void testBackreference() {
-    assertEquals("<a href=\"/bug?id=123\">issue 123</a>",
-        new LinkFindReplace("(bug|issue)\\s*([0-9]+)", "/bug?id=$2")
-            .replace("issue 123"));
+    LinkFindReplace l = new LinkFindReplace(
+        "(bug|issue)\\s*([0-9]+)", "/bug?id=$2");
+    assertThat(l.replace("issue 123"))
+      .isEqualTo("<a href=\"/bug?id=123\">issue 123</a>");
   }
 
   @Test
   public void testHasValidScheme() {
-    assertTrue(hasValidScheme("/absolute/path"));
-    assertTrue(hasValidScheme("relative/path"));
-    assertTrue(hasValidScheme("http://url/"));
-    assertTrue(hasValidScheme("HTTP://url/"));
-    assertTrue(hasValidScheme("https://url/"));
-    assertTrue(hasValidScheme("mailto://url/"));
-    assertFalse(hasValidScheme("ftp://url/"));
-    assertFalse(hasValidScheme("data:evil"));
-    assertFalse(hasValidScheme("javascript:alert(1)"));
+    assertThat(hasValidScheme("/absolute/path")).isTrue();
+    assertThat(hasValidScheme("relative/path")).isTrue();
+    assertThat(hasValidScheme("http://url/")).isTrue();
+    assertThat(hasValidScheme("HTTP://url/")).isTrue();
+    assertThat(hasValidScheme("https://url/")).isTrue();
+    assertThat(hasValidScheme("mailto://url/")).isTrue();
+    assertThat(hasValidScheme("ftp://url/")).isFalse();
+    assertThat(hasValidScheme("data:evil")).isFalse();
+    assertThat(hasValidScheme("javascript:alert(1)")).isFalse();
   }
 
   @Test
@@ -72,15 +71,16 @@ public class LinkFindReplaceTest {
 
   @Test
   public void testReplaceEscaping() {
-    assertEquals("<a href=\"a&quot;&amp;&#39;&lt;&gt;b\">find</a>",
-        new LinkFindReplace("find", "a\"&'<>b").replace("find"));
+    assertThat(new LinkFindReplace("find", "a\"&'<>b").replace("find"))
+      .isEqualTo("<a href=\"a&quot;&amp;&#39;&lt;&gt;b\">find</a>");
   }
 
   @Test
   public void testHtmlInFind() {
     String rawFind = "<b>&quot;bold&quot;</b>";
     LinkFindReplace a = new LinkFindReplace(rawFind, "/bold");
-    assertEquals(rawFind, a.pattern().getSource());
-    assertEquals("<a href=\"/bold\">" + rawFind + "</a>", a.replace(rawFind));
+    assertThat(a.pattern().getSource()).isEqualTo(rawFind);
+    assertThat(a.replace(rawFind))
+      .isEqualTo("<a href=\"/bold\">" + rawFind + "</a>");
   }
 }

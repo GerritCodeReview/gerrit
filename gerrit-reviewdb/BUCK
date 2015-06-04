@@ -29,9 +29,7 @@ java_test(
   srcs = glob([TESTS + 'client/**/*.java']),
   deps = [
     ':client',
-    '//lib:guava',
     '//lib:gwtorm',
-    '//lib:junit',
     '//lib:truth',
   ],
   source_under_test = [':client'],

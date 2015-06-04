@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "59febc70_120a6c5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-04T18:35:31Z",
+      "side": 1,
+      "message": "I will reword the commit message",
+      "parentUuid": "1959a445_2809cb34",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "239bfb89aec02091a4cde8ce8e02893a96dc38e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1959a445_68ffc37a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "I don\u0027t think it should be configurable. Unlike SubmitWholeTopic, it\u0027s a pretty unrisky behavior change, so there\u0027s not as much need for people to have a knob to enable it early or disable it until it\u0027s war-tested.\n\nMaking it configurable makes gerrit harder for people to learn: it prevents habits from one gerrit instance from automatically transferring to another.",
       "parentUuid": "99667435_54c68c8c",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 31,
+        "endChar": 58
+      },
+      "revId": "239bfb89aec02091a4cde8ce8e02893a96dc38e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99667435_1458945a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-04T18:35:31Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll add another change to this topic which will submit a change+all its parents. If any of the parents doesn\u0027t suffice\nthe submit rule check, ideally none of the changes is integrated.",
+      "parentUuid": "59febc70_f2d40834",
       "range": {
         "startLine": 30,
         "startChar": 25,

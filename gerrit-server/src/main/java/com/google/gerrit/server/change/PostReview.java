@@ -21,6 +21,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -69,6 +70,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gson.internal.LinkedTreeMap;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -79,6 +81,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -502,20 +505,31 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return drafts;
     }
 
+    private Map<String, Short> getAllLabels(Collection<PatchSetApproval> patchsetApprovals) {
+      Map<String, Short> labels = new LinkedTreeMap<>();
+      for (PatchSetApproval psa : patchsetApprovals) {
+        labels.put(psa.getLabel(), psa.getValue());
+      }
+      return labels;
+    }
+
     private boolean updateLabels(ChangeContext ctx)
         throws OrmException, ResourceConflictException {
-      Map<String, Short> labels = in.labels;
-      if (labels == null) {
-        labels = Collections.emptyMap();
-      }
+      Map<String, Short> inLabels = MoreObjects.firstNonNull(in.labels,
+          Collections.<String, Short> emptyMap());
 
       List<PatchSetApproval> del = Lists.newArrayList();
       List<PatchSetApproval> ups = Lists.newArrayList();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
+      Map<String, Short> allLabels = Collections.emptyMap();
+      if (current != null) {
+        allLabels = getAllLabels(current.values());
+        allLabels.putAll(inLabels);
+      }
 
       ChangeUpdate update = ctx.getChangeUpdate();
       LabelTypes labelTypes = ctx.getChangeControl().getLabelTypes();
-      for (Map.Entry<String, Short> ent : labels.entrySet()) {
+      for (Map.Entry<String, Short> ent : allLabels.entrySet()) {
         String name = ent.getKey();
         LabelType lt = checkNotNull(labelTypes.byLabel(name), name);
 
@@ -528,8 +542,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               addLabelDelta(normName, (short) 0);
             }
             del.add(c);
-            update.putApproval(ent.getKey(), (short) 0);
           }
+          categories.put(ent.getKey(), (short) 0);
+          update.putApproval(ent.getKey(), (short) 0);
         } else if (c != null && c.getValue() != ent.getValue()) {
           c.setValue(ent.getValue());
           c.setGranted(ctx.getWhen());
@@ -539,6 +554,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           update.putApproval(ent.getKey(), ent.getValue());
         } else if (c != null && c.getValue() == ent.getValue()) {
           current.put(normName, c);
+          categories.put(normName, c.getValue());
+          update.putApproval(normName, c.getValue());
         } else if (c == null) {
           c = new PatchSetApproval(new PatchSetApproval.Key(
                   psId,

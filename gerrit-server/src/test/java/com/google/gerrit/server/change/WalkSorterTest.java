@@ -115,12 +115,16 @@ public class WalkSorterTest {
 
     List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
-
-    assertSorted(sorter, changes, ImmutableList.of(
+    List<PatchSetData> expected = ImmutableList.of(
         patchSetData(cd4, c4),
         patchSetData(cd3, c3),
         patchSetData(cd2, c2),
-        patchSetData(cd1, c1)));
+        patchSetData(cd1, c1));
+
+    for (List<ChangeData> list : permutations(changes)) {
+      // Not inOrder(); default sort can't distinguish between these.
+      assertThat(sorter.sort(list)).containsExactlyElementsIn(expected);
+    }
   }
 
   @Test

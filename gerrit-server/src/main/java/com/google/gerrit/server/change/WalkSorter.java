@@ -34,7 +34,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,10 +123,13 @@ class WalkSorter {
 
   private List<PatchSetData> sortProject(Project.NameKey project,
       Collection<ChangeData> in) throws OrmException, IOException {
+    // Use default sort; topo sorting is way too slow, as it slurps all
+    // interesting commits, and we don't mark anything uninteresting. If we
+    // really need to topo sort, we would need to identify the rootmost commits
+    // and mark their parents uninteresting, but that's nontrivial in itself.
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
-      rw.sort(RevSort.TOPO);
       Multimap<RevCommit, PatchSetData> byCommit = byCommit(rw, in);
       if (byCommit.isEmpty()) {
         return ImmutableList.of();

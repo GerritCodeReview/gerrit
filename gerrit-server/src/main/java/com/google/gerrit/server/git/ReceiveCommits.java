@@ -329,7 +329,7 @@ public class ReceiveCommits {
 
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<Submit> submitProvider;
-  private final MergeQueue mergeQueue;
+  private final Provider<MergeOp.Factory> integrationProvider;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
@@ -379,7 +379,7 @@ public class ReceiveCommits {
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
-      final MergeQueue mergeQueue,
+      final Provider<MergeOp.Factory> integrationProvider,
       final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
@@ -426,7 +426,7 @@ public class ReceiveCommits {
 
     this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
-    this.mergeQueue = mergeQueue;
+    this.integrationProvider = integrationProvider;
     this.pluginConfigEntries = pluginConfigEntries;
     this.notesMigration = notesMigration;
 
@@ -1711,7 +1711,7 @@ public class ReceiveCommits {
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
-        public Void call() throws OrmException, IOException {
+        public Void call() throws OrmException, IOException, ResourceConflictException {
           if (caller == Thread.currentThread()) {
             insertChange(db);
           } else {
@@ -1731,7 +1731,8 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChange(ReviewDb db) throws OrmException, IOException {
+    private void insertChange(ReviewDb db) throws OrmException, IOException,
+        ResourceConflictException{
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
@@ -1767,7 +1768,7 @@ public class ReceiveCommits {
   }
 
   private void submit(ChangeControl changeCtl, PatchSet ps)
-      throws OrmException, IOException {
+      throws OrmException, IOException, ResourceConflictException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     List<Change> changes;
@@ -1778,8 +1779,12 @@ public class ReceiveCommits {
       throw new IOException(e);
     }
     addMessage("");
+    try {
+      integrationProvider.get().create(ChangeSet.create(changes)).merge();
+    } catch (MergeException | NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
     for (Change c : changes) {
-      mergeQueue.merge(c.getDest());
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:
@@ -2082,7 +2087,8 @@ public class ReceiveCommits {
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
-        public PatchSet.Id call() throws OrmException, IOException, NoSuchChangeException {
+        public PatchSet.Id call() throws OrmException, IOException,
+            NoSuchChangeException, ResourceConflictException {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
@@ -2136,7 +2142,8 @@ public class ReceiveCommits {
       return newPatchSet.getId();
     }
 
-    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {
+    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException,
+        ResourceConflictException {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();

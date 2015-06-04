@@ -72,12 +72,12 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
-import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -219,8 +219,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(GcConfig.class);
 
     bind(ApprovalsUtil.class);
-    bind(ChangeMergeQueue.class).in(SINGLETON);
-    bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
 
     bind(RuntimeInstance.class)
         .toProvider(VelocityRuntimeProvider.class)
@@ -230,6 +228,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
         .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
 
+    factory(MergeOp.Factory.class);
+    factory(SubmoduleOp.Factory.class);
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(ChangeControl.GenericFactory.class);

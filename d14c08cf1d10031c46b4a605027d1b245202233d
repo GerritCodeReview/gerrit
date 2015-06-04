@@ -22,6 +22,30 @@
       "revId": "d14c08cf1d10031c46b4a605027d1b245202233d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59febc70_92f5bcc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-04T20:16:58Z",
+      "side": 1,
+      "message": "\u003e Is it possible to get back one Change which is not the one we used in the query?\n\nIt\u0027s not likely in normal operation but it\u0027s possible if an index write failed after the groups field was updated.\n\n\u003e Also when cds.size() \u003d\u003d 0 we can return early with an empt collection, so I\u0027d just use \"\u003c\u003d 1\".\n\nI disagree that we should combine these for the reason I stated, but might as well short-circuit on zero as well. Done.\n\n\u003e Are we going to show the current change in the GetRelated Tab?\n\nTake a look at the change screen for this change :)",
+      "parentUuid": "99667435_b466001d",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 62
+      },
+      "revId": "d14c08cf1d10031c46b4a605027d1b245202233d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

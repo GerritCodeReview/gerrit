@@ -423,7 +423,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
     @Override
     public void doCommentAddedHook(final Change change, Account account,
           PatchSet patchSet, String comment, final Map<String, Short> approvals,
-          ReviewDb db) throws OrmException {
+          final Map<String, Short> oldApprovals, ReviewDb db)
+              throws OrmException {
       CommentAddedEvent event = new CommentAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
@@ -441,7 +442,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
                 ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
                 int i = 0;
                 for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-                  r[i++] = getApprovalAttribute(labelTypes, approval);
+                  r[i++] = getApprovalAttribute(labelTypes, approval,
+                      oldApprovals);
                 }
                 return r;
               }
@@ -473,11 +475,17 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
           change.getProject()).getLabelTypes();
       for (Map.Entry<String, Short> approval : approvals.entrySet()) {
         LabelType lt = labelTypes.byLabel(approval.getKey());
-        if (lt != null) {
+        if (lt != null && approval.getValue() != null) {
           addArg(args, "--" + lt.getName(), Short.toString(approval.getValue()));
+          if (oldApprovals != null && !oldApprovals.isEmpty()) {
+            Short oldValue = oldApprovals.get(approval.getKey());
+            if (oldValue != null) {
+              addArg(args, "--" + lt.getName() + "-oldValue",
+                  Short.toString(oldValue));
+            }
+          }
         }
       }
-
       runHook(change.getProject(), commentAddedHook, args);
     }
 
@@ -856,18 +864,29 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
 
     /**
      * Create an ApprovalAttribute for the given approval suitable for serialization to JSON.
+     * @param labelTypes
      * @param approval
+     * @param oldApprovals
      * @return object suitable for serialization to JSON
      */
     private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
-            Entry<String, Short> approval) {
+            Entry<String, Short> approval,
+            Map<String, Short> oldApprovals) {
       ApprovalAttribute a = new ApprovalAttribute();
       a.type = approval.getKey();
+
+      if (oldApprovals != null && !oldApprovals.isEmpty()) {
+        if (oldApprovals.get(approval.getKey()) != null) {
+          a.oldValue = Short.toString(oldApprovals.get(approval.getKey()));
+        }
+      }
       LabelType lt = labelTypes.byLabel(approval.getKey());
       if (lt != null) {
         a.description = lt.getName();
       }
-      a.value = Short.toString(approval.getValue());
+      if (approval.getValue() != null) {
+        a.value = Short.toString(approval.getValue());
+      }
       return a;
     }
 

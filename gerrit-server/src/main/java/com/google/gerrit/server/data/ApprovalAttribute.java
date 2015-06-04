@@ -18,7 +18,7 @@ public class ApprovalAttribute {
     public String type;
     public String description;
     public String value;
-
+    public String oldValue;
     public Long grantedOn;
     public AccountAttribute by;
 }

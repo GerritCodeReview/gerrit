@@ -46,6 +46,23 @@
       "revId": "d14c08cf1d10031c46b4a605027d1b245202233d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99667435_143ff4e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-04T20:24:01Z",
+      "side": 1,
+      "message": "One might think this is unreachable now that we short-circuit above. However, it\u0027s possible in theory that WalkSorter might choose a commit corresponding to a different revision of this change. It shouldn\u0027t, in the current implementation, but I\u0027m not confident enough of that to delete this code.",
+      "revId": "d14c08cf1d10031c46b4a605027d1b245202233d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

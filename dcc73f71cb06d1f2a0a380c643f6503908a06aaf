@@ -16,6 +16,24 @@
       "revId": "dcc73f71cb06d1f2a0a380c643f6503908a06aaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91aacb3_262c96d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-04T05:43:47Z",
+      "side": 1,
+      "message": "Not really, although I wasn\u0027t specifically paying attention to it.",
+      "parentUuid": "59febc70_72d81863",
+      "revId": "dcc73f71cb06d1f2a0a380c643f6503908a06aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

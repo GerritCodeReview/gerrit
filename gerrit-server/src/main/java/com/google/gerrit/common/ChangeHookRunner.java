@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
@@ -44,7 +45,9 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.HashtagsChangedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
@@ -682,16 +685,16 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       }
     }
 
-    private void postEvent(Change change, com.google.gerrit.server.events.Event event,
-        ReviewDb db) throws OrmException {
+    private void postEvent(Change change, ChangeEvent event, ReviewDb db)
+        throws OrmException {
       dispatcher.postEvent(change, event, db);
     }
 
-    private void postEvent(Branch.NameKey branchName, com.google.gerrit.server.events.Event event) {
+    private void postEvent(Branch.NameKey branchName, RefEvent event) {
       dispatcher.postEvent(branchName, event);
     }
 
-    private void postEvent(Project.NameKey projectName, com.google.gerrit.server.events.Event event) {
+    private void postEvent(Project.NameKey projectName, ProjectEvent event) {
       dispatcher.postEvent(projectName, event);
     }
 

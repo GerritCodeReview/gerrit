@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99667435_b466001d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-04T19:53:52Z",
+      "side": 1,
+      "message": "Is it possible to get back one Change which is not the one we used in the query?\n\nAlso when cds.size() \u003d\u003d 0 we can return early with an empt collection, so I\u0027d just use \"\u003c\u003d 1\".\n\nAre we going to show the current change in the GetRelated Tab? If not, we may want to just subtract the current change from cds and if it\u0027s empty return empty.",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 62
+      },
+      "revId": "d14c08cf1d10031c46b4a605027d1b245202233d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

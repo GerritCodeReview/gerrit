@@ -23,7 +23,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.ProjectEvent;
+import com.google.gerrit.server.events.RefEvent;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -118,14 +120,14 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   }
 
   @Override
-  public void postEvent(Change change, Event event, ReviewDb db) {
+  public void postEvent(Change change, ChangeEvent event, ReviewDb db) {
   }
 
   @Override
-  public void postEvent(Branch.NameKey branchName, Event event) {
+  public void postEvent(Branch.NameKey branchName, RefEvent event) {
   }
 
   @Override
-  public void postEvent(Project.NameKey projectName, Event event) {
+  public void postEvent(Project.NameKey projectName, ProjectEvent event) {
   }
 }

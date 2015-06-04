@@ -44,6 +44,7 @@ import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
@@ -831,13 +832,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     @Override
-    public void postEvent(Change change, com.google.gerrit.server.events.Event event,
-        ReviewDb db) throws OrmException {
+    public void postEvent(Change change, ChangeEvent event, ReviewDb db)
+        throws OrmException {
       fireEvent(change, event, db);
     }
 
     @Override
-    public void postEvent(Branch.NameKey branchName, com.google.gerrit.server.events.Event event) {
+    public void postEvent(Branch.NameKey branchName, RefEvent event) {
       fireEvent(branchName, event);
     }
 
@@ -915,8 +916,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       }
     }
 
-    private void fireEvent(Change change, com.google.gerrit.server.events.Event event,
-        ReviewDb db) throws OrmException {
+    private void fireEvent(Change change, ChangeEvent event, ReviewDb db)
+        throws OrmException {
       for (EventListenerHolder holder : listeners.values()) {
         if (isVisibleTo(change, holder.user, db)) {
           holder.listener.onEvent(event);
@@ -936,7 +937,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEventForUnrestrictedListeners(event);
     }
 
-    private void fireEvent(Branch.NameKey branchName, com.google.gerrit.server.events.Event event) {
+    private void fireEvent(Branch.NameKey branchName, RefEvent event) {
       for (EventListenerHolder holder : listeners.values()) {
         if (isVisibleTo(branchName, holder.user)) {
           holder.listener.onEvent(event);

@@ -167,7 +167,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeUpdate update = updateFactory.create(revision.getControl(), timestamp);
       update.setPatchSetId(revision.getPatchSet().getId());
       dirty |= insertComments(revision, update, input.comments, input.drafts);
-      dirty |= updateLabels(revision, update, input.labels);
+      dirty |= updateLabels(revision, update, input.labels, input.message);
       dirty |= insertMessage(revision, input.message, update);
       if (dirty) {
         db.get().changes().update(Collections.singleton(change));
@@ -432,7 +432,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private boolean updateLabels(RevisionResource rsrc, ChangeUpdate update,
-      Map<String, Short> labels) throws OrmException {
+      Map<String, Short> labels, String message) throws OrmException {
     if (labels == null) {
       labels = Collections.emptyMap();
     }
@@ -459,8 +459,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             addLabelDelta(normName, (short) 0);
           }
           del.add(c);
-          update.putApproval(ent.getKey(), (short) 0);
         }
+        categories.put(ent.getKey(), (short) 0);
+        update.putApproval(ent.getKey(), (short) 0);
       } else if (c != null && c.getValue() != ent.getValue()) {
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
@@ -470,6 +471,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         update.putApproval(ent.getKey(), ent.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(normName, c);
+        if (message != null) {
+          categories.put(normName, c.getValue());
+          update.putApproval(normName, c.getValue());
+        }
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),

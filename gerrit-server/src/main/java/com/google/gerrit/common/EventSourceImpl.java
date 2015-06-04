@@ -21,8 +21,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
+import com.google.gerrit.server.events.ProjectEvent;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -88,29 +91,29 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
   }
 
   @Override
-  public void postEvent(Change change, Event event, ReviewDb db)
+  public void postEvent(Change change, ChangeEvent event, ReviewDb db)
       throws OrmException {
     fireEvent(change, event, db);
   }
 
   @Override
-  public void postEvent(Branch.NameKey branchName, Event event) {
+  public void postEvent(Branch.NameKey branchName, RefEvent event) {
     fireEvent(branchName, event);
   }
 
   @Override
-  public void postEvent(Project.NameKey projectName, Event event) {
+  public void postEvent(Project.NameKey projectName, ProjectEvent event) {
     fireEvent(projectName, event);
   }
 
-  protected void fireEventForUnrestrictedListeners(final Event event) {
+  protected void fireEventForUnrestrictedListeners(Event event) {
     for (EventListener listener : unrestrictedListeners) {
       listener.onEvent(event);
     }
   }
 
-  protected void fireEvent(Change change, Event event, ReviewDb db)
-      throws OrmException {
+  protected void fireEvent(Change change, ChangeEvent event, ReviewDb db)
+       throws OrmException {
     for (EventListenerHolder holder : listeners.values()) {
       if (isVisibleTo(change, holder.user, db)) {
         holder.listener.onEvent(event);
@@ -120,7 +123,11 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     fireEventForUnrestrictedListeners( event );
   }
 
-  protected void fireEvent(Branch.NameKey branchName, Event event) {
+  protected void fireEvent(Branch.NameKey branchName, RefEvent event) {
+    if (event instanceof ChangeEvent) {
+      throw new IllegalArgumentException("ChangeEvents require a Change to fire");
+    }
+
     for (EventListenerHolder holder : listeners.values()) {
       if (isVisibleTo(branchName, holder.user)) {
         holder.listener.onEvent(event);

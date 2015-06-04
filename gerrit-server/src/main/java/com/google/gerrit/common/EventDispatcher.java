@@ -17,7 +17,9 @@ package com.google.gerrit.common;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gwtorm.server.OrmException;
 
 
@@ -31,7 +33,7 @@ public interface EventDispatcher {
    * @param db The database
    * @throws OrmException
    */
-  void postEvent(Change change, Event event, ReviewDb db)
+  void postEvent(Change change, ChangeEvent event, ReviewDb db)
       throws OrmException;
 
   /**
@@ -40,7 +42,7 @@ public interface EventDispatcher {
    * @param branchName The branch that the event is related to
    * @param event The event to post
    */
-  void postEvent(Branch.NameKey branchName, Event event);
+  void postEvent(Branch.NameKey branchName, RefEvent event);
 
   /**
    * Post a stream event generically.

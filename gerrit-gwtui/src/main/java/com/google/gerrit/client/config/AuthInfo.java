@@ -18,7 +18,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +54,8 @@ public class AuthInfo extends JavaScriptObject {
 
   public final List<Account.FieldName> editableAccountFields() {
     List<Account.FieldName> fields = new ArrayList<>();
-    for (AccountFieldNameInfo f : Natives.asList(_editableAccountFields())) {
-      fields.add(f.get());
+    for (String f : Natives.asList(_editableAccountFields())) {
+      fields.add(Account.FieldName.valueOf(f));
     }
     return fields;
   }
@@ -63,20 +63,9 @@ public class AuthInfo extends JavaScriptObject {
   public final native boolean useContributorAgreements()
   /*-{ return this.use_contributor_agreements || false; }-*/;
   private final native String authTypeRaw() /*-{ return this.auth_type; }-*/;
-  private final native JsArray<AccountFieldNameInfo> _editableAccountFields()
+  private final native JsArrayString _editableAccountFields()
   /*-{ return this.editable_account_fields; }-*/;
 
   protected AuthInfo() {
-  }
-
-  private static class AccountFieldNameInfo extends JavaScriptObject {
-    final Account.FieldName get() {
-      return Account.FieldName.valueOf(getRaw());
-    }
-
-    private final native String getRaw() /*-{ return this; }-*/;
-
-    protected AccountFieldNameInfo() {
-    }
   }
 }

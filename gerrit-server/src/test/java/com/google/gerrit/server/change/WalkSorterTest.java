@@ -219,6 +219,18 @@ public class WalkSorterTest {
     assertThat(actual.getRawBuffer()).isNull();
   }
 
+  @Test
+  public void oneChange() throws Exception {
+    TestRepository<Repo> p = newRepo("p");
+    RevCommit c = p.commit().create();
+    ChangeData cd = newChange(p, c);
+
+    List<ChangeData> changes = ImmutableList.of(cd);
+    WalkSorter sorter = new WalkSorter(repoManager);
+
+    assertSorted(sorter, changes, ImmutableList.of(patchSetData(cd, c)));
+  }
+
   private ChangeData newChange(TestRepository<Repo> tr, ObjectId id)
       throws Exception {
     Project.NameKey project = tr.getRepository().getDescription().getProject();

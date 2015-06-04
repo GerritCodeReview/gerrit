@@ -91,34 +91,6 @@ public class Natives {
     return arr;
   }
 
-  @SuppressWarnings("unchecked")
-  public static <T extends JavaScriptObject> T parseJSON(String json) {
-    if (json.startsWith("\"")) {
-      return (T) NativeString.wrap(parseString(parser, json));
-    }
-    return Natives.<T> parseObject(parser, json); // javac generics bug
-  }
-
-  private static native <T extends JavaScriptObject>
-  T parseObject(JavaScriptObject p, String s)
-  /*-{ return p(s); }-*/;
-
-  private static native
-  String parseString(JavaScriptObject p, String s)
-  /*-{ return p(s); }-*/;
-
-  private static JavaScriptObject parser;
-  private static native JavaScriptObject bestJsonParser()
-  /*-{
-    if ($wnd.JSON && typeof $wnd.JSON.parse === 'function')
-      return $wnd.JSON.parse;
-    return function(s) { return eval('(' + s + ')'); };
-  }-*/;
-
-  static {
-    parser = bestJsonParser();
-  }
-
   private Natives() {
   }
 }

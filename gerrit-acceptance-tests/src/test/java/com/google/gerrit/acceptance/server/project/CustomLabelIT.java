@@ -19,9 +19,13 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 
+import static org.junit.Assert.fail;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.EventListener;
+import com.google.gerrit.common.EventSource;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -29,15 +33,27 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.data.ApprovalAttribute;
+import com.google.gerrit.server.events.CommentAddedEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import com.google.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class CustomLabelIT extends AbstractDaemonTest {
+
+  @Inject
+  private IdentifiedUser.GenericFactory factory;
+
+  @Inject
+  private EventSource source;
 
   private final LabelType label = category("CustomLabel",
       value(1, "Positive"),
@@ -47,6 +63,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
   private final LabelType P = category("CustomLabel2",
       value(1, "Positive"),
       value(0, "No score"));
+
+  private CommentAddedEvent lastCommentAddedEvent;
 
   @Before
   public void setUp() throws Exception {
@@ -58,6 +76,16 @@ public class CustomLabelIT extends AbstractDaemonTest {
     Util.allow(cfg, Permission.forLabel(P.getName()), 0, 1, anonymousUsers,
         "refs/heads/*");
     saveProjectConfig(project, cfg);
+
+    CurrentUser listenerUser = factory.create(user.id);
+    source.addEventListener(new EventListener() {
+      @Override
+      public void onEvent(Event event) {
+        if (event instanceof CommentAddedEvent) {
+          lastCommentAddedEvent = (CommentAddedEvent) event;
+        }
+      }
+    }, listenerUser);
   }
 
   @Test
@@ -124,13 +152,55 @@ public class CustomLabelIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .addReviewer(in);
 
-    revision(r).review(new ReviewInput().label(P.getName(), 0));
+    ReviewInput label = new ReviewInput().label(P.getName(), 0);
+    label.message = "foo";
+
+    revision(r).review(label);
     ChangeInfo c = get(r.getChangeId());
     LabelInfo q = c.labels.get(P.getName());
     assertThat(q.all).hasSize(2);
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNull();
     assertThat(q.blocking).isNull();
+    assertThat(lastCommentAddedEvent.comment).isEqualTo("Patch Set 1:\n\nfoo");
+  }
+
+  @Test
+  public void customLabel_MultipleVotes() throws Exception {
+    saveLabelConfig();
+    PushOneCommit.Result r = createChange();
+    ReviewInput vote = new ReviewInput().label(label.getName(), -1);
+    vote.message = label.getName();
+    revision(r).review(vote);
+
+    ChangeInfo c = get(r.getChangeId());
+    LabelInfo q = c.labels.get(label.getName());
+    assertThat(q.all).hasSize(1);
+    assertThat(lastCommentAddedEvent.comment).isEqualTo(
+        String.format("Patch Set 1: %s-1\n\n%s",
+            label.getName(), label.getName()));
+
+    vote = new ReviewInput().label(P.getName(), 1);
+    vote.message = P.getName();
+    revision(r).review(vote);
+
+    c = get(r.getChangeId());
+    q = c.labels.get(label.getName());
+    assertThat(q.all).hasSize(1);
+    assertThat(lastCommentAddedEvent.comment).isEqualTo(
+        String.format("Patch Set 1: %s+1\n\n%s",
+            P.getName(), P.getName()));
+
+    assertThat(lastCommentAddedEvent.approvals.get()).hasLength(2);
+    for (ApprovalAttribute approval : lastCommentAddedEvent.approvals.get()) {
+      if (approval.type.equals(label.getName())) {
+        assertThat(approval.value).isEqualTo("-1");
+      } else if (approval.type.equals(P.getName())) {
+        assertThat(approval.value).isEqualTo("1");
+      } else {
+        fail("Unexpected label: " + approval.type);
+      }
+    }
   }
 
   @Test

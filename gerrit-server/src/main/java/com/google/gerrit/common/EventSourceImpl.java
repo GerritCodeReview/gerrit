@@ -21,8 +21,10 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -87,13 +89,13 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
   }
 
   @Override
-  public void postEvent(final Change change, final Event event,
-      final ReviewDb db) throws OrmException {
+  public void postEvent(Change change, ChangeEvent event, ReviewDb db)
+      throws OrmException {
     fireEvent(change, event, db);
   }
 
   @Override
-  public void postEvent(final Branch.NameKey branchName, final Event event) {
+  public void postEvent(Branch.NameKey branchName, RefEvent event) {
     fireEvent(branchName, event);
   }
 

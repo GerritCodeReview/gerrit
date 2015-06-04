@@ -459,8 +459,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             addLabelDelta(normName, (short) 0);
           }
           del.add(c);
-          update.putApproval(ent.getKey(), (short) 0);
         }
+        categories.put(ent.getKey(), (short) 0);
+        update.putApproval(ent.getKey(), (short) 0);
       } else if (c != null && c.getValue() != ent.getValue()) {
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
@@ -470,6 +471,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         update.putApproval(ent.getKey(), ent.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(normName, c);
+        categories.put(normName, c.getValue());
+        update.putApproval(normName, c.getValue());
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),

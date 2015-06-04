@@ -99,6 +99,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
         .byProjectGroups(
             rsrc.getChange().getProject(),
             getAllGroups(rsrc.getChange().getId()));
+    if (cds.size() == 1
+        && cds.get(0).getId().equals(rsrc.getChange().getId())) {
+      return Collections.emptyList();
+    }
     List<ChangeAndCommit> result = new ArrayList<>(cds.size());
 
     PatchSet.Id editBaseId = rsrc.getEdit().isPresent()

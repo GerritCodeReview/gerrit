@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b915f884_45626a0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-04T06:13:00Z",
+      "side": 1,
+      "message": "Somehow I managed to reset the author.  I\u0027ll fix it back in the next patch set.",
+      "revId": "e52582aee816ec8f5ddc3570bbb1761f01e0dc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

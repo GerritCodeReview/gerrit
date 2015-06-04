@@ -392,8 +392,14 @@ public class ReplaceOp extends BatchUpdate.Op {
           commit.getName());
     }
     if (!approvals.isEmpty()) {
+      Map<String, Boolean> approvalStatus = new HashMap<>();
+      for (Map.Entry<String, Short> entry : approvals.entrySet()) {
+        if (entry.getValue() != 0) {
+          approvalStatus.put(entry.getKey(), true);
+        }
+      }
       hooks.doCommentAddedHook(change, account, newPatchSet, null, approvals,
-          ctx.getDb());
+          approvalStatus, ctx.getDb());
     }
   }
 

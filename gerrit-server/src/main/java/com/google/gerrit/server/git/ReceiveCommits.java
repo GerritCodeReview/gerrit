@@ -338,6 +338,7 @@ public class ReceiveCommits {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
+  private final ApprovalsUtil approvalsUtil;
 
   private final List<CommitValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -388,6 +389,7 @@ public class ReceiveCommits {
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
       final ChangeEditUtil editUtil,
+      final ApprovalsUtil approvalsUtil,
       final BatchUpdate.Factory batchUpdateFactory,
       final SetHashtagsOp.Factory hashtagsFactory,
       final ReplaceOp.Factory replaceOpFactory) throws IOException {
@@ -438,6 +440,7 @@ public class ReceiveCommits {
     this.notesMigration = notesMigration;
 
     this.editUtil = editUtil;
+    this.approvalsUtil = approvalsUtil;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -1793,11 +1796,49 @@ public class ReceiveCommits {
         bu.execute();
       }
       change = ins.getChange();
+      ChangeControl changeCtrl = projectControl.controlFor(state.db, change);
+      PatchSet.Id psid = changeCtrl.getChange().currentPatchSetId();
+      // set approval status flag for each approval
+      if (!approvals.isEmpty()) {
+        Map<String, PatchSetApproval> prevLabels = scanLabels(changeCtrl, psid, db, approvals);
+        Map<String, Boolean> approvalStatus = new HashMap<>();
+        for (Map.Entry<String, Short> approval : approvals.entrySet()) {
+          String inputLabel = approval.getKey();
+          if (prevLabels.containsKey(inputLabel)) {
+            if (prevLabels.get(inputLabel).getValue() != approval.getValue()) {
+              approvalStatus.put(inputLabel, true);
+            }
+          }
+        }
+        hooks.doCommentAddedHook(change, user.getAccount(), ins.setGroups(groups).getPatchSet(),
+            null, approvals, approvalStatus, db);
+      }
 
       if (magicBranch.submit) {
-        submit(projectControl.controlFor(state.db, change), ins.getPatchSet());
+        submit(changeCtrl, ins.getPatchSet());
       }
     }
+  }
+
+  private Map<String, PatchSetApproval> scanLabels(ChangeControl changeCtrl, PatchSet.Id psId, ReviewDb db,
+      Map<String, Short> approvals)
+      throws OrmException {
+    Map<String, PatchSetApproval> current = new HashMap<>();
+    // We optimize here and only retrieve current when approvals provided
+    if (!approvals.isEmpty()) {
+      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
+          db, changeCtrl, psId, user.getAccountId())) {
+        if (a.isSubmit()) {
+          continue;
+        }
+
+        LabelType lt = labelTypes.byLabel(a.getLabelId());
+        if (lt != null) {
+          current.put(lt.getName(), a);
+        }
+      }
+    }
+    return current;
   }
 
   private void submit(ChangeControl changeCtl, PatchSet ps)

@@ -131,6 +131,8 @@ class WalkSorter {
       Multimap<RevCommit, PatchSetData> byCommit = byCommit(rw, in);
       if (byCommit.isEmpty()) {
         return ImmutableList.of();
+      } else if (byCommit.size() == 1) {
+        return ImmutableList.of(byCommit.values().iterator().next());
       }
 
       // Walk from all patch set SHA-1s, and terminate as soon as we've found

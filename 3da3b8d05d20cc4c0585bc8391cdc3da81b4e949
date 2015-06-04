@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59febc70_32de9052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-04T05:08:03Z",
+      "side": 1,
+      "message": "This still rises the question why I wasn\u0027t able to reproduce this problem in my local environment, even though all Google products were affected. Can it be that different GWT cpompiler options are used in Google\u0027s Gerrit build? -XenableClosureCompiler?",
+      "revId": "3da3b8d05d20cc4c0585bc8391cdc3da81b4e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

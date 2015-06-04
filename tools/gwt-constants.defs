@@ -2,7 +2,6 @@ GWT_JVM_ARGS = ['-Xmx512m']
 
 GWT_COMPILER_ARGS = [
   '-XdisableClassMetadata',
-  '-XdisableCastChecking',
 ]
 
 GWT_COMMON_DEPS = [

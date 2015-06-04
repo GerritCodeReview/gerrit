@@ -17,7 +17,6 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -53,7 +52,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Utility functions to manipulate change edits.
@@ -118,16 +116,16 @@ public class ChangeEditUtil {
   public Optional<ChangeEdit> byChange(Change change, IdentifiedUser user)
       throws IOException {
     try (Repository repo = gitManager.openRepository(change.getProject())) {
-      String editRefPrefix = RefNames.refsEditPrefix(user.getAccountId(), change.getId());
-      Map<String, Ref> refs = repo.getRefDatabase().getRefs(editRefPrefix);
-      if (refs.isEmpty()) {
+      int n = change.currentPatchSetId().get();
+      String[] refNames = new String[n];
+      for (int i = n; i > 0; i--) {
+        refNames[i] = RefNames.refsEdit(user.getAccountId(), change.getId(),
+            new PatchSet.Id(change.getId(), i));
+      }
+      Ref ref = repo.getRefDatabase().firstExactRef(refNames);
+      if (ref == null) {
         return Optional.absent();
       }
-
-      // TODO(davido): Rather than failing when we encounter the corrupt state
-      // where there is more than one ref, we could silently delete all but the
-      // current one.
-      Ref ref = Iterables.getOnlyElement(refs.values());
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
         PatchSet basePs = getBasePatchSet(change, ref);

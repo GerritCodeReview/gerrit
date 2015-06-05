@@ -96,6 +96,7 @@ import net.codemirror.lib.CodeMirror;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -223,6 +224,18 @@ public class ChangeScreen extends Screen {
     super.onLoad();
     CallbackGroup group = new CallbackGroup();
     if (Gerrit.isSignedIn()) {
+      ChangeList.query("change:" + changeId.get() + " has:draft",
+          Collections.<ListChangesOption> emptySet(),
+          group.add(new AsyncCallback<ChangeList>() {
+        @Override
+        public void onSuccess(ChangeList result) {
+          hasDraftComments = result.length() > 0;
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      }));
       ChangeApi.editWithFiles(changeId.get(), group.add(
           new AsyncCallback<EditInfo>() {
             @Override
@@ -957,7 +970,6 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
             r.add(result);
-            hasDraftComments = !result.isEmpty();
           }
 
           @Override

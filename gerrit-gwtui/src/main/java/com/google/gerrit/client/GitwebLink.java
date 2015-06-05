@@ -106,7 +106,7 @@ public class GitwebLink {
   }
 
   private String encode(String segment) {
-    if (type.isUrlEncode()) {
+    if (type.getUrlEncode()) {
       return URL.encodeQueryString(type.replacePathSeparator(segment));
     } else {
       return segment;

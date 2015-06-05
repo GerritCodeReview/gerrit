@@ -28,12 +28,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Singleton
-public class GitWebCgiConfig {
+public class GitwebCgiConfig {
   private static final Logger log =
-      LoggerFactory.getLogger(GitWebCgiConfig.class);
+      LoggerFactory.getLogger(GitwebCgiConfig.class);
 
-  public GitWebCgiConfig disabled() {
-    return new GitWebCgiConfig();
+  public GitwebCgiConfig disabled() {
+    return new GitwebCgiConfig();
   }
 
   private final Path cgi;
@@ -42,8 +42,8 @@ public class GitWebCgiConfig {
   private final Path logoPng;
 
   @Inject
-  GitWebCgiConfig(SitePaths sitePaths, @GerritServerConfig Config cfg) {
-    if (GitWebConfig.isDisabled(cfg)) {
+  GitwebCgiConfig(SitePaths sitePaths, @GerritServerConfig Config cfg) {
+    if (GitwebConfig.isDisabled(cfg)) {
       cgi = null;
       css = null;
       js = null;
@@ -108,7 +108,7 @@ public class GitWebCgiConfig {
     this.logoPng = logo;
   }
 
-  private GitWebCgiConfig() {
+  private GitwebCgiConfig() {
     this.cgi = null;
     this.css = null;
     this.js = null;

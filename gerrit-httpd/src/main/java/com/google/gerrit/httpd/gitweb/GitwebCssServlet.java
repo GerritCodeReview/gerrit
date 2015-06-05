@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.gitweb;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.server.config.GitWebCgiConfig;
+import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -34,9 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-abstract class GitWebCssServlet extends HttpServlet {
+abstract class GitwebCssServlet extends HttpServlet {
   @Singleton
-  static class Site extends GitWebCssServlet {
+  static class Site extends GitwebCssServlet {
     @Inject
     Site(SitePaths paths) throws IOException {
       super(paths.site_css);
@@ -44,9 +44,9 @@ abstract class GitWebCssServlet extends HttpServlet {
   }
 
   @Singleton
-  static class Default extends GitWebCssServlet {
+  static class Default extends GitwebCssServlet {
     @Inject
-    Default(GitWebCgiConfig gwcc) throws IOException {
+    Default(GitwebCgiConfig gwcc) throws IOException {
       super(gwcc.getGitwebCss());
     }
   }
@@ -57,7 +57,7 @@ abstract class GitWebCssServlet extends HttpServlet {
   private final byte[] raw_css;
   private final byte[] gz_css;
 
-  GitWebCssServlet(final Path src)
+  GitwebCssServlet(final Path src)
       throws IOException {
     if (src != null) {
       final Path dir = src.getParent();

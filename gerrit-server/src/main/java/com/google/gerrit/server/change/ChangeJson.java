@@ -27,7 +27,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
-import static com.google.gerrit.extensions.client.ListChangesOption.DRAFT_COMMENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -86,7 +85,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -141,7 +139,6 @@ public class ChangeJson {
   private final WebLinks webLinks;
   private final EnumSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
-  private final PatchLineCommentsUtil plcUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final RebaseChange rebaseChange;
@@ -166,7 +163,6 @@ public class ChangeJson {
       DynamicMap<DownloadCommand> downloadCommands,
       WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       RebaseChange rebaseChange) {
@@ -185,7 +181,6 @@ public class ChangeJson {
     this.downloadCommands = downloadCommands;
     this.webLinks = webLinks;
     this.cmUtil = cmUtil;
-    this.plcUtil = plcUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.rebaseChange = rebaseChange;
@@ -881,15 +876,6 @@ public class ChangeJson {
           new RevisionResource(new ChangeResource(ctl, rebaseChange), in));
     }
 
-    if (has(DRAFT_COMMENTS)
-        && userProvider.get().isIdentifiedUser()) {
-      IdentifiedUser user = (IdentifiedUser)userProvider.get();
-      out.hasDraftComments =
-          plcUtil.draftByPatchSetAuthor(db.get(), in.getId(),
-              user.getAccountId(), ctl.getNotes()).iterator().hasNext()
-          ? true
-          : null;
-    }
     return out;
   }
 

@@ -307,7 +307,6 @@ public class ChangeInfo extends JavaScriptObject {
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;
     public final native boolean draft() /*-{ return this.draft || false; }-*/;
-    public final native boolean hasDraftComments() /*-{ return this.has_draft_comments || false; }-*/;
     public final native boolean isEdit() /*-{ return this._number == 0; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
     public final native void setCommit(CommitInfo c) /*-{ this.commit = c; }-*/;

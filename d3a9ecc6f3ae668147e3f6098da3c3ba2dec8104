@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "399d8870_112c4cd2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-05T17:07:14Z",
+      "side": 1,
+      "message": "Depends what we want. Like this any failure is ignored. With GerritCallback we would show an error dialog (instead of the change screen).\n\nSince in a failure case the change screen is still fully usable (only without the Reply button highlighted), I tend to ignore the failure.",
+      "parentUuid": "19a444b9_b0f538c5",
+      "range": {
+        "startLine": 229,
+        "startChar": 20,
+        "endLine": 229,
+        "endChar": 49
+      },
+      "revId": "d3a9ecc6f3ae668147e3f6098da3c3ba2dec8104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a444b9_90f834be",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-06-05T15:02:57Z",
       "side": 1,
       "message": "[Optional] Could it be indented the same way as ChangeApi.editWithFiles below?\n\n  ChangeList.query(\"change:\" + changeId.get() + \" has:draft\",\n          Collections.\u003cListChangesOption\u003e emptySet(), group.add(\n             new AsyncCallback\u003cEditInfo\u003e() {\n                @Override\n                public void onSuccess(ChangeList result) {\n                  asDraftComments \u003d result.length() \u003e 0;\n               }\n          [...]",
+      "revId": "d3a9ecc6f3ae668147e3f6098da3c3ba2dec8104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "399d8870_3131502b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-05T17:07:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a444b9_90f834be",
       "revId": "d3a9ecc6f3ae668147e3f6098da3c3ba2dec8104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

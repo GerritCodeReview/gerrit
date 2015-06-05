@@ -19,21 +19,15 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class EncodePathSeparatorTest {
-
   @Test
   public void testDefaultBehaviour() {
-
-    GitWebType gitWebType = GitWebType.fromName(null);
-
-    assertEquals("a/b", gitWebType.replacePathSeparator("a/b"));
+    assertEquals("a/b", new GitWebType().replacePathSeparator("a/b"));
   }
 
   @Test
   public void testExclamationMark() {
-
-    GitWebType gitWebType = GitWebType.fromName(null);
+    GitWebType gitWebType = new GitWebType();
     gitWebType.setPathSeparator('!');
-
     assertEquals("a!b", gitWebType.replacePathSeparator("a/b"));
   }
 

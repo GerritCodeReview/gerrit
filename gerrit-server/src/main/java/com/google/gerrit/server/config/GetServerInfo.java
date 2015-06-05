@@ -18,7 +18,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.GitWebType;
+import com.google.gerrit.common.data.GitwebType;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -51,7 +51,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final String anonymousCowardName;
-  private final GitWebConfig gitWebConfig;
+  private final GitwebConfig gitwebConfig;
 
   @Inject
   public GetServerInfo(
@@ -65,7 +65,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       @AnonymousCowardName String anonymousCowardName,
-      GitWebConfig gitWebConfig) {
+      GitwebConfig gitwebConfig) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -76,7 +76,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.anonymousCowardName = anonymousCowardName;
-    this.gitWebConfig = gitWebConfig;
+    this.gitwebConfig = gitwebConfig;
   }
 
   @Override
@@ -89,7 +89,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
-    info.gitWeb = getGitWebInfo(gitWebConfig);
+    info.gitweb = getGitwebInfo(gitwebConfig);
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
     info.user = getUserInfo(anonymousCowardName);
@@ -227,14 +227,14 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private GitWebInfo getGitWebInfo(GitWebConfig cfg) {
-    if (cfg.getUrl() == null || cfg.getGitWebType() == null) {
+  private GitwebInfo getGitwebInfo(GitwebConfig cfg) {
+    if (cfg.getUrl() == null || cfg.getGitwebType() == null) {
       return null;
     }
 
-    GitWebInfo info = new GitWebInfo();
+    GitwebInfo info = new GitwebInfo();
     info.url = cfg.getUrl();
-    info.type = cfg.getGitWebType();
+    info.type = cfg.getGitwebType();
     return info;
   }
 
@@ -274,7 +274,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public ContactStoreInfo contactStore;
     public DownloadInfo download;
     public GerritInfo gerrit;
-    public GitWebInfo gitWeb;
+    public GitwebInfo gitweb;
     public SshdInfo sshd;
     public SuggestInfo suggest;
     public UserConfigInfo user;
@@ -326,9 +326,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String reportBugText;
   }
 
-  public static class GitWebInfo {
+  public static class GitwebInfo {
     public String url;
-    public GitWebType type;
+    public GitwebType type;
   }
 
   public static class SshdInfo {

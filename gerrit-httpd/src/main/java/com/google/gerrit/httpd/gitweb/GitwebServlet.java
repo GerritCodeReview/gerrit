@@ -38,7 +38,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.GitWebConfig;
+import com.google.gerrit.server.config.GitwebConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -81,9 +81,9 @@ import javax.servlet.http.HttpServletResponse;
 /** Invokes {@code gitweb.cgi} for the project given in {@code p}. */
 @SuppressWarnings("serial")
 @Singleton
-class GitWebServlet extends HttpServlet {
+class GitwebServlet extends HttpServlet {
   private static final Logger log =
-      LoggerFactory.getLogger(GitWebServlet.class);
+      LoggerFactory.getLogger(GitwebServlet.class);
 
   private static final String PROJECT_LIST_ACTION = "project_list";
 
@@ -98,24 +98,24 @@ class GitWebServlet extends HttpServlet {
   private final EnvList _env;
 
   @Inject
-  GitWebServlet(LocalDiskRepositoryManager repoManager,
+  GitwebServlet(LocalDiskRepositoryManager repoManager,
       ProjectControl.Factory projectControl,
       Provider<AnonymousUser> anonymousUserProvider,
       Provider<CurrentUser> userProvider,
       SitePaths site,
       @GerritServerConfig Config cfg,
       SshInfo sshInfo,
-      GitWebConfig gitWebConfig,
-      GitWebCgiConfig gitWebCgiConfig)
+      GitwebConfig gitwebConfig,
+      GitwebCgiConfig gitwebCgiConfig)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
-    this.gitwebCgi = gitWebCgiConfig.getGitwebCgi();
+    this.gitwebCgi = gitwebCgiConfig.getGitwebCgi();
     this.deniedActions = new HashSet<>();
 
-    final String url = gitWebConfig.getUrl();
+    final String url = gitwebConfig.getUrl();
     if ((url != null) && (!url.equals("gitweb"))) {
       URI uri = null;
       try {
@@ -643,7 +643,7 @@ class GitWebServlet extends HttpServlet {
           log.debug("Unexpected error copying input to CGI", e);
         }
       }
-    }, "GitWeb-InputFeeder").start();
+    }, "Gitweb-InputFeeder").start();
   }
 
   private void copyStderrToLog(final InputStream in) {
@@ -665,7 +665,7 @@ class GitWebServlet extends HttpServlet {
           log.debug("Unexpected error copying stderr from CGI", e);
         }
       }
-    }, "GitWeb-ErrorLogger").start();
+    }, "Gitweb-ErrorLogger").start();
   }
 
   private static Enumeration<String> enumerateHeaderNames(HttpServletRequest req) {

@@ -16,13 +16,13 @@ package com.google.gerrit.httpd.gitweb;
 
 import com.google.inject.servlet.ServletModule;
 
-public class GitWebModule extends ServletModule {
+public class GitwebModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    serve("/gitweb").with(GitWebServlet.class);
+    serve("/gitweb").with(GitwebServlet.class);
     serve("/gitweb-logo.png").with(GitLogoServlet.class);
-    serve("/gitweb.js").with(GitWebJavaScriptServlet.class);
-    serve("/gitweb-default.css").with(GitWebCssServlet.Default.class);
-    serve("/gitweb-site.css").with(GitWebCssServlet.Site.class);
+    serve("/gitweb.js").with(GitwebJavaScriptServlet.class);
+    serve("/gitweb-default.css").with(GitwebCssServlet.Default.class);
+    serve("/gitweb-site.css").with(GitwebCssServlet.Site.class);
   }
 }

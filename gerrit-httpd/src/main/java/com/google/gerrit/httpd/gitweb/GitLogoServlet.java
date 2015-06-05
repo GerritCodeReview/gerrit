@@ -40,7 +40,7 @@ class GitLogoServlet extends HttpServlet {
   private final byte[] raw;
 
   @Inject
-  GitLogoServlet(GitWebCgiConfig cfg) throws IOException {
+  GitLogoServlet(GitwebCgiConfig cfg) throws IOException {
     byte[] png;
     Path src = cfg.getGitLogoPng();
     if (src != null) {

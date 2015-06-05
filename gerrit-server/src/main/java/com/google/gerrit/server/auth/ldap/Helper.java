@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -172,7 +173,7 @@ import javax.security.auth.login.LoginException;
     try {
       return new InitialDirContext(env);
     } catch (NamingException e) {
-      throw new AccountException("Incorrect username or password", e);
+      throw new AuthenticationFailedException("Incorrect username or password", e);
     }
   }
 

@@ -33,7 +33,6 @@ interface ChangeConstants extends Constants {
   String date();
   String author();
   String draft();
-  String draftCommentsTooltip();
 
   String notAvailable();
   String relatedChanges();

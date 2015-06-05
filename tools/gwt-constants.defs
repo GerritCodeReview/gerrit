@@ -2,6 +2,9 @@ GWT_JVM_ARGS = ['-Xmx512m']
 
 GWT_COMPILER_ARGS = [
   '-XdisableClassMetadata',
+]
+
+GWT_COMPILER_ARGS_RELEASE_MODE = GWT_COMPILER_ARGS + [
   '-XdisableCastChecking',
 ]
 

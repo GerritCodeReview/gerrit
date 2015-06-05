@@ -216,7 +216,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ToolsCatalog.class);
     bind(EventFactory.class);
     bind(TransferConfig.class);
-    bind(GitWebConfig.class);
+    bind(GitwebConfig.class);
 
     bind(GcConfig.class);
 

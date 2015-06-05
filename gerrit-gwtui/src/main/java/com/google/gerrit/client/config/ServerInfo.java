@@ -22,7 +22,7 @@ public class ServerInfo extends JavaScriptObject {
   public final native ContactStoreInfo contactStore() /*-{ return this.contact_store; }-*/;
   public final native DownloadInfo download() /*-{ return this.download; }-*/;
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
-  public final native GitWebInfo gitWeb() /*-{ return this.git_web; }-*/;
+  public final native GitwebInfo gitweb() /*-{ return this.gitweb; }-*/;
   public final native SshdInfo sshd() /*-{ return this.sshd; }-*/;
   public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;
   public final native UserConfigInfo user() /*-{ return this.user; }-*/;

@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.gitweb;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.io.ByteStreams;
-import com.google.gerrit.server.config.GitWebCgiConfig;
+import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -36,14 +36,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 @Singleton
-class GitWebJavaScriptServlet extends HttpServlet {
+class GitwebJavaScriptServlet extends HttpServlet {
   private final long modified;
   private final byte[] raw;
 
   @Inject
-  GitWebJavaScriptServlet(GitWebCgiConfig gitWebCgiConfig) throws IOException {
+  GitwebJavaScriptServlet(GitwebCgiConfig gitwebCgiConfig) throws IOException {
     byte[] png;
-    Path src = gitWebCgiConfig.getGitwebJs();
+    Path src = gitwebCgiConfig.getGitwebJs();
     if (src != null) {
       try (InputStream in = Files.newInputStream(src)) {
         png = ByteStreams.toByteArray(in);

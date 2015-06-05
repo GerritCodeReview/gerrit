@@ -25,9 +25,9 @@ import com.google.gwt.http.client.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GitWebInfo extends JavaScriptObject {
+public class GitwebInfo extends JavaScriptObject {
   public final native String url() /*-{ return this.url; }-*/;
-  public final native GitWebTypeInfo type() /*-{ return this.type; }-*/;
+  public final native GitwebTypeInfo type() /*-{ return this.type; }-*/;
 
   /**
    * Checks whether the given patch set can be linked.
@@ -56,20 +56,20 @@ public class GitWebInfo extends JavaScriptObject {
   }
 
   /**
-   * Returns the name for GitWeb links.
+   * Returns the name for gitweb links.
    *
-   * @return the name for GitWeb links
+   * @return the name for gitweb links
    */
   public final String getLinkName() {
     return "(" + type().name() + ")";
   }
 
   /**
-   * Returns the GitWeb link to a revision.
+   * Returns the gitweb link to a revision.
    *
    * @param project the name of the project
    * @param commit the commit ID
-   * @return GitWeb link to a revision
+   * @return gitweb link to a revision
    */
   public final String toRevision(String  project, String commit) {
     ParameterizedString pattern = new ParameterizedString(type().revision());
@@ -80,21 +80,21 @@ public class GitWebInfo extends JavaScriptObject {
   }
 
   /**
-   * Returns the GitWeb link to a revision.
+   * Returns the gitweb link to a revision.
    *
    * @param project the name of the project
    * @param ps the patch set
-   * @return GitWeb link to a revision
+   * @return gitweb link to a revision
    */
   public final String toRevision(Project.NameKey project, PatchSet ps) {
     return toRevision(project.get(), ps.getRevision().get());
   }
 
   /**
-   * Returns the GitWeb link to a project.
+   * Returns the gitweb link to a project.
    *
    * @param project the project name key
-   * @return GitWeb link to a project
+   * @return gitweb link to a project
    */
   public final String toProject(Project.NameKey project) {
     ParameterizedString pattern = new ParameterizedString(type().project());
@@ -105,10 +105,10 @@ public class GitWebInfo extends JavaScriptObject {
   }
 
   /**
-   * Returns the GitWeb link to a branch.
+   * Returns the gitweb link to a branch.
    *
    * @param branch the branch name key
-   * @return GitWeb link to a branch
+   * @return gitweb link to a branch
    */
   public final String toBranch(Branch.NameKey branch) {
     ParameterizedString pattern = new ParameterizedString(type().branch());
@@ -120,12 +120,12 @@ public class GitWebInfo extends JavaScriptObject {
   }
 
   /**
-   * Returns the GitWeb link to a file.
+   * Returns the gitweb link to a file.
    *
    * @param project the branch name key
    * @param commit the commit ID
    * @param file the path of the file
-   * @return GitWeb link to a file
+   * @return gitweb link to a file
    */
   public final String toFile(String  project, String commit, String file) {
     Map<String, String> p = new HashMap<>();
@@ -140,11 +140,11 @@ public class GitWebInfo extends JavaScriptObject {
   }
 
   /**
-   * Returns the GitWeb link to a file history.
+   * Returns the gitweb link to a file history.
    *
    * @param branch the branch name key
    * @param file the path of the file
-   * @return GitWeb link to a file history
+   * @return gitweb link to a file history
    */
   public final String toFileHistory(Branch.NameKey branch, String file) {
     ParameterizedString pattern = new ParameterizedString(type().fileHistory());
@@ -164,6 +164,6 @@ public class GitWebInfo extends JavaScriptObject {
     }
   }
 
-  protected GitWebInfo() {
+  protected GitwebInfo() {
   }
 }

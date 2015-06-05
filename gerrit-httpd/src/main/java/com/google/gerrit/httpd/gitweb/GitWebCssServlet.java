@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.gitweb;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.server.config.GitWebConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -46,8 +45,8 @@ abstract class GitWebCssServlet extends HttpServlet {
   @Singleton
   static class Default extends GitWebCssServlet {
     @Inject
-    Default(GitWebConfig gwc) throws IOException {
-      super(gwc.getGitwebCSS());
+    Default(GitWebCgiConfig gwcc) throws IOException {
+      super(gwcc.getGitwebCss());
     }
   }
 

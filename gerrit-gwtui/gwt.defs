@@ -26,6 +26,23 @@ ALIASES = {
 }
 MODULE = 'com.google.gerrit.GerritGwtUI'
 
+def gwt_generate_buildrules(suffix = ""):
+  dbg = ':ui_dbg' + suffix
+  opt = ':ui_opt' + suffix
+  genrule(
+    name = 'ui_optdbg' + suffix,
+    cmd = 'cd $TMP;' +
+      'unzip -q $(location %s);' % dbg +
+      'mv' +
+      ' gerrit_ui/gerrit_ui.nocache.js' +
+      ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
+      'unzip -qo $(location %s);' % opt +
+      'mkdir -p \$(dirname $OUT);' +
+      'zip -qr $OUT .',
+    out = 'ui_optdbg' + suffix + '.zip',
+    visibility = ['PUBLIC'],
+  )
+
 def gwt_user_agent_permutations(
     name,
     module_name,

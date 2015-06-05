@@ -8,19 +8,8 @@ DEPS = GWT_COMMON_DEPS + [
   '//lib:gwtjsonrpc',
 ]
 
-genrule(
-  name = 'ui_optdbg',
-  cmd = 'cd $TMP;' +
-    'unzip -q $(location :ui_dbg);' +
-    'mv' +
-    ' gerrit_ui/gerrit_ui.nocache.js' +
-    ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
-    'unzip -qo $(location :ui_opt);' +
-    'mkdir -p \$(dirname $OUT);' +
-    'zip -qr $OUT .',
-  out = 'ui_optdbg.zip',
-  visibility = ['PUBLIC'],
-)
+gwt_generate_buildrules()
+gwt_generate_buildrules('_r')
 
 gwt_binary(
   name = 'ui_opt',
@@ -30,6 +19,17 @@ gwt_binary(
   local_workers = CPU_COUNT,
   strict = True,
   experimental_args = GWT_COMPILER_ARGS,
+  vm_args = GWT_JVM_ARGS,
+)
+
+gwt_binary(
+  name = 'ui_opt_r',
+  modules = [MODULE],
+  module_deps = [':ui_module'],
+  deps = DEPS + ([':ui_dbg_r'] if CPU_COUNT < 8 else []),
+  local_workers = CPU_COUNT,
+  strict = True,
+  experimental_args = GWT_COMPILER_ARGS_RELEASE_MODE,
   vm_args = GWT_JVM_ARGS,
 )
 
@@ -54,6 +54,20 @@ gwt_binary(
   local_workers = CPU_COUNT,
   strict = True,
   experimental_args = GWT_COMPILER_ARGS,
+  vm_args = GWT_JVM_ARGS,
+  visibility = ['//:eclipse'],
+)
+
+gwt_binary(
+  name = 'ui_dbg_r',
+  modules = [MODULE],
+  style = 'PRETTY',
+  optimize = 0,
+  module_deps = [':ui_module'],
+  deps = DEPS,
+  local_workers = CPU_COUNT,
+  strict = True,
+  experimental_args = GWT_COMPILER_ARGS_RELEASE_MODE,
   vm_args = GWT_JVM_ARGS,
   visibility = ['//:eclipse'],
 )

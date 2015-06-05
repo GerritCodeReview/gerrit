@@ -34,6 +34,24 @@
       "revId": "3dd0f4cad95c3807442b85fe1bdca33051dfa853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a444b9_9066741d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/WalkSorterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-05T22:57:46Z",
+      "side": 1,
+      "message": "Is it sufficient to find the merge base of all the start commits and mark that uninteresting? That shouldn\u0027t be too slow, should it?\n\nUm, how does RevFilter.MERGE_BASE work with criss-cross merges? Is it always guaranteed to return a common ancestor?",
+      "parentUuid": "19a444b9_505dec49",
+      "revId": "3dd0f4cad95c3807442b85fe1bdca33051dfa853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -94,7 +94,7 @@ The commit ID, the parent commit(s) and the link:user-changeid.html[Change-Id] a
 displayed with a copy-to-clipboard icon that allows the ID to be copied
 into the clipboard.
 
-If a Git web browser, such as GitWeb or Gitiles, is configured, there
+If a Git web browser, such as gitweb or Gitiles, is configured, there
 is also a link to the commit in the Git web browser.
 
 image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]

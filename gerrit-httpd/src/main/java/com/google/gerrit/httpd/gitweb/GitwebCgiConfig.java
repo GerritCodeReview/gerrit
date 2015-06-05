@@ -18,7 +18,7 @@ import static java.nio.file.Files.isExecutable;
 import static java.nio.file.Files.isRegularFile;
 
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.GitWebConfig;
+import com.google.gerrit.server.config.GitwebConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,12 +31,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Singleton
-public class GitWebCgiConfig {
+public class GitwebCgiConfig {
   private static final Logger log =
-      LoggerFactory.getLogger(GitWebCgiConfig.class);
+      LoggerFactory.getLogger(GitwebCgiConfig.class);
 
-  public GitWebCgiConfig disabled() {
-    return new GitWebCgiConfig();
+  public GitwebCgiConfig disabled() {
+    return new GitwebCgiConfig();
   }
 
   private final Path cgi;
@@ -45,8 +45,8 @@ public class GitWebCgiConfig {
   private final Path logoPng;
 
   @Inject
-  GitWebCgiConfig(SitePaths sitePaths, @GerritServerConfig Config cfg) {
-    if (GitWebConfig.isDisabled(cfg)) {
+  GitwebCgiConfig(SitePaths sitePaths, @GerritServerConfig Config cfg) {
+    if (GitwebConfig.isDisabled(cfg)) {
       cgi = null;
       css = null;
       js = null;
@@ -111,7 +111,7 @@ public class GitWebCgiConfig {
     this.logoPng = logo;
   }
 
-  private GitWebCgiConfig() {
+  private GitwebCgiConfig() {
     this.cgi = null;
     this.css = null;
     this.js = null;

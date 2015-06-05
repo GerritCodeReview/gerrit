@@ -15,7 +15,7 @@
 package com.google.gerrit.common.data;
 
 /** Class to store information about different source browser types. */
-public class GitWebType {
+public class GitwebType {
   private String name;
 
   private String branch;

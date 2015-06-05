@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@ package com.google.gerrit.httpd.gitweb;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
 
-import com.google.common.io.ByteStreams;
+import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -34,27 +33,49 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-@Singleton
-class GitWebJavaScriptServlet extends HttpServlet {
-  private final long modified;
-  private final byte[] raw;
+abstract class GitwebCssServlet extends HttpServlet {
+  @Singleton
+  static class Site extends GitwebCssServlet {
+    @Inject
+    Site(SitePaths paths) throws IOException {
+      super(paths.site_css);
+    }
+  }
 
-  @Inject
-  GitWebJavaScriptServlet(GitWebCgiConfig gitWebCgiConfig) throws IOException {
-    byte[] png;
-    Path src = gitWebCgiConfig.getGitwebJs();
+  @Singleton
+  static class Default extends GitwebCssServlet {
+    @Inject
+    Default(GitwebCgiConfig gwcc) throws IOException {
+      super(gwcc.getGitwebCss());
+    }
+  }
+
+  private static final String ENC = "UTF-8";
+
+  private final long modified;
+  private final byte[] raw_css;
+  private final byte[] gz_css;
+
+  GitwebCssServlet(final Path src)
+      throws IOException {
     if (src != null) {
-      try (InputStream in = Files.newInputStream(src)) {
-        png = ByteStreams.toByteArray(in);
-      } catch (NoSuchFileException e) {
-        png = null;
+      final Path dir = src.getParent();
+      final String name = src.getFileName().toString();
+      final String raw = HtmlDomUtil.readFile(dir, name);
+      if (raw != null) {
+        modified = lastModified(src);
+        raw_css = raw.getBytes(ENC);
+        gz_css = HtmlDomUtil.compress(raw_css);
+      } else {
+        modified = -1L;
+        raw_css = null;
+        gz_css = null;
       }
-      modified = lastModified(src);
     } else {
       modified = -1;
-      png = null;
+      raw_css = null;
+      gz_css = null;
     }
-    raw = png;
   }
 
   @Override
@@ -65,15 +86,23 @@ class GitWebJavaScriptServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    if (raw != null) {
-      rsp.setContentType("text/javascript");
-      rsp.setContentLength(raw.length);
+    if (raw_css != null) {
+      rsp.setContentType("text/css");
+      rsp.setCharacterEncoding(ENC);
+      final byte[] toSend;
+      if (RPCServletUtils.acceptsGzipEncoding(req)) {
+        rsp.setHeader("Content-Encoding", "gzip");
+        toSend = gz_css;
+      } else {
+        toSend = raw_css;
+      }
+      rsp.setContentLength(toSend.length);
       rsp.setDateHeader("Last-Modified", modified);
       CacheHeaders.setCacheable(req, rsp, 5, TimeUnit.MINUTES);
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {
-        os.write(raw);
+        os.write(toSend);
       } finally {
         os.close();
       }

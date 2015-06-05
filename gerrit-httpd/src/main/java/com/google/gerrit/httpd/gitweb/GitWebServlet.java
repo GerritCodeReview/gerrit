@@ -38,6 +38,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GitWebCgiConfig;
 import com.google.gerrit.server.config.GitWebConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -105,13 +106,14 @@ class GitWebServlet extends HttpServlet {
       SitePaths site,
       @GerritServerConfig Config cfg,
       SshInfo sshInfo,
-      GitWebConfig gitWebConfig)
+      GitWebConfig gitWebConfig,
+      GitWebCgiConfig gitWebCgiConfig)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
-    this.gitwebCgi = gitWebConfig.getGitwebCGI();
+    this.gitwebCgi = gitWebCgiConfig.getGitwebCgi();
     this.deniedActions = new HashSet<>();
 
     final String url = gitWebConfig.getUrl();

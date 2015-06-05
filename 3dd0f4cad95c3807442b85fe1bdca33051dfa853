@@ -52,6 +52,24 @@
       "revId": "3dd0f4cad95c3807442b85fe1bdca33051dfa853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a444b9_b063780c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/WalkSorterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-05T23:00:41Z",
+      "side": 1,
+      "message": "I think that is correct. A first walk to find the merge base using default ordering will terminate as soon as that is found, which will be pretty quick.\n\nThen another run with that marked uninteresting will prevent the topo sort ordering from scanning everything in the project.\n\nRevFilter.MERGE_BASE with a criss-cross merge can return multiple ancestors. You can get all of them and then mark them uninteresting in the topo sort pass.",
+      "parentUuid": "19a444b9_9066741d",
+      "revId": "3dd0f4cad95c3807442b85fe1bdca33051dfa853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

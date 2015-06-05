@@ -46,9 +46,6 @@ public enum ListChangesOption {
   /** Set the reviewed boolean for the caller. */
   REVIEWED(11),
 
-  /** Include draft comments for the caller. */
-  DRAFT_COMMENTS(12),
-
   /** Include download commands for the caller. */
   DOWNLOAD_COMMANDS(13),
 

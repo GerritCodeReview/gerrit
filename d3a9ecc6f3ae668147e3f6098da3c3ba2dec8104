@@ -22,6 +22,30 @@
       "revId": "d3a9ecc6f3ae668147e3f6098da3c3ba2dec8104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a444b9_5026ccf1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PatchSetsBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-05T17:03:59Z",
+      "side": 0,
+      "message": "No, it is still used in InsertCommentBubble.ui.xml",
+      "parentUuid": "399d8870_b1f540c5",
+      "range": {
+        "startLine": 195,
+        "startChar": 20,
+        "endLine": 195,
+        "endChar": 52
+      },
+      "revId": "d3a9ecc6f3ae668147e3f6098da3c3ba2dec8104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

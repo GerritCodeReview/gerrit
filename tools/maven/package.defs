@@ -22,16 +22,13 @@ def maven_package(
     war = {}):
   cmd = ['$(exe //tools/maven:mvn)', '-v', version, '-o', '$OUT']
   api_cmd = []
-  api_deps = []
   for type,d in [('jar', jar), ('java-source', src), ('javadoc', doc)]:
     for a,t in d.iteritems():
       api_cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
-      api_deps.append(t)
 
   genrule(
     name = 'api_install',
     cmd = ' '.join(cmd + api_cmd + ['-a', 'install']),
-    deps = api_deps + ['//tools/maven:mvn'],
     out = 'api_install.info',
   )
 
@@ -42,20 +39,16 @@ def maven_package(
         '-a', 'deploy',
         '--repository', repository,
         '--url', url]),
-      deps = api_deps + ['//tools/maven:mvn'],
       out = 'api_deploy.info',
     )
 
   war_cmd = []
-  war_deps = []
   for a,t in war.iteritems():
     war_cmd.append('-s %s:war:$(location %s)' % (a,t))
-    war_deps.append(t)
 
   genrule(
     name = 'war_install',
     cmd = ' '.join(cmd + war_cmd + ['-a', 'install']),
-    deps = war_deps + ['//tools/maven:mvn'],
     out = 'war_install.info',
   )
 
@@ -66,6 +59,5 @@ def maven_package(
         '-a', 'deploy',
         '--repository', repository,
         '--url', url]),
-      deps = war_deps + ['//tools/maven:mvn'],
       out = 'war_deploy.info',
     )

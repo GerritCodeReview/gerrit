@@ -18,10 +18,6 @@ genrule(
     'unzip -qo $(location :ui_opt);' +
     'mkdir -p \$(dirname $OUT);' +
     'zip -qr $OUT .',
-  deps = [
-    ':ui_dbg',
-    ':ui_opt',
-  ],
   out = 'ui_optdbg.zip',
   visibility = ['PUBLIC'],
 )

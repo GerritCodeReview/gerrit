@@ -408,9 +408,6 @@ The patch set drop-down list shows the list of patch sets and allows to
 switch between them. The patch sets are sorted in descending order so
 that the current patch set is always on top.
 
-Patch sets that have unpublished draft comments are marked by a comment
-icon.
-
 Draft patch sets are marked with `DRAFT`.
 
 image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="images/user-review-ui-change-screen-patch-set-list.png"]

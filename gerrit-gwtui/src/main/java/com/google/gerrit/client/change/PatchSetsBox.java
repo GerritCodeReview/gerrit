@@ -43,7 +43,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
@@ -122,8 +121,7 @@ class PatchSetsBox extends Composite {
       RestApi call = ChangeApi.detail(changeId.get());
       ChangeList.addOptions(call, EnumSet.of(
           ListChangesOption.ALL_COMMITS,
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.DRAFT_COMMENTS));
+          ListChangesOption.ALL_REVISIONS));
       call.get(new AsyncCallback<ChangeInfo>() {
         @Override
         public void onSuccess(ChangeInfo result) {
@@ -186,15 +184,6 @@ class PatchSetsBox extends Composite {
     sb.openTd().setStyleName(style.legacy_id());
     if (r.draft()) {
       sb.append(Resources.C.draft()).append(' ');
-    }
-    if (r.hasDraftComments()) {
-      sb.openSpan()
-        .addStyleName(style.draft_comment())
-        .setAttribute("title", Resources.C.draftCommentsTooltip())
-        .append(new ImageResourceRenderer()
-            .render(Gerrit.RESOURCES.draftComments()))
-        .closeSpan()
-        .append(' ');
     }
     sb.append(r.id());
     sb.closeTd();

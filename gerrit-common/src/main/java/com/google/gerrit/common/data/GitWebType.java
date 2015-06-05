@@ -16,44 +16,6 @@ package com.google.gerrit.common.data;
 
 /** Class to store information about different gitweb types. */
 public class GitWebType {
-  /**
-   * Get a GitWebType based on the given name.
-   *
-   * @param name Name to look for.
-   * @return GitWebType from the given name, else null if not found.
-   */
-  public static GitWebType fromName(final String name) {
-    final GitWebType type;
-
-    if (name == null || name.isEmpty() || name.equalsIgnoreCase("gitweb")) {
-      type = new GitWebType();
-      type.setLinkName("gitweb");
-      type.setProject("?p=${project}.git;a=summary");
-      type.setRevision("?p=${project}.git;a=commit;h=${commit}");
-      type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
-      type.setRootTree("?p=${project}.git;a=tree;hb=${commit}");
-      type.setFile("?p=${project}.git;hb=${commit};f=${file}");
-      type.setFileHistory("?p=${project}.git;a=history;hb=${branch};f=${file}");
-    } else if (name.equalsIgnoreCase("cgit")) {
-      type = new GitWebType();
-      type.setLinkName("cgit");
-      type.setProject("${project}.git/summary");
-      type.setRevision("${project}.git/commit/?id=${commit}");
-      type.setBranch("${project}.git/log/?h=${branch}");
-      type.setRootTree("${project}.git/tree/?h=${commit}");
-      type.setFile("${project}.git/tree/${file}?h=${commit}");
-      type.setFileHistory("${project}.git/log/${file}?h=${branch}");
-    } else if (name.equalsIgnoreCase("custom")) {
-      type = new GitWebType();
-      // The custom name is not defined, let's keep the old style of using GitWeb
-      type.setLinkName("gitweb");
-    } else {
-      type = null;
-    }
-
-    return type;
-  }
-
   /** name of the type. */
   private String name;
 
@@ -80,14 +42,10 @@ public class GitWebType {
   private char pathSeparator = '/';
 
   /** Whether to include links to draft patch sets */
-  private boolean linkDrafts;
+  private boolean linkDrafts = true;
 
   /** Whether to encode URL segments */
-  private boolean urlEncode;
-
-  /** Private default constructor for gson. */
-  protected GitWebType() {
-  }
+  private boolean urlEncode = true;
 
   /**
    * Get the String for branch view.
@@ -153,6 +111,15 @@ public class GitWebType {
   }
 
   /**
+   * Get the path separator used for branch and project names.
+   *
+   * @return The path separator.
+   */
+  public char getPathSeparator() {
+    return pathSeparator;
+  }
+
+  /**
    * Get whether to link to draft patch sets
    *
    * @return True to link
@@ -167,9 +134,7 @@ public class GitWebType {
    * @param pattern The pattern for branch view
    */
   public void setBranch(final String pattern) {
-    if (pattern != null && !pattern.isEmpty()) {
-      branch = pattern;
-    }
+    branch = pattern;
   }
 
   /**
@@ -178,9 +143,7 @@ public class GitWebType {
    * @param name The link-name type
    */
   public void setLinkName(final String name) {
-    if (name != null && !name.isEmpty()) {
-      this.name = name;
-    }
+    this.name = name;
   }
 
   /**
@@ -189,9 +152,7 @@ public class GitWebType {
    * @param pattern The pattern for project view
    */
   public void setProject(final String pattern) {
-    if (pattern != null && !pattern.isEmpty()) {
-      project = pattern;
-    }
+    project = pattern;
   }
 
   /**
@@ -200,9 +161,7 @@ public class GitWebType {
    * @param pattern The pattern for revision view
    */
   public void setRevision(final String pattern) {
-    if (pattern != null && !pattern.isEmpty()) {
-      revision = pattern;
-    }
+    revision = pattern;
   }
 
   /**
@@ -211,9 +170,7 @@ public class GitWebType {
    * @param pattern The pattern for root tree view
    */
   public void setRootTree(final String pattern) {
-    if (pattern != null && !pattern.isEmpty()) {
-      rootTree = pattern;
-    }
+    rootTree = pattern;
   }
 
   /**
@@ -222,9 +179,7 @@ public class GitWebType {
    * @param pattern The pattern for file view
    */
   public void setFile(final String pattern) {
-    if (pattern != null && !pattern.isEmpty()) {
-      file = pattern;
-    }
+    file = pattern;
   }
 
   /**
@@ -233,9 +188,7 @@ public class GitWebType {
    * @param pattern The pattern for file history view
    */
   public void setFileHistory(final String pattern) {
-    if (pattern != null && !pattern.isEmpty()) {
-      fileHistory = pattern;
-    }
+    fileHistory = pattern;
   }
 
   /**

@@ -218,12 +218,16 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         ThreeWayMerger merger = MergeUtil.newThreeWayMerger(
             key.repo, MergeUtil.createDryRunInserter(key.repo), key.strategyName);
         merger.setBase(prior.getParent(0));
-        if (merger.merge(next.getParent(0), prior)
-            && merger.getResultTreeId().equals(next.getTree())) {
-          return ChangeKind.TRIVIAL_REBASE;
-        } else {
-          return ChangeKind.REWORK;
+        try {
+          if (merger.merge(next.getParent(0), prior)
+              && merger.getResultTreeId().equals(next.getTree())) {
+            return ChangeKind.TRIVIAL_REBASE;
+          }
+        } catch (LargeObjectException e) {
+          // Some object is too large for the merge attempt to succeed. Assume
+          // it was a rework.
         }
+        return ChangeKind.REWORK;
       } finally {
         key.repo = null;
       }

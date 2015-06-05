@@ -80,7 +80,7 @@ public class GitWebConfig {
             defaultType.getLinkDrafts()));
     type.setUrlEncode(
         cfg.getBoolean("gitweb", null, "urlencode",
-            defaultType.isUrlEncode()));
+            defaultType.getUrlEncode()));
     String pathSeparator = cfg.getString("gitweb", null, "pathSeparator");
     if (pathSeparator != null) {
       if (pathSeparator.length() == 1) {

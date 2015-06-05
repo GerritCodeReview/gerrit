@@ -96,18 +96,20 @@ class GitWebServlet extends HttpServlet {
   private final EnvList _env;
 
   @Inject
-  GitWebServlet(final LocalDiskRepositoryManager repoManager,
-      final ProjectControl.Factory projectControl,
-      final Provider<AnonymousUser> anonymousUserProvider,
-      final Provider<CurrentUser> userProvider,
-      final SitePaths site,
-      final GerritConfig gerritConfig, final GitWebConfig gitWebConfig)
+  GitWebServlet(LocalDiskRepositoryManager repoManager,
+      ProjectControl.Factory projectControl,
+      Provider<AnonymousUser> anonymousUserProvider,
+      Provider<CurrentUser> userProvider,
+      SitePaths site,
+      GerritConfig gerritConfig,
+      GitWebConfig gitWebConfig,
+      GitWebCgiConfig gitWebCgiConfig)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
-    this.gitwebCgi = gitWebConfig.getGitwebCGI();
+    this.gitwebCgi = gitWebCgiConfig.getGitwebCgi();
     this.deniedActions = new HashSet<>();
 
     final String url = gitWebConfig.getUrl();

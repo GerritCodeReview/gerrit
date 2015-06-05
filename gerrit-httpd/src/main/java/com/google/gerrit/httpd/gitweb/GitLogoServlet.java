@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.gitweb;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.io.ByteStreams;
-import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,9 +40,9 @@ class GitLogoServlet extends HttpServlet {
   private final byte[] raw;
 
   @Inject
-  GitLogoServlet(GitWebConfig gitWebConfig) throws IOException {
+  GitLogoServlet(GitWebCgiConfig cfg) throws IOException {
     byte[] png;
-    Path src = gitWebConfig.getGitLogoPNG();
+    Path src = cfg.getGitLogoPng();
     if (src != null) {
       try (InputStream in = Files.newInputStream(src)) {
         png = ByteStreams.toByteArray(in);

@@ -24,6 +24,7 @@ import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
+import com.google.gerrit.httpd.gitweb.GitWebCgiConfig;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -34,9 +35,7 @@ import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 
@@ -45,25 +44,18 @@ import java.net.SocketAddress;
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
   private final boolean wantSSL;
-  private final GitWebConfig gitWebConfig;
+  private final GitWebCgiConfig gitWebCgiConfig;
   private final GerritOptions options;
 
   @Inject
-  WebModule(final AuthConfig authConfig,
-      @CanonicalWebUrl @Nullable final String canonicalUrl,
+  WebModule(AuthConfig authConfig,
+      @CanonicalWebUrl @Nullable String canonicalUrl,
       GerritOptions options,
-      final Injector creatingInjector) {
+      GitWebCgiConfig gitWebCgiConfig) {
     this.authConfig = authConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.options = options;
-
-    this.gitWebConfig =
-        creatingInjector.createChildInjector(new AbstractModule() {
-          @Override
-          protected void configure() {
-            bind(GitWebConfig.class);
-          }
-        }).getInstance(GitWebConfig.class);
+    this.gitWebCgiConfig = gitWebCgiConfig;
   }
 
   @Override
@@ -84,8 +76,7 @@ public class WebModule extends LifecycleModule {
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));
 
-    bind(GitWebConfig.class).toInstance(gitWebConfig);
-    if (gitWebConfig.getGitwebCGI() != null) {
+    if (gitWebCgiConfig.getGitwebCgi() != null) {
       install(new GitWebModule());
     }
 

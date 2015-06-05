@@ -14,215 +14,173 @@
 
 package com.google.gerrit.common.data;
 
-/** Class to store information about different gitweb types. */
+/** Class to store information about different source browser types. */
 public class GitWebType {
-  /** name of the type. */
   private String name;
 
-  /** String for revision view url. */
-  private String revision;
-
-  /** ParameterizedString for project view url. */
-  private String project;
-
-  /** ParameterizedString for branch view url. */
   private String branch;
-
-  /** ParameterizedString for root tree view url. */
+  private String file;
+  private String fileHistory;
+  private String project;
+  private String revision;
   private String rootTree;
 
-  /** ParameterizedString for file view url. */
-  private String file;
-
-  /** ParameterizedString for file history view url. */
-  private String fileHistory;
-
-  /** Character to substitute the standard path separator '/' in branch and
-    * project names */
   private char pathSeparator = '/';
-
-  /** Whether to include links to draft patch sets */
   private boolean linkDrafts = true;
-
-  /** Whether to encode URL segments */
   private boolean urlEncode = true;
 
-  /**
-   * Get the String for branch view.
-   *
-   * @return The String for branch view
-   */
-  public String getBranch() {
-    return branch;
-  }
-
-  /**
-   * Get the String for link-name of the type.
-   *
-   * @return The String for link-name of the type
-   */
+  /** @return name displayed in links. */
   public String getLinkName() {
     return name;
   }
 
   /**
-   * Get the String for project view.
+   * Set the name displayed in links.
    *
-   * @return The String for project view
+   * @param name new name.
    */
-  public String getProject() {
-    return project;
+  public void setLinkName(String name) {
+    this.name = name;
+  }
+
+  /** @return parameterized string for the branch URL. */
+  public String getBranch() {
+    return branch;
   }
 
   /**
-   * Get the String for revision view.
+   * Set the parameterized string for the branch URL.
    *
-   * @return The String for revision view
+   * @param str new string.
    */
-  public String getRevision() {
-    return revision;
+  public void setBranch(String str) {
+    branch = str;
   }
 
-  /**
-   * Get the String for root tree view.
-   *
-   * @return The String for root tree view
-   */
-  public String getRootTree() {
-    return rootTree;
-  }
-
-  /**
-   * Get the String for file view.
-   *
-   * @return The String for file view
-   */
+  /** @return parameterized string for the file URL. */
   public String getFile() {
     return file;
   }
 
   /**
-   * Get the String for file history view.
+   * Set the parameterized string for the file URL.
    *
-   * @return The String for file history view
+   * @param str new string.
    */
+  public void setFile(String str) {
+    file = str;
+  }
+
+  /** @return parameterized string for the file history URL. */
   public String getFileHistory() {
     return fileHistory;
   }
 
   /**
-   * Get the path separator used for branch and project names.
+   * Set the parameterized string for the file history URL.
    *
-   * @return The path separator.
+   * @param str new string.
    */
+  public void setFileHistory(String str) {
+    fileHistory = str;
+  }
+
+  /** @return parameterized string for the project URL. */
+  public String getProject() {
+    return project;
+  }
+
+  /**
+   * Set the parameterized string for the project URL.
+   *
+   * @param str new string.
+   */
+  public void setProject(String str) {
+    project = str;
+  }
+
+  /** @return parameterized string for the revision URL. */
+  public String getRevision() {
+    return revision;
+  }
+
+  /**
+   * Set the parameterized string for the revision URL.
+   *
+   * @param str new string.
+   */
+  public void setRevision(String str) {
+    revision = str;
+  }
+
+  /** @return parameterized string for the root tree URL. */
+  public String getRootTree() {
+    return rootTree;
+  }
+
+  /**
+   * Set the parameterized string for the root tree URL.
+   *
+   * @param str new string.
+   */
+  public void setRootTree(String str) {
+    rootTree = str;
+  }
+
+  /** @return path separator used for branch and project names. */
   public char getPathSeparator() {
     return pathSeparator;
   }
 
   /**
-   * Get whether to link to draft patch sets
+   * Set the custom path separator.
    *
-   * @return True to link
+   * @param separator new separator.
    */
+  public void setPathSeparator(char separator) {
+    this.pathSeparator = separator;
+  }
+
+  /** @return whether to generate links to draft patch sets. */
   public boolean getLinkDrafts() {
     return linkDrafts;
   }
 
   /**
-   * Set the pattern for branch view.
+   * Set whether to generate links to draft patch sets.
    *
-   * @param pattern The pattern for branch view
+   * @param linkDrafts new value.
    */
-  public void setBranch(final String pattern) {
-    branch = pattern;
+  public void setLinkDrafts(boolean linkDrafts) {
+    this.linkDrafts = linkDrafts;
+  }
+
+  /** @return whether to URL encode path segments. */
+  public boolean getUrlEncode() {
+    return urlEncode;
   }
 
   /**
-   * Set the pattern for link-name type.
+   * Set whether to URL encode path segments.
    *
-   * @param name The link-name type
+   * @param urlEncode new value.
    */
-  public void setLinkName(final String name) {
-    this.name = name;
+  public void setUrlEncode(boolean urlEncode) {
+    this.urlEncode = urlEncode;
   }
 
   /**
-   * Set the pattern for project view.
+   * Replace standard path separator with custom configured path separator.
    *
-   * @param pattern The pattern for project view
-   */
-  public void setProject(final String pattern) {
-    project = pattern;
-  }
-
-  /**
-   * Set the pattern for revision view.
-   *
-   * @param pattern The pattern for revision view
-   */
-  public void setRevision(final String pattern) {
-    revision = pattern;
-  }
-
-  /**
-   * Set the pattern for root tree view.
-   *
-   * @param pattern The pattern for root tree view
-   */
-  public void setRootTree(final String pattern) {
-    rootTree = pattern;
-  }
-
-  /**
-   * Set the pattern for file view.
-   *
-   * @param pattern The pattern for file view
-   */
-  public void setFile(final String pattern) {
-    file = pattern;
-  }
-
-  /**
-   * Set the pattern for file history view.
-   *
-   * @param pattern The pattern for file history view
-   */
-  public void setFileHistory(final String pattern) {
-    fileHistory = pattern;
-  }
-
-  /**
-   * Replace the standard path separator ('/') in a branch name or project
-   * name with a custom path separator configured by the property
-   * gitweb.pathSeparator.
-   * @param urlSegment The branch or project to replace the path separator in
-   * @return the urlSegment with the standard path separator replaced by the
-   * custom path separator
+   * @param urlSegment URL segment (e.g. branch or project name) in which to
+   *     replace the path separator.
+   * @return the segment with the standard path separator replaced by the custom
+   *   {@link #getPathSeparator()}.
    */
   public String replacePathSeparator(String urlSegment) {
     if ('/' != pathSeparator) {
       return urlSegment.replace('/', pathSeparator);
     }
     return urlSegment;
-  }
-
-  /**
-   * Set the custom path separator
-   * @param separator The custom path separator
-   */
-  public void setPathSeparator(char separator) {
-    this.pathSeparator = separator;
-  }
-
-  public void setLinkDrafts(boolean linkDrafts) {
-    this.linkDrafts = linkDrafts;
-  }
-
-  public boolean isUrlEncode() {
-    return urlEncode;
-  }
-
-  public void setUrlEncode(boolean urlEncode) {
-    this.urlEncode = urlEncode;
   }
 }

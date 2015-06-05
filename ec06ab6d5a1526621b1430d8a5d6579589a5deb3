@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79e460f7_3bbcb70b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-05T01:35:21Z",
+      "side": 1,
+      "message": "Should the SUBMITTED state then be removed already? It\u0027s used in several places through the code.\n\nAlso please see Issue 3296 which I guess should be fixed by removing the merge queue.",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 69
+      },
+      "revId": "ec06ab6d5a1526621b1430d8a5d6579589a5deb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,6 +26,49 @@ ALIASES = {
 }
 MODULE = 'com.google.gerrit.GerritGwtUI'
 
+def gwt_generate_buildrules(suffix = ""):
+  dbg = 'ui_dbg' + suffix
+  opt = 'ui_opt' + suffix
+  args = GWT_COMPILER_ARGS_RELEASE_MODE if suffix == "_r" else GWT_COMPILER_ARGS
+  genrule(
+    name = 'ui_optdbg' + suffix,
+    cmd = 'cd $TMP;' +
+      'unzip -q $(location :%s);' % dbg +
+      'mv' +
+      ' gerrit_ui/gerrit_ui.nocache.js' +
+      ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
+      'unzip -qo $(location :%s);' % opt +
+      'mkdir -p \$(dirname $OUT);' +
+      'zip -qr $OUT .',
+    out = 'ui_optdbg' + suffix + '.zip',
+    visibility = ['PUBLIC'],
+  )
+
+  gwt_binary(
+    name = opt,
+    modules = [MODULE],
+    module_deps = [':ui_module'],
+    deps = DEPS + ([':' + dbg] if CPU_COUNT < 8 else []),
+    local_workers = CPU_COUNT,
+    strict = True,
+    experimental_args = args,
+    vm_args = GWT_JVM_ARGS,
+  )
+
+  gwt_binary(
+    name = dbg,
+    modules = [MODULE],
+    style = 'PRETTY',
+    optimize = 0,
+    module_deps = [':ui_module'],
+    deps = DEPS,
+    local_workers = CPU_COUNT,
+    strict = True,
+    experimental_args = args,
+    vm_args = GWT_JVM_ARGS,
+    visibility = ['//:eclipse'],
+  )
+
 def gwt_user_agent_permutations(
     name,
     module_name,

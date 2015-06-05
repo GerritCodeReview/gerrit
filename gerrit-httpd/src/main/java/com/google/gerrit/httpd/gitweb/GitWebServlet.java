@@ -105,13 +105,14 @@ class GitWebServlet extends HttpServlet {
       SitePaths site,
       @GerritServerConfig Config cfg,
       SshInfo sshInfo,
-      GitWebConfig gitWebConfig)
+      GitWebConfig gitWebConfig,
+      GitWebCgiConfig gitWebCgiConfig)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
-    this.gitwebCgi = gitWebConfig.getGitwebCGI();
+    this.gitwebCgi = gitWebCgiConfig.getGitwebCgi();
     this.deniedActions = new HashSet<>();
 
     final String url = gitWebConfig.getUrl();

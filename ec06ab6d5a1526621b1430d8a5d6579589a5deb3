@@ -22,6 +22,30 @@
       "revId": "ec06ab6d5a1526621b1430d8a5d6579589a5deb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "399d8870_f1ffc8a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-05T16:40:46Z",
+      "side": 1,
+      "message": "Yes I plan to retire that state as well eventually. I am not sure if I should add it to this patch though.",
+      "parentUuid": "79e460f7_3bbcb70b",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 69
+      },
+      "revId": "ec06ab6d5a1526621b1430d8a5d6579589a5deb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

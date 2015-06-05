@@ -30,7 +30,7 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.config.GitWebConfig;
+import com.google.gerrit.server.config.GitWebCgiConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -43,18 +43,18 @@ import java.net.SocketAddress;
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
   private final boolean wantSSL;
-  private final GitWebConfig gitWebConfig;
+  private final GitWebCgiConfig gitWebCgiConfig;
   private final GerritOptions options;
 
   @Inject
   WebModule(AuthConfig authConfig,
       @CanonicalWebUrl @Nullable String canonicalUrl,
       GerritOptions options,
-      GitWebConfig gitWebConfig) {
+      GitWebCgiConfig gitWebCgiConfig) {
     this.authConfig = authConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.options = options;
-    this.gitWebConfig = gitWebConfig;
+    this.gitWebCgiConfig = gitWebCgiConfig;
   }
 
   @Override
@@ -75,7 +75,7 @@ public class WebModule extends LifecycleModule {
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));
 
-    if (gitWebConfig.getGitwebCGI() != null) {
+    if (gitWebCgiConfig.getGitwebCgi() != null) {
       install(new GitWebModule());
     }
 

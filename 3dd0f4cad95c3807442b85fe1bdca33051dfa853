@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "399d8870_d17004d4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/WalkSorterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-05T22:47:51Z",
+      "side": 1,
+      "message": "Gah. I remember why I really wanted these to be topo sorted. Rebase is basically guaranteed to produce commits with identical commit timestamps.",
+      "revId": "3dd0f4cad95c3807442b85fe1bdca33051dfa853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

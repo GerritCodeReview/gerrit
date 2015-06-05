@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79e460f7_3be3d71a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-05T12:30:14Z",
+      "side": 1,
+      "message": "plugins",
+      "range": {
+        "startLine": 17,
+        "startChar": 39,
+        "endLine": 17,
+        "endChar": 46
+      },
+      "revId": "09365a6a5d784199709481b0adc74d77324e1fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

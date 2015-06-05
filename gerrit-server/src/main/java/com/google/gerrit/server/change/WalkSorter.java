@@ -34,7 +34,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,10 +125,6 @@ class WalkSorter {
 
   private List<PatchSetData> sortProject(Project.NameKey project,
       Collection<ChangeData> in) throws OrmException, IOException {
-    // Use default sort; topo sorting is way too slow, as it slurps all
-    // interesting commits, and we don't mark anything uninteresting. If we
-    // really need to topo sort, we would need to identify the rootmost commits
-    // and mark their parents uninteresting, but that's nontrivial in itself.
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
@@ -137,14 +135,37 @@ class WalkSorter {
         return ImmutableList.of(byCommit.values().iterator().next());
       }
 
+      Collection<RevCommit> commits = byCommit.keySet();
+      List<RevCommit> mergeBases = findMergeBases(rw, commits);
+      rw.reset();
+      rw.setRevFilter(RevFilter.ALL);
+      // Mark parents of all merge bases as uninteresting, to limit the cost of
+      // the topo sort, which slurps all interesting commits before returning
+      // anything.
+      //
+      // There are two cases where this doesn't work and performance will
+      // suffer:
+      // 1. The common ancestor is a root commit; JGit currently does not return
+      //    a root commit as a merge base, even if it is the common ancestor.
+      // 2. There is a merge of two unrelated branches of history; these simply
+      //    have no merge base, so this technique of finding uninteresting
+      //    ancestors doesn't work.
+      //
+      // The performance impact of these cases in practice is hopefully low;
+      // this does handle the common case of a single chain of commits.
+      for (RevCommit mergeBase : mergeBases) {
+        for (RevCommit p : mergeBase.getParents()) {
+          rw.markUninteresting(p);
+        }
+      }
+      rw.sort(RevSort.TOPO);
+
       // Walk from all patch set SHA-1s, and terminate as soon as we've found
       // everything we're looking for. This is equivalent to just sorting the
       // list of commits by the RevWalk's configured order.
-      for (RevCommit c : byCommit.keySet()) {
-        rw.markStart(c);
-      }
 
-      int expected = byCommit.keySet().size();
+      markStart(rw, commits);
+      int expected = commits.size();
       int found = 0;
       RevCommit c;
       List<PatchSetData> result = new ArrayList<>(expected);
@@ -191,6 +212,27 @@ class WalkSorter {
 
   private boolean shouldInclude(PatchSet ps) {
     return includePatchSets.isEmpty() || includePatchSets.contains(ps.getId());
+  }
+
+  private static void markStart(RevWalk rw, Iterable<RevCommit> commits)
+      throws IOException {
+    for (RevCommit c : commits) {
+      rw.markStart(c);
+    }
+  }
+
+  private static List<RevCommit> findMergeBases(RevWalk rw,
+      Iterable<RevCommit> commits) throws IOException {
+    rw.setRevFilter(RevFilter.MERGE_BASE);
+    markStart(rw, commits);
+    List<RevCommit> result = new ArrayList<>();
+    RevCommit c;
+    while ((c = rw.next()) != null) {
+      for (RevCommit p : c.getParents()) {
+        result.add(p);
+      }
+    }
+    return result;
   }
 
   @AutoValue

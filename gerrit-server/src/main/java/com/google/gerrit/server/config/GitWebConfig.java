@@ -15,6 +15,8 @@
 package com.google.gerrit.server.config;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.google.common.base.Strings.nullToEmpty;
 
 import com.google.gerrit.common.data.GitWebType;
 import com.google.gerrit.httpd.gitweb.GitWebCgiConfig;
@@ -32,6 +34,103 @@ public class GitWebConfig {
         || "".equals(cfg.getString("gitweb", null, "cgi"));
   }
 
+  /**
+   * Get a GitWebType based on the given config.
+   *
+   * @param cfg Gerrit config.
+   * @return GitWebType from the given name, else null if not found.
+   */
+  public static GitWebType typeFromConfig(Config cfg) {
+    GitWebType defaultType = defaultType(cfg.getString("gitweb", null, "type"));
+    if (defaultType == null) {
+      return null;
+    }
+    GitWebType type = new GitWebType();
+
+    type.setLinkName(firstNonNull(
+        cfg.getString("gitweb", null, "linkname"),
+        defaultType.getLinkName()));
+    type.setBranch(firstNonNull(
+        cfg.getString("gitweb", null, "branch"),
+        defaultType.getBranch()));
+    type.setProject(firstNonNull(
+        cfg.getString("gitweb", null, "project"),
+        defaultType.getProject()));
+    type.setRevision(firstNonNull(
+        cfg.getString("gitweb", null, "revision"),
+        defaultType.getRevision()));
+    type.setRootTree(firstNonNull(
+        cfg.getString("gitweb", null, "roottree"),
+        defaultType.getRootTree()));
+    type.setFile(firstNonNull(
+        cfg.getString("gitweb", null, "file"),
+        defaultType.getFile()));
+    type.setFileHistory(firstNonNull(
+        cfg.getString("gitweb", null, "filehistory"),
+        defaultType.getFileHistory()));
+    type.setLinkDrafts(
+        cfg.getBoolean("gitweb", null, "linkdrafts",
+            defaultType.getLinkDrafts()));
+    type.setUrlEncode(
+        cfg.getBoolean("gitweb", null, "urlencode",
+            defaultType.isUrlEncode()));
+    String pathSeparator = cfg.getString("gitweb", null, "pathSeparator");
+    if (pathSeparator != null) {
+      if (pathSeparator.length() == 1) {
+        char c = pathSeparator.charAt(0);
+        if (isValidPathSeparator(c)) {
+          type.setPathSeparator(
+              firstNonNull(c, defaultType.getPathSeparator()));
+        } else {
+          log.warn("Invalid gitweb.pathSeparator: " + c);
+        }
+      } else {
+        log.warn(
+            "gitweb.pathSeparator is not a single character: " + pathSeparator);
+      }
+    }
+    return type;
+  }
+
+  private static GitWebType defaultType(String typeName) {
+    GitWebType type = new GitWebType();
+    switch (nullToEmpty(typeName)) {
+      case "":
+      case "gitweb":
+        type.setLinkName("gitweb");
+        type.setProject("?p=${project}.git;a=summary");
+        type.setRevision("?p=${project}.git;a=commit;h=${commit}");
+        type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
+        type.setRootTree("?p=${project}.git;a=tree;hb=${commit}");
+        type.setFile("?p=${project}.git;hb=${commit};f=${file}");
+        type.setFileHistory(
+            "?p=${project}.git;a=history;hb=${branch};f=${file}");
+        break;
+      case "cgit":
+        type.setLinkName("cgit");
+        type.setProject("${project}.git/summary");
+        type.setRevision("${project}.git/commit/?id=${commit}");
+        type.setBranch("${project}.git/log/?h=${branch}");
+        type.setRootTree("${project}.git/tree/?h=${commit}");
+        type.setFile("${project}.git/tree/${file}?h=${commit}");
+        type.setFileHistory("${project}.git/log/${file}?h=${branch}");
+        break;
+      case "custom":
+        // For a custom type with no explicit link name, just reuse "gitweb".
+        type.setLinkName("gitweb");
+        type.setProject("");
+        type.setRevision("");
+        type.setBranch("");
+        type.setRootTree("");
+        type.setFile("");
+        type.setFileHistory("");
+        break;
+      default:
+        return null;
+    }
+    return type;
+  }
+
   private final String url;
   private final GitWebType type;
 
@@ -44,7 +143,7 @@ public class GitWebConfig {
     }
 
     String cfgUrl = cfg.getString("gitweb", null, "url");
-    GitWebType type = GitWebType.fromName(cfg.getString("gitweb", null, "type"));
+    GitWebType type = typeFromConfig(cfg);
     if (type == null) {
       this.type = null;
       url = null;
@@ -56,45 +155,22 @@ public class GitWebConfig {
       url = firstNonNull(cfgUrl, "gitweb");
     }
 
-    type.setLinkName(cfg.getString("gitweb", null, "linkname"));
-    type.setBranch(cfg.getString("gitweb", null, "branch"));
-    type.setProject(cfg.getString("gitweb", null, "project"));
-    type.setRevision(cfg.getString("gitweb", null, "revision"));
-    type.setRootTree(cfg.getString("gitweb", null, "roottree"));
-    type.setFile(cfg.getString("gitweb", null, "file"));
-    type.setFileHistory(cfg.getString("gitweb", null, "filehistory"));
-    type.setLinkDrafts(cfg.getBoolean("gitweb", null, "linkdrafts", true));
-    type.setUrlEncode(cfg.getBoolean("gitweb", null, "urlencode", true));
-    String pathSeparator = cfg.getString("gitweb", null, "pathSeparator");
-    if (pathSeparator != null) {
-      if (pathSeparator.length() == 1) {
-        char c = pathSeparator.charAt(0);
-        if (isValidPathSeparator(c)) {
-          type.setPathSeparator(c);
-        } else {
-          log.warn("Invalid value specified for gitweb.pathSeparator: " + c);
-        }
-      } else {
-        log.warn("Value specified for gitweb.pathSeparator is not a single character:" + pathSeparator);
-      }
-    }
-
-    if (type.getBranch() == null) {
+    if (isNullOrEmpty(type.getBranch())) {
       log.warn("No Pattern specified for gitweb.branch, disabling.");
       this.type = null;
-    } else if (type.getProject() == null) {
+    } else if (isNullOrEmpty(type.getProject())) {
       log.warn("No Pattern specified for gitweb.project, disabling.");
       this.type = null;
-    } else if (type.getRevision() == null) {
+    } else if (isNullOrEmpty(type.getRevision())) {
       log.warn("No Pattern specified for gitweb.revision, disabling.");
       this.type = null;
-    } else if (type.getRootTree() == null) {
+    } else if (isNullOrEmpty(type.getRootTree())) {
       log.warn("No Pattern specified for gitweb.roottree, disabling.");
       this.type = null;
-    } else if (type.getFile() == null) {
+    } else if (isNullOrEmpty(type.getFile())) {
       log.warn("No Pattern specified for gitweb.file, disabling.");
       this.type = null;
-    } else if (type.getFileHistory() == null) {
+    } else if (isNullOrEmpty(type.getFileHistory())) {
       log.warn("No Pattern specified for gitweb.filehistory, disabling.");
       this.type = null;
     } else {

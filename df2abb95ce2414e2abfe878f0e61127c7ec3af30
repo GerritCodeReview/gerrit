@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a444b9_30bce80b",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-05T06:59:05Z",
+      "side": 1,
+      "message": "Note to reviewers: Arguably, this duplication (and the one below) could also be avoided and moved to  gwt_generate_buildrules() for normal and release modes. I decided against this, to make it more implicit and easier to understand.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 1
+      },
+      "revId": "df2abb95ce2414e2abfe878f0e61127c7ec3af30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "3dd0f4cad95c3807442b85fe1bdca33051dfa853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a444b9_505dec49",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/WalkSorterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-05T22:52:27Z",
+      "side": 1,
+      "message": "Hahah. So we need to do a fast walk to find the base then a slower topo sort using that uninteresting commit?",
+      "parentUuid": "399d8870_d17004d4",
+      "revId": "3dd0f4cad95c3807442b85fe1bdca33051dfa853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

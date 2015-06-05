@@ -1780,8 +1780,9 @@ public class ReceiveCommits {
     }
     addMessage("");
     try {
-      integrationProvider.get().create(ChangeSet.create(changes)).merge();
-    } catch (MergeException | NoSuchChangeException e) {
+      integrationProvider.get().create(ChangeSet.create(changes,
+          (IdentifiedUser) changeCtl.getCurrentUser())).integrate(false);
+    } catch (NoSuchChangeException e) {
       throw new OrmException(e);
     }
     for (Change c : changes) {

@@ -47,13 +47,4 @@ public class KillTaskIT extends AbstractDaemonTest {
     r.consume();
     assertThat(result).hasSize(taskCount - 1);
   }
-
-  @Test
-  public void killTask_NotFound() throws Exception {
-    RestResponse r = adminSession.get("/config/server/tasks/");
-    List<TaskInfo> result = newGson().fromJson(r.getReader(),
-        new TypeToken<List<TaskInfo>>() {}.getType());
-    r.consume();
-    assertThat(result.size()).isEqualTo(0);
-  }
 }

@@ -19,13 +19,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.IdentifiedUser;
 
 /**
  * A ChangeSet is a set of changes grouped together to be submitted atomically.
  */
 @AutoValue
 public abstract class ChangeSet {
-  public static ChangeSet create(Iterable<Change> changes) {
+  public static ChangeSet create(Iterable<Change> changes, IdentifiedUser caller) {
     ImmutableSet.Builder<Project.NameKey> rb = ImmutableSet.builder();
     ImmutableSet.Builder<Branch.NameKey> bb = ImmutableSet.builder();
     ImmutableSet.Builder<Change.Id> ib = ImmutableSet.builder();
@@ -34,22 +35,23 @@ public abstract class ChangeSet {
       bb.add(c.getDest());
       ib.add(c.getId());
     }
-    return new AutoValue_ChangeSet(rb.build(), bb.build(), ib.build());
+    return new AutoValue_ChangeSet(rb.build(), bb.build(), ib.build(), caller);
   }
 
-  public static ChangeSet create(Change change) {
+  public static ChangeSet create(Change change, IdentifiedUser caller) {
     ImmutableSet.Builder<Project.NameKey> rb = ImmutableSet.builder();
     ImmutableSet.Builder<Branch.NameKey> bb = ImmutableSet.builder();
     ImmutableSet.Builder<Change.Id> ib = ImmutableSet.builder();
     rb.add(change.getDest().getParentKey());
     bb.add(change.getDest());
     ib.add(change.getId());
-    return new AutoValue_ChangeSet(rb.build(), bb.build(), ib.build());
+    return new AutoValue_ChangeSet(rb.build(), bb.build(), ib.build(), caller);
   }
 
   public abstract ImmutableSet<Project.NameKey> repos();
   public abstract ImmutableSet<Branch.NameKey> branches();
   public abstract ImmutableSet<Change.Id> ids();
+  public abstract IdentifiedUser user();
 
   @Override
   public int hashCode() {

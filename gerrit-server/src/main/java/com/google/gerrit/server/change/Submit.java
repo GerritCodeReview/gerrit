@@ -56,7 +56,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
-import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -213,13 +212,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    ChangeSet submittedChanges = ChangeSet.create(submit(rsrc, caller, false));
+    ChangeSet submittedChanges = ChangeSet.create(submit(rsrc, caller, false),
+        caller);
 
     try {
       MergeOp m = integrationProvider.get().create(submittedChanges);
-
-      m.merge();
-    } catch (MergeException | NoSuchChangeException e) {
+      m.integrate(true);
+    } catch (NoSuchChangeException e) {
       throw new OrmException(e);
     }
     change = dbProvider.get().changes().get(change.getId());
@@ -396,7 +395,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  private Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
+  public Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
     ReviewDb db = dbProvider.get();

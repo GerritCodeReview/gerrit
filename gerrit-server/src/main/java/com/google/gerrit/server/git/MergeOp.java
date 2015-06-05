@@ -14,19 +14,23 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -38,7 +42,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -47,6 +50,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -87,6 +93,7 @@ import com.google.inject.servlet.RequestScoped;
 import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -106,10 +113,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -137,10 +144,6 @@ public class MergeOp {
 
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
-  /** Amount of time to wait between submit and checking for missing deps. */
-  private static final long DEPENDENCY_DELAY =
-      MILLISECONDS.convert(15, MINUTES);
-
   private static final long MAX_SUBMIT_WINDOW =
       MILLISECONDS.convert(12, HOURS);
 
@@ -163,6 +166,7 @@ public class MergeOp {
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final Submit submit;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
@@ -209,6 +213,7 @@ public class MergeOp {
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
       SchemaFactory<ReviewDb> schemaFactory,
+      Submit submit,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
@@ -233,6 +238,7 @@ public class MergeOp {
     this.projectCache = projectCache;
     this.queryProvider = queryProvider;
     this.schemaFactory = schemaFactory;
+    this.submit = submit;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
@@ -308,13 +314,215 @@ public class MergeOp {
     }
   }
 
-  public void merge()
-      throws MergeException, NoSuchChangeException, IOException, OrmException,
-      ResourceConflictException {
+  /**
+   *
+   * @return a ChangeSet including all the parents which are not yet merged.
+   * @throws IOException
+   * @throws IncorrectObjectTypeException
+   * @throws MissingObjectException
+   * @throws OrmException
+   * @throws MergeException
+   * @throws NoSuchProjectException
+   */
+  ChangeSet getCompleteListOfChanges(ChangeSet cs) throws
+      MissingObjectException, IncorrectObjectTypeException, IOException,
+      OrmException, MergeException, NoSuchProjectException {
+
+    List<Change> ret = Lists.newArrayList();
+    for (Change.Id cId : cs.ids()) {
+
+      ChangeData cd = changeDataFactory.create(db, cId);
+      openRepository(cd);
+      ret.add(cd.change());
+
+      // get the
+      PatchSet ps = db.patchSets().get(cd.change().currentPatchSetId());
+      ObjectId objId = ObjectId.fromString(ps.getRevision().get());
+      RevCommit c = rw.parseCommit(objId);
+
+      // start a ref walk with
+      RevWalk w = CodeReviewCommit.newRevWalk(repo);
+      w.sort(RevSort.TOPO);
+      w.sort(RevSort.COMMIT_TIME_DESC, true);
+      w.markStart(c);
+
+      // mark tip of target branch
+      Ref ref = repo.getRefDatabase().getRef(cd.change().getDest().get());
+      if (ref == null) {
+        continue; // A new empty branch doesn't need include additional changes
+      }
+      objId = ref.getObjectId();
+      RevCommit head = rw.parseCommit(objId);
+      w.markUninteresting(head);
+
+      while ((c = rw.next()) != null) {
+        List<String> chids = c.getFooterLines(FooterConstants.CHANGE_ID);
+        if (chids.size() != 1)
+          throw new MergeException("Invalid object " + c.getId()
+              + " has problems with its ChangeId footer");
+
+        Change.Id pid = Change.Id.parse(chids.get(0));
+        Change change = changeDataFactory.create(db, pid).change();
+        ret.add(change);
+      }
+    }
+
+    return ChangeSet.create(ret, cs.user());
+  }
+
+  private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
+    return Iterables.tryFind(in, new Predicate<SubmitRecord>() {
+      @Override
+      public boolean apply(SubmitRecord input) {
+        return input.status == OK;
+      }
+    });
+  }
+
+  private List<SubmitRecord> checkSubmitRule(ChangeData cd)
+          throws ResourceConflictException, OrmException {
+    PatchSet patchSet = cd.currentPatchSet();
+    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
+        .setPatchSet(patchSet)
+        .evaluate();
+    Optional<SubmitRecord> ok = findOkRecord(results);
+    if (ok.isPresent()) {
+      // Rules supplied a valid solution.
+      return ImmutableList.of(ok.get());
+    } else if (results.isEmpty()) {
+      throw new IllegalStateException(String.format(
+          "SubmitRuleEvaluator.evaluate returned empty list for %s in %s",
+          patchSet.getId(),
+          cd.change().getProject().get()));
+    }
+
+    for (SubmitRecord record : results) {
+      switch (record.status) {
+        case CLOSED:
+          throw new ResourceConflictException("change is closed");
+
+        case RULE_ERROR:
+          throw new ResourceConflictException(String.format(
+              "rule error: %s",
+              record.errorMessage));
+
+        case NOT_READY:
+          StringBuilder msg = new StringBuilder();
+          for (SubmitRecord.Label lbl : record.labels) {
+            switch (lbl.status) {
+              case OK:
+              case MAY:
+                continue;
+
+              case REJECT:
+                if (msg.length() > 0) {
+                  msg.append("; ");
+                }
+                msg.append("blocked by ").append(lbl.label);
+                continue;
+
+              case NEED:
+                if (msg.length() > 0) {
+                  msg.append("; ");
+                }
+                msg.append("needs ").append(lbl.label);
+                continue;
+
+              case IMPOSSIBLE:
+                if (msg.length() > 0) {
+                  msg.append("; ");
+                }
+                msg.append("needs ").append(lbl.label)
+                   .append(" (check project access)");
+                continue;
+
+              default:
+                throw new IllegalStateException(String.format(
+                    "Unsupported SubmitRecord.Label %s for %s in %s",
+                    lbl.toString(),
+                    patchSet.getId(),
+                    cd.change().getProject().get()));
+            }
+          }
+          throw new ResourceConflictException(msg.toString());
+
+        default:
+          throw new IllegalStateException(String.format(
+              "Unsupported SubmitRecord %s for %s in %s",
+              record,
+              patchSet.getId().getId(),
+              cd.change().getProject().get()));
+      }
+    }
+    throw new IllegalStateException();
+  }
+
+  static String status(Change change) {
+    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
+  }
+
+  void checkPermissions(ChangeSet cs)
+      throws ResourceConflictException, OrmException {
+    for (Change.Id id : cs.ids()) {
+        ChangeData cd = changeDataFactory.create(db, id);
+        checkSubmitRule(cd);
+    }
+  }
+
+  // For historic reasons we will first go into the submitted state
+  // TODO(sbeller): remove this when we get rid of Change.Status.SUBMITTED
+  void submit(ChangeSet cs)
+      throws OrmException, ResourceConflictException, IOException {
+    IdentifiedUser caller = cs.user();
+    for (Change.Id id : cs.ids()) {
+      ChangeData cd = changeDataFactory.create(db, id);
+      switch (cd.change().getStatus()) {
+        case ABANDONED:
+          throw new ResourceConflictException("Change " + cd.getId() +
+              " was abandoned while processing this change set");
+        case DRAFT:
+          throw new ResourceConflictException("Cannot submit draft " + cd.getId());
+        case NEW:
+          RevisionResource rsrc =
+              new RevisionResource(new ChangeResource(cd.changeControl(), null),
+              cd.currentPatchSet());
+          submit.submitThisChange(rsrc, caller, false);
+          break;
+        case MERGED:
+          // we're racing here, but having it already merged is fine.
+        case SUBMITTED:
+          // ok
+      }
+    }
+  }
+
+  public void integrate(boolean checkPermissions) throws NoSuchChangeException,
+      OrmException, ResourceConflictException {
+    ChangeSet cs;
+    openSchema();
+    try {
+      cs = getCompleteListOfChanges(changes);
+      try {
+        if (checkPermissions) {
+          checkPermissions(cs);
+        }
+        submit(cs);
+        merge(cs);
+      } catch (MergeException e) {
+        throw new ResourceConflictException("Merge Conflict", e);
+      }
+    } catch (IOException | MergeException | NoSuchProjectException e) {
+      // Anything before the merge attempt is an error
+      throw new OrmException(e);
+    }
+  }
+
+  public void merge(ChangeSet cs)
+      throws MergeException, NoSuchChangeException, OrmException {
     logDebug("Beginning merge attempt on {}", changes);
     openSchema();
     try {
-      for (Change.Id cId : changes.ids()) {
+      for (Change.Id cId : cs.ids()) {
         ChangeData cd = changeDataFactory.create(db, cId);
         setDestProject(cd.change().getDest());
 
@@ -327,8 +535,6 @@ public class MergeOp {
             validateChangeList(queryProvider.get().submitted(cd.change().getDest()));
         ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
             ArrayListMultimap.create();
-        List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
-            new ArrayList<>();
         while (!toMerge.isEmpty()) {
           logDebug("Beginning merge iteration with {} left to merge",
               toMerge.size());
@@ -349,29 +555,6 @@ public class MergeOp {
             if (update != null) {
               fireRefUpdated(cd, update);
             }
-
-            for (Iterator<CodeReviewCommit> it =
-                potentiallyStillSubmittable.iterator(); it.hasNext();) {
-              CodeReviewCommit commit = it.next();
-              if (containsMissingCommits(toMerge, commit)
-                  || containsMissingCommits(toMergeNextTurn, commit)) {
-                // change has missing dependencies, but all commits which are
-                // missing are still attempted to be merged with another submit
-                // strategy, retry to merge this commit in the next turn
-                logDebug("Revision {} of patch set {} has missing dependencies"
-                    + " with different submit types, reconsidering on next run",
-                    commit.name(), commit.getPatchsetId());
-                it.remove();
-                commit.setStatusCode(null);
-                commit.missing = null;
-                toMergeNextTurn.put(submitType, commit);
-              }
-            }
-            logDebug("Adding {} changes potentially submittable on next run",
-                potentiallyStillSubmittable.size());
-            potentiallyStillSubmittableOnNextRun.addAll(
-                potentiallyStillSubmittable);
-            potentiallyStillSubmittable.clear();
           }
           toMerge.clear();
           toMerge.putAll(toMergeNextTurn);
@@ -379,14 +562,6 @@ public class MergeOp {
         }
 
         updateChangeStatus(toUpdate, mergeTip);
-
-        for (CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
-          Capable capable = isSubmitStillPossible(commit);
-          if (capable != Capable.OK) {
-            sendMergeFail(commit.notes(),
-                message(commit.change(), capable.getMessage()), false);
-          }
-        }
       }
     } catch (NoSuchProjectException noProject) {
       abandonAllOpenChanges(noProject.getProject());
@@ -408,63 +583,6 @@ public class MergeOp {
         db.close();
       }
     }
-  }
-
-  private boolean containsMissingCommits(
-      ListMultimap<SubmitType, CodeReviewCommit> map, CodeReviewCommit commit) {
-    if (!isSubmitForMissingCommitsStillPossible(commit)) {
-      return false;
-    }
-
-    for (CodeReviewCommit missingCommit : commit.missing) {
-      if (!map.containsValue(missingCommit)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private boolean isSubmitForMissingCommitsStillPossible(
-      CodeReviewCommit commit) {
-    PatchSet.Id psId = commit.getPatchsetId();
-    if (commit.missing == null || commit.missing.isEmpty()) {
-      logDebug("Patch set {} is not submittable: no list of missing commits",
-          psId);
-      return false;
-    }
-
-    for (CodeReviewCommit missingCommit : commit.missing) {
-      try {
-        loadChangeInfo(missingCommit);
-      } catch (NoSuchChangeException | OrmException e) {
-        logError("Cannot check if missing commits can be submitted", e);
-        return false;
-      }
-
-      if (missingCommit.getPatchsetId() == null) {
-        // The commit doesn't have a patch set, so it cannot be
-        // submitted to the branch.
-        //
-        logDebug("Patch set {} is not submittable: dependency {} has no"
-            + " associated patch set", psId, missingCommit.name());
-        return false;
-      }
-
-      if (!missingCommit.change().currentPatchSetId().equals(
-          missingCommit.getPatchsetId())) {
-        PatchSet.Id missingId = missingCommit.getPatchsetId();
-        // If the missing commit is not the current patch set,
-        // the change must be rebased to use the proper parent.
-        //
-        logDebug("Patch set {} is not submittable: depends on patch set {} of"
-            + " change {}, but current patch set is {}", psId, missingId,
-            missingId.getParentKey(),
-            missingCommit.change().currentPatchSetId());
-        return false;
-      }
-    }
-
-    return true;
   }
 
   private MergeTip preMerge(SubmitStrategy strategy,
@@ -726,11 +844,7 @@ public class MergeOp {
       RefUpdate branchUpdate) throws MergeException, OrmException {
     CodeReviewCommit currentTip =
         mergeTip != null ? mergeTip.getCurrentTip() : null;
-    if (Objects.equals(branchTip, currentTip)) {
-      logDebug("Branch already at merge tip {}, no update to perform",
-          currentTip.name());
-      return null;
-    } else if (currentTip == null) {
+    if (currentTip == null) {
       logDebug("No merge tip, no update to perform");
       return null;
     }
@@ -911,95 +1025,6 @@ public class MergeOp {
       } catch (SubmoduleException e) {
         logError(
             "The gitLinks were not updated according to the subscriptions" , e);
-      }
-    }
-  }
-
-  private Capable isSubmitStillPossible(CodeReviewCommit commit)
-      throws ResourceConflictException {
-    Capable capable;
-    Change c = commit.change();
-    boolean submitStillPossible =
-        isSubmitForMissingCommitsStillPossible(commit);
-    long now = TimeUtil.nowMs();
-    long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
-    if (submitStillPossible && now < waitUntil) {
-      long recheckIn = waitUntil - now;
-      logDebug("Submit for {} is still possible; rechecking in {}ms",
-          c.getId(), recheckIn);
-      // If we waited a short while we might still be able to get
-      // this change submitted. Reschedule an attempt in a bit.
-      //
-      throw new ResourceConflictException("Cannot integrate " + c);
-    } else if (submitStillPossible) {
-      // It would be possible to submit the change if the missing
-      // dependencies are also submitted. Perhaps the user just
-      // forgot to submit those.
-      //
-      logDebug("Submit for {} is still possible after missing dependencies",
-          c.getId());
-      StringBuilder m = new StringBuilder();
-      m.append("Change could not be merged because of a missing dependency.");
-      m.append("\n");
-
-      m.append("\n");
-
-      m.append("The following changes must also be submitted:\n");
-      m.append("\n");
-      for (CodeReviewCommit missingCommit : commit.missing) {
-        m.append("* ");
-        m.append(missingCommit.change().getKey().get());
-        m.append("\n");
-      }
-      capable = new Capable(m.toString());
-    } else {
-      // It is impossible to submit this change as-is. The author
-      // needs to rebase it in order to work around the missing
-      // dependencies.
-      //
-      logDebug("Submit for {} is not possible", c.getId());
-      StringBuilder m = new StringBuilder();
-      m.append("Change cannot be merged due to unsatisfiable dependencies.\n");
-      m.append("\n");
-      m.append("The following dependency errors were found:\n");
-      m.append("\n");
-      for (CodeReviewCommit missingCommit : commit.missing) {
-        PatchSet.Id missingPsId = missingCommit.getPatchsetId();
-        if (missingPsId != null) {
-          m.append("* Depends on patch set ");
-          m.append(missingPsId.get());
-          m.append(" of ");
-          m.append(missingCommit.change().getKey().abbreviate());
-          PatchSet.Id currPsId = missingCommit.change().currentPatchSetId();
-          if (!missingPsId.equals(currPsId)) {
-            m.append(", however the current patch set is ");
-            m.append(currPsId.get());
-          }
-          m.append(".\n");
-
-        } else {
-          m.append("* Depends on commit ");
-          m.append(missingCommit.name());
-          m.append(" which has no change associated with it.\n");
-        }
-      }
-      m.append("\n");
-      m.append("Please rebase the change and upload a replacement commit.");
-      capable = new Capable(m.toString());
-    }
-
-    return capable;
-  }
-
-  private void loadChangeInfo(CodeReviewCommit commit)
-      throws NoSuchChangeException, OrmException {
-    if (commit.getControl() == null) {
-      List<PatchSet> matches =
-          db.patchSets().byRevision(new RevId(commit.name())).toList();
-      if (matches.size() == 1) {
-        PatchSet.Id psId = matches.get(0).getId();
-        commit.setPatchsetId(psId);
-        commit.setControl(changeControl(db.changes().get(psId.getParentKey())));
       }
     }
   }
@@ -1332,7 +1357,7 @@ public class MergeOp {
     NoSuchChangeException,  IOException {
     db.changes().beginTransaction(change.getId());
 
-    //TODO(dborowitz): support InternalUser in ChangeUpdate
+    // TODO(dborowitz): support InternalUser in ChangeUpdate
     ChangeControl control = changeControlFactory.controlFor(change,
         identifiedUserFactory.create(change.getOwner()));
     ChangeUpdate update = updateFactory.create(control);

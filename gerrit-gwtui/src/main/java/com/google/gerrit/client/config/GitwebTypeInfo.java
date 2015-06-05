@@ -16,7 +16,7 @@ package com.google.gerrit.client.config;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class GitWebTypeInfo extends JavaScriptObject {
+public class GitwebTypeInfo extends JavaScriptObject {
   /**
    * Replace the standard path separator ('/') in a branch name or project
    * name with a custom path separator configured by the property
@@ -43,6 +43,6 @@ public class GitWebTypeInfo extends JavaScriptObject {
   public final native boolean linkDrafts() /*-{ return this.link_drafts || false; }-*/;
   public final native boolean urlEncode() /*-{ return this.url_encode || false; }-*/;
 
-  protected GitWebTypeInfo() {
+  protected GitwebTypeInfo() {
   }
 }

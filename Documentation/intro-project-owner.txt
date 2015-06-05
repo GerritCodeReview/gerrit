@@ -63,7 +63,7 @@ always see how the access rights were changed and by whom. If a good
 commit message is provided you can also see from the history why the
 access rights were modified.
 
-If a Git browser such as GitWeb is configured for the Gerrit server you
+If a Git browser such as gitweb is configured for the Gerrit server you
 can find a link to the history of the `project.config` file in the
 Web UI. Otherwise you may inspect the history locally. If you have
 cloned the repository you can do this by executing the following

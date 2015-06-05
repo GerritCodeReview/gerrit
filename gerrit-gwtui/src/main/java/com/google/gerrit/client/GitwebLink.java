@@ -15,7 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
-import com.google.gerrit.common.data.GitWebType;
+import com.google.gerrit.common.data.GitwebType;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -29,9 +29,9 @@ import java.util.Map;
 public class GitwebLink {
   protected String baseUrl;
 
-  protected GitWebType type;
+  protected GitwebType type;
 
-  public GitwebLink(com.google.gerrit.common.data.GitwebConfig link) {
+  public GitwebLink(com.google.gerrit.common.data.GitwebLinkConfig link) {
     baseUrl = link.baseUrl;
     type = link.type;
   }

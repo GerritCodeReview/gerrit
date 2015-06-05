@@ -32,7 +32,7 @@ public class GerritConfig implements Cloneable {
   protected String reportBugText;
   protected boolean httpPasswordSettingsEnabled = true;
 
-  protected GitwebConfig gitweb;
+  protected GitwebLinkConfig gitweb;
   protected AuthType authType;
   protected String gitDaemonUrl;
   protected String gitHttpUrl;
@@ -133,11 +133,11 @@ public class GerritConfig implements Cloneable {
     authType = t;
   }
 
-  public GitwebConfig getGitwebLink() {
+  public GitwebLinkConfig getGitwebLink() {
     return gitweb;
   }
 
-  public void setGitwebLink(final GitwebConfig w) {
+  public void setGitwebLink(final GitwebLinkConfig w) {
     gitweb = w;
   }
 

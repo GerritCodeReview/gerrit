@@ -20,7 +20,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.common.data.GitwebConfig;
+import com.google.gerrit.common.data.GitwebLinkConfig;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
@@ -45,7 +45,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Config cfg;
   private final AuthConfig authConfig;
   private final GetArchive.AllowedFormats archiveFormats;
-  private final GitWebConfig gitWebConfig;
+  private final GitwebConfig gitwebConfig;
   private final SshInfo sshInfo;
 
   private final ServletContext servletContext;
@@ -55,7 +55,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   GerritConfigProvider(Realm r,
       @GerritServerConfig Config gsc,
       AuthConfig ac,
-      GitWebConfig gwc,
+      GitwebConfig gwc,
       SshInfo si,
       ServletContext sc,
       GetArchive.AllowedFormats af,
@@ -64,7 +64,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     cfg = gsc;
     authConfig = ac;
     archiveFormats = af;
-    gitWebConfig = gwc;
+    gitwebConfig = gwc;
     sshInfo = si;
     servletContext = sc;
     anonymousCowardName = acn;
@@ -136,9 +136,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
     config.setEditableAccountFields(realm.getEditableFields());
 
-    if (gitWebConfig.getUrl() != null) {
-      config.setGitwebLink(new GitwebConfig(gitWebConfig.getUrl(), gitWebConfig
-          .getGitWebType()));
+    if (gitwebConfig.getUrl() != null) {
+      config.setGitwebLink(
+          new GitwebLinkConfig(
+              gitwebConfig.getUrl(), gitwebConfig.getGitwebType()));
     }
 
     if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {

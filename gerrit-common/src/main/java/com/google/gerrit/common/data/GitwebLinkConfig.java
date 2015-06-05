@@ -15,15 +15,15 @@
 package com.google.gerrit.common.data;
 
 /** Link to an external gitweb server. */
-public class GitwebConfig {
+public class GitwebLinkConfig {
   public String baseUrl;
-  public GitWebType type;
+  public GitwebType type;
 
-  protected GitwebConfig() {
+  protected GitwebLinkConfig() {
   }
 
-  public GitwebConfig(final String base, final GitWebType gitWebType) {
+  public GitwebLinkConfig(String base, GitwebType gitwebType) {
     baseUrl = base;
-    type = gitWebType;
+    type = gitwebType;
   }
 }

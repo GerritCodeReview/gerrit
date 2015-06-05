@@ -43,7 +43,7 @@ import com.google.gerrit.client.ui.ProjectLinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.common.data.GitwebConfig;
+import com.google.gerrit.common.data.GitwebLinkConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.GerritTopMenu;
@@ -295,7 +295,7 @@ public class Gerrit implements EntryPoint {
   }
 
   public static GitwebLink getGitwebLink() {
-    GitwebConfig gw = getConfig().getGitwebLink();
+    GitwebLinkConfig gw = getConfig().getGitwebLink();
     return gw != null && gw.type != null ? new GitwebLink(gw) : null;
   }
 

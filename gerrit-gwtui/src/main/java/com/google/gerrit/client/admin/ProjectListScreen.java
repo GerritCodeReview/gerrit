@@ -185,16 +185,16 @@ public class ProjectListScreen extends Screen {
       }
 
       private void addWebLinks(int row, ProjectInfo k) {
-        GitwebLink gitWebLink = Gerrit.getGitwebLink();
+        GitwebLink gitwebLink = Gerrit.getGitwebLink();
         List<WebLinkInfo> webLinks = Natives.asList(k.webLinks());
-        if (gitWebLink != null || (webLinks != null && !webLinks.isEmpty())) {
+        if (gitwebLink != null || (webLinks != null && !webLinks.isEmpty())) {
           FlowPanel p = new FlowPanel();
           table.setWidget(row, ProjectsTable.C_REPO_BROWSER, p);
 
-          if (gitWebLink != null) {
+          if (gitwebLink != null) {
             Anchor a = new Anchor();
-            a.setText(gitWebLink.getLinkName());
-            a.setHref(gitWebLink.toProject(k.name_key()));
+            a.setText(gitwebLink.getLinkName());
+            a.setHref(gitwebLink.toProject(k.name_key()));
             p.add(a);
           }
           if (webLinks != null) {

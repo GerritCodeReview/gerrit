@@ -18,8 +18,8 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Strings.nullToEmpty;
 
-import com.google.gerrit.common.data.GitWebType;
-import com.google.gerrit.httpd.gitweb.GitWebCgiConfig;
+import com.google.gerrit.common.data.GitwebType;
+import com.google.gerrit.httpd.gitweb.GitwebCgiConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 
@@ -27,8 +27,8 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GitWebConfig {
-  private static final Logger log = LoggerFactory.getLogger(GitWebConfig.class);
+public class GitwebConfig {
+  private static final Logger log = LoggerFactory.getLogger(GitwebConfig.class);
 
   public static boolean isDisabled(Config cfg) {
     return "".equals(cfg.getString("gitweb", null, "url"))
@@ -36,17 +36,17 @@ public class GitWebConfig {
   }
 
   /**
-   * Get a GitWebType based on the given config.
+   * Get a GitwebType based on the given config.
    *
    * @param cfg Gerrit config.
-   * @return GitWebType from the given name, else null if not found.
+   * @return GitwebType from the given name, else null if not found.
    */
-  public static GitWebType typeFromConfig(Config cfg) {
-    GitWebType defaultType = defaultType(cfg.getString("gitweb", null, "type"));
+  public static GitwebType typeFromConfig(Config cfg) {
+    GitwebType defaultType = defaultType(cfg.getString("gitweb", null, "type"));
     if (defaultType == null) {
       return null;
     }
-    GitWebType type = new GitWebType();
+    GitwebType type = new GitwebType();
 
     type.setLinkName(firstNonNull(
         cfg.getString("gitweb", null, "linkname"),
@@ -93,8 +93,8 @@ public class GitWebConfig {
     return type;
   }
 
-  private static GitWebType defaultType(String typeName) {
-    GitWebType type = new GitWebType();
+  private static GitwebType defaultType(String typeName) {
+    GitwebType type = new GitwebType();
     switch (nullToEmpty(typeName)) {
       case "":
       case "gitweb":
@@ -133,10 +133,10 @@ public class GitWebConfig {
   }
 
   private final String url;
-  private final GitWebType type;
+  private final GitwebType type;
 
   @Inject
-  GitWebConfig(GitWebCgiConfig cgiConfig, @GerritServerConfig Config cfg) {
+  GitwebConfig(GitwebCgiConfig cgiConfig, @GerritServerConfig Config cfg) {
     if (isDisabled(cfg)) {
       type = null;
       url = null;
@@ -144,7 +144,7 @@ public class GitWebConfig {
     }
 
     String cfgUrl = cfg.getString("gitweb", null, "url");
-    GitWebType type = typeFromConfig(cfg);
+    GitwebType type = typeFromConfig(cfg);
     if (type == null) {
       this.type = null;
       url = null;
@@ -179,8 +179,8 @@ public class GitWebConfig {
     }
   }
 
-  /** @return GitWebType for gitweb viewer. */
-  public GitWebType getGitWebType() {
+  /** @return GitwebType for gitweb viewer. */
+  public GitwebType getGitwebType() {
     return type;
   }
 

@@ -94,6 +94,39 @@ public class WalkSorterTest {
   @Test
   public void seriesOfChangesAtSameTimestamp() throws Exception {
     TestRepository<Repo> p = newRepo("p");
+    RevCommit c0 = p.commit().tick(0).create();
+    RevCommit c1 = p.commit().tick(0).parent(c0).create();
+    RevCommit c2 = p.commit().tick(0).parent(c1).create();
+    RevCommit c3 = p.commit().tick(0).parent(c2).create();
+    RevCommit c4 = p.commit().tick(0).parent(c3).create();
+
+    RevWalk rw = p.getRevWalk();
+    rw.parseCommit(c1);
+    assertThat(rw.parseCommit(c2).getCommitTime())
+        .isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c3).getCommitTime())
+        .isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c4).getCommitTime())
+        .isEqualTo(c1.getCommitTime());
+
+    ChangeData cd1 = newChange(p, c1);
+    ChangeData cd2 = newChange(p, c2);
+    ChangeData cd3 = newChange(p, c3);
+    ChangeData cd4 = newChange(p, c4);
+
+    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
+    WalkSorter sorter = new WalkSorter(repoManager);
+
+    assertSorted(sorter, changes, ImmutableList.of(
+        patchSetData(cd4, c4),
+        patchSetData(cd3, c3),
+        patchSetData(cd2, c2),
+        patchSetData(cd1, c1)));
+  }
+
+  @Test
+  public void seriesOfChangesAtSameTimestampWithRootCommit() throws Exception {
+    TestRepository<Repo> p = newRepo("p");
     RevCommit c1 = p.commit().tick(0).create();
     RevCommit c2 = p.commit().tick(0).parent(c1).create();
     RevCommit c3 = p.commit().tick(0).parent(c2).create();

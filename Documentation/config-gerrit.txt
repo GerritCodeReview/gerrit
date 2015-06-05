@@ -2737,7 +2737,7 @@ be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
 If set to 0, automatic plugin reloading is disabled.  Administrators
-may force reloading with link:cmd-plugin.html[gerrit plugin reload].
+may force reloading with link:cmd-plugin-reload.html[gerrit plugin reload].
 +
 Default is 1 minute.
 

@@ -1189,7 +1189,7 @@ whenever updates are made to the change.
 [[unstar-change]]
 === Unstar Change
 --
-'DELETE /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes#change-id[\{change-id\}]'
+'DELETE /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
 --
 
 Unstar a change. Removes the starred flag, stopping notifications.

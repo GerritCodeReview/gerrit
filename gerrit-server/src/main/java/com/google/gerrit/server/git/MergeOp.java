@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -43,8 +42,12 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
@@ -65,13 +68,22 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
+import com.google.inject.Provides;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.servlet.RequestScoped;
+
+import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -91,7 +103,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -99,6 +113,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -125,9 +140,6 @@ public class MergeOp {
   private static final long DEPENDENCY_DELAY =
       MILLISECONDS.convert(15, MINUTES);
 
-  private static final long LOCK_FAILURE_RETRY_DELAY =
-      MILLISECONDS.convert(15, SECONDS);
-
   private static final long MAX_SUBMIT_WINDOW =
       MILLISECONDS.convert(12, HOURS);
 
@@ -145,12 +157,10 @@ public class MergeOp {
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
-  private final MergeQueue mergeQueue;
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final RequestScopePropagator requestScopePropagator;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
@@ -163,6 +173,7 @@ public class MergeOp {
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private final List<Change> toUpdate;
+  private final PerThreadRequestScope.Scoper threadScoper;
 
   private ProjectState destProject;
   private ReviewDb db;
@@ -174,6 +185,7 @@ public class MergeOp {
   private ObjectInserter inserter;
   private PersonIdent refLogIdent;
 
+
   @Inject
   MergeOp(AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
@@ -181,6 +193,7 @@ public class MergeOp {
       ChangeData.Factory changeDataFactory,
       ChangeHooks hooks,
       ChangeIndexer indexer,
+      Injector injector,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
       ChangeUpdate.Factory updateFactory,
@@ -189,12 +202,10 @@ public class MergeOp {
       IdentifiedUser.GenericFactory identifiedUserFactory,
       MergedSender.Factory mergedSenderFactory,
       MergeFailSender.Factory mergeFailSenderFactory,
-      MergeQueue mergeQueue,
       MergeValidators.Factory mergeValidatorsFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
-      RequestScopePropagator requestScopePropagator,
       SchemaFactory<ReviewDb> schemaFactory,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
@@ -215,12 +226,10 @@ public class MergeOp {
     this.identifiedUserFactory = identifiedUserFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.mergeFailSenderFactory = mergeFailSenderFactory;
-    this.mergeQueue = mergeQueue;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.projectCache = projectCache;
     this.queryProvider = queryProvider;
-    this.requestScopePropagator = requestScopePropagator;
     this.schemaFactory = schemaFactory;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
@@ -233,6 +242,55 @@ public class MergeOp {
     potentiallyStillSubmittable = new ArrayList<>();
     commits = new HashMap<>();
     toUpdate = Lists.newArrayList();
+
+    Injector child = injector.createChildInjector(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
+        bind(RequestScopePropagator.class)
+            .to(PerThreadRequestScope.Propagator.class);
+        bind(PerThreadRequestScope.Propagator.class);
+        install(new GerritRequestModule());
+
+        bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
+            new Provider<SocketAddress>() {
+              @Override
+              public SocketAddress get() {
+                throw new OutOfScopeException("No remote peer on merge thread");
+              }
+            });
+        bind(SshInfo.class).toInstance(new SshInfo() {
+          @Override
+          public List<HostKey> getHostKeys() {
+            return Collections.emptyList();
+          }
+        });
+      }
+
+      @Provides
+      public PerThreadRequestScope.Scoper provideScoper(
+          final PerThreadRequestScope.Propagator propagator,
+          final Provider<RequestScopedReviewDbProvider> dbProvider) {
+        final RequestContext requestContext = new RequestContext() {
+          @Override
+          public CurrentUser getCurrentUser() {
+            throw new OutOfScopeException("No user on merge thread");
+          }
+
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return dbProvider.get();
+          }
+        };
+        return new PerThreadRequestScope.Scoper() {
+          @Override
+          public <T> Callable<T> scope(Callable<T> callable) {
+            return propagator.scope(requestContext, callable);
+          }
+        };
+      }
+    });
+    threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
   }
 
   private void setDestProject() throws MergeException {
@@ -712,17 +770,7 @@ public class MergeOp {
           return branchUpdate;
 
         case LOCK_FAILURE:
-          String msg;
-          if (strategy.retryOnLockFailure()) {
-            mergeQueue.recheckAfter(destBranch, LOCK_FAILURE_RETRY_DELAY,
-                MILLISECONDS);
-            msg = "will retry";
-          } else {
-            msg = "will not retry";
-          }
-          // TODO(dborowitz): Implement RefUpdate.toString().
-          throw new IOException(branchUpdate.getResult().name() + ", " + msg
-              + '\n' + branchUpdate);
+          throw new MergeException("Could not get the locks on the filesystem");
         default:
           throw new IOException(branchUpdate.getResult().name()
               + '\n' + branchUpdate);
@@ -857,7 +905,8 @@ public class MergeOp {
     }
   }
 
-  private Capable isSubmitStillPossible(CodeReviewCommit commit) {
+  private Capable isSubmitStillPossible(CodeReviewCommit commit)
+      throws MergeException {
     Capable capable;
     Change c = commit.change();
     boolean submitStillPossible =
@@ -868,11 +917,7 @@ public class MergeOp {
       long recheckIn = waitUntil - now;
       logDebug("Submit for {} is still possible; rechecking in {}ms",
           c.getId(), recheckIn);
-      // If we waited a short while we might still be able to get
-      // this change submitted. Reschedule an attempt in a bit.
-      //
-      mergeQueue.recheckAfter(destBranch, recheckIn, MILLISECONDS);
-      capable = Capable.OK;
+      throw new MergeException("Cannot integrate " + c);
     } else if (submitStillPossible) {
       // It would be possible to submit the change if the missing
       // dependencies are also submitted. Perhaps the user just
@@ -963,7 +1008,7 @@ public class MergeOp {
       throws OrmException, IOException {
     logDebug("Setting change {} merged", c.getId());
     ChangeUpdate update = null;
-    PatchSetApproval submitter;
+    final PatchSetApproval submitter;
     PatchSet merged;
     try {
       db.changes().beginTransaction(c.getId());
@@ -990,7 +1035,21 @@ public class MergeOp {
       db.rollback();
     }
     update.commit();
-    sendMergedEmail(c, submitter);
+    final Change change = c;
+    try {
+      threadScoper.scope(new Callable<Void>(){
+        @Override
+        public Void call() throws Exception {
+          sendMergedEmail(change, submitter);
+          return null;
+        }
+      }).call();
+    } catch (Exception e) {
+      // sendMergedEmail doesn't throw any exception, so we'd have problems with
+      // the soping here.
+      logError("Errors in thread scoping for sending email");
+    }
+
     indexer.index(db, c);
     if (submitter != null && mergeResultRev != null) {
       try {
@@ -1027,7 +1086,7 @@ public class MergeOp {
 
   private void sendMergedEmail(final Change c, final PatchSetApproval from) {
     workQueue.getDefaultQueue()
-        .submit(requestScopePropagator.wrap(new Runnable() {
+        .submit(new Runnable() {
       @Override
       public void run() {
         PatchSet patchSet;
@@ -1059,7 +1118,7 @@ public class MergeOp {
       public String toString() {
         return "send-email merged";
       }
-    }));
+    });
   }
 
   private ChangeControl changeControl(Change c) throws NoSuchChangeException {
@@ -1189,7 +1248,7 @@ public class MergeOp {
     indexer.index(db, change);
     final PatchSetApproval from = submitter;
     workQueue.getDefaultQueue()
-        .submit(requestScopePropagator.wrap(new Runnable() {
+        .submit(new Runnable() {
       @Override
       public void run() {
         PatchSet patchSet;
@@ -1222,7 +1281,7 @@ public class MergeOp {
       public String toString() {
         return "send-email merge-failed";
       }
-    }));
+    });
 
     if (submitter != null) {
       try {

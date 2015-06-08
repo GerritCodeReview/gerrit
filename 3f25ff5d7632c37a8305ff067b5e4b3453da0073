@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99b594fa_1c17d576",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/KillTaskIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "Bad rebase?",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_fc52e93b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "You should really never need to inject a provider of a factory. Just the factory should be fine.",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b0e009_db57332a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "Is MergeException what is thrown in the case of a content merge conflicts? If so, wouldn\u0027t this need to 409?",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_dc572d2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "Is it necessary to introduce this abstraction in this change? I would think it\u0027s cleaner to keep the same one-branch-at-a-time behavior of MergeOp, and add support for merging sets of changes later.",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b0e009_7b67ff1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "This is a substantial regression in the usefulness of these logs. I would just make this field mutable and set it when you open a particular branch. You\u0027ll need to double-check that logDebug is only ever called from the one thread.",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b0e009_bb5c674f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "Wrap the OrmException in MergeException like we already do for IOException in this method?",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b0e009_9b61ab09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "This is a behavior change in the sense that we already swallow exceptions in the subOp.update() step below, rather than letting them propagate. I have no love for the submodule op code, but that decision seems to have been made.\n\nThat said, you could also avoid having to handle OrmException in all these new cases by passing in the Change rather than the ChangeData.",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_bc5c614f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "I know you prefer \"integrate\" to \"merge\", but that is a cleanup that should be done all at once. Introducing this brand new terminology here is off topic; stick with \"merge\" for now and clean it up later. That way we can also separate the inevitable bikeshed discussion from the actual code changes.",
+      "range": {
+        "startLine": 933,
+        "startChar": 50,
+        "endLine": 933,
+        "endChar": 59
+      },
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_9c61a509",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1783,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "This is absurd. Drop the Provider. Change the factory to take Iterable\u003cChange\u003e and call ChangeSet.create from the assisted constructor. Then you have the much more sane:\n\n integrationFactory.create(changes).merge();",
+      "range": {
+        "startLine": 1783,
+        "startChar": 26,
+        "endLine": 1783,
+        "endChar": 66
+      },
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_7c67f91a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/NoSuchProjectException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:04:40Z",
+      "side": 1,
+      "message": "final",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

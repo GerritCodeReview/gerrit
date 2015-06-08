@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "39e908fb_b1aa408c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-08T19:26:13Z",
+      "side": 1,
+      "message": "Replaced with ApprovalsUtil.byPatchSetUser().\n\nDone",
+      "parentUuid": "c169c0a3_b95bff4a",
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_d950b329",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
         "patchSetId": 6
@@ -242,6 +260,30 @@
       "writtenOn": "2014-12-24T21:45:01Z",
       "side": 1,
       "message": "You mean we need to include patch set number in the output as well?",
+      "parentUuid": "a15e8cfb_b8c0595f",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 60
+      },
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e6bc29_724e188d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Votes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-08T19:26:13Z",
+      "side": 1,
+      "message": "Done. Also exended the unit test to reflect the fact, that only votes for the current patch set are returned.",
       "parentUuid": "a15e8cfb_b8c0595f",
       "range": {
         "startLine": 78,

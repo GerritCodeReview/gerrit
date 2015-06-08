@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "39e908fb_3171b0d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-06-08T14:52:05Z",
+      "side": 1,
+      "message": "is this the functionality that causes the boldening of unreviewed changes on the dashboard?\n\nif so, then i disagree that these are the correct semantics. specifically, it is counterproductive that comments from other reviewers are not considered.\n\ni can\u0027t think of a way to do it properly other than saving a timestamp of when the user viewed the change the last time, and comparing it with the timestamp of the last activity by any other user (a git push is not immediately followed by a view by the same user, so the user\u0027s own activity needs to be excluded).",
+      "parentUuid": "39ebc864_01cb6a94",
+      "revId": "882da35fbf57bee9f195ef5c92c73985254a5707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6d79b3_d390944f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2

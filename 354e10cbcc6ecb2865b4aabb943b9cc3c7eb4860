@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79b0e009_3b7177d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:12:29Z",
+      "side": 1,
+      "message": ".",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b0e009_1b6ebbf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:12:29Z",
+      "side": 1,
+      "message": "I\u0027m leery of storing this in an @AutoValue, since IdentifiedUser is definitely not a deeply immutable object. I haven\u0027t seen how it\u0027s used yet so I don\u0027t have a better suggestion of what to use.",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_3c7171d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:12:29Z",
+      "side": 1,
+      "message": "Change-Id lines are 41-character strings. Change.Ids are numbers. This is not going to work.",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_fc39c905",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:12:29Z",
+      "side": 1,
+      "message": "This seems wasteful, you already created a ChangeData in getCompleteListOfChanges above, then immediately discarded it.",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_1c6eb5f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:12:29Z",
+      "side": 1,
+      "message": "It feels really weird that MergeOp is calling back into Submit to get this done. But I guess I can live with it if the plan is to delete it soon.",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_dc3e0dec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T21:12:29Z",
+      "side": 1,
+      "message": "Ok now I\u0027m just confused. I thought you were proposing \"integerate\" as a new term for \"merge\" (which, as I said in the previous change, I disagree with doing at this point). But now \"integrate\" and \"merge\" are two separate public methods on this class. What\u0027s the difference?",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

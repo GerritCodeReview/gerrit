@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e6bc29_126eacf4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-06-08T15:59:45Z",
+      "side": 1,
+      "message": "sec, min, and hr don\u0027t seem particularly useful in this context ...",
+      "revId": "204402d06fd5360811e79f88f2e23d1fdb794e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

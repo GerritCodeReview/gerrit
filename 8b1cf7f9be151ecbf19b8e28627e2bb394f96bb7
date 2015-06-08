@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e6bc29_f239e805",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-06-08T16:43:03Z",
+      "side": 1,
+      "message": "that sentence is easy to misparse at first try. i\u0027d suggest splitting it:\n\"... lost. this is done by ...\"",
+      "revId": "8b1cf7f9be151ecbf19b8e28627e2bb394f96bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

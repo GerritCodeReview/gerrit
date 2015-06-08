@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -26,7 +25,6 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -37,7 +35,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -108,7 +105,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -136,9 +132,6 @@ public class MergeOp {
 
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
-  /** Amount of time to wait between submit and checking for missing deps. */
-  private static final long DEPENDENCY_DELAY =
-      MILLISECONDS.convert(15, MINUTES);
 
   private static final long MAX_SUBMIT_WINDOW =
       MILLISECONDS.convert(12, HOURS);
@@ -306,7 +299,7 @@ public class MergeOp {
   }
 
   public void merge()
-      throws MergeException, NoSuchChangeException, IOException {
+      throws MergeException, NoSuchChangeException {
     logDebug("Beginning merge attempt on {}", destBranch);
     setDestProject();
     try {
@@ -320,8 +313,6 @@ public class MergeOp {
           validateChangeList(queryProvider.get().submitted(destBranch));
       ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
           ArrayListMultimap.create();
-      List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
-          new ArrayList<>();
       while (!toMerge.isEmpty()) {
         logDebug("Beginning merge iteration with {} left to merge",
             toMerge.size());
@@ -342,29 +333,6 @@ public class MergeOp {
           if (update != null) {
             fireRefUpdated(update);
           }
-
-          for (Iterator<CodeReviewCommit> it =
-              potentiallyStillSubmittable.iterator(); it.hasNext();) {
-            CodeReviewCommit commit = it.next();
-            if (containsMissingCommits(toMerge, commit)
-                || containsMissingCommits(toMergeNextTurn, commit)) {
-              // change has missing dependencies, but all commits which are
-              // missing are still attempted to be merged with another submit
-              // strategy, retry to merge this commit in the next turn
-              logDebug("Revision {} of patch set {} has missing dependencies"
-                  + " with different submit types, reconsidering on next run",
-                  commit.name(), commit.getPatchsetId());
-              it.remove();
-              commit.setStatusCode(null);
-              commit.missing = null;
-              toMergeNextTurn.put(submitType, commit);
-            }
-          }
-          logDebug("Adding {} changes potentially submittable on next run",
-              potentiallyStillSubmittable.size());
-          potentiallyStillSubmittableOnNextRun.addAll(
-              potentiallyStillSubmittable);
-          potentiallyStillSubmittable.clear();
         }
         toMerge.clear();
         toMerge.putAll(toMergeNextTurn);
@@ -372,14 +340,6 @@ public class MergeOp {
       }
 
       updateChangeStatus(toUpdate, mergeTip);
-
-      for (CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
-        Capable capable = isSubmitStillPossible(commit);
-        if (capable != Capable.OK) {
-          sendMergeFail(commit.notes(),
-              message(commit.change(), capable.getMessage()), false);
-        }
-      }
     } catch (NoSuchProjectException noProject) {
       logWarn("Project " + destBranch.getParentKey() + " no longer exists,"
           + " abandoning open changes");
@@ -400,63 +360,6 @@ public class MergeOp {
         db.close();
       }
     }
-  }
-
-  private boolean containsMissingCommits(
-      ListMultimap<SubmitType, CodeReviewCommit> map, CodeReviewCommit commit) {
-    if (!isSubmitForMissingCommitsStillPossible(commit)) {
-      return false;
-    }
-
-    for (CodeReviewCommit missingCommit : commit.missing) {
-      if (!map.containsValue(missingCommit)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private boolean isSubmitForMissingCommitsStillPossible(
-      CodeReviewCommit commit) {
-    PatchSet.Id psId = commit.getPatchsetId();
-    if (commit.missing == null || commit.missing.isEmpty()) {
-      logDebug("Patch set {} is not submittable: no list of missing commits",
-          psId);
-      return false;
-    }
-
-    for (CodeReviewCommit missingCommit : commit.missing) {
-      try {
-        loadChangeInfo(missingCommit);
-      } catch (NoSuchChangeException | OrmException e) {
-        logError("Cannot check if missing commits can be submitted", e);
-        return false;
-      }
-
-      if (missingCommit.getPatchsetId() == null) {
-        // The commit doesn't have a patch set, so it cannot be
-        // submitted to the branch.
-        //
-        logDebug("Patch set {} is not submittable: dependency {} has no"
-            + " associated patch set", psId, missingCommit.name());
-        return false;
-      }
-
-      if (!missingCommit.change().currentPatchSetId().equals(
-          missingCommit.getPatchsetId())) {
-        PatchSet.Id missingId = missingCommit.getPatchsetId();
-        // If the missing commit is not the current patch set,
-        // the change must be rebased to use the proper parent.
-        //
-        logDebug("Patch set {} is not submittable: depends on patch set {} of"
-            + " change {}, but current patch set is {}", psId, missingId,
-            missingId.getParentKey(),
-            missingCommit.change().currentPatchSetId());
-        return false;
-      }
-    }
-
-    return true;
   }
 
   private MergeTip preMerge(SubmitStrategy strategy,
@@ -898,92 +801,6 @@ public class MergeOp {
       } catch (SubmoduleException e) {
         logError(
             "The gitLinks were not updated according to the subscriptions" , e);
-      }
-    }
-  }
-
-  private Capable isSubmitStillPossible(CodeReviewCommit commit)
-      throws MergeException {
-    Capable capable;
-    Change c = commit.change();
-    boolean submitStillPossible =
-        isSubmitForMissingCommitsStillPossible(commit);
-    long now = TimeUtil.nowMs();
-    long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
-    if (submitStillPossible && now < waitUntil) {
-      long recheckIn = waitUntil - now;
-      logDebug("Submit for {} is still possible; rechecking in {}ms",
-          c.getId(), recheckIn);
-      throw new MergeException("Cannot integrate " + c);
-    } else if (submitStillPossible) {
-      // It would be possible to submit the change if the missing
-      // dependencies are also submitted. Perhaps the user just
-      // forgot to submit those.
-      //
-      logDebug("Submit for {} is still possible after missing dependencies",
-          c.getId());
-      StringBuilder m = new StringBuilder();
-      m.append("Change could not be merged because of a missing dependency.");
-      m.append("\n");
-
-      m.append("\n");
-
-      m.append("The following changes must also be submitted:\n");
-      m.append("\n");
-      for (CodeReviewCommit missingCommit : commit.missing) {
-        m.append("* ");
-        m.append(missingCommit.change().getKey().get());
-        m.append("\n");
-      }
-      capable = new Capable(m.toString());
-    } else {
-      // It is impossible to submit this change as-is. The author
-      // needs to rebase it in order to work around the missing
-      // dependencies.
-      //
-      logDebug("Submit for {} is not possible", c.getId());
-      StringBuilder m = new StringBuilder();
-      m.append("Change cannot be merged due to unsatisfiable dependencies.\n");
-      m.append("\n");
-      m.append("The following dependency errors were found:\n");
-      m.append("\n");
-      for (CodeReviewCommit missingCommit : commit.missing) {
-        PatchSet.Id missingPsId = missingCommit.getPatchsetId();
-        if (missingPsId != null) {
-          m.append("* Depends on patch set ");
-          m.append(missingPsId.get());
-          m.append(" of ");
-          m.append(missingCommit.change().getKey().abbreviate());
-          PatchSet.Id currPsId = missingCommit.change().currentPatchSetId();
-          if (!missingPsId.equals(currPsId)) {
-            m.append(", however the current patch set is ");
-            m.append(currPsId.get());
-          }
-          m.append(".\n");
-
-        } else {
-          m.append("* Depends on commit ");
-          m.append(missingCommit.name());
-          m.append(" which has no change associated with it.\n");
-        }
-      }
-      m.append("\n");
-      m.append("Please rebase the change and upload a replacement commit.");
-      capable = new Capable(m.toString());
-    }
-
-    return capable;
-  }
-
-  private void loadChangeInfo(CodeReviewCommit commit)
-      throws NoSuchChangeException, OrmException {
-    if (commit.getControl() == null) {
-      List<PatchSet> matches =
-          db.patchSets().byRevision(new RevId(commit.name())).toList();
-      if (matches.size() == 1) {
-        PatchSet.Id psId = matches.get(0).getId();
-        commit.setPatchsetId(psId);
-        commit.setControl(changeControl(db.changes().get(psId.getParentKey())));
       }
     }
   }

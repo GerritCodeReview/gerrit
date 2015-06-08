@@ -35,7 +35,6 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
-import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.contact.ContactStoreModule;
@@ -316,7 +315,6 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
     });
     modules.add(SshKeyCacheImpl.module());
-    modules.add(new MasterNodeStartup());
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

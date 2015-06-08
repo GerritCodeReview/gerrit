@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79b0e009_fb2b0fba",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T14:45:48Z",
+      "side": 1,
+      "message": "Consistency with l. 66.",
+      "parentUuid": "79b0e009_7bf25fe6",
+      "range": {
+        "startLine": 70,
+        "startChar": 55,
+        "endLine": 70,
+        "endChar": 56
+      },
+      "revId": "98f6fe49961734719d2202d7c95db31d7865a52a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_bcd7c131",
         "filename": "Documentation/config-gitweb.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-08T05:18:29Z",
       "side": 1,
       "message": "you\u0027re leaving this in the old spelling?",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 13
+      },
+      "revId": "98f6fe49961734719d2202d7c95db31d7865a52a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b0e009_bb2587e5",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T14:45:48Z",
+      "side": 1,
+      "message": "Yes, no reason to break old links.",
+      "parentUuid": "99b594fa_bcd7c131",
       "range": {
         "startLine": 72,
         "startChar": 2,

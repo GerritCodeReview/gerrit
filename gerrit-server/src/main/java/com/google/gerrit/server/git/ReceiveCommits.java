@@ -329,7 +329,7 @@ public class ReceiveCommits {
 
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<Submit> submitProvider;
-  private final MergeQueue mergeQueue;
+  private final MergeOp.Factory mergeFactory;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
@@ -379,7 +379,7 @@ public class ReceiveCommits {
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
-      final MergeQueue mergeQueue,
+      final MergeOp.Factory mergeFactory,
       final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
@@ -426,7 +426,7 @@ public class ReceiveCommits {
 
     this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
-    this.mergeQueue = mergeQueue;
+    this.mergeFactory = mergeFactory;
     this.pluginConfigEntries = pluginConfigEntries;
     this.notesMigration = notesMigration;
 
@@ -1763,7 +1763,7 @@ public class ReceiveCommits {
   }
 
   private void submit(ChangeControl changeCtl, PatchSet ps)
-      throws OrmException, IOException {
+      throws OrmException, IOException{
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     List<Change> changes;
@@ -1775,7 +1775,11 @@ public class ReceiveCommits {
     }
     addMessage("");
     for (Change c : changes) {
-      mergeQueue.merge(c.getDest());
+      try {
+        mergeFactory.create(c.getDest()).merge();
+      } catch (MergeException | NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:

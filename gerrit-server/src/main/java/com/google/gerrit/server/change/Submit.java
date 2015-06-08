@@ -55,11 +55,13 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
-import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -126,7 +128,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final MergeQueue mergeQueue;
+  private final MergeOp.Factory mergeOpFactory;
   private final ChangeIndexer indexer;
   private final LabelNormalizer labelNormalizer;
   private final AccountsCollection accounts;
@@ -147,7 +149,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      MergeQueue mergeQueue,
+      MergeOp.Factory mergeOpFactory,
       AccountsCollection accounts,
       ChangesCollection changes,
       ChangeIndexer indexer,
@@ -162,7 +164,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.mergeQueue = mergeQueue;
+    this.mergeOpFactory = mergeOpFactory;
     this.accounts = accounts;
     this.changes = changes;
     this.indexer = indexer;
@@ -212,17 +214,21 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     List<Change> submittedChanges = submit(rsrc, caller, false);
 
-    if (input.waitForMerge) {
-      for (Change c : submittedChanges) {
-        // TODO(sbeller): We should make schedule return a Future, then we
-        // could do these all in parallel and still block until they're done.
-        mergeQueue.merge(c.getDest());
+    try {
+      if (input.waitForMerge) {
+        for (Change c : submittedChanges) {
+          // TODO(sbeller): We should make schedule return a Future, then we
+          // could do these all in parallel and still block until they're done.
+          mergeOpFactory.create(c.getDest()).merge();
+        }
+        change = dbProvider.get().changes().get(change.getId());
+      } else {
+        for (Change c : submittedChanges) {
+          mergeOpFactory.create(c.getDest()).merge();
+        }
       }
-      change = dbProvider.get().changes().get(change.getId());
-    } else {
-      for (Change c : submittedChanges) {
-        mergeQueue.schedule(c.getDest());
-      }
+    } catch (MergeException | NoSuchChangeException e) {
+      throw new OrmException("Submission failed", e);
     }
 
     if (change == null) {

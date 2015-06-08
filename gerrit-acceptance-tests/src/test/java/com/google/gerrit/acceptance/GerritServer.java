@@ -24,7 +24,6 @@ import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
-import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
@@ -207,7 +206,6 @@ public class GerritServer {
       protected void configure() {
         bind(AccountCreator.class);
         factory(PushOneCommit.Factory.class);
-        factory(SubmoduleOp.Factory.class);
         install(InProcessProtocol.module());
         install(new NoSshModule());
         install(new AsyncReceiveCommits.Module());

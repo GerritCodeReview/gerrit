@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99b594fa_bcaa218c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/KillTaskIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "No. :(\n\nThis is actually a failing test with\n\n    FAILURE killTask_NotFound: Not true that \u003c0\u003e is greater than \u003c0\u003e\n    java.lang.AssertionError: Not true that \u003c0\u003e is greater than \u003c0\u003e\n\nthis is because there is no tasks in the background. The MergeQueue as started by Daemon/MasterNodeStartup is no more sitting in the background.\n\nI was punting a bit on how this test should look like instead, so I asserted 0 instead.",
+      "parentUuid": "99b594fa_1c17d576",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_fc52e93b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "79b0e009_bb334722",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79b0e009_db57332a",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_dc572d2a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 5
@@ -82,6 +118,24 @@
       "writtenOn": "2015-06-08T21:04:40Z",
       "side": 1,
       "message": "Is it necessary to introduce this abstraction in this change? I would think it\u0027s cleaner to keep the same one-branch-at-a-time behavior of MergeOp, and add support for merging sets of changes later.",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_1c459562",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99b594fa_dc572d2a",
       "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "99b594fa_3c48517c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79b0e009_7b67ff1a",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79b0e009_bb5c674f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5
@@ -116,6 +188,24 @@
       "writtenOn": "2015-06-08T21:04:40Z",
       "side": 1,
       "message": "Wrap the OrmException in MergeException like we already do for IOException in this method?",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_fca0a9af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "All these Exceptions are unneeded because I\u0027ll drop the ChangeSet thing from this cl. I\u0027ll keep it in mind when adding the ChangeSet again.",
+      "parentUuid": "79b0e009_bb5c674f",
       "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "79b0e009_9b388bff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "As above this is dropped completely for now.",
+      "parentUuid": "79b0e009_9b61ab09",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_bc5c614f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5
@@ -150,6 +258,30 @@
       "writtenOn": "2015-06-08T21:04:40Z",
       "side": 1,
       "message": "I know you prefer \"integrate\" to \"merge\", but that is a cleanup that should be done all at once. Introducing this brand new terminology here is off topic; stick with \"merge\" for now and clean it up later. That way we can also separate the inevitable bikeshed discussion from the actual code changes.",
+      "range": {
+        "startLine": 933,
+        "startChar": 50,
+        "endLine": 933,
+        "endChar": 59
+      },
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_dca5edbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "Ok I\u0027ll drop it for now and bikeshed later. This is not just my opinion, but iirc some other people at GitMerge agreed on this as well. \n\nAs per the discussion of https://gerrit-review.googlesource.com/#/c/67162/ I believe \"integrating\" is a better term than \"merging\" specially for the cherry pick strategy.",
+      "parentUuid": "99b594fa_bc5c614f",
       "range": {
         "startLine": 933,
         "startChar": 50,
@@ -185,6 +317,30 @@
     },
     {
       "key": {
+        "uuid": "99b594fa_7c4ed98c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1783,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99b594fa_9c61a509",
+      "range": {
+        "startLine": 1783,
+        "startChar": 26,
+        "endLine": 1783,
+        "endChar": 66
+      },
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_7c67f91a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/NoSuchProjectException.java",
         "patchSetId": 5
@@ -196,6 +352,24 @@
       "writtenOn": "2015-06-08T21:04:40Z",
       "side": 1,
       "message": "final",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_5c4b1d7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/NoSuchProjectException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-08T22:21:54Z",
+      "side": 1,
+      "message": "I am dropping this part for now, as the projects name is already included in the message string.\n\nI cannot make this final, as then the assignment doesn\u0027t work in the constructor (the call to super prevents assigning final variables afterwards and super must be the first statement in the constructor)",
+      "parentUuid": "99b594fa_7c67f91a",
       "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

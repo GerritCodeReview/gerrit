@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
@@ -41,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.List;
 
@@ -60,6 +62,7 @@ public class EmailArguments {
   final ChangeNotes.Factory changeNotesFactory;
   final AnonymousUser anonymousUser;
   final String anonymousCowardName;
+  final PersonIdent gerritPersonIdent;
   final Provider<String> urlProvider;
   final AllProjectsName allProjectsName;
   final List<String> sshAddresses;
@@ -84,6 +87,7 @@ public class EmailArguments {
       ChangeNotes.Factory changeNotesFactory,
       AnonymousUser anonymousUser,
       @AnonymousCowardName String anonymousCowardName,
+      GerritPersonIdentProvider gerritPersonIdentProvider,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
@@ -108,6 +112,7 @@ public class EmailArguments {
     this.changeNotesFactory = changeNotesFactory;
     this.anonymousUser = anonymousUser;
     this.anonymousCowardName = anonymousCowardName;
+    this.gerritPersonIdent = gerritPersonIdentProvider.get();
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;

@@ -254,7 +254,7 @@ public abstract class OutgoingEmail {
   /** Lookup a human readable name for an account, usually the "full name". */
   protected String getNameFor(final Account.Id accountId) {
     if (accountId == null) {
-      return args.anonymousCowardName;
+      return args.gerritPersonIdent.getName();
     }
 
     final Account userAccount = args.accountCache.get(accountId).getAccount();

@@ -429,6 +429,19 @@ Documentation]
 link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[ref-protection]]
+=== ref-protection
+
+A plugin that protects against commits being lost.
+
+Backups of deleted or non-fast-forward updated refs are created under the
+`refs/backups/` namespace.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/ref-protection[
+Project] |
+link:https://gerrit.googlesource.com/plugins/ref-protection/+/refs/heads/stable-2.11/src/main/resources/Documentation/about.md[
+Documentation]
+
 [[reviewers]]
 === reviewers
 

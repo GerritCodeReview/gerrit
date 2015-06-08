@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from multiprocessing import cpu_count
 
 BROWSERS = [
   'chrome',
@@ -25,6 +26,63 @@ ALIASES = {
   'msie': 'ie9',
 }
 MODULE = 'com.google.gerrit.GerritGwtUI'
+CPU_COUNT = cpu_count()
+
+def gwt_genrule(module, deps, suffix = ""):
+  dbg = 'ui_dbg' + suffix
+  opt = 'ui_opt' + suffix
+  soyc = 'ui_soyc' + suffix
+  args = GWT_COMPILER_ARGS_RELEASE_MODE if suffix == "_r" else GWT_COMPILER_ARGS
+
+  genrule(
+    name = 'ui_optdbg' + suffix,
+    cmd = 'cd $TMP;' +
+      'unzip -q $(location :%s);' % dbg +
+      'mv' +
+      ' gerrit_ui/gerrit_ui.nocache.js' +
+      ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
+      'unzip -qo $(location :%s);' % opt +
+      'mkdir -p \$(dirname $OUT);' +
+      'zip -qr $OUT .',
+    out = 'ui_optdbg' + suffix + '.zip',
+    visibility = ['PUBLIC'],
+  )
+
+  gwt_binary(
+    name = opt,
+    modules = [module],
+    module_deps = [':ui_module'],
+    deps = deps + ([':' + dbg] if CPU_COUNT < 8 else []),
+    local_workers = CPU_COUNT,
+    strict = True,
+    experimental_args = args,
+    vm_args = GWT_JVM_ARGS,
+  )
+
+  gwt_binary(
+    name = dbg,
+    modules = [module],
+    style = 'PRETTY',
+    optimize = 0,
+    module_deps = [':ui_module'],
+    deps = deps,
+    local_workers = CPU_COUNT,
+    strict = True,
+    experimental_args = args,
+    vm_args = GWT_JVM_ARGS,
+    visibility = ['//:eclipse'],
+  )
+
+  gwt_binary(
+    name = soyc,
+    modules = [module],
+    module_deps = [':ui_module'],
+    deps = deps + [':' + dbg],
+    local_workers = CPU_COUNT,
+    strict = True,
+    experimental_args = args + ['-compileReport'],
+    vm_args = GWT_JVM_ARGS,
+   )
 
 def gwt_user_agent_permutations(
     name,
@@ -37,7 +95,6 @@ def gwt_user_agent_permutations(
     deps = [],
     browsers = BROWSERS,
     visibility = []):
-  from multiprocessing import cpu_count
   for ua in browsers:
     impl = ua
     if ua in ALIASES:
@@ -74,7 +131,7 @@ def gwt_user_agent_permutations(
       draft_compile = draft_compile,
       module_deps = module_deps + [':%s_gwtxml_lib' % gwt_name],
       deps = deps,
-      local_workers = cpu_count(),
+      local_workers = CPU_COUNT,
       strict = True,
       experimental_args = GWT_COMPILER_ARGS,
       vm_args = GWT_JVM_ARGS,

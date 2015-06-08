@@ -1,66 +1,13 @@
 include_defs('//gerrit-gwtui/gwt.defs')
 include_defs('//tools/gwt-constants.defs')
-from multiprocessing import cpu_count
 
-CPU_COUNT = cpu_count()
 DEPS = GWT_COMMON_DEPS + [
   '//gerrit-gwtexpui:CSS',
   '//lib:gwtjsonrpc',
 ]
 
-genrule(
-  name = 'ui_optdbg',
-  cmd = 'cd $TMP;' +
-    'unzip -q $(location :ui_dbg);' +
-    'mv' +
-    ' gerrit_ui/gerrit_ui.nocache.js' +
-    ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
-    'unzip -qo $(location :ui_opt);' +
-    'mkdir -p \$(dirname $OUT);' +
-    'zip -qr $OUT .',
-  deps = [
-    ':ui_dbg',
-    ':ui_opt',
-  ],
-  out = 'ui_optdbg.zip',
-  visibility = ['PUBLIC'],
-)
-
-gwt_binary(
-  name = 'ui_opt',
-  modules = [MODULE],
-  module_deps = [':ui_module'],
-  deps = DEPS + ([':ui_dbg'] if CPU_COUNT < 8 else []),
-  local_workers = CPU_COUNT,
-  strict = True,
-  experimental_args = GWT_COMPILER_ARGS,
-  vm_args = GWT_JVM_ARGS,
-)
-
-gwt_binary(
-  name = 'ui_soyc',
-  modules = [MODULE],
-  module_deps = [':ui_module'],
-  deps = DEPS + [':ui_dbg'],
-  local_workers = CPU_COUNT,
-  strict = True,
-  experimental_args = GWT_COMPILER_ARGS + ['-compileReport'],
-  vm_args = GWT_JVM_ARGS,
-)
-
-gwt_binary(
-  name = 'ui_dbg',
-  modules = [MODULE],
-  style = 'PRETTY',
-  optimize = 0,
-  module_deps = [':ui_module'],
-  deps = DEPS,
-  local_workers = CPU_COUNT,
-  strict = True,
-  experimental_args = GWT_COMPILER_ARGS,
-  vm_args = GWT_JVM_ARGS,
-  visibility = ['//:eclipse'],
-)
+gwt_genrule(MODULE, DEPS)
+gwt_genrule(MODULE, DEPS, '_r')
 
 gwt_user_agent_permutations(
   name = 'ui',

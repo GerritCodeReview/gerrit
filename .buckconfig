@@ -13,6 +13,7 @@
   release = //:release
   safari = //:safari
   soyc = //gerrit-gwtui:ui_soyc
+  soyc_r = //gerrit-gwtui:ui_soyc_r
   withdocs = //:withdocs
 
 [buildfile]

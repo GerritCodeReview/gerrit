@@ -22,6 +22,30 @@
       "revId": "c482542ff2a84cba7d30d54447ae526d8fd94938",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b0e009_9b2acbb3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitWebConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-08T14:46:51Z",
+      "side": 1,
+      "message": "We do this all the time in constructors. The field is final so it\u0027s a compiler error if we forget to set it.",
+      "parentUuid": "99b594fa_3cd5f12d",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 19
+      },
+      "revId": "c482542ff2a84cba7d30d54447ae526d8fd94938",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

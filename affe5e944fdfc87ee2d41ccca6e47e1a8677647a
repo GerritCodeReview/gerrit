@@ -16,6 +16,24 @@
       "revId": "affe5e944fdfc87ee2d41ccca6e47e1a8677647a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9d46c30_76cb9094",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-08T02:44:15Z",
+      "side": 1,
+      "message": "I think this link would be more appropriate at line 268.\n\nMaybe better to just remove lines 223-225?  The following paragraphs describe the process anyway.",
+      "parentUuid": "d76c27f3_fa2cc9bf",
+      "revId": "affe5e944fdfc87ee2d41ccca6e47e1a8677647a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

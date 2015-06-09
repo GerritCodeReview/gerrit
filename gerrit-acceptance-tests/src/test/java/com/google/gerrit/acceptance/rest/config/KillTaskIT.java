@@ -29,6 +29,18 @@ import java.util.List;
 public class KillTaskIT extends AbstractDaemonTest {
 
   @Test
+  public void killTask_NotFound() throws Exception {
+    RestResponse r = adminSession.get("/config/server/tasks/");
+    List<TaskInfo> result = newGson().fromJson(r.getReader(),
+        new TypeToken<List<TaskInfo>>() {}.getType());
+    r.consume();
+    assertThat(result.size()).isGreaterThan(0);
+
+    r = userSession.delete("/config/server/tasks/" + result.get(0).id);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+  }
+
+  @Test
   public void killTask() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
     List<TaskInfo> result = newGson().fromJson(r.getReader(),
@@ -46,17 +58,5 @@ public class KillTaskIT extends AbstractDaemonTest {
         new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
     assertThat(result).hasSize(taskCount - 1);
-  }
-
-  @Test
-  public void killTask_NotFound() throws Exception {
-    RestResponse r = adminSession.get("/config/server/tasks/");
-    List<TaskInfo> result = newGson().fromJson(r.getReader(),
-        new TypeToken<List<TaskInfo>>() {}.getType());
-    r.consume();
-    assertThat(result.size()).isGreaterThan(0);
-
-    r = userSession.delete("/config/server/tasks/" + result.get(0).id);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 }

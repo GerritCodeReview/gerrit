@@ -88,7 +88,7 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("gerrit", null, "allProjects", "Test-Projects");
     cfg.setString("user", null, "name", "Gerrit Code Review");
     cfg.setString("user", null, "email", "gerrit@localhost");
-    cfg.setString("cache", null, "directory", null);
+    cfg.unset("cache", null, "directory");
     cfg.setString("index", null, "type", "lucene");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setInt("index", "lucene", "testVersion",

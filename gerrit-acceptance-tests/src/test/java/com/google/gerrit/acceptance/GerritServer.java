@@ -189,7 +189,7 @@ public class GerritServer {
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", forceEphemeralPort);
     cfg.setBoolean("sshd", null, "testUseInsecureRandom", true);
-    cfg.setString("cache", null, "directory", null);
+    cfg.unset("cache", null, "directory");
     cfg.setString("gerrit", null, "basePath", "git");
     cfg.setBoolean("sendemail", null, "enable", true);
     cfg.setInt("sendemail", null, "threadPoolSize", 0);

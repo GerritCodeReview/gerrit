@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1909a4af_e8b6932b",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-06-09T20:49:32Z",
+      "side": 0,
+      "message": "submodule update says it cannot checkout from this reference...\n\n\n~/work-gerrit$ git submodule update\nSubmodule path \u0027plugins/commit-message-length-validator\u0027: checked out \u0027a93b85656a68b6a71fe7cf0bb0cc4ed8143657bf\u0027\nSubmodule path \u0027plugins/cookbook-plugin\u0027: checked out \u00275ac8e3475cc284bd1c2159cfded076c959462845\u0027\nSubmodule path \u0027plugins/download-commands\u0027: checked out \u00276287d6a8941f68ba8a3a8c27f2a979c02ede489a\u0027\nSubmodule path \u0027plugins/replication\u0027: checked out \u002716db002a0bfe6559a6395dabf155b7a8bfadc968\u0027\nfatal: reference is not a tree: 0b5aab68206744f6a41abba63aaa3714f354fa83\nSubmodule path \u0027plugins/singleusergroup\u0027: checked out \u002773c2381c5768f216b3a4abb1c623f8d0134a9600\u0027\nUnable to checkout \u00270b5aab68206744f6a41abba63aaa3714f354fa83\u0027 in submodule path \u0027plugins/reviewnotes\u0027",
+      "revId": "1ff91c0d8213472aa8ff6e8db80f18043c7f86df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

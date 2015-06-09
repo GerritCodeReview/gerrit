@@ -52,6 +52,24 @@
       "revId": "204402d06fd5360811e79f88f2e23d1fdb794e1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_d12a6486",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-09T09:08:12Z",
+      "side": 1,
+      "message": "Right, I don\u0027t want to put any effort to suppress this, but removing the documentation here is fine with me. I can do this with the next patch set.",
+      "parentUuid": "39e908fb_f12568b6",
+      "revId": "204402d06fd5360811e79f88f2e23d1fdb794e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

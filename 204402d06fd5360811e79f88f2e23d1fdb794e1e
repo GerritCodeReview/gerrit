@@ -16,6 +16,24 @@
       "revId": "204402d06fd5360811e79f88f2e23d1fdb794e1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdb0e6_574bec7a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-09T01:04:00Z",
+      "side": 1,
+      "message": "I already made the same comment on an earlier patch set. Please see Edwin\u0027s reply there.",
+      "parentUuid": "59e6bc29_126eacf4",
+      "revId": "204402d06fd5360811e79f88f2e23d1fdb794e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

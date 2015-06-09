@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static java.nio.file.Files.isExecutable;
 import static java.nio.file.Files.isRegularFile;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GitWebType;
 import com.google.inject.Inject;
 
@@ -29,6 +30,14 @@ import java.nio.file.Paths;
 
 public class GitWebConfig {
   private static final Logger log = LoggerFactory.getLogger(GitWebConfig.class);
+
+  private static boolean isEmptyString(Config cfg, String section,
+      String subsection, String name) {
+    // This is currently the only way to check for the empty string in a JGit
+    // config. Fun!
+    String[] values = cfg.getStringList(section, subsection, name);
+    return values.length > 0 && Strings.isNullOrEmpty(values[0]);
+  }
 
   private final String url;
   private final Path gitweb_cgi;
@@ -95,8 +104,8 @@ public class GitWebConfig {
       type = null;
     }
 
-    if ((cfgUrl != null && cfgUrl.isEmpty())
-        || (cfgCgi != null && cfgCgi.isEmpty())) {
+    if (isEmptyString(cfg, "gitweb", null, "url")
+        || isEmptyString(cfg, "gitweb", null, "cgi")) {
       // Either setting was explicitly set to the empty string disabling
       // gitweb for this server. Disable the configuration.
       //

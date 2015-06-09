@@ -16,6 +16,24 @@
       "revId": "1ff91c0d8213472aa8ff6e8db80f18043c7f86df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdb0e6_d72a5c86",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-09T23:48:36Z",
+      "side": 0,
+      "message": "Because that commit is not merged yet.  You need to manually fetch the corresponding change on the reviewnotes plugin.\n\nhttps://gerrit-review.googlesource.com/#/c/68176/",
+      "parentUuid": "1909a4af_e8b6932b",
+      "revId": "1ff91c0d8213472aa8ff6e8db80f18043c7f86df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

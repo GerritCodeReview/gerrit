@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "79b0e009_1b459b62",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/KillTaskIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-09T18:34:09Z",
+      "side": 0,
+      "message": "see previous commit. I am punting on what the right behavior is here.",
+      "parentUuid": "99b594fa_5c643d14",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_bc334122",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "79b0e009_3b48577c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-09T18:34:09Z",
+      "side": 1,
+      "message": "It\u0027s just keeping the user who submitted the change set in there as well, so dependent changes can be merged on his behalf.",
+      "parentUuid": "79b0e009_1b6ebbf4",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_3c7171d6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -93,6 +111,24 @@
     },
     {
       "key": {
+        "uuid": "79b0e009_dba5f3bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-09T18:34:09Z",
+      "side": 1,
+      "message": "I thought the same, so I tried getting all relevant code over to here, which was nearly all of the code in Submit. So instead of duplicating it, I\u0027d rather call it for now.",
+      "parentUuid": "99b594fa_1c6eb5f4",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_dc3e0dec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -104,6 +140,24 @@
       "writtenOn": "2015-06-08T21:12:29Z",
       "side": 1,
       "message": "Ok now I\u0027m just confused. I thought you were proposing \"integerate\" as a new term for \"merge\" (which, as I said in the previous change, I disagree with doing at this point). But now \"integrate\" and \"merge\" are two separate public methods on this class. What\u0027s the difference?",
+      "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b594fa_7c95b946",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-09T18:34:09Z",
+      "side": 1,
+      "message": "This function will be made private and renamed. (and integrate will be the new merge)",
+      "parentUuid": "99b594fa_dc3e0dec",
       "revId": "354e10cbcc6ecb2865b4aabb943b9cc3c7eb4860",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

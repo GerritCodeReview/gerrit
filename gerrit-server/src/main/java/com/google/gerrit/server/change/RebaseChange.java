@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -115,7 +116,7 @@ public class RebaseChange {
   public void rebase(Repository git, RevWalk rw, Change change,
       PatchSet.Id patchSetId, IdentifiedUser uploader, String newBaseRev)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
-      InvalidChangeOperationException {
+      ResourceConflictException, InvalidChangeOperationException {
     Change.Id changeId = patchSetId.getParentKey();
     ChangeControl changeControl =
         changeControlFactory.validateFor(change, uploader);
@@ -144,7 +145,7 @@ public class RebaseChange {
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, true, ValidatePolicy.GERRIT);
     } catch (MergeConflictException e) {
-      throw new IOException(e.getMessage());
+      throw new ResourceConflictException(e.getMessage());
     }
   }
 

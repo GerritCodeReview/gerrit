@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e6bc29_321d306f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-06-09T15:41:48Z",
+      "side": 1,
+      "message": "reverted to the original code since https://git.eclipse.org/r/#/c/45709/ was reverted in JGit 4.0.0",
+      "revId": "23077105afc6ebb052e9f96f19bfda405f8e3121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

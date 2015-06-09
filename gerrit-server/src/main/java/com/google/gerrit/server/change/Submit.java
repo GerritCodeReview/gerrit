@@ -53,6 +53,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeException;
@@ -212,14 +213,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    List<Change> submittedChanges = submit(rsrc, caller, false);
+    ChangeSet submittedChanges = ChangeSet.create(submit(rsrc, caller, false),
+        caller);
 
     try {
-      for (Change c : submittedChanges) {
-        // TODO(sbeller): We should make schedule return a Future, then we
-        // could do these all in parallel and still block until they're done.
-        mergeOpFactory.create(c.getDest()).merge();
-      }
+      mergeOpFactory.create(submittedChanges).merge();
       change = dbProvider.get().changes().get(change.getId());
     } catch (MergeException | NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);

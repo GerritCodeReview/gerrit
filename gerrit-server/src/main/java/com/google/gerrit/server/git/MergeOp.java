@@ -127,7 +127,7 @@ import java.util.concurrent.Callable;
  */
 public class MergeOp {
   public interface Factory {
-    MergeOp create(Branch.NameKey branch);
+    MergeOp create(ChangeSet changes);
   }
 
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
@@ -204,7 +204,7 @@ public class MergeOp {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       WorkQueue workQueue,
-      @Assisted Branch.NameKey branch) {
+      @Assisted ChangeSet changes) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;

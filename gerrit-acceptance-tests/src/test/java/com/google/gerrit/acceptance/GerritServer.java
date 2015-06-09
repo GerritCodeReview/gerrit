@@ -143,10 +143,11 @@ public class GerritServer {
       daemonService.submit(new Callable<Void>() {
         @Override
         public Void call() throws Exception {
-          int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless" });
+          int rc = daemon.main(new String[] {
+              "-d", site.getPath(),
+              "--headless", "--console-log", "--show-stack-trace"});
           if (rc != 0) {
-            System.out.println("Failed to start Gerrit daemon. Check "
-                + site.getPath() + "/logs/error_log");
+            System.err.println("Failed to start Gerrit daemon");
             serverStarted.reset();
           }
           return null;

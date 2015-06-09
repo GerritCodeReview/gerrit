@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39e908fb_111a2c77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-09T07:47:57Z",
+      "side": 1,
+      "message": "Remove \u0027final\u0027 here. We no longer use final for method parameters, see [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "range": {
+        "startLine": 1137,
+        "startChar": 36,
+        "endLine": 1137,
+        "endChar": 41
+      },
+      "revId": "86525849e9d5fdbc13b39864e46aa7e7bdae363c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

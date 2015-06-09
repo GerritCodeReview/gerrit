@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9d46c30_b6aa488c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1838,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-09T02:41:21Z",
+      "side": 1,
+      "message": "Just link directly to the pegdown page rather than both?  The pegdown page links to markdown anyway.",
+      "range": {
+        "startLine": 1835,
+        "startChar": 0,
+        "endLine": 1838,
+        "endChar": 49
+      },
+      "revId": "df8fa5098782bf784ab14695cf5a7f4ab68f5afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "204402d06fd5360811e79f88f2e23d1fdb794e1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_f12568b6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-06-09T09:03:33Z",
+      "side": 1,
+      "message": "well, the framework supports it, and it would be obviously counterproductive to actively suppress that here. however, there really doesn\u0027t seem to be a need to *document* it (yet again) in a place where it is really not useful and thus effectively just adds noise. this isn\u0027t api documentation, but a user guide, after all.",
+      "parentUuid": "f9bdb0e6_574bec7a",
+      "revId": "204402d06fd5360811e79f88f2e23d1fdb794e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

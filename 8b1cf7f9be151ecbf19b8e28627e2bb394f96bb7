@@ -16,6 +16,24 @@
       "revId": "8b1cf7f9be151ecbf19b8e28627e2bb394f96bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdb0e6_97618409",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-09T00:10:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59e6bc29_f239e805",
+      "revId": "8b1cf7f9be151ecbf19b8e28627e2bb394f96bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

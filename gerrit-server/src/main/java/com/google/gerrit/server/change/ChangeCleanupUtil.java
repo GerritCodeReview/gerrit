@@ -76,9 +76,12 @@ public class ChangeCleanupUtil {
       if (!cfg.getAbandonIfMergeable()) {
         q +=  " -is:mergeable";
       }
-      for (ChangeData cd : query(q)) {
+      List<ChangeData> changesToAbandon = query(q);
+      for (ChangeData cd : changesToAbandon) {
         abandon.abandon(changeControl(cd), cfg.getAbandonMessage(), null);
       }
+      log.info(String.format("Auto-Abandoned %d changes.",
+          changesToAbandon.size()));
     } catch (Throwable e) {
       log.error("Failed to auto-abandon inactive open changes.", e);
     }
@@ -90,16 +93,21 @@ public class ChangeCleanupUtil {
     }
 
     try {
-      for (ChangeData cd : query(inactiveChangesQuery(cfg.getRebaseAfter())
-          + " is:mergeable")) {
+      List<ChangeData> changesToRebase = query(
+          inactiveChangesQuery(cfg.getRebaseAfter())
+          + " is:mergeable");
+      int count = 0;
+      for (ChangeData cd : changesToRebase) {
         try {
           rebase.rebase(changeControl(cd));
+          count++;
         } catch (InvalidChangeOperationException e) {
           // Change is already up to date.
         } catch (ResourceConflictException e) {
           // Change cannot be rebased due to conflicts.
         }
       }
+      log.info(String.format("Auto-Rebased %d changes.", count));
     } catch (Throwable e) {
       log.error("Failed to auto-rebase inactive open changes.", e);
     }

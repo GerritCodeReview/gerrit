@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9bdb0e6_57e52cc7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-10T12:13:08Z",
+      "side": 1,
+      "message": "Abandoning",
+      "range": {
+        "startLine": 926,
+        "startChar": 14,
+        "endLine": 926,
+        "endChar": 24
+      },
+      "revId": "85e91384e9b0561a398753b743eff4d18ad8926d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdb0e6_37e2b8c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-10T12:13:08Z",
+      "side": 1,
+      "message": "Use the asciidoc warning block?",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 926,
+        "endChar": 7
+      },
+      "revId": "85e91384e9b0561a398753b743eff4d18ad8926d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

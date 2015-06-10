@@ -75,9 +75,11 @@ public class AbandonUtil {
       }
       List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
           .queryChanges(queryBuilder.parse(query)).changes();
+      int count = 0;
       for (ChangeData cd : changesToAbandon) {
         try {
           abandon.abandon(changeControl(cd), cfg.getAbandonMessage(), null);
+          count++;
         } catch (ResourceConflictException e) {
           // Change was already merged or abandoned.
         } catch (Throwable e) {
@@ -86,6 +88,8 @@ public class AbandonUtil {
                   cd.getId().get()), e);
         }
       }
+      log.info(String.format("Auto-Abandoned %d of %d changes.",
+          count, changesToAbandon.size()));
     } catch (QueryParseException | OrmException e) {
       log.error("Failed to auto-abandon inactive open changes.", e);
     }

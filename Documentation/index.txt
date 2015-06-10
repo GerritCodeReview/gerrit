@@ -13,7 +13,7 @@
 .. link:user-inline-edit.html[Manipulating Changes in Browser]
 .. link:user-notify.html[Subscribing to Email Notifications]
 . SSH
-.. SSH connection details
+.. link:user-upload.html#ssh[SSH connection details]
 .. link:cmd-index.html[Command Line Tools]
 . Git
 .. Git connection details
@@ -31,13 +31,13 @@
 .. link:config-labels.html[Review Labels]
 .. link:config-project-config.html[Access Controls Configuration Format]
 . Multi-project management
-.. Submodules
-.. Repo
+.. link:user-submodules.html[Submodules]
+.. link:https://source.android.com/source/using-repo.html[Repo] (external)
 . Prolog rules
 .. link:prolog-cookbook.html[Prolog Cookbook]
 .. link:prolog-change-facts.html[Prolog Facts for Gerrit Changes]
 . link:user-submodules.html[Subscribing to Git Submodules]
-. Project sunset
+. link:intro-project-owner.html#project-deletion[Project deletion]
 
 == Customization and Integration
 . link:user-dashboards.html[Dashboards]
@@ -58,7 +58,7 @@
 .. Reading show-caches efficiently
 .. How to read stats from the JVM
 . High availability
-. Replication
+. link:config-plugins.html#replication[Replication]
 . link:config-plugins.html[Plugins]
 . link:config-contact.html[User Contact Information]
 . link:config-reverseproxy.html[Reverse Proxy]

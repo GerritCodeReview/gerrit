@@ -81,6 +81,8 @@ public class AbandonUtil {
           // Change was already merged or abandoned.
         }
       }
+      log.info(String.format("Auto-Abandoned %d changes.",
+          changesToAbandon.size()));
     } catch (Throwable e) {
       log.error("Failed to auto-abandon inactive open changes.", e);
     }

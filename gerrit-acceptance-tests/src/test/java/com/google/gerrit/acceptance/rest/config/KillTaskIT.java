@@ -28,8 +28,7 @@ import java.util.List;
 
 public class KillTaskIT extends AbstractDaemonTest {
 
-  @Test
-  public void killTask() throws Exception {
+  private void killTask() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
     List<TaskInfo> result = newGson().fromJson(r.getReader(),
         new TypeToken<List<TaskInfo>>() {}.getType());
@@ -48,8 +47,7 @@ public class KillTaskIT extends AbstractDaemonTest {
     assertThat(result).hasSize(taskCount - 1);
   }
 
-  @Test
-  public void killTask_NotFound() throws Exception {
+  private void killTask_NotFound() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
     List<TaskInfo> result = newGson().fromJson(r.getReader(),
         new TypeToken<List<TaskInfo>>() {}.getType());
@@ -58,5 +56,12 @@ public class KillTaskIT extends AbstractDaemonTest {
 
     r = userSession.delete("/config/server/tasks/" + result.get(0).id);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+  }
+
+  @Test
+  public void killTaskTests_inOrder() throws Exception {
+    // As killTask() changes the state of the server, we want to test it last
+    killTask_NotFound();
+    killTask();
   }
 }

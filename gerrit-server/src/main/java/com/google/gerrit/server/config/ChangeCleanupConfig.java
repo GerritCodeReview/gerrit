@@ -32,24 +32,27 @@ public class ChangeCleanupConfig {
       + "${URL}Documentation/user-change-cleanup.html#auto-abandon\n"
       + "\n"
       + "If this change is still wanted it should be restored.";
+  private static String KEY_REBASE_AFTER = "rebaseAfter";
 
   private final ScheduleConfig scheduleConfig;
   private final long abandonAfter;
   private final String abandonMessage;
+  private final long rebaseAfter;
 
   @Inject
   ChangeCleanupConfig(@GerritServerConfig Config cfg,
       @CanonicalWebUrl String canonicalWebUrl) {
     scheduleConfig = new ScheduleConfig(cfg, SECTION);
-    abandonAfter = readAbandonAfter(cfg);
+    abandonAfter = readTime(cfg, KEY_ABANDON_AFTER);
     abandonMessage = readAbandonMessage(cfg, canonicalWebUrl);
+    rebaseAfter = readTime(cfg, KEY_REBASE_AFTER);
   }
 
-  private long readAbandonAfter(Config cfg) {
-    long abandonAfter =
-        ConfigUtil.getTimeUnit(cfg, SECTION, null, KEY_ABANDON_AFTER, 0,
+  private long readTime(Config cfg, String key) {
+    long time =
+        ConfigUtil.getTimeUnit(cfg, SECTION, null, key, 0,
             TimeUnit.MILLISECONDS);
-    return abandonAfter >= 0 ? abandonAfter : 0;
+    return time >= 0 ? time : 0;
   }
 
   private String readAbandonMessage(Config cfg, String webUrl) {
@@ -71,5 +74,9 @@ public class ChangeCleanupConfig {
 
   public String getAbandonMessage() {
     return abandonMessage;
+  }
+
+  public long getRebaseAfter() {
+    return rebaseAfter;
   }
 }

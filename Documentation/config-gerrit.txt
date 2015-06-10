@@ -944,6 +944,24 @@ By default "Auto-Abandoned due to inactivity, see
 ${URL}Documentation/user-change-cleanup.html#auto-abandon\n\n
 If this change is still wanted it should be restored.".
 
+[[changeCleanup.rebaseAfter]]changeCleanup.rebaseAfter::
++
+Period of inactivity after which open changes should be rebased
+automatically.
++
+By default `0`, never rebase open changes.
++
+By chosing a shorter period than for link:#changeCleanup.abandonAfter[
+abandonAfter] only non-mergable inactive open changes are automatically
+abandoned.
++
+The following suffixes are supported to define the time unit:
++
+* `d, day, days`
+* `w, week, weeks` (`1 week` is treated as `7 days`)
+* `mon, month, months` (`1 month` is treated as `30 days`)
+* `y, year, years` (`1 year` is treated as `365 days`)
+
 [[changeCleanup.startTime]]changeCleanup.startTime::
 +
 Start time to define the first execution of the change cleanups.

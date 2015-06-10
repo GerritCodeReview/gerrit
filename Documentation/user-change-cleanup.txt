@@ -20,6 +20,16 @@ Abandoning old inactive changes has the following advantages:
 If a change is still wanted it can be restored by clicking on the
 `Restore` button.
 
+[[auto-rebase]]
+== Auto-Rebase
+
+This cleanup job automatically rebases open changes that have been
+inactive for a defined time and that are still mergeable.
+
+Rebasing old inactive changes has the advantage that they are pushed
+back to the top of reviewer dashboards so that they can catch the
+attention of reviewers who don't look at old changes.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

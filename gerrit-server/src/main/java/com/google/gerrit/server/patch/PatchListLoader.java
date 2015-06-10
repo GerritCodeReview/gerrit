@@ -337,7 +337,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         }
 
         @Override
-        public void release() {
+        public void close() {
         }
       });
 

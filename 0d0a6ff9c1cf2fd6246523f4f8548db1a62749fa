@@ -22,6 +22,30 @@
       "revId": "0d0a6ff9c1cf2fd6246523f4f8548db1a62749fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_fbbbef12",
+        "filename": "lib/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-10T15:31:29Z",
+      "side": 1,
+      "message": "I started reading on how to actually do dependency management and then went home. Thanks for picking this up!",
+      "parentUuid": "f9bdb0e6_17c8d442",
+      "range": {
+        "startLine": 178,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 6
+      },
+      "revId": "0d0a6ff9c1cf2fd6246523f4f8548db1a62749fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

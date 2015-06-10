@@ -22,6 +22,30 @@
       "revId": "ed1c1022dfab42e5b3333c5640c8aebcf8413baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_fae20915",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-10T17:48:44Z",
+      "side": 1,
+      "message": "Done, I reformatted the paragraph to not exceed 72 chars per line. Did you want to point out another subtle thing by referring to dev-contributing.txt ?",
+      "parentUuid": "b94258dc_ddddcb55",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "ed1c1022dfab42e5b3333c5640c8aebcf8413baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

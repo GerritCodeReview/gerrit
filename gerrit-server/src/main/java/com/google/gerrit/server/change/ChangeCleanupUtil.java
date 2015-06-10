@@ -72,7 +72,11 @@ public class ChangeCleanupUtil {
     }
 
     try {
-      for (ChangeData cd : query(inactiveChangesQuery(cfg.getAbandonAfter()))) {
+      String q = inactiveChangesQuery(cfg.getAbandonAfter());
+      if (!cfg.getAbandonIfMergeable()) {
+        q +=  " -is:mergeable";
+      }
+      for (ChangeData cd : query(q)) {
         abandon.abandon(changeControl(cd), cfg.getAbandonMessage(), null);
       }
     } catch (Throwable e) {

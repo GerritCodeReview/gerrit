@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "591ddcf5_1ad57d2d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/KillTaskIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-10T17:11:22Z",
+      "side": 1,
+      "message": "Moved to a previous commit.",
+      "parentUuid": "d9d46c30_7695d046",
+      "revId": "3f25ff5d7632c37a8305ff067b5e4b3453da0073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b594fa_fc52e93b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5

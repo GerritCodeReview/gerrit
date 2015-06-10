@@ -45,6 +45,54 @@
       "revId": "85e91384e9b0561a398753b743eff4d18ad8926d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_91805cd0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T12:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9bdb0e6_37e2b8c1",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 926,
+        "endChar": 7
+      },
+      "revId": "85e91384e9b0561a398753b743eff4d18ad8926d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_f181e8d6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T12:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9bdb0e6_57e52cc7",
+      "range": {
+        "startLine": 926,
+        "startChar": 14,
+        "endLine": 926,
+        "endChar": 24
+      },
+      "revId": "85e91384e9b0561a398753b743eff4d18ad8926d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

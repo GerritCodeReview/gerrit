@@ -424,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "b94258dc_9dd74332",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T18:03:18Z",
+      "side": 1,
+      "message": "Forgot to inlcude the link to the REST endpoint:\n  https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#list-access",
+      "parentUuid": "995114ab_1cd5752d",
+      "range": {
+        "startLine": 151,
+        "startChar": 43,
+        "endLine": 151,
+        "endChar": 68
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39e908fb_316770ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1

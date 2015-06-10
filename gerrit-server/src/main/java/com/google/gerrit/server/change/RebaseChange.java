@@ -84,8 +84,6 @@ public class RebaseChange {
   /**
    * Rebase the change of the given patch set.
    * <p>
-   * It is verified that the current user is allowed to do the rebase.
-   * <p>
    * If the patch set has no dependency to an open change, then the change is
    * rebased on the tip of the destination branch.
    * <p>
@@ -99,7 +97,7 @@ public class RebaseChange {
    *
    * @param git the repository.
    * @param rw the RevWalk.
-   * @param change the change to rebase.
+   * @param changeControl the control of the change to rebase.
    * @param patchSetId the patch set ID to rebase.
    * @param uploader the user that creates the rebased patch set.
    * @param newBaseRev the commit that should be the new base.
@@ -112,17 +110,11 @@ public class RebaseChange {
    * @throws InvalidChangeOperationException if rebase is not possible or not
    *     allowed.
    */
-  public void rebase(Repository git, RevWalk rw, Change change,
+  public void rebase(Repository git, RevWalk rw, ChangeControl changeControl,
       PatchSet.Id patchSetId, IdentifiedUser uploader, String newBaseRev)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
       InvalidChangeOperationException {
-    Change.Id changeId = patchSetId.getParentKey();
-    ChangeControl changeControl =
-        changeControlFactory.validateFor(change, uploader);
-    if (!changeControl.canRebase()) {
-      throw new InvalidChangeOperationException("Cannot rebase: New patch sets"
-          + " are not allowed to be added to change: " + changeId);
-    }
+    Change change = changeControl.getChange();
     try (ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {

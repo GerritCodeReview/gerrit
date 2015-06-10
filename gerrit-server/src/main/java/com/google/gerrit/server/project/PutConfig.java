@@ -229,6 +229,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                 "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
             continue;
           }
+          v.setValue(projectConfigEntry.modifyConfigValue(v.getValue()));
           String oldValue = cfg.getString(v.getKey());
           String value = v.getValue().value;
           if (projectConfigEntry.getType() == ProjectConfigEntry.Type.ARRAY) {

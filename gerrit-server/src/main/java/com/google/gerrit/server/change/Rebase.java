@@ -89,7 +89,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");
       }
-      rebaseChange.get().rebase(repo, rw, change, rsrc.getPatchSet().getId(),
+      rebaseChange.get().rebase(repo, rw, control, rsrc.getPatchSet().getId(),
           rsrc.getUser(), findBaseRev(rw, rsrc, input));
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());

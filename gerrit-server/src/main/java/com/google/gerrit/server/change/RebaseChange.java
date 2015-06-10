@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -62,6 +63,7 @@ public class RebaseChange {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
+  private final PersonIdent myIdent;
   private final TimeZone serverTimeZone;
   private final MergeUtil.Factory mergeUtilFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -76,6 +78,7 @@ public class RebaseChange {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.gitManager = gitManager;
+    this.myIdent = myIdent;
     this.serverTimeZone = myIdent.getTimeZone();
     this.mergeUtilFactory = mergeUtilFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -128,15 +131,51 @@ public class RebaseChange {
       }
       RevCommit baseCommit = rw.parseCommit(baseObjectId);
 
-      PersonIdent committerIdent =
-          uploader.newCommitterIdent(TimeUtil.nowTs(), serverTimeZone);
+      PersonIdent committerIdent = uploader != null
+          ? uploader.newCommitterIdent(TimeUtil.nowTs(), serverTimeZone)
+          : myIdent;
 
-      rebase(git, rw, inserter, change, patchSetId,
-          uploader, baseCommit, mergeUtilFactory.create(
+      rebase(git, rw, inserter, changeControl, patchSetId,
+          uploader != null ? uploader.getAccountId() : null, baseCommit,
+          mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, true, ValidatePolicy.GERRIT);
     } catch (MergeConflictException e) {
       throw new IOException(e.getMessage());
+    }
+  }
+
+  /**
+   * Rebase the current patch set of the given change.
+   * <p>
+   * If the patch set has no dependency to an open change, then the change is
+   * rebased on the tip of the destination branch.
+   * <p>
+   * If the patch set depends on an open change, it is rebased on the latest
+   * patch set of this change.
+   * <p>
+   * The rebased commit is added as new patch set to the change.
+   * <p>
+   * E-mail notification and triggering of hooks happens for the creation of the
+   * new patch set.
+   *
+   * @param changeControl the control of the change to rebase.
+   * @throws NoSuchChangeException if the change to which the patch set belongs
+   *     does not exist or is not visible to the user.
+   * @throws EmailException if sending the e-mail to notify about the new patch
+   *     set fails.
+   * @throws OrmException if accessing the database fails.
+   * @throws IOException if accessing the repository fails.
+   * @throws InvalidChangeOperationException if rebase is not possible or not
+   *     allowed.
+   */
+  public void rebase(ChangeControl control)
+      throws NoSuchChangeException, EmailException, OrmException, IOException,
+      InvalidChangeOperationException {
+    Change change = control.getChange();
+    try (Repository repo = gitManager.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      rebase(repo, rw, control, change.currentPatchSetId(), null, null);
     }
   }
 
@@ -260,6 +299,20 @@ public class RebaseChange {
       PersonIdent committerIdent, boolean runHooks, ValidatePolicy validate)
       throws NoSuchChangeException, OrmException, IOException,
       InvalidChangeOperationException, MergeConflictException {
+    ChangeControl changeControl =
+        changeControlFactory.validateFor(change, uploader);
+    return rebase(git, rw, inserter, changeControl, patchSetId,
+        uploader.getAccountId(), baseCommit, mergeUtil, committerIdent,
+        runHooks, validate);
+  }
+
+  private PatchSet rebase(Repository git, RevWalk rw,
+      ObjectInserter inserter, ChangeControl control, PatchSet.Id patchSetId,
+      Account.Id uploaderId, RevCommit baseCommit, MergeUtil mergeUtil,
+      PersonIdent committerIdent, boolean runHooks, ValidatePolicy validate)
+      throws NoSuchChangeException, OrmException, IOException,
+      InvalidChangeOperationException, MergeConflictException {
+    Change change = control.getChange();
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
@@ -272,21 +325,18 @@ public class RebaseChange {
 
     rebasedCommit = rw.parseCommit(newId);
 
-    ChangeControl changeControl =
-        changeControlFactory.validateFor(change, uploader);
-
     PatchSetInserter patchSetInserter = patchSetInserterFactory
-        .create(git, rw, changeControl, rebasedCommit)
+        .create(git, rw, control, rebasedCommit)
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())
-        .setUploader(uploader.getAccountId())
+        .setUploader(uploaderId)
         .setSendMail(false)
         .setRunHooks(runHooks);
 
     PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
     ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(),
-            ChangeUtil.messageUUID(db.get())), uploader.getAccountId(),
+            ChangeUtil.messageUUID(db.get())), uploaderId,
             TimeUtil.nowTs(), patchSetId);
 
     cmsg.setMessage("Patch Set " + newPatchSetId.get()

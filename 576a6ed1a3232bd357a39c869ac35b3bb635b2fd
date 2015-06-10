@@ -400,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "995114ab_1cd5752d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T18:01:50Z",
+      "side": 1,
+      "message": "On client-side we should use com.google.gerrit.client.WebLinkInfo and not com.google.gerrit.extensions.common.WebLinkInfo. The client should retrieve the web links via a REST call. What makes it difficult is that the access screens are still not mirgated to the REST API but are still based on the old RPC stuff. However we already have a REST endpoint to list access rights. I guess this should be extended to contain those web links and the access screens on client-side should make use of it. But this might be some more effort.",
+      "parentUuid": "59e6bc29_725df8f7",
+      "range": {
+        "startLine": 151,
+        "startChar": 43,
+        "endLine": 151,
+        "endChar": 68
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39e908fb_316770ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1

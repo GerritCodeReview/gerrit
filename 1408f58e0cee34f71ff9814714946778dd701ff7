@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "794c6014_bb132795",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-10T20:56:09Z",
+      "side": 1,
+      "message": "Actually the same reason why we couldn\u0027t update to 4.11 a while ago. (Internal incompatibilities)",
+      "parentUuid": "b94258dc_7defd7fa",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "1408f58e0cee34f71ff9814714946778dd701ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "995114ab_dcddcd55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "591ddcf5_3ae961f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-10T20:56:09Z",
+      "side": 1,
+      "message": "\u003e If older junit was bundled with hamcrest, why was it included as dependency to junit before this change then?\n\nIt was used internally but not really exposed I guess. See https://github.com/junit-team/junit/blob/master/doc/ReleaseNotes4.11.md#maven-artifacts\n\nYou can download junit with hamcrest included and without the inclusion. Nowadays (\u003e4.11) you can only get the version without hamcrest included, so we need the dependency as is.\n\n\u003e Why havn\u0027t you uploaded a fix before this change?\n\nJust wanting to bump the version.",
+      "parentUuid": "995114ab_dcddcd55",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "1408f58e0cee34f71ff9814714946778dd701ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "995114ab_9cd74532",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -59,6 +107,30 @@
       "writtenOn": "2015-06-10T19:44:17Z",
       "side": 1,
       "message": "[Optional]: Replace the statement in the parenthesis with the explanation, why you have to export hamcrest to be \"visible\" from java_library() rules that use junit? IOW why it only works with export_deps and not with deps? See my comment to this change: [1] for the answer to this question.\n\n[1] https://gerrit-review.googlesource.com/#/c/68276/",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 19,
+        "endChar": 58
+      },
+      "revId": "1408f58e0cee34f71ff9814714946778dd701ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_db2b93ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-10T20:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "995114ab_9cd74532",
       "range": {
         "startLine": 18,
         "startChar": 9,

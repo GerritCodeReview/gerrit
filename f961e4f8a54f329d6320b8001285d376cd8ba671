@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "591ddcf5_dab6252c",
+        "filename": "lib/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-10T15:31:29Z",
+      "side": 1,
+      "message": "This seems to be duplicate to parts of the new /lib/harmcrest/BUCK file, can we deduplicate that?",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 1
+      },
+      "revId": "f961e4f8a54f329d6320b8001285d376cd8ba671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

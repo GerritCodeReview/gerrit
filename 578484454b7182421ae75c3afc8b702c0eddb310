@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39e908fb_7196181e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T12:28:48Z",
+      "side": 1,
+      "message": "The original commit explained the reason for the downgrade:\n\n\"The index tests for gerrit-review backend use some of the basic\ntesting library in Gerrit but are currently unable to upgrade to\nJUnit 4.11.\"\n\nAny comments in the commit message, why this downgrade is reverted?",
+      "revId": "578484454b7182421ae75c3afc8b702c0eddb310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

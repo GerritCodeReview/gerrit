@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e6bc29_7296181e",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "\u0027fileHistoryLinks\u0027 to stay consistent with the naming?",
+      "range": {
+        "startLine": 36,
+        "startChar": 36,
+        "endLine": 36,
+        "endChar": 48
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e6bc29_5293142c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 3
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_b172408d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "These to methods look inconsistent. The first one creates the anchor and ADDS it to webLinkPanel, the second one creates the anchor and RETURNS it.",
+      "range": {
+        "startLine": 177,
+        "startChar": 2,
+        "endLine": 200,
+        "endChar": 3
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_91773c7d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "don\u0027t use tab here",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e6bc29_3290901d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "don\u0027t use tab here",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e6bc29_128d8c03",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e6bc29_f268c8a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "fileHistoryLinks?",
+      "range": {
+        "startLine": 77,
+        "startChar": 47,
+        "endLine": 77,
+        "endChar": 59
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_715df8f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e6bc29_d26dc4ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "Why do we need \u0027getFileHistoryLinksCommon\u0027 in addition to \u0027getFileHistoryLinks\u0027?",
+      "range": {
+        "startLine": 151,
+        "startChar": 43,
+        "endLine": 151,
+        "endChar": 68
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_515af401",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_316770ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-10T13:32:16Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

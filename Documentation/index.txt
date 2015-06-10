@@ -7,7 +7,6 @@
 .. link:intro-project-owner.html[Project Owner Guide]
 .. link:http://source.android.com/submit-patches/workflow[Default Android Workflow] (external)
 . Web
-.. Registering a new Gerrit account
 .. link:user-review-ui.html[Reviewing Changes]
 .. link:user-search.html[Searching Changes]
 .. link:user-inline-edit.html[Manipulating Changes in Browser]
@@ -16,14 +15,12 @@
 .. link:user-upload.html#ssh[SSH connection details]
 .. link:cmd-index.html[Command Line Tools]
 . Git
-.. Git connection details
 .. Commands, scenarios
 ... link:user-upload.html[Uploading Changes]
 ... link:error-messages.html[Error Messages]
 .. Changes
 ... link:user-changeid.html[Change-Id Lines]
 ... link:user-signedoffby.html[Signed-off-by Lines]
-.. Patch sets
 
 == Project Management
 . link:project-configuration.html[Project Configuration]
@@ -52,12 +49,7 @@
 == Server Administration
 . link:install.html[Installation Guide]
 . link:config-gerrit.html[System Settings]
-. Backup
-. Performance tuning
-.. link:cmd-index.html[Command Line Tools]
-.. Reading show-caches efficiently
-.. How to read stats from the JVM
-. High availability
+. link:cmd-index.html[Command Line Tools]
 . link:config-plugins.html#replication[Replication]
 . link:config-plugins.html[Plugins]
 . link:config-contact.html[User Contact Information]
@@ -76,7 +68,6 @@
 .. link:dev-build-plugins.html[Building Gerrit plugins]
 .. link:js-api.html[JavaScript Plugin API]
 .. link:config-validation.html[Validation Interfaces]
-. Documentation formatting guide for contributions
 . link:dev-design.html[System Design]
 . link:i18n-readme.html[i18n Support]
 

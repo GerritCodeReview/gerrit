@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
@@ -199,6 +200,18 @@ public class ProjectConfigEntry {
    */
   public String getWarning(ProjectState project) {
     return null;
+  }
+
+  /**
+   * Called before the project config is updated. To modify the value before the
+   * project config is updated, override this method and return the modified
+   * value. Default implementation returns the same value.
+   *
+   * @param configValue the original configValue that was entered.
+   * @return the modified configValue.
+   */
+  public ConfigValue preUpdate(ConfigValue configValue) {
+    return configValue;
   }
 
   /**

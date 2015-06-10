@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class ChangeCleanupConfig {
   private static String SECTION = "changeCleanup";
   private static String KEY_ABANDON_AFTER = "abandonAfter";
+  private static String KEY_ABANDON_IF_MERGEABLE = "abandonIfMergeable";
   private static String KEY_ABANDON_MESSAGE = "abandonMessage";
   private static String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
@@ -35,6 +36,7 @@ public class ChangeCleanupConfig {
 
   private final ScheduleConfig scheduleConfig;
   private final long abandonAfter;
+  private final boolean abandonIfMergeable;
   private final String abandonMessage;
 
   @Inject
@@ -42,6 +44,7 @@ public class ChangeCleanupConfig {
       @CanonicalWebUrl String canonicalWebUrl) {
     scheduleConfig = new ScheduleConfig(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
+    abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
     abandonMessage = readAbandonMessage(cfg, canonicalWebUrl);
   }
 
@@ -67,6 +70,10 @@ public class ChangeCleanupConfig {
 
   public long getAbandonAfter() {
     return abandonAfter;
+  }
+
+  public boolean getAbandonIfMergeable() {
+    return abandonIfMergeable;
   }
 
   public String getAbandonMessage() {

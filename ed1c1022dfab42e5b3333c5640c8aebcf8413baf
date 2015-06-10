@@ -46,6 +46,30 @@
       "revId": "ed1c1022dfab42e5b3333c5640c8aebcf8413baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_5df21be6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T19:44:17Z",
+      "side": 1,
+      "message": "That\u0027s fine.",
+      "parentUuid": "591ddcf5_fae20915",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "ed1c1022dfab42e5b3333c5640c8aebcf8413baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

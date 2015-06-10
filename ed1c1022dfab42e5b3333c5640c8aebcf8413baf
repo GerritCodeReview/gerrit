@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b94258dc_ddddcb55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T17:46:21Z",
+      "side": 1,
+      "message": "72 max char length: [1]. See this documentation how to format commit message: [2].\n\n* [1] Keep lines no longer than 72 chars\n* [2] Documentation/dev-contributing.txt",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "ed1c1022dfab42e5b3333c5640c8aebcf8413baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

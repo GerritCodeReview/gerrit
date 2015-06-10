@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
@@ -168,6 +169,10 @@ class ProjectBasicAuthFilter implements Filter {
         rsp.sendError(SC_UNAUTHORIZED);
         return false;
       }
+    } catch (AuthenticationFailedException e) {
+      log.warn("Authentication failed for " + username + ": " + e.getMessage());
+      rsp.sendError(SC_UNAUTHORIZED);
+      return false;
     } catch (AccountException e) {
       log.warn("Authentication failed for " + username, e);
       rsp.sendError(SC_UNAUTHORIZED);

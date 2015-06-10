@@ -934,6 +934,12 @@ The following suffixes are supported to define the time unit:
 * `mon, month, months` (`1 month` is treated as `30 days`)
 * `y, year, years` (`1 year` is treated as `365 days`)
 
+[[changeCleanup.abandonIfMergeable]]changeCleanup.abandonIfMergeable::
++
+Whether changes which are mergeable should be auto-abandoned.
++
+By default `true`.
+
 [[changeCleanup.abandonMessage]]changeCleanup.abandonMessage::
 +
 Change message that should be posted when a change is abandoned.

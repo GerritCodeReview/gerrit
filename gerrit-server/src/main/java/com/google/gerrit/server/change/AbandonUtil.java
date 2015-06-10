@@ -70,6 +70,9 @@ public class AbandonUtil {
       String query = "status:new age:"
           + TimeUnit.MILLISECONDS.toMinutes(cfg.getAbandonAfter())
           + "m";
+      if (!cfg.getAbandonIfMergeable()) {
+        query += " -is:mergeable";
+      }
       List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
           .queryChanges(queryBuilder.parse(query)).changes();
       for (ChangeData cd : changesToAbandon) {

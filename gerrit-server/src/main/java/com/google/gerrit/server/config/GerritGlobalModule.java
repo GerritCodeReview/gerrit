@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
@@ -215,6 +216,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ToolsCatalog.class);
     bind(EventFactory.class);
     bind(TransferConfig.class);
+    bind(GitWebConfig.class);
 
     bind(GcConfig.class);
 
@@ -275,6 +277,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MessageOfTheDay.class);
     DynamicMap.mapOf(binder(), DownloadScheme.class);
     DynamicMap.mapOf(binder(), DownloadCommand.class);
+    DynamicMap.mapOf(binder(), CloneCommand.class);
     DynamicMap.mapOf(binder(), ExternalIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);

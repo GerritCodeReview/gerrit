@@ -40,13 +40,19 @@ public class AuthConfig {
   private final String httpEmailHeader;
   private final String httpExternalIdHeader;
   private final String registerPageUrl;
+  private final String registerUrl;
+  private final String registerText;
   private final boolean trustContainerAuth;
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
   private final boolean gitBasicAuth;
   private final boolean useContributorAgreements;
   private final String loginUrl;
+  private final String loginText;
   private final String logoutUrl;
+  private final String switchAccountUrl;
+  private final String editFullNameUrl;
+  private final String httpPasswordUrl;
   private final String openIdSsoUrl;
   private final List<String> openIdDomains;
   private final List<OpenIdProviderPattern> trustedOpenIDs;
@@ -65,8 +71,14 @@ public class AuthConfig {
     httpEmailHeader = cfg.getString("auth", null, "httpemailheader");
     httpExternalIdHeader = cfg.getString("auth", null, "httpexternalidheader");
     loginUrl = cfg.getString("auth", null, "loginurl");
+    loginText = cfg.getString("auth", null, "logintext");
     logoutUrl = cfg.getString("auth", null, "logouturl");
+    switchAccountUrl = cfg.getString("auth", null, "switchAccountUrl");
+    editFullNameUrl = cfg.getString("auth", null, "editFullNameUrl");
+    httpPasswordUrl = cfg.getString("auth", null, "httpPasswordUrl");
     registerPageUrl = cfg.getString("auth", null, "registerPageUrl");
+    registerUrl = cfg.getString("auth", null, "registerUrl");
+    registerText = cfg.getString("auth", null, "registerText");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
     openIdDomains = Arrays.asList(cfg.getStringList("auth", null, "openIdDomain"));
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
@@ -144,8 +156,24 @@ public class AuthConfig {
     return loginUrl;
   }
 
+  public String getLoginText() {
+    return loginText;
+  }
+
   public String getLogoutURL() {
     return logoutUrl;
+  }
+
+  public String getSwitchAccountUrl() {
+    return switchAccountUrl;
+  }
+
+  public String getEditFullNameUrl() {
+    return editFullNameUrl;
+  }
+
+  public String getHttpPasswordUrl() {
+    return httpPasswordUrl;
   }
 
   public String getOpenIdSsoUrl() {
@@ -269,6 +297,14 @@ public class AuthConfig {
 
   public String getRegisterPageUrl() {
     return registerPageUrl;
+  }
+
+  public String getRegisterUrl() {
+    return registerUrl;
+  }
+
+  public String getRegisterText() {
+    return registerText;
   }
 
   public boolean isLdapAuthType() {

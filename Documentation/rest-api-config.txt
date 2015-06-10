@@ -68,6 +68,10 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Format Patch": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
             "Pull": "git pull http://gerrithost:8080/${project} ${ref}",
             "Cherry Pick": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          },
+          "clone_commands": {
+            "Clone": "git clone http://gerrithost:8080/${project}"
+            "Clone with commit-msg hook": "git clone http://gerrithost:8080/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         },
         "http": {
@@ -79,6 +83,10 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Format Patch": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
             "Pull": "git pull http://jdoe@gerrithost:8080/${project} ${ref}",
             "Cherry Pick": "git fetch http://jdoe@gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          },
+          "clone_commands": {
+            "Clone": "git clone http://jdoe@gerrithost:8080/${project}",
+            "Clone with commit-msg hook": "git clone http://jdoe@gerrithost:8080/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         },
         "ssh": {
@@ -90,6 +98,10 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Format Patch": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
             "Pull": "git pull ssh://jdoe@gerrithost:29418/${project} ${ref}",
             "Cherry Pick": "git fetch ssh://jdoe@gerrithost:29418/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+          },
+          "clone_commands": {
+            "Clone": "git clone ssh://jdoe@gerrithost:29418/${project}",
+            "Clone with commit-msg hook": "git clone ssh://jdoe@gerrithost:29418/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         }
       ],
@@ -103,6 +115,13 @@ As result a link:#server-info[ServerInfo] entity is returned.
     "gerrit": {
       "all_projects": "All-Projects",
       "all_users": "All-Users"
+    },
+    "sshd": {},
+    "suggest": {
+      "from": 0
+    },
+    "user": {
+      "anonymous_coward_name": "Anonymous Coward"
     }
   }
 ----
@@ -919,6 +938,38 @@ agreements] are required.
 |`editable_account_fields`    ||
 List of account fields that are editable. Possible values are
 `FULL_NAME`, `USER_NAME` and `REGISTER_NEW_EMAIL`.
+|`login_url`                  |optional|
+The link:config-gerrit.html#auth.loginUrl[login URL]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is `HTTP` or
+`HTTP_LDAP`.
+|`login_text`                 |optional|
+The link:config-gerrit.html#auth.loginText[login text]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is `HTTP` or
+`HTTP_LDAP`.
+|`switch_account_url`         |optional|
+The link:config-gerrit.html#auth.switchAccountUrl[URL to switch
+accounts].
+|`register_url`               |optional|
+The link:config-gerrit.html#auth.registerUrl[register URL]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
+`LDAP_BIND` or `CUSTOM_EXTENSION`.
+|`register_text`              |optional|
+The link:config-gerrit.html#auth.registerText[register text]. Only set
+if link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
+`LDAP_BIND` or `CUSTOM_EXTENSION`.
+|`edit_full_name_url`         |optional|
+The link:config-gerrit.html#auth.editFullNameUrl[URL to edit the full
+name]. Only set if link:config-gerrit.html#auth.type[authentication
+type] is `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
+|`http_password_url`          |optional|
+The link:config-gerrit.html#auth.httpPasswordUrl[URL to obtain an HTTP
+password]. Only set if link:config-gerrit.html#auth.type[authentication
+type] is `CUSTOM_EXTENSION`.
+|`is_git_basic_auth`          |optional, not set if `false`|
+Whether link:config-gerrit.html#auth.gitBasicAuth[basic authentication
+is used for Git over HTTP/HTTPS]. Only set if
+link:config-gerrit.html#auth.type[authentication type] is is `LDAP` or
+`LDAP_BIND`.
 |==========================================
 
 [[cache-info]]
@@ -977,6 +1028,32 @@ The `CapabilityInfo` entity contains information about a capability.
 |`name`               |capability name
 |=================================
 
+[[change-config-info]]
+=== ChangeConfigInfo
+The `ChangeConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#change[change]
+section.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`allow_drafts`  |not set if `false`|
+link:config-gerrit.html#change.allowDrafts[Whether draft workflow is
+allowed].
+|`large_change`  ||
+link:config-gerrit.html#change.largeChange[Number of changed lines from
+which on a change is considered as a large change].
+|`reply_label`   ||
+link:config-gerrit.html#change.replyTooltip[Label name for the reply
+button].
+|`reply_tooltip` ||
+link:config-gerrit.html#change.replyTooltip[Tooltip for the reply
+button].
+|`update_delay`  ||
+link:config-gerrit.html#change.updateDelay[How often in seconds the web
+interface should poll for updates to the currently open change].
+|=============================
+
 [[contact-store-info]]
 === ContactStoreInfo
 The `ContactStoreInfo` entity contains information about the contact
@@ -1028,6 +1105,13 @@ placeholder for the (change) ref.
 
 Empty, if accessed anonymously and the download scheme requires
 authentication.
+|`clone_commands`    ||
+Clone commands as a map which maps the command name to the clone
+command. In the clone command '${project}' is used as
+placeholder for the project name.
+
+Empty, if accessed anonymously and the download scheme requires
+authentication.
 |=================================
 
 [[entries-info]]
@@ -1053,15 +1137,68 @@ with a unit abbreviation (`k`: kilobytes, `m`: megabytes,
 The `GerritInfo` entity contains information about Gerrit
 configuration from the link:config-gerrit.html#gerrit[gerrit] section.
 
-[options="header",cols="1,6"]
-|================================
-|Field Name          |Description
-|`all_projects_name` |
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`all_projects_name` ||
 Name of the link:config-gerrit.html#gerrit.allProjects[root project].
-|`all_users_name`    |
+|`all_users_name`    ||
 Name of the link:config-gerrit.html#gerrit.allUsers[project in which
 meta data of all users is stored].
-|================================
+|`report_bug_url`    |optional|
+link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
+|`report_bug_text`   |optional, not set if default|
+link:config-gerrit.html#gerrit.reportBugText[Display text for report
+bugs link].
+|=================================
+
+[[git-web-info]]
+=== GitWebInfo
+The `GitWebInfo` entity contains information about the
+link:config-gerrit.html#gitweb[GitWeb] configuration.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`url`      |
+The link:config-gerrit.html#gitweb.url[GitWeb base URL].
+|`type`     |
+The link:config-gerrit.html#gitweb.type[GitWeb type] as
+link:#git-web-type-info[GitWebTypeInfo] entity.
+|=======================
+
+[[git-web-type-info]]
+=== GitWebTypeInfo
+The `GitWebTypeInfo` entity contains information about the
+link:config-gerrit.html#gitweb[GitWeb] configuration.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`name`          ||
+The link:config-gerrit.html#gitweb.linkname[GitWeb link name].
+|`revision`      |optional|
+The link:config-gerrit.html#gitweb.revision[GitWeb revision pattern].
+|`project`       |optional|
+The link:config-gerrit.html#gitweb.project[GitWeb project pattern].
+|`branch`        |optional|
+The link:config-gerrit.html#gitweb.branch[GitWeb branch pattern].
+|`root_tree`     |optional|
+The link:config-gerrit.html#gitweb.roottree[GitWeb root tree pattern].
+|`file`          |optional|
+The link:config-gerrit.html#gitweb.file[GitWeb file pattern].
+|`file_history`  |optional|
+The link:config-gerrit.html#gitweb.filehistory[GitWeb file history
+pattern].
+|`path_separator`||
+The link:config-gerrit.html#gitweb.pathSeparator[GitWeb path separator].
+|`link_drafts`   |optional|
+link:config-gerrit.html#gitweb.linkDrafts[Whether Gerrit should provide
+links to GitWeb on draft patch set.]
+|`url_encode`    |optional|
+link:config-gerrit.html#gitweb.urlEncode[Whether Gerrit should encode
+the generated viewer URL.]
+|=============================
 
 [[hit-ration-info]]
 === HitRatioInfo
@@ -1136,6 +1273,10 @@ the Gerrit server.
 |`auth`                    ||
 Information about the authentication configuration as
 link:#auth-info[AuthInfo] entity.
+|`change`                  ||
+Information about the configuration from the
+link:config-gerrit.html#change[change] section as
+link:#change-config-info[ChangeConfigInfo] entity.
 |`contact_store`           |optional|
 Information about the contact store configuration as
 link:#contact-store-info[ContactStoreInfo] entity.
@@ -1147,7 +1288,46 @@ information about Gerrit
 Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
+|`git_web`                 |optional|
+Information about the link:config-gerrit.html#gitweb[GitWeb]
+configuration as link:#git-web-info[GitWebInfo] entity.
+|`sshd`                    |optional|
+Information about the configuration from the
+link:config-gerrit.html#sshd[sshd] section as link:#sshd-info[SshdInfo]
+entity. Not set if SSHD is disabled.
+|`suggest`                 ||
+Information about the configuration from the
+link:config-gerrit.html#suggest[suggest] section as link:#suggest-info[
+SuggestInfo] entity.
+|`user`                    ||
+Information about the configuration from the
+link:config-gerrit.html#user[user] section as link:#user-config-info[
+UserConfigInfo] entity.
 |=======================================
+
+[[sshd-info]]
+=== SshdInfo
+The `SshdInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#sshd[sshd]
+section.
+
+This entity doesn't contain any data, but the presence of this (empty)
+entity in the link:#server-info[ServerInfo] entity means that SSHD is
+enabled on the server.
+
+[[suggest-info]]
+=== SuggestInfo
+The `SuggestInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#suggest[suggest]
+section.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`from`     |
+The link:config-gerrit.html#suggest.from[number of characters] that a
+user must have typed before suggestions are provided.
+|=======================
 
 [[summary-info]]
 === SummaryInfo
@@ -1259,6 +1439,21 @@ a top menu entry.
 |`target`   ||Target attribute of the menu item link.
 |`id`       |optional|The `id` attribute of the menu item link.
 |========================
+
+[[user-config-info]]
+=== UserConfigInfo
+The `UserConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#user[user] section.
+
+[options="header",cols="1,6"]
+|====================================
+|Field Name              |Description
+|`anonymous_coward_name` |
+link:config-gerrit.html#user.anonymousCoward[Username] that is
+displayed in the Gerrit Web UI and in e-mail notifications if the full
+name of the user is not set.
+|====================================
+
 
 GERRIT
 ------

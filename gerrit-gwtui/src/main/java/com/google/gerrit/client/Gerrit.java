@@ -27,8 +27,10 @@ import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
+import com.google.gerrit.client.config.AuthInfo;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.config.ServerInfo;
+import com.google.gerrit.client.documentation.DocInfo;
 import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
@@ -42,8 +44,6 @@ import com.google.gerrit.client.ui.MorphingTabPanel;
 import com.google.gerrit.client.ui.ProjectLinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.GerritTopMenu;
@@ -65,6 +65,11 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
@@ -103,10 +108,11 @@ public class Gerrit implements EntryPoint {
   public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
   public static final Themer THEMER = GWT.create(Themer.class);
   public static final String PROJECT_NAME_MENU_VAR = "${projectName}";
+  public static final String INDEX = "Documentation/index.html";
 
   private static String myHost;
-  private static GerritConfig myConfig;
   private static ServerInfo myServerInfo;
+  private static boolean hasDocumentation;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static String defaultScreenToken;
@@ -285,18 +291,8 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Get the public configuration data used by this Gerrit instance. */
-  public static GerritConfig getConfig() {
-    return myConfig;
-  }
-
-  /** Get the public configuration data used by this Gerrit instance. */
   public static ServerInfo info() {
     return myServerInfo;
-  }
-
-  public static GitwebLink getGitwebLink() {
-    GitwebConfig gw = getConfig().getGitwebLink();
-    return gw != null && gw.type != null ? new GitwebLink(gw) : null;
   }
 
   /** Site theme information (site specific colors)/ */
@@ -434,6 +430,12 @@ public class Gerrit implements EntryPoint {
 
     RpcStatus.INSTANCE = new RpcStatus();
     CallbackGroup cbg = new CallbackGroup();
+    getDocIndex(cbg.add(new GerritCallback<DocInfo>() {
+      @Override
+      public void onSuccess(DocInfo indexInfo) {
+        hasDocumentation = indexInfo != null;
+      }
+    }));
     ConfigServerApi.serverInfo(cbg.add(new GerritCallback<ServerInfo>() {
       @Override
       public void onSuccess(ServerInfo info) {
@@ -445,7 +447,6 @@ public class Gerrit implements EntryPoint {
       @Override
       public void onSuccess(final HostPageData result) {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
-        myConfig = result.config;
         myTheme = result.theme;
         isNoteDbEnabled = result.isNoteDbEnabled;
         if (result.account != null) {
@@ -485,9 +486,9 @@ public class Gerrit implements EntryPoint {
 
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
 
-    String reportBugUrl = getConfig().getReportBugUrl();
+    String reportBugUrl = info().gerrit().reportBugUrl();
     if (reportBugUrl != null) {
-      String reportBugText = getConfig().getReportBugText();
+      String reportBugText = info().gerrit().reportBugText();
       Anchor a = new Anchor(
           reportBugText == null ? C.reportBug() : reportBugText,
           reportBugUrl);
@@ -623,8 +624,8 @@ public class Gerrit implements EntryPoint {
 
     menuBars = new HashMap<>();
 
-    final boolean signedIn = isSignedIn();
-    final GerritConfig cfg = getConfig();
+    boolean signedIn = isSignedIn();
+    AuthInfo authInfo = info().auth();
     LinkMenuBar m;
 
     m = new LinkMenuBar();
@@ -705,7 +706,7 @@ public class Gerrit implements EntryPoint {
       }, CREATE_PROJECT, CREATE_GROUP, VIEW_PLUGINS);
     }
 
-    if (getConfig().isDocumentationAvailable()) {
+    if (hasDocumentation) {
       m = new LinkMenuBar();
       menuBars.put(GerritTopMenu.DOCUMENTATION.menuName, m);
       addDocLink(m, C.menuDocumentationTOC(), "index.html");
@@ -718,9 +719,9 @@ public class Gerrit implements EntryPoint {
     }
 
     if (signedIn) {
-      whoAmI(!info().auth().isClientSslCertLdap());
+      whoAmI(!authInfo.isClientSslCertLdap());
     } else {
-      switch (info().auth().authType()) {
+      switch (authInfo.authType()) {
         case CLIENT_SSL_CERT_LDAP:
           break;
 
@@ -763,18 +764,22 @@ public class Gerrit implements EntryPoint {
 
         case HTTP:
         case HTTP_LDAP:
-          if (cfg.getLoginUrl() != null) {
-            final String signinText = cfg.getLoginText() == null ? C.menuSignIn() : cfg.getLoginText();
-            menuRight.add(anchor(signinText, cfg.getLoginUrl()));
+          if (authInfo.loginUrl() != null) {
+            String signinText = authInfo.loginText() == null
+                ? C.menuSignIn()
+                : authInfo.loginText();
+            menuRight.add(anchor(signinText, authInfo.loginUrl()));
           }
           break;
 
         case LDAP:
         case LDAP_BIND:
         case CUSTOM_EXTENSION:
-          if (cfg.getRegisterUrl() != null) {
-            final String registerText = cfg.getRegisterText() == null ? C.menuRegister() : cfg.getRegisterText();
-            menuRight.add(anchor(registerText, cfg.getRegisterUrl()));
+          if (authInfo.registerUrl() != null) {
+            String registerText = authInfo.registerText() == null
+                ? C.menuRegister()
+                : authInfo.registerText();
+            menuRight.add(anchor(registerText, authInfo.registerUrl()));
           }
           menuRight.addItem(C.menuSignIn(), new Command() {
             @Override
@@ -808,6 +813,32 @@ public class Gerrit implements EntryPoint {
         }
       }
     });
+  }
+
+  private static void getDocIndex(final AsyncCallback<DocInfo> cb) {
+    RequestBuilder req =
+        new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL()
+            + INDEX);
+    req.setCallback(new RequestCallback() {
+      @Override
+      public void onResponseReceived(Request req, Response resp) {
+        if (resp.getStatusCode() == Response.SC_OK) {
+          cb.onSuccess(DocInfo.create());
+        } else {
+          cb.onSuccess(null);
+        }
+      }
+
+      @Override
+      public void onError(Request request, Throwable e) {
+        cb.onFailure(e);
+      }
+    });
+    try {
+      req.send();
+    } catch (RequestException e) {
+      cb.onFailure(e);
+    }
   }
 
   private static AsyncCallback<Preferences> createMyMenuBarCallback() {

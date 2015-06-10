@@ -18,16 +18,29 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DownloadInfo extends JavaScriptObject {
   public final Set<String> schemes() {
     return Natives.keys(_schemes());
   }
+
+  public final List<String> archives() {
+    List<String> archives = new ArrayList<>();
+    for (String f : Natives.asList(_archives())) {
+      archives.add(f);
+    }
+    return archives;
+  }
+
   public final native DownloadSchemeInfo scheme(String n) /*-{ return this.schemes[n]; }-*/;
   private final native NativeMap<DownloadSchemeInfo> _schemes() /*-{ return this.schemes; }-*/;
+  private final native JsArrayString _archives() /*-{ return this.archives; }-*/;
 
   protected DownloadInfo() {
   }
@@ -50,6 +63,23 @@ public class DownloadInfo extends JavaScriptObject {
       return command(commandName).replaceAll("\\$\\{project\\}", project);
     }
 
+    public final Set<String> cloneCommandNames() {
+      return Natives.keys(_cloneCommands());
+    }
+
+    public final Set<DownloadCommandInfo> cloneCommands(String project) {
+      Set<DownloadCommandInfo> commands = new HashSet<>();
+      for (String commandName : cloneCommandNames()) {
+        commands.add(new DownloadCommandInfo(commandName, cloneCommand(
+            commandName, project)));
+      }
+      return commands;
+    }
+
+    public final String cloneCommand(String commandName, String project) {
+      return cloneCommand(commandName).replaceAll("\\$\\{project\\}", project);
+    }
+
     public final String getUrl(String project) {
       return url().replaceAll("\\$\\{project\\}", project);
     }
@@ -59,7 +89,9 @@ public class DownloadInfo extends JavaScriptObject {
     public final native boolean isAuthRequired() /*-{ return this.is_auth_required || false; }-*/;
     public final native boolean isAuthSupported() /*-{ return this.is_auth_supported || false; }-*/;
     public final native String command(String n) /*-{ return this.commands[n]; }-*/;
+    public final native String cloneCommand(String n) /*-{ return this.clone_commands[n]; }-*/;
     private final native NativeMap<NativeString> _commands() /*-{ return this.commands; }-*/;
+    private final native NativeMap<NativeString> _cloneCommands() /*-{ return this.clone_commands; }-*/;
 
     protected DownloadSchemeInfo() {
     }

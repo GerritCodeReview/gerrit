@@ -26,7 +26,6 @@ public class HostPageData {
   public Account account;
   public AccountDiffPreference accountDiffPref;
   public String xGerritAuth;
-  public GerritConfig config;
   public Theme theme;
   public List<String> plugins;
   public List<Message> messages;

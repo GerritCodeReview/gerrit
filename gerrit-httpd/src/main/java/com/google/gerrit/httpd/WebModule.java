@@ -17,7 +17,6 @@ package com.google.gerrit.httpd;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
@@ -31,12 +30,11 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.GitWebConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 
@@ -49,21 +47,14 @@ public class WebModule extends LifecycleModule {
   private final GerritOptions options;
 
   @Inject
-  WebModule(final AuthConfig authConfig,
-      @CanonicalWebUrl @Nullable final String canonicalUrl,
+  WebModule(AuthConfig authConfig,
+      @CanonicalWebUrl @Nullable String canonicalUrl,
       GerritOptions options,
-      final Injector creatingInjector) {
+      GitWebConfig gitWebConfig) {
     this.authConfig = authConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.options = options;
-
-    this.gitWebConfig =
-        creatingInjector.createChildInjector(new AbstractModule() {
-          @Override
-          protected void configure() {
-            bind(GitWebConfig.class);
-          }
-        }).getInstance(GitWebConfig.class);
+    this.gitWebConfig = gitWebConfig;
   }
 
   @Override
@@ -84,13 +75,10 @@ public class WebModule extends LifecycleModule {
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));
 
-    bind(GitWebConfig.class).toInstance(gitWebConfig);
     if (gitWebConfig.getGitwebCGI() != null) {
       install(new GitWebModule());
     }
 
-    bind(GerritConfigProvider.class);
-    bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     install(new AsyncReceiveCommits.Module());

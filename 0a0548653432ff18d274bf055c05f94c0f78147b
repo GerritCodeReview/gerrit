@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e6bc29_b27b6073",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-10T13:13:26Z",
+      "side": 1,
+      "message": "This scenario can also be created without using the %base option. For example one can push R1 and R2 for review on master then go to Gerrits\u0027UI and create a new branch B on the commit R2.\n\nStarting from 2.11 it is also possible to have a project level configuration \"Create a new change for every commit not in the target branch:\" which will automatically set the %base for each push.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "0a0548653432ff18d274bf055c05f94c0f78147b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e6bc29_92805cd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-10T13:13:26Z",
+      "side": 1,
+      "message": "merged into another branch",
+      "range": {
+        "startLine": 441,
+        "startChar": 84,
+        "endLine": 441,
+        "endChar": 90
+      },
+      "revId": "0a0548653432ff18d274bf055c05f94c0f78147b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

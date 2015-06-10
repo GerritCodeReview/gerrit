@@ -499,7 +499,7 @@ public class MergeOp {
   }
 
   public void integrateIntoHistory(ChangeSet cs)
-      throws MergeException, NoSuchChangeException {
+      throws MergeException, NoSuchChangeException, ResourceConflictException {
     logDebug("Beginning merge attempt on {}", changes);
     try {
       openSchema();
@@ -912,7 +912,7 @@ public class MergeOp {
   }
 
   private void updateChangeStatus(List<Change> submitted, MergeTip mergeTip)
-      throws NoSuchChangeException, MergeException {
+      throws NoSuchChangeException, MergeException, ResourceConflictException {
     logDebug("Updating change status for {} changes", submitted.size());
     for (Change c : submitted) {
       CodeReviewCommit commit = commits.get(c.getId());
@@ -961,7 +961,7 @@ public class MergeOp {
           case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
           case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN:
             setNew(commit.notes(), message(c, txt));
-            throw new MergeException("Cannot merge " + commit.getId().getName()
+            throw new ResourceConflictException("Cannot merge " + commit.getId().getName()
                 + ".\n" + s.getMessage());
 
           case MISSING_DEPENDENCY:

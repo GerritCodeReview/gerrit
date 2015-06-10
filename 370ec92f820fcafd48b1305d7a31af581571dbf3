@@ -46,6 +46,30 @@
       "revId": "370ec92f820fcafd48b1305d7a31af581571dbf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e908fb_f19a084d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T11:05:04Z",
+      "side": 1,
+      "message": "Yes for proprietary products. No for community driven Open Source projects. The readers of the documentation are potentially contributors. They see placeholder links, realized they are dead, find HOW_TO_CONTRIBUTE.md, upload a patch, fixed, done.",
+      "parentUuid": "59e6bc29_92f29c94",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "370ec92f820fcafd48b1305d7a31af581571dbf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

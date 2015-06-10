@@ -78,21 +78,22 @@ public class ChangeCleanupRunner implements Runnable {
   }
 
   private final OneOffRequestContext oneOffRequestContext;
-  private final AbandonUtil abandonUtil;
+  private final ChangeCleanupUtil util;
 
   @Inject
   ChangeCleanupRunner(
       OneOffRequestContext oneOffRequestContext,
-      AbandonUtil abandonUtil) {
+      ChangeCleanupUtil util) {
     this.oneOffRequestContext = oneOffRequestContext;
-    this.abandonUtil = abandonUtil;
+    this.util = util;
   }
 
   @Override
   public void run() {
     log.info("Running change cleanups.");
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      abandonUtil.abandonInactiveOpenChanges();
+      util.rebaseInactiveOpenChanges();
+      util.abandonInactiveOpenChanges();
     } catch (OrmException e) {
       log.error("Failed to cleanup changes.", e);
     }

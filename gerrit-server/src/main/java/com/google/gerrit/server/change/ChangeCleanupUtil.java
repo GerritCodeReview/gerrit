@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.QueryProcessor;
@@ -33,9 +36,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
-public class AbandonUtil {
+public class ChangeCleanupUtil {
   private static final Logger log = LoggerFactory
-      .getLogger(AbandonUtil.class);
+      .getLogger(ChangeCleanupUtil.class);
 
   private final ChangeCleanupConfig cfg;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -43,21 +46,24 @@ public class AbandonUtil {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Abandon abandon;
+  private final RebaseChange rebase;
 
   @Inject
-  AbandonUtil(
+  ChangeCleanupUtil(
       ChangeCleanupConfig cfg,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       QueryProcessor queryProcessor,
       ChangeQueryBuilder queryBuilder,
       ChangeControl.GenericFactory changeControlFactory,
-      Abandon abandon) {
+      Abandon abandon,
+      RebaseChange rebase) {
     this.cfg = cfg;
     this.identifiedUserFactory = identifiedUserFactory;
     this.queryProcessor = queryProcessor;
     this.queryBuilder = queryBuilder;
     this.changeControlFactory = changeControlFactory;
     this.abandon = abandon;
+    this.rebase = rebase;
   }
 
   public void abandonInactiveOpenChanges() {
@@ -66,17 +72,43 @@ public class AbandonUtil {
     }
 
     try {
-      String query = "status:open age:"
-          + TimeUnit.MILLISECONDS.toMinutes(cfg.getAbandonAfter())
-          + "m";
-      List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
-          .queryChanges(queryBuilder.parse(query)).changes();
-      for (ChangeData cd : changesToAbandon) {
+      for (ChangeData cd : query(inactiveChangesQuery(cfg.getAbandonAfter()))) {
         abandon.abandon(changeControl(cd), cfg.getAbandonMessage(), null);
       }
     } catch (Throwable e) {
       log.error("Failed to auto-abandon inactive open changes.", e);
     }
+  }
+
+  public void rebaseInactiveOpenChanges() {
+    if (cfg.getRebaseAfter() <= 0) {
+      return;
+    }
+
+    try {
+      for (ChangeData cd : query(inactiveChangesQuery(cfg.getRebaseAfter())
+          + " is:mergeable")) {
+        try {
+          rebase.rebase(changeControl(cd));
+        } catch (InvalidChangeOperationException e) {
+          // Change is already up to date.
+        } catch (ResourceConflictException e) {
+          // Change cannot be rebased due to conflicts.
+        }
+      }
+    } catch (Throwable e) {
+      log.error("Failed to auto-rebase inactive open changes.", e);
+    }
+  }
+
+  private static String inactiveChangesQuery(long time) {
+    return "status:open age:" + TimeUnit.MILLISECONDS.toMinutes(time) + "m";
+  }
+
+  private List<ChangeData> query(String query) throws OrmException,
+      QueryParseException {
+    return queryProcessor.enforceVisibility(false)
+        .queryChanges(queryBuilder.parse(query)).changes();
   }
 
   private ChangeControl changeControl(ChangeData cd)

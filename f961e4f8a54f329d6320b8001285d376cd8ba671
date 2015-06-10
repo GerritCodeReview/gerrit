@@ -22,6 +22,93 @@
       "revId": "f961e4f8a54f329d6320b8001285d376cd8ba671",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_9dc0a371",
+        "filename": "lib/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T16:07:12Z",
+      "side": 1,
+      "message": "Yeah, and it\u0027s unused now.",
+      "parentUuid": "591ddcf5_dab6252c",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 1
+      },
+      "revId": "f961e4f8a54f329d6320b8001285d376cd8ba671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_bdc55f80",
+        "filename": "lib/hamcrest/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T16:07:12Z",
+      "side": 1,
+      "message": "That\u0027s kind of unexpected to include junit library in lib/BUCK and extract its dependency in dedicated lib/hamcrest/BUCK. Shouldn\u0027t we rather put junit and its dependency in lib/junit/BUCK instead (or keep it all in lib/BUCK)?",
+      "revId": "f961e4f8a54f329d6320b8001285d376cd8ba671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_5dcbfb93",
+        "filename": "lib/hamcrest/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T16:07:12Z",
+      "side": 1,
+      "message": "I suppose this line is not needed?",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "f961e4f8a54f329d6320b8001285d376cd8ba671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_1dd5732d",
+        "filename": "lib/hamcrest/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-10T16:07:12Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 1
+      },
+      "revId": "f961e4f8a54f329d6320b8001285d376cd8ba671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

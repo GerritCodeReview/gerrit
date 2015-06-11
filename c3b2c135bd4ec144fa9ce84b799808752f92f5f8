@@ -1,0 +1,533 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "794c6014_9b818b06",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 261,
+        "startChar": 1,
+        "endLine": 263,
+        "endChar": 69
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_3a9c0171",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/css/rebind/CssLinker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 81,
+        "startChar": 1,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_da870519",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 187,
+        "startChar": 1,
+        "endLine": 188,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_bb86c719",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_fa8c493f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_9a818d06",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 649,
+        "startChar": 0,
+        "endLine": 650,
+        "endChar": 34
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_5a7c5598",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 105,
+        "startChar": 1,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_7a7919a7",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 202,
+        "startChar": 1,
+        "endLine": 203,
+        "endChar": 44
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_1a76ddb6",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 52
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_3a73a1c7",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 354,
+        "startChar": 0,
+        "endLine": 355,
+        "endChar": 63
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_5b7c6398",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 542,
+        "endChar": 56
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_dafe257d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_7b791fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_faa529bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These can be combined into a single try block.",
+      "range": {
+        "startLine": 159,
+        "startChar": 1,
+        "endLine": 160,
+        "endChar": 77
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_1b9fbb68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 337,
+        "startChar": 4,
+        "endLine": 338,
+        "endChar": 49
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_3b9cf770",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 87,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_db871319",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined.",
+      "range": {
+        "startLine": 126,
+        "startChar": 1,
+        "endLine": 127,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_9aaaed8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 273,
+        "startChar": 1,
+        "endLine": 274,
+        "endChar": 69
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_baafb19b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 508,
+        "startChar": 1,
+        "endLine": 509,
+        "endChar": 70
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_5a953546",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 79
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_7a927961",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 63
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_fb8c4f3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersionCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 41
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_1a9fbd68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-11T20:18:35Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 69
+      },
+      "revId": "c3b2c135bd4ec144fa9ce84b799808752f92f5f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

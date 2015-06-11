@@ -72,11 +72,8 @@ class GitWebJavaScriptServlet extends HttpServlet {
       rsp.setDateHeader("Last-Modified", modified);
       CacheHeaders.setCacheable(req, rsp, 5, TimeUnit.MINUTES);
 
-      final ServletOutputStream os = rsp.getOutputStream();
-      try {
+      try (ServletOutputStream os = rsp.getOutputStream()) {
         os.write(raw);
-      } finally {
-        os.close();
       }
     } else {
       CacheHeaders.setNotCacheable(rsp);

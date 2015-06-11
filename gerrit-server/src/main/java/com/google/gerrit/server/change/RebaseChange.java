@@ -364,25 +364,21 @@ public class RebaseChange {
 
   public boolean canRebase(Project.NameKey project, PatchSet.Id patchSetId,
       Branch.NameKey branch) {
-    Repository git;
-    try {
-      git = gitManager.openRepository(project);
+    try (Repository git = gitManager.openRepository(project)) {
+      try (RevWalk rw = new RevWalk(git)) {
+        findBaseRevision(patchSetId, db.get(), branch, git, rw);
+        return true;
+      } catch (InvalidChangeOperationException e) {
+        return false;
+      } catch (OrmException | IOException e) {
+        log.warn("Error checking if patch set " + patchSetId + " on " + branch
+            + " can be rebased", e);
+        return false;
+      }
     } catch (RepositoryNotFoundException err) {
       return false;
     } catch (IOException err) {
       return false;
-    }
-    try (RevWalk rw = new RevWalk(git)) {
-      findBaseRevision(patchSetId, db.get(), branch, git, rw);
-      return true;
-    } catch (InvalidChangeOperationException e) {
-      return false;
-    } catch (OrmException | IOException e) {
-      log.warn("Error checking if patch set " + patchSetId + " on " + branch
-          + " can be rebased", e);
-      return false;
-    } finally {
-      git.close();
     }
   }
 }

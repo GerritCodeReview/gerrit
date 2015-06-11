@@ -188,13 +188,10 @@ public class LabelNormalizerTest {
   }
 
   private ProjectConfig loadAllProjects() throws Exception {
-    Repository repo = repoManager.openRepository(allProjects);
-    try {
+    try (Repository repo = repoManager.openRepository(allProjects)) {
       ProjectConfig pc = new ProjectConfig(allProjects);
       pc.load(repo);
       return pc;
-    } finally {
-      repo.close();
     }
   }
 

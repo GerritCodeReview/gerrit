@@ -47,11 +47,8 @@ public class BuckPrologCompiler {
   private static void jar(File jar, File classes) throws IOException {
     File tmp = File.createTempFile("prolog", ".jar", tmpdir);
     try {
-      JarOutputStream out = new JarOutputStream(new FileOutputStream(tmp));
-      try {
+      try (JarOutputStream out = new JarOutputStream(new FileOutputStream(tmp))) {
         add(out, classes, "");
-      } finally {
-        out.close();
       }
       if (!tmp.renameTo(jar)) {
         throw new IOException("Cannot create " + jar);

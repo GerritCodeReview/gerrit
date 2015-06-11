@@ -412,19 +412,14 @@ class GitWebServlet extends HttpServlet {
       return;
     }
 
-    final Repository repo;
-    try {
-      repo = repoManager.openRepository(nameKey);
+
+    try (@SuppressWarnings("UnusedDeclaration") // only open for existence-check
+         Repository repo = repoManager.openRepository(nameKey)) {
+      CacheHeaders.setNotCacheable(rsp);
+      exec(req, rsp, project);
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      return;
-    }
-    try {
-      CacheHeaders.setNotCacheable(rsp);
-      exec(req, rsp, project);
-    } finally {
-      repo.close();
     }
   }
 
@@ -474,25 +469,15 @@ class GitWebServlet extends HttpServlet {
       proc.getOutputStream().close();
     }
 
-    try {
-      final InputStream in;
+    try (InputStream in = new BufferedInputStream(proc.getInputStream(), bufferSize)) {
+      readCgiHeaders(rsp, in);
 
-      in = new BufferedInputStream(proc.getInputStream(), bufferSize);
-      try {
-        readCgiHeaders(rsp, in);
-
-        final OutputStream out = rsp.getOutputStream();
-        try {
-          final byte[] buf = new byte[bufferSize];
-          int n;
-          while ((n = in.read(buf)) > 0) {
-            out.write(buf, 0, n);
-          }
-        } finally {
-          out.close();
+      try (OutputStream out = rsp.getOutputStream()) {
+        final byte[] buf = new byte[bufferSize];
+        int n;
+        while ((n = in.read(buf)) > 0) {
+          out.write(buf, 0, n);
         }
-      } finally {
-        in.close();
       }
     } catch (IOException e) {
       // The browser has probably closed its input stream. We don't
@@ -649,16 +634,11 @@ class GitWebServlet extends HttpServlet {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        try {
-          final BufferedReader br =
-              new BufferedReader(new InputStreamReader(in, "ISO-8859-1"));
-          try {
-            String line;
-            while ((line = br.readLine()) != null) {
-              log.error("CGI: " + line);
-            }
-          } finally {
-            br.close();
+        try (BufferedReader br =
+            new BufferedReader(new InputStreamReader(in, "ISO-8859-1"))) {
+          String line;
+          while ((line = br.readLine()) != null) {
+            log.error("CGI: " + line);
           }
         } catch (IOException e) {
           log.debug("Unexpected error copying stderr from CGI", e);

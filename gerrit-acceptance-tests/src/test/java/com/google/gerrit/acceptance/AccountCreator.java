@@ -71,8 +71,7 @@ public class AccountCreator {
     if (account != null) {
       return account;
     }
-    ReviewDb db = reviewDbProvider.open();
-    try {
+    try (ReviewDb db = reviewDbProvider.open()) {
       Account.Id id = new Account.Id(db.nextAccountId());
       KeyPair sshKey = genSshKey();
       AccountSshKey key =
@@ -115,8 +114,6 @@ public class AccountCreator {
           new TestAccount(id, username, email, fullName, sshKey, httpPass);
       accounts.put(username, account);
       return account;
-    } finally {
-      db.close();
     }
   }
 

@@ -109,21 +109,15 @@ public class ToolsCatalog {
 
   private static byte[] read(String path) {
     String name = "root/" + path;
-    InputStream in = ToolsCatalog.class.getResourceAsStream(name);
-    if (in == null) {
-      return null;
-    }
-
-    try {
+    try (InputStream in = ToolsCatalog.class.getResourceAsStream(name)) {
+      if (in == null) {
+        return null;
+      }
       final ByteArrayOutputStream out = new ByteArrayOutputStream();
-      try {
-        final byte[] buf = new byte[8192];
-        int n;
-        while ((n = in.read(buf, 0, buf.length)) > 0) {
-          out.write(buf, 0, n);
-        }
-      } finally {
-        in.close();
+      final byte[] buf = new byte[8192];
+      int n;
+      while ((n = in.read(buf, 0, buf.length)) > 0) {
+        out.write(buf, 0, n);
       }
       return out.toByteArray();
     } catch (Exception e) {

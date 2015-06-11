@@ -86,14 +86,11 @@ public class GetPreferences implements RestReadView<AccountResource> {
       throw new ResourceNotFoundException();
     }
 
-    Repository git = gitMgr.openRepository(allUsersName);
-    try {
+    try (Repository git = gitMgr.openRepository(allUsersName)) {
       VersionedAccountPreferences p =
           VersionedAccountPreferences.forUser(rsrc.getUser().getAccountId());
       p.load(git);
       return new PreferenceInfo(a.getGeneralPreferences(), p, git);
-    } finally {
-      git.close();
     }
   }
 

@@ -26,8 +26,7 @@ import java.util.zip.ZipFile;
 public class Ls extends AbstractProgram {
   @Override
   public int run() throws IOException {
-    final ZipFile zf = new ZipFile(GerritLauncher.getDistributionArchive());
-    try {
+    try (ZipFile zf = new ZipFile(GerritLauncher.getDistributionArchive())) {
       final Enumeration<? extends ZipEntry> e = zf.entries();
       while (e.hasMoreElements()) {
         final ZipEntry ze = e.nextElement();
@@ -48,8 +47,6 @@ public class Ls extends AbstractProgram {
           System.out.println(name);
         }
       }
-    } finally {
-      zf.close();
     }
     return 0;
   }

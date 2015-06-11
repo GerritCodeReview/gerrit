@@ -115,8 +115,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     c2 = br.getChange().getId();
     r2 = changeRefPrefix(c2);
 
-    Repository repo = repoManager.openRepository(project);
-    try {
+    try (Repository repo = repoManager.openRepository(project)) {
       // master-tag -> master
       RefUpdate mtu = repo.updateRef("refs/tags/master-tag");
       mtu.setExpectedOldObjectId(ObjectId.zeroId());
@@ -128,8 +127,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(repo.getRef("refs/heads/branch").getObjectId());
       assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
-    } finally {
-      repo.close();
     }
   }
 

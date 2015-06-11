@@ -92,33 +92,28 @@ public class LsUserRefs extends SshCommand {
 
     IdentifiedUser user = userFactory.create(userAccount.getId());
     ProjectControl userProjectControl = projectControl.forUser(user);
-    Repository repo;
-    try {
-      repo = repoManager.openRepository(userProjectControl.getProject()
-              .getNameKey());
+    try (Repository repo = repoManager.openRepository(
+        userProjectControl.getProject().getNameKey())) {
+      try {
+        Map<String, Ref> refsMap =
+            new VisibleRefFilter(tagCache, changeCache, repo, userProjectControl,
+                db, true).filter(repo.getRefDatabase().getRefs(ALL), false);
+
+        for (final String ref : refsMap.keySet()) {
+          if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
+            stdout.println(ref);
+          }
+        }
+      } catch (IOException e) {
+        throw new Failure(1, "fatal: Error reading refs: '"
+            + projectControl.getProject().getNameKey(), e);
+      }
     } catch (RepositoryNotFoundException e) {
       throw new UnloggedFailure("fatal: '"
           + projectControl.getProject().getNameKey() + "': not a git archive");
     } catch (IOException e) {
       throw new UnloggedFailure("fatal: Error opening: '"
           + projectControl.getProject().getNameKey());
-    }
-
-    try {
-      Map<String, Ref> refsMap =
-          new VisibleRefFilter(tagCache, changeCache, repo, userProjectControl,
-              db, true).filter(repo.getRefDatabase().getRefs(ALL), false);
-
-      for (final String ref : refsMap.keySet()) {
-        if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
-          stdout.println(ref);
-        }
-      }
-    } catch (IOException e) {
-      throw new Failure(1, "fatal: Error reading refs: '"
-          + projectControl.getProject().getNameKey(), e);
-    } finally {
-      repo.close();
     }
   }
 }

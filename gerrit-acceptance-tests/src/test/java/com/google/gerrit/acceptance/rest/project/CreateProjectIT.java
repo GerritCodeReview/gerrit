@@ -263,13 +263,10 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   private void assertHead(String projectName, String expectedRef)
       throws RepositoryNotFoundException, IOException {
-    Repository repo =
-        repoManager.openRepository(new Project.NameKey(projectName));
-    try {
+    try (Repository repo =
+        repoManager.openRepository(new Project.NameKey(projectName))) {
       assertThat(repo.getRef(Constants.HEAD).getTarget().getName())
         .isEqualTo(expectedRef);
-    } finally {
-      repo.close();
     }
   }
 

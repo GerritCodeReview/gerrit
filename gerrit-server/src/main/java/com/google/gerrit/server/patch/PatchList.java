@@ -163,8 +163,7 @@ public class PatchList implements Serializable {
 
   private void writeObject(final ObjectOutputStream output) throws IOException {
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
-    final DeflaterOutputStream out = new DeflaterOutputStream(buf);
-    try {
+    try (DeflaterOutputStream out = new DeflaterOutputStream(buf)) {
       writeCanBeNull(out, oldId);
       writeNotNull(out, newId);
       writeVarInt32(out, againstParent ? 1 : 0);
@@ -174,16 +173,13 @@ public class PatchList implements Serializable {
       for (PatchListEntry p : patches) {
         p.writeTo(out);
       }
-    } finally {
-      out.close();
     }
     writeBytes(output, buf.toByteArray());
   }
 
   private void readObject(final ObjectInputStream input) throws IOException {
     final ByteArrayInputStream buf = new ByteArrayInputStream(readBytes(input));
-    final InflaterInputStream in = new InflaterInputStream(buf);
-    try {
+    try (InflaterInputStream in = new InflaterInputStream(buf)) {
       oldId = readCanBeNull(in);
       newId = readNotNull(in);
       againstParent = readVarInt32(in) != 0;
@@ -195,8 +191,6 @@ public class PatchList implements Serializable {
         all[i] = PatchListEntry.readFrom(in);
       }
       patches = all;
-    } finally {
-      in.close();
     }
   }
 }

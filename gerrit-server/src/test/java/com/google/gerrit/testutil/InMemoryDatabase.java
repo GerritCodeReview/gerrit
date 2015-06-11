@@ -111,17 +111,12 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   public InMemoryDatabase create() throws OrmException {
     if (!created) {
       created = true;
-      final ReviewDb c = open();
-      try {
-        try {
-          schemaCreator.create(c);
-        } catch (IOException e) {
-          throw new OrmException("Cannot create in-memory database", e);
-        } catch (ConfigInvalidException e) {
-          throw new OrmException("Cannot create in-memory database", e);
-        }
-      } finally {
-        c.close();
+      try (ReviewDb c = open()) {
+        schemaCreator.create(c);
+      } catch (IOException e) {
+        throw new OrmException("Cannot create in-memory database", e);
+      } catch (ConfigInvalidException e) {
+        throw new OrmException("Cannot create in-memory database", e);
       }
     }
     return this;
@@ -142,20 +137,14 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   }
 
   public SystemConfig getSystemConfig() throws OrmException {
-    final ReviewDb c = open();
-    try {
+    try (ReviewDb c = open()) {
       return c.systemConfig().get(new SystemConfig.Key());
-    } finally {
-      c.close();
     }
   }
 
   public CurrentSchemaVersion getSchemaVersion() throws OrmException {
-    final ReviewDb c = open();
-    try {
+    try (ReviewDb c = open()) {
       return c.schemaVersion().get(new CurrentSchemaVersion.Key());
-    } finally {
-      c.close();
     }
   }
 

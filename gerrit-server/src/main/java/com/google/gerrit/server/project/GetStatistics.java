@@ -45,18 +45,13 @@ public class GetStatistics implements RestReadView<ProjectResource> {
   @Override
   public RepositoryStatistics apply(ProjectResource rsrc)
       throws ResourceNotFoundException, ResourceConflictException {
-    try {
-      Repository repo = repoManager.openRepository(rsrc.getNameKey());
-      try {
-        GarbageCollectCommand gc = Git.wrap(repo).gc();
-        return new RepositoryStatistics(gc.getStatistics());
-      } catch (GitAPIException e) {
-        throw new ResourceConflictException(e.getMessage());
-      } catch (JGitInternalException e) {
-        throw new ResourceConflictException(e.getMessage());
-      } finally {
-        repo.close();
-      }
+    try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
+      GarbageCollectCommand gc = Git.wrap(repo).gc();
+      return new RepositoryStatistics(gc.getStatistics());
+    } catch (GitAPIException e) {
+      throw new ResourceConflictException(e.getMessage());
+    } catch (JGitInternalException e) {
+      throw new ResourceConflictException(e.getMessage());
     } catch (IOException e) {
       throw new ResourceNotFoundException(rsrc.getName());
     }

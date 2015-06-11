@@ -343,8 +343,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
           try {
             if (!showBranch.isEmpty()) {
-              Repository git = repoManager.openRepository(projectName);
-              try {
+              try (Repository git = repoManager.openRepository(projectName)) {
                 if (!type.matches(git)) {
                   continue;
                 }
@@ -363,17 +362,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                     info.branches.put(showBranch.get(i), ref.getObjectId().name());
                   }
                 }
-              } finally {
-                git.close();
               }
             } else if (!showTree && type != FilterType.ALL) {
-              Repository git = repoManager.openRepository(projectName);
-              try {
+              try (Repository git = repoManager.openRepository(projectName)) {
                 if (!type.matches(git)) {
                   continue;
                 }
-              } finally {
-                git.close();
               }
             }
 
@@ -511,20 +505,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private List<Ref> getBranchRefs(Project.NameKey projectName,
       ProjectControl projectControl) {
     Ref[] result = new Ref[showBranch.size()];
-    try {
-      Repository git = repoManager.openRepository(projectName);
-      try {
-        for (int i = 0; i < showBranch.size(); i++) {
-          Ref ref = git.getRef(showBranch.get(i));
-          if (ref != null
-            && ref.getObjectId() != null
-            && (projectControl.controlForRef(ref.getLeaf().getName()).isVisible())
-                || (all && projectControl.isOwner())) {
-            result[i] = ref;
-          }
+    try (Repository git = repoManager.openRepository(projectName)) {
+      for (int i = 0; i < showBranch.size(); i++) {
+        Ref ref = git.getRef(showBranch.get(i));
+        if (ref != null
+          && ref.getObjectId() != null
+          && (projectControl.controlForRef(ref.getLeaf().getName()).isVisible())
+              || (all && projectControl.isOwner())) {
+          result[i] = ref;
         }
-      } finally {
-        git.close();
       }
     } catch (IOException ioe) {
       // Fall through and return what is available.

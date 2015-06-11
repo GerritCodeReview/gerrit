@@ -192,8 +192,8 @@ public class SmtpEmailSender implements EmailSender {
           }
         }
 
-        Writer w = client.sendMessageData();
-        if (w == null) {
+        Writer messageDataWriter = client.sendMessageData();
+        if (messageDataWriter == null) {
           /* Include rejected recipient error messages here to not lose that
            * information. That piece of the puzzle is vital if zero recipients
            * are accepted and the server consequently rejects the DATA command.
@@ -201,21 +201,20 @@ public class SmtpEmailSender implements EmailSender {
           throw new EmailException(rejected + "Server " + smtpHost
               + " rejected DATA command: " + client.getReplyString());
         }
-        w = new BufferedWriter(w);
-
-        for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
-          if (!h.getValue().isEmpty()) {
-            w.write(h.getKey());
-            w.write(": ");
-            h.getValue().write(w);
-            w.write("\r\n");
+        try (Writer w = new BufferedWriter(messageDataWriter)) {
+          for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
+            if (!h.getValue().isEmpty()) {
+              w.write(h.getKey());
+              w.write(": ");
+              h.getValue().write(w);
+              w.write("\r\n");
+            }
           }
-        }
 
-        w.write("\r\n");
-        w.write(body);
-        w.flush();
-        w.close();
+          w.write("\r\n");
+          w.write(body);
+          w.flush();
+        }
 
         if (!client.completePendingCommand()) {
           throw new EmailException("Server " + smtpHost

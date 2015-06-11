@@ -142,16 +142,13 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public AccountState load(Account.Id key) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         final AccountState state = load(db, key);
         String user = state.getUserName();
         if (user != null) {
           byName.put(user, Optional.of(state.getAccount().getId()));
         }
         return state;
-      } finally {
-        db.close();
       }
     }
 
@@ -192,8 +189,7 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         final AccountExternalId.Key key = new AccountExternalId.Key( //
             AccountExternalId.SCHEME_USERNAME, //
             username);
@@ -202,8 +198,6 @@ public class AccountCacheImpl implements AccountCache {
           return Optional.of(id.getAccountId());
         }
         return Optional.absent();
-      } finally {
-        db.close();
       }
     }
   }

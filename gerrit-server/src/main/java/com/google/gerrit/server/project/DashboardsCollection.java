@@ -132,21 +132,15 @@ class DashboardsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    Repository git;
-    try {
-      git = gitManager.openRepository(ctl.getProject().getNameKey());
-    } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(id);
-    }
-    try {
+    try (Repository git = gitManager.openRepository(ctl.getProject().getNameKey())) {
       ObjectId objId = git.resolve(ref + ":" + path);
       if (objId == null) {
         throw new ResourceNotFoundException(id);
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
       return new DashboardResource(myCtl, ref, path, cfg, false);
-    } finally {
-      git.close();
+    } catch (RepositoryNotFoundException e) {
+      throw new ResourceNotFoundException(id);
     }
   }
 

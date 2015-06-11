@@ -520,8 +520,7 @@ public class JettyServer {
   }
 
   private static void unpack(File srcwar, File dstwar) throws IOException {
-    final ZipFile zf = new ZipFile(srcwar);
-    try {
+    try (ZipFile zf = new ZipFile(srcwar)) {
       final Enumeration<? extends ZipEntry> e = zf.entries();
       while (e.hasMoreElements()) {
         final ZipEntry ze = e.nextElement();
@@ -539,24 +538,15 @@ public class JettyServer {
         mkdir(rawtmp.getParentFile());
         rawtmp.deleteOnExit();
 
-        final FileOutputStream rawout = new FileOutputStream(rawtmp);
-        try {
-          final InputStream in = zf.getInputStream(ze);
-          try {
-            final byte[] buf = new byte[4096];
-            int n;
-            while ((n = in.read(buf, 0, buf.length)) > 0) {
-              rawout.write(buf, 0, n);
-            }
-          } finally {
-            in.close();
+        try (FileOutputStream rawout = new FileOutputStream(rawtmp);
+            InputStream in = zf.getInputStream(ze)) {
+          final byte[] buf = new byte[4096];
+          int n;
+          while ((n = in.read(buf, 0, buf.length)) > 0) {
+            rawout.write(buf, 0, n);
           }
-        } finally {
-          rawout.close();
         }
       }
-    } finally {
-      zf.close();
     }
   }
 
@@ -632,14 +622,14 @@ public class JettyServer {
         CacheHeaders.setNotCacheable(res);
 
         Escaper html = HtmlEscapers.htmlEscaper();
-        PrintWriter w = res.getWriter();
-        w.write("<html><title>BUILD FAILED</title><body>");
-        w.format("<h1>%s FAILED</h1>", html.escape(rule));
-        w.write("<pre>");
-        w.write(html.escape(RawParseUtils.decode(why)));
-        w.write("</pre>");
-        w.write("</body></html>");
-        w.close();
+        try (PrintWriter w = res.getWriter()) {
+          w.write("<html><title>BUILD FAILED</title><body>");
+          w.format("<h1>%s FAILED</h1>", html.escape(rule));
+          w.write("<pre>");
+          w.write(html.escape(RawParseUtils.decode(why)));
+          w.write("</pre>");
+          w.write("</body></html>");
+        }
       }
 
       @Override
@@ -667,12 +657,10 @@ public class JettyServer {
     long start = TimeUtil.nowMs();
     Process rebuild = proc.start();
     byte[] out;
-    InputStream in = rebuild.getInputStream();
-    try {
+    try (InputStream in = rebuild.getInputStream()) {
       out = ByteStreams.toByteArray(in);
     } finally {
       rebuild.getOutputStream().close();
-      in.close();
     }
 
     int status;
@@ -692,12 +680,9 @@ public class JettyServer {
   private static Properties loadBuckProperties(File gen)
       throws FileNotFoundException, IOException {
     Properties properties = new Properties();
-    InputStream in = new FileInputStream(
-        new File(new File(gen, "tools"), "buck.properties"));
-    try {
+    try (InputStream in = new FileInputStream(
+        new File(new File(gen, "tools"), "buck.properties"))) {
       properties.load(in);
-    } finally {
-      in.close();
     }
     return properties;
   }

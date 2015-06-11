@@ -41,14 +41,11 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   @Override
   public PreferenceInfo apply(ConfigResource rsrc)
       throws IOException, ConfigInvalidException {
-    Repository git = gitMgr.openRepository(allUsersName);
-    try {
+    try (Repository git = gitMgr.openRepository(allUsersName)) {
       VersionedAccountPreferences p =
           VersionedAccountPreferences.forDefault();
       p.load(git);
       return new PreferenceInfo(null, p, git);
-    } finally {
-      git.close();
     }
   }
 }

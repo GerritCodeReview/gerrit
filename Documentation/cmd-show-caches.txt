@@ -30,14 +30,17 @@ Display statistics about the size and hit ratio of in-memory caches.
 	Width of the output table.
 
 == ACCESS
-The caller must be a member of a group that is granted the
-link:access-control.html#capability_viewCaches[View Caches] capability
-or the link:access-control.html#capability_administrateServer[
-Administrate Server] capability.
+The caller must be a member of a group that is granted one of the
+following capabilities:
+
+* link:access-control.html#capability_viewCaches[View Caches]
+* link:access-control.html#capability_maintainServer[Maintain Server]
+* link:access-control.html#capability_administrateServer[Administrate Server]
 
 The summary information about SSH, threads, tasks, memory and JVM are
 only printed out if the caller is a member of a group that is granted
 the link:access-control.html#capability_administrateServer[Administrate
+Server] or link:access-control.html#capability_maintainServer[Maintain
 Server] capability.
 
 == SCRIPTING

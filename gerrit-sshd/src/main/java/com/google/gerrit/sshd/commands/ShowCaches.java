@@ -14,13 +14,14 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
@@ -53,7 +54,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /** Show the current cache states. */
-@RequiresCapability(GlobalCapability.VIEW_CACHES)
+@RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
 @CommandMetaData(name = "show-caches", description = "Display current cache statistics",
   runsAt = MASTER_OR_SLAVE)
 final class ShowCaches extends SshCommand {
@@ -154,7 +155,7 @@ final class ShowCaches extends SshCommand {
     printDiskCaches(caches);
     stdout.print('\n');
 
-    if (self.get().getCapabilities().canAdministrateServer()) {
+    if (self.get().getCapabilities().canMaintainServer()) {
       sshSummary();
 
       SummaryInfo summary =

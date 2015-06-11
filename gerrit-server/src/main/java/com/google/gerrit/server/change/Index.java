@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,7 +43,14 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Response<?> apply(ChangeResource rsrc, Input input) throws IOException {
+  public Response<?> apply(ChangeResource rsrc, Input input)
+      throws IOException, AuthException {
+    ChangeControl ctl = rsrc.getControl();
+    if (!ctl.isOwner()
+        && !ctl.getCurrentUser().getCapabilities().canMaintainServer()) {
+      throw new AuthException(
+          "Only change owner or server maintainer can reindex");
+    }
     indexer.index(db.get(), rsrc.getChange());
     return Response.none();
   }

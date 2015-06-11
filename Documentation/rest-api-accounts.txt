@@ -1324,6 +1324,9 @@ link:access-control.html#capability_flushCaches[Flush Caches]
 capability.
 |`killTask`          |not set if `false`|Whether the user has the
 link:access-control.html#capability_kill[Kill Task] capability.
+|`maintainServer`    |not set if `false`|Whether the user has the
+link:access-control.html#capability_maintainServer[Maintain
+Server] capability.
 |`priority`          |not set if `INTERACTIVE`|The name of the thread
 pool used by the user, see link:access-control.html#capability_priority[
 Priority] capability.

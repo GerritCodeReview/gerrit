@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b94258dc_7df6f7d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-11T05:35:12Z",
+      "side": 1,
+      "message": "[Optional] Mention that because of internal incompatibility with other Google products, JUnit cannot be upgraded to 4.12 atm.",
+      "revId": "6efebfcad847a188bfd3dacc569e9d31e92d1ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1314,6 +1314,9 @@ Performs consistency checks on the change as with link:#check-change[GET
 /check], and additionally fixes any problems that can be fixed
 automatically. The returned field values reflect any fixes.
 
+Some fixes have options controlling their behavior, which can be set in the
+link:#fix-input[FixInput] entity body.
+
 Only the change owner, a project owner, or an administrator may fix changes.
 
 .Request
@@ -3877,6 +3880,18 @@ Not set for binary files or if no lines were inserted.
 Number of deleted lines. +
 Not set for binary files or if no lines were deleted.
 |=============================
+
+[[fix-input]]
+=== FixInput
+The `FixInput` entity contains options for fixing commits using the
+link:#fix-change[fix change] endpoint.
+
+[options="header",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`deletePatchSetIfCommitMissing`|If true, delete patch sets from the
+database if they refer to missing commit options.
+|==========================
 
 [[git-person-info]]
 === GitPersonInfo

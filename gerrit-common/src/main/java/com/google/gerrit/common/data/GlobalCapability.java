@@ -65,6 +65,9 @@ public class GlobalCapability {
    */
   public static final String EMAIL_REVIEWERS = "emailReviewers";
 
+  /** Can perform consistency check fixes on others' changes. */
+  public static final String FIX_CHANGES = "fixChanges";
+
   /** Can flush any cache except the active web_sessions cache. */
   public static final String FLUSH_CACHES = "flushCaches";
 
@@ -119,6 +122,7 @@ public class GlobalCapability {
     NAMES_ALL.add(CREATE_GROUP);
     NAMES_ALL.add(CREATE_PROJECT);
     NAMES_ALL.add(EMAIL_REVIEWERS);
+    NAMES_ALL.add(FIX_CHANGES);
     NAMES_ALL.add(FLUSH_CACHES);
     NAMES_ALL.add(KILL_TASK);
     NAMES_ALL.add(MODIFY_ACCOUNT);

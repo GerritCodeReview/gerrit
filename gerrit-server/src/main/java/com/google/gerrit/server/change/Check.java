@@ -44,10 +44,8 @@ public class Check implements RestReadView<ChangeResource>,
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
       throws AuthException, OrmException {
     ChangeControl ctl = rsrc.getControl();
-    if (!ctl.isOwner()
-        && !ctl.getProjectControl().isOwner()
-        && !ctl.getCurrentUser().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("Not owner");
+    if (!ctl.canFix()) {
+      throw new AuthException("Cannot fix change");
     }
     return Response.withMustRevalidate(json.fix(input).format(rsrc));
   }

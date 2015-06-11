@@ -95,8 +95,8 @@ public class ScanningChangeCacheImpl implements ChangeCache {
 
     @Override
     public List<Change> load(Project.NameKey key) throws Exception {
-      Repository repo = repoManager.openRepository(key);
-      try (ManualRequestContext ctx = requestContext.open()) {
+      try (Repository repo = repoManager.openRepository(key);
+          ManualRequestContext ctx = requestContext.open()) {
         ReviewDb db = ctx.getReviewDbProvider().get();
         Map<String, Ref> refs =
             repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
@@ -114,8 +114,6 @@ public class ScanningChangeCacheImpl implements ChangeCache {
           Iterables.addAll(changes, db.changes().get(batch));
         }
         return changes;
-      } finally {
-        repo.close();
       }
     }
 

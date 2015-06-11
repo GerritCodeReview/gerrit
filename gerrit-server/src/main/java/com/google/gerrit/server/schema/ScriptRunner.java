@@ -73,8 +73,7 @@ class ScriptRunner {
   }
 
   private List<String> parse(final InputStream in) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-    try {
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
       String delimiter = ";";
       List<String> commands = new ArrayList<>();
       StringBuilder buffer = new StringBuilder();
@@ -107,8 +106,6 @@ class ScriptRunner {
         commands.add(buffer.toString());
       }
       return commands;
-    } finally {
-      br.close();
     }
   }
 

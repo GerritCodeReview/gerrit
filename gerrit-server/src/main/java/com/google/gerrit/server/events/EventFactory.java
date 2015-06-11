@@ -229,39 +229,34 @@ public class EventFactory {
   public void addDependencies(ChangeAttribute ca, Change change) {
     ca.dependsOn = new ArrayList<>();
     ca.neededBy = new ArrayList<>();
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final PatchSet.Id psId = change.currentPatchSetId();
-        for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
-          for (PatchSet p :
-              db.patchSets().byRevision(a.getAncestorRevision())) {
-            Change c = db.changes().get(p.getId().getParentKey());
-            ca.dependsOn.add(newDependsOn(c, p));
-          }
+    try (ReviewDb db = schema.open()) {
+      final PatchSet.Id psId = change.currentPatchSetId();
+      for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
+        for (PatchSet p :
+            db.patchSets().byRevision(a.getAncestorRevision())) {
+          Change c = db.changes().get(p.getId().getParentKey());
+          ca.dependsOn.add(newDependsOn(c, p));
         }
+      }
 
-        final PatchSet ps = db.patchSets().get(psId);
-        if (ps == null) {
-          log.error("Error while generating the list of descendants for"
-              + " PatchSet " + psId + ": Cannot find PatchSet entry in"
-              + " database.");
-        } else {
-          final RevId revId = ps.getRevision();
-          for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
-            final PatchSet p = db.patchSets().get(a.getPatchSet());
-            if (p == null) {
-              log.error("Error while generating the list of descendants for"
-                  + " revision " + revId.get() + ": Cannot find PatchSet entry in"
-                  + " database for " + a.getPatchSet());
-              continue;
-            }
-            final Change c = db.changes().get(p.getId().getParentKey());
-            ca.neededBy.add(newNeededBy(c, p));
+      final PatchSet ps = db.patchSets().get(psId);
+      if (ps == null) {
+        log.error("Error while generating the list of descendants for"
+            + " PatchSet " + psId + ": Cannot find PatchSet entry in"
+            + " database.");
+      } else {
+        final RevId revId = ps.getRevision();
+        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
+          final PatchSet p = db.patchSets().get(a.getPatchSet());
+          if (p == null) {
+            log.error("Error while generating the list of descendants for"
+                + " revision " + revId.get() + ": Cannot find PatchSet entry in"
+                + " database for " + a.getPatchSet());
+            continue;
           }
+          final Change c = db.changes().get(p.getId().getParentKey());
+          ca.neededBy.add(newNeededBy(c, p));
         }
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       // Squash DB exceptions and leave dependency lists partially filled.
@@ -401,38 +396,33 @@ public class EventFactory {
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
     p.isDraft = patchSet.isDraft();
     final PatchSet.Id pId = patchSet.getId();
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        p.parents = new ArrayList<>();
-        for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
-            patchSet.getId())) {
-          p.parents.add(a.getAncestorRevision().get());
-        }
-
-        UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
-        if (author.getAccount() == null) {
-          p.author = new AccountAttribute();
-          p.author.email = author.getEmail();
-          p.author.name = author.getName();
-          p.author.username = "";
-        } else {
-          p.author = asAccountAttribute(author.getAccount());
-        }
-
-        Change change = db.changes().get(pId.getParentKey());
-        List<Patch> list =
-            patchListCache.get(change, patchSet).toPatchList(pId);
-        for (Patch pe : list) {
-          if (!Patch.COMMIT_MSG.equals(pe.getFileName())) {
-            p.sizeDeletions -= pe.getDeletions();
-            p.sizeInsertions += pe.getInsertions();
-          }
-        }
-        p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-      } finally {
-        db.close();
+    try (ReviewDb db = schema.open()) {
+      p.parents = new ArrayList<>();
+      for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
+          patchSet.getId())) {
+        p.parents.add(a.getAncestorRevision().get());
       }
+
+      UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
+      if (author.getAccount() == null) {
+        p.author = new AccountAttribute();
+        p.author.email = author.getEmail();
+        p.author.name = author.getName();
+        p.author.username = "";
+      } else {
+        p.author = asAccountAttribute(author.getAccount());
+      }
+
+      Change change = db.changes().get(pId.getParentKey());
+      List<Patch> list =
+          patchListCache.get(change, patchSet).toPatchList(pId);
+      for (Patch pe : list) {
+        if (!Patch.COMMIT_MSG.equals(pe.getFileName())) {
+          p.sizeDeletions -= pe.getDeletions();
+          p.sizeInsertions += pe.getInsertions();
+        }
+      }
+      p.kind = changeKindCache.getChangeKind(db, change, patchSet);
     } catch (OrmException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
     } catch (PatchSetInfoNotAvailableException e) {

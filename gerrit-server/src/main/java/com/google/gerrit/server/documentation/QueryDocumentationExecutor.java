@@ -110,19 +110,16 @@ public class QueryDocumentationExecutor {
       return null;
     }
 
-    ZipInputStream zip = new ZipInputStream(index);
-    try {
+    try (ZipInputStream zip = new ZipInputStream(index)) {
       ZipEntry entry;
       while ((entry = zip.getNextEntry()) != null) {
-        IndexOutput out = dir.createOutput(entry.getName(), null);
-        int count;
-        while ((count = zip.read(buffer)) != -1) {
-          out.writeBytes(buffer, count);
+        try (IndexOutput out = dir.createOutput(entry.getName(), null)) {
+          int count;
+          while ((count = zip.read(buffer)) != -1) {
+            out.writeBytes(buffer, count);
+          }
         }
-        out.close();
       }
-    } finally {
-      zip.close();
     }
     // We must NOT call dir.close() here, as DirectoryReader.open() expects an opened directory.
     return dir;

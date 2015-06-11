@@ -535,14 +535,9 @@ public class ProjectControl {
   }
 
   public boolean canReadCommit(ReviewDb db, RevWalk rw, RevCommit commit) {
-    try {
-      Repository repo = openRepository();
-      try {
-        return isMergedIntoVisibleRef(repo, db, rw, commit,
-            repo.getAllRefs().values());
-      } finally {
-        repo.close();
-      }
+    try (Repository repo = openRepository()) {
+      return isMergedIntoVisibleRef(repo, db, rw, commit,
+          repo.getAllRefs().values());
     } catch (IOException e) {
       String msg = String.format(
           "Cannot verify permissions to commit object %s in repository %s",

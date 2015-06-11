@@ -144,8 +144,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public Set<AccountGroup.UUID> load(AccountGroup.UUID key) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         List<AccountGroup> group = db.accountGroups().byUUID(key).toList();
         if (group.size() != 1) {
           return Collections.emptySet();
@@ -157,8 +156,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
           ids.add(agi.getIncludeUUID());
         }
         return ImmutableSet.copyOf(ids);
-      } finally {
-        db.close();
       }
     }
   }
@@ -174,8 +171,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public Set<AccountGroup.UUID> load(AccountGroup.UUID key) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         Set<AccountGroup.Id> ids = Sets.newHashSet();
         for (AccountGroupById agi : db.accountGroupById()
             .byIncludeUUID(key)) {
@@ -187,8 +183,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
           groupArray.add(g.getGroupUUID());
         }
         return ImmutableSet.copyOf(groupArray);
-      } finally {
-        db.close();
       }
     }
   }
@@ -204,8 +198,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public Set<AccountGroup.UUID> load(String key) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         Set<AccountGroup.UUID> ids = Sets.newHashSet();
         for (AccountGroupById agi : db.accountGroupById().all()) {
           if (!AccountGroup.isInternalGroup(agi.getIncludeUUID())) {
@@ -213,8 +206,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
           }
         }
         return ImmutableSet.copyOf(ids);
-      } finally {
-        db.close();
       }
     }
   }

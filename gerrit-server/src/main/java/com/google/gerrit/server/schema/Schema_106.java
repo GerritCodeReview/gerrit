@@ -61,38 +61,33 @@ public class Schema_106 extends SchemaVersion {
     ui.message(String.format("creating reflog files for %s branches ...",
         RefNames.REFS_CONFIG));
     for (Project.NameKey project : repoList) {
-      try {
-        Repository repo = repoManager.openRepository(project);
-        try {
-          File metaConfigLog =
-              new File(repo.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
-          if (metaConfigLog.exists()) {
-            continue;
-          }
+      try (Repository repo = repoManager.openRepository(project)) {
+        File metaConfigLog =
+            new File(repo.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
+        if (metaConfigLog.exists()) {
+          continue;
+        }
 
-          if (!metaConfigLog.getParentFile().mkdirs()
-              || !metaConfigLog.createNewFile()) {
-            throw new IOException(String.format(
-                "Failed to create reflog for %s in repository %s",
-                RefNames.REFS_CONFIG, project));
-          }
+        if (!metaConfigLog.getParentFile().mkdirs()
+            || !metaConfigLog.createNewFile()) {
+          throw new IOException(String.format(
+              "Failed to create reflog for %s in repository %s",
+              RefNames.REFS_CONFIG, project));
+        }
 
-          ObjectId metaConfigId = repo.resolve(RefNames.REFS_CONFIG);
-          if (metaConfigId != null) {
-            try (PrintWriter writer =
-                new PrintWriter(metaConfigLog, UTF_8.name())) {
-              writer.print(ObjectId.zeroId().name());
-              writer.print(" ");
-              writer.print(metaConfigId.name());
-              writer.print(" ");
-              writer.print(serverUser.toExternalString());
-              writer.print("\t");
-              writer.print("create reflog");
-              writer.println();
-            }
+        ObjectId metaConfigId = repo.resolve(RefNames.REFS_CONFIG);
+        if (metaConfigId != null) {
+          try (PrintWriter writer =
+              new PrintWriter(metaConfigLog, UTF_8.name())) {
+            writer.print(ObjectId.zeroId().name());
+            writer.print(" ");
+            writer.print(metaConfigId.name());
+            writer.print(" ");
+            writer.print(serverUser.toExternalString());
+            writer.print("\t");
+            writer.print("create reflog");
+            writer.println();
           }
-        } finally {
-          repo.close();
         }
       } catch (IOException e) {
         ui.message(String.format("ERROR: Failed to create reflog file for the"

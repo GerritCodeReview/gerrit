@@ -67,13 +67,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
           new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
       auditInserts.add(audit);
     }
-    try {
-      ReviewDb db = schema.open();
-      try {
-        db.accountGroupMembersAudit().insert(auditInserts);
-      } finally {
-        db.close();
-      }
+    try (ReviewDb db = schema.open()) {
+      db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
           "Cannot log add accounts to group event performed by user", me,
@@ -86,33 +81,28 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       Collection<AccountGroupMember> removed) {
     List<AccountGroupMemberAudit> auditInserts = Lists.newLinkedList();
     List<AccountGroupMemberAudit> auditUpdates = Lists.newLinkedList();
-    try {
-      ReviewDb db = schema.open();
-      try {
-        for (AccountGroupMember m : removed) {
-          AccountGroupMemberAudit audit = null;
-          for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
-              .byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
-            if (a.isActive()) {
-              audit = a;
-              break;
-            }
-          }
-
-          if (audit != null) {
-            audit.removed(me, TimeUtil.nowTs());
-            auditUpdates.add(audit);
-          } else {
-            audit = new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
-            audit.removedLegacy();
-            auditInserts.add(audit);
+    try (ReviewDb db = schema.open()) {
+      for (AccountGroupMember m : removed) {
+        AccountGroupMemberAudit audit = null;
+        for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
+            .byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
+          if (a.isActive()) {
+            audit = a;
+            break;
           }
         }
-        db.accountGroupMembersAudit().update(auditUpdates);
-        db.accountGroupMembersAudit().insert(auditInserts);
-      } finally {
-        db.close();
+
+        if (audit != null) {
+          audit.removed(me, TimeUtil.nowTs());
+          auditUpdates.add(audit);
+        } else {
+          audit = new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
+          audit.removedLegacy();
+          auditInserts.add(audit);
+        }
       }
+      db.accountGroupMembersAudit().update(auditUpdates);
+      db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
           "Cannot log delete accounts from group event performed by user", me,
@@ -129,13 +119,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
           new AccountGroupByIdAud(groupInclude, me, TimeUtil.nowTs());
       includesAudit.add(audit);
     }
-    try {
-      ReviewDb db = schema.open();
-      try {
-        db.accountGroupByIdAud().insert(includesAudit);
-      } finally {
-        db.close();
-      }
+    try (ReviewDb db = schema.open()) {
+      db.accountGroupByIdAud().insert(includesAudit);
     } catch (OrmException e) {
       logOrmExceptionForGroups(
           "Cannot log add groups to group event performed by user", me, added,
@@ -147,28 +132,23 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   public void onDeleteGroupsFromGroup(Account.Id me,
       Collection<AccountGroupById> removed) {
     final List<AccountGroupByIdAud> auditUpdates = Lists.newLinkedList();
-    try {
-      ReviewDb db = schema.open();
-      try {
-        for (final AccountGroupById g : removed) {
-          AccountGroupByIdAud audit = null;
-          for (AccountGroupByIdAud a : db.accountGroupByIdAud()
-              .byGroupInclude(g.getGroupId(), g.getIncludeUUID())) {
-            if (a.isActive()) {
-              audit = a;
-              break;
-            }
-          }
-
-          if (audit != null) {
-            audit.removed(me, TimeUtil.nowTs());
-            auditUpdates.add(audit);
+    try (ReviewDb db = schema.open()) {
+      for (final AccountGroupById g : removed) {
+        AccountGroupByIdAud audit = null;
+        for (AccountGroupByIdAud a : db.accountGroupByIdAud()
+            .byGroupInclude(g.getGroupId(), g.getIncludeUUID())) {
+          if (a.isActive()) {
+            audit = a;
+            break;
           }
         }
-        db.accountGroupByIdAud().update(auditUpdates);
-      } finally {
-        db.close();
+
+        if (audit != null) {
+          audit.removed(me, TimeUtil.nowTs());
+          auditUpdates.add(audit);
+        }
       }
+      db.accountGroupByIdAud().update(auditUpdates);
     } catch (OrmException e) {
       logOrmExceptionForGroups(
           "Cannot log delete groups from group event performed by user", me,

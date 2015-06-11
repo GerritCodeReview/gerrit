@@ -382,8 +382,7 @@ public class ChangeUtil {
       throw new NoSuchChangeException(patchSetId.getParentKey());
     }
 
-    Repository repo = gitManager.openRepository(change.getProject());
-    try {
+    try (Repository repo = gitManager.openRepository(change.getProject())) {
       RefUpdate update = repo.updateRef(patch.getRefName());
       update.setForceUpdate(true);
       update.disableRefLog();
@@ -399,8 +398,6 @@ public class ChangeUtil {
               " in " + repo.getDirectory() + ": " + update.getResult());
       }
       gitRefUpdated.fire(change.getProject(), update, ReceiveCommand.Type.DELETE);
-    } finally {
-      repo.close();
     }
 
     ReviewDb db = this.db.get();

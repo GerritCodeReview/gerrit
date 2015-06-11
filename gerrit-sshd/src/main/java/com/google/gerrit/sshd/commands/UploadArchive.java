@@ -171,11 +171,10 @@ public class UploadArchive extends AbstractGitCommand {
           throw new Failure(5, "fatal: cannot perform upload-archive operation");
       }
 
-      try {
         // The archive is sent in DATA sideband channel
-        SideBandOutputStream sidebandOut =
+      try (SideBandOutputStream sidebandOut =
             new SideBandOutputStream(SideBandOutputStream.CH_DATA,
-                SideBandOutputStream.MAX_BUF, out);
+                SideBandOutputStream.MAX_BUF, out)) {
         new ArchiveCommand(repo)
             .setFormat(f.name())
             .setFormatOptions(getFormatOptions(f))
@@ -185,18 +184,17 @@ public class UploadArchive extends AbstractGitCommand {
             .setOutputStream(sidebandOut)
             .call();
         sidebandOut.flush();
-        sidebandOut.close();
       } catch (GitAPIException e) {
         throw new Failure(7, "fatal: git api exception, " + e);
       }
     } catch (Failure f) {
       // Report the error in ERROR sideband channel
-      SideBandOutputStream sidebandError =
+      try (SideBandOutputStream sidebandError =
           new SideBandOutputStream(SideBandOutputStream.CH_ERROR,
-              SideBandOutputStream.MAX_BUF, out);
-      sidebandError.write(f.getMessage().getBytes(UTF_8));
-      sidebandError.flush();
-      sidebandError.close();
+              SideBandOutputStream.MAX_BUF, out)) {
+        sidebandError.write(f.getMessage().getBytes(UTF_8));
+        sidebandError.flush();
+      }
       throw f;
     } finally {
       // In any case, cleanly close the packetOut channel

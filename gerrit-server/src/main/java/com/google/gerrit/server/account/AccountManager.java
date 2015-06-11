@@ -83,13 +83,10 @@ public class AccountManager {
    */
   public Account.Id lookup(String externalId) throws AccountException {
     try {
-      ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         AccountExternalId ext =
             db.accountExternalIds().get(new AccountExternalId.Key(externalId));
         return ext != null ? ext.getAccountId() : null;
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);
@@ -107,8 +104,7 @@ public class AccountManager {
   public AuthResult authenticate(AuthRequest who) throws AccountException {
     who = realm.authenticate(who);
     try {
-      ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         AccountExternalId.Key key = id(who);
         AccountExternalId id = db.accountExternalIds().get(key);
         if (id == null) {
@@ -128,8 +124,6 @@ public class AccountManager {
           return new AuthResult(id.getAccountId(), key, false);
         }
 
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       throw new AccountException("Authentication error", e);
@@ -324,8 +318,7 @@ public class AccountManager {
    */
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException {
-    ReviewDb db = schema.open();
-    try {
+    try (ReviewDb db = schema.open()) {
       who = realm.link(db, to, who);
 
       AccountExternalId.Key key = id(who);
@@ -357,8 +350,6 @@ public class AccountManager {
 
       return new AuthResult(to, key, false);
 
-    } finally {
-      db.close();
     }
   }
 
@@ -377,8 +368,7 @@ public class AccountManager {
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who) throws OrmException,
       AccountException {
-    ReviewDb db = schema.open();
-    try {
+    try (ReviewDb db = schema.open()) {
       AccountExternalId.Key key = id(who);
       List<AccountExternalId.Key> filteredKeysByScheme =
           filterKeysByScheme(key.getScheme(), db.accountExternalIds()
@@ -390,8 +380,6 @@ public class AccountManager {
       }
       byIdCache.evict(to);
       return link(to, who);
-    } finally {
-      db.close();
     }
   }
 
@@ -417,8 +405,7 @@ public class AccountManager {
    */
   public AuthResult unlink(Account.Id from, AuthRequest who)
       throws AccountException, OrmException {
-    ReviewDb db = schema.open();
-    try {
+    try (ReviewDb db = schema.open()) {
       who = realm.unlink(db, from, who);
 
       AccountExternalId.Key key = id(who);
@@ -446,8 +433,6 @@ public class AccountManager {
 
       return new AuthResult(from, key, false);
 
-    } finally {
-      db.close();
     }
   }
 

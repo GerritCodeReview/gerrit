@@ -60,14 +60,11 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     manager.start();
     dbInjector.injectMembers(this);
 
-    final ReviewDb db = database.open();
-    try {
+    try (ReviewDb db = database.open()) {
       todo = db.accountExternalIds().all().toList();
       synchronized (monitor) {
         monitor.beginTask("Converting local username", todo.size());
       }
-    } finally {
-      db.close();
     }
 
     final List<Worker> workers = new ArrayList<>(threads);

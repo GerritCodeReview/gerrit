@@ -139,11 +139,8 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     // Any leak of tmp caused by this method failing will be cleaned
     // up by our caller when tempDir is recursively deleted.
     File tmp = File.createTempFile("rules", ".pl", tempDir);
-    FileOutputStream out = new FileOutputStream(tmp);
-    try {
+    try (FileOutputStream out = new FileOutputStream(tmp)) {
       git.open(blobId).copyTo(out);
-    } finally {
-      out.close();
     }
     return tmp;
   }
@@ -157,9 +154,8 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
 
     DiagnosticCollector<JavaFileObject> diagnostics =
         new DiagnosticCollector<>();
-    StandardJavaFileManager fileManager =
-        compiler.getStandardFileManager(diagnostics, null, null);
-    try {
+    try (StandardJavaFileManager fileManager =
+        compiler.getStandardFileManager(diagnostics, null, null)) {
       Iterable<? extends JavaFileObject> compilationUnits = fileManager
         .getJavaFileObjectsFromFiles(getAllFiles(tempDir, ".java"));
       ArrayList<String> options = new ArrayList<>();
@@ -195,8 +191,6 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
         }
         throw new CompileException(msg.toString());
       }
-    } finally {
-      fileManager.close();
     }
   }
 
@@ -247,8 +241,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
         jarAdd.setTime(now);
         out.putNextEntry(jarAdd);
         if (f.isFile()) {
-          FileInputStream in = new FileInputStream(f);
-          try {
+          try (FileInputStream in = new FileInputStream(f)) {
             while (true) {
               int nRead = in.read(buffer, 0, buffer.length);
               if (nRead <= 0) {
@@ -256,8 +249,6 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
               }
               out.write(buffer, 0, nRead);
             }
-          } finally {
-            in.close();
           }
         }
         out.closeEntry();

@@ -86,9 +86,7 @@ public class GarbageCollection {
           GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED, projectName));
     }
     for (Project.NameKey p : projectsToGc) {
-      Repository repo = null;
-      try {
-        repo = repoManager.openRepository(p);
+      try (Repository repo = repoManager.openRepository(p)) {
         logGcConfiguration(p, repo, aggressive);
         print(writer, "collecting garbage for \"" + p + "\":\n");
         GarbageCollectCommand gc = Git.wrap(repo).gc();
@@ -110,9 +108,6 @@ public class GarbageCollection {
         result.addError(new GarbageCollectionResult.Error(
             GarbageCollectionResult.Error.Type.GC_FAILED, p));
       } finally {
-        if (repo != null) {
-          repo.close();
-        }
         gcQueue.gcFinished(p);
       }
     }

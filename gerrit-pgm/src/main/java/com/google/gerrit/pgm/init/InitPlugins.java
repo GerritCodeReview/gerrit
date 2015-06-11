@@ -171,13 +171,10 @@ public class InitPlugins implements InitStep {
   }
 
   private static String getVersion(Path plugin) throws IOException {
-    JarFile jarFile = new JarFile(plugin.toFile());
-    try {
+    try (JarFile jarFile = new JarFile(plugin.toFile())) {
       Manifest manifest = jarFile.getManifest();
       Attributes main = manifest.getMainAttributes();
       return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
-    } finally {
-      jarFile.close();
     }
   }
 }

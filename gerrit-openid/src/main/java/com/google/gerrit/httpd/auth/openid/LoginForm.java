@@ -319,11 +319,8 @@ class LoginForm extends HttpServlet {
     res.setContentType("text/html");
     res.setCharacterEncoding("UTF-8");
     res.setContentLength(bin.length);
-    ServletOutputStream out = res.getOutputStream();
-    try {
+    try (ServletOutputStream out = res.getOutputStream()) {
       out.write(bin);
-    } finally {
-      out.close();
     }
   }
 

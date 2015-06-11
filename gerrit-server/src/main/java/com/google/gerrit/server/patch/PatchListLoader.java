@@ -106,11 +106,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   @Override
   public PatchList load(final PatchListKey key) throws IOException,
       PatchListNotAvailableException {
-    final Repository repo = repoManager.openRepository(key.projectKey);
-    try {
+    try (Repository repo = repoManager.openRepository(key.projectKey)) {
       return readPatchList(key, repo);
-    } finally {
-      repo.close();
     }
   }
 
@@ -384,11 +381,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
             fmt.formatMerge(buf, p, "BASE", oursName, theirsName, "UTF-8");
             buf.close();
 
-            InputStream in = buf.openInputStream();
-            try {
+            try (InputStream in = buf.openInputStream()) {
               resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
-            } finally {
-              in.close();
             }
           } finally {
             buf.destroy();

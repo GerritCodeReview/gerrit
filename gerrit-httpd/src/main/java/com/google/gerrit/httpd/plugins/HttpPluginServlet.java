@@ -411,18 +411,18 @@ class HttpPluginServlet extends HttpServlet
 
     if (about != null) {
       InputStreamReader isr = new InputStreamReader(scanner.getInputStream(about));
-      BufferedReader reader = new BufferedReader(isr);
       StringBuilder aboutContent = new StringBuilder();
-      String line;
-      while ((line = reader.readLine()) != null) {
-        line = line.trim();
-        if (line.isEmpty()) {
-          aboutContent.append("\n");
-        } else {
-          aboutContent.append(line).append("\n");
+      try (BufferedReader reader = new BufferedReader(isr)) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          line = line.trim();
+          if (line.isEmpty()) {
+            aboutContent.append("\n");
+          } else {
+            aboutContent.append(line).append("\n");
+          }
         }
       }
-      reader.close();
 
       // Only append the About section if there was anything in it
       if (aboutContent.toString().trim().length() > 0) {
@@ -641,11 +641,8 @@ class HttpPluginServlet extends HttpServlet
   private static byte[] readWholeEntry(PluginContentScanner scanner, PluginEntry entry)
       throws IOException {
     byte[] data = new byte[entry.getSize().get().intValue()];
-    InputStream in = scanner.getInputStream(entry);
-    try {
+    try (InputStream in = scanner.getInputStream(entry)) {
       IO.readFully(in, data, 0, data.length);
-    } finally {
-      in.close();
     }
     return data;
   }

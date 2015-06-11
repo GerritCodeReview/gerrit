@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "794c6014_9baaeb8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-11T16:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e3c84b_a1e2be13",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39e3c84b_01d8ca61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 6

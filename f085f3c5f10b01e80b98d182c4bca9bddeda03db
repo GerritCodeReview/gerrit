@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b94258dc_dd52ab3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-11T15:27:50Z",
+      "side": 1,
+      "message": "We had already similar discussion about capability pollution/explosion, as DavidP  tried to introduce Reindex Change capability, that turned out not to be needed. In comment to this change I suggested to introduce Maintenance Server global capability, that would allow some privileged action. Can we re-consider to start with this Maintenance Server Capability for fixing changes?",
+      "revId": "f085f3c5f10b01e80b98d182c4bca9bddeda03db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

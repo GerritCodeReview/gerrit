@@ -229,8 +229,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       final String head =
           args.permissionsOnly ? RefNames.REFS_CONFIG
               : args.branch.get(0);
-      Repository repo = repoManager.createRepository(nameKey);
-      try {
+      try (Repository repo = repoManager.createRepository(nameKey)) {
         NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
           @Override
           public String getProjectName() {
@@ -262,8 +261,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         }
 
         return projectCache.get(nameKey).getProject();
-      } finally {
-        repo.close();
       }
     } catch (RepositoryCaseMismatchException e) {
       throw new ResourceConflictException("Cannot create " + nameKey.get()
@@ -274,14 +271,11 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       throw new BadRequestException("invalid project name: " + nameKey);
     } catch (IllegalStateException err) {
       try {
-        Repository repo = repoManager.openRepository(nameKey);
-        try {
+        try (Repository repo = repoManager.openRepository(nameKey)) {
           if (repo.getObjectDatabase().exists()) {
             throw new ResourceConflictException("project \"" + nameKey + "\" exists");
           }
           throw err;
-        } finally {
-          repo.close();
         }
       } catch (IOException ioErr) {
         String msg = "Cannot create " + nameKey;

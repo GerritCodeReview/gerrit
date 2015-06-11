@@ -108,8 +108,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
     result.submitType = rec.type;
 
-    Repository git = gitManager.openRepository(change.getProject());
-    try {
+    try (Repository git = gitManager.openRepository(change.getProject())) {
       ObjectId commit = toId(ps);
       if (commit == null) {
         result.mergeable = false;
@@ -147,8 +146,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
           }
         }
       }
-    } finally {
-      git.close();
     }
     return result;
   }

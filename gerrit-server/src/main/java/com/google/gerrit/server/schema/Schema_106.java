@@ -62,8 +62,7 @@ public class Schema_106 extends SchemaVersion {
         RefNames.REFS_CONFIG));
     for (Project.NameKey project : repoList) {
       try {
-        Repository repo = repoManager.openRepository(project);
-        try {
+        try (Repository repo = repoManager.openRepository(project)) {
           File metaConfigLog =
               new File(repo.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
           if (metaConfigLog.exists()) {
@@ -91,8 +90,6 @@ public class Schema_106 extends SchemaVersion {
               writer.println();
             }
           }
-        } finally {
-          repo.close();
         }
       } catch (IOException e) {
         ui.message(String.format("ERROR: Failed to create reflog file for the"

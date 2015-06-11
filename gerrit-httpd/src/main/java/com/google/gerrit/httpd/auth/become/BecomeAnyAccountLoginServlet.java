@@ -104,11 +104,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       rsp.setContentType("text/html");
       rsp.setCharacterEncoding(HtmlDomUtil.ENC.name());
       rsp.setContentLength(raw.length);
-      final OutputStream out = rsp.getOutputStream();
-      try {
+      try (OutputStream out = rsp.getOutputStream()) {
         out.write(raw);
-      } finally {
-        out.close();
       }
       return;
     }
@@ -147,8 +144,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
 
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");
-    ReviewDb db = schema.open();
-    try {
+    try (ReviewDb db = schema.open()) {
       ResultSet<Account> accounts = db.accounts().firstNById(100);
       for (Account a : accounts) {
         String displayName;
@@ -168,8 +164,6 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         userlistElement.appendChild(linkElement);
         userlistElement.appendChild(doc.createElement("br"));
       }
-    } finally {
-      db.close();
     }
 
     return HtmlDomUtil.toUTF8(doc);
@@ -191,13 +185,10 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private AuthResult byUserName(final String userName) {
     try {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         AccountExternalId.Key key =
             new AccountExternalId.Key(SCHEME_USERNAME, userName);
         return auth(db.accountExternalIds().get(key));
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
@@ -207,12 +198,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private AuthResult byPreferredEmail(final String email) {
     try {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         List<Account> matches = db.accounts().byPreferredEmail(email).toList();
         return matches.size() == 1 ? auth(matches.get(0)) : null;
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
@@ -228,11 +216,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       return null;
     }
     try {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         return auth(db.accounts().get(id));
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);

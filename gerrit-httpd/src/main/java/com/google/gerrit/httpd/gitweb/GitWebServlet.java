@@ -481,15 +481,12 @@ class GitWebServlet extends HttpServlet {
       try {
         readCgiHeaders(rsp, in);
 
-        final OutputStream out = rsp.getOutputStream();
-        try {
+        try (OutputStream out = rsp.getOutputStream()) {
           final byte[] buf = new byte[bufferSize];
           int n;
           while ((n = in.read(buf)) > 0) {
             out.write(buf, 0, n);
           }
-        } finally {
-          out.close();
         }
       } finally {
         in.close();
@@ -650,15 +647,12 @@ class GitWebServlet extends HttpServlet {
       @Override
       public void run() {
         try {
-          final BufferedReader br =
-              new BufferedReader(new InputStreamReader(in, "ISO-8859-1"));
-          try {
+          try (BufferedReader br =
+              new BufferedReader(new InputStreamReader(in, "ISO-8859-1"))) {
             String line;
             while ((line = br.readLine()) != null) {
               log.error("CGI: " + line);
             }
-          } finally {
-            br.close();
           }
         } catch (IOException e) {
           log.debug("Unexpected error copying stderr from CGI", e);

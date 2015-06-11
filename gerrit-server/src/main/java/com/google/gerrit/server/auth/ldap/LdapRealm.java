@@ -307,8 +307,7 @@ public class LdapRealm extends AbstractRealm {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         final AccountExternalId extId =
             db.accountExternalIds().get(
                 new AccountExternalId.Key(SCHEME_GERRIT, username));
@@ -316,8 +315,6 @@ public class LdapRealm extends AbstractRealm {
           return Optional.of(extId.getAccountId());
         }
         return Optional.absent();
-      } finally {
-        db.close();
       }
     }
   }

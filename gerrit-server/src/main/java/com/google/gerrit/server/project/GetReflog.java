@@ -78,8 +78,7 @@ public class GetReflog implements RestReadView<BranchResource> {
       throw new AuthException("not project owner");
     }
 
-    Repository repo = repoManager.openRepository(rsrc.getNameKey());
-    try {
+    try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ReflogReader r = repo.getReflogReader(rsrc.getRef());
       if (r == null) {
         throw new ResourceNotFoundException(rsrc.getRef());
@@ -108,8 +107,6 @@ public class GetReflog implements RestReadView<BranchResource> {
         public ReflogEntryInfo apply(ReflogEntry e) {
           return new ReflogEntryInfo(e);
         }});
-    } finally {
-      repo.close();
     }
   }
 

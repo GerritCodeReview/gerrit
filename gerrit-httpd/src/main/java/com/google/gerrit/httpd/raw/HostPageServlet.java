@@ -224,11 +224,8 @@ public class HostPageServlet extends HttpServlet {
     rsp.setContentType("text/html");
     rsp.setCharacterEncoding(HtmlDomUtil.ENC.name());
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 

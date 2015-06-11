@@ -343,8 +343,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
           try {
             if (!showBranch.isEmpty()) {
-              Repository git = repoManager.openRepository(projectName);
-              try {
+              try (Repository git = repoManager.openRepository(projectName)) {
                 if (!type.matches(git)) {
                   continue;
                 }
@@ -363,17 +362,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                     info.branches.put(showBranch.get(i), ref.getObjectId().name());
                   }
                 }
-              } finally {
-                git.close();
               }
             } else if (!showTree && type != FilterType.ALL) {
-              Repository git = repoManager.openRepository(projectName);
-              try {
+              try (Repository git = repoManager.openRepository(projectName)) {
                 if (!type.matches(git)) {
                   continue;
                 }
-              } finally {
-                git.close();
               }
             }
 
@@ -512,8 +506,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       ProjectControl projectControl) {
     Ref[] result = new Ref[showBranch.size()];
     try {
-      Repository git = repoManager.openRepository(projectName);
-      try {
+      try (Repository git = repoManager.openRepository(projectName)) {
         for (int i = 0; i < showBranch.size(); i++) {
           Ref ref = git.getRef(showBranch.get(i));
           if (ref != null
@@ -523,8 +516,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             result[i] = ref;
           }
         }
-      } finally {
-        git.close();
       }
     } catch (IOException ioe) {
       // Fall through and return what is available.

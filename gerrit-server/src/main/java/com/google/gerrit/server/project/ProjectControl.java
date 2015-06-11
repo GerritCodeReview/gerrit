@@ -536,12 +536,9 @@ public class ProjectControl {
 
   public boolean canReadCommit(ReviewDb db, RevWalk rw, RevCommit commit) {
     try {
-      Repository repo = openRepository();
-      try {
+      try (Repository repo = openRepository()) {
         return isMergedIntoVisibleRef(repo, db, rw, commit,
             repo.getAllRefs().values());
-      } finally {
-        repo.close();
       }
     } catch (IOException e) {
       String msg = String.format(

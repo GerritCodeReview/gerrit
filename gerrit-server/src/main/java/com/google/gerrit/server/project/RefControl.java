@@ -329,15 +329,12 @@ public class RefControl {
   private boolean isMergedIntoBranchOrTag(ReviewDb db, RevWalk rw,
       RevCommit commit) {
     try {
-      Repository repo = projectControl.openRepository();
-      try {
+      try (Repository repo = projectControl.openRepository()) {
         List<Ref> refs = new ArrayList<>(
             repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
         refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());
         return projectControl.isMergedIntoVisibleRef(
             repo, db, rw, commit, refs);
-      } finally {
-        repo.close();
       }
     } catch (IOException e) {
       String msg = String.format(

@@ -302,11 +302,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public String getProjectDescription(final Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
-    final Repository e = openRepository(name);
-    try {
+    try (Repository e = openRepository(name)) {
       return getProjectDescription(e);
-    } finally {
-      e.close();
     }
   }
 
@@ -338,8 +335,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     // Update git's description file, in case gitweb is being used
     //
     try {
-      final Repository e = openRepository(name);
-      try {
+      try (Repository e = openRepository(name)) {
         final String old = getProjectDescription(e);
         if ((old == null && description == null)
             || (old != null && old.equals(description))) {
@@ -360,8 +356,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           f.write(Constants.encode(d));
           f.commit();
         }
-      } finally {
-        e.close();
       }
     } catch (RepositoryNotFoundException e) {
       log.error("Cannot update description for " + name, e);

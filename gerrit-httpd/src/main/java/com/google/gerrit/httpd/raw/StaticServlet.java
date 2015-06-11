@@ -199,11 +199,8 @@ public class StaticServlet extends HttpServlet {
     rsp.setHeader(ETAG, r.etag);
     rsp.setContentType(r.contentType);
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 

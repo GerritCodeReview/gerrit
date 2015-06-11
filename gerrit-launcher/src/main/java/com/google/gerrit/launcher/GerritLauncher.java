@@ -103,14 +103,11 @@ public final class GerritLauncher {
     }
 
     try {
-      final JarFile jar = new JarFile(me);
-      try {
+      try (JarFile jar = new JarFile(me)) {
         Manifest mf = jar.getManifest();
         Attributes att = mf.getMainAttributes();
         String val = att.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
         return val != null ? val : "";
-      } finally {
-        jar.close();
       }
     } catch (IOException e) {
       return "";
@@ -203,8 +200,7 @@ public final class GerritLauncher {
 
     final SortedMap<String, URL> jars = new TreeMap<>();
     try {
-      final ZipFile zf = new ZipFile(path);
-      try {
+      try (ZipFile zf = new ZipFile(path)) {
         final Enumeration<? extends ZipEntry> e = zf.entries();
         while (e.hasMoreElements()) {
           final ZipEntry ze = e.nextElement();
@@ -222,8 +218,6 @@ public final class GerritLauncher {
             }
           }
         }
-      } finally {
-        zf.close();
       }
     } catch (IOException e) {
       throw new IOException("Cannot obtain libraries from " + path, e);
@@ -257,20 +251,14 @@ public final class GerritLauncher {
   private static void extractJar(ZipFile zf, ZipEntry ze,
       SortedMap<String, URL> jars) throws IOException {
     File tmp = createTempFile(safeName(ze), ".jar");
-    FileOutputStream out = new FileOutputStream(tmp);
-    try {
-      InputStream in = zf.getInputStream(ze);
-      try {
+    try (FileOutputStream out = new FileOutputStream(tmp)) {
+      try (InputStream in = zf.getInputStream(ze)) {
         byte[] buf = new byte[4096];
         int n;
         while ((n = in.read(buf, 0, buf.length)) > 0) {
           out.write(buf, 0, n);
         }
-      } finally {
-        in.close();
       }
-    } finally {
-      out.close();
     }
 
     String name = ze.getName();
@@ -364,22 +352,16 @@ public final class GerritLauncher {
         GerritLauncher.class.getProtectionDomain().getCodeSource();
     if (src != null) {
       try {
-        final InputStream in = src.getLocation().openStream();
-        try {
+        try (InputStream in = src.getLocation().openStream()) {
           final File tmp = createTempFile("gerrit_", ".zip");
-          final FileOutputStream out = new FileOutputStream(tmp);
-          try {
+          try (FileOutputStream out = new FileOutputStream(tmp)) {
             final byte[] buf = new byte[4096];
             int n;
             while ((n = in.read(buf, 0, buf.length)) > 0) {
               out.write(buf, 0, n);
             }
-          } finally {
-            out.close();
           }
           return tmp;
-        } finally {
-          in.close();
         }
       } catch (IOException e) {
         // Nope, that didn't work.

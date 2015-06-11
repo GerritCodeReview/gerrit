@@ -49,8 +49,7 @@ public class SchemaVersionCheck implements LifecycleListener {
   @Override
   public void start() {
     try {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         final CurrentSchemaVersion currentVer = getSchemaVersion(db);
         final int expectedVer = SchemaVersion.getBinaryVersion();
 
@@ -71,8 +70,6 @@ public class SchemaVersionCheck implements LifecycleListener {
               + currentVer.versionNbr + "; expected schema version " + expectedVer
               + ". Downgrade is not supported.");
         }
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       throw new ProvisionException("Cannot read schema_version", e);

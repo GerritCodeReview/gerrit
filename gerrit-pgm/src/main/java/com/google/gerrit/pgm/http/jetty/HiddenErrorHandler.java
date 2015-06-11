@@ -56,11 +56,8 @@ class HiddenErrorHandler extends ErrorHandler {
     try {
       CacheHeaders.setNotCacheable(res);
     } finally {
-      ServletOutputStream out = res.getOutputStream();
-      try {
+      try (ServletOutputStream out = res.getOutputStream()) {
         out.write(msg);
-      } finally {
-        out.close();
       }
     }
   }

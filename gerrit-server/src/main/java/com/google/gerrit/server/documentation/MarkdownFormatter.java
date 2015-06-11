@@ -156,17 +156,11 @@ public class MarkdownFormatter {
       throw new FileNotFoundException("Resource " + name);
     }
     file.set("file".equals(url.getProtocol()));
-    InputStream in = url.openStream();
-    try {
-      TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024);
-      try {
+    try (InputStream in = url.openStream()) {
+      try (TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024)) {
         tmp.copy(in);
         return new String(tmp.toByteArray(), "UTF-8");
-      } finally {
-        tmp.close();
       }
-    } finally {
-      in.close();
     }
   }
 }

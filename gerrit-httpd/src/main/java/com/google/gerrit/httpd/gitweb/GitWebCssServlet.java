@@ -101,11 +101,8 @@ abstract class GitWebCssServlet extends HttpServlet {
       rsp.setDateHeader("Last-Modified", modified);
       CacheHeaders.setCacheable(req, rsp, 5, TimeUnit.MINUTES);
 
-      final ServletOutputStream os = rsp.getOutputStream();
-      try {
+      try (ServletOutputStream os = rsp.getOutputStream()) {
         os.write(toSend);
-      } finally {
-        os.close();
       }
     } else {
       CacheHeaders.setNotCacheable(rsp);

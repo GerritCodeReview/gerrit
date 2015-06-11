@@ -69,9 +69,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       ResourceNotFoundException {
     List<TagInfo> tags = Lists.newArrayList();
 
-    Repository repo = getRepository(resource.getNameKey());
-
-    try {
+    try (Repository repo = getRepository(resource.getNameKey())) {
       RevWalk rw = new RevWalk(repo);
       try {
         Map<String, Ref> all = visibleTags(resource.getControl(), repo,
@@ -82,8 +80,6 @@ public class ListTags implements RestReadView<ProjectResource> {
       } finally {
         rw.dispose();
       }
-    } finally {
-      repo.close();
     }
 
     Collections.sort(tags, new Comparator<TagInfo>() {

@@ -82,11 +82,8 @@ public class ToolServlet extends HttpServlet {
     rsp.setHeader(HDR_CACHE_CONTROL, "no-cache, must-revalidate");
     rsp.setContentType("application/octet-stream");
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 
@@ -148,11 +145,8 @@ public class ToolServlet extends HttpServlet {
     rsp.setContentType("text/html");
     rsp.setCharacterEncoding("UTF-8");
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 }

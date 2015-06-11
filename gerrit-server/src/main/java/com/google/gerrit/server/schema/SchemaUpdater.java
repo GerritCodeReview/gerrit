@@ -90,8 +90,7 @@ public class SchemaUpdater {
   }
 
   public void update(final UpdateUI ui) throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
+    try (ReviewDb db = schema.open()) {
       final SchemaVersion u = updater.get();
       final CurrentSchemaVersion version = getSchemaVersion(db);
       if (version == null) {
@@ -112,8 +111,6 @@ public class SchemaUpdater {
 
         updateSystemConfig(db);
       }
-    } finally {
-      db.close();
     }
   }
 

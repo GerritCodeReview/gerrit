@@ -55,11 +55,8 @@ public class HttpContactStoreConnection implements ContactStoreConnection {
       throw new IOException("Connection failed: " + conn.getResponseCode());
     }
     final byte[] dst = new byte[2];
-    final InputStream in = conn.getInputStream();
-    try {
+    try (InputStream in = conn.getInputStream()) {
       IO.readFully(in, dst, 0, 2);
-    } finally {
-      in.close();
     }
     if (dst[0] != 'O' || dst[1] != 'K') {
       throw new IOException("Store failed: " + dst[0] + dst[1]);

@@ -106,9 +106,8 @@ public class ApprovalCopier {
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
       NavigableSet<Integer> allPsIds = patchSets.navigableKeySet();
 
-      Repository repo =
-          repoManager.openRepository(project.getProject().getNameKey());
-      try {
+      try (Repository repo =
+          repoManager.openRepository(project.getProject().getNameKey())) {
         // Walk patch sets strictly less than current in descending order.
         Collection<PatchSet> allPrior = patchSets.descendingMap()
             .tailMap(ps.getId().get(), false)
@@ -132,8 +131,6 @@ public class ApprovalCopier {
           }
         }
         return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
-      } finally {
-        repo.close();
       }
     } catch (IOException e) {
       throw new OrmException(e);

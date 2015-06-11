@@ -31,11 +31,8 @@ public class Schema_107 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement()) {
       stmt.executeUpdate("UPDATE accounts set mute_common_path_prefixes = 'Y'");
-    } finally {
-      stmt.close();
     }
   }
 }

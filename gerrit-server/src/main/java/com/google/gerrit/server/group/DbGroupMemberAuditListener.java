@@ -68,11 +68,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       auditInserts.add(audit);
     }
     try {
-      ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         db.accountGroupMembersAudit().insert(auditInserts);
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
@@ -87,8 +84,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
     List<AccountGroupMemberAudit> auditInserts = Lists.newLinkedList();
     List<AccountGroupMemberAudit> auditUpdates = Lists.newLinkedList();
     try {
-      ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         for (AccountGroupMember m : removed) {
           AccountGroupMemberAudit audit = null;
           for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
@@ -110,8 +106,6 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
         }
         db.accountGroupMembersAudit().update(auditUpdates);
         db.accountGroupMembersAudit().insert(auditInserts);
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
@@ -130,11 +124,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       includesAudit.add(audit);
     }
     try {
-      ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         db.accountGroupByIdAud().insert(includesAudit);
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       logOrmExceptionForGroups(
@@ -148,8 +139,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       Collection<AccountGroupById> removed) {
     final List<AccountGroupByIdAud> auditUpdates = Lists.newLinkedList();
     try {
-      ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         for (final AccountGroupById g : removed) {
           AccountGroupByIdAud audit = null;
           for (AccountGroupByIdAud a : db.accountGroupByIdAud()
@@ -166,8 +156,6 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
           }
         }
         db.accountGroupByIdAud().update(auditUpdates);
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       logOrmExceptionForGroups(

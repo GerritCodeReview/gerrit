@@ -140,8 +140,7 @@ public class DocIndexer {
     ZipOutputStream zip = new ZipOutputStream(buf);
 
     for (String name : dir.listAll()) {
-      IndexInput in = dir.openInput(name, null);
-      try {
+      try (IndexInput in = dir.openInput(name, null)) {
         int len = (int) in.length();
         byte[] tmp = new byte[len];
         ZipEntry entry = new ZipEntry(name);
@@ -150,8 +149,6 @@ public class DocIndexer {
         zip.putNextEntry(entry);
         zip.write(tmp, 0, len);
         zip.closeEntry();
-      } finally {
-        in.close();
       }
     }
 

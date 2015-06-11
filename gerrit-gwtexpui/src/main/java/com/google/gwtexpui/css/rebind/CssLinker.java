@@ -77,18 +77,15 @@ public class CssLinker extends AbstractLinker {
 
   private String name(final TreeLogger logger, final PublicResource r)
       throws UnableToCompleteException {
-    final InputStream in = r.getContents(logger);
     final ByteArrayOutputStream tmp = new ByteArrayOutputStream();
     try {
-      try {
+      try (InputStream in = r.getContents(logger)) {
         final byte[] buf = new byte[2048];
         int n;
         while ((n = in.read(buf)) >= 0) {
           tmp.write(buf, 0, n);
         }
         tmp.close();
-      } finally {
-        in.close();
       }
     } catch (IOException e) {
       final UnableToCompleteException ute = new UnableToCompleteException();

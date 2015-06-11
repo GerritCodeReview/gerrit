@@ -521,8 +521,7 @@ public class RestApiServlet extends HttpServlet {
       IllegalArgumentException, NoSuchMethodException, IllegalAccessException,
       InstantiationException, InvocationTargetException, MethodNotAllowedException {
     if (isType(JSON_TYPE, req.getContentType())) {
-      BufferedReader br = req.getReader();
-      try {
+      try (BufferedReader br = req.getReader()) {
         JsonReader json = new JsonReader(br);
         json.setLenient(true);
 
@@ -536,8 +535,6 @@ public class RestApiServlet extends HttpServlet {
           return parseString(json.nextString(), type);
         }
         return OutputFormat.JSON.newGson().fromJson(json, type);
-      } finally {
-        br.close();
       }
     } else if (("PUT".equals(req.getMethod()) || "POST".equals(req.getMethod()))
         && acceptsRawInput(type)) {
@@ -547,8 +544,7 @@ public class RestApiServlet extends HttpServlet {
     } else if (hasNoBody(req)) {
       return createInstance(type);
     } else if (isType("text/plain", req.getContentType())) {
-      BufferedReader br = req.getReader();
-      try {
+      try (BufferedReader br = req.getReader()) {
         char[] tmp = new char[256];
         StringBuilder sb = new StringBuilder();
         int n;
@@ -556,8 +552,6 @@ public class RestApiServlet extends HttpServlet {
           sb.append(tmp, 0, n);
         }
         return parseString(sb.toString(), type);
-      } finally {
-        br.close();
       }
     } else if ("POST".equals(req.getMethod())
         && isType(FORM_TYPE, req.getContentType())) {
@@ -771,11 +765,8 @@ public class RestApiServlet extends HttpServlet {
       }
 
       if (req == null || !"HEAD".equals(req.getMethod())) {
-        OutputStream dst = res.getOutputStream();
-        try {
+        try (OutputStream dst = res.getOutputStream()) {
           bin.writeTo(dst);
-        } finally {
-          dst.close();
         }
       }
     } finally {

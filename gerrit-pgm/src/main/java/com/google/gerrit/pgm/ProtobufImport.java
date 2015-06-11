@@ -92,11 +92,9 @@ public class ProtobufImport extends SiteProgram {
     });
     dbInjector.injectMembers(this);
 
-    ReviewDb db = schemaFactory.open();
-
     ProgressMonitor progress = new TextProgressMonitor();
     progress.beginTask("Importing entities", ProgressMonitor.UNKNOWN);
-    try {
+    try (ReviewDb db = schemaFactory.open()) {
       for (RelationModel model
           : new JavaSchemaModel(ReviewDb.class).getRelations()) {
         relations.put(model.getRelationID(), Relation.create(model, db));
@@ -119,8 +117,6 @@ public class ProtobufImport extends SiteProgram {
         }
       }
       progress.endTask();
-    } finally {
-      db.close();
     }
 
     return 0;

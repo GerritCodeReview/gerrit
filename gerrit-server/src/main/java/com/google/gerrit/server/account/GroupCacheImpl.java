@@ -153,11 +153,8 @@ public class GroupCacheImpl implements GroupCache {
   @Override
   public Iterable<AccountGroup> all() {
     try {
-      ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         return Collections.unmodifiableList(db.accountGroups().all().toList());
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       log.warn("Cannot list internal groups", e);
@@ -187,11 +184,8 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<AccountGroup> load(final AccountGroup.Id key)
         throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         return Optional.fromNullable(db.accountGroups().get(key));
-      } finally {
-        db.close();
       }
     }
   }
@@ -207,16 +201,13 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<AccountGroup> load(String name)
         throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         AccountGroup.NameKey key = new AccountGroup.NameKey(name);
         AccountGroupName r = db.accountGroupNames().get(key);
         if (r != null) {
           return Optional.fromNullable(db.accountGroups().get(r.getId()));
         }
         return Optional.absent();
-      } finally {
-        db.close();
       }
     }
   }
@@ -232,8 +223,7 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<AccountGroup> load(String uuid)
         throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         List<AccountGroup> r;
 
         r = db.accountGroups().byUUID(new AccountGroup.UUID(uuid)).toList();
@@ -244,8 +234,6 @@ public class GroupCacheImpl implements GroupCache {
         } else {
           throw new OrmDuplicateKeyException("Duplicate group UUID " + uuid);
         }
-      } finally {
-        db.close();
       }
     }
   }

@@ -221,8 +221,7 @@ class EncryptedContactStore implements ContactStore {
     field(b, "Preferred-Email", account.getPreferredEmail());
 
     try {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         for (final AccountExternalId e : db.accountExternalIds().byAccount(
             account.getId())) {
           final StringBuilder oistr = new StringBuilder();
@@ -242,8 +241,6 @@ class EncryptedContactStore implements ContactStore {
           }
           field(b, "Identity", oistr.toString());
         }
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       throw new ContactInformationStoreException(e);

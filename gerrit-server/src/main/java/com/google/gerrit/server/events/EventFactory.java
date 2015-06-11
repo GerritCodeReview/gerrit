@@ -230,8 +230,7 @@ public class EventFactory {
     ca.dependsOn = new ArrayList<>();
     ca.neededBy = new ArrayList<>();
     try {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         final PatchSet.Id psId = change.currentPatchSetId();
         for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
           for (PatchSet p :
@@ -260,8 +259,6 @@ public class EventFactory {
             ca.neededBy.add(newNeededBy(c, p));
           }
         }
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       // Squash DB exceptions and leave dependency lists partially filled.
@@ -402,8 +399,7 @@ public class EventFactory {
     p.isDraft = patchSet.isDraft();
     final PatchSet.Id pId = patchSet.getId();
     try {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         p.parents = new ArrayList<>();
         for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
             patchSet.getId())) {
@@ -430,8 +426,6 @@ public class EventFactory {
           }
         }
         p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-      } finally {
-        db.close();
       }
     } catch (OrmException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);

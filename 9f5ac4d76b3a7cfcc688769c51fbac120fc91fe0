@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "995114ab_1c1a55a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-11T21:11:09Z",
+      "side": 1,
+      "message": "Nice and short way to render array as a string: \"[foo, bar]\".",
+      "range": {
+        "startLine": 94,
+        "startChar": 26,
+        "endLine": 94,
+        "endChar": 52
+      },
+      "revId": "9f5ac4d76b3a7cfcc688769c51fbac120fc91fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

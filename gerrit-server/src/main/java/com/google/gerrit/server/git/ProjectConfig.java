@@ -682,13 +682,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         label.setFunctionName(null);
       }
 
-      short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
-      if (isInRange(dv, values)) {
-        label.setDefaultValue(dv);
-      } else {
-        error(new ValidationError(PROJECT_CONFIG, String.format(
-            "Invalid %s \"%s\" for label \"%s\"",
-            KEY_DEFAULT_VALUE, dv, name)));
+      if (!values.isEmpty()) {
+        short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
+        if (isInRange(dv, values)) {
+          label.setDefaultValue(dv);
+        } else {
+          error(new ValidationError(PROJECT_CONFIG, String.format(
+              "Invalid %s \"%s\" for label \"%s\"",
+              KEY_DEFAULT_VALUE, dv, name)));
+        }
       }
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE,

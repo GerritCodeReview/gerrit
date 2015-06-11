@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b94258dc_bd61df08",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-11T21:23:33Z",
+      "side": 1,
+      "message": "You bring this example, yet the Index class that represents the /changes/\u003cid\u003e/index REST endpoint cannot be annotated with this capability, because otherwise the change owner wouldn\u0027t be able to trigger reindexing of own changes. Better not to mention it?",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

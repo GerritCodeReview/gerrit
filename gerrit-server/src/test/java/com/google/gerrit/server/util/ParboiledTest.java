@@ -35,8 +35,8 @@ public class ParboiledTest {
   "      [Number] '42'\n" +
   "        [0..9] '4'\n" +
   "        [0..9] '2'\n" +
-  "    [ZeroOrMore]\n" +
-  "  [ZeroOrMore]\n";
+  "    [zeroOrMore]\n" +
+  "  [zeroOrMore]\n";
 
   private CalculatorParser parser;
 
@@ -49,7 +49,7 @@ public class ParboiledTest {
   public void test() {
     ParsingResult<String> result =
         new ReportingParseRunner<String>(parser.Expression()).run("42");
-    assertThat(result.hasErrors()).isFalse();
+    assertThat(result.isSuccess()).isTrue();
     // next test is optional; we could stop here.
     assertThat(ParseTreeUtils.printNodeTree(result)).isEqualTo(EXPECTED);
   }
@@ -57,19 +57,19 @@ public class ParboiledTest {
   @BuildParseTree
   static class CalculatorParser extends BaseParser<Object> {
     Rule Expression() {
-      return Sequence(Term(), ZeroOrMore(AnyOf("+-"), Term()));
+      return sequence(Term(), zeroOrMore(anyOf("+-"), Term()));
     }
 
     Rule Term() {
-      return Sequence(Factor(), ZeroOrMore(AnyOf("*/"), Factor()));
+      return sequence(Factor(), zeroOrMore(anyOf("*/"), Factor()));
     }
 
     Rule Factor() {
-      return FirstOf(Number(), Sequence('(', Expression(), ')'));
+      return firstOf(Number(), sequence('(', Expression(), ')'));
     }
 
     Rule Number() {
-      return OneOrMore(CharRange('0', '9'));
+      return oneOrMore(charRange('0', '9'));
     }
   }
 }

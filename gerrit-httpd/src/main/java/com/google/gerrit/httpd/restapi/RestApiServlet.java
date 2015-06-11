@@ -317,15 +317,16 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      if (viewData.view instanceof RestModifyView<?, ?>) {
+      if (viewData.view instanceof RestReadView<?>
+          && "GET".equals(req.getMethod())) {
+        result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
+      } else if (viewData.view instanceof RestModifyView<?, ?>) {
         @SuppressWarnings("unchecked")
         RestModifyView<RestResource, Object> m =
             (RestModifyView<RestResource, Object>) viewData.view;
 
         inputRequestBody = parseRequest(req, inputType(m));
         result = m.apply(rsrc, inputRequestBody);
-      } else if (viewData.view instanceof RestReadView<?>) {
-        result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
       } else {
         throw new ResourceNotFoundException();
       }

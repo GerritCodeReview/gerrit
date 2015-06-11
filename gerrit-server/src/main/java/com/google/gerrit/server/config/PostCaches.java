@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+
 import com.google.common.cache.Cache;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -31,7 +33,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiresCapability(GlobalCapability.FLUSH_CACHES)
+@RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @Singleton
 public class PostCaches implements RestModifyView<ConfigResource, Input> {
   public static class Input {

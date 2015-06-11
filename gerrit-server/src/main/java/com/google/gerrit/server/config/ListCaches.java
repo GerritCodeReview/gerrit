@@ -14,14 +14,15 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import static com.google.gerrit.server.config.CacheResource.cacheNameOf;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -36,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-@RequiresCapability(GlobalCapability.VIEW_CACHES)
+@RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
 public class ListCaches implements RestReadView<ConfigResource> {
   private final DynamicMap<Cache<?, ?>> cacheMap;
 

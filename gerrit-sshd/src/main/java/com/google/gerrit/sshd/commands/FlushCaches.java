@@ -14,12 +14,13 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ListCaches;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Causes the caches to purge all entries and reload. */
-@RequiresCapability(GlobalCapability.FLUSH_CACHES)
+@RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @CommandMetaData(name = "flush-caches", description = "Flush some/all server caches from memory",
   runsAt = MASTER_OR_SLAVE)
 final class FlushCaches extends SshCommand {

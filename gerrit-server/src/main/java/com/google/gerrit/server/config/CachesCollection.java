@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
+
 import com.google.common.cache.Cache;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -31,7 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-@RequiresCapability(GlobalCapability.VIEW_CACHES)
+@RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
 @Singleton
 public class CachesCollection implements
     ChildCollection<ConfigResource, CacheResource>, AcceptsPost<ConfigResource> {

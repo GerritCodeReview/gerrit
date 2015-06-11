@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.annotations.CapabilityScope;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
@@ -24,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 
 public class CapabilityUtils {
   private static final Logger log = LoggerFactory
@@ -33,33 +35,80 @@ public class CapabilityUtils {
       String pluginName, Class<?> clazz)
       throws AuthException {
     RequiresCapability rc = getClassAnnotation(clazz, RequiresCapability.class);
-    if (rc != null) {
-      CurrentUser user = userProvider.get();
-      CapabilityControl ctl = user.getCapabilities();
-      if (ctl.canAdministrateServer()) {
+    RequiresAnyCapability rac =
+        getClassAnnotation(clazz, RequiresAnyCapability.class);
+    if (rc != null && rac != null) {
+      log.error(String.format(
+          "Class %s uses both @%s and @%s",
+          clazz.getName(),
+          RequiresCapability.class.getSimpleName(),
+          RequiresAnyCapability.class.getSimpleName()));
+      throw new AuthException("cannot check capability");
+    }
+    CurrentUser user = userProvider.get();
+    CapabilityControl ctl = user.getCapabilities();
+    if (ctl.canAdministrateServer()) {
+      return;
+    }
+    checkRequiresCapability(ctl, pluginName, clazz, rc);
+    checkRequiresAnyCapability(ctl, pluginName, clazz, rac);
+  }
+
+  private static void checkRequiresCapability(CapabilityControl ctl,
+      String pluginName, Class<?> clazz, RequiresCapability rc)
+      throws AuthException {
+    if (rc == null) {
+      return;
+    }
+    String capability =
+        resolveCapability(pluginName, rc.value(), rc.scope(), clazz);
+    if (!ctl.canPerform(capability)) {
+      throw new AuthException(String.format(
+          "Capability %s is required to access this resource",
+          capability));
+    }
+  }
+
+  private static void checkRequiresAnyCapability(CapabilityControl ctl,
+      String pluginName, Class<?> clazz, RequiresAnyCapability rac)
+      throws AuthException {
+    if (rac == null) {
+      return;
+    }
+    if (rac.value().length == 0) {
+      log.error(String.format(
+          "Class %s uses @%s with no capabilities listed",
+          clazz.getName(),
+          RequiresAnyCapability.class.getSimpleName()));
+      throw new AuthException("cannot check capability");
+    }
+    for (String capability : rac.value()) {
+      capability =
+          resolveCapability(pluginName, capability, rac.scope(), clazz);
+      if (ctl.canPerform(capability)) {
         return;
       }
-
-      String capability = rc.value();
-      if (pluginName != null && !"gerrit".equals(pluginName)
-         && (rc.scope() == CapabilityScope.PLUGIN
-          || rc.scope() == CapabilityScope.CONTEXT)) {
-        capability = String.format("%s-%s", pluginName, rc.value());
-      } else if (rc.scope() == CapabilityScope.PLUGIN) {
-        log.error(String.format(
-            "Class %s uses @%s(scope=%s), but is not within a plugin",
-            clazz.getName(),
-            RequiresCapability.class.getSimpleName(),
-            CapabilityScope.PLUGIN.name()));
-        throw new AuthException("cannot check capability");
-      }
-
-      if (!ctl.canPerform(capability)) {
-        throw new AuthException(String.format(
-            "Capability %s is required to access this resource",
-            capability));
-      }
     }
+    throw new AuthException(
+        "One of the following capabilities is required to access this"
+        + " resource: " + Arrays.asList(rac.value()));
+  }
+
+  private static String resolveCapability(String pluginName, String capability,
+      CapabilityScope scope, Class<?> clazz) throws AuthException {
+    if (pluginName != null && !"gerrit".equals(pluginName)
+       && (scope == CapabilityScope.PLUGIN
+        || scope == CapabilityScope.CONTEXT)) {
+      capability = String.format("%s-%s", pluginName, capability);
+    } else if (scope == CapabilityScope.PLUGIN) {
+      log.error(String.format(
+          "Class %s uses @%s(scope=%s), but is not within a plugin",
+          clazz.getName(),
+          RequiresCapability.class.getSimpleName(),
+          CapabilityScope.PLUGIN.name()));
+      throw new AuthException("cannot check capability");
+    }
+    return capability;
   }
 
   /**

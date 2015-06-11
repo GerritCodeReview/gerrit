@@ -54,19 +54,11 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
       loadDefaults();
       return self();
     }
-    Repository repo;
-    try {
-      repo = repoManager.openMetadataRepository(getProjectName());
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-    try {
+    try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
       load(repo);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
-    } finally {
-      repo.close();
     }
     return self();
   }
@@ -77,15 +69,9 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     } else if (!migration.enabled()) {
       return null;
     }
-    Repository repo;
-    try {
-      repo = repoManager.openMetadataRepository(getProjectName());
-      try {
-        Ref ref = repo.getRefDatabase().exactRef(getRefName());
-        return ref != null ? ref.getObjectId() : null;
-      } finally {
-        repo.close();
-      }
+    try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
+      Ref ref = repo.getRefDatabase().exactRef(getRefName());
+      return ref != null ? ref.getObjectId() : null;
     } catch (IOException e) {
       throw new OrmException(e);
     }

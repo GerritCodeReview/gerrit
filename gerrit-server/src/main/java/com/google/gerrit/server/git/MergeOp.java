@@ -1031,13 +1031,8 @@ public class MergeOp {
       @Override
       public void run() {
         PatchSet patchSet;
-        try {
-          ReviewDb reviewDb = schemaFactory.open();
-          try {
-            patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
-          } finally {
-            reviewDb.close();
-          }
+        try (ReviewDb reviewDb = schemaFactory.open()) {
+          patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
         } catch (Exception e) {
           logError("Cannot send email for submitted patch set " + c.getId(), e);
           return;
@@ -1193,13 +1188,8 @@ public class MergeOp {
       @Override
       public void run() {
         PatchSet patchSet;
-        try {
-          ReviewDb reviewDb = schemaFactory.open();
-          try {
-            patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
-          } finally {
-            reviewDb.close();
-          }
+        try (ReviewDb reviewDb = schemaFactory.open()) {
+          patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
         } catch (Exception e) {
           logError("Cannot send email notifications about merge failure", e);
           return;

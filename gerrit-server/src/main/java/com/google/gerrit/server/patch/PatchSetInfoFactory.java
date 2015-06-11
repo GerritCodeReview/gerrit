@@ -79,13 +79,8 @@ public class PatchSetInfoFactory {
 
   public PatchSetInfo get(Change change, PatchSet patchSet)
       throws PatchSetInfoNotAvailableException {
-    Repository repo;
-    try {
-      repo = repoManager.openRepository(change.getProject());
-    } catch (IOException e) {
-      throw new PatchSetInfoNotAvailableException(e);
-    }
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (Repository repo = repoManager.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(repo)) {
       final RevCommit src =
           rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
       PatchSetInfo info = get(src, patchSet.getId());
@@ -93,8 +88,6 @@ public class PatchSetInfoFactory {
       return info;
     } catch (IOException e) {
       throw new PatchSetInfoNotAvailableException(e);
-    } finally {
-      repo.close();
     }
   }
 

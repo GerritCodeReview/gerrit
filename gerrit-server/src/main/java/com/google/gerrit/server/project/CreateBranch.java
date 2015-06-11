@@ -117,8 +117,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
 
     final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
     final RefControl refControl = rsrc.getControl().controlForRef(name);
-    final Repository repo = repoManager.openRepository(rsrc.getNameKey());
-    try {
+    try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       final ObjectId revid = parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
       final RevWalk rw = verifyConnected(repo, revid);
       RevObject object = rw.parseAny(revid);
@@ -184,8 +183,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       }
     } catch (InvalidRevisionException e) {
       throw new BadRequestException("invalid revision \"" + input.revision + "\"");
-    } finally {
-      repo.close();
     }
   }
 

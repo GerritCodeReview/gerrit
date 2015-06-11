@@ -265,26 +265,18 @@ public class RulesCache {
 
   private String read(Project.NameKey project, ObjectId rulesId)
       throws CompileException {
-    Repository git;
-    try {
-      git = gitMgr.openRepository(project);
-    } catch (RepositoryNotFoundException e) {
-      throw new CompileException("Cannot open repository " + project, e);
+    try (Repository git = gitMgr.openRepository(project)) {
+      try {
+        ObjectLoader ldr = git.open(rulesId, Constants.OBJ_BLOB);
+        byte[] raw = ldr.getCachedBytes(SRC_LIMIT);
+        return RawParseUtils.decode(raw);
+      } catch (LargeObjectException e) {
+        throw new CompileException("rules of " + project + " are too large", e);
+      } catch (RuntimeException | IOException e) {
+        throw new CompileException("Cannot load rules of " + project, e);
+      }
     } catch (IOException e) {
       throw new CompileException("Cannot open repository " + project, e);
-    }
-    try {
-      ObjectLoader ldr = git.open(rulesId, Constants.OBJ_BLOB);
-      byte[] raw = ldr.getCachedBytes(SRC_LIMIT);
-      return RawParseUtils.decode(raw);
-    } catch (LargeObjectException e) {
-      throw new CompileException("rules of " + project + " are too large", e);
-    } catch (RuntimeException e) {
-      throw new CompileException("Cannot load rules of " + project, e);
-    } catch (IOException e) {
-      throw new CompileException("Cannot load rules of " + project, e);
-    } finally {
-      git.close();
     }
   }
 

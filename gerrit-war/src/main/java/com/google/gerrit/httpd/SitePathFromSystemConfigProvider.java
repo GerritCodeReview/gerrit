@@ -43,8 +43,7 @@ class SitePathFromSystemConfigProvider implements Provider<Path> {
 
   private static Path read(SchemaFactory<ReviewDb> schemaFactory)
       throws OrmException {
-    ReviewDb db = schemaFactory.open();
-    try {
+    try (ReviewDb db = schemaFactory.open()) {
       List<SystemConfig> all = db.systemConfig().all().toList();
       switch (all.size()) {
         case 1:
@@ -55,8 +54,6 @@ class SitePathFromSystemConfigProvider implements Provider<Path> {
           throw new OrmException("system_config must have exactly 1 row;"
               + " found " + all.size() + " rows instead");
       }
-    } finally {
-      db.close();
     }
   }
 }

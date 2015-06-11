@@ -81,15 +81,15 @@ public class DocIndexer {
       return;
     }
 
-    byte[] compressedIndex = zip(index());
-    JarOutputStream jar = new JarOutputStream(new FileOutputStream(outFile));
-    JarEntry entry = new JarEntry(
-        String.format("%s/%s", Constants.PACKAGE, Constants.INDEX_ZIP));
-    entry.setSize(compressedIndex.length);
-    jar.putNextEntry(entry);
-    jar.write(compressedIndex);
-    jar.closeEntry();
-    jar.close();
+    try (JarOutputStream jar = new JarOutputStream(new FileOutputStream(outFile))) {
+      byte[] compressedIndex = zip(index());
+      JarEntry entry = new JarEntry(
+          String.format("%s/%s", Constants.PACKAGE, Constants.INDEX_ZIP));
+      entry.setSize(compressedIndex.length);
+      jar.putNextEntry(entry);
+      jar.write(compressedIndex);
+      jar.closeEntry();
+    }
   }
 
   private RAMDirectory index() throws IOException,
@@ -99,63 +99,60 @@ public class DocIndexer {
         new StandardAnalyzer(CharArraySet.EMPTY_SET));
     config.setOpenMode(OpenMode.CREATE);
     config.setCommitOnClose(true);
-    IndexWriter iwriter = new IndexWriter(directory, config);
-    for (String inputFile : inputFiles) {
-      File file = new File(inputFile);
-      if (file.length() == 0) {
-        continue;
-      }
+    try (IndexWriter iwriter = new IndexWriter(directory, config)) {
+      for (String inputFile : inputFiles) {
+        File file = new File(inputFile);
+        if (file.length() == 0) {
+          continue;
+        }
 
-      BufferedReader titleReader = new BufferedReader(
-          new InputStreamReader(new FileInputStream(file), "UTF-8"));
-      String title = titleReader.readLine();
-      if (title != null && title.startsWith("[[")) {
-        // Generally the first line of the txt is the title. In a few cases the
-        // first line is a "[[tag]]" and the second line is the title.
-        title = titleReader.readLine();
-      }
-      titleReader.close();
-      Matcher matcher = SECTION_HEADER.matcher(title);
-      if (matcher.matches()) {
-        title = matcher.group(1);
-      }
+        String title;
+        try (BufferedReader titleReader = new BufferedReader(
+            new InputStreamReader(new FileInputStream(file), "UTF-8"))) {
+          title = titleReader.readLine();
+          if (title != null && title.startsWith("[[")) {
+            // Generally the first line of the txt is the title. In a few cases the
+            // first line is a "[[tag]]" and the second line is the title.
+            title = titleReader.readLine();
+          }
+        }
+        Matcher matcher = SECTION_HEADER.matcher(title);
+        if (matcher.matches()) {
+          title = matcher.group(1);
+        }
 
-      String outputFile = AsciiDoctor.mapInFileToOutFile(
-          inputFile, inExt, outExt);
-      FileReader reader = new FileReader(file);
-      Document doc = new Document();
-      doc.add(new TextField(Constants.DOC_FIELD, reader));
-      doc.add(new StringField(
+        String outputFile = AsciiDoctor.mapInFileToOutFile(
+            inputFile, inExt, outExt);
+        try (FileReader reader = new FileReader(file)) {
+          Document doc = new Document();
+          doc.add(new TextField(Constants.DOC_FIELD, reader));
+          doc.add(new StringField(
             Constants.URL_FIELD, prefix + outputFile, Field.Store.YES));
-      doc.add(new TextField(Constants.TITLE_FIELD, title, Field.Store.YES));
-      iwriter.addDocument(doc);
-      reader.close();
+          doc.add(new TextField(Constants.TITLE_FIELD, title, Field.Store.YES));
+          iwriter.addDocument(doc);
+        }
+      }
     }
-    iwriter.close();
     return directory;
   }
 
   private byte[] zip(RAMDirectory dir) throws IOException {
     ByteArrayOutputStream buf = new ByteArrayOutputStream();
-    ZipOutputStream zip = new ZipOutputStream(buf);
-
-    for (String name : dir.listAll()) {
-      IndexInput in = dir.openInput(name, null);
-      try {
-        int len = (int) in.length();
-        byte[] tmp = new byte[len];
-        ZipEntry entry = new ZipEntry(name);
-        entry.setSize(len);
-        in.readBytes(tmp, 0, len);
-        zip.putNextEntry(entry);
-        zip.write(tmp, 0, len);
-        zip.closeEntry();
-      } finally {
-        in.close();
+    try (ZipOutputStream zip = new ZipOutputStream(buf)) {
+      for (String name : dir.listAll()) {
+        try (IndexInput in = dir.openInput(name, null)) {
+          int len = (int) in.length();
+          byte[] tmp = new byte[len];
+          ZipEntry entry = new ZipEntry(name);
+          entry.setSize(len);
+          in.readBytes(tmp, 0, len);
+          zip.putNextEntry(entry);
+          zip.write(tmp, 0, len);
+          zip.closeEntry();
+        }
       }
     }
 
-    zip.close();
     return buf.toByteArray();
   }
 

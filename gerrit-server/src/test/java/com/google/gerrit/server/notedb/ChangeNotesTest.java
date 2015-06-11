@@ -444,23 +444,23 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       RevCommit commitWithComments = commitWithApprovals.getParent(0);
       assertThat(commitWithComments).isNotNull();
 
-      ChangeNotesParser notesWithComments =
-          new ChangeNotesParser(c, commitWithComments.copy(), rw, repoManager);
-      notesWithComments.parseAll();
-      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
-          notesWithComments.buildApprovals();
-      assertThat(approvals1).isEmpty();
-      assertThat(notesWithComments.comments).hasSize(1);
-      notesWithComments.close();
+      try (ChangeNotesParser notesWithComments =
+          new ChangeNotesParser(c, commitWithComments.copy(), rw, repoManager)) {
+        notesWithComments.parseAll();
+        ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
+            notesWithComments.buildApprovals();
+        assertThat(approvals1).isEmpty();
+        assertThat(notesWithComments.comments).hasSize(1);
+      }
 
-      ChangeNotesParser notesWithApprovals =
-          new ChangeNotesParser(c, commitWithApprovals.copy(), rw, repoManager);
-      notesWithApprovals.parseAll();
-      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
-          notesWithApprovals.buildApprovals();
-      assertThat(approvals2).hasSize(1);
-      assertThat(notesWithApprovals.comments).hasSize(1);
-      notesWithApprovals.close();
+      try (ChangeNotesParser notesWithApprovals =
+          new ChangeNotesParser(c, commitWithApprovals.copy(), rw, repoManager)) {
+        notesWithApprovals.parseAll();
+        ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
+            notesWithApprovals.buildApprovals();
+        assertThat(approvals2).hasSize(1);
+        assertThat(notesWithApprovals.comments).hasSize(1);
+      }
     } finally {
       batch.close();
     }

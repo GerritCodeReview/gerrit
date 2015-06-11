@@ -439,82 +439,82 @@ public class CommentsInNotesUtil {
   public byte[] buildNote(List<PatchLineComment> comments) {
     ByteArrayOutputStream buf = new ByteArrayOutputStream();
     OutputStreamWriter streamWriter = new OutputStreamWriter(buf, UTF_8);
-    PrintWriter writer = new PrintWriter(streamWriter);
-    PatchLineComment first = comments.get(0);
+    try (PrintWriter writer = new PrintWriter(streamWriter)) {
+      PatchLineComment first = comments.get(0);
 
-    short side = first.getSide();
-    PatchSet.Id psId = PatchLineCommentsUtil.getCommentPsId(first);
-    appendHeaderField(writer, side == 0
-        ? BASE_PATCH_SET
-        : PATCH_SET,
-        Integer.toString(psId.get()));
-    appendHeaderField(writer, REVISION, first.getRevId().get());
+      short side = first.getSide();
+      PatchSet.Id psId = PatchLineCommentsUtil.getCommentPsId(first);
+      appendHeaderField(writer, side == 0
+          ? BASE_PATCH_SET
+          : PATCH_SET,
+          Integer.toString(psId.get()));
+      appendHeaderField(writer, REVISION, first.getRevId().get());
 
-    String currentFilename = null;
+      String currentFilename = null;
 
-    for (PatchLineComment c : comments) {
-      PatchSet.Id currentPsId = PatchLineCommentsUtil.getCommentPsId(c);
-      checkArgument(psId.equals(currentPsId),
-          "All comments being added must all have the same PatchSet.Id. The"
-          + "comment below does not have the same PatchSet.Id as the others "
-          + "(%s).\n%s", psId.toString(), c.toString());
-      checkArgument(side == c.getSide(),
-          "All comments being added must all have the same side. The"
-          + "comment below does not have the same side as the others "
-          + "(%s).\n%s", side, c.toString());
-      String commentFilename =
-          QuotedString.GIT_PATH.quote(c.getKey().getParentKey().getFileName());
+      for (PatchLineComment c : comments) {
+        PatchSet.Id currentPsId = PatchLineCommentsUtil.getCommentPsId(c);
+        checkArgument(psId.equals(currentPsId),
+            "All comments being added must all have the same PatchSet.Id. The"
+            + "comment below does not have the same PatchSet.Id as the others "
+            + "(%s).\n%s", psId.toString(), c.toString());
+        checkArgument(side == c.getSide(),
+            "All comments being added must all have the same side. The"
+            + "comment below does not have the same side as the others "
+            + "(%s).\n%s", side, c.toString());
+        String commentFilename =
+            QuotedString.GIT_PATH.quote(c.getKey().getParentKey().getFileName());
 
-      if (!commentFilename.equals(currentFilename)) {
-        currentFilename = commentFilename;
-        writer.print("File: ");
-        writer.print(commentFilename);
+        if (!commentFilename.equals(currentFilename)) {
+          currentFilename = commentFilename;
+          writer.print("File: ");
+          writer.print(commentFilename);
+          writer.print("\n\n");
+        }
+
+        // The CommentRange field for a comment is allowed to be null.
+        // If it is indeed null, then in the first line, we simply use the line
+        // number field for a comment instead. If it isn't null, we write the
+        // comment range itself.
+        CommentRange range = c.getRange();
+        if (range != null) {
+          writer.print(range.getStartLine());
+          writer.print(':');
+          writer.print(range.getStartCharacter());
+          writer.print('-');
+          writer.print(range.getEndLine());
+          writer.print(':');
+          writer.print(range.getEndCharacter());
+        } else {
+          writer.print(c.getLine());
+        }
+        writer.print("\n");
+
+        writer.print(formatTime(serverIdent, c.getWrittenOn()));
+        writer.print("\n");
+
+        PersonIdent ident =
+            newIdent(accountCache.get(c.getAuthor()).getAccount(),
+                c.getWrittenOn());
+        String nameString = ident.getName() + " <" + ident.getEmailAddress()
+            + ">";
+        appendHeaderField(writer, AUTHOR, nameString);
+
+        String parent = c.getParentUuid();
+        if (parent != null) {
+          appendHeaderField(writer, PARENT, parent);
+        }
+
+        appendHeaderField(writer, UUID, c.getKey().get());
+
+        byte[] messageBytes = c.getMessage().getBytes(UTF_8);
+        appendHeaderField(writer, LENGTH,
+            Integer.toString(messageBytes.length));
+
+        writer.print(c.getMessage());
         writer.print("\n\n");
       }
-
-      // The CommentRange field for a comment is allowed to be null.
-      // If it is indeed null, then in the first line, we simply use the line
-      // number field for a comment instead. If it isn't null, we write the
-      // comment range itself.
-      CommentRange range = c.getRange();
-      if (range != null) {
-        writer.print(range.getStartLine());
-        writer.print(':');
-        writer.print(range.getStartCharacter());
-        writer.print('-');
-        writer.print(range.getEndLine());
-        writer.print(':');
-        writer.print(range.getEndCharacter());
-      } else {
-        writer.print(c.getLine());
-      }
-      writer.print("\n");
-
-      writer.print(formatTime(serverIdent, c.getWrittenOn()));
-      writer.print("\n");
-
-      PersonIdent ident =
-          newIdent(accountCache.get(c.getAuthor()).getAccount(),
-              c.getWrittenOn());
-      String nameString = ident.getName() + " <" + ident.getEmailAddress()
-          + ">";
-      appendHeaderField(writer, AUTHOR, nameString);
-
-      String parent = c.getParentUuid();
-      if (parent != null) {
-        appendHeaderField(writer, PARENT, parent);
-      }
-
-      appendHeaderField(writer, UUID, c.getKey().get());
-
-      byte[] messageBytes = c.getMessage().getBytes(UTF_8);
-      appendHeaderField(writer, LENGTH,
-          Integer.toString(messageBytes.length));
-
-      writer.print(c.getMessage());
-      writer.print("\n\n");
     }
-    writer.close();
     return buf.toByteArray();
   }
 

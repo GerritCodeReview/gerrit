@@ -943,15 +943,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
         ps = pb.start();
         ps.getOutputStream().close();
-        InputStream is = ps.getInputStream();
         String output = null;
-        try {
+        try (InputStream is = ps.getInputStream()) {
           output = readOutput(is);
         } finally {
-          try {
-            is.close();
-          } catch (IOException closeErr) {
-          }
           ps.waitFor();
           result = new HookResult(ps.exitValue(), output);
         }

@@ -76,9 +76,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
     }
     String ref = RefNames.fullName(input.ref);
 
-    Repository repo = null;
-    try {
-      repo = repoManager.openRepository(rsrc.getNameKey());
+    try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Map<String, Ref> cur =
           repo.getRefDatabase().exactRef(Constants.HEAD, ref);
       if (!cur.containsKey(ref)) {
@@ -129,10 +127,6 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
       return ref;
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(rsrc.getName());
-    } finally {
-      if (repo != null) {
-        repo.close();
-      }
     }
   }
 }

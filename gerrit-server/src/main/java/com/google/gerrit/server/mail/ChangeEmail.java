@@ -406,26 +406,22 @@ public abstract class ChangeEmail extends NotificationEmail {
     TemporaryBuffer.Heap buf =
         new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxSize), maxSize);
     try (DiffFormatter fmt = new DiffFormatter(buf)) {
-      Repository git;
-      try {
-        git = args.server.openRepository(change.getProject());
+      try (Repository git = args.server.openRepository(change.getProject())) {
+        try {
+          fmt.setRepository(git);
+          fmt.setDetectRenames(true);
+          fmt.format(patchList.getOldId(), patchList.getNewId());
+          return RawParseUtils.decode(buf.toByteArray());
+        } catch (IOException e) {
+          if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
+            return "";
+          }
+          log.error("Cannot format patch", e);
+          return "";
+        }
       } catch (IOException e) {
         log.error("Cannot open repository to format patch", e);
         return "";
-      }
-      try {
-        fmt.setRepository(git);
-        fmt.setDetectRenames(true);
-        fmt.format(patchList.getOldId(), patchList.getNewId());
-        return RawParseUtils.decode(buf.toByteArray());
-      } catch (IOException e) {
-        if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
-          return "";
-        }
-        log.error("Cannot format patch", e);
-        return "";
-      } finally {
-        git.close();
       }
     }
   }

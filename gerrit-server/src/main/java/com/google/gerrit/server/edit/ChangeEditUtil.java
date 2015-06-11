@@ -180,11 +180,8 @@ public class ChangeEditUtil {
   public void delete(ChangeEdit edit)
       throws IOException {
     Change change = edit.getChange();
-    Repository repo = gitManager.openRepository(change.getProject());
-    try {
+    try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);
-    } finally {
-      repo.close();
     }
     indexer.index(db.get(), change);
   }

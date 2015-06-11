@@ -104,12 +104,8 @@ class HttpLoginServlet extends HttpServlet {
       rsp.setContentType("text/html");
       rsp.setCharacterEncoding("UTF-8");
       rsp.setContentLength(bin.length);
-      final ServletOutputStream out = rsp.getOutputStream();
-      try {
+      try (ServletOutputStream out = rsp.getOutputStream()) {
         out.write(bin);
-      } finally {
-        out.flush();
-        out.close();
       }
       return;
     }

@@ -302,11 +302,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public String getProjectDescription(final Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
-    final Repository e = openRepository(name);
-    try {
+    try (Repository e = openRepository(name)) {
       return getProjectDescription(e);
-    } finally {
-      e.close();
     }
   }
 
@@ -337,31 +334,26 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       final String description) {
     // Update git's description file, in case gitweb is being used
     //
-    try {
-      final Repository e = openRepository(name);
-      try {
-        final String old = getProjectDescription(e);
-        if ((old == null && description == null)
-            || (old != null && old.equals(description))) {
-          return;
-        }
+    try (Repository e = openRepository(name)) {
+      final String old = getProjectDescription(e);
+      if ((old == null && description == null)
+          || (old != null && old.equals(description))) {
+        return;
+      }
 
-        final LockFile f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
-        if (f.lock()) {
-          String d = description;
-          if (d != null) {
-            d = d.trim();
-            if (d.length() > 0) {
-              d += "\n";
-            }
-          } else {
-            d = "";
+      final LockFile f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
+      if (f.lock()) {
+        String d = description;
+        if (d != null) {
+          d = d.trim();
+          if (d.length() > 0) {
+            d += "\n";
           }
-          f.write(Constants.encode(d));
-          f.commit();
+        } else {
+          d = "";
         }
-      } finally {
-        e.close();
+        f.write(Constants.encode(d));
+        f.commit();
       }
     } catch (RepositoryNotFoundException e) {
       log.error("Cannot update description for " + name, e);

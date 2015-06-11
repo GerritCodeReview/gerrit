@@ -40,13 +40,12 @@ public class Cat extends AbstractProgram {
       name = "WEB-INF/" + fileName;
     }
 
-    final InputStream in = open(name);
-    if (in == null) {
-      System.err.println("error: no such file " + fileName);
-      return 1;
-    }
+    try (InputStream in = open(name)) {
+      if (in == null) {
+        System.err.println("error: no such file " + fileName);
+        return 1;
+      }
 
-    try {
       try {
         final byte[] buf = new byte[4096];
         int n;
@@ -56,8 +55,6 @@ public class Cat extends AbstractProgram {
       } finally {
         System.out.flush();
       }
-    } finally {
-      in.close();
     }
     return 0;
   }

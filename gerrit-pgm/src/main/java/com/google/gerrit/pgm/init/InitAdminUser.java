@@ -68,8 +68,7 @@ public class InitAdminUser implements InitStep {
       return;
     }
 
-    ReviewDb db = dbFactory.open();
-    try {
+    try (ReviewDb db = dbFactory.open()) {
       if (db.accounts().anyAccounts().toList().isEmpty()) {
         ui.header("Gerrit Administrator");
         if (ui.yesno(true, "Create administrator user")) {
@@ -111,8 +110,6 @@ public class InitAdminUser implements InitStep {
           }
         }
       }
-    } finally {
-      db.close();
     }
   }
 

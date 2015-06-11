@@ -163,17 +163,12 @@ public class ProjectState {
   }
 
   private boolean isRevisionOutOfDate() {
-    try {
-      Repository git = gitMgr.openRepository(getProject().getNameKey());
-      try {
-        Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
-        if (ref == null || ref.getObjectId() == null) {
-          return true;
-        }
-        return !ref.getObjectId().equals(config.getRevision());
-      } finally {
-        git.close();
+    try (Repository git = gitMgr.openRepository(getProject().getNameKey())) {
+      Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
+      if (ref == null || ref.getObjectId() == null) {
+        return true;
       }
+      return !ref.getObjectId().equals(config.getRevision());
     } catch (IOException gone) {
       return true;
     }
@@ -228,13 +223,8 @@ public class ProjectState {
     }
 
     ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
-    try {
-      Repository git = gitMgr.openRepository(getProject().getNameKey());
-      try {
-        cfg.load(git);
-      } finally {
-        git.close();
-      }
+    try (Repository git = gitMgr.openRepository(getProject().getNameKey())) {
+      cfg.load(git);
     } catch (IOException e) {
       log.warn("Failed to load " + fileName + " for " + getProject().getName(), e);
     } catch (ConfigInvalidException e) {

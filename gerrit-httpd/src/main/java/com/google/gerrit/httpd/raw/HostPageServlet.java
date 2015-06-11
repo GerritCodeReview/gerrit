@@ -128,25 +128,20 @@ public class HostPageServlet extends HttpServlet {
     }
 
     String src = "gerrit_ui/gerrit_ui.nocache.js";
-    InputStream in = servletContext.getResourceAsStream("/" + src);
-    if (in != null) {
-      Hasher md = Hashing.md5().newHasher();
-      try {
-        try {
-          final byte[] buf = new byte[1024];
-          int n;
-          while ((n = in.read(buf)) > 0) {
-            md.putBytes(buf, 0, n);
-          }
-        } finally {
-          in.close();
+    try (InputStream in = servletContext.getResourceAsStream("/" + src)) {
+      if (in != null) {
+        Hasher md = Hashing.md5().newHasher();
+        final byte[] buf = new byte[1024];
+        int n;
+        while ((n = in.read(buf)) > 0) {
+          md.putBytes(buf, 0, n);
         }
-      } catch (IOException e) {
-        throw new IOException("Failed reading " + src, e);
+        src += "?content=" + md.hash().toString();
+      } else {
+        log.debug("No " + src + " in webapp root; keeping noncache.js URL");
       }
-      src += "?content=" + md.hash().toString();
-    } else {
-      log.debug("No " + src + " in webapp root; keeping noncache.js URL");
+    } catch (IOException e) {
+      throw new IOException("Failed reading " + src, e);
     }
 
     noCacheName = src;
@@ -224,11 +219,8 @@ public class HostPageServlet extends HttpServlet {
     rsp.setContentType("text/html");
     rsp.setCharacterEncoding(HtmlDomUtil.ENC.name());
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 

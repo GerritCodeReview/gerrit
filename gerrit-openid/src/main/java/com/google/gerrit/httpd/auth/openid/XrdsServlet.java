@@ -63,11 +63,8 @@ class XrdsServlet extends HttpServlet {
     rsp.setContentType("application/xrds+xml");
     rsp.setCharacterEncoding(ENC);
 
-    final ServletOutputStream out = rsp.getOutputStream();
-    try {
+    try (ServletOutputStream out = rsp.getOutputStream()) {
       out.write(raw);
-    } finally {
-      out.close();
     }
   }
 }

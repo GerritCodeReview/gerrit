@@ -258,15 +258,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
 
         @Override
         public void funnel(K from, PrimitiveSink into) {
-          try {
-            ObjectOutputStream ser =
-                new ObjectOutputStream(new SinkOutputStream(into));
-            try {
-              ser.writeObject(from);
-              ser.flush();
-            } finally {
-              ser.close();
-            }
+          try (ObjectOutputStream ser =
+              new ObjectOutputStream(new SinkOutputStream(into))) {
+            ser.writeObject(from);
+            ser.flush();
           } catch (IOException err) {
             throw new RuntimeException("Cannot hash as Serializable", err);
           }

@@ -149,21 +149,18 @@ public class Reindex extends SiteProgram {
   }
 
   private int indexAll() throws Exception {
-    ReviewDb db = sysInjector.getInstance(ReviewDb.class);
     ProgressMonitor pm = new TextProgressMonitor();
     pm.start(1);
     pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
     Set<Project.NameKey> projects = Sets.newTreeSet();
     int changeCount = 0;
-    try {
+    try (ReviewDb db = sysInjector.getInstance(ReviewDb.class)) {
       for (Change change : db.changes().all()) {
         changeCount++;
         if (projects.add(change.getProject())) {
           pm.update(1);
         }
       }
-    } finally {
-      db.close();
     }
     pm.endTask();
 

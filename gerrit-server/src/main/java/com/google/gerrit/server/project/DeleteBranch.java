@@ -82,8 +82,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
           + " has open changes");
     }
 
-    Repository r = repoManager.openRepository(rsrc.getNameKey());
-    try {
+    try (Repository r = repoManager.openRepository(rsrc.getNameKey())) {
       RefUpdate.Result result;
       RefUpdate u = r.updateRef(rsrc.getRef());
       u.setForceUpdate(true);
@@ -129,8 +128,6 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
           log.error("Cannot delete " + rsrc.getBranchKey() + ": " + result.name());
           throw new ResourceConflictException("cannot delete branch: " + result.name());
       }
-    } finally {
-      r.close();
     }
     return Response.none();
   }

@@ -1719,11 +1719,8 @@ public class ReceiveCommits {
           if (caller == Thread.currentThread()) {
             insertChange(db);
           } else {
-            ReviewDb db = schemaFactory.open();
-            try {
+            try (ReviewDb db = schemaFactory.open()) {
               insertChange(db);
-            } finally {
-              db.close();
             }
           }
           synchronized (newProgress) {
@@ -2093,11 +2090,8 @@ public class ReceiveCommits {
             } else if (caller == Thread.currentThread()) {
               return insertPatchSet(db);
             } else {
-              ReviewDb db = schemaFactory.open();
-              try {
+              try (ReviewDb db = schemaFactory.open()) {
                 return insertPatchSet(db);
-              } finally {
-                db.close();
               }
             }
           } finally {
@@ -2347,11 +2341,8 @@ public class ReceiveCommits {
           if (caller == Thread.currentThread()) {
             updateGroups(db);
           } else {
-            ReviewDb db = schemaFactory.open();
-            try {
+            try (ReviewDb db = schemaFactory.open()) {
               updateGroups(db);
-            } finally {
-              db.close();
             }
           }
           return null;

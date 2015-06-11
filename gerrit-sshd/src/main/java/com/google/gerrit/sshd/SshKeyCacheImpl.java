@@ -127,8 +127,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         final AccountExternalId.Key key =
             new AccountExternalId.Key(SCHEME_USERNAME, username);
         final AccountExternalId user = db.accountExternalIds().get(key);
@@ -147,8 +146,6 @@ public class SshKeyCacheImpl implements SshKeyCache {
           return NO_KEYS;
         }
         return Collections.unmodifiableList(kl);
-      } finally {
-        db.close();
       }
     }
 

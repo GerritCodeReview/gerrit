@@ -235,12 +235,12 @@ public class SiteIndexer {
       @Override
       public Void call() throws Exception {
         Multimap<ObjectId, ChangeData> byId = ArrayListMultimap.create();
-        Repository repo = null;
-        ReviewDb db = null;
-        try {
-          repo = repoManager.openRepository(project);
+        // TODO(dborowitz): Opening all repositories in a live server may be
+        // wasteful; see if we can determine which ones it is safe to close
+        // with RepositoryCache.close(repo).
+        try (Repository repo = repoManager.openRepository(project);
+            ReviewDb db = schemaFactory.open()) {
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          db = schemaFactory.open();
           for (Change c : changeCache.get(project)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
@@ -256,16 +256,6 @@ public class SiteIndexer {
               verboseWriter).call();
         } catch (RepositoryNotFoundException rnfe) {
           log.error(rnfe.getMessage());
-        } finally {
-          if (db != null) {
-            db.close();
-          }
-          if (repo != null) {
-            repo.close();
-          }
-          // TODO(dborowitz): Opening all repositories in a live server may be
-          // wasteful; see if we can determine which ones it is safe to close
-          // with RepositoryCache.close(repo).
         }
         return null;
       }

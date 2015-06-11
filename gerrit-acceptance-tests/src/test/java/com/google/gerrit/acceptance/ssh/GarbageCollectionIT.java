@@ -82,7 +82,8 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   public void testGcWithoutCapability_Error() throws Exception {
     SshSession s = new SshSession(server, user);
     s.exec("gerrit gc --all");
-    assertError("Capability runGC is required to access this resource", s.getError());
+    assertError("One of the following capabilities is required to access this"
+        + " resource: [runGC, maintainServer]", s.getError());
     s.close();
   }
 

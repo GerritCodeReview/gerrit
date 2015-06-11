@@ -14,15 +14,17 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.config.DeleteTask.Input;
 import com.google.inject.Singleton;
 
 @Singleton
-@RequiresCapability(GlobalCapability.KILL_TASK)
+@RequiresAnyCapability({KILL_TASK, MAINTAIN_SERVER})
 public class DeleteTask implements RestModifyView<TaskResource, Input> {
   public static class Input {
   }

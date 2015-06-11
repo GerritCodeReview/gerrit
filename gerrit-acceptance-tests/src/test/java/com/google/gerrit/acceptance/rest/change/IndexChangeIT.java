@@ -26,7 +26,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
   @Test
   public void indexChange() throws Exception {
     String changeId = createChange().getChangeId();
-    RestResponse r = userSession.post("/changes/" + changeId + "/index/");
+    RestResponse r = adminSession.post("/changes/" + changeId + "/index/");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
   }
 

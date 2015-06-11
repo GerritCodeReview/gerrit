@@ -1244,6 +1244,22 @@ kill command ends tasks that currently occupy the Gerrit server, usually
 a replication task or a user initiated task such as an upload-pack or
 receive-pack.
 
+[[capability_maintainServer]]
+=== Maintain Server
+
+Allow basic, constrained server maintenance tasks, such as flushing caches and
+reindexing changes. Does not grant arbitrary database access, read/write, or
+ACL management permissions, as might the
+<<capability_administrateServer,administrate server capability>>.
+
+Implies the following capabilities:
+
+* <<capability_flushCaches,Flush Caches>>
+* <<capability_kill,Kill Task>>
+* <<capability_runGC,Run Garbage Collection>>
+* <<capability_viewCaches,View Caches>>
+* <<capability_viewQueue,View Queue>>
+
 [[capability_modifyAccount]]
 === Modify Account
 

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -34,7 +36,7 @@ import java.util.List;
 
 /** Kill a task in the work queue. */
 @AdminHighPriorityCommand
-@RequiresCapability(GlobalCapability.KILL_TASK)
+@RequiresAnyCapability({KILL_TASK, MAINTAIN_SERVER})
 final class KillCommand extends SshCommand {
   @Inject
   private TasksCollection tasksCollection;

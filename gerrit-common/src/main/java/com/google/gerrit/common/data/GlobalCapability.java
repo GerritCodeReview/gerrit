@@ -71,6 +71,16 @@ public class GlobalCapability {
   /** Can terminate any task using the kill command. */
   public static final String KILL_TASK = "killTask";
 
+  /**
+   * Can perform limited server maintenance.
+   * <p>
+   * Includes tasks such as reindexing changes and flushing caches that may need
+   * to be performed regularly. Does <strong>not</strong> grant arbitrary
+   * read/write/ACL management permissions as does {@link
+   * #ADMINISTRATE_SERVER}.
+   */
+  public static final String MAINTAIN_SERVER = "maintainServer";
+
   /** Can modify any account on the server. */
   public static final String MODIFY_ACCOUNT = "modifyAccount";
 
@@ -121,6 +131,7 @@ public class GlobalCapability {
     NAMES_ALL.add(EMAIL_REVIEWERS);
     NAMES_ALL.add(FLUSH_CACHES);
     NAMES_ALL.add(KILL_TASK);
+    NAMES_ALL.add(MAINTAIN_SERVER);
     NAMES_ALL.add(MODIFY_ACCOUNT);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);

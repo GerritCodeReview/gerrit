@@ -39,6 +39,24 @@
       "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_1a481d7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-11T16:42:02Z",
+      "side": 1,
+      "message": "\u003e This is ... crazy.\n\nIndeed.\n\n\u003e What if the match is to a different Change.Id?\n\nHaving multiple patch sets on the same project with the same SHA-1 is a corrupt state. Gerrit would reject a push to refs/for/* that tried to put you in that state. I didn\u0027t want to repair one form of corruption by introducing another; that\u0027s why I punt below.\n\nBut it would be fine to have the same SHA-1 on a different project. So I guess this list should be filtered by project.",
+      "parentUuid": "39e3c84b_01d8ca61",
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

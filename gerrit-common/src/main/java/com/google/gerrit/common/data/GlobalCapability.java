@@ -65,6 +65,9 @@ public class GlobalCapability {
    */
   public static final String EMAIL_REVIEWERS = "emailReviewers";
 
+  /** Can perform consistency check fixes on others' changes. */
+  public static final String FIX_CHANGES = "fixChanges";
+
   /** Can flush any cache except the active web_sessions cache. */
   public static final String FLUSH_CACHES = "flushCaches";
 

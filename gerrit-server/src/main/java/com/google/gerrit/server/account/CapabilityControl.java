@@ -75,6 +75,11 @@ public class CapabilityControl {
     return canAdministrateServer;
   }
 
+  /** @return true if the user can check and fix others' changes. */
+  public boolean canFixChanges() {
+    return canPerform(GlobalCapability.FIX_CHANGES) || canAdministrateServer();
+  }
+
   /** @return true if the user can create an account for another user. */
   public boolean canCreateAccount() {
     return canPerform(GlobalCapability.CREATE_ACCOUNT)

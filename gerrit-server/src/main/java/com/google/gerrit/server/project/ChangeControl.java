@@ -341,6 +341,10 @@ public class ChangeControl {
     return getRefControl().canSubmitAs();
   }
 
+  public boolean canFix() {
+    return isOwner() || getCurrentUser().getCapabilities().canFixChanges();
+  }
+
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
         this.getRefControl().getCurrentUser().getUserName());

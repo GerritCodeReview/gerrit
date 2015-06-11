@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39e3c84b_a1e2be13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-11T16:15:12Z",
+      "side": 1,
+      "message": "only one happens?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e3c84b_01d8ca61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-11T16:15:12Z",
+      "side": 1,
+      "message": "This is ... crazy. We have a Change.Id context in the request. This query can match revisions on different branches or different projects.\n\nThe 0 case is OK. We had no matches anywhere so its OK to just insert the patch set and make a match.\n\nThe 1 case is weird. What if the match is to a different Change.Id? We should still be able to insert the commit onto the change the caller gave us but you are punting with a problem.\n\nLikewise with the default case.",
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

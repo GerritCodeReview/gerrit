@@ -448,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "995114ab_3ce951f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-06-11T06:08:38Z",
+      "side": 1,
+      "message": "Thanks Edwin.\n\nSo this temporary (nasty) workaround, isn\u0027t good enough for now!??\nI agree that ProjectAccess should be handled with a REST endpoint, but as you said that seems like a much bigger task.\nI am aware of the ListAccess endpoint, I started to refactor it so i could use the classes in a ProjectAccess endpoint, which I thought would be the right way to go. But since that would require a lot more time and effort I hacked this up to get things rolling until the REST endpoint was complete.\nThe goal being to be able to contribute my gitweb_link plugin, which would enable us to rip all Gitweb stuff out of Gerrit core (the Gitweb stuff has bothered my autism since I first saw it).\nPrimary a plugin that acts just like the Gitweb support in Gerrit (from an admins perspective) and later perhaps rip out the config parts into a gitweb.config and split into one \"Gitweb-plugin\" and one \"Generic-code-browser-plugin\".\n\nBut I agree that this is a hack, and if it\u0027s unacceptable   I\u0027ll just have to wait until the REST endpoint is in place.",
+      "parentUuid": "b94258dc_9dd74332",
+      "range": {
+        "startLine": 151,
+        "startChar": 43,
+        "endLine": 151,
+        "endChar": 68
+      },
+      "revId": "576a6ed1a3232bd357a39c869ac35b3bb635b2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39e908fb_316770ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1

@@ -113,13 +113,11 @@ public class RebuildNotedb extends SiteProgram {
         sysInjector.getInstance(GitRepositoryManager.class);
     final Project.NameKey allUsersName =
         sysInjector.getInstance(AllUsersName.class);
-    final Repository allUsersRepo =
-        repoManager.openMetadataRepository(allUsersName);
-    try {
+    try (Repository allUsersRepo =
+        repoManager.openMetadataRepository(allUsersName)) {
       deleteDraftRefs(allUsersRepo);
       for (final Project.NameKey project : changesByProject.keySet()) {
-        final Repository repo = repoManager.openMetadataRepository(project);
-        try {
+        try (Repository repo = repoManager.openMetadataRepository(project)) {
           final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
           final BatchRefUpdate bruForDrafts =
               allUsersRepo.getRefDatabase().newBatchUpdate();
@@ -158,12 +156,8 @@ public class RebuildNotedb extends SiteProgram {
           log.error("Error rebuilding notedb", e);
           ok.set(false);
           break;
-        } finally {
-          repo.close();
         }
       }
-    } finally {
-      allUsersRepo.close();
     }
 
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
@@ -231,16 +225,13 @@ public class RebuildNotedb extends SiteProgram {
     // rebuilder threads to use the full connection pool.
     SchemaFactory<ReviewDb> schemaFactory = sysInjector.getInstance(Key.get(
         new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
-    ReviewDb db = schemaFactory.open();
     Multimap<Project.NameKey, Change> changesByProject =
         ArrayListMultimap.create();
-    try {
+    try (ReviewDb db = schemaFactory.open()) {
       for (Change c : db.changes().all()) {
         changesByProject.put(c.getProject(), c);
       }
       return changesByProject;
-    } finally {
-      db.close();
     }
   }
 

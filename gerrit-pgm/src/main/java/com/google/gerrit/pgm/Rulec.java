@@ -81,8 +81,7 @@ public class Rulec extends SiteProgram {
 
     boolean error = false;
     for (Project.NameKey project : names) {
-      Repository git = gitManager.openRepository(project);
-      try {
+      try (Repository git = gitManager.openRepository(project)) {
         switch (jarFactory.create(git).call()) {
           case NO_RULES:
             if (!all || projectNames.contains(project.get())) {
@@ -105,8 +104,6 @@ public class Rulec extends SiteProgram {
           System.err.println("fatal: " + err.getMessage());
         }
         error = true;
-      } finally {
-        git.close();
       }
     }
 

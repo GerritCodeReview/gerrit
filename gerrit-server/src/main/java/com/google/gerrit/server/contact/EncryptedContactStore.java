@@ -176,11 +176,10 @@ class EncryptedContactStore implements ContactStore {
     final byte[] zText = compress(name, date, rawText);
 
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
-    final ArmoredOutputStream aout = new ArmoredOutputStream(buf);
-    final OutputStream cout = cpk().open(aout, zText.length);
-    cout.write(zText);
-    cout.close();
-    aout.close();
+    try (ArmoredOutputStream aout = new ArmoredOutputStream(buf);
+        OutputStream cout = cpk().open(aout, zText.length)) {
+      cout.write(zText);
+    }
 
     return buf.toByteArray();
   }
@@ -195,12 +194,13 @@ class EncryptedContactStore implements ContactStore {
     }
 
     comdg = new PGPCompressedDataGenerator(PGPCompressedData.ZIP);
-    final OutputStream out =
+    try (OutputStream out =
         new PGPLiteralDataGenerator().open(comdg.open(buf),
-            PGPLiteralData.BINARY, fileName, len, fileDate);
-    out.write(plainText);
-    out.close();
-    comdg.close();
+            PGPLiteralData.BINARY, fileName, len, fileDate)) {
+      out.write(plainText);
+    } finally {
+      comdg.close(); // PGPCompressedDataGenerator doesn't implement Closable
+    }
     return buf.toByteArray();
   }
 
@@ -220,30 +220,25 @@ class EncryptedContactStore implements ContactStore {
     field(b, "Full-Name", account.getFullName());
     field(b, "Preferred-Email", account.getPreferredEmail());
 
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        for (final AccountExternalId e : db.accountExternalIds().byAccount(
-            account.getId())) {
-          final StringBuilder oistr = new StringBuilder();
-          if (e.getEmailAddress() != null && e.getEmailAddress().length() > 0) {
-            if (oistr.length() > 0) {
-              oistr.append(' ');
-            }
-            oistr.append(e.getEmailAddress());
+    try (ReviewDb db = schema.open()) {
+      for (final AccountExternalId e : db.accountExternalIds().byAccount(
+          account.getId())) {
+        final StringBuilder oistr = new StringBuilder();
+        if (e.getEmailAddress() != null && e.getEmailAddress().length() > 0) {
+          if (oistr.length() > 0) {
+            oistr.append(' ');
           }
-          if (e.isScheme(AccountExternalId.SCHEME_MAILTO)) {
-            if (oistr.length() > 0) {
-              oistr.append(' ');
-            }
-            oistr.append('<');
-            oistr.append(e.getExternalId());
-            oistr.append('>');
-          }
-          field(b, "Identity", oistr.toString());
+          oistr.append(e.getEmailAddress());
         }
-      } finally {
-        db.close();
+        if (e.isScheme(AccountExternalId.SCHEME_MAILTO)) {
+          if (oistr.length() > 0) {
+            oistr.append(' ');
+          }
+          oistr.append('<');
+          oistr.append(e.getExternalId());
+          oistr.append('>');
+        }
+        field(b, "Identity", oistr.toString());
       }
     } catch (OrmException e) {
       throw new ContactInformationStoreException(e);

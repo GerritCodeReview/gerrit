@@ -116,8 +116,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   public String getInlineComments(int lines) {
     StringBuilder cmts = new StringBuilder();
-    final Repository repo = getRepository();
-    try {
+    try (Repository repo = getRepository()) {
       PatchList patchList = null;
       if (repo != null) {
         try {
@@ -163,10 +162,6 @@ public class CommentSender extends ReplyToChangeSender {
           appendComment(cmts, lines, currentFileData, c);
         }
         cmts.append("\n\n");
-      }
-    } finally {
-      if (repo != null) {
-        repo.close();
       }
     }
     return cmts.toString();

@@ -79,11 +79,8 @@ public class AllProjectsConfig extends VersionedMetaData {
   public AllProjectsConfig load() throws IOException, ConfigInvalidException {
     File path = getPath();
     if (path != null) {
-      Repository repo = new FileRepository(path);
-      try {
+      try (Repository repo = new FileRepository(path)) {
         load(repo);
-      } finally {
-        repo.close();
       }
     }
     return this;

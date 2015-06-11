@@ -155,35 +155,31 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       throw new NoSuchChangeException(changeId);
     }
 
-    final Repository git;
-    try {
-      git = repoManager.openRepository(projectKey);
+    try (Repository git = repoManager.openRepository(projectKey)) {
+      try {
+        final PatchList list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
+        final PatchScriptBuilder b = newBuilder(list, git);
+        final PatchListEntry content = list.get(fileName);
+
+        loadCommentsAndHistory(content.getChangeType(), //
+            content.getOldName(), //
+            content.getNewName());
+
+        return b.toPatchScript(content, comments, history);
+      } catch (PatchListNotAvailableException e) {
+        throw new NoSuchChangeException(changeId, e);
+      } catch (IOException e) {
+        log.error("File content unavailable", e);
+        throw new NoSuchChangeException(changeId, e);
+      } catch (org.eclipse.jgit.errors.LargeObjectException err) {
+        throw new LargeObjectException("File content is too large", err);
+      }
     } catch (RepositoryNotFoundException e) {
       log.error("Repository " + projectKey + " not found", e);
       throw new NoSuchChangeException(changeId, e);
     } catch (IOException e) {
       log.error("Cannot open repository " + projectKey, e);
       throw new NoSuchChangeException(changeId, e);
-    }
-    try {
-      final PatchList list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
-      final PatchScriptBuilder b = newBuilder(list, git);
-      final PatchListEntry content = list.get(fileName);
-
-      loadCommentsAndHistory(content.getChangeType(), //
-          content.getOldName(), //
-          content.getNewName());
-
-      return b.toPatchScript(content, comments, history);
-    } catch (PatchListNotAvailableException e) {
-      throw new NoSuchChangeException(changeId, e);
-    } catch (IOException e) {
-      log.error("File content unavailable", e);
-      throw new NoSuchChangeException(changeId, e);
-    } catch (org.eclipse.jgit.errors.LargeObjectException err) {
-      throw new LargeObjectException("File content is too large", err);
-    } finally {
-      git.close();
     }
   }
 

@@ -288,13 +288,10 @@ public class ProjectCacheImpl implements ProjectCache {
     @Override
     public ProjectState load(String projectName) throws Exception {
       Project.NameKey key = new Project.NameKey(projectName);
-      Repository git = mgr.openRepository(key);
-      try {
+      try (Repository git = mgr.openRepository(key)) {
         ProjectConfig cfg = new ProjectConfig(key);
         cfg.load(git);
         return projectStateFactory.create(cfg);
-      } finally {
-        git.close();
       }
     }
   }

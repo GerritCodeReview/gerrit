@@ -48,31 +48,26 @@ public class SchemaVersionCheck implements LifecycleListener {
 
   @Override
   public void start() {
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final CurrentSchemaVersion currentVer = getSchemaVersion(db);
-        final int expectedVer = SchemaVersion.getBinaryVersion();
+    try (ReviewDb db = schema.open()) {
+      final CurrentSchemaVersion currentVer = getSchemaVersion(db);
+      final int expectedVer = SchemaVersion.getBinaryVersion();
 
-        if (currentVer == null) {
-          throw new ProvisionException("Schema not yet initialized."
-              + "  Run init to initialize the schema:\n"
-              + "$ java -jar gerrit.war init -d "
-              + site.site_path.toAbsolutePath());
-        }
-        if (currentVer.versionNbr < expectedVer) {
-          throw new ProvisionException("Unsupported schema version "
-              + currentVer.versionNbr + "; expected schema version " + expectedVer
-              + ".  Run init to upgrade:\n"
-              + "$ java -jar " + site.gerrit_war.toAbsolutePath() + " init -d "
-              + site.site_path.toAbsolutePath());
-        } else if (currentVer.versionNbr > expectedVer) {
-          throw new ProvisionException("Unsupported schema version "
-              + currentVer.versionNbr + "; expected schema version " + expectedVer
-              + ". Downgrade is not supported.");
-        }
-      } finally {
-        db.close();
+      if (currentVer == null) {
+        throw new ProvisionException("Schema not yet initialized."
+            + "  Run init to initialize the schema:\n"
+            + "$ java -jar gerrit.war init -d "
+            + site.site_path.toAbsolutePath());
+      }
+      if (currentVer.versionNbr < expectedVer) {
+        throw new ProvisionException("Unsupported schema version "
+            + currentVer.versionNbr + "; expected schema version " + expectedVer
+            + ".  Run init to upgrade:\n"
+            + "$ java -jar " + site.gerrit_war.toAbsolutePath() + " init -d "
+            + site.site_path.toAbsolutePath());
+      } else if (currentVer.versionNbr > expectedVer) {
+        throw new ProvisionException("Unsupported schema version "
+            + currentVer.versionNbr + "; expected schema version " + expectedVer
+            + ". Downgrade is not supported.");
       }
     } catch (OrmException e) {
       throw new ProvisionException("Cannot read schema_version", e);

@@ -90,11 +90,8 @@ public class SshInfoServlet extends HttpServlet {
     CacheHeaders.setNotCacheable(rsp);
     rsp.setCharacterEncoding("UTF-8");
     rsp.setContentType("text/plain");
-    final PrintWriter w = rsp.getWriter();
-    try {
+    try (PrintWriter w = rsp.getWriter()) {
       w.write(out);
-    } finally {
-      w.close();
     }
   }
 }

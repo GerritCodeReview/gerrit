@@ -132,31 +132,31 @@ public class AsciiDoctor {
       return;
     }
 
-    ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
-    for (String inputFile : inputFiles) {
-      if (!inputFile.endsWith(inExt)) {
-        // We have to use UNSAFE mode in order to make embedding work. But in
-        // UNSAFE mode we'll also need css file in the same directory, so we
-        // have to add css files into the SRCS.
-        continue;
-      }
+    try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile))) {
+      for (String inputFile : inputFiles) {
+        if (!inputFile.endsWith(inExt)) {
+          // We have to use UNSAFE mode in order to make embedding work. But in
+          // UNSAFE mode we'll also need css file in the same directory, so we
+          // have to add css files into the SRCS.
+          continue;
+        }
 
-      String outName = mapInFileToOutFile(inputFile, inExt, outExt);
-      File out = new File(tmpdir, outName);
-      out.getParentFile().mkdirs();
-      Options options = createOptions(out);
-      renderInput(options, new File(inputFile));
-      zipFile(out, outName, zip);
+        String outName = mapInFileToOutFile(inputFile, inExt, outExt);
+        File out = new File(tmpdir, outName);
+        out.getParentFile().mkdirs();
+        Options options = createOptions(out);
+        renderInput(options, new File(inputFile));
+        zipFile(out, outName, zip);
+      }
     }
-    zip.close();
   }
 
   public static void zipFile(File file, String name, ZipOutputStream zip)
       throws IOException {
     zip.putNextEntry(new ZipEntry(name));
-    FileInputStream input = new FileInputStream(file);
-    ByteStreams.copy(input, zip);
-    input.close();
+    try (FileInputStream input = new FileInputStream(file)) {
+      ByteStreams.copy(input, zip);
+    }
     zip.closeEntry();
   }
 

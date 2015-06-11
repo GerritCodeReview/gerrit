@@ -92,8 +92,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
 
     @Override
     public Set<Account.Id> load(String email) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
+      try (ReviewDb db = schema.open()) {
         Set<Account.Id> r = Sets.newHashSet();
         for (Account a : db.accounts().byPreferredEmail(email)) {
           r.add(a.getId());
@@ -103,8 +102,6 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
           r.add(a.getAccountId());
         }
         return ImmutableSet.copyOf(r);
-      } finally {
-        db.close();
       }
     }
   }

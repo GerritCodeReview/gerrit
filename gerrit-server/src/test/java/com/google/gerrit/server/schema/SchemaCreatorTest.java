@@ -102,13 +102,10 @@ public class SchemaCreatorTest {
   private LabelTypes getLabelTypes() throws Exception {
     db.create();
     ProjectConfig c = new ProjectConfig(allProjects);
-    Repository repo = repoManager.openRepository(allProjects);
-    try {
+    try (Repository repo = repoManager.openRepository(allProjects)) {
       c.load(repo);
       return new LabelTypes(
           ImmutableList.copyOf(c.getLabelSections().values()));
-    } finally {
-      repo.close();
     }
   }
 

@@ -58,8 +58,7 @@ public class GcAssert {
 
   private String[] getPackFiles(Project.NameKey p)
       throws RepositoryNotFoundException, IOException {
-    Repository repo = repoManager.openRepository(p);
-    try {
+    try (Repository repo = repoManager.openRepository(p)) {
       File packDir = new File(repo.getDirectory(), "objects/pack");
       return packDir.list(new FilenameFilter() {
         @Override
@@ -67,8 +66,6 @@ public class GcAssert {
           return name.endsWith(".pack");
         }
       });
-    } finally {
-      repo.close();
     }
   }
 }

@@ -93,8 +93,7 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
   public Response<?> apply(ProjectResource project, Input input)
       throws OrmException, IOException, ResourceConflictException {
     input = Input.init(input);
-    Repository r = repoManager.openRepository(project.getNameKey());
-    try {
+    try (Repository r = repoManager.openRepository(project.getNameKey())) {
       BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
       for (String branch : input.branches) {
         batchUpdate.addCommand(createDeleteCommand(project, r, branch));
@@ -113,8 +112,6 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
       if (errorMessages.length() > 0) {
         throw new ResourceConflictException(errorMessages.toString());
       }
-    } finally {
-      r.close();
     }
     return Response.none();
   }

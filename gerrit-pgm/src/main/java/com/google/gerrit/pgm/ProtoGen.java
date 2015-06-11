@@ -47,14 +47,11 @@ public class ProtoGen extends AbstractProgram {
           PrintWriter out = new PrintWriter(
               new BufferedWriter(new OutputStreamWriter(o, "UTF-8")))) {
         String header;
-        InputStream in = getClass().getResourceAsStream("ProtoGenHeader.txt");
-        try {
+        try (InputStream in = getClass().getResourceAsStream("ProtoGenHeader.txt")) {
           ByteBuffer buf = IO.readWholeStream(in, 1024);
           int ptr = buf.arrayOffset() + buf.position();
           int len = buf.remaining();
           header = new String(buf.array(), ptr, len, "UTF-8");
-        } finally {
-          in.close();
         }
 
         String version = com.google.gerrit.common.Version.getVersion();

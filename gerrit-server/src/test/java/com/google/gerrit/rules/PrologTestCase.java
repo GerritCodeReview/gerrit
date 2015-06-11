@@ -99,11 +99,10 @@ public abstract class PrologTestCase {
   protected void consult(BufferingPrologControl env,
       Class<?> clazz,
       String prologResource) throws CompileException, IOException {
-    InputStream in = clazz.getResourceAsStream(prologResource);
-    if (in == null) {
-      throw new FileNotFoundException(prologResource);
-    }
-    try {
+    try (InputStream in = clazz.getResourceAsStream(prologResource)) {
+      if (in == null) {
+        throw new FileNotFoundException(prologResource);
+      }
       SymbolTerm pathTerm = SymbolTerm.create(prologResource);
       JavaObjectTerm inTerm =
           new JavaObjectTerm(new PushbackReader(new BufferedReader(
@@ -111,8 +110,6 @@ public abstract class PrologTestCase {
       if (!env.execute(Prolog.BUILTIN, "consult_stream", pathTerm, inTerm)) {
         throw new CompileException("Cannot consult " + prologResource);
       }
-    } finally {
-      in.close();
     }
   }
 

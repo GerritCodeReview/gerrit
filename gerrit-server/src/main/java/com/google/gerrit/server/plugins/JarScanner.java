@@ -185,11 +185,8 @@ public class JarScanner implements PluginContentScanner {
   private static byte[] read(JarFile jarFile, JarEntry entry)
       throws IOException {
     byte[] data = new byte[(int) entry.getSize()];
-    InputStream in = jarFile.getInputStream(entry);
-    try {
+    try (InputStream in = jarFile.getInputStream(entry)) {
       IO.readFully(in, data, 0, data.length);
-    } finally {
-      in.close();
     }
     return data;
   }

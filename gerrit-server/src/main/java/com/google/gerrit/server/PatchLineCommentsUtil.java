@@ -364,19 +364,11 @@ public class PatchLineCommentsUtil {
   }
 
   private Set<String> getRefNamesAllUsers(String prefix) throws OrmException {
-    Repository repo;
-    try {
-      repo = repoManager.openRepository(allUsers);
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-    try {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
       RefDatabase refDb = repo.getRefDatabase();
       return refDb.getRefs(prefix).keySet();
     } catch (IOException e) {
       throw new OrmException(e);
-    } finally {
-      repo.close();
     }
   }
 

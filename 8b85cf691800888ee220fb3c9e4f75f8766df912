@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "794c6014_5b954346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-06-11T17:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "591ddcf5_9a33cd22",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "8b85cf691800888ee220fb3c9e4f75f8766df912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "794c6014_3b45d762",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-11T15:43:39Z",
       "side": 1,
       "message": "preUpdate to be consistent with onUpdate method?\n\nMove this method right above onUpdate?\n\nAdd more details in the javadoc:\n\n/**\n * Called before the project config is updated.\n * To modify the value before the project config is updated, override this method and return the modified value.\n * Default implementation returns the same value.\n\n * @param configValue the original configValue that was entered.\n * @return the modified configValue.\n */",
+      "range": {
+        "startLine": 193,
+        "startChar": 21,
+        "endLine": 193,
+        "endChar": 38
+      },
+      "revId": "8b85cf691800888ee220fb3c9e4f75f8766df912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_bbafa79b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-06-11T17:54:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "794c6014_3b45d762",
       "range": {
         "startLine": 193,
         "startChar": 21,

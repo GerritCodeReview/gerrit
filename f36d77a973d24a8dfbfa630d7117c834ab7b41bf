@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "591ddcf5_badb3116",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitWebConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-12T16:28:53Z",
+      "side": 1,
+      "message": "httpd can\u0027t be referred to from server.",
+      "revId": "f36d77a973d24a8dfbfa630d7117c834ab7b41bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

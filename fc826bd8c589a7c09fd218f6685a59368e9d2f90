@@ -70,6 +70,30 @@
       "revId": "fc826bd8c589a7c09fd218f6685a59368e9d2f90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_7abef9b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitWebConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-06-12T17:41:22Z",
+      "side": 1,
+      "message": "As we discussed by IM, this probably should say\n\n return values.length \u003e 0 \u0026\u0026 Strings.isNullOrEmpty(values[0])\n\nto guard against someone using cfg.setString(..., \"\") which stores \"\".",
+      "parentUuid": "794c6014_1bcb3b43",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 50
+      },
+      "revId": "fc826bd8c589a7c09fd218f6685a59368e9d2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

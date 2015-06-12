@@ -135,6 +135,24 @@
       "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_fb03ef13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-12T14:37:51Z",
+      "side": 1,
+      "message": "Forgot about %base. So IIUC, the project filter just needs to be a (project, branch) filter?",
+      "parentUuid": "b94258dc_7d4b577b",
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b94258dc_bdaf9f9b",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-12T15:04:10Z",
+      "side": 1,
+      "message": "Nice trick to fix the documentation by fixing the code ;-)",
+      "parentUuid": "794c6014_bb0d6741",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39e3c84b_61e9d6f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
         "patchSetId": 1

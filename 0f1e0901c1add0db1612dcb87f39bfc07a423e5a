@@ -81,6 +81,24 @@
       "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "995114ab_bc3801ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-12T07:41:21Z",
+      "side": 1,
+      "message": "\u003e Having multiple patch sets on the same project with the same SHA-1 is a corrupt state\n\nWhat about the %base option [1] which allows to push a commit, which is already merged into a branch, for review to another branch of the same project.\n\nSince 2.11 it is also an option on the project config page \"Create a new change for every commit not in the target branch\" which makes use of the %base parameter internally.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-upload.html#base",
+      "parentUuid": "591ddcf5_1a481d7c",
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

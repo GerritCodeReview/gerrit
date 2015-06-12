@@ -3,7 +3,7 @@ Release notes for Gerrit 2.4.3
 
 There are no schema changes from link:ReleaseNotes-2.4.2.html[2.4.2].
 
-link:https://gerrit-releases.storage.googleapis.com/gerrit-2.4.3.war[https://gerrit-releases.storage.googleapis.com/gerrit-2.4.3.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.4.3.war[https://www.gerritcodereview.com/download/gerrit-2.4.3.war]
 
 Bug Fixes
 ---------

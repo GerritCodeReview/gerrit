@@ -4,8 +4,8 @@ Release notes for Gerrit 2.9.1
 There are no schema changes from link:ReleaseNotes-2.9.html[2.9].
 
 Download:
-link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.1.war[
-https://gerrit-releases.storage.googleapis.com/gerrit-2.9.1.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.9.1.war[
+https://www.gerritcodereview.com/download/gerrit-2.9.1.war]
 
 *WARNING:* When upgrading from version 2.8.4 or older with a site that uses
 Bouncy Castle Crypto, new versions of the libraries will be downloaded. The old

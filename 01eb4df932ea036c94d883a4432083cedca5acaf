@@ -22,6 +22,30 @@
       "revId": "01eb4df932ea036c94d883a4432083cedca5acaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794c6014_7b37dfeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-12T15:53:41Z",
+      "side": 1,
+      "message": "That was a bigger change, but no reason not to do it I guess. Done.",
+      "parentUuid": "f9bdb0e6_f7a0c0af",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "01eb4df932ea036c94d883a4432083cedca5acaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -32,9 +32,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet hosting an SSH daemon on another port. During a standard HTTP GET
  * request the servlet returns the hostname and port number back to the client
- * in the form {@code ${host} ${port}}.
+ * in the form <code>${host} ${port}</code>.
  * <p>
- * Use a Git URL such as {@code ssh://${email}@${host}:${port}/${path}},
+ * Use a Git URL such as <code>ssh://${email}@${host}:${port}/${path}</code>,
  * e.g. {@code ssh://sop@google.com@gerrit.com:8010/tools/gerrit.git} to
  * access the SSH daemon itself.
  * <p>

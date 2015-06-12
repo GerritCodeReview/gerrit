@@ -99,6 +99,24 @@
       "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_fd3e87eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-12T13:43:42Z",
+      "side": 1,
+      "message": "Btw, the %base feature is broken by 2ffd2cb83f22726fa7274bea54ae065f64064837. Means it is broken in 2.11 and in master. In 2.10 it works as it should.",
+      "parentUuid": "995114ab_bc3801ff",
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

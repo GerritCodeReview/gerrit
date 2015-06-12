@@ -1467,6 +1467,7 @@ public class ReceiveCommits {
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
     try {
+      Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
         for (RevCommit c : magicBranch.baseCommit) {
@@ -1479,10 +1480,10 @@ public class ReceiveCommits {
       } else {
         markHeadsAsUninteresting(
             walk,
+            existing,
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
-      Set<ObjectId> existing = changeRefsById().keySet();
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<>();
       final int maxBatchChanges =
@@ -1601,15 +1602,23 @@ public class ReceiveCommits {
     }
   }
 
-  private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
+  private void markHeadsAsUninteresting(
+      final RevWalk walk,
+      Set<ObjectId> existing,
+      @Nullable String forRef) {
     for (Ref ref : allRefs.values()) {
-      if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
-          && ref.getObjectId() != null) {
+      if (ref.getObjectId() == null) {
+        continue;
+      } else if (ref.getName().startsWith(REFS_CHANGES)) {
+        existing.add(ref.getObjectId());
+      } else if (ref.getName().startsWith(R_HEADS)
+          || (forRef != null && forRef.equals(ref.getName()))) {
         try {
-          rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
+          walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
           log.warn(String.format("Invalid ref %s in %s",
               ref.getName(), project.getName()), e);
+          continue;
         }
       }
     }
@@ -2278,11 +2287,12 @@ public class ReceiveCommits {
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
+      Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(cmd.getNewId()));
-      markHeadsAsUninteresting(walk, cmd.getRefName());
+      markHeadsAsUninteresting(walk, existing, cmd.getRefName());
 
-      Set<ObjectId> existing = changeRefsById().keySet();
-      for (RevCommit c; (c = walk.next()) != null;) {
+      RevCommit c;
+      while ((c = walk.next()) != null) {
         if (existing.contains(c)) {
           continue;
         } else if (!validCommit(ctl, cmd, c)) {

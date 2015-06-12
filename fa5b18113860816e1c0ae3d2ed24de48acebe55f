@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "995114ab_9c5c2550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-12T04:38:12Z",
+      "side": 1,
+      "message": "| If we now allow users with \"maintain server\" to flush this cache, the check here is not necessary because it will already be enforced by the annotation added on line 30.\n\nYes, it will be enforced by the RequiresAnyCapability, but the point is that FLUSH_CACHES is also checked as allowed. That why the check canMaintainServer() is still needed.\n\nI agree with Dave, to lower here the requirement from administrator to maintain server. That what it\u0027s for.",
+      "parentUuid": "39e3c84b_61e9d6f3",
+      "range": {
+        "startLine": 49,
+        "startChar": 41,
+        "endLine": 49,
+        "endChar": 58
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9f38c19_9ee27d14",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
         "patchSetId": 1
@@ -82,6 +106,24 @@
       "writtenOn": "2015-06-12T02:27:18Z",
       "side": 1,
       "message": "This check is no longer necessary due to the annotation added on line 57.",
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "995114ab_bc61e108",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-12T04:38:12Z",
+      "side": 1,
+      "message": "No. This check is correct. Same reasons as in my another comment.",
+      "parentUuid": "d9f38c19_fed74130",
       "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

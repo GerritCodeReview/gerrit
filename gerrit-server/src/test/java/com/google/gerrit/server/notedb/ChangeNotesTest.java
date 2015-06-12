@@ -286,14 +286,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
-
-    update.submit(ImmutableList.of(
-        submitRecord("NOT_READY", null,
-          submitLabel("Verified", "OK", changeOwner.getAccountId()),
-          submitLabel("Code-Review", "NEED", null)),
-        submitRecord("NOT_READY", null,
-          submitLabel("Verified", "OK", changeOwner.getAccountId()),
-          submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -314,17 +306,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
-    update.submit(ImmutableList.of(
-        submitRecord("OK", null,
-          submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
     update.commit();
 
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 2");
-    update.submit(ImmutableList.of(
-        submitRecord("OK", null,
-          submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
     update.commit();
 
     ChangeNotes notes = newNotes(c);

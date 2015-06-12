@@ -1779,16 +1779,12 @@ public class ReceiveCommits {
   }
 
   private void submit(ChangeControl changeCtl, PatchSet ps)
-      throws OrmException, IOException, ResourceConflictException {
+      throws OrmException, ResourceConflictException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     List<Change> changes;
-    try {
-      // Force submit even if submit rule evaluation fails.
-      changes = submit.submit(rsrc, currentUser, true);
-    } catch (ResourceConflictException e) {
-      throw new IOException(e);
-    }
+    // Force submit even if submit rule evaluation fails.
+    changes = Lists.newArrayList(rsrc.getChange());
     try {
       mergeFactory.create(ChangeSet.create(changes,
           (IdentifiedUser) changeCtl.getCurrentUser())).merge(false);
@@ -1799,9 +1795,6 @@ public class ReceiveCommits {
     for (Change c : changes) {
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
-        case SUBMITTED:
-          addMessage("Change " + c.getChangeId() + " submitted.");
-          break;
         case MERGED:
           addMessage("Change " + c.getChangeId() + " merged.");
           break;

@@ -1023,7 +1023,6 @@ complete.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "wait_for_merge": true
   }
 ----
 
@@ -2424,7 +2423,6 @@ complete.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "wait_for_merge": true
   }
 ----
 
@@ -3497,8 +3495,7 @@ The `refs/heads/` prefix is omitted.
 |`subject`            ||
 The subject of the change (header line of the commit message).
 |`status`             ||
-The status of the change (`NEW`, `SUBMITTED`, `MERGED`, `ABANDONED`,
-`DRAFT`).
+The status of the change (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
 |`created`            ||
 The link:rest-api.html#timestamp[timestamp] of when the change was
 created.
@@ -4254,11 +4251,7 @@ after submitting.
 |==========================
 |Field Name    |Description
 |`status`      |
-The status of the change after submitting, can be `MERGED` or
-`SUBMITTED`. +
-If `wait_for_merge` in the link:#submit-input[SubmitInput] was set to
-`false` the returned status is `SUBMITTED` and the caller can't know
-whether the change could be merged successfully.
+The status of the change after submitting, must be `MERGED`.+
 |`on_behalf_of`|optional|
 The link:rest-api-accounts.html#account-id[\{account-id\}] of the user on
 whose behalf the action should be done. To use this option the caller must
@@ -4273,16 +4266,6 @@ not with the identity of the CI account.
 [[submit-input]]
 === SubmitInput
 The `SubmitInput` entity contains information for submitting a change.
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name      ||Description
-|`wait_for_merge`|`false` if not set|
-Whether the request should wait for the merge to complete. +
-If `false` the request returns immediately after the change has been
-added to the merge queue and the caller can't know whether the change
-could be merged successfully.
-|===========================
 
 [[submit-record]]
 === SubmitRecord

@@ -107,14 +107,6 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
-
-    update.submit(ImmutableList.of(
-        submitRecord("NOT_READY", null,
-          submitLabel("Verified", "OK", changeOwner.getAccountId()),
-          submitLabel("Code-Review", "NEED", null)),
-        submitRecord("NOT_READY", null,
-          submitLabel("Verified", "OK", changeOwner.getAccountId()),
-          submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
 
     RevCommit commit = parseCommit(update.getRevision());
@@ -172,9 +164,6 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
-
-    update.submit(ImmutableList.of(
-        submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
 
     assertBodyEquals("Submit patch set 1\n"

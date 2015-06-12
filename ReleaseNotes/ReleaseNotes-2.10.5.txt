@@ -1,0 +1,27 @@
+Release notes for Gerrit 2.10.5
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.4.html[2.10.4].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.5.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.5.war]
+
+Bug Fixes
+---------
+
+* Update JGit to include a memory leak fix as discussed
+link:https://groups.google.com/forum/#!topic/repo-discuss/RRQT_xCqz4o[here]
+
+* Attempt to fix the "Cannot read project" issue in Gerrit, as discussed
+link:https://groups.google.com/forum/\#!topic/repo-discuss/ZeGWPyyJlrM[here]
+and
+link:https://groups.google.com/forum/#!topic/repo-discuss/CYYoHfDxCfA[here]
+
+* Fixed a regression caused by the defaultValue feature which broke the ability
+to remove labels in subprojects
+
+Updates
+-------
+
+* Update JGit to v4.0.0.201506090130-r

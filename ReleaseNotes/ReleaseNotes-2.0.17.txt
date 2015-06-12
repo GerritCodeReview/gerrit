@@ -3,7 +3,7 @@ Release notes for Gerrit 2.0.17
 
 Gerrit 2.0.17 is now available in the usual location:
 
-link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
 Schema Change
 -------------

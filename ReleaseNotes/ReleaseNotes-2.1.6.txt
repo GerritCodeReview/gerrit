@@ -3,7 +3,7 @@ Release notes for Gerrit 2.1.6
 
 Gerrit 2.1.6 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.6.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.1.6.war[https://www.gerritcodereview.com/download/gerrit-2.1.6.war]
 
 Schema Change
 -------------

@@ -3,7 +3,7 @@ Release notes for Gerrit 2.4
 
 Gerrit 2.4 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.4.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.4.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.4.war[https://www.gerritcodereview.com/download/gerrit-2.4.war]
 
 Schema Change
 -------------

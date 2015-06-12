@@ -19,7 +19,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/** Groups available from {@code /groups/} or {@code /accounts/{id}/groups}. */
+/** Groups available from {@code /groups/} or {@code /accounts/[id]/groups}. */
 public class GroupList extends JsArray<GroupInfo> {
   public static void my(AsyncCallback<GroupList> callback) {
     new RestApi("/accounts/self/groups").get(callback);

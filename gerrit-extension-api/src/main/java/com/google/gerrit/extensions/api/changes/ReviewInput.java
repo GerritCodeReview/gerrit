@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Input passed to {@code POST /changes/{id}/revisions/{id}/review}. */
+/** Input passed to {@code POST /changes/[id]/revisions/[id]/review}. */
 public class ReviewInput {
   @DefaultInput
   public String message;

@@ -18,15 +18,20 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -43,6 +48,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -83,6 +91,7 @@ import com.google.inject.servlet.RequestScoped;
 import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -102,6 +111,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -127,7 +137,7 @@ import java.util.concurrent.Callable;
  */
 public class MergeOp {
   public interface Factory {
-    MergeOp create(Branch.NameKey branch);
+    MergeOp create(ChangeSet changes, IdentifiedUser caller);
   }
 
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
@@ -155,18 +165,20 @@ public class MergeOp {
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final Submit submit;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
   private final WorkQueue workQueue;
 
-  private final String logPrefix;
-  private final Branch.NameKey destBranch;
   private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private final List<Change> toUpdate;
   private final PerThreadRequestScope.Scoper threadScoper;
+  private final ChangeSet changes;
+  private final IdentifiedUser caller;
+  private final String logPrefix;
 
   private ProjectState destProject;
   private ReviewDb db;
@@ -199,11 +211,13 @@ public class MergeOp {
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
       SchemaFactory<ReviewDb> schemaFactory,
+      Submit submit,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       WorkQueue workQueue,
-      @Assisted Branch.NameKey branch) {
+      @Assisted ChangeSet changes,
+      @Assisted IdentifiedUser caller) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
@@ -223,17 +237,18 @@ public class MergeOp {
     this.projectCache = projectCache;
     this.queryProvider = queryProvider;
     this.schemaFactory = schemaFactory;
+    this.submit = submit;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
     this.workQueue = workQueue;
-    logPrefix = String.format("[%s@%s]: ", branch.toString(),
-        ISODateTimeFormat.hourMinuteSecond().print(TimeUtil.nowMs()));
-    destBranch = branch;
+    this.changes = changes;
+    this.caller = caller;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<>();
     commits = new HashMap<>();
     toUpdate = Lists.newArrayList();
+    logPrefix = String.format("[%s]: ", String.valueOf(changes.hashCode()));
 
     Injector child = injector.createChildInjector(new AbstractModule() {
       @Override
@@ -285,7 +300,7 @@ public class MergeOp {
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
   }
 
-  private void setDestProject() throws MergeException {
+  private void setDestProject(Branch.NameKey destBranch) throws MergeException {
     destProject = projectCache.get(destBranch.getParentKey());
     if (destProject == null) {
       throw new MergeException("No such project: " + destBranch.getParentKey());
@@ -298,52 +313,287 @@ public class MergeOp {
     }
   }
 
-  public void merge()
-      throws MergeException, NoSuchChangeException {
-    logDebug("Beginning merge attempt on {}", destBranch);
-    setDestProject();
-    try {
-      openSchema();
-      openRepository();
+  /**
+   * This calculates the minimal superset of changes required to be merged.
+   * <p>
+   * This includes all parents between a change and the tip of its target
+   * branch for the merging/rebasing submit strategies. For the cherry-pick
+   * strategy no additional changes are included.
+   *
+   * @return a ChangeSet which can be integrated
+   * @param cs a {@code ChangeSet} which should be checked for dependencies.
+   * @throws IOException
+   * @throws IncorrectObjectTypeException
+   * @throws MissingObjectException
+   * @throws OrmException
+   * @throws MergeException
+   * @throws NoSuchProjectException
+   */
+  private ChangeSet getCompleteListOfChanges(ChangeSet cs) throws
+      MissingObjectException, IncorrectObjectTypeException, IOException,
+      OrmException, MergeException, NoSuchProjectException {
 
-      RefUpdate branchUpdate = openBranch();
-      boolean reopen = false;
+    List<Change> ret = Lists.newArrayList();
+    for (Change.Id cId : cs.ids()) {
+      try {
+        ChangeData cd = changeDataFactory.create(db, cId);
+        openRepository(cd.change());
+        if (getSubmitType(cd.changeControl(), cd.currentPatchSet())
+            == SubmitType.CHERRY_PICK) {
+          ret.add(cd.change());
+          continue;
+        }
 
-      ListMultimap<SubmitType, Change> toSubmit =
-          validateChangeList(queryProvider.get().submitted(destBranch));
-      ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
-          ArrayListMultimap.create();
-      while (!toMerge.isEmpty()) {
-        logDebug("Beginning merge iteration with {} left to merge",
-            toMerge.size());
-        toMergeNextTurn.clear();
-        Set<SubmitType> submitTypes = new HashSet<>(toMerge.keySet());
-        for (SubmitType submitType : submitTypes) {
-          if (reopen) {
-            logDebug("Reopening branch");
-            branchUpdate = openBranch();
-          }
-          SubmitStrategy strategy = createStrategy(submitType);
-          MergeTip mergeTip = preMerge(strategy, toMerge.get(submitType));
-          RefUpdate update = updateBranch(branchUpdate);
-          reopen = true;
+        // Get the underlying git commit object
+        PatchSet ps = cd.currentPatchSet();
+        String objIdStr = ps.getRevision().get();
+        RevCommit commit = rw.parseCommit(ObjectId.fromString(objIdStr));
 
-          updateChangeStatus(toSubmit.get(submitType), mergeTip);
-          updateSubscriptions(toSubmit.get(submitType));
-          if (update != null) {
-            fireRefUpdated(update);
+        // Get the common ancestor with target branch
+        Branch.NameKey destBranch = cd.change().getDest();
+        repo.getRefDatabase().refresh();
+        Ref ref = repo.getRefDatabase().getRef(destBranch.get());
+        if (ref == null) {
+          ret.add(cd.change());
+          // A new empty branch doesn't have additional changes
+          continue;
+        }
+
+        rw.markStart(commit);
+        RevCommit head = rw.parseCommit(ref.getObjectId());
+        rw.markUninteresting(head);
+
+        for (RevCommit c : rw) {
+          List<ChangeData> destChanges = queryProvider.get()
+            .byCommit(c);
+
+          if (destChanges.size() == 0) {
+            throw new MergeException("Unable to find dependency " + c.getId());
+          } else if (destChanges.size() == 1) {
+            Change chg = destChanges.get(0).change();
+            if (chg.getStatus() == Change.Status.NEW
+                || chg.getStatus() == Change.Status.SUBMITTED) {
+              ret.add(chg);
+            }
+          } else if (destChanges.size() > 1) {
+            throw new MergeException("More than one commit having the same SHA1? " + c.getId());
           }
         }
-        toMerge.clear();
-        toMerge.putAll(toMergeNextTurn);
-        logDebug("Adding {} changes to merge on next run", toMerge.size());
+      } finally {
+        if (rw != null) {
+          rw.close();
+        }
+        if (repo != null) {
+          repo.close();
+        }
       }
+    }
 
-      updateChangeStatus(toUpdate, mergeTip);
+    return ChangeSet.create(ret);
+  }
+
+  private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
+    return Iterables.tryFind(in, new Predicate<SubmitRecord>() {
+      @Override
+      public boolean apply(SubmitRecord input) {
+        return input.status == SubmitRecord.Status.OK;
+      }
+    });
+  }
+
+  private List<SubmitRecord> checkSubmitRule(ChangeData cd)
+      throws ResourceConflictException, OrmException {
+    PatchSet patchSet = cd.currentPatchSet();
+    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
+        .setPatchSet(patchSet)
+        .evaluate();
+    Optional<SubmitRecord> ok = findOkRecord(results);
+    if (ok.isPresent()) {
+      // Rules supplied a valid solution.
+      return ImmutableList.of(ok.get());
+    } else if (results.isEmpty()) {
+      throw new IllegalStateException(String.format(
+          "SubmitRuleEvaluator.evaluate returned empty list for %s in %s",
+          patchSet.getId(),
+          cd.change().getProject().get()));
+    }
+
+    for (SubmitRecord record : results) {
+      switch (record.status) {
+        case CLOSED:
+          throw new ResourceConflictException("change is closed");
+
+        case RULE_ERROR:
+          throw new ResourceConflictException(String.format(
+              "rule error: %s",
+              record.errorMessage));
+
+        case NOT_READY:
+          StringBuilder msg = new StringBuilder();
+          for (SubmitRecord.Label lbl : record.labels) {
+            switch (lbl.status) {
+              case OK:
+              case MAY:
+                continue;
+
+              case REJECT:
+                if (msg.length() > 0) {
+                  msg.append("; ");
+                }
+                msg.append("blocked by ").append(lbl.label);
+                continue;
+
+              case NEED:
+                if (msg.length() > 0) {
+                  msg.append("; ");
+                }
+                msg.append("needs ").append(lbl.label);
+                continue;
+
+              case IMPOSSIBLE:
+                if (msg.length() > 0) {
+                  msg.append("; ");
+                }
+                msg.append("needs ").append(lbl.label)
+                .append(" (check project access)");
+                continue;
+
+              default:
+                throw new IllegalStateException(String.format(
+                    "Unsupported SubmitRecord.Label %s for %s in %s",
+                    lbl.toString(),
+                    patchSet.getId(),
+                    cd.change().getProject().get()));
+            }
+          }
+          throw new ResourceConflictException(msg.toString());
+
+        default:
+          throw new IllegalStateException(String.format(
+              "Unsupported SubmitRecord %s for %s in %s",
+              record,
+              patchSet.getId().getId(),
+              cd.change().getProject().get()));
+      }
+    }
+    throw new IllegalStateException();
+  }
+
+  private void checkPermissions(ChangeSet cs)
+      throws ResourceConflictException, OrmException {
+    for (Change.Id id : cs.ids()) {
+      ChangeData cd = changeDataFactory.create(db, id);
+      checkSubmitRule(cd);
+    }
+  }
+
+  // For historic reasons we will first go into the submitted state
+  // TODO(sbeller): remove this when we get rid of Change.Status.SUBMITTED
+  private void submitAllChanges(ChangeSet cs)
+      throws OrmException, ResourceConflictException, IOException {
+    for (Change.Id id : cs.ids()) {
+      ChangeData cd = changeDataFactory.create(db, id);
+      switch (cd.change().getStatus()) {
+        case ABANDONED:
+          throw new ResourceConflictException("Change " + cd.getId() +
+              " was abandoned while processing this change set");
+        case DRAFT:
+          throw new ResourceConflictException("Cannot submit draft " + cd.getId());
+        case NEW:
+          RevisionResource rsrc =
+              new RevisionResource(new ChangeResource(cd.changeControl(), null),
+              cd.currentPatchSet());
+          logDebug("Submitting change id {}", cd.change().getId());
+          submit.submitThisChange(rsrc, caller, false);
+          break;
+        case MERGED:
+          // we're racing here, but having it already merged is fine.
+        case SUBMITTED:
+          // ok
+      }
+    }
+  }
+
+  public void merge(boolean checkPermissions) throws NoSuchChangeException,
+      OrmException, ResourceConflictException {
+    logDebug("Beginning merge of {}", changes);
+    try {
+      openSchema();
+      ChangeSet cs = getCompleteListOfChanges(changes);
+      logDebug("Calculated to merge {}", cs);
+      submitAllChanges(cs);
+      if (checkPermissions) {
+        logDebug("Checking permissions");
+        checkPermissions(cs);
+      }
+      try {
+        integrateIntoHistory(cs);
+      } catch (MergeException e) {
+        logError("Merge Conflict", e);
+        throw new ResourceConflictException("Merge Conflict", e);
+      }
+    } catch (IOException | MergeException | NoSuchProjectException e) {
+      // Anything before the merge attempt is an error
+      throw new OrmException(e);
+    } finally {
+      if (db != null) {
+        db.close();
+      }
+    }
+  }
+
+  private void integrateIntoHistory(ChangeSet cs)
+      throws MergeException, NoSuchChangeException {
+    logDebug("Beginning merge attempt on {}", changes);
+    try {
+      openSchema();
+      for (Change.Id cId : cs.ids()) {
+        ChangeData cd = changeDataFactory.create(db, cId);
+        Change c = cd.change();
+        openRepository(c);
+
+        Branch.NameKey destBranch = c.getDest();
+        setDestProject(destBranch);
+
+        RefUpdate branchUpdate = openBranch(destBranch);
+        boolean reopen = false;
+
+        ListMultimap<SubmitType, Change> toSubmit =
+            validateChangeList(queryProvider.get().submitted(destBranch));
+        ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
+            ArrayListMultimap.create();
+        while (!toMerge.isEmpty()) {
+          logDebug("Beginning merge iteration with {} left to merge",
+              toMerge.size());
+          toMergeNextTurn.clear();
+          Set<SubmitType> submitTypes = new HashSet<>(toMerge.keySet());
+          for (SubmitType submitType : submitTypes) {
+            if (reopen) {
+              logDebug("Reopening branch");
+              branchUpdate = openBranch(destBranch);
+            }
+            SubmitStrategy strategy = createStrategy(destBranch, submitType);
+            MergeTip mergeTip = preMerge(strategy, toMerge.get(submitType));
+            RefUpdate update = updateBranch(destBranch, branchUpdate);
+            reopen = true;
+
+            updateChangeStatus(toSubmit.get(submitType), mergeTip);
+            updateSubscriptions(destBranch, toSubmit.get(submitType));
+            if (update != null) {
+              fireRefUpdated(destBranch, update);
+            }
+          }
+          toMerge.clear();
+          toMerge.putAll(toMergeNextTurn);
+          logDebug("Adding {} changes to merge on next run", toMerge.size());
+        }
+
+        updateChangeStatus(toUpdate, mergeTip);
+      }
     } catch (NoSuchProjectException noProject) {
-      logWarn("Project " + destBranch.getParentKey() + " no longer exists,"
+      logWarn("Project " + noProject.project() + " no longer exists,"
           + " abandoning open changes");
-      abandonAllOpenChanges();
+      abandonAllOpenChanges(noProject.project());
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
     } finally {
@@ -373,14 +623,14 @@ public class MergeOp {
     return mergeTip;
   }
 
-  private SubmitStrategy createStrategy(SubmitType submitType)
-      throws MergeException, NoSuchProjectException {
+  private SubmitStrategy createStrategy(Branch.NameKey destBranch,
+      SubmitType submitType) throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
         canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
   }
 
-  private void openRepository() throws MergeException, NoSuchProjectException {
-    Project.NameKey name = destBranch.getParentKey();
+  private void openRepository(Change c) throws MergeException, NoSuchProjectException {
+    Project.NameKey name = c.getDest().getParentKey();
     try {
       repo = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException notFound) {
@@ -398,7 +648,7 @@ public class MergeOp {
     inserter = repo.newObjectInserter();
   }
 
-  private RefUpdate openBranch()
+  private RefUpdate openBranch(Branch.NameKey destBranch)
       throws MergeException, OrmException, NoSuchChangeException {
     try {
       RefUpdate branchUpdate = repo.updateRef(destBranch.get());
@@ -491,6 +741,7 @@ public class MergeOp {
       }
 
       PatchSet ps;
+      Branch.NameKey destBranch = chg.getDest();
       try {
         ps = cd.currentPatchSet();
       } catch (OrmException e) {
@@ -536,8 +787,7 @@ public class MergeOp {
       try {
         commit = (CodeReviewCommit) rw.parseCommit(id);
       } catch (IOException e) {
-        logError(
-            "Invalid commit " + idstr + " on patch set " + ps.getId(), e);
+        logError("Invalid commit " + idstr + " on patch set " + ps.getId(), e);
         commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
         toUpdate.add(chg);
         continue;
@@ -616,8 +866,8 @@ public class MergeOp {
     }
   }
 
-  private RefUpdate updateBranch(RefUpdate branchUpdate)
-      throws MergeException {
+  private RefUpdate updateBranch(Branch.NameKey destBranch,
+      RefUpdate branchUpdate) throws MergeException {
     CodeReviewCommit currentTip =
         mergeTip != null ? mergeTip.getCurrentTip() : null;
     if (Objects.equals(branchTip, currentTip)) {
@@ -682,7 +932,8 @@ public class MergeOp {
     }
   }
 
-  private void fireRefUpdated(RefUpdate branchUpdate) {
+  private void fireRefUpdated(Branch.NameKey destBranch,
+      RefUpdate branchUpdate) {
     logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
     gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
     hooks.doRefUpdatedHook(destBranch, branchUpdate,
@@ -781,15 +1032,14 @@ public class MergeOp {
                 message(c, "Unspecified merge failure: " + s.name()));
             break;
         }
-      } catch (OrmException err) {
-        logWarn("Error updating change status for " + c.getId(), err);
-      } catch (IOException err) {
+      } catch (OrmException | IOException err) {
         logWarn("Error updating change status for " + c.getId(), err);
       }
     }
   }
 
-  private void updateSubscriptions(List<Change> submitted) {
+  private void updateSubscriptions(Branch.NameKey destBranch,
+      List<Change> submitted) {
     if (mergeTip != null
         && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
       logDebug("Updating submodule subscriptions for {} changes",
@@ -801,8 +1051,8 @@ public class MergeOp {
       try {
         subOp.update();
       } catch (SubmoduleException e) {
-        logError(
-            "The gitLinks were not updated according to the subscriptions" , e);
+        logError("The gitLinks were not updated according to the subscriptions",
+            e);
       }
     }
   }
@@ -1118,24 +1368,18 @@ public class MergeOp {
     }
   }
 
-  private void abandonAllOpenChanges() throws NoSuchChangeException {
-    Exception err = null;
+  private void abandonAllOpenChanges(Project.NameKey destProject)
+      throws NoSuchChangeException {
     try {
       openSchema();
       for (ChangeData cd
-          : queryProvider.get().byProjectOpen(destBranch.getParentKey())) {
+          : queryProvider.get().byProjectOpen(destProject)) {
         abandonOneChange(cd.change());
       }
       db.close();
       db = null;
-    } catch (IOException e) {
-      err = e;
-    } catch (OrmException e) {
-      err = e;
-    }
-    if (err != null) {
-      logWarn("Cannot abandon changes for deleted project "
-          + destBranch.getParentKey().get(), err);
+    } catch (IOException | OrmException e) {
+      logWarn("Cannot abandon changes for deleted project ", e);
     }
   }
 
@@ -1202,13 +1446,15 @@ public class MergeOp {
 
   private void logError(String msg, Throwable t) {
     if (log.isErrorEnabled()) {
-      log.error(logPrefix + msg, t);
+      if (t != null) {
+        log.error(logPrefix + msg, t);
+      } else {
+        log.error(logPrefix + msg);
+      }
     }
   }
 
   private void logError(String msg) {
-    if (log.isErrorEnabled()) {
-      log.error(logPrefix + msg);
-    }
+    logError(msg, null);
   }
 }

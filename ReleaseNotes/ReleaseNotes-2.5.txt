@@ -3,7 +3,7 @@ Release notes for Gerrit 2.5
 
 Gerrit 2.5 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.war]
+link:https://www.gerritcodereview.com/download/gerrit-full-2.5.war[https://www.gerritcodereview.com/download/gerrit-full-2.5.war]
 
 Gerrit 2.5 includes the bug fixes done with
 link:ReleaseNotes-2.4.1.html[Gerrit 2.4.1] and
@@ -821,7 +821,7 @@ We now prefer to use Guava (previously known as Google Collections).
 * Fixed broken link to source code
 +
 Updated the documentation source code links to point to:
-http://code.google.com/p/gerrit/source/checkout
+https://gerrit.googlesource.com/gerrit
 
 * State link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-eclipse.html#known-problems[known issues]
   when debugging Gerrit with Eclipse

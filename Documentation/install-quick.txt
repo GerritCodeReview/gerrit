@@ -58,11 +58,11 @@ It's time to download the archive that contains the Gerrit web and ssh service.
 
 You can choose from different versions to download from here:
 
-* http://code.google.com/p/gerrit/downloads/list[A list of releases available]
+* https://www.gerritcodereview.com/download/index.html[A list of releases available]
 
 This tutorial is based on version 2.2.2, and you can download that from this link
 
-* http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.2.war[Link to the 2.2.2 war archive]
+* https://www.gerritcodereview.com/download/gerrit-2.2.2.war[Link to the 2.2.2 war archive]
 
 
 [[initialization]]

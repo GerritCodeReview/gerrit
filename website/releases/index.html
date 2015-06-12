@@ -44,6 +44,7 @@ function(data) {
   var doc = document;
   var frg = doc.createDocumentFragment();
   var rx = /^gerrit(?:-full)?-([0-9.]+(?:-rc[0-9]+)?)[.]war/;
+  var dl = 'https://www.gerritcodereview.com/download/';
   var docs = 'https://gerrit-documentation.storage.googleapis.com/';
   var src = 'https://gerrit.googlesource.com/gerrit/+/'
 
@@ -91,7 +92,7 @@ function(data) {
     var tr = doc.createElement('tr');
     var td = doc.createElement('td');
     var a = doc.createElement('a');
-    a.href = f.name;
+    a.href = dl + f.name;
     if (v) {
       a.appendChild(doc.createTextNode('Gerrit ' + v[1]));
     } else {

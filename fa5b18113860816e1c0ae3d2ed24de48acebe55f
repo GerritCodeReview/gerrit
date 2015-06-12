@@ -22,6 +22,69 @@
       "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e3c84b_61e9d6f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-12T02:27:18Z",
+      "side": 1,
+      "message": "Is this correct?  Previously we required the flush caches capability, but limited flushing the web sessions cache to administrators.\n\nIf we now allow users with \"maintain server\" to flush this cache, the check here is not necessary because it will already be enforced by the annotation added on line 30.\n\nBut if we still want to restrict to only allow admins to flush the web sessions cache, then this check should not be changed.",
+      "range": {
+        "startLine": 49,
+        "startChar": 41,
+        "endLine": 49,
+        "endChar": 58
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f38c19_9ee27d14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-12T02:27:18Z",
+      "side": 1,
+      "message": "this is no longer true with the change on line 49.",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 35
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f38c19_fed74130",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-12T02:27:18Z",
+      "side": 1,
+      "message": "This check is no longer necessary due to the annotation added on line 57.",
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,12 +14,13 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.RUN_GC;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GarbageCollectionResult;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.ProjectCache;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Runs the Git garbage collection. */
-@RequiresCapability(GlobalCapability.RUN_GC)
+@RequiresAnyCapability({RUN_GC, MAINTAIN_SERVER})
 @CommandMetaData(name = "gc", description = "Run Git garbage collection",
   runsAt = MASTER_OR_SLAVE)
 public class GarbageCollectionCommand extends SshCommand {

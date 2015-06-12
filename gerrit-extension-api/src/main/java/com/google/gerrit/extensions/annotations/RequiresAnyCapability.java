@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,15 +22,15 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation on {@code com.google.gerrit.sshd.SshCommand} or
- * {@code com.google.gerrit.httpd.restapi.RestApiServlet} declaring a
- * capability must be granted.
+ * {@code com.google.gerrit.httpd.restapi.RestApiServlet} declaring a set of
+ * capabilities of which at least one must be granted.
  */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
-public @interface RequiresCapability {
-  /** Name of the capability required to invoke this action. */
-  String value();
+public @interface RequiresAnyCapability {
+  /** Capabilities at least one of which is required to invoke this action. */
+  String[] value();
 
-  /** Scope of the named capability. */
+  /** Scope of the named capabilities. */
   CapabilityScope scope() default CapabilityScope.CONTEXT;
 }

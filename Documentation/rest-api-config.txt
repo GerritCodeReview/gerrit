@@ -135,10 +135,12 @@ As result a link:#server-info[ServerInfo] entity is returned.
 
 Lists the caches of the server. Caches defined by plugins are included.
 
-The caller must be a member of a group that is granted the
-link:access-control.html#capability_viewCaches[View Caches] capability
-or the link:access-control.html#capability_administrateServer[
-Administrate Server] capability.
+The caller must be a member of a group that is granted one of the
+following capabilities:
+
+* link:access-control.html#capability_viewCaches[View Caches]
+* link:access-control.html#capability_maintainServer[Maintain Server]
+* link:access-control.html#capability_administrateServer[Administrate Server]
 
 As result a map of link:#cache-info[CacheInfo] entities is returned.
 
@@ -493,10 +495,12 @@ link:#cache-operation-input[CacheOperationInput] entity.
 
 Retrieves information about a cache.
 
-The caller must be a member of a group that is granted the
-link:access-control.html#capability_viewCaches[View Caches] capability
-or the link:access-control.html#capability_administrateServer[
-Administrate Server] capability.
+The caller must be a member of a group that is granted one of the
+following capabilities:
+
+* link:access-control.html#capability_viewCaches[View Caches]
+* link:access-control.html#capability_maintainServer[Maintain Server]
+* link:access-control.html#capability_administrateServer[Administrate Server]
 
 As result a link:#cache-info[CacheInfo] entity is returned.
 
@@ -532,15 +536,15 @@ As result a link:#cache-info[CacheInfo] entity is returned.
 
 Flushes a cache.
 
-The caller must be a member of a group that is granted the
-link:access-control.html#capability_flushCaches[Flush Caches] capability
-or the link:access-control.html#capability_administrateServer[
-Administrate Server] capability.
+The caller must be a member of a group that is granted one of the
+following capabilities:
 
-The "web_sessions" cache can only be flushed if the caller is member of
-a group that is granted the
-link:access-control.html#capability_administrateServer[Administrate
-Server] capability.
+* link:access-control.html#capability_flushCaches[Flush Caches] (any cache
+  except "web_sessions")
+* link:access-control.html#capability_maintainServer[Maintain Server] (any cache
+  including "web_sessions")
+* link:access-control.html#capability_administrateServer[Administrate Server]
+  (any cache including "web_sessions")
 
 .Request
 ----
@@ -749,10 +753,12 @@ End-users may see a task only if they can also see the project the task
 is associated with. Tasks operating on other projects, or that do not
 have a specific project, are hidden.
 
-Members of a group that is granted the
-link:access-control.html#capability_viewQueue[View Queue] capability or
-the link:access-control.html#capability_administrateServer[Administrate
-Server] capability can see all tasks.
+The caller must be a member of a group that is granted one of the
+following capabilities:
+
+* link:access-control.html#capability_viewQueue[View Queue]
+* link:access-control.html#capability_maintainServer[Maintain Server]
+* link:access-control.html#capability_administrateServer[Administrate Server]
 
 As result a list of link:#task-info[TaskInfo] entities is returned.
 
@@ -801,10 +807,12 @@ End-users may see a task only if they can also see the project the task
 is associated with. Tasks operating on other projects, or that do not
 have a specific project, are hidden.
 
-Members of a group that is granted the
-link:access-control.html#capability_viewQueue[View Queue] capability or
-the link:access-control.html#capability_administrateServer[Administrate
-Server] capability can see all tasks.
+The caller must be a member of a group that is granted one of the
+following capabilities:
+
+* link:access-control.html#capability_viewQueue[View Queue]
+* link:access-control.html#capability_maintainServer[Maintain Server]
+* link:access-control.html#capability_administrateServer[Administrate Server]
 
 As result a link:#task-info[TaskInfo] entity is returned.
 
@@ -837,19 +845,23 @@ As result a link:#task-info[TaskInfo] entity is returned.
 Kills a task from the background work queue that the Gerrit daemon
 is currently performing, or will perform in the near future.
 
-The caller must be a member of a group that is granted the
-link:access-control.html#capability_kill[Kill Task] capability
-or the link:access-control.html#capability_administrateServer[
-Administrate Server] capability.
+The caller must be a member of a group that is granted one of the
+following capabilities:
+
+* link:access-control.html#capability_kill[Kill Task]
+* link:access-control.html#capability_maintainServer[Maintain Server]
+* link:access-control.html#capability_administrateServer[Administrate Server]
 
 End-users may see a task only if they can also see the project the task
 is associated with. Tasks operating on other projects, or that do not
 have a specific project, are hidden.
 
-Members of a group that is granted the
-link:access-control.html#capability_viewQueue[View Queue] capability or
-the link:access-control.html#capability_administrateServer[Administrate
-Server] capability can see all tasks.
+Members of a group granted one of the following capabilities may view
+all tasks:
+
+* link:access-control.html#capability_viewQueue[View Queue]
+* link:access-control.html#capability_maintainServer[Maintain Server]
+* link:access-control.html#capability_administrateServer[Administrate Server]
 
 .Request
 ----

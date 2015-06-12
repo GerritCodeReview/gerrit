@@ -46,8 +46,8 @@ public class Check implements RestReadView<ChangeResource>,
     ChangeControl ctl = rsrc.getControl();
     if (!ctl.isOwner()
         && !ctl.getProjectControl().isOwner()
-        && !ctl.getCurrentUser().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("Not owner");
+        && !ctl.getCurrentUser().getCapabilities().canMaintainServer()) {
+      throw new AuthException("Cannot fix change");
     }
     return Response.withMustRevalidate(json.fix(input).format(rsrc));
   }

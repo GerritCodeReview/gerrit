@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -25,7 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-@RequiresCapability(GlobalCapability.FLUSH_CACHES)
+@RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @Singleton
 public class FlushCache implements RestModifyView<CacheResource, Input> {
   public static class Input {
@@ -44,9 +46,9 @@ public class FlushCache implements RestModifyView<CacheResource, Input> {
   public Response<String> apply(CacheResource rsrc, Input input)
       throws AuthException {
     if (WEB_SESSIONS.equals(rsrc.getName())
-        && !self.get().getCapabilities().canAdministrateServer()) {
+        && !self.get().getCapabilities().canMaintainServer()) {
       throw new AuthException(String.format(
-          "only site administrators can flush %s", WEB_SESSIONS));
+          "only site maintainers can flush %s", WEB_SESSIONS));
     }
 
     rsrc.getCache().invalidateAll();

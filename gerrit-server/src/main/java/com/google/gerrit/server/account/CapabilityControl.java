@@ -107,7 +107,7 @@ public class CapabilityControl {
   /** @return true if the user can kill any running task. */
   public boolean canKillTask() {
     return canPerform(GlobalCapability.KILL_TASK)
-      || canAdministrateServer();
+      || canMaintainServer();
   }
 
   /** @return true if the user can modify an account for another user. */
@@ -125,12 +125,18 @@ public class CapabilityControl {
   /** @return true if the user can view the server caches. */
   public boolean canViewCaches() {
     return canPerform(GlobalCapability.VIEW_CACHES)
-      || canAdministrateServer();
+      || canMaintainServer();
   }
 
   /** @return true if the user can flush the server's caches. */
   public boolean canFlushCaches() {
     return canPerform(GlobalCapability.FLUSH_CACHES)
+      || canMaintainServer();
+  }
+
+  /** @return true if the user can perform basic server maintenance. */
+  public boolean canMaintainServer() {
+    return canPerform(GlobalCapability.MAINTAIN_SERVER)
       || canAdministrateServer();
   }
 
@@ -149,7 +155,7 @@ public class CapabilityControl {
   /** @return true if the user can view the entire queue. */
   public boolean canViewQueue() {
     return canPerform(GlobalCapability.VIEW_QUEUE)
-      || canAdministrateServer();
+      || canMaintainServer();
   }
 
   /** @return true if the user can access the database (with gsql). */
@@ -166,7 +172,7 @@ public class CapabilityControl {
   /** @return true if the user can run the Git garbage collection. */
   public boolean canRunGC() {
     return canPerform(GlobalCapability.RUN_GC)
-        || canAdministrateServer();
+        || canMaintainServer();
   }
 
   /** @return true if the user can impersonate another user. */

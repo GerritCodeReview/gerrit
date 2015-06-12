@@ -24,6 +24,7 @@ class CapabilityInfo {
   public boolean emailReviewers;
   public boolean flushCaches;
   public boolean killTask;
+  public boolean maintainServer;
   public boolean modifyAccount;
   public boolean priority;
   public QueryLimit queryLimit;

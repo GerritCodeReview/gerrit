@@ -4,8 +4,8 @@ Release notes for Gerrit 2.8.6
 There are no schema changes from link:ReleaseNotes-2.8.5.html[2.8.5].
 
 Download:
-link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.war[
-https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.8.6.war[
+https://www.gerritcodereview.com/download/gerrit-2.8.6.war]
 
 *Warning*: Support for MySQL's MyISAM storage engine is discontinued.
 Only transactional storage engines are supported.

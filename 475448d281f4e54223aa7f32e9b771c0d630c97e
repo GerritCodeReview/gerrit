@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b94258dc_5d953b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-06-12T18:42:21Z",
+      "side": 1,
+      "message": "If supporting IE \u003c 10 is a requirement, we could either use a polyfill or continue displaying labels.",
+      "range": {
+        "startLine": 12,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "475448d281f4e54223aa7f32e9b771c0d630c97e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b94258dc_7d927761",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-06-12T18:42:21Z",
+      "side": 0,
+      "message": "If action is not defined, form will be submitted to itself.",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "a828fedfba116d1f101cae10638c676ce4ff3b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "995114ab_3c9cf170",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-06-12T18:42:21Z",
+      "side": 0,
+      "message": "This is browser default behavior: enter in a text-field will submit the form.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 7
+      },
+      "revId": "a828fedfba116d1f101cae10638c676ce4ff3b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

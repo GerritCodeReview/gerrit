@@ -22,7 +22,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
-import com.google.gerrit.client.config.GitWebInfo;
+import com.google.gerrit.client.config.GitwebInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -115,8 +115,8 @@ public class Header extends Composite {
       return b.append(Util.C.commitMessage());
     }
 
-    GitWebInfo gw = (project != null && commit != null)
-        ? Gerrit.info().gitWeb() : null;
+    GitwebInfo gw = (project != null && commit != null)
+        ? Gerrit.info().gitweb() : null;
     int s = path.lastIndexOf('/') + 1;
     if (gw != null && s > 0) {
       String base = path.substring(0, s - 1);
@@ -193,7 +193,7 @@ public class Header extends Composite {
   }
 
   void setChangeInfo(ChangeInfo info) {
-    GitWebInfo gw = Gerrit.info().gitWeb();
+    GitwebInfo gw = Gerrit.info().gitweb();
     if (gw != null) {
       for (RevisionInfo rev : Natives.asList(info.revisions().values())) {
         if (patchSetId.getId().equals(rev.id())) {

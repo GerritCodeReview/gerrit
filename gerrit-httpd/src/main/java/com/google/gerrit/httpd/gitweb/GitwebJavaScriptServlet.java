@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,15 +16,16 @@ package com.google.gerrit.httpd.gitweb;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
 
-import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.server.config.GitWebConfig;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.common.io.ByteStreams;
+import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gwtexpui.server.CacheHeaders;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -34,49 +35,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-abstract class GitWebCssServlet extends HttpServlet {
-  @Singleton
-  static class Site extends GitWebCssServlet {
-    @Inject
-    Site(SitePaths paths) throws IOException {
-      super(paths.site_css);
-    }
-  }
-
-  @Singleton
-  static class Default extends GitWebCssServlet {
-    @Inject
-    Default(GitWebConfig gwc) throws IOException {
-      super(gwc.getGitwebCSS());
-    }
-  }
-
-  private static final String ENC = "UTF-8";
-
+@Singleton
+class GitwebJavaScriptServlet extends HttpServlet {
   private final long modified;
-  private final byte[] raw_css;
-  private final byte[] gz_css;
+  private final byte[] raw;
 
-  GitWebCssServlet(final Path src)
-      throws IOException {
+  @Inject
+  GitwebJavaScriptServlet(GitwebCgiConfig gitwebCgiConfig) throws IOException {
+    byte[] png;
+    Path src = gitwebCgiConfig.getGitwebJs();
     if (src != null) {
-      final Path dir = src.getParent();
-      final String name = src.getFileName().toString();
-      final String raw = HtmlDomUtil.readFile(dir, name);
-      if (raw != null) {
-        modified = lastModified(src);
-        raw_css = raw.getBytes(ENC);
-        gz_css = HtmlDomUtil.compress(raw_css);
-      } else {
-        modified = -1L;
-        raw_css = null;
-        gz_css = null;
+      try (InputStream in = Files.newInputStream(src)) {
+        png = ByteStreams.toByteArray(in);
+      } catch (NoSuchFileException e) {
+        png = null;
       }
+      modified = lastModified(src);
     } else {
       modified = -1;
-      raw_css = null;
-      gz_css = null;
+      png = null;
     }
+    raw = png;
   }
 
   @Override
@@ -87,23 +66,15 @@ abstract class GitWebCssServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    if (raw_css != null) {
-      rsp.setContentType("text/css");
-      rsp.setCharacterEncoding(ENC);
-      final byte[] toSend;
-      if (RPCServletUtils.acceptsGzipEncoding(req)) {
-        rsp.setHeader("Content-Encoding", "gzip");
-        toSend = gz_css;
-      } else {
-        toSend = raw_css;
-      }
-      rsp.setContentLength(toSend.length);
+    if (raw != null) {
+      rsp.setContentType("text/javascript");
+      rsp.setContentLength(raw.length);
       rsp.setDateHeader("Last-Modified", modified);
       CacheHeaders.setCacheable(req, rsp, 5, TimeUnit.MINUTES);
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {
-        os.write(toSend);
+        os.write(raw);
       } finally {
         os.close();
       }

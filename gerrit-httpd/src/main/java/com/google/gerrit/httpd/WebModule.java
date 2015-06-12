@@ -23,14 +23,14 @@ import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
-import com.google.gerrit.httpd.gitweb.GitWebModule;
+import com.google.gerrit.httpd.gitweb.GitwebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.config.GitWebConfig;
+import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -43,18 +43,18 @@ import java.net.SocketAddress;
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
   private final boolean wantSSL;
-  private final GitWebConfig gitWebConfig;
+  private final GitwebCgiConfig gitwebCgiConfig;
   private final GerritOptions options;
 
   @Inject
   WebModule(AuthConfig authConfig,
       @CanonicalWebUrl @Nullable String canonicalUrl,
       GerritOptions options,
-      GitWebConfig gitWebConfig) {
+      GitwebCgiConfig gitwebCgiConfig) {
     this.authConfig = authConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.options = options;
-    this.gitWebConfig = gitWebConfig;
+    this.gitwebCgiConfig = gitwebCgiConfig;
   }
 
   @Override
@@ -75,8 +75,8 @@ public class WebModule extends LifecycleModule {
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));
 
-    if (gitWebConfig.getGitwebCGI() != null) {
-      install(new GitWebModule());
+    if (gitwebCgiConfig.getGitwebCgi() != null) {
+      install(new GitwebModule());
     }
 
     DynamicSet.setOf(binder(), WebUiPlugin.class);

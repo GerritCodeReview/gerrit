@@ -108,7 +108,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.reportBugText).isEqualTo("REPORT BUG");
 
     // gitweb
-    assertThat(i.gitWeb).isNull();
+    assertThat(i.gitweb).isNull();
 
     // sshd
     assertThat(i.sshd).isNotNull();
@@ -161,7 +161,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.reportBugText).isNull();
 
     // gitweb
-    assertThat(i.gitWeb).isNull();
+    assertThat(i.gitweb).isNull();
 
     // sshd
     assertThat(i.sshd).isNotNull();

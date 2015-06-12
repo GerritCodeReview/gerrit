@@ -26,7 +26,7 @@ import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
-import com.google.gerrit.client.config.GitWebInfo;
+import com.google.gerrit.client.config.GitwebInfo;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -457,7 +457,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
 
     void populate(int row, BranchInfo k) {
-      GitWebInfo c = Gerrit.info().gitWeb();
+      GitwebInfo c = Gerrit.info().gitweb();
 
       if (k.canDelete()) {
         CheckBox sel = new CheckBox();

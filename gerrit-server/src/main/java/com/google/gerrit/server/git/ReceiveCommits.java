@@ -1777,13 +1777,14 @@ public class ReceiveCommits {
     } catch (ResourceConflictException e) {
       throw new IOException(e);
     }
+    try {
+      mergeFactory.create(ChangeSet.create(changes,
+          (IdentifiedUser) changeCtl.getCurrentUser())).merge(false);
+    } catch (NoSuchChangeException | ResourceConflictException e) {
+      throw new OrmException(e);
+    }
     addMessage("");
     for (Change c : changes) {
-      try {
-        mergeFactory.create(c.getDest()).merge();
-      } catch (MergeException | NoSuchChangeException e) {
-        throw new OrmException(e);
-      }
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:

@@ -143,10 +143,11 @@ public class GerritServer {
       daemonService.submit(new Callable<Void>() {
         @Override
         public Void call() throws Exception {
-          int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless" });
+          int rc = daemon.main(new String[] {
+              "-d", site.getPath(),
+              "--headless", "--console-log", "--show-stack-trace"});
           if (rc != 0) {
-            System.out.println("Failed to start Gerrit daemon. Check "
-                + site.getPath() + "/logs/error_log");
+            System.err.println("Failed to start Gerrit daemon");
             serverStarted.reset();
           }
           return null;
@@ -188,7 +189,7 @@ public class GerritServer {
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", forceEphemeralPort);
     cfg.setBoolean("sshd", null, "testUseInsecureRandom", true);
-    cfg.setString("cache", null, "directory", null);
+    cfg.unset("cache", null, "directory");
     cfg.setString("gerrit", null, "basePath", "git");
     cfg.setBoolean("sendemail", null, "enable", true);
     cfg.setInt("sendemail", null, "threadPoolSize", 0);

@@ -45,6 +45,7 @@ public class ErrorLogFile {
     dst.setLayout(layout);
     dst.setTarget("System.err");
     dst.setThreshold(Level.ERROR);
+    dst.activateOptions();
 
     final Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();

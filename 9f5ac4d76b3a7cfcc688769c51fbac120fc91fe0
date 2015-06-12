@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d9f38c19_dedc0558",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/RequiresAnyCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-12T05:43:08Z",
+      "side": 1,
+      "message": "List of capabilities?",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "9f5ac4d76b3a7cfcc688769c51fbac120fc91fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "995114ab_1c1a55a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
         "patchSetId": 1

@@ -38,7 +38,7 @@ public class PredicateArgs {
    * Parses query arguments into {@link #keyValue} and/or {@link #positional}..
    * <p>
    * Labels for these arguments should be kept in ChangeQueryBuilder
-   * as {@code ARG_ID_{argument name}}.
+   * as {@code ARG_ID_[argument name]}.
    *
    * @param args arguments to be parsed
    * @throws QueryParseException

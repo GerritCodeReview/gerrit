@@ -129,7 +129,7 @@ import java.util.List;
 /**
  * SSH daemon to communicate with Gerrit.
  * <p>
- * Use a Git URL such as {@code ssh://${email}@${host}:${port}/${path}},
+ * Use a Git URL such as <code>ssh://${email}@${host}:${port}/${path}</code>,
  * e.g. {@code ssh://sop@google.com@gerrit.com:8010/tools/gerrit.git} to
  * access the SSH daemon itself.
  * <p>

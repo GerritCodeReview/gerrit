@@ -25,7 +25,7 @@ import com.google.gwt.core.client.JsArrayString;
  * JavaScript call stack and identifying the URL of the script file calling
  * {@code Gerrit.install()}. The simple approach applied here is looking at
  * the source URLs and extracting the name out of the string, e.g.:
- * {@code "http://localhost:8080/plugins/{name}/static/foo.js"}.
+ * {@code "http://localhost:8080/plugins/[name]/static/foo.js"}.
  */
 class PluginName {
   private static final String UNKNOWN = "<unknown>";

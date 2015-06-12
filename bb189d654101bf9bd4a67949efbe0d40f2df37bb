@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "794c6014_9bd66bed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-06-12T16:02:31Z",
+      "side": 1,
+      "message": "Actually, this shouldn\u0027t go here. This method should be called immediately before updating the config values, after checking to see if the value has changed and is editable",
+      "range": {
+        "startLine": 232,
+        "startChar": 10,
+        "endLine": 232,
+        "endChar": 65
+      },
+      "revId": "bb189d654101bf9bd4a67949efbe0d40f2df37bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

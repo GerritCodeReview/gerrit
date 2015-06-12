@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "794c6014_bb0d6741",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-12T14:59:14Z",
+      "side": 1,
+      "message": "Fixed IndexChanges to allow it. The fact that change owners are allowed just means we can\u0027t use @Requires(Any)Capability for this purpose; just did the check in the method body instead.",
+      "parentUuid": "b94258dc_bd61df08",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39e3c84b_61e9d6f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "591ddcf5_7a103957",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-12T14:59:14Z",
+      "side": 1,
+      "message": "Yes, the documentation needs to be corrected.",
+      "parentUuid": "995114ab_9c5c2550",
+      "range": {
+        "startLine": 49,
+        "startChar": 41,
+        "endLine": 49,
+        "endChar": 58
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9f38c19_9ee27d14",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
         "patchSetId": 1
@@ -83,6 +131,30 @@
       "writtenOn": "2015-06-12T02:27:18Z",
       "side": 1,
       "message": "this is no longer true with the change on line 49.",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 35
+      },
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_1a1d7d6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-12T14:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9f38c19_9ee27d14",
       "range": {
         "startLine": 51,
         "startChar": 11,
@@ -124,6 +196,24 @@
       "side": 1,
       "message": "No. This check is correct. Same reasons as in my another comment.",
       "parentUuid": "d9f38c19_fed74130",
+      "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591ddcf5_3a1ac177",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-12T14:59:14Z",
+      "side": 1,
+      "message": "Right, Show Caches doesn\u0027t get to see the summary info; updated the docs.",
+      "parentUuid": "995114ab_bc61e108",
       "revId": "fa5b18113860816e1c0ae3d2ed24de48acebe55f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

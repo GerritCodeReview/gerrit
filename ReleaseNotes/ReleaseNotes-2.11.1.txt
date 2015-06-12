@@ -7,7 +7,8 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.1.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.11.1.war]
 
 Gerrit 2.11.1 includes the bug fixes done with
-link:ReleaseNotes-2.10.4.html[Gerrit 2.10.4]. These bug fixes are *not* listed
+link:ReleaseNotes-2.10.4.html[Gerrit 2.10.4] and
+link:ReleaseNotes-2.10.5.html[Gerrit 2.10.5]. These bug fixes are *not* listed
 in these release notes.
 
 There are no schema changes from link:ReleaseNotes-2.11.html[2.11].
@@ -46,7 +47,7 @@ the target branch.
 Now, instead of indexing interactively, it falls back to a batch thread pool
 with the number of available logical CPUs.
 
-* Reduce unnecessary database access when queryng changes.
+* Reduce unnecessary database access when querying changes.
 +
 Searching for changes was retrieving more information than necessary from the
 database. This has been optimized to reduce database access and make better use
@@ -70,6 +71,9 @@ Permissions
 ~~~~~~~~~~~
 
 * Require 'View Plugins' capability to list plugins through SSH.
++
+The 'View Plugins' capability was required to list plugins through the REST API,
+but not through SSH.
 
 * Fix project creation with plugin config if user is not project owner.
 +
@@ -136,6 +140,16 @@ events after the initial sync.
 Miscellaneous
 ~~~~~~~~~~~~~
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=3328[Issue 3328]:
+Allow to push a tag that points to a non-commit object.
++
+When pushing a tag that points to a non-commit object, like
+link:https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/tag/?id=v2.6.11[
+`v2.6.11` on linux-stable] which points to a tree, or
+link:https://git.eclipse.org/c/jgit/jgit.git/tag/?id=spearce-gpg-pub[
+`spearce-gpg-pub` on jgit] which points to a blob, Gerrit rejected the push with
+the error message 'missing object(s)'.
+
 * link:http://code.google.com/p/gerrit/issues/detail?id=3323[Issue 3323]:
 Fix internal server error when cloning from a slave while hiding some refs.
 
@@ -151,6 +165,8 @@ A temporary directory was being created but not removed.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2791[Issue 2791]:
 Fix email validation for new TLDs such as `.systems`.
+
+* Assume change kind is 'rework' if `LargeObjectException` occurs.
 
 Documentation
 ~~~~~~~~~~~~~

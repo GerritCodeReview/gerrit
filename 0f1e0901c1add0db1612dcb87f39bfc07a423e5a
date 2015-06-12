@@ -117,6 +117,24 @@
       "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_7d4b577b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-12T14:16:46Z",
+      "side": 1,
+      "message": "Reverted: [1].\n\nWithout [1], it\u0027s a matter of minutes (using %base magic branch option or the mentioned new project option \"Create a new change for every commit not in the target branch\") to correctly push the same SHA-1 to different branches for the same project. So that the project filter, implemented in the net patch set would still correctly return multiple matches for the same SHA-1. So that the only valid broken case in switch below is case 0. Other cases/assumptions below for broken changes states are perfectly OK.\n\n* [1] https://gerrit-review.googlesource.com/68630",
+      "parentUuid": "b94258dc_fd3e87eb",
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -164,8 +164,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setStatus(Change.Status status) {
-    checkArgument(status != Change.Status.SUBMITTED,
-        "use submit(Iterable<PatchSetApproval>)");
     this.status = status;
   }
 
@@ -175,13 +173,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void removeApproval(String label) {
     approvals.put(label, Optional.<Short> absent());
-  }
-
-  public void submit(Iterable<SubmitRecord> submitRecords) {
-    status = Change.Status.SUBMITTED;
-    this.submitRecords = ImmutableList.copyOf(submitRecords);
-    checkArgument(!this.submitRecords.isEmpty(),
-        "no submit records specified at submit time");
   }
 
   public void setSubject(String subject) {

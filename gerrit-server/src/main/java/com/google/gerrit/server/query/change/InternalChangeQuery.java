@@ -111,11 +111,7 @@ public class InternalChangeQuery {
     return query(and(
         ref(branch),
         project(branch.getParentKey()),
-        status(Change.Status.SUBMITTED)));
-  }
-
-  public List<ChangeData> allSubmitted() throws OrmException {
-    return query(status(Change.Status.SUBMITTED));
+        status(Change.Status.NEW)));
   }
 
   public List<ChangeData> byBranchOpen(Branch.NameKey branch)

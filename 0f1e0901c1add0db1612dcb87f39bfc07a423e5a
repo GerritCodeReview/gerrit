@@ -153,6 +153,24 @@
       "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b94258dc_dda06bb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-12T14:54:26Z",
+      "side": 1,
+      "message": "Jepp.",
+      "parentUuid": "794c6014_fb03ef13",
+      "revId": "0f1e0901c1add0db1612dcb87f39bfc07a423e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

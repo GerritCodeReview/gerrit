@@ -3,7 +3,7 @@ Release notes for Gerrit 2.1.8
 
 Gerrit 2.1.8 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.8.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.8.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.1.8.war[https://www.gerritcodereview.com/download/gerrit-2.1.8.war]
 
 New Features
 ------------

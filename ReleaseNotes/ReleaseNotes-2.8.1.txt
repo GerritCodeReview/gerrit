@@ -3,7 +3,7 @@ Release notes for Gerrit 2.8.1
 
 There are no schema changes from link:ReleaseNotes-2.8.html[2.8].
 
-link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.1.war[https://gerrit-releases.storage.googleapis.com/gerrit-2.8.1.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.8.1.war[https://www.gerritcodereview.com/download/gerrit-2.8.1.war]
 
 Bug Fixes
 ---------

@@ -3,7 +3,7 @@ Release notes for Gerrit 2.0.7
 
 Gerrit 2.0.7 is now available in the usual location:
 
-link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
 Of note is the WAR file doubled in size.  This is due to the switch to openid4java for the OpenID relying party implementation, as it is more compliant to the OpenID 2.0 draft standard than the prior relying party, dyuproject.
 

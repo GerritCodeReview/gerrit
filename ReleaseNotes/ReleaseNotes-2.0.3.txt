@@ -3,7 +3,7 @@ Release notes for Gerrit 2.0.3
 
 Gerrit 2.0.3 is now available in the usual location:
 
-link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
 I would like to express a big thank you to Brad Larson for diving into
 Gerrit and coming up with the implementation for  "Add reviewer to an

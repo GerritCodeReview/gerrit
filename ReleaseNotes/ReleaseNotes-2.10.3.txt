@@ -2,8 +2,8 @@ Release notes for Gerrit 2.10.3
 ===============================
 
 Download:
-link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.3.war[
-https://gerrit-releases.storage.googleapis.com/gerrit-2.10.3.war]
+link:https://www.gerritcodereview.com/download/gerrit-2.10.3.war[
+https://www.gerritcodereview.com/download/gerrit-2.10.3.war]
 
 Important Notes
 ---------------

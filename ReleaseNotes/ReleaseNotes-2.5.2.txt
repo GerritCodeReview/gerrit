@@ -3,7 +3,7 @@ Release notes for Gerrit 2.5.2
 
 Gerrit 2.5.2 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.2.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.2.war]
+link:https://www.gerritcodereview.com/download/gerrit-full-2.5.2.war[https://www.gerritcodereview.com/download/gerrit-full-2.5.2.war]
 
 There are no schema changes from 2.5, or 2.5.1.
 

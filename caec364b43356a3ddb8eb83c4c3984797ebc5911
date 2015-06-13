@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f96130bc_97dd2457",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-13T12:55:26Z",
+      "side": 1,
+      "message": "Can you expand the commit message to explain why this is needed?",
+      "revId": "caec364b43356a3ddb8eb83c4c3984797ebc5911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -66,7 +66,7 @@ changing the implementation from Python on Google App Engine, to Java
 on a J2EE servlet container and an SQL database.
 
 * link:http://video.google.com/videoplay?docid=-8502904076440714866[Mondrian Code Review On The Web]
-* link:http://code.google.com/p/rietveld/[Rietveld - Code Review for Subversion]
+* link:https://github.com/rietveld-codereview/rietveld[Rietveld - Code Review for Subversion]
 * link:http://eagain.net/gitweb/?p=gitosis.git;a=blob;f=README.rst;hb=HEAD[Gitosis README]
 * link:http://source.android.com/[Android Open Source Project]
 
@@ -166,7 +166,7 @@ User authentication is handled by OpenID, and therefore Gerrit
 requires that the OpenID provider selected by a user must be
 online and operating in order to authenticate that user.
 
-* link:http://code.google.com/webtoolkit/[Google Web Toolkit (GWT)]
+* link:http://www.gwtproject.org/[Google Web Toolkit (GWT)]
 * link:http://www.kernel.org/pub/software/scm/git/docs/gitrepository-layout.html[Git Repository Format]
 * link:http://www.postgresql.org/about/[About PostgreSQL]
 * link:http://openid.net/developers/specs/[OpenID Specifications]
@@ -183,7 +183,7 @@ repositories for each project.
 
 Gerrit is developed as a self-hosting open source project:
 
-* link:http://code.google.com/p/gerrit/[Project Homepage]
+* link:https://www.gerritcodereview.com/[Project Homepage]
 * link:https://www.gerritcodereview.com/download/index.html[Release Versions]
 * link:https://gerrit.googlesource.com/gerrit[Source]
 * link:http://code.google.com/p/gerrit/issues/list[Issue Tracking]

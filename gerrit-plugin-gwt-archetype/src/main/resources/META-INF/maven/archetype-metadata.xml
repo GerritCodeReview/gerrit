@@ -22,7 +22,7 @@ limitations under the License.
       <defaultValue>Gerrit Code Review</defaultValue>
     </requiredProperty>
     <requiredProperty key="Implementation-Url">
-      <defaultValue>http://code.google.com/p/gerrit/</defaultValue>
+      <defaultValue>https://www.gerritcodereview.com/</defaultValue>
     </requiredProperty>
     <requiredProperty key="Gwt-Version">
       <defaultValue>2.7.0</defaultValue>

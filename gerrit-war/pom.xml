@@ -6,7 +6,7 @@
   <packaging>war</packaging>
   <name>Gerrit Code Review - WAR</name>
   <description>Gerrit WAR</description>
-  <url>http://code.google.com/p/gerrit/</url>
+  <url>https://www.gerritcodereview.com/</url>
 
   <licenses>
     <license>

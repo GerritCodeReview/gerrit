@@ -22,6 +22,30 @@
       "revId": "6d7ebc6318cd5f756b91a8d4763eff9179ed59ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "195fe4fa_f8c5717f",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-13T12:51:27Z",
+      "side": 1,
+      "message": "Never mind.  I see it\u0027s done in the following change.",
+      "parentUuid": "f96130bc_f7c5807f",
+      "range": {
+        "startLine": 83,
+        "startChar": 7,
+        "endLine": 83,
+        "endChar": 54
+      },
+      "revId": "6d7ebc6318cd5f756b91a8d4763eff9179ed59ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

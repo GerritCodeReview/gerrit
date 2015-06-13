@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <name>Gerrit Code Review - Plugin GWT UI</name>
   <description>Common Classes for Gerrit GWT UI Plugins</description>
-  <url>http://code.google.com/p/gerrit/</url>
+  <url>https://www.gerritcodereview.com/</url>
 
   <licenses>
     <license>

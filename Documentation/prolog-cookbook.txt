@@ -56,7 +56,7 @@ explain some elements of Prolog that are necessary to understand the provided
 examples.
 
 == Prolog in Gerrit
-Gerrit uses its own link:https://code.google.com/p/prolog-cafe/[fork] of the
+Gerrit uses its own link:https://gerrit.googlesource.com/prolog-cafe/[fork] of the
 original link:http://kaminari.istc.kobe-u.ac.jp/PrologCafe/[prolog-cafe]
 project. Gerrit embeds the prolog-cafe library and can interpret Prolog programs
 at runtime.

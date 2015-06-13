@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <name>Gerrit Code Review - Extension API</name>
   <description>API for Gerrit Extensions</description>
-  <url>http://code.google.com/p/gerrit/</url>
+  <url>https://www.gerritcodereview.com/</url>
 
   <licenses>
     <license>

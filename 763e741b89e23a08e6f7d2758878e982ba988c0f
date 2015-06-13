@@ -22,6 +22,30 @@
       "revId": "763e741b89e23a08e6f7d2758878e982ba988c0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "195fe4fa_98b6352b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-13T02:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_65ec4605",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 824,
+        "endChar": 38
+      },
+      "revId": "763e741b89e23a08e6f7d2758878e982ba988c0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

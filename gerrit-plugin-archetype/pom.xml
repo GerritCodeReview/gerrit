@@ -23,7 +23,7 @@ limitations under the License.
   <version>2.12-SNAPSHOT</version>
   <name>Gerrit Code Review - Plugin Archetype</name>
   <description>Maven Archetype for Gerrit Plugins</description>
-  <url>http://code.google.com/p/gerrit/</url>
+  <url>https://www.gerritcodereview.com/</url>
 
   <properties>
     <defaultGerritApiVersion>${project.version}</defaultGerritApiVersion>

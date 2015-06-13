@@ -143,4 +143,4 @@ Version 2.0.x
 
 GERRIT
 ------
-Part of link:http://code.google.com/p/gerrit/[Gerrit Code Review]
+Part of link:https://www.gerritcodereview.com/[Gerrit Code Review]

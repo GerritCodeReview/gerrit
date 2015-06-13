@@ -3,7 +3,7 @@ Release notes for Gerrit 2.0.2
 
 Gerrit 2.0.2 is now available for download:
 
-link:http://code.google.com/p/gerrit/[http://code.google.com/p/gerrit/]
+link:https://www.gerritcodereview.com/[https://www.gerritcodereview.com/]
 
 Important Notes
 ---------------

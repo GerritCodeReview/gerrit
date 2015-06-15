@@ -40,6 +40,7 @@ java_library(
     '//lib/mina:sshd',
   ],
   visibility = [
+    '//gerrit-plugin-api/...',
     '//tools/eclipse:classpath',
     '//gerrit-acceptance-tests/...',
   ],

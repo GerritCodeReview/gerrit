@@ -70,6 +70,30 @@
       "revId": "a828fedfba116d1f101cae10638c676ce4ff3b22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_e50e766c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T01:20:17Z",
+      "side": 0,
+      "message": "Good point. That probably explains why this was here in the first place.\n\nHowever Eclipse does not seem to like having a {@code} spanning multiple lines. Anybody know what the Javadoc spec actually says? Is Eclipse being too strict, or are other tools being too lenient?",
+      "parentUuid": "d9a1cc0d_0ec80b95",
+      "range": {
+        "startLine": 70,
+        "startChar": 5,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "a828fedfba116d1f101cae10638c676ce4ff3b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

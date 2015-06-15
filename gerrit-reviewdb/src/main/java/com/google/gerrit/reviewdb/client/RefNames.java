@@ -57,6 +57,12 @@ public class RefNames {
 
   public static final String EDIT_PREFIX = "edit-";
 
+  /**
+   * Special ref for PGP public keys used by {@link
+   * com.google.gerrit.server.git.SignedPushPreReceiveHook}.
+   */
+  public static final String REFS_PUBLIC_KEYS = REFS + "public-keys";
+
   public static String fullName(String ref) {
     return (ref.startsWith(REFS) ? "" : REFS_HEADS) + ref;
   }

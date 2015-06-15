@@ -211,7 +211,7 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
-  private void beforeTest(Description description) throws Exception {
+  protected void beforeTest(Description description) throws Exception {
     GerritServer.Description classDesc =
       GerritServer.Description.forTestClass(description, configName);
     GerritServer.Description methodDesc =

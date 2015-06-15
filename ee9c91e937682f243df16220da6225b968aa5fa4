@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d91c6c21_76ecf004",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "don\u0027t.",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_6503a641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "I think we covered this in discussion last week, but I am against this. This is what the Related Changes tab is for. We just need to fix the implementation/UI details to make this clear.",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_45002a33",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "Optional nit: American spelling is \"artifact\".",
+      "range": {
+        "startLine": 282,
+        "startChar": 6,
+        "endLine": 282,
+        "endChar": 16
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_56e9f4f2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "Presumably this part of the comment goes away when SUBMITTED gets removed.",
+      "range": {
+        "startLine": 281,
+        "startChar": 40,
+        "endLine": 282,
+        "endChar": 16
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_f60e406c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "I had to jump around a bit in the code to verify that commits was already populated. I would probably do:\n\n CodeReviewCommit commit \u003d commits.get(c.getId());\n checkState(commit !\u003d null, \"commit for %s not found by validateChangeList\", c.getId());\n toMerge.add(commit);\n\nIllegalStateException is appropriate in this case since it can only happen due to coder error.",
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_85306228",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "cd.notes()\n\nAt which point I think notesFactory might be unused.",
+      "range": {
+        "startLine": 638,
+        "startChar": 19,
+        "endLine": 638,
+        "endChar": 42
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_d6134494",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "aka commit.name()",
+      "range": {
+        "startLine": 984,
+        "startChar": 66,
+        "endLine": 984,
+        "endChar": 90
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_e525d6e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "Can probably omit the \u0027.\u0027",
+      "range": {
+        "startLine": 985,
+        "startChar": 18,
+        "endLine": 985,
+        "endChar": 21
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_36f9d8c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "commit.name()",
+      "range": {
+        "startLine": 989,
+        "startChar": 55,
+        "endLine": 989,
+        "endChar": 79
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_9609cc68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "I believe InsertException is only used by ReceiveCommits, so you could probably just delete this whole class now.",
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_b604c84e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:04:37Z",
+      "side": 1,
+      "message": "RestApiException messages are shown to the user, and the \"ORM\" vs. \"IO\" distinction is an internal implementation detail that should not be leaked.\n\nI think you could drop the first two cases and simplify to:\n\n if (input instanceof RestApiException) {\n   return (RestApiException) input;\n }\n return new RestApiException(\"Error inserting change/patchset\", input);",
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

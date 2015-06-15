@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d9a1cc0d_eed77f30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-15T11:00:30Z",
+      "side": 1,
+      "message": "Maybe it\u0027s really not good for anything, will abandon it.",
+      "parentUuid": "995114ab_9c2505e6",
+      "revId": "58c8f1c24e592e57c197fbc71e3a47d59ea11c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9d46c30_96806cd0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

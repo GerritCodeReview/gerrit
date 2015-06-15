@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -27,20 +28,31 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.Change;
+import com.jcraft.jsch.JSchException;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.AfterClass;
+
+
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -364,8 +376,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void testPushCommitUsingSignedOffBy() throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent");
+            pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+                    "b.txt", "anotherContent");
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
 
@@ -373,16 +385,48 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     blockForgeCommitter(project, "refs/heads/master");
 
     push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT + String.format(
-            "\n\nSigned-off-by: %s <%s>", admin.fullName, admin.email),
-        "b.txt", "anotherContent");
+            PushOneCommit.SUBJECT + String.format(
+                    "\n\nSigned-off-by: %s <%s>", admin.fullName, admin.email),
+            "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
 
     push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT, "b.txt", "anotherContent");
+            PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertErrorStatus(
-        "not Signed-off-by author/committer/uploader in commit message footer");
+            "not Signed-off-by author/committer/uploader in commit message footer");
+  }
+
+  public void testPushSameCommitTwiceUsingMagicBranchBaseOption()
+      throws Exception {
+    grant(Permission.PUSH, project, "refs/heads/master");
+    PushOneCommit.Result rBase = pushTo("refs/heads/master");
+    rBase.assertOkStatus();
+
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent");
+
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    PushResult pr = GitUtil.pushHead(
+        testRepo, "refs/for/foo%base=" + rBase.getCommitId().name(), false, false);
+    assertThat(pr.getMessages()).contains("changes: new: 1, refs: 1, done");
+
+    List<ChangeInfo> changes = query(r.getCommitId().name());
+    assertThat(changes).hasSize(2);
+    ChangeInfo c1 = get(changes.get(0).id);
+    ChangeInfo c2 = get(changes.get(1).id);
+    assertThat(c1.project).isEqualTo(c2.project);
+    assertThat(c1.branch).isNotEqualTo(c2.branch);
+    assertThat(c1.changeId).isEqualTo(c2.changeId);
+    assertThat(c1.currentRevision).isEqualTo(c2.currentRevision);
   }
 }

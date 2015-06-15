@@ -184,7 +184,8 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
-  private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
+  protected void beforeTest(Config cfg, boolean memory, boolean enableHttpd)
+      throws Exception {
     server = startServer(cfg, memory, enableHttpd);
     server.getTestInjector().injectMembers(this);
     admin = accounts.admin();

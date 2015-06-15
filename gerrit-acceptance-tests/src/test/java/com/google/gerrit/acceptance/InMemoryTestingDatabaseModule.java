@@ -46,6 +46,9 @@ import org.eclipse.jgit.lib.Config;
 import java.io.File;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
+
+  static final String UNIT_TEST_GERRIT_SITE = "UNIT_TEST_GERRIT_SITE";
+
   private final Config cfg;
 
   InMemoryTestingDatabaseModule(Config cfg) {
@@ -60,7 +63,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     bind(File.class)
       .annotatedWith(SitePath.class)
-      .toInstance(new File("UNIT_TEST_GERRIT_SITE"));
+      .toInstance(new File(UNIT_TEST_GERRIT_SITE));
 
     bind(GitRepositoryManager.class)
       .toInstance(new InMemoryRepositoryManager());

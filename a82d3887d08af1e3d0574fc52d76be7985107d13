@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d91c6c21_b652083b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:35:28Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank line",
+      "revId": "a82d3887d08af1e3d0574fc52d76be7985107d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_853ea2ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:35:28Z",
+      "side": 1,
+      "message": "Whether ref locks are implemented as filesystem locks or not is an implementation detail. Perhaps:\n\n \"Failed to lock \" + branchUpdate.getName()\n\n?",
+      "range": {
+        "startLine": 773,
+        "startChar": 60,
+        "endLine": 773,
+        "endChar": 78
+      },
+      "revId": "a82d3887d08af1e3d0574fc52d76be7985107d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_96570c2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:35:28Z",
+      "side": 1,
+      "message": "It doesn\u0027t throw any checked exceptions. But nor does threadScoper.scope(). So I don\u0027t think you can make any assumptions here.\n\nI don\u0027t think it\u0027s necessary to have a specific log message here. Just use a generic error message and include the exception stack trace.",
+      "range": {
+        "startLine": 1048,
+        "startChar": 25,
+        "endLine": 1048,
+        "endChar": 52
+      },
+      "revId": "a82d3887d08af1e3d0574fc52d76be7985107d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_e5331621",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:35:28Z",
+      "side": 1,
+      "message": "scoping",
+      "range": {
+        "startLine": 1049,
+        "startChar": 13,
+        "endLine": 1049,
+        "endChar": 19
+      },
+      "revId": "a82d3887d08af1e3d0574fc52d76be7985107d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_f65c8050",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T15:35:28Z",
+      "side": 1,
+      "message": "I\u0027m unclear as to why this scope propagation is no longer required.",
+      "revId": "a82d3887d08af1e3d0574fc52d76be7985107d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

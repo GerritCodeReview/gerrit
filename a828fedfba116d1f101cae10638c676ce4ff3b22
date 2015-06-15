@@ -94,6 +94,30 @@
       "revId": "a828fedfba116d1f101cae10638c676ce4ff3b22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_14cbd494",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-06-15T10:03:30Z",
+      "side": 0,
+      "message": "TL;DR: A workaround is at I39b2cfd06cbc5bd5d6a46dd567ac1abf21f09ee8\n  \n\n\u003e However Eclipse does not seem to like having a {@code} spanning\n\u003e multiple lines.\n\nJust because it is relevant for the bugs that I quote below: It\u0027s not\nthe multiple lines, it\u0027s the nested curly braces that Eclipse chokes\non.\n\n\u003e Anybody know what the Javadoc spec actually says?\n\nJavadoc does not define \u003cpre\u003e, hence the \u003cpre\u003e used in javadoc is\nHTML\u0027s \u003cpre\u003e, which interpretes nested tags and hence needs escaping [1].\n\nThe \u003ccode\u003e tag is a defined Javadoc tag and explicitly says that it\ndoes not need escaping of \u003c and deals with nested tags [2].\n\nThe \u003cpre\u003e{@code ...}\u003c/pre\u003e sequence is used in jdk\u0027s comments to hold\ncode that contains nested angle brackets and nested braces.\nFor example lines 135-136 in CountedCompleter:\n\n  http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/concurrent/CountedCompleter.java#l135\n\nor lines 64-69 in JList:\n\n  http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/javax/swing/JList.java#l64\n\n\u003e Is Eclipse being too strict, or are other tools being too lenient?\n\nJavadoc matches it\u0027s docs, while Eclipse has bugs about not\ntreating {} as expected [3].\nHence, I\u0027d say that Eclipse is too strict.\n\nBut regardless, a workaround that does the right thing for both\njavadoc and Eclipse is at:\n\n  I39b2cfd06cbc5bd5d6a46dd567ac1abf21f09ee8\n\n\n----------------------------------\n\n[1] See for example HTML 4 (which javadoc currently produces):\n\n  http://www.w3.org/TR/html401/struct/text.html#edef-PRE\n\n[2] Quoting from the javadoc man-page:\n\n  {@code  text}\n    Equivalent to \u003ccode\u003e{@literal}\u003c/code\u003e.\n\n  Displays text in code font without interpreting the text as HTML\n  markup or nested javadoc tags. This enables you to use regular angle\n  brackets (\u003c and \u003e) instead of the HTML entities (\u003c and \u003e) in doc\n  comments, such as in parameter types (\u003cObject\u003e),\n  inequalities (3 \u003c 4), or arrows (\u003c-). For example, the doc comment text:\n\n    {@code A\u003cB\u003eC}\n\n  displays in the generated HTML page unchanged, as:\n\n    A\u003cB\u003eC\n\n[3]\n  https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d258706\n  https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d206345",
+      "parentUuid": "b9c5f8ce_e50e766c",
+      "range": {
+        "startLine": 70,
+        "startChar": 5,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "a828fedfba116d1f101cae10638c676ce4ff3b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

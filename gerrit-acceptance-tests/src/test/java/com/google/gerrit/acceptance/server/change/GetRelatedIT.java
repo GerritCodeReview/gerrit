@@ -252,7 +252,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     indexer.index(changeDataFactory.create(db, psId1_1.getParentKey()));
 
     if (!cfg.getBoolean("change", null, "getRelatedByAncestors", false)) {
-      // PS1,1 has no groups, so disappeared from related chanegs.
+      // PS1,1 has no groups, so disappeared from related changes.
       assertRelated(psId2_1);
     }
 
@@ -306,6 +306,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     result.commit.commit = commitId.name();
     result._revisionNumber = revisionNum;
     result._currentRevisionNumber = currentRevisionNum;
+    result.status = "NEW";
     return result;
   }
 

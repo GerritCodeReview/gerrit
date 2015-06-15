@@ -191,6 +191,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     public Integer _changeNumber;
     public Integer _revisionNumber;
     public Integer _currentRevisionNumber;
+    public String status;
 
     public ChangeAndCommit() {
     }
@@ -202,6 +203,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
         _revisionNumber = ps != null ? ps.getPatchSetId() : null;
         PatchSet.Id curr = change.currentPatchSetId();
         _currentRevisionNumber = curr != null ? curr.get() : null;
+        status = change.getStatus().asChangeStatus().toString();
       }
 
       commit = new CommitInfo();
@@ -224,6 +226,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
           .add("_changeNumber", _changeNumber)
           .add("_revisionNumber", _revisionNumber)
           .add("_currentRevisionNumber", _currentRevisionNumber)
+          .add("status", status)
           .toString();
     }
 

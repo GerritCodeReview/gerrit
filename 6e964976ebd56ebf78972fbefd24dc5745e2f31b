@@ -16,6 +16,24 @@
       "revId": "6e964976ebd56ebf78972fbefd24dc5745e2f31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_36f278e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-15T14:34:31Z",
+      "side": 1,
+      "message": "Oops, this is abandoned. Guess we should strikethrough these entries in Related Changes, huh :)",
+      "parentUuid": "b9c5f8ce_05f632cf",
+      "revId": "6e964976ebd56ebf78972fbefd24dc5745e2f31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

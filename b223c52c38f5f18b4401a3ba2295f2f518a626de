@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9972f48f_743168f4",
+        "filename": "tools/api",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-16T19:51:20Z",
+      "side": 1,
+      "message": "This cannot work, of course! Or, it would only work exactly once, then this mutation is cached. Buck is assuming rules are idempotent. What is here needed is random mutation, e.g.:\n\n  # randomize file mutation\n  n\u003d`echo $(($RANDOM % 100))`\n  for i in `seq 1 $n`; do\n    echo \"# comment $i\" \u003e\u003e $file\n  done\n\nBut then all these random mutations would be cached too... IOW the correct approach to fix this problem is to not deploy to Maven as a side effect of a cached python_binary() rule, but as a built-in deploy_maven() (or some such) Buck rule.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 57
+      },
+      "revId": "b223c52c38f5f18b4401a3ba2295f2f518a626de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

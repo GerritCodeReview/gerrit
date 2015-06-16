@@ -301,10 +301,10 @@ class RelatedChangesTab implements IsWidget {
       sb.closeSpan();
 
       sb.openSpan();
-      GitwebInfo gw = Gerrit.info().gitweb();
-      if (gw != null && (!info.hasChangeNumber() || !info.hasRevisionNumber())) {
+
+      if (info.status() != null && !info.status().isOpen()) {
         sb.setStyleName(RelatedChanges.R.css().gitweb());
-        sb.setAttribute("title", gw.getLinkName());
+        sb.setAttribute("title", Util.toLongString(info.status()));
         sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
       } else if (notConnected) {
         sb.setStyleName(RelatedChanges.R.css().indirect());

@@ -651,6 +651,22 @@ option:
 buck test --no-results-cache
 ----
 
+== Known issues and bugs
+
+=== Symbolic links and `watchman`
+
+`Buck` with activated `Watchman` has currently a
+[known bug](https://github.com/facebook/buck/issues/341) related to
+symbolic links. The symbolic links are used very often with external
+plugins, that are linked per symbolic link to the plugins directory.
+With this use case Buck is failing to rebuild the plugin artefact
+after it was built. All attempts to convince Buck to rebuild will fail.
+The only known way to recover is to weep out `buck-out` directory. The
+better workaround is to avoid using Watchman in this specific use case.
+Watchman can either be de-installed or disabled. See
+link:#buck-daemon[Using Buck daemon] section above how to temporarily
+disable `buckd`.
+
 == Troubleshooting Buck
 
 In some cases problems with Buck itself need to be investigated. See for example

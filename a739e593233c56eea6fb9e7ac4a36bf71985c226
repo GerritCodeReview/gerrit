@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_f6d640ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T22:16:43Z",
+      "side": 1,
+      "message": "Maybe you can put that in the commit message?",
+      "parentUuid": "b9c5f8ce_85d182f9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "a739e593233c56eea6fb9e7ac4a36bf71985c226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_1692dc5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/BouncyCastleUtil.java",
         "patchSetId": 1

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9c5f8ce_25136e66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T17:55:19Z",
+      "side": 1,
+      "message": "Why is it useful to have this separation?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "a739e593233c56eea6fb9e7ac4a36bf71985c226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_1692dc5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/BouncyCastleUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T17:55:19Z",
+      "side": 1,
+      "message": "(random thought during review)\nI was wondering for a second if it is possible to reorder the exceptions, such that the | will align.",
+      "range": {
+        "startLine": 38,
+        "startChar": 12,
+        "endLine": 41,
+        "endChar": 44
+      },
+      "revId": "a739e593233c56eea6fb9e7ac4a36bf71985c226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

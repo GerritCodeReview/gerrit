@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f96130bc_57ec6c04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-16T01:31:14Z",
+      "side": 1,
+      "message": "Even cleaner if you combine the exceptions:\n} catch (IOException | RepositoryNotFoundException e) {\n ...\n}\n\nYou can do the same above.",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 45
+      },
+      "revId": "75f52d48e058427a196f8f5023ca0e9dd3da1a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f96130bc_77e970f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-16T01:31:14Z",
+      "side": 1,
+      "message": "Combine exceptions",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 47
+      },
+      "revId": "75f52d48e058427a196f8f5023ca0e9dd3da1a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "195fe4fa_d8d7cd30",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-16T01:31:14Z",
+      "side": 1,
+      "message": "Combine exceptions",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 31
+      },
+      "revId": "75f52d48e058427a196f8f5023ca0e9dd3da1a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "195fe4fa_f8dc9157",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/LsUserRefs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-06-16T01:31:14Z",
+      "side": 1,
+      "message": "These try blocks can be combined",
+      "range": {
+        "startLine": 95,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 11
+      },
+      "revId": "75f52d48e058427a196f8f5023ca0e9dd3da1a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

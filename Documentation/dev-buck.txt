@@ -651,6 +651,46 @@ option:
 buck test --no-results-cache
 ----
 
+== Known issues and bugs
+
+`Buck` with activated `Watchman` has currently a
+[known bug](https://github.com/facebook/buck/issues/341) related to
+symbolic links. The symbolic links are used very often with external
+plugins, that are linked per symbolic link to the plugins directory.
+With this use case Buck is failing to rebuild the plugin artefact
+after it was built. All attempts to convince Buck to rebuild will fail.
+The only known way to recover is to weep out `buck-out` directory. The
+better workaround is to avoid using Watchman in this specific use case.
+Watchman can either be de-installed or disabled. See
+link:#buck-daemon[Using Buck daemon] section above how to temporarily
+disable `buckd`.
+
+Re-triggering rule execution: There is no way to re-trigger custom rules
+with side effects, like `api_{deploy|install}`. This is a `genrule()` that
+depends on Java sources and is deploying the Plugin API through custom
+Python script the to local or remote Maven repositories. When for some
+reasons the deployment was undone, there is no supported way to re-trigger
+the execution of `api_{deploy|install}` targets. That's because `--no-cache`
+option will ignore the `Buck` cache, but there is no way to ignore `buck-out`
+directory. Workaround is to change the Python script, `tools/maven/mvn.py`
+for example by introducing some verbose output:
+
+```
+  print('Re-trigger Maven Deployment:', file=stderr)
+```
+
+Now, re-triggering the `buck build api_install` with verbose outcome works:
+
+```
+ VERBOSE=1 buck build api_install
+ Using buckd.
+ [-] PROCESSING BUCK FILES...FINISHED 0,1s
+ [-] BUILDING...FINISHED 11,4s (240/240 JOBS, 2 UPDATED, 0,0% CACHE HITS)
+ Log:
+ Re-trigger Maven Deployment:
+ mvn install:install-file -Dversion=2.12-SNAPSHOT [...]
+```
+
 == Troubleshooting Buck
 
 In some cases problems with Buck itself need to be investigated. See for example

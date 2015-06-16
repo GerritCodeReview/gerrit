@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_45314af4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_a52bdeba",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_16f65ccf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-15T15:04:37Z",
       "side": 0,
       "message": "What happened to sending this email?",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_96038c15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 0,
+      "message": "The method is not called sendFailedEmail, but setNew instead. We don\u0027t need it as all calls to setNew follow with an exception shoved into the users face.",
+      "parentUuid": "d91c6c21_16f65ccf",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

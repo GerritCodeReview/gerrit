@@ -94,6 +94,54 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_a5cc7e5f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done, removed here.",
+      "parentUuid": "d91c6c21_56e9f4f2",
+      "range": {
+        "startLine": 281,
+        "startChar": 40,
+        "endLine": 282,
+        "endChar": 16
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_7676b0b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_45002a33",
+      "range": {
+        "startLine": 282,
+        "startChar": 6,
+        "endLine": 282,
+        "endChar": 16
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_f60e406c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4
@@ -111,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_5673b4c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_f60e406c",
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_85306228",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4
@@ -122,6 +188,30 @@
       "writtenOn": "2015-06-15T15:04:37Z",
       "side": 1,
       "message": "cd.notes()\n\nAt which point I think notesFactory might be unused.",
+      "range": {
+        "startLine": 638,
+        "startChar": 19,
+        "endLine": 638,
+        "endChar": 42
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_b6fe887b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_85306228",
       "range": {
         "startLine": 638,
         "startChar": 19,
@@ -157,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_c5db7a15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_d6134494",
+      "range": {
+        "startLine": 984,
+        "startChar": 66,
+        "endLine": 984,
+        "endChar": 90
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_e525d6e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4
@@ -168,6 +282,30 @@
       "writtenOn": "2015-06-15T15:04:37Z",
       "side": 1,
       "message": "Can probably omit the \u0027.\u0027",
+      "range": {
+        "startLine": 985,
+        "startChar": 18,
+        "endLine": 985,
+        "endChar": 21
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_25c1ae22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_e525d6e4",
       "range": {
         "startLine": 985,
         "startChar": 18,
@@ -203,6 +341,30 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_05be32b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_36f9d8c1",
+      "range": {
+        "startLine": 989,
+        "startChar": 55,
+        "endLine": 989,
+        "endChar": 79
+      },
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_9609cc68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -220,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_f6080033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_9609cc68",
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_b604c84e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -231,6 +411,24 @@
       "writtenOn": "2015-06-15T15:04:37Z",
       "side": 1,
       "message": "RestApiException messages are shown to the user, and the \"ORM\" vs. \"IO\" distinction is an internal implementation detail that should not be leaked.\n\nI think you could drop the first two cases and simplify to:\n\n if (input instanceof RestApiException) {\n   return (RestApiException) input;\n }\n return new RestApiException(\"Error inserting change/patchset\", input);",
+      "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_65cba642",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T19:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_b604c84e",
       "revId": "ee9c91e937682f243df16220da6225b968aa5fa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

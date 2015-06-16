@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.errors.UpdateParentFailedException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -47,6 +48,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.Collections;
@@ -103,6 +105,13 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   private NativeMap<CapabilityInfo> capabilityMap;
 
+  private static final ProjectAdminService PROJECT_SVC;
+
+  static {
+    PROJECT_SVC = GWT.create(ProjectAdminService.class);
+    JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
+  }
+
   public ProjectAccessScreen(final Project.NameKey toShow) {
     super(toShow);
   }
@@ -133,7 +142,7 @@ public class ProjectAccessScreen extends ProjectScreen {
             // Handled by ScreenLoadCallback.onFailure().
           }
         }));
-    Util.PROJECT_SVC.projectAccess(getProjectKey(),
+    PROJECT_SVC.projectAccess(getProjectKey(),
         cbs.addFinal(new ScreenLoadCallback<ProjectAccess>(this) {
           @Override
           public void preDisplay(ProjectAccess access) {
@@ -203,7 +212,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     }
 
     enable(false);
-    Util.PROJECT_SVC.changeProjectAccess( //
+    PROJECT_SVC.changeProjectAccess( //
         getProjectKey(), //
         access.getRevision(), //
         message, //
@@ -281,7 +290,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     }
 
     enable(false);
-    Util.PROJECT_SVC.reviewProjectAccess( //
+    PROJECT_SVC.reviewProjectAccess( //
         getProjectKey(), //
         access.getRevision(), //
         message, //

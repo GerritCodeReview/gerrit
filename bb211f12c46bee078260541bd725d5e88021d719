@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_7634f0e5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T21:27:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9972f48f_f4381800",
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9a1cc0d_4e17b375",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
         "patchSetId": 1
@@ -105,6 +123,54 @@
         "startChar": 10,
         "endLine": 305,
         "endChar": 67
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_05e592c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T21:27:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_053752ec",
+      "range": {
+        "startLine": 305,
+        "startChar": 10,
+        "endLine": 305,
+        "endChar": 67
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_5631f4f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T21:27:18Z",
+      "side": 1,
+      "message": "I am not sure as it would be lots of effort for a small visual gain.",
+      "parentUuid": "d91c6c21_16793ca8",
+      "range": {
+        "startLine": 305,
+        "startChar": 28,
+        "endLine": 305,
+        "endChar": 37
       },
       "revId": "bb211f12c46bee078260541bd725d5e88021d719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

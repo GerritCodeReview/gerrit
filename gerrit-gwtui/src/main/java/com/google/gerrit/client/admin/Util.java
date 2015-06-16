@@ -14,21 +14,15 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gwt.core.client.GWT;
-import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class Util {
   public static final AdminConstants C = GWT.create(AdminConstants.class);
   public static final AdminMessages M = GWT.create(AdminMessages.class);
-  public static final ProjectAdminService PROJECT_SVC;
 
   static {
-    PROJECT_SVC = GWT.create(ProjectAdminService.class);
-    JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
-
     AdminResources.I.css().ensureInjected();
   }
 

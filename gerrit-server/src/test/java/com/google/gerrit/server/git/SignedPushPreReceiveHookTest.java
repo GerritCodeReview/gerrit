@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
-
 import static com.google.gerrit.server.git.SignedPushPreReceiveHook.keyIdToString;
 
 import org.bouncycastle.bcpg.ArmoredInputStream;
@@ -23,6 +22,7 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.operator.bc.BcKeyFingerprintCalculator;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,5 +87,12 @@ public class SignedPushPreReceiveHookTest {
     assertThat(objId).isEqualTo("fa09a0c430a5a053000000000000000000000000");
     assertThat(objId.substring(8, 16))
         .isEqualTo(keyIdToString(key.getKeyID()).toLowerCase());
+  }
+
+  @Test
+  public void testToUserId() throws Exception {
+    assertThat(SignedPushPreReceiveHook.toUserId(
+          new PersonIdent("A U. Thor", "a_u_thor@example.com", 0, 0)))
+        .isEqualTo("A U. Thor <a_u_thor@example.com>");
   }
 }

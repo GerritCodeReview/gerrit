@@ -85,6 +85,30 @@
       "revId": "eefd35ee0f00e3fe5bedf692b2437cc57c2c8e2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9a1cc0d_8e3ebbea",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-16T11:56:12Z",
+      "side": 1,
+      "message": "Untested: [1]. Save this file under tools/api, and executing it with\n\n  api install\n\nmultiple times should actually install plugin API on every invocation.\n\n* [1] http://paste.openstack.org/show/295086",
+      "parentUuid": "9972f48f_d4331c21",
+      "range": {
+        "startLine": 674,
+        "startChar": 11,
+        "endLine": 675,
+        "endChar": 47
+      },
+      "revId": "eefd35ee0f00e3fe5bedf692b2437cc57c2c8e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

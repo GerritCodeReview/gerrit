@@ -333,6 +333,7 @@ public class RelatedChanges extends TabPanel {
           c.setBranch(i.branch());
           c.setProject(i.project());
           c.setSubmittable(i.submittable() && i.mergeable());
+          c.setStatus(i.status().asChangeStatus().toString());
           arr.push(c);
         }
       }
@@ -356,6 +357,11 @@ public class RelatedChanges extends TabPanel {
     final native String branch() /*-{ return this.branch }-*/;
     final native String project() /*-{ return this.project }-*/;
     final native boolean submittable() /*-{ return this._submittable ? true : false; }-*/;
+    final Change.Status status() {
+      String s = statusRaw();
+      return s != null ? Change.Status.valueOf(s) : null;
+    }
+    private final native String statusRaw() /*-{ return this.status; }-*/;
 
     final native void setId(String i)
     /*-{ if(i)this.change_id=i; }-*/;
@@ -408,6 +414,9 @@ public class RelatedChanges extends TabPanel {
 
     final native void setSubmittable(boolean s)
     /*-{ this._submittable=s; }-*/;
+
+    final native void setStatus(String s)
+    /*-{ if(s)this.status=s; }-*/;
 
     protected ChangeAndCommit() {
     }

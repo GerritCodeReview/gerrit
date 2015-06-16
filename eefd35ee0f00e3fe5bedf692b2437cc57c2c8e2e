@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9972f48f_9439a407",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-16T08:39:28Z",
+      "side": 1,
+      "message": "Start a subsection here:\n\n  \u003d\u003d\u003d Symbolic links and `watchman`",
+      "revId": "eefd35ee0f00e3fe5bedf692b2437cc57c2c8e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_34645014",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-16T08:39:28Z",
+      "side": 1,
+      "message": "can this also be a link to this section?",
+      "range": {
+        "startLine": 664,
+        "startChar": 53,
+        "endLine": 664,
+        "endChar": 72
+      },
+      "revId": "eefd35ee0f00e3fe5bedf692b2437cc57c2c8e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_746ec8f5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-16T08:39:28Z",
+      "side": 1,
+      "message": "Make this a subsection title?\n\n  \u003d\u003d\u003d Retriggering rule execution",
+      "range": {
+        "startLine": 667,
+        "startChar": 0,
+        "endLine": 667,
+        "endChar": 29
+      },
+      "revId": "eefd35ee0f00e3fe5bedf692b2437cc57c2c8e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_d4331c21",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-16T08:39:28Z",
+      "side": 1,
+      "message": "Would it be a better \"workaround\" to simply have\n\n  tools/maven/api_install\n  tools/maven/api_deploy\n\ninstead of having them as buck targets? These scripts will simply do what they need to do every time they are invoked.",
+      "range": {
+        "startLine": 674,
+        "startChar": 11,
+        "endLine": 675,
+        "endChar": 47
+      },
+      "revId": "eefd35ee0f00e3fe5bedf692b2437cc57c2c8e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

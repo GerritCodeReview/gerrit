@@ -65,6 +65,53 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_16793ca8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-16T18:48:49Z",
+      "side": 1,
+      "message": "Do you plan to follow up with a change to make abandoned changes strikethrough?",
+      "range": {
+        "startLine": 305,
+        "startChar": 28,
+        "endLine": 305,
+        "endChar": 37
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_053752ec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-16T18:48:49Z",
+      "side": 1,
+      "message": "If you follow Edwin\u0027s other suggestion to make this return a Change.Status, this can be even simpler:\n\n if (info.status() !\u003d null \u0026\u0026 !info.status().isOpen())",
+      "parentUuid": "d9a1cc0d_4e17b375",
+      "range": {
+        "startLine": 305,
+        "startChar": 10,
+        "endLine": 305,
+        "endChar": 67
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9972f48f_5471ccd4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
         "patchSetId": 1

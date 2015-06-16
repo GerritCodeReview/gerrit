@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import static org.bouncycastle.openpgp.PGPSignature.CERTIFICATION_REVOCATION;
+import static org.bouncycastle.openpgp.PGPSignature.DEFAULT_CERTIFICATION;
+import static org.bouncycastle.openpgp.PGPSignature.POSITIVE_CERTIFICATION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -40,6 +43,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
+import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
@@ -52,6 +56,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -103,7 +108,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
       rejectInvalid(commands);
       return;
     }
-    PGPPublicKey key = readPublicKey(sig.getKeyID());
+    PGPPublicKey key = readPublicKey(sig.getKeyID(), cert.getPusherIdent());
     if (key == null) {
       msgOut.write("No valid public key found for ID "
           + keyIdToString(sig.getKeyID()) + "\n");
@@ -153,7 +158,8 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     return sig;
   }
 
-  private PGPPublicKey readPublicKey(long keyId) throws IOException {
+  private PGPPublicKey readPublicKey(long keyId,
+      PushCertificateIdent expectedIdent) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       Ref ref = repo.getRefDatabase().exactRef(RefNames.REFS_GPG_KEYS);
@@ -192,13 +198,77 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
             log.warn("Ignoring key with duplicate ID: {}", toString(key));
             continue;
           }
+          if (!verifyPublicKey(key, expectedIdent)) {
+            continue;
+          }
           matched = key;
         }
-        // TODO(dborowitz): Additional key verification, at least user ID
-        // signature.
         return matched;
       }
     }
+  }
+
+  private boolean verifyPublicKey(PGPPublicKey key,
+      PushCertificateIdent ident) {
+    if (key.isRevoked()) {
+      // TODO(dborowitz): isRevoked is overeager:
+      // http://www.bouncycastle.org/jira/browse/BJB-45
+      log.warn("Key is revoked: {}", toString(key));
+      return false;
+    } else if (key.getValidSeconds() == 0) {
+      log.warn("Key is expired: {}", toString(key));
+      return false;
+    }
+    return verifyPublicKeyCertifications(key, ident);
+  }
+
+  private boolean verifyPublicKeyCertifications(PGPPublicKey key,
+      PushCertificateIdent ident) {
+    @SuppressWarnings("unchecked")
+    Iterator<PGPSignature> sigs = key.getSignaturesForID(ident.getUserId());
+    if (sigs == null) {
+      sigs = Collections.emptyIterator();
+    }
+    boolean valid = false;
+    boolean revoked = false;
+    try {
+      while (sigs.hasNext()) {
+        PGPSignature sig = sigs.next();
+        if (sig.getKeyID() != key.getKeyID()) {
+          // TODO(dborowitz): Support certifications by other trusted keys?
+          continue;
+        } else if (sig.getSignatureType() != DEFAULT_CERTIFICATION
+            && sig.getSignatureType() != POSITIVE_CERTIFICATION
+            && sig.getSignatureType() != CERTIFICATION_REVOCATION) {
+          continue;
+        }
+        sig.init(new BcPGPContentVerifierBuilderProvider(), key);
+        if (sig.verifyCertification(ident.getUserId(), key)) {
+          if (sig.getSignatureType() == CERTIFICATION_REVOCATION) {
+            revoked = true;
+          } else {
+            valid = true;
+          }
+        } else {
+          log.warn("Invalid signature for pusher identity {} in key: {}",
+              ident.getUserId(), toString(key));
+        }
+      }
+    } catch (PGPException e) {
+      log.warn("Error in signature verification for public key", e);
+    }
+
+    if (revoked) {
+      log.warn("Pusher identity {} is revoked in key {}",
+          ident.getUserId(), toString(key));
+      return false;
+    } else if (!valid) {
+      log.warn(
+          "Key does not contain valid certification for pusher identity {}: {}",
+          ident.getUserId(), toString(key));
+      return false;
+    }
+    return true;
   }
 
   static ObjectId keyObjectId(long keyId) {

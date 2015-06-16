@@ -198,6 +198,30 @@
       "revId": "bb211f12c46bee078260541bd725d5e88021d719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_96d1ccf9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T22:07:50Z",
+      "side": 1,
+      "message": "So you\u0027re rather saying to remove setting the title here?",
+      "parentUuid": "9972f48f_5471ccd4",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 311,
+        "endChar": 9
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

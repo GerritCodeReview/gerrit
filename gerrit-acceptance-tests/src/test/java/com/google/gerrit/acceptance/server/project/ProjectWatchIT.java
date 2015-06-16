@@ -61,10 +61,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         .to("refs/for/master");
     r.assertOkStatus();
 
+    /* Commenting out the following push, as it is not needed to expose the
+       issue and it only makes logs longer
+
     r = pushFactory.create(db, admin.getIdent(), testRepo,
           "back to original subject", "a", "a3")
         .to("refs/for/master");
     r.assertOkStatus();
+     */
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);

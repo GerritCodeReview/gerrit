@@ -241,17 +241,22 @@ public class ChangeInserter {
       }
     }
 
+    log.info(Thread.currentThread().getId() + " Indexing: change:" + change.getId() + " patchSet:" + patchSet.getPatchSetId() + " setup");
     CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
     if (!messageIsForChange()) {
       commitMessageNotForChange();
     }
     f.checkedGet();
+    log.info(Thread.currentThread().getId() + " Indexing: change:" + change.getId() + " patchSet:" + patchSet.getPatchSetId() + " done");
 
     if (sendMail) {
       Runnable sender = new Runnable() {
         @Override
         public void run() {
           try {
+            log.info(Thread.currentThread().getId() + " Pause before sending email for change:" + change.getId() + " patchSet:" + patchSet.getPatchSetId() + " setup");
+            Thread.sleep(5000);
+            log.info(Thread.currentThread().getId() + " Pause before sending email for change:" + change.getId() + " patchSet:" + patchSet.getPatchSetId() + " done");
             CreateChangeSender cm =
                 createChangeSenderFactory.create(change.getId());
             cm.setFrom(change.getOwner());

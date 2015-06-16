@@ -56,6 +56,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
   protected static ChangeData newChangeData(EmailArguments ea, Change.Id id) {
+    log.info(Thread.currentThread().getId() + " Grabbing new change data for change " + id);
     return ea.changeDataFactory.create(ea.db.get(), id);
   }
 
@@ -312,7 +313,15 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected final Watchers getWatchers(NotifyType type) throws OrmException {
     ProjectWatch watch = new ProjectWatch(
         args, branch.getParentKey(), projectState, changeData);
-    return watch.getWatchers(type);
+    Watchers watchers = watch.getWatchers(type);
+    log.info(Thread.currentThread().getId() + " getWatchers:"
+        + " change:" + changeData.change().getChangeId()
+        + " patchSet:" + changeData.currentPatchSet().getPatchSetId()
+        + " NotifyType: " + type
+        + "  --> CC:" +watchers.cc.emails.size()
+        + ", To:" + watchers.to.emails.size()
+        + ", Bcc:" + watchers.bcc.emails.size());
+    return watchers;
   }
 
   /** Any user who has published comments on this change. */

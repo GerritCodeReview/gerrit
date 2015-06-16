@@ -2253,7 +2253,9 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
+      log.info(Thread.currentThread().getId() + " Indexing: change:" + change.getId() + " patchSet:" + newPatchSet.getPatchSetId() + " setup");
       indexer.index(db, change);
+      log.info(Thread.currentThread().getId() + " Indexing: change:" + change.getId() + " patchSet:" + newPatchSet.getPatchSetId() + " done");
       if (changeKind != ChangeKind.TRIVIAL_REBASE) {
         workQueue.getDefaultQueue()
             .submit(requestScopePropagator.wrap(new Runnable() {

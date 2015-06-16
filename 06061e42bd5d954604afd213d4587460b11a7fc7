@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_f633e020",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_76035041",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_25208ed1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "Nit: not entirely sure why this is \"r\" and not \"p\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 42,
+        "endLine": 30,
+        "endChar": 45
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_e5aaf68c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_25208ed1",
       "range": {
         "startLine": 30,
         "startChar": 42,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_963eecea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_5600d432",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 79
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_651a86a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 8
@@ -82,6 +154,24 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "Is this supposed to be included in equals()? You aren\u0027t including it in hashCode, which I think is fine as an optimization, but not sure about the correctness implications.",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_c5affa9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Removed the user from the change set and pass it as a separate parameter now.",
+      "parentUuid": "b9c5f8ce_651a86a1",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_7648707d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_45178a75",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_9630ac28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -116,6 +224,24 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "I think you should be able to loop over the project set rather than the branch set, which allows you to open each repo only once. But I might be missing something.",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_25952e48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll try that.\n\nMy original thinking was to iterate over each change so all changes are picked up definitely. (Though computational overhead to be sure)",
+      "parentUuid": "d91c6c21_9630ac28",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_164bfc7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "and document it. \n\nAny other merge strategy would submit all its ancestors if they\u0027re already in. but Cherry-pick doesn\u0027t care about its ancestors.",
+      "parentUuid": "d91c6c21_b62b28bb",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_f625a0e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -150,6 +294,24 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "I don\u0027t think this is true. What if your ChangeSet contains 2 dependent changes, one of which is a root?",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_364ef88b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "This is worded poorly. by `additional` changes I meant changes outside the current ChangeSet.\n\nIn the situation you describe, both changes being part of this ChangeSet, the other change would be picked up on its corresponding loop iteration.",
+      "parentUuid": "d91c6c21_f625a0e4",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_d6386400",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done\n\nI personally dislike all the inlining during development (so I can look at each variable more easily in the debugger), and later on I forget to squash it all together in one long line.",
+      "parentUuid": "b9c5f8ce_a552be3a",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_e55cb650",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -184,6 +364,24 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "A commit can be present in multiple projects (maybe even with different Change-Ids?). You need to also filter on project.\n\nThis is also a pretty inefficient use of the secondary index. You should be able to narrow this down to a single query by collecting the set of SHA-1s, then do a single query for \"project:p branch:b status:open (commit:A OR commit:B ...)\". (Query string for demonstration purposes only, this properly belongs as a method on InternalChangeQuery.)",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_c5241ab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "I have been thinking about this for a while actually and not found a convincing solution yet.\n\nSo why would you include status:open? It could be merged because of races.\n\nI am unsure about commit A or B, there should be only one?",
+      "parentUuid": "b9c5f8ce_e55cb650",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_e51f9661",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_8557c22a",
+      "range": {
+        "startLine": 362,
+        "startChar": 26,
+        "endLine": 362,
+        "endChar": 37
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_c561ba08",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -224,6 +446,24 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_f6812005",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_c561ba08",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -253,6 +493,30 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_852a2285",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "But you can abandon submitted changes or upload a new draft (which should not be merged unchecked)?\n\nSo at the moment we still have the submitted state, so there is still a moment of race windows.",
+      "parentUuid": "b9c5f8ce_6571e6d5",
+      "range": {
+        "startLine": 490,
+        "startChar": 7,
+        "endLine": 494,
+        "endChar": 83
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_161dbc97",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -264,6 +528,24 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_968c2c3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_161dbc97",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -287,6 +569,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_769fd067",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_d62a24b4",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_05647213",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -304,6 +604,24 @@
     },
     {
       "key": {
+        "uuid": "d91c6c21_569c5471",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_05647213",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_3620b8d1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -315,6 +633,30 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "This name seems odd. getCompleteListOfChanges returns a superset of changes, so this is submitting the input list of changes in addition to its dependents.",
+      "range": {
+        "startLine": 518,
+        "startChar": 6,
+        "endLine": 518,
+        "endChar": 22
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_b687a819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91c6c21_3620b8d1",
       "range": {
         "startLine": 518,
         "startChar": 6,
@@ -350,6 +692,30 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_a5259eb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_2567ee1b",
+      "range": {
+        "startLine": 520,
+        "startChar": 37,
+        "endLine": 520,
+        "endChar": 45
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_456e6af5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -367,6 +733,24 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_451aea77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1434,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c5f8ce_456e6af5",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91c6c21_761a30a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -378,6 +762,30 @@
       "writtenOn": "2015-06-15T15:29:44Z",
       "side": 1,
       "message": "The purpose of storing the timestamp in the log prefix originally is so that all the log entries for a single MergeOp run share the _same_ timestamp. In other words, the timestamp in the log message does not indicate \"this log message happened at time T\" (with a different T for each message), but rather \"this log message happened during the merge attempt which started at time T\" (with many log messages sharing the same T).",
+      "range": {
+        "startLine": 1461,
+        "startChar": 53,
+        "endLine": 1461,
+        "endChar": 67
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c5f8ce_651d666e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-16T18:32:42Z",
+      "side": 1,
+      "message": "So instead we could use the ChangeSet hash here and make it a final member variable.",
+      "parentUuid": "d91c6c21_761a30a1",
       "range": {
         "startLine": 1461,
         "startChar": 53,

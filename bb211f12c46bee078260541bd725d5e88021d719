@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9972f48f_1467541b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-16T08:39:06Z",
+      "side": 1,
+      "message": "This condition seems not to be the same as checking the status.\n\nI\u0027m a little confused under which condtion change number and revision number are not set, but looking at GetRelated [1] I see that in this case also status is not set. So I wonder, do we want a decoration if change number / revision number / status are not set?\n\n[1] https://gerrit-review.googlesource.com/#/c/68703/1/gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_5471ccd4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-16T08:39:06Z",
+      "side": 1,
+      "message": "Setting this title seems to be wrong now.\n\nLooking at the url() method in line 333 below we link to gitweb only if \n\n  (info.hasChangeNumber() \u0026\u0026 info.hasRevisionNumber())\n\nis NOT TRUE. This means we link to gitweb if the change number or the revision number was not set, but then also status was not set, was it? In reverse this means that whenever a status is set we now always link to the change screen (which is good), but then we shouldn\u0027t set the gitweb link name as title.",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 311,
+        "endChar": 9
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

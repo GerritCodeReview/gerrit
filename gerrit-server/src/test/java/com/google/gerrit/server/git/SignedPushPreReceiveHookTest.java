@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
-
 import static com.google.gerrit.server.git.SignedPushPreReceiveHook.keyIdToString;
 
 import org.bouncycastle.bcpg.ArmoredInputStream;

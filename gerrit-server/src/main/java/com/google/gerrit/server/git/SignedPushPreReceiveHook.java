@@ -40,6 +40,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
+import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
@@ -103,7 +104,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
       rejectInvalid(commands);
       return;
     }
-    PGPPublicKey key = readPublicKey(sig.getKeyID());
+    PGPPublicKey key = readPublicKey(sig.getKeyID(), cert.getPusherIdent());
     if (key == null) {
       msgOut.write("No valid public key found for ID "
           + keyIdToString(sig.getKeyID()) + "\n");
@@ -149,7 +150,8 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     return sig;
   }
 
-  private PGPPublicKey readPublicKey(long keyId) throws IOException {
+  private PGPPublicKey readPublicKey(long keyId,
+      PushCertificateIdent expectedIdent) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       Ref ref = repo.getRefDatabase().exactRef(RefNames.REFS_PUBLIC_KEYS);
@@ -188,13 +190,39 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
             log.warn("Ignoring key with duplicate ID: {}", toString(key));
             continue;
           }
+          if (!verifyPublicKey(key, expectedIdent)) {
+            continue;
+          }
           matched = key;
         }
-        // TODO(dborowitz): Additional key verification, at least user ID
-        // signature.
         return matched;
       }
     }
+  }
+
+  private boolean verifyPublicKey(PGPPublicKey key,
+      PushCertificateIdent ident) {
+    @SuppressWarnings("unchecked")
+    Iterator<PGPSignature> sigs = key.getSignaturesForID(ident.getUserId());
+    if (sigs != null) {
+      while (sigs.hasNext()) {
+        PGPSignature sig = sigs.next();
+        if (sig.getSignatureType() == PGPSignature.DEFAULT_CERTIFICATION
+            && sig.getKeyID() == key.getKeyID()) {
+          try {
+            sig.init(new BcPGPContentVerifierBuilderProvider(), key);
+            sig.verify();
+            return true;
+          } catch (PGPException e) {
+            log.warn("Failed signature verification for public key", e);
+          }
+        }
+      }
+    }
+    log.warn(
+        "Key does not contain default certification for pusher identity {}: {}",
+        ident.getUserId(), toString(key));
+    return false;
   }
 
   static ObjectId keyObjectId(long keyId) {

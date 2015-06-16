@@ -46,9 +46,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -155,7 +152,6 @@ public class MergeOp {
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final Submit submit;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
@@ -197,7 +193,6 @@ public class MergeOp {
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
       SchemaFactory<ReviewDb> schemaFactory,
-      Submit submit,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
@@ -221,7 +216,6 @@ public class MergeOp {
     this.projectCache = projectCache;
     this.queryProvider = queryProvider;
     this.schemaFactory = schemaFactory;
-    this.submit = submit;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
@@ -353,8 +347,7 @@ public class MergeOp {
             throw new MergeException("Unable to find dependency " + c.getId());
           } else if (destChanges.size() == 1) {
             Change chg = destChanges.get(0).change();
-            if (chg.getStatus() == Change.Status.NEW
-                || chg.getStatus() == Change.Status.SUBMITTED) {
+            if (chg.getStatus() == Change.Status.NEW) {
               ret.add(chg);
             }
           } else if (destChanges.size() > 1) {
@@ -469,33 +462,6 @@ public class MergeOp {
     }
   }
 
-  // For historic reasons we will first go into the submitted state
-  // TODO(sbeller): remove this when we get rid of Change.Status.SUBMITTED
-  private void submitAllChanges(ChangeSet cs)
-      throws OrmException, ResourceConflictException, IOException {
-    for (Change.Id id : cs.ids()) {
-      ChangeData cd = changeDataFactory.create(db, id);
-      switch (cd.change().getStatus()) {
-        case ABANDONED:
-          throw new ResourceConflictException("Change " + cd.getId() +
-              " was abandoned while processing this change set");
-        case DRAFT:
-          throw new ResourceConflictException("Cannot submit draft " + cd.getId());
-        case NEW:
-          RevisionResource rsrc =
-              new RevisionResource(new ChangeResource(cd.changeControl(), null),
-              cd.currentPatchSet());
-          logDebug("Submitting change id {}", cd.change().getId());
-          submit.submitThisChange(rsrc, caller, false);
-          break;
-        case MERGED:
-          // we're racing here, but having it already merged is fine.
-        case SUBMITTED:
-          // ok
-      }
-    }
-  }
-
   public void merge(boolean checkPermissions) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
     logDebug("Beginning merge of {}", changes);
@@ -503,7 +469,6 @@ public class MergeOp {
       openSchema();
       ChangeSet cs = getCompleteListOfChanges(changes);
       logDebug("Calculated to merge {}", cs);
-      submitAllChanges(cs);
       if (checkPermissions) {
         logDebug("Checking permissions");
         checkPermissions(cs);
@@ -705,10 +670,6 @@ public class MergeOp {
         throw new MergeException("Failed to validate changes", e);
       }
       Change.Id changeId = cd.getId();
-      if (chg.getStatus() != Change.Status.SUBMITTED) {
-        logDebug("Change {} is not submitted: {}", changeId, chg.getStatus());
-        continue;
-      }
       if (chg.currentPatchSetId() == null) {
         logError("Missing current patch set on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));

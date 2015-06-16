@@ -41,8 +41,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    submitStatusOnly(change2.getChangeId());
-    submitStatusOnly(change3.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
     submit(change4.getChangeId());
 
     List<RevCommit> log = getRemoteLog();

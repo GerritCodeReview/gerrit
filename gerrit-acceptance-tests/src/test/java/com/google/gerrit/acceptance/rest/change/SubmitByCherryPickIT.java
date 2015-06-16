@@ -162,8 +162,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    submitStatusOnly(change2.getChangeId());
-    submitStatusOnly(change3.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
     submit(change4.getChangeId());
 
     List<RevCommit> log = getRemoteLog();
@@ -244,7 +244,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change5 = createChange("Change 5", "e", "e");
 
     // Out of the above, only submit 3 and 5.
-    submitStatusOnly(change3.getChangeId());
+    approve(change3.getChangeId());
     submit(change5.getChangeId());
 
     ChangeInfo info3 = get(change3.getChangeId());
@@ -272,8 +272,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(change3.getCommit().getParent(0)).isEqualTo(initialHead);
     PushOneCommit.Result change4 = createChange("Change 3", "c", "c3");
 
-    submitStatusOnly(change3.getChangeId());
-    submitStatusOnly(change4.getChangeId());
+    approve(change3.getChangeId());
+    approve(change4.getChangeId());
 
     // Merge fails; change3 contains the delta "b1" -> "b2", which cannot be
     // applied against tip.

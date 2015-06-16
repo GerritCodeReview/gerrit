@@ -25,6 +25,46 @@
     },
     {
       "key": {
+        "uuid": "9972f48f_f4381800",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-16T08:46:49Z",
+      "side": 1,
+      "message": "maybe better:\n\n  final Change.Status status() {\n    String s \u003d statusRaw();\n    return s !\u003d null ? Change.Status.valueOf(s) : null;\n  }\n  private final native String statusRaw() /*-{ return this.status; }-*/;\n\n?",
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9a1cc0d_4e17b375",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-16T08:46:49Z",
+      "side": 1,
+      "message": "rather use change status contants: Change.Status.ABANDONED, Change.Status.MERGED",
+      "range": {
+        "startLine": 305,
+        "startChar": 10,
+        "endLine": 305,
+        "endChar": 67
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9972f48f_5471ccd4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
         "patchSetId": 1

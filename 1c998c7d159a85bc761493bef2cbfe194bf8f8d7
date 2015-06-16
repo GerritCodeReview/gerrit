@@ -68,6 +68,30 @@
       "revId": "1c998c7d159a85bc761493bef2cbfe194bf8f8d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_b457802a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4070,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-16T08:19:37Z",
+      "side": 1,
+      "message": "Ok, I see that change can be null and then status is not set.",
+      "parentUuid": "9972f48f_541aaca0",
+      "range": {
+        "startLine": 4070,
+        "startChar": 28,
+        "endLine": 4070,
+        "endChar": 36
+      },
+      "revId": "1c998c7d159a85bc761493bef2cbfe194bf8f8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

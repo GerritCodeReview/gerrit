@@ -93,7 +93,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     } else {
       if (!self.get().getCapabilities().canAdministrateServer()) {
         throw new AuthException("not allowed to set HTTP password directly, "
-            + "requires the Generate HTTP Password permission");
+            + "requires the Administrate Server permission");
       }
       newPassword = input.httpPassword;
     }

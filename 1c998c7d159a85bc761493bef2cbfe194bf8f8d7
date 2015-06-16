@@ -92,6 +92,23 @@
       "revId": "1c998c7d159a85bc761493bef2cbfe194bf8f8d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91c6c21_d686a41a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4073,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-16T18:25:12Z",
+      "side": 1,
+      "message": "I would just copy the documentation for this field from ChangeInfo. If you think it\u0027s not worth repeating the full list of statuses, move it to a section with a stable anchor.",
+      "revId": "1c998c7d159a85bc761493bef2cbfe194bf8f8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

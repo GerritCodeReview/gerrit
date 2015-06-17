@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b93898b1_8ddd0157",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-17T09:16:20Z",
+      "side": 1,
+      "message": "The optparse is deprecated [1] and is replaced by the argparse. At least for the new code we should use the argparse.\n\n[1] https://docs.python.org/2/library/optparse.html",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "aae01ffc487a1d814c659ce826bd966039a5eeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_14c11422",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-17T09:16:20Z",
+      "side": 1,
+      "message": "action is something we have to type each time, it is not optional. Therefore IMHO it should be an argument an not an option:\n\n  tools/maven/api install\n\nis preferable to:\n\n  tools/maven/api -a install",
+      "revId": "aae01ffc487a1d814c659ce826bd966039a5eeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

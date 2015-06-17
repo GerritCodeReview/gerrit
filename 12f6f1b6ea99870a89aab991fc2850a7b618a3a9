@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9c5f8ce_6590c61e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T15:35:20Z",
+      "side": 1,
+      "message": "Sure, but the purpose of this data structure is to look up the key used to sign a push certificate, and PGP signature packets only contain the 64-bit key ID, not the full key fingerprint.\n\nhttps://tools.ietf.org/html/rfc4880#section-5.2.2",
+      "parentUuid": "9972f48f_74b6c8c6",
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9a1cc0d_2e134766",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

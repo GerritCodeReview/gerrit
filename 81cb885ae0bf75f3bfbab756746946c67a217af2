@@ -16,6 +16,24 @@
       "revId": "81cb885ae0bf75f3bfbab756746946c67a217af2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0d962c_d7ef7cf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:22:57Z",
+      "side": 1,
+      "message": "Your comment made me go back to the JGit code and realize this format is not required. I\u0027ve rewritten this paragraph.",
+      "parentUuid": "9972f48f_9481a4d8",
+      "revId": "81cb885ae0bf75f3bfbab756746946c67a217af2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

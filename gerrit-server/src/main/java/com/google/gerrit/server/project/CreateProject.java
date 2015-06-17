@@ -214,7 +214,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     return Response.created(json.format(projectState));
   }
 
-  private ProjectState createProject(CreateProjectArgs args)
+  // TODO(dpursehouse): Add @UsedAt annotation
+  public ProjectState createProject(CreateProjectArgs args)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     final Project.NameKey nameKey = args.getProject();
     try {

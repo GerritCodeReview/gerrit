@@ -46,6 +46,15 @@
   width: 355px;
 }
 
+.strikedSubject {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 355px;
+  text-decoration: line-through;
+}
+
 .tabPanel .gwt-TabBarItem,
 .tabPanel .gwt-TabBarItem-selected,
 .tabPanel .gwt-TabBarRest {

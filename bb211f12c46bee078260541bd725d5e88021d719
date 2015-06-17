@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "9972f48f_34be10b1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-17T09:23:38Z",
+      "side": 1,
+      "message": "I think it\u0027s worth doing this. For changes that depend on an abandoned change we often get support questions why it is not getting merged although it is already submitted. Users are confused because from the change screen they cannot see that the predecessor change is abandoned (because MERGED and ABANDONED changes are decorated the same way). To find that the predecessor change is abandoned you would need to navigate to it (or check the tooltip which is introduced with this change).",
+      "parentUuid": "d91c6c21_5631f4f3",
+      "range": {
+        "startLine": 305,
+        "startChar": 28,
+        "endLine": 305,
+        "endChar": 37
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9972f48f_5471ccd4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
         "patchSetId": 1
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "So you\u0027re rather saying to remove setting the title here?",
       "parentUuid": "9972f48f_5471ccd4",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 311,
+        "endChar": 9
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972f48f_54cb8c41",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-17T09:23:38Z",
+      "side": 1,
+      "message": "In case of a MERGED/ABANDONED change we should set another title, e.g. the change status as you have done it already in the latest patch set.\n\nShould we still set the gitweb link name as title in case change number, revision number and status are null? At least in this case the url() method is linking to gitweb and the title should be consistent with the link, shouldn\u0027t it?",
+      "parentUuid": "d91c6c21_96d1ccf9",
       "range": {
         "startLine": 309,
         "startChar": 8,

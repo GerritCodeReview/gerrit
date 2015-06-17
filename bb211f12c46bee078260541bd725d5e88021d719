@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe0d962c_57bb6c13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-17T20:14:05Z",
+      "side": 1,
+      "message": "So you mean we keep this condition for this block and add a new block with a new condition for the regular abandoned/merged case?",
+      "parentUuid": "9972f48f_1467541b",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9972f48f_f4381800",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
         "patchSetId": 1

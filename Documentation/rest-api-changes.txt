@@ -2219,6 +2219,7 @@ describing the related changes.
         "_change_number": 58478,
         "_revision_number": 2,
         "_current_revision_number": 2
+        "status": "NEW"
       },
       {
         "change_id": "I5e4fc08ce34d33c090c9e0bf320de1b17309f774",
@@ -2240,6 +2241,7 @@ describing the related changes.
         "_change_number": 58081,
         "_revision_number": 10,
         "_current_revision_number": 10
+        "status": "NEW"
       }
     ]
   }
@@ -4065,6 +4067,8 @@ link:#commit-info[CommitInfo] entity.
 |`_change_number`          |optional|The change number.
 |`_revision_number`        |optional|The revision number.
 |`_current_revision_number`|optional|The current revision number.
+|`status`                  |optional|The status of the change. The status of
+the change is one of (`NEW`, `SUBMITTED`, `MERGED`, `ABANDONED`, `DRAFT`).
 |===========================
 
 [[related-changes-info]]

@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe0d962c_57e48c21",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:17:57Z",
+      "side": 1,
+      "message": "The changes to this section seem like they belong in the parent change.",
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e0b4a19_38d90966",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:17:57Z",
+      "side": 1,
+      "message": "Subject",
+      "range": {
+        "startLine": 547,
+        "startChar": 40,
+        "endLine": 547,
+        "endChar": 47
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e0b4a19_58e4bd21",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:17:57Z",
+      "side": 1,
+      "message": "Strikethrough",
+      "range": {
+        "startLine": 547,
+        "startChar": 32,
+        "endLine": 547,
+        "endChar": 39
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e0b4a19_78df814d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:17:57Z",
+      "side": 1,
+      "message": "s/then //",
+      "range": {
+        "startLine": 549,
+        "startChar": 30,
+        "endLine": 549,
+        "endChar": 36
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e0b4a19_f8f271e4",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:17:57Z",
+      "side": 1,
+      "message": "This comment only makes sense if you understand the history of the black dot. Someone coming to this document for the first time need not know that these cases used to be represented the same way. It might be appropriate in the commit message but I don\u0027t think you need it here.",
+      "range": {
+        "startLine": 550,
+        "startChar": 9,
+        "endLine": 551,
+        "endChar": 8
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e0b4a19_d8efadf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:17:57Z",
+      "side": 1,
+      "message": "Reference equality works for enum values:\n\n info.status() \u003d\u003d Change.Status.ABANDONED",
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

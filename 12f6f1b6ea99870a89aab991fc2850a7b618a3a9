@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9972f48f_74b6c8c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-06-17T15:03:05Z",
+      "side": 1,
+      "message": "are you aware that pgp key ids are just shortened key fingerprints?",
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9a1cc0d_2e134766",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

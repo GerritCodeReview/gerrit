@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9972f48f_f4dbb814",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4070,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-17T09:06:06Z",
+      "side": 1,
+      "message": "I would remove this link. I find it rather confusing that \u0027status\u0027 links to the description of the whole ChangeInfo entity.",
+      "range": {
+        "startLine": 4070,
+        "startChar": 41,
+        "endLine": 4070,
+        "endChar": 66
+      },
+      "revId": "a38c92631ab29b2fbb5e87e3fb03d47c3651268f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b93898b1_edc5a57f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4074,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-17T09:06:06Z",
+      "side": 1,
+      "message": "Move this to the description of the \u0027status\u0027 field?",
+      "range": {
+        "startLine": 4073,
+        "startChar": 0,
+        "endLine": 4074,
+        "endChar": 9
+      },
+      "revId": "a38c92631ab29b2fbb5e87e3fb03d47c3651268f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

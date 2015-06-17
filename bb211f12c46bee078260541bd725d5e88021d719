@@ -294,6 +294,30 @@
       "revId": "bb211f12c46bee078260541bd725d5e88021d719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b93898b1_cd5c6951",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-17T17:07:54Z",
+      "side": 1,
+      "message": "\u003e The title is the text you see when hovering the mouse \n \u003e over the symbol, so I think MERGED/ABANDONED are fine.\n\nThis title is only set if\n  info.status() !\u003d null\n\nWhat is the title if\n  info.status() \u003d\u003d null\n?",
+      "parentUuid": "b9c5f8ce_e572f68d",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 311,
+        "endChar": 9
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

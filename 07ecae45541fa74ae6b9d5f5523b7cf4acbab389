@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9972f48f_345a9001",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/related_changes.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-17T17:43:07Z",
+      "side": 1,
+      "message": "[optional] write this as:\n\n  .subject,\n  .strikedSubject {\n    display: inline-block;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    width: 355px;\n  }\n\n  .strikedSubject {\n    text-decoration: line-through;\n  }",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 1
+      },
+      "revId": "07ecae45541fa74ae6b9d5f5523b7cf4acbab389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

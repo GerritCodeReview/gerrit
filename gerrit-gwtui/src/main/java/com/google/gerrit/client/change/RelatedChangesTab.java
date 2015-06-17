@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.config.GitwebInfo;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -280,7 +281,12 @@ class RelatedChangesTab implements IsWidget {
       sb.append(POINTER_HTML);
       sb.closeSpan();
 
-      sb.openSpan().setStyleName(RelatedChanges.R.css().subject());
+
+      if (info.status() != null && info.status().equals(Change.Status.ABANDONED)) {
+        sb.openSpan().setStyleName(RelatedChanges.R.css().strikedSubject());
+      } else {
+        sb.openSpan().setStyleName(RelatedChanges.R.css().subject());
+      }
       String url = url();
       if (url != null) {
         sb.openAnchor().setAttribute("href", url);

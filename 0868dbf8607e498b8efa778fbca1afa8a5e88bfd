@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe0d962c_17de144e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-17T21:18:38Z",
+      "side": 1,
+      "message": "Fixed to work with new PushCertificateIdent.",
+      "revId": "0868dbf8607e498b8efa778fbca1afa8a5e88bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

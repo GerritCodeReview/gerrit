@@ -121,7 +121,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
         : Response.ok(newPassword);
   }
 
-  private static String generate() {
+  public static String generate() {
     byte[] rand = new byte[LEN];
     rng.nextBytes(rand);
 

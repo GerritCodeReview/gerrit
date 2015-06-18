@@ -20,11 +20,13 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -52,6 +54,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
@@ -93,6 +96,7 @@ import com.jcraft.jsch.HostKey;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -104,7 +108,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -189,6 +192,7 @@ public class MergeOp {
   private MergeTip mergeTip;
   private ObjectInserter inserter;
   private PersonIdent refLogIdent;
+  private Config cfg;
 
   @Inject
   MergeOp(AccountCache accountCache,
@@ -201,6 +205,7 @@ public class MergeOp {
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
       ChangeUpdate.Factory updateFactory,
+      @GerritServerConfig Config cfg,
       GitReferenceUpdated gitRefUpdated,
       GitRepositoryManager repoManager,
       IdentifiedUser.GenericFactory identifiedUserFactory,
@@ -227,6 +232,7 @@ public class MergeOp {
     this.cmUtil = cmUtil;
     this.notesFactory = notesFactory;
     this.updateFactory = updateFactory;
+    this.cfg = cfg;
     this.gitRefUpdated = gitRefUpdated;
     this.repoManager = repoManager;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -333,50 +339,55 @@ public class MergeOp {
       MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException, MergeException, NoSuchProjectException {
 
-    List<Change> ret = Lists.newArrayList();
-    for (Change.Id cId : cs.ids()) {
+    Set<Change> ret = Sets.newHashSet();
+
+    for (Project.NameKey project : cs.repos()) {
       try {
-        ChangeData cd = changeDataFactory.create(db, cId);
-        openRepository(cd.change());
-        if (getSubmitType(cd.changeControl(), cd.currentPatchSet())
-            == SubmitType.CHERRY_PICK) {
-          ret.add(cd.change());
-          continue;
-        }
+        openRepository(project);
+        for (Change.Id cId : cs.idByProject().get(project)) {
+          ChangeData cd = changeDataFactory.create(db, cId);
 
-        // Get the underlying git commit object
-        PatchSet ps = cd.currentPatchSet();
-        String objIdStr = ps.getRevision().get();
-        RevCommit commit = rw.parseCommit(ObjectId.fromString(objIdStr));
+          if (getSubmitType(cd.changeControl(), cd.currentPatchSet())
+              == SubmitType.CHERRY_PICK) {
+            ret.add(cd.change());
+            continue;
+          }
 
-        // Get the common ancestor with target branch
-        Branch.NameKey destBranch = cd.change().getDest();
-        repo.getRefDatabase().refresh();
-        Ref ref = repo.getRefDatabase().getRef(destBranch.get());
-        if (ref == null) {
-          ret.add(cd.change());
-          // A new empty branch doesn't have additional changes
-          continue;
-        }
+          // Get the underlying git commit object
+          PatchSet ps = cd.currentPatchSet();
+          String objIdStr = ps.getRevision().get();
+          RevCommit commit = rw.parseCommit(ObjectId.fromString(objIdStr));
 
-        rw.markStart(commit);
-        RevCommit head = rw.parseCommit(ref.getObjectId());
-        rw.markUninteresting(head);
+          // Get the common ancestor with target branch
+          Branch.NameKey destBranch = cd.change().getDest();
+          repo.getRefDatabase().refresh();
+          Ref ref = repo.getRefDatabase().getRef(destBranch.get());
+          if (ref == null) {
+            ret.add(cd.change());
+            // A new empty branch doesn't have additional changes
+            continue;
+          }
 
-        for (RevCommit c : rw) {
-          List<ChangeData> destChanges = queryProvider.get()
-            .byCommit(c);
+          rw.markStart(commit);
+          RevCommit head = rw.parseCommit(ref.getObjectId());
+          rw.markUninteresting(head);
 
-          if (destChanges.size() == 0) {
-            throw new MergeException("Unable to find dependency " + c.getId());
-          } else if (destChanges.size() == 1) {
-            Change chg = destChanges.get(0).change();
-            if (chg.getStatus() == Change.Status.NEW
-                || chg.getStatus() == Change.Status.SUBMITTED) {
-              ret.add(chg);
+          List<String> hashes = new ArrayList<>();
+          for (RevCommit c : rw) {
+            hashes.add(c.name());
+          }
+
+          if (!hashes.isEmpty()) {
+            List<ChangeData> destChanges = queryProvider.get()
+                .byBranchList(cd.change().getDest(), hashes);
+
+            for (ChangeData chd : destChanges) {
+              Change chg = chd.change();
+              if (chg.getStatus() == Change.Status.NEW
+                  || chg.getStatus() == Change.Status.SUBMITTED) {
+                ret.add(chg);
+              }
             }
-          } else if (destChanges.size() > 1) {
-            throw new MergeException("More than one commit having the same SHA1? " + c.getId());
           }
         }
       } finally {
@@ -390,6 +401,35 @@ public class MergeOp {
     }
 
     return ChangeSet.create(ret);
+  }
+
+  private ChangeSet getCompleteListOfChangesWithTopicSpread(ChangeSet cs)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
+      OrmException, MergeException, NoSuchProjectException {
+    Set<Change> cds = new HashSet<>();
+    boolean done = false;
+    boolean firstRun = true;
+    ChangeSet newCs = getCompleteListOfChanges(cs);
+    while (!done) {
+      cds = new HashSet<>();
+      done = true;
+      for (Change.Id cId : newCs.ids()) {
+        ChangeData cd = changeDataFactory.create(db, cId);
+        if (firstRun) {
+          cds.add(cd.change());
+        }
+        String topic = cd.change().getTopic();
+        if (!Strings.isNullOrEmpty(topic) && !newCs.topics().contains(topic)) {
+          for (ChangeData addCd : queryProvider.get().byTopicOpen(topic)) {
+            cds.add(addCd.change());
+          }
+          done = false;
+        }
+      }
+      firstRun = false;
+      newCs = getCompleteListOfChanges(ChangeSet.create(cds));
+    }
+    return ChangeSet.create(cds);
   }
 
   private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
@@ -504,7 +544,7 @@ public class MergeOp {
               new RevisionResource(new ChangeResource(cd.changeControl(), null),
               cd.currentPatchSet());
           logDebug("Submitting change id {}", cd.change().getId());
-          submit.submitThisChange(rsrc, caller, false);
+          submit.submit(rsrc, caller, false);
           break;
         case MERGED:
           // we're racing here, but having it already merged is fine.
@@ -519,7 +559,12 @@ public class MergeOp {
     logDebug("Beginning merge of {}", changes);
     try {
       openSchema();
-      ChangeSet cs = getCompleteListOfChanges(changes);
+      ChangeSet cs;
+      if (Submit.wholeTopicEnabled(cfg)) {
+        cs = getCompleteListOfChangesWithTopicSpread(changes);
+      } else {
+        cs = getCompleteListOfChanges(changes);
+      }
       logDebug("Calculated to merge {}", cs);
       submitAllChanges(cs);
       if (checkPermissions) {
@@ -550,7 +595,7 @@ public class MergeOp {
       for (Change.Id cId : cs.ids()) {
         ChangeData cd = changeDataFactory.create(db, cId);
         Change c = cd.change();
-        openRepository(c);
+        openRepository(c.getProject());
 
         Branch.NameKey destBranch = c.getDest();
         setDestProject(destBranch);
@@ -629,8 +674,8 @@ public class MergeOp {
         canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
   }
 
-  private void openRepository(Change c) throws MergeException, NoSuchProjectException {
-    Project.NameKey name = c.getDest().getParentKey();
+  private void openRepository(Project.NameKey name)
+      throws MergeException, NoSuchProjectException {
     try {
       repo = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException notFound) {

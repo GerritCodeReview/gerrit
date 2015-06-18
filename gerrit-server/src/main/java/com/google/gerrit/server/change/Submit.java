@@ -397,7 +397,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  public Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
+  private Change submitThisChange(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
     ReviewDb db = dbProvider.get();
@@ -687,7 +687,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 
-  static boolean wholeTopicEnabled(Config config) {
+  public static boolean wholeTopicEnabled(Config config) {
     return config.getBoolean("change", null, "submitWholeTopic" , false);
   }
 

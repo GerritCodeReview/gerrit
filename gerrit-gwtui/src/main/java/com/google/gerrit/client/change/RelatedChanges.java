@@ -59,6 +59,7 @@ public class RelatedChanges extends TabPanel {
     String pointer();
     String row();
     String subject();
+    String strikedSubject();
     String submittable();
     String tabPanel();
   }

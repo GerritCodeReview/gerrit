@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9ea81a5d_84d3e64a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:44:59Z",
+      "side": 1,
+      "message": "Umm probably I fail at bouncycastle. Will figure this out.",
+      "parentUuid": "1e3a6af6_60c5d27f",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e3a6af6_80c0d671",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
         "patchSetId": 4
@@ -153,6 +177,24 @@
       "writtenOn": "2015-06-18T17:38:22Z",
       "side": 1,
       "message": "So leading 0\u0027s are collapsed within each 4 character run?",
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6916e5_37ded84e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:44:59Z",
+      "side": 1,
+      "message": "Obviously I was trying too hard to avoid writing String.format. %04X does exactly what I want.",
+      "parentUuid": "3e33ae21_a1c6be88",
       "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

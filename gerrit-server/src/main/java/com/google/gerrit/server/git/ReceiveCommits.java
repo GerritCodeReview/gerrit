@@ -65,6 +65,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -258,17 +259,14 @@ public class ReceiveCommits {
     }
   }
 
-  private static final Function<Exception, InsertException> INSERT_EXCEPTION =
-      new Function<Exception, InsertException>() {
+  private static final Function<Exception, RestApiException> INSERT_EXCEPTION =
+      new Function<Exception, RestApiException>() {
         @Override
-        public InsertException apply(Exception input) {
-          if (input instanceof OrmException) {
-            return new InsertException("ORM error", input);
+        public RestApiException apply(Exception input) {
+          if (input instanceof RestApiException) {
+            return (RestApiException) input;
           }
-          if (input instanceof IOException) {
-            return new InsertException("IO error", input);
-          }
-          return new InsertException("Error inserting change/patchset", input);
+          return new RestApiException("Error inserting change/patchset", input);
         }
       };
 
@@ -736,7 +734,7 @@ public class ReceiveCommits {
           if (replace.insertPatchSet().checkedGet() != null) {
             replace.inputCommand.setResult(OK);
           }
-        } catch (IOException | InsertException err) {
+        } catch (IOException | RestApiException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
               "Cannot add patch set to %d of %s",
@@ -785,7 +783,7 @@ public class ReceiveCommits {
     }
 
     try {
-      List<CheckedFuture<?, InsertException>> futures = Lists.newArrayList();
+      List<CheckedFuture<?, RestApiException>> futures = Lists.newArrayList();
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
           futures.add(replace.insertPatchSet());
@@ -800,13 +798,19 @@ public class ReceiveCommits {
         futures.add(update.updateGroups());
       }
 
-      for (CheckedFuture<?, InsertException> f : futures) {
+      for (CheckedFuture<?, RestApiException> f : futures) {
         f.checkedGet();
       }
       magicBranch.cmd.setResult(OK);
-    } catch (InsertException err) {
-      log.error("Can't insert change/patchset for " + project.getName(), err);
-      reject(magicBranch.cmd, "internal server error");
+    } catch (RestApiException err) {
+      log.error("Can't insert change/patchset for " + project.getName()
+          + ". " + err.getMessage(), err);
+
+      String rejection = "internal server error";
+      if (err.getCause() != null) {
+        rejection += ": " + err.getCause().getMessage();
+      }
+      reject(magicBranch.cmd, rejection);
     } catch (IOException err) {
       log.error("Can't read commits for " + project.getName(), err);
       reject(magicBranch.cmd, "internal server error");
@@ -1703,14 +1707,15 @@ public class ReceiveCommits {
           ins.getPatchSet().getRefName());
     }
 
-    CheckedFuture<Void, InsertException> insertChange() throws IOException {
+    CheckedFuture<Void, RestApiException> insertChange() throws IOException {
       rp.getRevWalk().parseBody(commit);
 
       final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
-        public Void call() throws OrmException, IOException {
+        public Void call() throws OrmException, IOException,
+            ResourceConflictException {
           if (caller == Thread.currentThread()) {
             insertChange(db);
           } else {
@@ -1727,7 +1732,8 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChange(ReviewDb db) throws OrmException, IOException {
+    private void insertChange(ReviewDb db) throws OrmException, IOException,
+        ResourceConflictException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
@@ -1763,7 +1769,7 @@ public class ReceiveCommits {
   }
 
   private void submit(ChangeControl changeCtl, PatchSet ps)
-      throws OrmException, IOException{
+      throws OrmException, IOException, ResourceConflictException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     List<Change> changes;
@@ -1773,13 +1779,14 @@ public class ReceiveCommits {
     } catch (ResourceConflictException e) {
       throw new IOException(e);
     }
+    try {
+      mergeFactory.create(ChangeSet.create(changes),
+          (IdentifiedUser) changeCtl.getCurrentUser()).merge(false);
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
     addMessage("");
     for (Change c : changes) {
-      try {
-        mergeFactory.create(c.getDest()).merge();
-      } catch (MergeException | NoSuchChangeException e) {
-        throw new OrmException(e);
-      }
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
         case SUBMITTED:
@@ -2074,7 +2081,7 @@ public class ReceiveCommits {
           newPatchSet.getRefName());
     }
 
-    CheckedFuture<PatchSet.Id, InsertException> insertPatchSet()
+    CheckedFuture<PatchSet.Id, RestApiException> insertPatchSet()
         throws IOException {
       rp.getRevWalk().parseBody(newCommit);
 
@@ -2082,7 +2089,8 @@ public class ReceiveCommits {
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
-        public PatchSet.Id call() throws OrmException, IOException, NoSuchChangeException {
+        public PatchSet.Id call() throws OrmException, IOException,
+            NoSuchChangeException, ResourceConflictException {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
@@ -2133,7 +2141,8 @@ public class ReceiveCommits {
       return newPatchSet.getId();
     }
 
-    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {
+    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException,
+        ResourceConflictException {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -2331,7 +2340,7 @@ public class ReceiveCommits {
       }
     }
 
-    CheckedFuture<Void, InsertException> updateGroups() {
+    CheckedFuture<Void, RestApiException> updateGroups() {
       final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
@@ -2590,7 +2599,7 @@ public class ReceiveCommits {
           new ArrayList<Change>(),
           new HashMap<Change.Id, CodeReviewCommit>(),
           currentUser.getAccount()).update();
-    } catch (InsertException e) {
+    } catch (RestApiException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException | OrmException e) {
       log.error("Can't scan for changes to close", e);

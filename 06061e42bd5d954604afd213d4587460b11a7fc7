@@ -318,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "5e306212_c2c9429b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "Ok, then s/additional changes/changes outside this ChangeSet/ in the comment.",
+      "parentUuid": "d91c6c21_364ef88b",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_a552be3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -353,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "7ea36680_e3c6528a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "Not inlining is fine if you think that makes the code clearer. My main (still minor) objection is to reusing the same variable.",
+      "parentUuid": "d91c6c21_d6386400",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c5f8ce_e55cb650",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -382,6 +418,24 @@
       "side": 1,
       "message": "I have been thinking about this for a while actually and not found a convincing solution yet.\n\nSo why would you include status:open? It could be merged because of races.\n\nI am unsure about commit A or B, there should be only one?",
       "parentUuid": "b9c5f8ce_e55cb650",
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea36680_83d3de4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "\u003e So why would you include status:open? It could be merged because of races.\n\nGood point, ok to drop status:open.\n\n\u003e I am unsure about commit A or B, there should be only one?\n\nOne per change, but I\u0027m talking about multiple changes here. I think you got it by collecting the hashes list.",
+      "parentUuid": "b9c5f8ce_c5241ab9",
       "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -505,6 +559,30 @@
       "side": 1,
       "message": "But you can abandon submitted changes or upload a new draft (which should not be merged unchecked)?\n\nSo at the moment we still have the submitted state, so there is still a moment of race windows.",
       "parentUuid": "b9c5f8ce_6571e6d5",
+      "range": {
+        "startLine": 490,
+        "startChar": 7,
+        "endLine": 494,
+        "endChar": 83
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e306212_e2d0c63f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "I know we still have the submitted state. I just think these particular blocks have no effect. submit.submit already has these exact checks.",
+      "parentUuid": "b9c5f8ce_852a2285",
       "range": {
         "startLine": 490,
         "startChar": 7,
@@ -786,6 +864,30 @@
       "side": 1,
       "message": "So instead we could use the ChangeSet hash here and make it a final member variable.",
       "parentUuid": "d91c6c21_761a30a1",
+      "range": {
+        "startLine": 1461,
+        "startChar": 53,
+        "endLine": 1461,
+        "endChar": 67
+      },
+      "revId": "06061e42bd5d954604afd213d4587460b11a7fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e306212_42dff24c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "Yeah, we just need something unique so we can correlate the log entries. You just need to make sure there is a log entry somewhere with this prefix explaining what\u0027s in the change set.",
+      "parentUuid": "b9c5f8ce_651d666e",
       "range": {
         "startLine": 1461,
         "startChar": 53,

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ea36680_c3c9d69a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "Optional: byProject",
+      "range": {
+        "startLine": 75,
+        "startChar": 73,
+        "endLine": 75,
+        "endChar": 84
+      },
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea36680_23c54a80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "ImmutableSetMultimap. This will also make the code in create() much simpler.",
+      "range": {
+        "startLine": 75,
+        "startChar": 18,
+        "endLine": 75,
+        "endChar": 73
+      },
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e306212_a2c6be88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "If we find a change that is not new/submitted/merged, can we short-circuit the whole merge operation?",
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e306212_62de764f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "I think this method and getCompleteListOfChanges should be factored out into a utility class with tests. It should be straightforward to come up with some test (input, output) pairs.",
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e306212_02d4ca31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "Change does not implement hashCode so a HashMap is not appropriate.\n\nI think it\u0027s ok to just make this a List; ChangeSet.create will deduplicate for you.",
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea36680_43df264d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "This sounds like it would take a list of branches, which it doesn\u0027t. How about \"byBranchAndCommits\" or \"byCommitsOnBranch\"",
+      "range": {
+        "startLine": 129,
+        "startChar": 26,
+        "endLine": 129,
+        "endChar": 38
+      },
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e306212_c2f2e2e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T17:03:13Z",
+      "side": 1,
+      "message": "Missing project(branch.getParentKey()); see byBranchOpen",
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

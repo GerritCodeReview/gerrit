@@ -21,6 +21,7 @@ public class NoSuchProjectException extends Exception {
   private static final long serialVersionUID = 1L;
 
   private static final String MESSAGE = "Project not found: ";
+  private final Project.NameKey project;
 
   public NoSuchProjectException(final Project.NameKey key) {
     this(key, null);
@@ -28,5 +29,10 @@ public class NoSuchProjectException extends Exception {
 
   public NoSuchProjectException(final Project.NameKey key, final Throwable why) {
     super(MESSAGE + key.toString(), why);
+    project = key;
+  }
+
+  public Project.NameKey project() {
+    return project;
   }
 }

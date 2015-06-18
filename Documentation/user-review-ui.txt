@@ -544,6 +544,11 @@ the commit was done on `branch-a`, but was then pushed to
 `refs/for/branch-b`.
 A black dot is also present if the change was abandoned.
 
+** [[closed-ancestor-abandoned]]Strikethrough Subject:
++
+When the commit is abandoned, its subject line will be striked
+through.
+
 +
 image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
 

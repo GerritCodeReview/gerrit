@@ -75,6 +75,7 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
@@ -232,6 +233,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(MergeOp.Factory.class);
     factory(SubmoduleOp.Factory.class);
+    factory(MergeSuperSet.Factory.class);
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(ChangeControl.GenericFactory.class);

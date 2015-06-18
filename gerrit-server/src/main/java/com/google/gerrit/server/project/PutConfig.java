@@ -239,7 +239,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           if (Strings.emptyToNull(value) != null) {
             if (!value.equals(oldValue)) {
               validateProjectConfigEntryIsEditable(projectConfigEntry,
-                  projectState, e.getKey(), pluginName);
+                  projectState, v.getKey(), pluginName);
               v.setValue(projectConfigEntry.preUpdate(v.getValue()));
               value = v.getValue().value;
               try {
@@ -283,7 +283,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           } else {
             if (oldValue != null) {
               validateProjectConfigEntryIsEditable(projectConfigEntry,
-                  projectState, e.getKey(), pluginName);
+                  projectState, v.getKey(), pluginName);
               cfg.unset(v.getKey());
             }
           }

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "de43727f_1ebb8d14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T19:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ea36680_c3c9d69a",
+      "range": {
+        "startLine": 75,
+        "startChar": 73,
+        "endLine": 75,
+        "endChar": 84
+      },
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_9fc67389",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T19:51:51Z",
+      "side": 1,
+      "message": "I am not sure how this helps, as the ImmutableSetMultimap doesn\u0027t have a `contains` or `add`. It only has a put, which adds a new key-value pair, but there is no function to add a value to the set of an existing key.",
+      "parentUuid": "7ea36680_23c54a80",
+      "range": {
+        "startLine": 75,
+        "startChar": 18,
+        "endLine": 75,
+        "endChar": 73
+      },
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e306212_a2c6be88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 11
@@ -122,6 +170,30 @@
     },
     {
       "key": {
+        "uuid": "fe3cb6f3_bfc9b79b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T19:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ea36680_43df264d",
+      "range": {
+        "startLine": 129,
+        "startChar": 26,
+        "endLine": 129,
+        "endChar": 38
+      },
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e306212_c2f2e2e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 11
@@ -133,6 +205,24 @@
       "writtenOn": "2015-06-18T17:03:13Z",
       "side": 1,
       "message": "Missing project(branch.getParentKey()); see byBranchOpen",
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_5fc50b7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T19:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e306212_c2f2e2e4",
       "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

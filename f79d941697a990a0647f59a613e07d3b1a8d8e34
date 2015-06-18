@@ -16,6 +16,24 @@
       "revId": "f79d941697a990a0647f59a613e07d3b1a8d8e34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea36680_63bb4214",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T14:03:38Z",
+      "side": 1,
+      "message": "Right, that\u0027s exactly where we\u0027re going with this :)\n\nThe backend verification stuff is just getting written before the frontend UI.",
+      "parentUuid": "fe6916e5_d7c99c9a",
+      "revId": "f79d941697a990a0647f59a613e07d3b1a8d8e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

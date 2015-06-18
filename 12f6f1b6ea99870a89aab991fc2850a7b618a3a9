@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7ea36680_43b6462f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T13:50:39Z",
+      "side": 1,
+      "message": "You\u0027re right that there is a correctness issue in that we have to deal with multiple keys having the same key ID. There is currently a TODO in the code about this.\n\nAFAIK every OpenPGP implementation has to deal with this same issue. If you\u0027re trying to verify a signature, literally the only thing you have in the signature which tells you who signed it is the key ID. So you have to look up all the keys with that key ID and try them all to see which one produced that signature. It\u0027s a hashtable lookup, essentially.\n\nIf all entries in the note map were full key IDs, we wouldn\u0027t be able to do this lookup in constant time. It would have to be either:\n\n* a linear scan of all keys, which is unacceptable performance\n* indirection through an entry using the padded key ID to find the full fingerprint, which is unnecessary complexity\n\nNote also that it is possible to create multiple keys with the same fingerprint[1]. So even if the filenames in the note map were full fingerprints, we would still have to deal with the case where multiple matching keys are stored in the map.\n\n[1] http://www.pgp.net/pgpnet/pgp-faq/pgp-faq-keys.html#key-public-key-forgery",
+      "parentUuid": "de80d2c6_b6d0a83e",
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9a1cc0d_2e134766",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

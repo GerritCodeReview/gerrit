@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.or;
+import static com.google.gerrit.server.query.Predicate.not;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.gerrit.common.Nullable;
@@ -124,6 +125,19 @@ public class InternalChangeQuery {
         ref(branch),
         project(branch.getParentKey()),
         open()));
+  }
+
+  public List<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
+      List<String> hashes) throws OrmException {
+    List<Predicate<ChangeData>> commits = new ArrayList<>();
+    for (String s : hashes) {
+      commits.add(commit(AbbreviatedObjectId.fromString(s)));
+    }
+    return query(and(
+        ref(branch),
+        project(branch.getParentKey()),
+        not(status(Change.Status.MERGED)),
+        or(commits)));
   }
 
   public List<ChangeData> byProjectOpen(Project.NameKey project)

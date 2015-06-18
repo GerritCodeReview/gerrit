@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fe6916e5_57b6ec2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-18T04:12:10Z",
+      "side": 1,
+      "message": "Yes, I think we need the old block in addition to the new one as long as info.status() can be null.",
+      "parentUuid": "fe0d962c_57bb6c13",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "bb211f12c46bee078260541bd725d5e88021d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9972f48f_f4381800",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
         "patchSetId": 1

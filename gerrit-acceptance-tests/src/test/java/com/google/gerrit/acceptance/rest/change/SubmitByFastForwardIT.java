@@ -44,6 +44,33 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
+  public void submitTwoChangesWithFastForward() throws Exception {
+    PushOneCommit.Result change = createChange();
+    PushOneCommit.Result change2 = createChange();
+
+    approve(change.getChangeId());
+    submit(change2.getChangeId());
+
+    RevCommit head = getRemoteHead();
+    assertThat(head.getId()).isEqualTo(change2.getCommitId());
+    assertThat(head.getParent(0).getId()).isEqualTo(change.getCommitId());
+    assertSubmitter(change.getChangeId(), 1);
+    assertSubmitter(change2.getChangeId(), 1);
+  }
+
+  @Test
+  public void submitTwoChangesWithFastForward_missingDependency() throws Exception {
+    RevCommit oldHead = getRemoteHead();
+    PushOneCommit.Result change = createChange();
+    PushOneCommit.Result change2 = createChange();
+
+    submitWithConflict(change2.getChangeId());
+
+    RevCommit head = getRemoteHead();
+    assertThat(head.getId()).isEqualTo(oldHead.getId());
+  }
+
+  @Test
   public void submitFastForwardNotPossible_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =

@@ -266,6 +266,13 @@ public class PushOneCommit {
       assertStatus(Status.REJECTED_OTHER_REASON, expectedMessage);
     }
 
+    public void assertErrorStatus() {
+      RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+      assertThat(refUpdate.getStatus())
+        .named(message(refUpdate))
+        .isEqualTo(Status.REJECTED_OTHER_REASON);
+    }
+
     private void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertThat(refUpdate.getStatus())

@@ -123,7 +123,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "a.txt", "other content");
-    r.assertOkStatus();
+    r.assertErrorStatus();
     r.assertChange(Change.Status.NEW, null, admin);
     r.assertMessage(CommitMergeStatus.PATH_CONFLICT.getMessage());
   }

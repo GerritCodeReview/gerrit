@@ -38,12 +38,15 @@
   visibility: hidden;
 }
 
-.subject {
+.subject, .strikedSubject {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 355px;
+}
+.strikedSubject {
+  text-decoration: line-through;
 }
 
 .tabPanel .gwt-TabBarItem,

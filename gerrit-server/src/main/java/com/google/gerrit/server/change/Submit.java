@@ -53,9 +53,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
-import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -212,16 +212,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    List<Change> submittedChanges = submit(rsrc, caller, false);
+    ChangeSet submittedChanges = ChangeSet.create(submit(rsrc, caller, false));
 
     try {
-      for (Change c : submittedChanges) {
-        // TODO(sbeller): We should make schedule return a Future, then we
-        // could do these all in parallel and still block until they're done.
-        mergeOpFactory.create(c.getDest()).merge();
-      }
+      mergeOpFactory.create(submittedChanges, caller).merge(true);
       change = dbProvider.get().changes().get(change.getId());
-    } catch (MergeException | NoSuchChangeException e) {
+    } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
     }
 
@@ -691,7 +687,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 
-  static boolean wholeTopicEnabled(Config config) {
+  public static boolean wholeTopicEnabled(Config config) {
     return config.getBoolean("change", null, "submitWholeTopic" , false);
   }
 

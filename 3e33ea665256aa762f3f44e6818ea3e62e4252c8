@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "fe3cb6f3_5fdeab4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T22:58:41Z",
+      "side": 1,
+      "message": "ok I got it, done",
+      "parentUuid": "fe3cb6f3_9fc67389",
+      "range": {
+        "startLine": 75,
+        "startChar": 18,
+        "endLine": 75,
+        "endChar": 73
+      },
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e306212_a2c6be88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 11
@@ -113,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "de43727f_5ec5157f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T22:58:41Z",
+      "side": 1,
+      "message": "Yes we should do that.",
+      "parentUuid": "5e306212_a2c6be88",
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e306212_62de764f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 11
@@ -124,6 +166,24 @@
       "writtenOn": "2015-06-18T17:03:13Z",
       "side": 1,
       "message": "I think this method and getCompleteListOfChanges should be factored out into a utility class with tests. It should be straightforward to come up with some test (input, output) pairs.",
+      "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_bec9b99b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T22:58:41Z",
+      "side": 1,
+      "message": "Sounds reasonable, I am trying to come up with a good name for it though. For now I\u0027ll name it MergeSuperSet.java",
+      "parentUuid": "5e306212_62de764f",
       "revId": "3e33ea665256aa762f3f44e6818ea3e62e4252c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

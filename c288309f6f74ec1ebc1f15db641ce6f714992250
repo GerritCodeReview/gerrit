@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe6916e5_5704ac4e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-18T20:35:46Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "c288309f6f74ec1ebc1f15db641ce6f714992250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

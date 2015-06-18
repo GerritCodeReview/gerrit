@@ -277,7 +277,9 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     // Merge fails; change3 contains the delta "b1" -> "b2", which cannot be
     // applied against tip.
-    submitWithConflict(change3.getChangeId());
+    // As change4 sits on top of change 3 we need to trigger submission there
+    // to include it into the mergeing
+    submitWithConflict(change4.getChangeId());
 
     // change4 is a clean merge, so should succeed in the same run where change3
     // failed.

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "fe3cb6f3_1fe42321",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T20:46:23Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9ea81a5d_84d3e64a",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e3a6af6_80c0d671",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
         "patchSetId": 4
@@ -195,6 +219,24 @@
       "side": 1,
       "message": "Obviously I was trying too hard to avoid writing String.format. %04X does exactly what I want.",
       "parentUuid": "3e33ae21_a1c6be88",
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_7ec0d170",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-18T20:46:23Z",
+      "side": 1,
+      "message": "Oops, too deep into Bouncy Castle land, missed this one.",
+      "parentUuid": "fe6916e5_37ded84e",
       "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

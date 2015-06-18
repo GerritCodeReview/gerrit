@@ -93,6 +93,69 @@
       "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3a6af6_60c5d27f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-18T17:38:22Z",
+      "side": 1,
+      "message": "I don\u0027t see how this is checking the content.",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3a6af6_80c0d671",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-18T17:38:22Z",
+      "side": 1,
+      "message": "Odd way to write this. Isn\u0027t buf.getShort() \u0026 0xffff more typical?",
+      "range": {
+        "startLine": 222,
+        "startChar": 14,
+        "endLine": 222,
+        "endChar": 37
+      },
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e33ae21_a1c6be88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-18T17:38:22Z",
+      "side": 1,
+      "message": "So leading 0\u0027s are collapsed within each 4 character run?",
+      "revId": "12f6f1b6ea99870a89aab991fc2850a7b618a3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

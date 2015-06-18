@@ -30,5 +30,4 @@ maven_package(
 python_binary(
   name = 'mvn',
   main = 'mvn.py',
-  deps = ['//tools:util'],
 )

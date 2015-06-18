@@ -126,6 +126,19 @@ public class InternalChangeQuery {
         open()));
   }
 
+  public List<ChangeData> byCommitsOnBranch(Branch.NameKey branch,
+      List<String> hashes) throws OrmException {
+    List<Predicate<ChangeData>> commits = new ArrayList<>();
+    for (String s : hashes) {
+      commits.add(commit(AbbreviatedObjectId.fromString(s)));
+    }
+    return query(and(
+        ref(branch),
+        project(branch.getParentKey()),
+        open(),
+        or(commits)));
+  }
+
   public List<ChangeData> byProjectOpen(Project.NameKey project)
       throws OrmException {
     return query(and(project(project), open()));

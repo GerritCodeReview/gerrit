@@ -26,7 +26,6 @@ genrule(
     ['cd $TMP'] +
     ['ln -s $(location %s) .' % n for n in API_DEPS] +
     ['zip -q0 $OUT *']),
-  deps = API_DEPS,
   out = 'api.zip',
 )
 

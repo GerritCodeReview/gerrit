@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.changes;
 
 public class SubmitInput {
+  @Deprecated
   public boolean waitForMerge;
   public String onBehalfOf;
 }

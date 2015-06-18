@@ -2419,18 +2419,10 @@ body.
 
 Submits a revision.
 
-The request body only needs to include a link:#submit-input[
-SubmitInput] entity if the request should wait for the merge to
-complete.
-
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit HTTP/1.0
   Content-Type: application/json; charset=UTF-8
-
-  {
-    "wait_for_merge": true
-  }
 ----
 
 As response a link:#submit-info[SubmitInfo] entity is returned that
@@ -4277,10 +4269,10 @@ after submitting.
 |Field Name    ||Description
 |`status`      ||
 The status of the change after submitting, can be `MERGED` or
-`SUBMITTED`. +
-If `wait_for_merge` in the link:#submit-input[SubmitInput] was set to
-`false` the returned status is `SUBMITTED` and the caller can't know
-whether the change could be merged successfully.
+`SUBMITTED`.+
+As `wait_for_merge` in the link:#submit-input[SubmitInput] is deprecated and
+the request always waits for the merge to be completed, you can expect
+`MERGED` to be returned here.
 |`on_behalf_of`|optional|
 The link:rest-api-accounts.html#account-id[\{account-id\}] of the user on
 whose behalf the action should be done. To use this option the caller must
@@ -4299,11 +4291,8 @@ The `SubmitInput` entity contains information for submitting a change.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name      ||Description
-|`wait_for_merge`|`false` if not set|
-Whether the request should wait for the merge to complete. +
-If `false` the request returns immediately after the change has been
-added to the merge queue and the caller can't know whether the change
-could be merged successfully.
+|`wait_for_merge`|Deprecated, always `true`|
+Whether the request should wait for the merge to complete.
 |===========================
 
 [[submit-record]]

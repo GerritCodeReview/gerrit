@@ -215,18 +215,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     List<Change> submittedChanges = submit(rsrc, caller, false);
 
     try {
-      if (input.waitForMerge) {
-        for (Change c : submittedChanges) {
-          // TODO(sbeller): We should make schedule return a Future, then we
-          // could do these all in parallel and still block until they're done.
-          mergeOpFactory.create(c.getDest()).merge();
-        }
-        change = dbProvider.get().changes().get(change.getId());
-      } else {
-        for (Change c : submittedChanges) {
-          mergeOpFactory.create(c.getDest()).merge();
-        }
+      for (Change c : submittedChanges) {
+        // TODO(sbeller): We should make schedule return a Future, then we
+        // could do these all in parallel and still block until they're done.
+        mergeOpFactory.create(c.getDest()).merge();
       }
+      change = dbProvider.get().changes().get(change.getId());
     } catch (MergeException | NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
     }

@@ -65,6 +65,54 @@
     },
     {
       "key": {
+        "uuid": "5e306212_62131697",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T18:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e0b4a19_58e4bd21",
+      "range": {
+        "startLine": 547,
+        "startChar": 32,
+        "endLine": 547,
+        "endChar": 39
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea36680_e3ef32f8",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T18:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e0b4a19_38d90966",
+      "range": {
+        "startLine": 547,
+        "startChar": 40,
+        "endLine": 547,
+        "endChar": 47
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e0b4a19_78df814d",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 3
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "7ea36680_83ec3e05",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T18:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e0b4a19_78df814d",
+      "range": {
+        "startLine": 549,
+        "startChar": 30,
+        "endLine": 549,
+        "endChar": 36
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e0b4a19_f8f271e4",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 3
@@ -99,6 +171,30 @@
       "writtenOn": "2015-06-17T21:17:57Z",
       "side": 1,
       "message": "This comment only makes sense if you understand the history of the black dot. Someone coming to this document for the first time need not know that these cases used to be represented the same way. It might be appropriate in the commit message but I don\u0027t think you need it here.",
+      "range": {
+        "startLine": 550,
+        "startChar": 9,
+        "endLine": 551,
+        "endChar": 8
+      },
+      "revId": "0b94d31ed8447114cda187f562a82e7d546f4665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea36680_a3e93af4",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-18T18:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e0b4a19_f8f271e4",
       "range": {
         "startLine": 550,
         "startChar": 9,

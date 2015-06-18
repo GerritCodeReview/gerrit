@@ -240,6 +240,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
             if (!value.equals(oldValue)) {
               validateProjectConfigEntryIsEditable(projectConfigEntry,
                   projectState, e.getKey(), pluginName);
+              v.setValue(projectConfigEntry.preUpdate(v.getValue()));
+              value = v.getValue().value;
               try {
                 switch (projectConfigEntry.getType()) {
                   case BOOLEAN:

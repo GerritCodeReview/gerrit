@@ -306,6 +306,10 @@ class RelatedChangesTab implements IsWidget {
         sb.setStyleName(RelatedChanges.R.css().gitweb());
         sb.setAttribute("title", gw.getLinkName());
         sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
+      } else if (info.status() != null && !info.status().isOpen()) {
+        sb.setStyleName(RelatedChanges.R.css().gitweb());
+        sb.setAttribute("title", Util.toLongString(info.status()));
+        sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
       } else if (notConnected) {
         sb.setStyleName(RelatedChanges.R.css().indirect());
         sb.setAttribute("title", Resources.C.indirectAncestor());

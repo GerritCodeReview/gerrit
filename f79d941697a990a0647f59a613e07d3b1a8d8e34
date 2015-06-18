@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe6916e5_d7c99c9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-06-18T08:25:56Z",
+      "side": 1,
+      "message": "ok, thanks for the update.\nthis sounds like the admin needs to centrally register all acceptable keys?\nthat seems a bit more laborious than it could be - unless i\u0027m missing something, the ideal solution would work more like this: the admin registers just one signing key. users upload their own keys (like ssh keys). the catch is that their keys must be signed by the registered signing key (the maximal distance and trust settings can be made configurable). certificate chains and all that stuff ... sure, one can overdo it. :D",
+      "revId": "f79d941697a990a0647f59a613e07d3b1a8d8e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

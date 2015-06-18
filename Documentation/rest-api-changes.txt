@@ -4268,10 +4268,10 @@ to return results from the input rule.
 The `SubmitInfo` entity contains information about the change status
 after submitting.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,^1,5"]
 |==========================
-|Field Name    |Description
-|`status`      |
+|Field Name    ||Description
+|`status`      ||
 The status of the change after submitting, can be `MERGED` or
 `SUBMITTED`. +
 If `wait_for_merge` in the link:#submit-input[SubmitInput] was set to

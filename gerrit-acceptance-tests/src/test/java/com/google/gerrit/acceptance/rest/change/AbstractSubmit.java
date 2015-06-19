@@ -232,7 +232,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Get the revision of the branch after the submit to compare with the
     // newRev of the ChangeMergedEvent.
     RestResponse b =
-        adminSession.get("/projects/" + project.get() + "/branches/"
+        adminSession.get("/projects/" + change.project + "/branches/"
             + change.branch);
     if (b.getStatusCode() == HttpStatus.SC_OK) {
       BranchInfo branch =

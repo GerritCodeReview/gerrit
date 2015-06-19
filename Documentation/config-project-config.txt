@@ -154,6 +154,16 @@ up to Gerrit then the JGit checks need to be disabled.
 +
 The default value for this is true, false disables the checks.
 
+[[receive.enableSignedPush]]receive.enableSignedPush::
++
+Controls whether server-side signed push validation is enabled on the
+project. Only has en effect if signed push validation is enabled on the
+server; see the link:config-gerrit.html#receive.enableSignedPush[global
+configuration] for details.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
 [[submit-section]]
 === Submit section
 

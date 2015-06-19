@@ -14,22 +14,34 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PreReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.SignedPushConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Random;
 
 public class SignedPushModule extends AbstractModule {
   private static final Logger log =
       LoggerFactory.getLogger(SignedPushModule.class);
+
+  public static boolean isEnabled(Config cfg) {
+    return cfg.getBoolean("receive", null, "enableSignedPush", false);
+  }
 
   @Override
   protected void configure() {
@@ -44,17 +56,50 @@ public class SignedPushModule extends AbstractModule {
 
   @Singleton
   private static class Initializer implements ReceivePackInitializer {
+    private final SignedPushConfig signedPushConfig;
     private final SignedPushPreReceiveHook hook;
 
     @Inject
-    Initializer(SignedPushPreReceiveHook hook) {
+    Initializer(@GerritServerConfig Config cfg,
+        SignedPushPreReceiveHook hook) {
       this.hook = hook;
+
+      if (isEnabled(cfg)) {
+        String seed = cfg.getString("receive", null, "certNonceSeed");
+        if (Strings.isNullOrEmpty(seed)) {
+          seed = randomString(64);
+        }
+        signedPushConfig = new SignedPushConfig();
+        signedPushConfig.setCertNonceSeed(seed);
+        signedPushConfig.setCertNonceSlopLimit(
+            cfg.getInt("receive", null, "certNonceSlop", 5 * 60));
+      } else {
+        signedPushConfig = null;
+      }
     }
 
     @Override
     public void init(Project.NameKey project, ReceivePack rp) {
-      rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
-          hook, rp.getPreReceiveHook())));
+      rp.setSignedPushConfig(signedPushConfig);
+      if (signedPushConfig != null) {
+        rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
+            hook, rp.getPreReceiveHook())));
+      }
     }
   }
+
+  private static String randomString(int len) {
+    Random random;
+    try {
+      random = SecureRandom.getInstance("SHA1PRNG");
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException(e);
+    }
+    StringBuilder sb = new StringBuilder(len);
+    for (int i = 0; i < len; i++) {
+      sb.append((char) random.nextInt());
+    }
+    return sb.toString();
+  }
+
 }

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
+import com.google.gerrit.server.git.SignedPushModule;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -93,6 +94,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
     info.user = getUserInfo(anonymousCowardName);
+    info.receive = getReceiveInfo(config);
     return info;
   }
 
@@ -264,6 +266,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
+  private ReceiveInfo getReceiveInfo(Config cfg) {
+    ReceiveInfo info = new ReceiveInfo();
+    info.enableSignedPush = SignedPushModule.isEnabled(cfg);
+    return info;
+  }
+
   private static Boolean toBoolean(boolean v) {
     return v ? v : null;
   }
@@ -278,6 +286,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public SshdInfo sshd;
     public SuggestInfo suggest;
     public UserConfigInfo user;
+    public ReceiveInfo receive;
   }
 
   public static class AuthInfo {
@@ -340,5 +349,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   public static class UserConfigInfo {
     public String anonymousCowardName;
+  }
+
+  public static class ReceiveInfo {
+    public Boolean enableSignedPush;
   }
 }

@@ -19,6 +19,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -35,6 +37,11 @@ public class SignedPushModule extends AbstractModule {
   private static final Logger log =
       LoggerFactory.getLogger(SignedPushModule.class);
 
+  public static boolean isEnabled(Config cfg) {
+    return !Strings.isNullOrEmpty(
+        cfg.getString("receive", null, "certNonceSeed"));
+  }
+
   @Override
   protected void configure() {
     if (BouncyCastleUtil.havePGP()) {
@@ -50,11 +57,14 @@ public class SignedPushModule extends AbstractModule {
   private static class Initializer implements ReceivePackInitializer {
     private final SignedPushConfig signedPushConfig;
     private final SignedPushPreReceiveHook hook;
+    private final ProjectCache projectCache;
 
     @Inject
     Initializer( @GerritServerConfig Config cfg,
-        SignedPushPreReceiveHook hook) {
+        SignedPushPreReceiveHook hook,
+        ProjectCache projectCache) {
       this.hook = hook;
+      this.projectCache = projectCache;
 
       String seed = cfg.getString("receive", null, "certNonceSeed");
       if (!Strings.isNullOrEmpty(seed)) {
@@ -69,11 +79,19 @@ public class SignedPushModule extends AbstractModule {
 
     @Override
     public void init(Project.NameKey project, ReceivePack rp) {
-      rp.setSignedPushConfig(signedPushConfig);
-      if (signedPushConfig != null) {
-        rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
-            hook, rp.getPreReceiveHook())));
+      ProjectState ps = projectCache.get(project);
+      if (!ps.isEnableSignedPush()) {
+        rp.setSignedPushConfig(null);
+        return;
       }
+      if (signedPushConfig == null) {
+        log.error("receive.enableSignedPush is true for project {} but"
+            + " receive.certNonceSeed is unset, so signed push verification"
+            + " is disabled", project.get());
+      }
+      rp.setSignedPushConfig(signedPushConfig);
+      rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
+          hook, rp.getPreReceiveHook())));
     }
   }
 }

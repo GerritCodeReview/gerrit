@@ -68,6 +68,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public InheritableBoolean useSignedOffBy;
     public InheritableBoolean createNewChangeForAllNotInTarget;
     public InheritableBoolean requireChangeId;
+    public InheritableBoolean enableSignedPush;
     public String maxObjectSizeLimit;
     public SubmitType submitType;
     public com.google.gerrit.extensions.client.ProjectState state;
@@ -159,6 +160,10 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
 
       if (input.requireChangeId != null) {
         p.setRequireChangeID(input.requireChangeId);
+      }
+
+      if (input.enableSignedPush != null) {
+        p.setEnableSignedPush(input.enableSignedPush);
       }
 
       if (input.maxObjectSizeLimit != null) {

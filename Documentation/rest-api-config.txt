@@ -1274,6 +1274,20 @@ The maximal memory size. The value is returned with a unit abbreviation
 The number of open files.
 |============================
 
+[[receive-info]]
+=== ReceiveInfo
+The `ReceiveInfo` entity contains information about the configuration
+of git-receive-pack behavior on the server.
+
+[options="header",cols="1,^1,5"]
+|=======================================
+|Field Name        ||Description
+|`enableSignedPush`|optional|
+Whether signed push validation support is enabled on the server; see the
+link:config-gerrit.html#receive.certNonceSeed[global configuration] for
+details.
+|=======================================
+
 [[server-info]]
 === ServerInfo
 The `ServerInfo` entity contains information about the configuration of
@@ -1303,6 +1317,9 @@ GerritInfo] entity.
 |`gitweb `                 |optional|
 Information about the link:config-gerrit.html#gitweb[gitweb]
 configuration as link:#git-web-info[GitwebInfo] entity.
+|`receive`                 |optional|
+Information about the receive-pack configuration as a
+link:#receive-info[ReceiveInfo] entity.
 |`sshd`                    |optional|
 Information about the configuration from the
 link:config-gerrit.html#sshd[sshd] section as link:#sshd-info[SshdInfo]

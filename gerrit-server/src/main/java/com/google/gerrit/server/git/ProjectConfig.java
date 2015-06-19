@@ -118,6 +118,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_REQUIRE_CONTRIBUTOR_AGREEMENT =
       "requireContributorAgreement";
   private static final String KEY_CHECK_RECEIVED_OBJECTS = "checkReceivedObjects";
+  private static final String KEY_ENABLE_SIGNED_PUSH = "enableSignedPush";
 
   private static final String SUBMIT = "submit";
   private static final String KEY_ACTION = "action";
@@ -418,6 +419,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, InheritableBoolean.INHERIT));
     p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT));
     p.setCreateNewChangeForAllNotInTarget(getEnum(rc, RECEIVE, null, KEY_USE_ALL_NOT_IN_TARGET, InheritableBoolean.INHERIT));
+    p.setEnableSignedPush(getEnum(rc, RECEIVE, null,
+          KEY_ENABLE_SIGNED_PUSH, InheritableBoolean.INHERIT));
     p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
@@ -815,6 +818,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_USE_ALL_NOT_IN_TARGET, p.getCreateNewChangeForAllNotInTarget(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
+    set(rc, RECEIVE, null, KEY_ENABLE_SIGNED_PUSH,
+        p.getEnableSignedPush(), InheritableBoolean.INHERIT);
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);

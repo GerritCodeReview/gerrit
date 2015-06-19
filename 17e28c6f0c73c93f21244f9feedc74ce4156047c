@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be679e30_95c66489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-19T12:34:06Z",
+      "side": 1,
+      "message": "wiping",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "17e28c6f0c73c93f21244f9feedc74ce4156047c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de6c5217_16bb7c14",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-19T12:34:06Z",
+      "side": 1,
+      "message": "triggers",
+      "range": {
+        "startLine": 679,
+        "startChar": 69,
+        "endLine": 679,
+        "endChar": 76
+      },
+      "revId": "17e28c6f0c73c93f21244f9feedc74ce4156047c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de6c5217_76c0f070",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-19T12:34:06Z",
+      "side": 1,
+      "message": "deployment",
+      "range": {
+        "startLine": 692,
+        "startChar": 21,
+        "endLine": 692,
+        "endChar": 30
+      },
+      "revId": "17e28c6f0c73c93f21244f9feedc74ce4156047c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be679e30_f5d35849",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-19T12:34:06Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "17e28c6f0c73c93f21244f9feedc74ce4156047c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de6c5217_56c5f47e",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-19T12:34:06Z",
+      "side": 1,
+      "message": "nit: space after comma",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "17e28c6f0c73c93f21244f9feedc74ce4156047c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

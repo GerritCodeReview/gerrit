@@ -14,16 +14,20 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PreReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.SignedPushConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,17 +48,32 @@ public class SignedPushModule extends AbstractModule {
 
   @Singleton
   private static class Initializer implements ReceivePackInitializer {
+    private final SignedPushConfig signedPushConfig;
     private final SignedPushPreReceiveHook hook;
 
     @Inject
-    Initializer(SignedPushPreReceiveHook hook) {
+    Initializer( @GerritServerConfig Config cfg,
+        SignedPushPreReceiveHook hook) {
       this.hook = hook;
+
+      String seed = cfg.getString("receive", null, "certNonceSeed");
+      if (!Strings.isNullOrEmpty(seed)) {
+        signedPushConfig = new SignedPushConfig();
+        signedPushConfig.setCertNonceSeed(seed);
+        signedPushConfig.setCertNonceSlopLimit(
+            cfg.getInt("receive", null, "certNonceSlop", 10));
+      } else {
+        signedPushConfig = null;
+      }
     }
 
     @Override
     public void init(Project.NameKey project, ReceivePack rp) {
-      rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
-          hook, rp.getPreReceiveHook())));
+      rp.setSignedPushConfig(signedPushConfig);
+      if (signedPushConfig != null) {
+        rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
+            hook, rp.getPreReceiveHook())));
+      }
     }
   }
 }

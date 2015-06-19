@@ -2771,6 +2771,40 @@ behavior of Gerrit's 'receive-pack' mechanism.
   maxObjectSizeLimit = 40 m
 ----
 
+[[receive.enableSignedPush]]receive.enableSignedPush::
++
+If true, server-side signed push validation is enabled.
++
+When a client pushes with `git push --signed`, this ensures that the
+push certificate is valid and signed with a valid public key stored in
+the `refs/gpg-keys` branch of `All-Users`.
++
+Defaults to false.
+
+[[receive.certNonceSeed]]receive.certNonceSeed::
++
+If set to a non-empty value and server-side signed push validation is
+link:#receive.enableSignedPush[enabled], use this value as the seed to
+the HMAC SHA-1 nonce generator. If unset, a 64-byte random seed will be
+generated at server startup.
++
+As this is used as the seed of a cryptographic algorithm, it is
+recommended to be placed in link:#secure-config[`secure.config`].
++
+Defaults to unset.
+
+[[receive.certNonceSlop]]receive.certNonceSlop::
++
+When validating the nonce passed as part of the signed push protocol,
+accept valid nonces up to this many seconds old. This allows
+certificate verification to work over HTTP where there is a lag between
+the HTTP response providing the nonce to sign and the next request
+containing the signed nonce. This can be significant on large
+repositories, since the lag also includes the time to count objects on
+the client.
++
+Default is 5 minutes.
+
 [[receive.checkMagicRefs]]receive.checkMagicRefs::
 +
 If true, Gerrit will verify the destination repository has
@@ -3640,7 +3674,7 @@ notifications if the full name of the user is not set.
 By default "Anonymous Coward" is used.
 
 
-== File `etc/secure.config`
+== [[secure.config]]File `etc/secure.config`
 The optional file `'$site_path'/etc/secure.config` overrides (or
 supplements) the settings supplied by `'$site_path'/etc/gerrit.config`.
 The file should be readable only by the daemon process and can be

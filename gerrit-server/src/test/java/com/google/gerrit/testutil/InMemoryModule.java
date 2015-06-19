@@ -94,6 +94,8 @@ public class InMemoryModule extends FactoryModule {
     cfg.setInt("index", "lucene", "testVersion",
         ChangeSchemas.getLatest().getVersion());
     cfg.setInt("sendemail", null, "threadPoolSize", 0);
+    cfg.setBoolean("receive", null, "enableSignedPush", false);
+    cfg.setString("receive", null, "certNonceSeed", "sekret");
   }
 
   private final Config cfg;

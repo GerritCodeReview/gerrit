@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -47,6 +48,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +63,7 @@ import java.util.Objects;
 @Singleton
 public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
+
   public static class Input {
     public String description;
     public InheritableBoolean useContributorAgreements;
@@ -68,12 +71,14 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public InheritableBoolean useSignedOffBy;
     public InheritableBoolean createNewChangeForAllNotInTarget;
     public InheritableBoolean requireChangeId;
+    public InheritableBoolean enableSignedPush;
     public String maxObjectSizeLimit;
     public SubmitType submitType;
     public com.google.gerrit.extensions.client.ProjectState state;
     public Map<String, Map<String, ConfigValue>> pluginConfigValues;
   }
 
+  private final Config gerritConfig;
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final ProjectCache projectCache;
   private final GitRepositoryManager gitMgr;
@@ -87,7 +92,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final ChangeHooks hooks;
 
   @Inject
-  PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
+  PutConfig(@GerritServerConfig Config gerritConfig,
+      MetaDataUpdate.User metaDataUpdateFactory,
       ProjectCache projectCache,
       GitRepositoryManager gitMgr,
       ProjectState.Factory projectStateFactory,
@@ -98,6 +104,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       DynamicMap<RestView<ProjectResource>> views,
       ChangeHooks hooks,
       Provider<CurrentUser> currentUser) {
+    this.gerritConfig = gerritConfig;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.gitMgr = gitMgr;
@@ -161,6 +168,10 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         p.setRequireChangeID(input.requireChangeId);
       }
 
+      if (input.enableSignedPush != null) {
+        p.setEnableSignedPush(input.enableSignedPush);
+      }
+
       if (input.maxObjectSizeLimit != null) {
         p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
       }
@@ -203,8 +214,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       ProjectState state = projectStateFactory.create(projectConfig);
-      return new ConfigInfo(state.controlFor(currentUser.get()), config,
-          pluginConfigEntries, cfgFactory, allProjects, views);
+      return new ConfigInfo(gerritConfig, state.controlFor(currentUser.get()),
+          config, pluginConfigEntries, cfgFactory, allProjects, views);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {

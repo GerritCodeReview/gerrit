@@ -82,6 +82,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox state;
   private ListBox contentMerge;
   private ListBox newChangeForAllNotInTarget;
+  private ListBox enableSignedPush;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
@@ -162,6 +163,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     submitType.setEnabled(isOwner);
     setEnabledForUseContentMerge();
     newChangeForAllNotInTarget.setEnabled(isOwner);
+    if (enableSignedPush != null) {
+      enableSignedPush.setEnabled(isOwner);
+    }
     descTxt.setEnabled(isOwner);
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);
@@ -225,6 +229,12 @@ public class ProjectInfoScreen extends ProjectScreen {
     requireChangeID = newInheritedBooleanBox();
     saveEnabler.listenTo(requireChangeID);
     grid.addHtml(Util.C.requireChangeID(), requireChangeID);
+
+    if (Gerrit.info().receive().enableSignedPush()) {
+      enableSignedPush = newInheritedBooleanBox();
+      saveEnabler.listenTo(enableSignedPush);
+      grid.add(Util.C.enableSignedPush(), enableSignedPush);
+    }
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
@@ -349,6 +359,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(contentMerge, result.useContentMerge());
     setBool(newChangeForAllNotInTarget, result.createNewChangeForAllNotInTarget());
     setBool(requireChangeID, result.requireChangeId());
+    if (enableSignedPush != null) {
+      setBool(enableSignedPush, result.enableSignedPush());
+    }
     setSubmitType(result.submitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
@@ -618,9 +631,12 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void doSave() {
     enableForm(false);
     saveProject.setEnabled(false);
+    InheritableBoolean sp = enableSignedPush != null
+        ? getBool(enableSignedPush) : null;
     ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(newChangeForAllNotInTarget), getBool(requireChangeID),
+        sp,
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

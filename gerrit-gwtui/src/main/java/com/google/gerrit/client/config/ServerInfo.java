@@ -26,6 +26,7 @@ public class ServerInfo extends JavaScriptObject {
   public final native SshdInfo sshd() /*-{ return this.sshd; }-*/;
   public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;
   public final native UserConfigInfo user() /*-{ return this.user; }-*/;
+  public final native ReceiveInfo receive() /*-{ return this.receive; }-*/;
 
   public final boolean hasContactStore() {
     return contactStore() != null;
@@ -72,6 +73,14 @@ public class ServerInfo extends JavaScriptObject {
     public final native String anonymousCowardName() /*-{ return this.anonymous_coward_name; }-*/;
 
     protected UserConfigInfo() {
+    }
+  }
+
+  public static class ReceiveInfo extends JavaScriptObject {
+    public final native boolean enableSignedPush()
+    /*-{ return this.enable_signed_push || false; }-*/;
+
+    protected ReceiveInfo() {
     }
   }
 }

@@ -312,7 +312,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected List<RevCommit> getRemoteLog() throws IOException {
+  protected List<RevCommit> getRemoteLog(Project.NameKey...projects) throws IOException {
+    assertThat(projects.length).isLessThan(2);
+    Project.NameKey project = this.project;
+    if (projects.length > 0) {
+      project = projects[0];
+    }
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.markStart(rw.parseCommit(

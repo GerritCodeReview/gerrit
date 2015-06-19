@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e534a56_1809e564",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-06-19T23:48:02Z",
+      "side": 1,
+      "message": "More details on how it \u0027choked\u0027:\n\nThe exception\n\n  [2015-06-20 01:31:33,826] ERROR com.google.gerrit.server.config.ScheduleConfig : Invalid section schedule parameter \"section.startTime\"\n  java.lang.IllegalArgumentException: Invalid format: \"Mon 11:00\" is malformed at \"n 11:00\"\n\nmade it to the log, and the ScheduleConfigTest failed with\n\n  FAIL    \u003c100ms  1 Passed   0 Skipped   1 Failed com.google.gerrit.server.config.ScheduleConfigTest\n  FAILURE testInitialDelay: expected:\u003c262800000\u003e but was:\u003c-2\u003e\n  java.lang.AssertionError: expected:\u003c262800000\u003e but was:\u003c-2\u003e\n          at org.junit.Assert.fail(Assert.java:88)\n          at org.junit.Assert.failNotEquals(Assert.java:743)\n          at org.junit.Assert.assertEquals(Assert.java:118)\n          at org.junit.Assert.assertEquals(Assert.java:555)\n          at org.junit.Assert.assertEquals(Assert.java:542)\n          at com.google.gerrit.server.config.ScheduleConfigTest.testInitialDelay(ScheduleConfigTest.java:49)\n          [...]",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "6c2c21fd3d0fa46f9e962bcd3ec19d64dc72aadc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

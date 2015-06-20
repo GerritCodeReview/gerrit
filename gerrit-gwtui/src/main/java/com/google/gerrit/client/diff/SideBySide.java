@@ -636,7 +636,7 @@ public class SideBySide extends Screen {
       Element parent) {
     return CodeMirror.create(parent, Configuration.create()
       .set("readOnly", true)
-      .set("cursorBlinkRate", 0)
+      .set("cursorBlinkRate", prefs.cursorBlinkRate())
       .set("cursorHeight", 0.85)
       .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())

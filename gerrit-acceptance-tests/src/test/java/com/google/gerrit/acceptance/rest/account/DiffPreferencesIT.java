@@ -47,6 +47,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.context).isEqualTo(d.context);
     assertThat(o.tabSize).isEqualTo(d.tabSize);
     assertThat(o.lineLength).isEqualTo(d.lineLength);
+    assertThat(o.cursorBlinkRate).isEqualTo(d.cursorBlinkRate);
     assertThat(o.expandAllComments).isNull();
     assertThat(o.intralineDifference).isEqualTo(d.intralineDifference);
     assertThat(o.manualReview).isNull();
@@ -74,6 +75,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.context *= -1;
     i.tabSize *= -1;
     i.lineLength *= -1;
+    i.cursorBlinkRate = 500;
     i.theme = Theme.MIDNIGHT;
     i.ignoreWhitespace = Whitespace.IGNORE_ALL;
     i.expandAllComments ^= true;
@@ -101,6 +103,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.context).isEqualTo(i.context);
     assertThat(o.tabSize).isEqualTo(i.tabSize);
     assertThat(o.lineLength).isEqualTo(i.lineLength);
+    assertThat(o.cursorBlinkRate).isEqualTo(i.cursorBlinkRate);
     assertThat(o.expandAllComments).isEqualTo(i.expandAllComments);
     assertThat(o.intralineDifference).isNull();
     assertThat(o.manualReview).isEqualTo(i.manualReview);

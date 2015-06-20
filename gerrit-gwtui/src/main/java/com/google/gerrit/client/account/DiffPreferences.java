@@ -28,6 +28,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.ignoreWhitespace(in.ignoreWhitespace);
     p.tabSize(in.tabSize);
     p.lineLength(in.lineLength);
+    p.cursorBlinkRate(in.cursorBlinkRate);
     p.context(in.context);
     p.intralineDifference(in.intralineDifference);
     p.showLineEndings(in.showLineEndings);
@@ -52,6 +53,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.context = context();
     p.tabSize = tabSize();
     p.lineLength = lineLength();
+    p.cursorBlinkRate = cursorBlinkRate();
     p.expandAllComments = expandAllComments();
     p.intralineDifference = intralineDifference();
     p.manualReview = manualReview();
@@ -105,6 +107,10 @@ public class DiffPreferences extends JavaScriptObject {
     return get("line_length", 100);
   }
 
+  public final int cursorBlinkRate() {
+    return get("cursor_blink_rate", 0);
+  }
+
   public final boolean showLineNumbers() {
     return !hideLineNumbers();
   }
@@ -116,6 +122,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
   public final native void context(int c) /*-{ this.context = c }-*/;
+  public final native void cursorBlinkRate(int r) /*-{ this.cursor_blink_rate = r }-*/;
   public final native void intralineDifference(boolean i) /*-{ this.intraline_difference = i }-*/;
   public final native void showLineEndings(boolean s) /*-{ this.show_line_endings = s }-*/;
   public final native void showTabs(boolean s) /*-{ this.show_tabs = s }-*/;

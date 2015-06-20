@@ -40,6 +40,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.renderEntireFile(in.renderEntireFile);
     p.theme(in.theme);
     p.hideEmptyPane(in.hideEmptyPane);
+    p.matchBrackets(in.matchBrackets);
     return p;
   }
 
@@ -65,6 +66,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.hideLineNumbers = hideLineNumbers();
     p.renderEntireFile = renderEntireFile();
     p.hideEmptyPane = hideEmptyPane();
+    p.matchBrackets = matchBrackets();
     p.theme = theme();
     p.ignoreWhitespace = ignoreWhitespace();
   }
@@ -131,6 +133,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
   public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
   public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
+  public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
   public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
@@ -143,6 +146,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean manualReview() /*-{ return this.manual_review || false }-*/;
   public final native boolean renderEntireFile() /*-{ return this.render_entire_file || false }-*/;
   public final native boolean hideEmptyPane() /*-{ return this.hide_empty_pane || false }-*/;
+  public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
 
   private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
   private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;

@@ -96,6 +96,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
+  @UiField ToggleButton matchBrackets;
   @UiField ListBox theme;
   @UiField ListBox mode;
   @UiField Button apply;
@@ -172,6 +173,7 @@ class PreferencesBox extends Composite {
     expandAllComments.setValue(prefs.expandAllComments());
     renderEntireFile.setValue(prefs.renderEntireFile());
     renderEntireFile.setEnabled(view.canEnableRenderEntireFile(prefs));
+    matchBrackets.setValue(prefs.matchBrackets());
     setTheme(prefs.theme());
 
     mode.setEnabled(prefs.syntaxHighlighting());
@@ -413,6 +415,15 @@ class PreferencesBox extends Composite {
   void onRenderEntireFile(ValueChangeEvent<Boolean> e) {
     prefs.renderEntireFile(e.getValue());
     view.updateRenderEntireFile();
+  }
+
+  @UiHandler("matchBrackets")
+  void onMatchBrackets(ValueChangeEvent<Boolean> e) {
+    prefs.matchBrackets(e.getValue());
+    view.getCmFromSide(DisplaySide.A).setOption("matchBrackets",
+        prefs.matchBrackets());
+    view.getCmFromSide(DisplaySide.B).setOption("matchBrackets",
+        prefs.matchBrackets());
   }
 
   @UiHandler("theme")

@@ -1709,6 +1709,8 @@ Number of spaces that should be used to display one tab.
 |'hide_empty_pane'             |not set if `false`|
 Whether empty panes should be hidden. The left pane is empty when a
 file was added; the right pane is empty when a file was deleted.
+|`match_brackets`              |not set if `false`|
+Whether matching brackets should be highlighted.
 |===========================================
 
 [[diff-preferences-input]]

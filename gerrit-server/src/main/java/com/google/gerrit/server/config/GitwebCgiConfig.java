@@ -77,6 +77,12 @@ public class GitwebCgiConfig {
         resourcePaths = new String[] {absPath + "/static", absPath};
       }
 
+    } else if (cfg.getString("gitweb", null, "url") != null) {
+      // Use an externally managed gitweb instance, and not an internal one.
+      //
+      cgi = null;
+      resourcePaths = new String[] {};
+
     } else if (isRegularFile(pkgCgi) && isExecutable(pkgCgi)) {
       // Use the OS packaged CGI.
       //

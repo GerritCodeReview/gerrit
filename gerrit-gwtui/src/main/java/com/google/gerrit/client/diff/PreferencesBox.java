@@ -82,6 +82,7 @@ class PreferencesBox extends Composite {
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox lineLength;
   @UiField NpIntTextBox context;
+  @UiField NpIntTextBox cursorBlinkRate;
   @UiField CheckBox contextEntireFile;
   @UiField ToggleButton intralineDifference;
   @UiField ToggleButton syntaxHighlighting;
@@ -156,6 +157,7 @@ class PreferencesBox extends Composite {
       lineLength.setEnabled(true);
       lineLength.setIntValue(prefs.lineLength());
     }
+    cursorBlinkRate.setIntValue(prefs.cursorBlinkRate());
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
@@ -290,6 +292,20 @@ class PreferencesBox extends Composite {
   void onExpandAllComments(ValueChangeEvent<Boolean> e) {
     prefs.expandAllComments(e.getValue());
     view.getCommentManager().setExpandAllComments(prefs.expandAllComments());
+  }
+
+  @UiHandler("cursorBlinkRate")
+  void onCursoBlinkRate(ValueChangeEvent<String> e) {
+    String v = e.getValue();
+    if (v != null && v.length() > 0) {
+      // A negative value hides the cursor entirely:
+      // don't let user shoot himself in the foot.
+      prefs.cursorBlinkRate(Math.max(0, Integer.parseInt(v)));
+      view.getCmFromSide(DisplaySide.A).setOption("cursorBlinkRate",
+          prefs.cursorBlinkRate());
+      view.getCmFromSide(DisplaySide.B).setOption("cursorBlinkRate",
+          prefs.cursorBlinkRate());
+    }
   }
 
   @UiHandler("showTabs")

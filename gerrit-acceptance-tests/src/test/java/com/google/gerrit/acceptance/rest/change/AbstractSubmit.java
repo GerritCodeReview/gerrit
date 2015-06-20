@@ -186,6 +186,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return push.to("refs/for/master/" + topic);
   }
 
+  protected PushOneCommit.Result createChange(TestRepository<?> repo,
+      String branch, String subject, String fileName, String content,
+      String topic) throws Exception {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), repo, subject, fileName, content);
+    return push.to("refs/for/" + branch + "/" + name(topic));
+  }
+
   protected void submit(String changeId) throws Exception {
     submit(changeId, HttpStatus.SC_OK);
   }
@@ -303,11 +311,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return getHead(repo, "HEAD");
   }
 
-  protected RevCommit getRemoteHead() throws IOException {
+  protected RevCommit getRemoteHead(Project.NameKey project, String branch)
+      throws IOException {
     try (Repository repo = repoManager.openRepository(project)) {
-      return getHead(repo, "refs/heads/master");
+      return getHead(repo, "refs/heads/" + branch);
     }
   }
+
+  protected RevCommit getRemoteHead()
+      throws IOException {
+    return getRemoteHead(project, "master");
+  }
+
 
   protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch)
       throws IOException {

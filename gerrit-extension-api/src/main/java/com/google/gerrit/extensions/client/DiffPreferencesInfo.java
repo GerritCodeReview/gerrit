@@ -36,6 +36,7 @@ public class DiffPreferencesInfo {
   public Integer context;
   public Integer tabSize;
   public Integer lineLength;
+  public Integer cursorBlinkRate;
   public Boolean expandAllComments;
   public Boolean intralineDifference;
   public Boolean manualReview;
@@ -59,6 +60,7 @@ public class DiffPreferencesInfo {
     i.context = DEFAULT_CONTEXT;
     i.tabSize = 8;
     i.lineLength = 100;
+    i.cursorBlinkRate = 0;
     i.ignoreWhitespace = Whitespace.IGNORE_NONE;
     i.theme = Theme.DEFAULT;
     i.expandAllComments = false;

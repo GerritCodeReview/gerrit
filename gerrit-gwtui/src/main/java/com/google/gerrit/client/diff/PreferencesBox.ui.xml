@@ -196,6 +196,12 @@ limitations under the License.
           or <g:CheckBox ui:field='contextEntireFile'>entire file</g:CheckBox></ui:msg></td>
       </tr>
       <tr>
+        <th><ui:msg>Cursor Blink Rate</ui:msg></th>
+        <td><x:NpIntTextBox ui:field='cursorBlinkRate'
+            visibleLength='4'
+            alignment='RIGHT'/></td>
+      </tr>
+      <tr>
         <th><ui:msg>Intraline Difference</ui:msg></th>
         <td><g:ToggleButton ui:field='intralineDifference'>
           <g:upFace><ui:msg>Hide</ui:msg></g:upFace>

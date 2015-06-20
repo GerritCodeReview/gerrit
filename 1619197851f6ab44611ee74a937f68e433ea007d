@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de43727f_fe018139",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitWebConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-06-20T00:44:10Z",
+      "side": 0,
+      "message": "This case was dropped in the refactoring. So now I get provisioning exceptions trying to load GitwebServlet unless I explicitly set gitweb.cgi to \"\".\n\nThe behavior before seems broken, too: explicitly setting gitweb.cgi to \"\" fall into the other case \"Disable the configuration\", causing gitweb.url to be ignored. This change fixed that, and I think that was a good change.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 76
+      },
+      "revId": "1619197851f6ab44611ee74a937f68e433ea007d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

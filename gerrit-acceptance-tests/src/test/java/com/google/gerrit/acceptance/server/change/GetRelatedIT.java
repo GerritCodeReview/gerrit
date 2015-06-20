@@ -133,6 +133,136 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getRelatedAmendParendChange_BROKEN() throws Exception {
+    // Create two commits and push.
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
+
+    // Amend parent change and push.
+    testRepo.reset("HEAD~1");
+    RevCommit c1_2 = amendBuilder()
+        .add("c.txt", "2")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps1_2 = getPatchSetId(c1_2);
+
+    /*
+     * Expected:
+     * =========
+     *
+     * 1. When looking at ps1_1:
+     *
+     * ps2_1
+     * ps1_1
+     *
+     * 2. When looking at ps1_2:
+     *
+     * ps2_1
+     * ps1_2
+     *
+     *
+     * Actual for case 2:
+     * ===================================
+     *
+     * ps1_2
+     * ps2_1
+     *
+     */
+    for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
+      assertRelated(ps,
+          changeAndCommit(id2, c2_1, 1, 1),
+          changeAndCommit(id1, c1_1, 1, 2));
+    }
+
+    // Expected correct order
+//    assertRelated(ps1_2,
+//        changeAndCommit(id2, c2_1, 1, 1),
+//        changeAndCommit(id1, c1_2, 2, 2));
+
+    // Actual wrong order
+    assertRelated(ps1_2,
+        changeAndCommit(id1, c1_2, 2, 2),
+        changeAndCommit(id2, c2_1, 1, 1));
+
+  }
+
+  @Test
+  public void getRelatedExtendInTheMiddleOfSeries_BROKEN() throws Exception {
+    // Create two commits and push.
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
+
+    // Add new comit on top of the first change.
+    testRepo.reset("HEAD~1");
+    RevCommit c3_1 = commitBuilder()
+        .add("c.txt", "3")
+        .message("subject: 3")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+
+    String id3 = getChangeId(c3_1);
+    PatchSet.Id ps3_1 = getPatchSetId(c3_1);
+
+    /*
+     * Expected:
+     * =========
+     *
+     * 1. When looking at ps3_1:
+     *
+     * ps3_1
+     * ps1_1
+     *
+     * 2. When looking at ps2_1:
+     *
+     * ps2_1
+     * ps1_1
+     *
+     * 3. When looking at ps1_1:
+     *
+     * ps3_1
+     * ps2_1
+     * ps1_1
+     *
+     *
+     * Actual (for all three cases above):
+     * ===================================
+     *
+     * ps3_1
+     * ps2_1
+     * ps1_1
+     *
+     */
+    for (PatchSet.Id ps : ImmutableList.of(ps3_1, ps2_1, ps1_1)) {
+      assertRelated(ps,
+          changeAndCommit(id3, c3_1, 1, 1),
+          changeAndCommit(id2, c2_1, 1, 1),
+          changeAndCommit(id1, c1_1, 1, 1));
+    }
+  }
+
+  @Test
   public void getRelatedReorderAndExtend() throws Exception {
     // Create two commits and push.
     ObjectId initial = repo().getRef("HEAD").getObjectId();

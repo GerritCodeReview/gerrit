@@ -161,6 +161,9 @@ public class SetDiffPreferences implements
     if (i.autoHideDiffTableHeader != null) {
       n.autoHideDiffTableHeader = i.autoHideDiffTableHeader;
     }
+    if (i.cursorBlinkRate != null) {
+      n.cursorBlinkRate = i.cursorBlinkRate;
+    }
     return n;
   }
 }

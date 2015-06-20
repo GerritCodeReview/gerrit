@@ -164,6 +164,9 @@ public class SetDiffPreferences implements
     if (i.cursorBlinkRate != null) {
       n.cursorBlinkRate = i.cursorBlinkRate;
     }
+    if (i.matchBrackets != null) {
+      n.matchBrackets = i.matchBrackets;
+    }
     return n;
   }
 }

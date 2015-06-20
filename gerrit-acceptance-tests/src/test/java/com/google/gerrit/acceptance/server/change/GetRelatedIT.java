@@ -133,6 +133,63 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getRelatedExtendInTheMiddleOfSeries() throws Exception {
+    // Create two commits and push.
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
+
+    // Add new comit on top of the first change.
+    testRepo.reset("HEAD~1");
+    RevCommit c3_1 = commitBuilder()
+        .add("c.txt", "3")
+        .message("subject: 3")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+
+    String id3 = getChangeId(c3_1);
+    PatchSet.Id ps3_1 = getPatchSetId(c3_1);
+
+    /*
+     * Expected:
+     *
+     * ps3_1
+     * ps1_1
+     *
+     */
+//    for (PatchSet.Id ps : ImmutableList.of(ps3_1, ps1_1)) {
+//      assertRelated(ps,
+//          changeAndCommit(id3, c3_1, 1, 1),
+//          changeAndCommit(id1, c1_1, 1, 1));
+//    }
+
+    /*
+     * Actual:
+     *
+     * ps3_1
+     * ps2_1
+     * ps1_1
+     *
+     */
+    for (PatchSet.Id ps : ImmutableList.of(ps3_1, ps2_1, ps1_1)) {
+      assertRelated(ps,
+          changeAndCommit(id3, c3_1, 1, 1),
+          changeAndCommit(id2, c2_1, 1, 1),
+          changeAndCommit(id1, c1_1, 1, 1));
+    }
+  }
+
+  @Test
   public void getRelatedReorderAndExtend() throws Exception {
     // Create two commits and push.
     ObjectId initial = repo().getRef("HEAD").getObjectId();

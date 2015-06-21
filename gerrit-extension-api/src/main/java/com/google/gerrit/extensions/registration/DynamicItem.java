@@ -67,7 +67,7 @@ public class DynamicItem<T> {
    * <p>
    * Items must be defined in a Guice module before they can be bound:
    * <pre>
-   *   DynamicSet.itemOf(binder(), new TypeLiteral<Thing<Foo>>() {});
+   *   DynamicSet.itemOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
    * </pre>
    *
    * @param binder a new binder created in the module.

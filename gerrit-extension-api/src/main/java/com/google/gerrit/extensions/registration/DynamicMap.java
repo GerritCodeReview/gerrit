@@ -67,8 +67,8 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    * Maps must be defined in a Guice module before they can be bound:
    *
    * <pre>
-   * DynamicMap.mapOf(binder(), new TypeLiteral<Thing<Bar>>(){});
-   * bind(new TypeLiteral<Thing<Bar>>() {})
+   * DynamicMap.mapOf(binder(), new TypeLiteral&lt;Thing&lt;Bar&gt;&gt;(){});
+   * bind(new TypeLiteral&lt;Thing&lt;Bar&gt;&gt;() {})
    *   .annotatedWith(Exports.named(&quot;foo&quot;))
    *   .to(Impl.class);
    * </pre>

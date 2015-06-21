@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "1e534a56_582cfdce",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-21T05:49:01Z",
+      "side": 1,
+      "message": "Now, that AccountDiffPreference table was migrated to Git backend: [1], what is the plan to migrate AccountSshKey table to Git backend?\n\n* [1] https://gerrit-review.googlesource.com/#/c/61604",
+      "revId": "24d1c4531e840ac556aa0f8de839246d2c03e6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be679e30_15bb7414",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
         "patchSetId": 5

@@ -91,7 +91,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     PERMISSIONS {
       @Override
       boolean matches(Repository git) throws IOException {
-        Ref head = git.getRef(Constants.HEAD);
+        Ref head = git.getRefDatabase().exactRef(Constants.HEAD);
         return head != null
           && head.isSymbolic()
           && RefNames.REFS_CONFIG.equals(head.getLeaf().getName());

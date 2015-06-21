@@ -104,7 +104,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       if (!tagName.startsWith(Constants.R_TAGS)) {
         tagName = Constants.R_TAGS + tagName;
       }
-      Ref ref = repo.getRefDatabase().getRef(tagName);
+      Ref ref = repo.getRefDatabase().exactRef(tagName);
       if (ref != null && !visibleTags(resource.getControl(), repo,
           ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
         return createTagInfo(ref, rw);

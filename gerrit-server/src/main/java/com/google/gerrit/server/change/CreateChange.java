@@ -175,7 +175,7 @@ public class CreateChange implements
         parentCommit = ObjectId.fromString(ps.getRevision().get());
         groups = ps.getGroups();
       } else {
-        Ref destRef = git.getRef(refName);
+        Ref destRef = git.getRefDatabase().exactRef(refName);
         if (destRef == null) {
           throw new UnprocessableEntityException(String.format(
               "Branch %s does not exist.", refName));

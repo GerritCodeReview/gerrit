@@ -730,7 +730,7 @@ public class ChangeData {
           return null;
         }
         try (Repository repo = repoManager.openRepository(c.getProject())) {
-          Ref ref = repo.getRef(c.getDest().get());
+          Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
           SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
               .getSubmitType();
           if (rec.status != SubmitTypeRecord.Status.OK) {

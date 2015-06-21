@@ -317,6 +317,7 @@ To include a specific group of acceptance tests:
 
 The following groups of tests are currently supported:
 
+* acceptance
 * api
 * edit
 * git
@@ -324,6 +325,7 @@ The following groups of tests are currently supported:
 * rest
 * server
 * ssh
+* slow
 
 To run a specific test, e.g. the acceptance test
 `com.google.gerrit.acceptance.git.HttpPushForReviewIT`:

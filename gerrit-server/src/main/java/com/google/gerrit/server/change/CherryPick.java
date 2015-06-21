@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -70,11 +71,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       throw new AuthException("Cherry pick not permitted");
     }
 
-    String refName = input.destination;
-    if (!refName.startsWith("refs/")) {
-      refName = "refs/heads/" + input.destination;
-    }
-
+    String refName = RefNames.fullName(input.destination);
     RefControl refControl = control.getProjectControl().controlForRef(refName);
     if (!refControl.canUpload()) {
       throw new AuthException("Not allowed to cherry pick "
@@ -85,7 +82,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
     try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(revision.getChange(),
-              revision.getPatchSet(), input.message, input.destination,
+              revision.getPatchSet(), input.message, refName,
               refControl);
       return json.format(cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {

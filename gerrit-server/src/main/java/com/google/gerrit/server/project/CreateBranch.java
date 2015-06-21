@@ -154,13 +154,13 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
             hooks.doRefUpdatedHook(name, u, identifiedUser.get().getAccount());
             break;
           case LOCK_FAILURE:
-            if (repo.getRef(ref) != null) {
+            if (repo.getRefDatabase().exactRef(ref) != null) {
               throw new ResourceConflictException("branch \"" + ref
                   + "\" already exists");
             }
             String refPrefix = getRefPrefix(ref);
             while (!Constants.R_HEADS.equals(refPrefix)) {
-              if (repo.getRef(refPrefix) != null) {
+              if (repo.getRefDatabase().exactRef(refPrefix) != null) {
                 throw new ResourceConflictException("Cannot create branch \""
                     + ref + "\" since it conflicts with branch \"" + refPrefix
                     + "\".");
@@ -229,7 +229,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       Iterable<Ref> refs = Iterables.concat(
           refDb.getRefs(Constants.R_HEADS).values(),
           refDb.getRefs(Constants.R_TAGS).values());
-      Ref rc = refDb.getRef(RefNames.REFS_CONFIG);
+      Ref rc = refDb.exactRef(RefNames.REFS_CONFIG);
       if (rc != null) {
         refs = Iterables.concat(refs, Collections.singleton(rc));
       }

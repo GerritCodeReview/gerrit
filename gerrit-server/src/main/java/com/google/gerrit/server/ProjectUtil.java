@@ -41,7 +41,7 @@ public class ProjectUtil {
       IOException {
     final Repository repo = repoManager.openRepository(branch.getParentKey());
     try {
-      boolean exists = repo.getRef(branch.get()) != null;
+      boolean exists = repo.getRefDatabase().exactRef(branch.get()) != null;
       if (!exists) {
         exists = repo.getFullBranch().equals(branch.get());
       }

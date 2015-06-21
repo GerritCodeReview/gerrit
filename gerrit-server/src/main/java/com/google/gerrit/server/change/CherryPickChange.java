@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -109,25 +110,26 @@ public class CherryPickChange {
   }
 
   public Change.Id cherryPick(Change change, PatchSet patch,
-      final String message, final String destinationBranch,
+      final String message, final String ref,
       final RefControl refControl) throws NoSuchChangeException,
       OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, MergeException {
 
-    if (destinationBranch == null || destinationBranch.length() == 0) {
+    if (Strings.isNullOrEmpty(ref)) {
       throw new InvalidChangeOperationException(
           "Cherry Pick: Destination branch cannot be null or empty");
     }
 
     Project.NameKey project = change.getProject();
+    String destinationBranch = RefNames.shortName(ref);
     IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
     try (Repository git = gitManager.openRepository(project);
         RevWalk revWalk = new RevWalk(git)) {
-      Ref destRef = git.getRef(destinationBranch);
+      Ref destRef = git.getRefDatabase().exactRef(ref);
       if (destRef == null) {
-        throw new InvalidChangeOperationException("Branch "
-            + destinationBranch + " does not exist.");
+        throw new InvalidChangeOperationException(String.format(
+            "Branch %s does not exist.", destinationBranch));
       }
 
       final RevCommit mergeTip = revWalk.parseCommit(destRef.getObjectId());

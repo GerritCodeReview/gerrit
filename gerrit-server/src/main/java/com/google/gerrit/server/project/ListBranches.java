@@ -115,9 +115,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
           db.getRefDatabase().getRefs(Constants.R_HEADS).values();
       refs = new ArrayList<>(heads.size() + 3);
       refs.addAll(heads);
-      addRef(db, refs, Constants.HEAD);
-      addRef(db, refs, RefNames.REFS_CONFIG);
-      addRef(db, refs, RefNames.REFS_USERS_DEFAULT);
+      refs.addAll(db.getRefDatabase().exactRef(
+          Constants.HEAD,
+          RefNames.REFS_CONFIG,
+          RefNames.REFS_USERS_DEFAULT).values());
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException();
     }
@@ -180,14 +181,6 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
     private static boolean isConfig(BranchInfo i) {
       return RefNames.REFS_CONFIG.equals(i.ref);
-    }
-  }
-
-  private static void addRef(Repository db, List<Ref> refs, String name)
-      throws IOException {
-    Ref ref = db.getRef(name);
-    if (ref != null) {
-      refs.add(ref);
     }
   }
 

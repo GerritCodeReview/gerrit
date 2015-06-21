@@ -189,7 +189,7 @@ public class NotesBranchUtil {
   }
 
   private void loadBase(String notesBranch) throws IOException {
-    Ref branch = db.getRef(notesBranch);
+    Ref branch = db.getRefDatabase().exactRef(notesBranch);
     if (branch != null) {
       baseCommit = revWalk.parseCommit(branch.getObjectId());
       base = NoteMap.read(revWalk.getObjectReader(), baseCommit);
@@ -240,7 +240,7 @@ public class NotesBranchUtil {
           }
         } else {
           throw new ConcurrentRefUpdateException("Failed to lock the ref: "
-              + notesBranch, db.getRef(notesBranch), result);
+              + notesBranch, refUpdate.getRef(), result);
         }
 
       } else if (result == Result.REJECTED) {

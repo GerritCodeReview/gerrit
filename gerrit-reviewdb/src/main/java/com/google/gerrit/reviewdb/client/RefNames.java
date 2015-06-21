@@ -58,7 +58,7 @@ public class RefNames {
   public static final String EDIT_PREFIX = "edit-";
 
   public static String fullName(String ref) {
-    return (ref.startsWith(REFS) ? "" : REFS_HEADS) + ref;
+    return ref.startsWith(REFS) ? ref : REFS_HEADS + ref;
   }
 
   public static final String shortName(String ref) {

@@ -166,7 +166,7 @@ public class ProjectState {
     try {
       Repository git = gitMgr.openRepository(getProject().getNameKey());
       try {
-        Ref ref = git.getRef(RefNames.REFS_CONFIG);
+        Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
         if (ref == null || ref.getObjectId() == null) {
           return true;
         }

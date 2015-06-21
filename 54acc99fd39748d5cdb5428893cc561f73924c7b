@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de6c5217_f6d36049",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-21T00:39:57Z",
+      "side": 1,
+      "message": "Message is out of date.  This commit only adds support for reading/writing a POJO to a Config using reflection. Which is fine, but the message should reflect what it does.",
+      "revId": "54acc99fd39748d5cdb5428893cc561f73924c7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

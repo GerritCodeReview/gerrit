@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1e534a56_b820b9d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-21T05:51:09Z",
+      "side": 1,
+      "message": "I added the same comment on previous patch set. Done.",
+      "parentUuid": "be679e30_55c5ec7e",
+      "range": {
+        "startLine": 22,
+        "startChar": 55,
+        "endLine": 22,
+        "endChar": 61
+      },
+      "revId": "24d1c4531e840ac556aa0f8de839246d2c03e6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e534a56_582cfdce",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
         "patchSetId": 5

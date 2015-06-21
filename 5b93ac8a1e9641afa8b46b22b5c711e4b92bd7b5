@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fe559639_d7fe1ca5",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-21T06:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de6c5217_36df984e",
+      "revId": "5b93ac8a1e9641afa8b46b22b5c711e4b92bd7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de6c5217_d6d0e43f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/UserConfigSections.java",
         "patchSetId": 26
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-21T00:46:20Z",
       "side": 1,
       "message": "Consider a private constructor:\n\n  private UserConfigSections() {\n  }\n\nas this class only carries public constants and should not be instantiated.",
+      "revId": "5b93ac8a1e9641afa8b46b22b5c711e4b92bd7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e534a56_981df599",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/UserConfigSections.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-21T06:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de6c5217_d6d0e43f",
       "revId": "5b93ac8a1e9641afa8b46b22b5c711e4b92bd7b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

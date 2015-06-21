@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de6c5217_36df984e",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-21T00:46:20Z",
+      "side": 1,
+      "message": "Why are these in their own default file? I think we should use the same config file name on refs/users/default as we are on a normal user ref, `preferences.config`.",
+      "revId": "5b93ac8a1e9641afa8b46b22b5c711e4b92bd7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de6c5217_d6d0e43f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/UserConfigSections.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-21T00:46:20Z",
+      "side": 1,
+      "message": "Consider a private constructor:\n\n  private UserConfigSections() {\n  }\n\nas this class only carries public constants and should not be instantiated.",
+      "revId": "5b93ac8a1e9641afa8b46b22b5c711e4b92bd7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

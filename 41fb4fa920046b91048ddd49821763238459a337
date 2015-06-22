@@ -1,0 +1,214 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de43727f_1e038d17",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "So, would the right thing to do be to remove these? Add a TODO to follow up? Delete them in a change before this rewrite?",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_7e08d12f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "This should be cleaned up before submitting.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_df18fb7e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ListenableAccountDiffPreference.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "Nit: extra blank line",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_3f2767c1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "No, I don\u0027t think so.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_be11b95e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "For consistency with deleted relations above you could delete this line.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 32
+      },
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_7f21efa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "try-with-resources",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_fe1b4178",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "Bump the serialVersionUID.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_5f26abc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "Consider a sanity check here:\n\n static {\n   checkState(WHITESPACE_TYPES.size() \u003d\u003d Whitespace.values().length);\n }",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_bf3a57d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "Delete this line?\n\n(I\u0027m not sure what was going on in the original; why did it need a defensive copy?)",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_9f3793ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "I guess I\u0027m fine with leaving this comment in, but it should be indented properly.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_de18057f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "try-with-resources here and below.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_df311bf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:33:57Z",
+      "side": 1,
+      "message": "A little surprised this cast is necessary.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

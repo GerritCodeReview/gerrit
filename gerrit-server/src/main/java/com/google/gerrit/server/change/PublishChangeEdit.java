@@ -18,6 +18,7 @@ import com.google.common.base.Optional;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -84,14 +85,18 @@ public class PublishChangeEdit implements
     @Override
     public Response<?> apply(ChangeResource rsrc, Publish.Input in)
         throws AuthException, ResourceConflictException, NoSuchChangeException,
-        IOException, InvalidChangeOperationException, OrmException {
+        IOException, OrmException, BadRequestException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(String.format(
             "no edit exists for change %s",
             rsrc.getChange().getChangeId()));
       }
-      editUtil.publish(edit.get());
+      try {
+        editUtil.publish(edit.get());
+      } catch (InvalidChangeOperationException e) {
+        throw new BadRequestException(e.getMessage());
+      }
       return Response.none();
     }
   }

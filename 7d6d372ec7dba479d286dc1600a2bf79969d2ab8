@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "de43727f_5eafd59b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T17:07:23Z",
+      "side": 1,
+      "message": "Nothing in the contract of this class says commits need to be not merged into branches. Consider viewing related changes of a set of closed changes.\n\nPlus not all repos have a \"small amount\" of branch tips, there are plenty in the wild that have hundreds or thousands.",
+      "parentUuid": "de43727f_3ea009ae",
+      "range": {
+        "startLine": 150,
+        "startChar": 9,
+        "endLine": 150,
+        "endChar": 52
+      },
+      "revId": "7d6d372ec7dba479d286dc1600a2bf79969d2ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_5fafcb9b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-22T17:02:09Z",
       "side": 1,
       "message": "Why do we need to have the minimal set?",
+      "range": {
+        "startLine": 151,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 73
+      },
+      "revId": "7d6d372ec7dba479d286dc1600a2bf79969d2ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_7eaa918d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T17:07:23Z",
+      "side": 1,
+      "message": "It\u0027s true that for correctness it doesn\u0027t need to be minimal, but performance is a concern if we start talking about marking thousands of uninteresting commits.",
+      "parentUuid": "fe3cb6f3_5fafcb9b",
       "range": {
         "startLine": 151,
         "startChar": 9,

@@ -1,0 +1,546 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de43727f_9ebcbdb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Long lines here and below.",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_9ee5ddcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "projects(), to be consistent with method names below.",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_dedf65f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "branchesByProject",
+      "range": {
+        "startLine": 60,
+        "startChar": 72,
+        "endLine": 60,
+        "endChar": 89
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_df8d9b04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "changesByProject",
+      "range": {
+        "startLine": 61,
+        "startChar": 67,
+        "endLine": 61,
+        "endChar": 83
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_3f9ac74c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Rectangle rule. Perhaps:\n\n ChangeSet cs \u003d mergeSuperSetFactory\n     .create(changes, Submit.wholeTopicEnabled(cfg))\n     .completeChangeSet();",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_7fa44f91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Nit: this is kind of ambiguous, \"update\" can mean a bunch of things.",
+      "range": {
+        "startLine": 499,
+        "startChar": 15,
+        "endLine": 499,
+        "endChar": 38
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_dec64538",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Although I think you haven\u0027t leaked any updates here, it feels a little unsafe to have this method that lazily creates updates without later ensuring that they\u0027ve all been pushed through. Perhaps once you\u0027ve called execute() you can delete it from the pending map, then at the bottom of a loop checkState(pendingRefUpdates.isEmpty())?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_1f88a3f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "These should also be protected with if (!dryRun), no?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_5ef4f581",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "if (!dryRun)",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_bee899a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "if (!dryRun)",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_7f7d6f65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "s/This c/C/",
+      "range": {
+        "startLine": 52,
+        "startChar": 3,
+        "endLine": 52,
+        "endChar": 18
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_3e9ac94c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Also topics, if submitWholeTopic is enabled.",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_7ea45191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "I don\u0027t think an assisted factory is necessary here. Just pass these two arguments into the public method.",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_bf96d71b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Nit: logger at the very top.",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_5ea99565",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "If you follow my advice above, withSpread doesn\u0027t need to be a field at all, since it\u0027s not used outside of the completeChangeSet method.\n\nI would go one step further and make changes not a field as well. You\u0027ll have to pass it in to a few of your private methods but I don\u0027t think that\u0027s too onerous.\n\nOnce you do that this whole class can be a @Singleton.",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_1e9f0d3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "\"Spread\" is not very specific here.",
+      "range": {
+        "startLine": 79,
+        "startChar": 24,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_ff905f20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Stray space.",
+      "range": {
+        "startLine": 96,
+        "startChar": 56,
+        "endLine": 96,
+        "endChar": 57
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_3f68079d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Order doesn\u0027t matter for what you\u0027re doing, you just walk through every commit and add it to a set.\n\nThat said, it might still be a good idea to use TOPO, since otherwise you might miss commits at the boundary if there is excessive commit time skew.\n\nBut COMMIT_TIME_DESC shouldn\u0027t be necessary.",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 48
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_5f77cb7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "setPatchSet is only required if you\u0027re checking a patch set other than the current one; getSubmitType immediately calls initPatchSet",
+      "range": {
+        "startLine": 105,
+        "startChar": 14,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_bead3974",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "I don\u0027t see that this is what this block is doing. It looks to me more like collecting unmerged commits.",
+      "range": {
+        "startLine": 119,
+        "startChar": 13,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_1f6d43ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Move the sort calls down here?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_9eaafd57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "I think you also want to check that the set of commits returned by this query is equal to hashes?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_7f728f90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Looks like this todo is implemented on the next line?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_bf5b7703",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Is it ok if it\u0027s MERGED?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_feb7c1c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Seems like this is redundant with the create on l. 102. But then again it feels odd to include ChangeDatas in the ChangeSet...",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_1e88adf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "This name is confusing, I would think cds contains ChangeDatas but it doesn\u0027t.",
+      "range": {
+        "startLine": 176,
+        "startChar": 12,
+        "endLine": 176,
+        "endChar": 15
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_deb485c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "And here you\u0027re discarding a perfectly good ChangeData that is going to get reread from the database up on l. 170 in the next iteration.\n\nOr maybe it\u0027s not actually \"perfectly good\", just in case the secondary index is stale. If we\u0027re going to reread for correctness\u0027 sake, we should at least put a comment about that when we do it.",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_9f583308",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:34:16Z",
+      "side": 1,
+      "message": "Why reopen the db instead of using an existing one?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

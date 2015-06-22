@@ -219,7 +219,7 @@ being used, ensure it uses a full mirror, so the `+refs/changes/*+`
 namespace is available.
 
 ----
-$ git config -f $site_path/etc/gerrit.config gitweb.cgi $PATH_TO_GITWEB/gitweb.cgi
+$ git config -f $site_path/etc/gerrit.config --unset gitweb.cgi
 $ git config -f $site_path/etc/gerrit.config gitweb.url https://gitweb.corporation.com
 ----
 

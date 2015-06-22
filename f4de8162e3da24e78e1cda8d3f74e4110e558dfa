@@ -34,6 +34,24 @@
       "revId": "f4de8162e3da24e78e1cda8d3f74e4110e558dfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be679e30_d5173c75",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2797,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-22T16:07:35Z",
+      "side": 1,
+      "message": "No. Look at GIT_CURL_VERBOSE\u003d1 git push ... on a complex repo with no bitmaps, e.g. Linux kernel. It will be about a minute between the time the /info/refs request ends and the next request starts.\n\nAfter counting and delta compression we send a tiny 4 byte payload, then start sending the real payload. But you must get through counting and delta compression within the nonce slop.\n\nThat makes pushing a large repository with signed push harder. Client needs to get through the entire local computation process before the nonce slop ends. :(\n\n5 minutes is good enough for Kerberos. I think we could do 5 minutes by default and reasonably explain that to people. It also should fit many common larger repositories local computation time.",
+      "parentUuid": "de43727f_9e1ddd99",
+      "revId": "f4de8162e3da24e78e1cda8d3f74e4110e558dfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

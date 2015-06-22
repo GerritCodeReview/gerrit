@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be679e30_95ef84f9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2797,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-22T01:03:24Z",
+      "side": 1,
+      "message": "This is too short to push the Linux kernel history to a new repo. The client needs ~60s just to compute the revwalk.",
+      "revId": "f4de8162e3da24e78e1cda8d3f74e4110e558dfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

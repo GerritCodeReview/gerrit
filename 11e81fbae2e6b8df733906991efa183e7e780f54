@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "de43727f_fee221c0",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:14:38Z",
+      "side": 1,
+      "message": "No other inheritable boolean option in this file documents this, so it qualifies as unrelated cleanup.",
+      "parentUuid": "fe3cb6f3_ffb7bfc1",
+      "range": {
+        "startLine": 165,
+        "startChar": 18,
+        "endLine": 165,
+        "endChar": 19
+      },
+      "revId": "11e81fbae2e6b8df733906991efa183e7e780f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_1efa6d6f",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 4

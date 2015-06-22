@@ -134,13 +134,11 @@ public class ChangeEditUtil {
    * @param edit change edit to publish
    * @throws NoSuchChangeException
    * @throws IOException
-   * @throws InvalidChangeOperationException
    * @throws OrmException
    * @throws ResourceConflictException
    */
   public void publish(ChangeEdit edit) throws NoSuchChangeException,
-      IOException, InvalidChangeOperationException,
-      OrmException, ResourceConflictException {
+      IOException, OrmException, ResourceConflictException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
@@ -151,10 +149,14 @@ public class ChangeEditUtil {
             "only edit for current patch set can be published");
       }
 
-      insertPatchSet(edit, change, repo, rw, basePatchSet,
-          squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
-      // TODO(davido): This should happen in the same BatchRefUpdate.
-      deleteRef(repo, edit);
+      try {
+          insertPatchSet(edit, change, repo, rw, basePatchSet,
+              squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
+        // TODO(davido): This should happen in the same BatchRefUpdate.
+        deleteRef(repo, edit);
+      } catch (InvalidChangeOperationException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
     }
   }
 

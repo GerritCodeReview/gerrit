@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -34,16 +36,17 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -135,51 +138,96 @@ class WalkSorter {
         return ImmutableList.of(byCommit.values().iterator().next());
       }
 
-      Collection<RevCommit> commits = byCommit.keySet();
-      List<RevCommit> mergeBases = findMergeBases(rw, commits);
-      rw.reset();
-      rw.setRevFilter(RevFilter.ALL);
-      // Mark parents of all merge bases as uninteresting, to limit the cost of
-      // the topo sort, which slurps all interesting commits before returning
-      // anything.
-      //
-      // There are two cases where this doesn't work and performance will
-      // suffer:
-      // 1. The common ancestor is a root commit; JGit currently does not return
-      //    a root commit as a merge base, even if it is the common ancestor.
-      // 2. There is a merge of two unrelated branches of history; these simply
-      //    have no merge base, so this technique of finding uninteresting
-      //    ancestors doesn't work.
-      //
-      // The performance impact of these cases in practice is hopefully low;
-      // this does handle the common case of a single chain of commits.
-      for (RevCommit mergeBase : mergeBases) {
-        for (RevCommit p : mergeBase.getParents()) {
-          rw.markUninteresting(p);
-        }
-      }
-      rw.sort(RevSort.TOPO);
-
       // Walk from all patch set SHA-1s, and terminate as soon as we've found
       // everything we're looking for. This is equivalent to just sorting the
       // list of commits by the RevWalk's configured order.
+      //
+      // Partially topo sort the list, ensuring no parent is emitted before a
+      // direct child that is also in the input set. This preserves the stable,
+      // expected sort in the case where many commit share the same timestamp,
+      // e.g. a quick rebase. It also avoids JGit's topo sort, which slurps all
+      // interesting commits at the beginning, which is a problem since we don't
+      // know which commits to mark as uninteresting. Finding a minimal set of
+      // commits to mark uninteresting (the "rootmost" set) is at least as
+      // difficult as just implementing this partial topo sort ourselves.
+      //
+      // (This is slightly less efficient than JGit's topo sort, which uses a
+      // private in-degree field in RevCommit rather than multimaps. We assume
+      // the input size is small enough that this is not an issue.)
 
+      Set<RevCommit> commits = byCommit.keySet();
+      Multimap<RevCommit, RevCommit> children = collectChildren(commits);
+      Multimap<RevCommit, RevCommit> pending = ArrayListMultimap.create();
+      Deque<RevCommit> todo = new ArrayDeque<>();
+
+      RevFlag done = rw.newFlag("done");
       markStart(rw, commits);
       int expected = commits.size();
       int found = 0;
       RevCommit c;
       List<PatchSetData> result = new ArrayList<>(expected);
       while (found < expected && (c = rw.next()) != null) {
-        Collection<PatchSetData> psds = byCommit.get(c);
-        if (!psds.isEmpty()) {
-          found++;
-          for (PatchSetData psd : psds) {
-            result.add(psd);
+        if (!commits.contains(c)) {
+          continue;
+        }
+        todo.clear();
+        todo.add(c);
+        int i = 0;
+        while (!todo.isEmpty()) {
+          // Sanity check: we can't pop more than N pending commits, otherwise
+          // we have an infinite loop due to programmer error or something.
+          checkState(++i <= commits.size(),
+              "Too many pending steps while sorting %s", commits);
+          RevCommit t = todo.removeFirst();
+          if (t.has(done)) {
+            continue;
+          }
+          boolean ready = true;
+          for (RevCommit child : children.get(t)) {
+            if (!child.has(done)) {
+              pending.put(child, t);
+              ready = false;
+            }
+          }
+          if (ready) {
+            found += emit(t, byCommit, result, done);
+            for (RevCommit p : pending.get(t)) {
+              todo.add(p);
+            }
           }
         }
       }
       return result;
     }
+  }
+
+  private static Multimap<RevCommit, RevCommit> collectChildren(
+      Set<RevCommit> commits) {
+    Multimap<RevCommit, RevCommit> children = ArrayListMultimap.create();
+    for (RevCommit c : commits) {
+      for (RevCommit p : c.getParents()) {
+        if (commits.contains(p)) {
+          children.put(p, c);
+        }
+      }
+    }
+    return children;
+  }
+
+  private static int emit(RevCommit c, Multimap<RevCommit, PatchSetData> byCommit,
+      List<PatchSetData> result, RevFlag done) {
+    if (c.has(done)) {
+      return 0;
+    }
+    c.add(done);
+    Collection<PatchSetData> psds = byCommit.get(c);
+    if (!psds.isEmpty()) {
+      for (PatchSetData psd : psds) {
+        result.add(psd);
+      }
+      return 1;
+    }
+    return 0;
   }
 
   private Multimap<RevCommit, PatchSetData> byCommit(RevWalk rw,
@@ -219,18 +267,6 @@ class WalkSorter {
     for (RevCommit c : commits) {
       rw.markStart(c);
     }
-  }
-
-  private static List<RevCommit> findMergeBases(RevWalk rw,
-      Iterable<RevCommit> commits) throws IOException {
-    rw.setRevFilter(RevFilter.MERGE_BASE);
-    markStart(rw, commits);
-    List<RevCommit> result = new ArrayList<>();
-    RevCommit c;
-    while ((c = rw.next()) != null) {
-      result.add(c);
-    }
-    return result;
   }
 
   @AutoValue

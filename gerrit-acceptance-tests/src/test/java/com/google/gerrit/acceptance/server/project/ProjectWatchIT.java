@@ -40,7 +40,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   /**
    * Tests message project watches on new patch sets
    * <p>
-   * As of 2015-06-21 this test is marked broken for triggering race
+   * As of 2015-06-21 this test is marked flaky for triggering race
    * conditions between indexing and project watches filters as
    * of 2015-06-21.
    * <p>

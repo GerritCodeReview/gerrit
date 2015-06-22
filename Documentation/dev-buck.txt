@@ -297,16 +297,16 @@ To build release and api targets, a combined build target is provided:
 [[tests]]
 == Running Unit Tests
 
-To run all tests including acceptance tests (but not broken tests):
+To run all tests including acceptance tests (but not flaky tests):
 
 ----
-  buck test --exclude broken
+  buck test --exclude flaky
 ----
 
-To exclude broken and slow tests:
+To exclude flaky and slow tests:
 
 ----
-  buck test --exclude broken slow
+  buck test --exclude flaky slow
 ----
 
 To run only a specific group of acceptance tests:
@@ -318,9 +318,9 @@ To run only a specific group of acceptance tests:
 The following groups of tests are currently supported:
 
 * acceptance
-* broken
 * api
 * edit
+* flaky
 * git
 * pgm
 * rest

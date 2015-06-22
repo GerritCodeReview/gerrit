@@ -58,8 +58,8 @@ import java.util.Set;
  * Split changes by project, and map each change to a single commit based on the
  * latest patch set. The set of patch sets considered may be limited by calling
  * {@link #includePatchSets(Iterable)}. Perform a standard {@link RevWalk} on
- * each project repository, and record the order in which each change's commit
- * is seen.
+ * each project repository, do an approximate topo sort, and record the order in
+ * which each change's commit is seen.
  * <p>
  * Once an order within each project is determined, groups of changes are sorted
  * based on the project name. This is slightly more stable than sorting on
@@ -144,7 +144,7 @@ class WalkSorter {
       //
       // Partially topo sort the list, ensuring no parent is emitted before a
       // direct child that is also in the input set. This preserves the stable,
-      // expected sort in the case where many commit share the same timestamp,
+      // expected sort in the case where many commits share the same timestamp,
       // e.g. a quick rebase. It also avoids JGit's topo sort, which slurps all
       // interesting commits at the beginning, which is a problem since we don't
       // know which commits to mark as uninteresting. Finding a reasonable set
@@ -191,9 +191,7 @@ class WalkSorter {
           }
           if (ready) {
             found += emit(t, byCommit, result, done);
-            for (RevCommit p : pending.get(t)) {
-              todo.add(p);
-            }
+            todo.addAll(pending.get(t));
           }
         }
       }

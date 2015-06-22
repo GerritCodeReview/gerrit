@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe3cb6f3_5fdb4b15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T22:43:58Z",
+      "side": 1,
+      "message": "also addAll here?",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 13
+      },
+      "revId": "02ace54f58ca3cdaf080dee1b47f1f835c1f7556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

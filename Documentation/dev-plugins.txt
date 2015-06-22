@@ -1985,6 +1985,67 @@ new RestApi("accounts").id("self").view("password.http")
 });
 ----
 
+=== Consuming a single String returned as a REST response
+
+The `NativeString` class is supposed to be used to consume a single
+String that is returned as a REST response.
+
+[source,java]
+----
+new RestApi("accounts").id("self").view("password.http")
+    .get(new AsyncCallback<NativeString>() {
+
+  @Override
+  public void onSuccess(NativeString result) {
+    // unwrapping native string fails
+    String httpPassword = result.asString();
+
+    // TODO
+  }
+
+  @Override
+  public void onFailure(Throwable caught) {
+    // never invoked
+  }
+});
+----
+
+Invoking the `asString()` method on a `NativeString` should unwrap the
+native string and return it as Java String, however at the moment this
+is failing with a JavaScript TypeError.
+
+As a workaround you can write your own NativeString class:
+
+[source,java]
+----
+public class MyNativeString extends JavaScriptObject {
+  final native String asString() /*-{ return this; }-*/;
+
+  protected MyNativeString() {
+  }
+}
+----
+
+[source,java]
+----
+new RestApi("accounts").id("self").view("password.http")
+    .get(new AsyncCallback<MyNativeString>() {
+
+  @Override
+  public void onSuccess(MyNativeString result) {
+    // unwrapping native string succeeds
+    String httpPassword = result.asString();
+
+    // TODO
+  }
+
+  @Override
+  public void onFailure(Throwable caught) {
+    // never invoked
+  }
+});
+----
+
 
 == SEE ALSO
 

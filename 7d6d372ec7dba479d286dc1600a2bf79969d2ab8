@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fe3cb6f3_ff1b3f78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:18:29Z",
+      "side": 1,
+      "message": "What you\u0027ve proposed is considerably more complicated than what I have here, so I\u0027m guessing your comment was more thinking out loud than actually suggesting I implement that in this change.",
+      "parentUuid": "de43727f_fe9d016f",
+      "range": {
+        "startLine": 150,
+        "startChar": 9,
+        "endLine": 150,
+        "endChar": 52
+      },
+      "revId": "7d6d372ec7dba479d286dc1600a2bf79969d2ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_5fafcb9b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
         "patchSetId": 1

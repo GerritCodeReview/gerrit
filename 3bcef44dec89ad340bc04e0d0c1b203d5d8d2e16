@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e534a56_d845ad65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-22T10:28:31Z",
+      "side": 1,
+      "message": "I think that ResourceConflictException is better suited for this case. The request is fine, but the content is conflicting with plugin validators.\n\nMoreover, can\u0027t this exception translation be done in ChangeEditUtil? It already reports similar failures to the user:\n\n  if (!basePatchSet.getId().equals(change.currentPatchSetId())) {\n        throw new ResourceConflictException(\n            \"only edit for current patch set can be published\");\n  }",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 99,
+        "endChar": 7
+      },
+      "revId": "3bcef44dec89ad340bc04e0d0c1b203d5d8d2e16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

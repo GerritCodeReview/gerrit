@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe3cb6f3_9faaf357",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T23:08:13Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 160,
+        "startChar": 18,
+        "endLine": 160,
+        "endChar": 20
+      },
+      "revId": "11e81fbae2e6b8df733906991efa183e7e780f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_ffb7bfc1",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T23:08:13Z",
+      "side": 1,
+      "message": "Which values are all possible, (boolean + INHERIT I\u0027d guess), but is there a list somewhere else in the doc or do we need to address that here as well?",
+      "range": {
+        "startLine": 165,
+        "startChar": 18,
+        "endLine": 165,
+        "endChar": 19
+      },
+      "revId": "11e81fbae2e6b8df733906991efa183e7e780f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_1efa6d6f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T23:08:13Z",
+      "side": 1,
+      "message": "um?",
+      "range": {
+        "startLine": 646,
+        "startChar": 19,
+        "endLine": 646,
+        "endChar": 22
+      },
+      "revId": "11e81fbae2e6b8df733906991efa183e7e780f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

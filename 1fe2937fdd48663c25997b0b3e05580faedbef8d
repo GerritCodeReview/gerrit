@@ -34,6 +34,24 @@
       "revId": "1fe2937fdd48663c25997b0b3e05580faedbef8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_de176575",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T01:27:06Z",
+      "side": 1,
+      "message": "I mean, I agree that this is a silly way to determine whether signed push is enabled because it ties it to nonce verification, and a specific implementation of that to boot. But this is definitely how you enable it in C git, so I guess by \"we\" you mean \"the git community at large\" :)",
+      "parentUuid": "de43727f_be2099d3",
+      "revId": "1fe2937fdd48663c25997b0b3e05580faedbef8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

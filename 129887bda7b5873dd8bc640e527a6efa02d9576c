@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de43727f_5e0d153e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T22:30:59Z",
+      "side": 1,
+      "message": "Do we want to tell the pushing user about these error cases?\n\nIt\u0027s easy to forget about expired things and if all you get is a \"nope, error with the crypto\" may be wasting lots of time for non malicious users.",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 52
+      },
+      "revId": "129887bda7b5873dd8bc640e527a6efa02d9576c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_1f2c23a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T22:30:59Z",
+      "side": 1,
+      "message": "What about KEY_REVOCATION as well?\n\nhttp://mc.coolman.ca/mc-artifacts/lib/bouncycastle/java-api/pgp/apidocs/org/bouncycastle/openpgp/PGPSignature.html",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 67
+      },
+      "revId": "129887bda7b5873dd8bc640e527a6efa02d9576c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_3fcc875d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T22:30:59Z",
+      "side": 1,
+      "message": "I am not sure if all the others are valid looking at the signature types as of http://www.ietf.org/rfc/rfc4880.txt\n\nSo for example STAND_ALONE would not make sense.\n\nWhat exactly is the contract for this method (If this method returns true, we can believe all formal aspects are met, or even that the signature itself is to be trusted?)",
+      "range": {
+        "startLine": 250,
+        "startChar": 12,
+        "endLine": 250,
+        "endChar": 25
+      },
+      "revId": "129887bda7b5873dd8bc640e527a6efa02d9576c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

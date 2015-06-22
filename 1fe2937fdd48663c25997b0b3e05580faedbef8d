@@ -52,6 +52,24 @@
       "revId": "1fe2937fdd48663c25997b0b3e05580faedbef8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be679e30_1557f42d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-22T16:08:36Z",
+      "side": 1,
+      "message": "I meant at Google. The gerrit-review Guice glue is going to set this up a bit differently, and I think you are going to regret isEnabled being conditional around this variable.",
+      "parentUuid": "de43727f_de176575",
+      "revId": "1fe2937fdd48663c25997b0b3e05580faedbef8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

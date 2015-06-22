@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "de43727f_fe9d016f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T17:55:11Z",
+      "side": 1,
+      "message": "Right. I was thinking about the related tab of open changes, but it can also be used for closed changes.\n\nReading the contract of this class, I am unsure what to expect w.r.t. the uninteresting commits, as nothing is promised there. So we don\u0027t know the commits to be marked uninteresting. Maybe the caller knows more and we need to introduce a `excludePatchSets` or `excludeCommits`. For open changes the related tab would just pass in all branch tips of related branches (that is any branch that is touched by any patchset of the commits not integrated or of the same topic.)\n\nFor closed changes we would need to record the state of the branches at the time of closing ideally. (This may be easy to reconstruct for the MERGE-ALWAYS strategy, but for other strategies we have no clue).",
+      "parentUuid": "de43727f_5eafd59b",
+      "range": {
+        "startLine": 150,
+        "startChar": 9,
+        "endLine": 150,
+        "endChar": 52
+      },
+      "revId": "7d6d372ec7dba479d286dc1600a2bf79969d2ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_5fafcb9b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WalkSorter.java",
         "patchSetId": 1

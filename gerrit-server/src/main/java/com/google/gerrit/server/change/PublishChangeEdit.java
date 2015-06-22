@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -84,7 +83,7 @@ public class PublishChangeEdit implements
     @Override
     public Response<?> apply(ChangeResource rsrc, Publish.Input in)
         throws AuthException, ResourceConflictException, NoSuchChangeException,
-        IOException, InvalidChangeOperationException, OrmException {
+        IOException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(String.format(

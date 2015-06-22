@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe3cb6f3_1f9f033d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2787,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T22:59:14Z",
+      "side": 1,
+      "message": "s/used//",
+      "range": {
+        "startLine": 2787,
+        "startChar": 56,
+        "endLine": 2787,
+        "endChar": 60
+      },
+      "revId": "0524b7ded3b89412085d4c5eeaa500fe7942d7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_fec98148",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T22:59:14Z",
+      "side": 1,
+      "message": "This smells like a degrading attack may be possible. \n\nI\u0027d rather error out instead of using low effort random and not tell the user at all. At least we need to write a log message or send an email?",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "0524b7ded3b89412085d4c5eeaa500fe7942d7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

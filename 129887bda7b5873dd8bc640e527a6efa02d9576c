@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "de43727f_7e21f1a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T22:36:44Z",
+      "side": 1,
+      "message": "The reason it is this way now is that we actually iterate through all keys found in the file, only a subset of which might be expired. So the way the code is structured you can\u0027t tell that this\n\nI\u0027m a little ways through a rewrite of this that will introduce a better keyring type abstraction, and that will include the ability to pass these messages through to the user in a more reliable way. But I don\u0027t think we should delay getting this in for that.",
+      "parentUuid": "de43727f_5e0d153e",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 52
+      },
+      "revId": "129887bda7b5873dd8bc640e527a6efa02d9576c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_1f2c23a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
         "patchSetId": 9

@@ -45,6 +45,30 @@
       "revId": "0524b7ded3b89412085d4c5eeaa500fe7942d7b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_3f83e7e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T23:05:01Z",
+      "side": 1,
+      "message": "Eh, everywhere else we do this we just rethrow as ISE. I\u0027ll do that here.",
+      "parentUuid": "de43727f_fec98148",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "0524b7ded3b89412085d4c5eeaa500fe7942d7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

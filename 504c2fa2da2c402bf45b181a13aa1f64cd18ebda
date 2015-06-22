@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e534a56_d873edc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-22T13:08:04Z",
+      "side": 1,
+      "message": "[Optional] Mention that reproducer is available with: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/68850",
+      "revId": "504c2fa2da2c402bf45b181a13aa1f64cd18ebda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

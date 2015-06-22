@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de6c5217_f6ec0006",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-22T01:04:05Z",
+      "side": 1,
+      "message": "Did we want to use refs/gpg-keys to avoid confusing it with SSH keys?",
+      "revId": "6c9cd3d443bb69f296e356f55d9aa68e0109c2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

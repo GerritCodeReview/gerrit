@@ -16,6 +16,24 @@
       "revId": "f4de8162e3da24e78e1cda8d3f74e4110e558dfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_9e1ddd99",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2797,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T01:14:47Z",
+      "side": 1,
+      "message": "I thought this lag was only between the info/refs request (plus unlocking the gpg key) and sending the command list, and that computing the revwalk would happen after that. Is that not the case?\n\nAnyway I\u0027m happy to increase this to 10 minutes or an hour or something; how high is too high?",
+      "parentUuid": "be679e30_95ef84f9",
+      "revId": "f4de8162e3da24e78e1cda8d3f74e4110e558dfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

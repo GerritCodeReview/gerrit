@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "de43727f_9e931d2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-22T23:46:56Z",
+      "side": 1,
+      "message": "No these are deliberately not protected as it breaks various tests which expect a merge failure due to conflicts. And the expectation is to have the changes in the submitted state. So I could either make these also protected by `dryRun` and change the tests or rename it to `dryRunForMergingOnly`.\n\nI guess I\u0027ll change the tests then.",
+      "parentUuid": "fe3cb6f3_1f88a3f7",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_5ef4f581",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 13

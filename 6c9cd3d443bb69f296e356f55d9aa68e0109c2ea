@@ -16,6 +16,24 @@
       "revId": "6c9cd3d443bb69f296e356f55d9aa68e0109c2ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_5f618b06",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T01:18:24Z",
+      "side": 1,
+      "message": "* RFC 4880 is called OpenPGP\n* Bouncy Castle calls it PGP\n* C git calls it GPG (e.g. commit.gpgSign)\n\nSo I guess we call it gpg to match C git?",
+      "parentUuid": "de6c5217_f6ec0006",
+      "revId": "6c9cd3d443bb69f296e356f55d9aa68e0109c2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

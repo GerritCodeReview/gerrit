@@ -121,6 +121,24 @@
       "revId": "24d1c4531e840ac556aa0f8de839246d2c03e6c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_7e2731ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushPreReceiveHook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T00:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be679e30_15bb7414",
+      "revId": "24d1c4531e840ac556aa0f8de839246d2c03e6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

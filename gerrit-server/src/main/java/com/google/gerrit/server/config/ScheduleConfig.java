@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduleConfig {
@@ -122,7 +123,8 @@ public class ScheduleConfig {
           startTime.hourOfDay().set(firstStartTime.getHourOfDay());
           startTime.minuteOfHour().set(firstStartTime.getMinuteOfHour());
         } catch (IllegalArgumentException e1) {
-          formatter = DateTimeFormat.forPattern("E HH:mm");
+          formatter = DateTimeFormat.forPattern("E HH:mm")
+              .withLocale(Locale.US);
           LocalDateTime firstStartDateTime = formatter.parseLocalDateTime(start);
           startTime.dayOfWeek().set(firstStartDateTime.getDayOfWeek());
           startTime.hourOfDay().set(firstStartDateTime.getHourOfDay());

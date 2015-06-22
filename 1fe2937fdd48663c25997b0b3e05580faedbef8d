@@ -16,6 +16,24 @@
       "revId": "1fe2937fdd48663c25997b0b3e05580faedbef8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_be2099d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SignedPushModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-22T01:12:53Z",
+      "side": 1,
+      "message": "?",
+      "parentUuid": "de6c5217_d6e904f4",
+      "revId": "1fe2937fdd48663c25997b0b3e05580faedbef8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

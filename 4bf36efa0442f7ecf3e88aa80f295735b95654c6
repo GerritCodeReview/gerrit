@@ -22,6 +22,30 @@
       "revId": "4bf36efa0442f7ecf3e88aa80f295735b95654c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e534a56_f8e231c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/DownloadInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-23T08:32:31Z",
+      "side": 1,
+      "message": "Not sure if this can be easily done. Once it\u0027s in the download-commands plugin on serve-side, and here it\u0027s in Gerrit core on client-side.",
+      "parentUuid": "be679e30_75aaa88d",
+      "range": {
+        "startLine": 66,
+        "startChar": 3,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "4bf36efa0442f7ecf3e88aa80f295735b95654c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

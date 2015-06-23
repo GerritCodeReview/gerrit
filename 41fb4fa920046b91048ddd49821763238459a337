@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e534a56_18d1e5f7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Turns out I was wrong. These three options are still used in unified diff screen and must be preserved. Will rework. Reminder to myself: Test that these options are still work after the migration. Reminder to myself II: File issue to cimplement these options in side by side diff screen.\n\nDone.",
+      "parentUuid": "de43727f_1e038d17",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_7e08d12f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-22T22:33:57Z",
       "side": 1,
       "message": "This should be cleaned up before submitting.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e534a56_38cca95d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Same story as in JSON container. Done.",
+      "parentUuid": "de43727f_7e08d12f",
       "revId": "41fb4fa920046b91048ddd49821763238459a337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "fe559639_b711e85e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ListenableAccountDiffPreference.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3cb6f3_df18fb7e",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_3f2767c1",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
         "patchSetId": 13
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1e534a56_78d621f1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3cb6f3_3f2767c1",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_be11b95e",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
         "patchSetId": 13
@@ -81,6 +153,30 @@
       "writtenOn": "2015-06-22T22:33:57Z",
       "side": 1,
       "message": "For consistency with deleted relations above you could delete this line.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 32
+      },
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe559639_970e6438",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de43727f_be11b95e",
       "range": {
         "startLine": 72,
         "startChar": 0,
@@ -127,6 +223,24 @@
     },
     {
       "key": {
+        "uuid": "fe559639_d718dc7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de43727f_fe1b4178",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_5f26abc1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 13
@@ -144,6 +258,24 @@
     },
     {
       "key": {
+        "uuid": "1e534a56_58db5d15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Good idea. Done",
+      "parentUuid": "fe3cb6f3_5f26abc1",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_bf3a57d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 13
@@ -155,6 +287,24 @@
       "writtenOn": "2015-06-22T22:33:57Z",
       "side": 1,
       "message": "Delete this line?\n\n(I\u0027m not sure what was going on in the original; why did it need a defensive copy?)",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe559639_372798c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T06:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3cb6f3_bf3a57d2",
       "revId": "41fb4fa920046b91048ddd49821763238459a337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

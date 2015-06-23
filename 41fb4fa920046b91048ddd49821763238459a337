@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fe559639_97bca4b8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T09:05:07Z",
+      "side": 1,
+      "message": "Done:\n\n* https://code.google.com/p/gerrit/issues/detail?id\u003d3445\n* https://code.google.com/p/gerrit/issues/detail?id\u003d3446",
+      "parentUuid": "1e534a56_18d1e5f7",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_7e08d12f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java",
         "patchSetId": 13

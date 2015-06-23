@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7ee446f7_1bb61b2e",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T18:30:11Z",
+      "side": 1,
+      "message": "One user.",
+      "range": {
+        "startLine": 156,
+        "startChar": 26,
+        "endLine": 156,
+        "endChar": 30
+      },
+      "revId": "c13680e6d3494ba778d5873d2662494654db3ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de6c5217_f61b6078",
         "filename": "lib/BUCK",
         "patchSetId": 8

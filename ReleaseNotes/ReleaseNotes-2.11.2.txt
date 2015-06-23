@@ -1,0 +1,28 @@
+Release notes for Gerrit 2.11.2
+===============================
+
+Gerrit 2.11.2 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.2.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.2.war]
+
+There are no schema changes from link:ReleaseNotes-2.11.1.html[2.11.1].
+
+Bug Fixes
+---------
+
+* Fix regression in the search box auto-suggestions.
++
+A change introduced in version 2.11 caused the auto-suggestions to not work
+any more.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3355[Issue 3355]:
+Fix corruption of database when deleting draft change ref fails.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3426[Issue 3426]:
+Fix regression in the `%base` option.
++
+A change introduced in version 2.11 caused the `%base` option to not work
+any more, meaning it was not possible to push a commit, which is already merged
+into a branch, for review to another branch of the same project.
+

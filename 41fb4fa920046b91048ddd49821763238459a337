@@ -224,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "1e534a56_385149e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T16:59:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3cb6f3_7f21efa7",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_fe1b4178",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 13
@@ -346,6 +364,24 @@
     },
     {
       "key": {
+        "uuid": "1e534a56_185605d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T16:59:47Z",
+      "side": 1,
+      "message": "Removed. Once this change is applied, there is no value in this dump.",
+      "parentUuid": "fe3cb6f3_9f3793ec",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_de18057f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
         "patchSetId": 13
@@ -363,6 +399,24 @@
     },
     {
       "key": {
+        "uuid": "fe559639_77a47091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T16:59:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de43727f_de18057f",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_df311bf7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
         "patchSetId": 13
@@ -374,6 +428,24 @@
       "writtenOn": "2015-06-22T22:33:57Z",
       "side": 1,
       "message": "A little surprised this cast is necessary.",
+      "revId": "41fb4fa920046b91048ddd49821763238459a337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e534a56_784bc12c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-23T16:59:47Z",
+      "side": 1,
+      "message": "short can be assigned to int, but implicit conversion from short to Integer doesn\u0027t work.",
+      "parentUuid": "fe3cb6f3_df311bf7",
       "revId": "41fb4fa920046b91048ddd49821763238459a337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

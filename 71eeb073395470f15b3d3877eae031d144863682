@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de43727f_be5b7903",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de43727f_9ebcbdb8",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_9ee5ddcc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 13
@@ -30,6 +48,30 @@
       "writtenOn": "2015-06-22T23:34:16Z",
       "side": 1,
       "message": "projects(), to be consistent with method names below.",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_5e77d57e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de43727f_9ee5ddcc",
       "range": {
         "startLine": 57,
         "startChar": 48,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "fe3cb6f3_ff3e9f95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de43727f_dedf65f4",
+      "range": {
+        "startLine": 60,
+        "startChar": 72,
+        "endLine": 60,
+        "endChar": 89
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_df8d9b04",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 13
@@ -76,6 +142,30 @@
       "writtenOn": "2015-06-22T23:34:16Z",
       "side": 1,
       "message": "changesByProject",
+      "range": {
+        "startLine": 61,
+        "startChar": 67,
+        "endLine": 61,
+        "endChar": 83
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_7e729190",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3cb6f3_df8d9b04",
       "range": {
         "startLine": 61,
         "startChar": 67,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "de43727f_9e583d08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3cb6f3_3f9ac74c",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_7fa44f91",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 13
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "de43727f_fe6501c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "Done, \"Write out the new branch tips\" should be better.",
+      "parentUuid": "fe3cb6f3_7fa44f91",
+      "range": {
+        "startLine": 499,
+        "startChar": 15,
+        "endLine": 499,
+        "endChar": 38
+      },
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_dec64538",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 13
@@ -139,6 +271,24 @@
       "writtenOn": "2015-06-22T23:34:16Z",
       "side": 1,
       "message": "Although I think you haven\u0027t leaked any updates here, it feels a little unsafe to have this method that lazily creates updates without later ensuring that they\u0027ve all been pushed through. Perhaps once you\u0027ve called execute() you can delete it from the pending map, then at the bottom of a loop checkState(pendingRefUpdates.isEmpty())?",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de43727f_de62c5b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "Done in integrateIntoHistory",
+      "parentUuid": "de43727f_dec64538",
       "revId": "71eeb073395470f15b3d3877eae031d144863682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +324,24 @@
       "side": 1,
       "message": "No these are deliberately not protected as it breaks various tests which expect a merge failure due to conflicts. And the expectation is to have the changes in the submitted state. So I could either make these also protected by `dryRun` and change the tests or rename it to `dryRunForMergingOnly`.\n\nI guess I\u0027ll change the tests then.",
       "parentUuid": "fe3cb6f3_1f88a3f7",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe3cb6f3_df3bdba3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T00:11:05Z",
+      "side": 1,
+      "message": "I changed my mind, as we want to surface the submitted state as least as possible. So the user only wants to see NEW and MERGED ideally. So anything which was submitted should be undone here. (Later when we remove the submitted state we will remove these lines anyway.)",
+      "parentUuid": "de43727f_9e931d2c",
       "revId": "71eeb073395470f15b3d3877eae031d144863682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

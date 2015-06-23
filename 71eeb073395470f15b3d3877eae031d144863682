@@ -944,6 +944,24 @@
     },
     {
       "key": {
+        "uuid": "3eb80ed4_39bbef14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T19:04:55Z",
+      "side": 1,
+      "message": "This could not be merged as we iterate over the result of queryProvider.get().byCommitsOnBranch which only returned open changes. So this check was kinda useless. I\u0027ll change the byCommitsOnBranch to return any change from the given branch, so it makes sense to check it here (also the merged case will work).",
+      "parentUuid": "de43727f_5ed515b1",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_feb7c1c1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 13

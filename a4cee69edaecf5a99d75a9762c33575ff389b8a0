@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eb5c2d8_3abbe114",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-06-23T22:33:51Z",
+      "side": 1,
+      "message": "Should this say RepositoryNotFoundException?",
+      "range": {
+        "startLine": 237,
+        "startChar": 15,
+        "endLine": 237,
+        "endChar": 27
+      },
+      "revId": "a4cee69edaecf5a99d75a9762c33575ff389b8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

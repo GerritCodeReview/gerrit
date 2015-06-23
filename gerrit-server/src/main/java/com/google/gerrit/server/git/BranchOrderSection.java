@@ -40,12 +40,12 @@ public class BranchOrderSection {
     }
   }
 
-  public List<String> getMoreStable(String branch) {
+  public String[] getMoreStable(String branch) {
     int i = order.indexOf(RefNames.fullName(branch));
     if (0 <= i) {
-      return order.subList(i + 1, order.size());
-    } else {
-      return ImmutableList.of();
+      List<String> r = order.subList(i + 1, order.size());
+      return r.toArray(new String[r.size()]);
     }
+    return new String[] {};
   }
 }

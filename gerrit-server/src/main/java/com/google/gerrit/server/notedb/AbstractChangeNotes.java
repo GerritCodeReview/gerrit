@@ -81,7 +81,7 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     try {
       repo = repoManager.openMetadataRepository(getProjectName());
       try {
-        Ref ref = repo.getRef(getRefName());
+        Ref ref = repo.getRefDatabase().exactRef(getRefName());
         return ref != null ? ref.getObjectId() : null;
       } finally {
         repo.close();

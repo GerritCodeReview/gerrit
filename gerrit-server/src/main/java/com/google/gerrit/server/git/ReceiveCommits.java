@@ -1203,10 +1203,8 @@ public class ReceiveCommits {
 
     String parse(CmdLineParser clp, Repository repo, Set<String> refs)
         throws CmdLineException {
-      String ref = MagicBranch.getDestBranchName(cmd.getRefName());
-      if (!ref.startsWith(Constants.R_REFS)) {
-        ref = Constants.R_HEADS + ref;
-      }
+      String ref = RefNames.fullName(
+          MagicBranch.getDestBranchName(cmd.getRefName()));
 
       int optionStart = ref.indexOf('%');
       if (0 < optionStart) {
@@ -1364,7 +1362,13 @@ public class ReceiveCommits {
     } else if (newChangeForAllNotInTarget) {
       String destBranch = magicBranch.dest.get();
       try {
-        ObjectId baseHead = repo.getRef(destBranch).getObjectId();
+        Ref r = repo.getRefDatabase().exactRef(destBranch);
+        if (r == null) {
+          reject(cmd, destBranch + " not found");
+          return;
+        }
+
+        ObjectId baseHead = r.getObjectId();
         magicBranch.baseCommit =
             Collections.singletonList(walk.parseCommit(baseHead));
       } catch (IOException ex) {

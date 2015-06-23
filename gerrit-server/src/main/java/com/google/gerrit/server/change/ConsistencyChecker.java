@@ -18,6 +18,7 @@ import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
 import static com.google.gerrit.server.ChangeUtil.TO_PS_ID;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
@@ -243,6 +244,21 @@ public class ConsistencyChecker {
     patchSetsBySha = MultimapBuilder.hashKeys(all.size())
         .treeSetValues(PS_ID_ORDER)
         .build();
+
+    Map<String, Ref> refs;
+    try {
+    refs = repo.getRefDatabase().exactRef(
+        Lists.transform(all, new Function<PatchSet, String>() {
+          @Override
+          public String apply(PatchSet ps) {
+            return ps.getId().toRefName();
+          }
+        }).toArray(new String[all.size()]));
+    } catch (IOException e) {
+      error("error reading refs", e);
+      refs = Collections.emptyMap();
+    }
+
     for (PatchSet ps : all) {
       // Check revision format.
       int psNum = ps.getId().get();
@@ -256,21 +272,16 @@ public class ConsistencyChecker {
 
       // Check ref existence.
       ProblemInfo refProblem = null;
-      try {
-        Ref ref = repo.getRef(refName);
-        if (ref == null) {
-          refProblem = problem("Ref missing: " + refName);
-        } else if (!objId.equals(ref.getObjectId())) {
-          String actual = ref.getObjectId() != null
-              ? ref.getObjectId().name()
-              : "null";
-          refProblem = problem(String.format(
-              "Expected %s to point to %s, found %s",
-              ref.getName(), objId.name(), actual));
-        }
-      } catch (IOException e) {
-        error("Error reading ref: " + refName, e);
-        refProblem = lastProblem();
+      Ref ref = refs.get(refName);
+      if (ref == null) {
+        refProblem = problem("Ref missing: " + refName);
+      } else if (!objId.equals(ref.getObjectId())) {
+        String actual = ref.getObjectId() != null
+            ? ref.getObjectId().name()
+            : "null";
+        refProblem = problem(String.format(
+            "Expected %s to point to %s, found %s",
+            ref.getName(), objId.name(), actual));
       }
 
       // Check object existence.
@@ -306,7 +317,7 @@ public class ConsistencyChecker {
     String refName = change.getDest().get();
     Ref dest;
     try {
-      dest = repo.getRef(refName);
+      dest = repo.getRefDatabase().exactRef(refName);
     } catch (IOException e) {
       problem("Failed to look up destination ref: " + refName);
       return;

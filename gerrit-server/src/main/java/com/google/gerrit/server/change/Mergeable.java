@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 public class Mergeable implements RestReadView<RevisionResource> {
@@ -116,7 +117,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         return result;
       }
 
-      Ref ref = git.getRef(change.getDest().get());
+      Ref ref = git.getRefDatabase().exactRef(change.getDest().get());
       ProjectState projectState = projectCache.get(change.getProject());
       String strategy = mergeUtilFactory.create(projectState)
           .mergeStrategyName();
@@ -135,8 +136,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
         BranchOrderSection branchOrder = projectState.getBranchOrderSection();
         if (branchOrder != null) {
           int prefixLen = Constants.R_HEADS.length();
-          for (String n : branchOrder.getMoreStable(ref.getName())) {
-            Ref other = git.getRef(n);
+          String[] names = branchOrder.getMoreStable(ref.getName());
+          Map<String, Ref> refs = git.getRefDatabase().exactRef(names);
+          for (String n : names) {
+            Ref other = refs.get(n);
             if (other == null) {
               continue;
             }

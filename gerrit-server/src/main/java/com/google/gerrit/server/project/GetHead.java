@@ -50,7 +50,7 @@ public class GetHead implements RestReadView<ProjectResource> {
   public String apply(ProjectResource rsrc) throws AuthException,
       ResourceNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-      Ref head = repo.getRef(Constants.HEAD);
+      Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);
       if (head == null) {
         throw new ResourceNotFoundException(Constants.HEAD);
       } else if (head.isSymbolic()) {

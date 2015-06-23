@@ -76,7 +76,7 @@ class GetRelatedByAncestors {
       throws RepositoryNotFoundException, IOException, OrmException {
     try (Repository git = gitMgr.openRepository(rsrc.getChange().getProject());
         RevWalk rw = new RevWalk(git)) {
-      Ref ref = git.getRef(rsrc.getChange().getDest().get());
+      Ref ref = git.getRefDatabase().exactRef(rsrc.getChange().getDest().get());
       RelatedInfo info = new RelatedInfo();
       info.changes = walk(rsrc, rw, ref);
       return info;

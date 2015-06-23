@@ -33,12 +33,14 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Singleton
 public class SetHead implements RestModifyView<ProjectResource, Input> {
@@ -77,12 +79,14 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
     Repository repo = null;
     try {
       repo = repoManager.openRepository(rsrc.getNameKey());
-      if (repo.getRef(ref) == null) {
+      Map<String, Ref> cur =
+          repo.getRefDatabase().exactRef(Constants.HEAD, ref);
+      if (!cur.containsKey(ref)) {
         throw new UnprocessableEntityException(String.format(
             "Ref Not Found: %s", ref));
       }
 
-      final String oldHead = repo.getRef(Constants.HEAD).getTarget().getName();
+      final String oldHead = cur.get(Constants.HEAD).getTarget().getName();
       final String newHead = ref;
       if (!oldHead.equals(newHead)) {
         final RefUpdate u = repo.updateRef(Constants.HEAD, true);

@@ -94,7 +94,7 @@ public class CommentsInNotesUtil {
       Multimap<RevId, PatchLineComment> comments,
       Status status)
       throws IOException, ConfigInvalidException {
-    Ref ref = repo.getRef(refName);
+    Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref == null) {
       return null;
     }

@@ -59,7 +59,7 @@ public class BanCommit {
   public static NoteMap loadRejectCommitsMap(Repository repo, RevWalk walk)
       throws IOException {
     try {
-      Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
+      Ref ref = repo.getRefDatabase().exactRef(RefNames.REFS_REJECT_COMMITS);
       if (ref == null) {
         return NoteMap.newEmptyMap();
       }

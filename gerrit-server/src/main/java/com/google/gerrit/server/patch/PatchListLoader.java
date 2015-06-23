@@ -318,7 +318,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         + hash.substring(0, 2)
         + "/"
         + hash.substring(2);
-    Ref ref = repo.getRef(refName);
+    Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {
       return rw.parseTree(ref.getObjectId());
     }

@@ -874,6 +874,24 @@
     },
     {
       "key": {
+        "uuid": "3eb80ed4_f9e977f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-23T21:18:17Z",
+      "side": 1,
+      "message": "This is not easy as there are many corner cases, which allow some hashes to not be returned in `destChanges` but still work out fine. In the latest revision we will use byCommitsOnBranchExceptMerged, which will exclude all MERGED changes (which can be safely ignored). Any other change must be NEW or SUBMITTED, as checked below.",
+      "parentUuid": "de43727f_9eaafd57",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe3cb6f3_7f728f90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 13

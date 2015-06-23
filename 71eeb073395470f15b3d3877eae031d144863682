@@ -569,6 +569,24 @@
     },
     {
       "key": {
+        "uuid": "3eb80ed4_7961e706",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-23T23:03:52Z",
+      "side": 1,
+      "message": "Thanks, much cleaner.",
+      "parentUuid": "fe3cb6f3_5feeab80",
+      "revId": "71eeb073395470f15b3d3877eae031d144863682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de43727f_1e9f0d3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 13

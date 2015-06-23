@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be679e30_75aaa88d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/DownloadInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-23T08:30:00Z",
+      "side": 1,
+      "message": "This is repeated in the plugin.  Any way to make it reusable?",
+      "range": {
+        "startLine": 66,
+        "startChar": 3,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "4bf36efa0442f7ecf3e88aa80f295735b95654c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

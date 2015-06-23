@@ -63,6 +63,15 @@ public class DownloadInfo extends JavaScriptObject {
       return command(commandName).replaceAll("\\$\\{project\\}", project);
     }
 
+    private String projectBaseName(String project) {
+      int i = project.lastIndexOf('/');
+      if (i < 0) {
+        return project;
+      } else {
+        return project.substring(i + 1);
+      }
+    }
+
     public final Set<String> cloneCommandNames() {
       return Natives.keys(_cloneCommands());
     }
@@ -77,7 +86,8 @@ public class DownloadInfo extends JavaScriptObject {
     }
 
     public final String cloneCommand(String commandName, String project) {
-      return cloneCommand(commandName).replaceAll("\\$\\{project\\}", project);
+      return cloneCommand(commandName).replaceAll("\\$\\{project\\}", project)
+          .replaceAll("\\$\\{project-base-name\\}", projectBaseName(project));
     }
 
     public final String getUrl(String project) {

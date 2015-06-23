@@ -208,8 +208,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     for (DynamicMap.Entry<CloneCommand> e : cloneCommands) {
       String commandName = e.getExportName();
       CloneCommand command = e.getProvider().get();
-      String c = command.getCommand(scheme, "${project}");
+      String c = command.getCommand(scheme, "${project-path}/${project-base-name}");
       if (c != null) {
+        c = c.replaceAll("\\$\\{project-path\\}/\\$\\{project-base-name\\}",
+            "\\$\\{project\\}");
         info.cloneCommands.put(commandName, c);
       }
     }

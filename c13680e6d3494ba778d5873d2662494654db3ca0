@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de6c5217_f61b6078",
+        "filename": "lib/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-23T09:58:42Z",
+      "side": 1,
+      "message": "Note: this is 2 commits ahead of the previous version.\n\nIn addition to the DB2 support, the other change is only adding a Maven plugin in the pom.xml file.",
+      "range": {
+        "startLine": 29,
+        "startChar": 38,
+        "endLine": 29,
+        "endChar": 50
+      },
+      "revId": "c13680e6d3494ba778d5873d2662494654db3ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

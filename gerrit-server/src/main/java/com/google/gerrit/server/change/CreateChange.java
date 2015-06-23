@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -117,7 +118,7 @@ public class CreateChange implements
       ChangeInfo input) throws AuthException, OrmException,
       BadRequestException, UnprocessableEntityException, IOException,
       InvalidChangeOperationException, ResourceNotFoundException,
-      MethodNotAllowedException {
+      MethodNotAllowedException, ResourceConflictException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -230,7 +231,7 @@ public class CreateChange implements
 
   private void validateCommit(Repository git, RefControl refControl,
       RevCommit c, IdentifiedUser me, ChangeInserter ins)
-      throws InvalidChangeOperationException {
+      throws ResourceConflictException {
     PatchSet newPatchSet = ins.getPatchSet();
     CommitValidators commitValidators =
         commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
@@ -247,7 +248,7 @@ public class CreateChange implements
     try {
       commitValidators.validateForGerritCommits(commitReceivedEvent);
     } catch (CommitValidationException e) {
-      throw new InvalidChangeOperationException(e.getMessage());
+      throw new ResourceConflictException(e.getMessage());
     }
   }
 

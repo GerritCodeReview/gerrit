@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eb80ed4_39576f2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-23T23:03:52Z",
+      "side": 1,
+      "message": "I think \"depending ancestors\" is redundant. For a given change, all ancestors are dependencies of that change.",
+      "range": {
+        "startLine": 446,
+        "startChar": 33,
+        "endLine": 446,
+        "endChar": 52
+      },
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eb80ed4_f917b774",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-23T23:03:52Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eb80ed4_595c234e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-23T23:03:52Z",
+      "side": 1,
+      "message": "Missing space before \"pending\".",
+      "range": {
+        "startLine": 527,
+        "startChar": 13,
+        "endLine": 527,
+        "endChar": 20
+      },
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eb80ed4_9965db15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-23T23:03:52Z",
+      "side": 1,
+      "message": "Based on our earlier discussion today, I\u0027m no longer sure we want to filter based on the branch. Say you\u0027re trying to submit a merge commit that brings in some changes from another branch. Those changes need to be merged as well for the submit to succeed, but would be excluded by this search.\n\nI think we need a test case for that behavior as well.",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

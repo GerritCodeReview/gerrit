@@ -141,15 +141,14 @@ public class ChangeEditUtil {
    * its parent.
    *
    * @param edit change edit to publish
-   * @throws AuthException
    * @throws NoSuchChangeException
    * @throws IOException
    * @throws InvalidChangeOperationException
    * @throws OrmException
    * @throws ResourceConflictException
    */
-  public void publish(ChangeEdit edit) throws AuthException,
-      NoSuchChangeException, IOException, InvalidChangeOperationException,
+  public void publish(ChangeEdit edit) throws NoSuchChangeException,
+      IOException, InvalidChangeOperationException,
       OrmException, ResourceConflictException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());

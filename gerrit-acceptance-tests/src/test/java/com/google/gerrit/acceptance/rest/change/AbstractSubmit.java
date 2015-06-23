@@ -309,13 +309,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected List<RevCommit> getRemoteLog() throws IOException {
+  protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch)
+      throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.markStart(rw.parseCommit(
-          repo.getRef("refs/heads/master").getObjectId()));
+          repo.getRef("refs/heads/" + branch).getObjectId()));
       return Lists.newArrayList(rw);
     }
+  }
+
+  protected List<RevCommit> getRemoteLog() throws IOException {
+    return getRemoteLog(project, "master");
   }
 
   private RevCommit getHead(Repository repo, String name) throws IOException {

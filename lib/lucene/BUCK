@@ -1,11 +1,11 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '5.1.0'
+VERSION = '5.2.1'
 
 maven_jar(
   name = 'core',
   id = 'org.apache.lucene:lucene-core:' + VERSION,
-  sha1 = '93e64c67106f9a50e6ea01cfcfd6ac692ab3a41a',
+  sha1 = 'a175590aa8b04e079eb1a136fd159f9163482ba4',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -16,7 +16,7 @@ maven_jar(
 maven_jar(
   name = 'analyzers-common',
   id = 'org.apache.lucene:lucene-analyzers-common:' + VERSION,
-  sha1 = '54770d9b792536dff25ae1d70cd8af822c0079a3',
+  sha1 = '33b7cc17d5a7c939af6fe3f67563f4709926d7f5',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [
@@ -28,7 +28,7 @@ maven_jar(
 maven_jar(
   name = 'backward-codecs',
   id = 'org.apache.lucene:lucene-backward-codecs:' + VERSION,
-  sha1 = '5f0c5bb10ac3facace6b314bb02a6b572795b3c9',
+  sha1 = '603d1f06b133449272799d698e5118db65e523ba',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [
@@ -40,7 +40,7 @@ maven_jar(
 maven_jar(
   name = 'misc',
   id = 'org.apache.lucene:lucene-misc:' + VERSION,
-  sha1 = '3b700fa57f5d444da0e58cc1855042e6c5a18640',
+  sha1 = 'be0a4f0ac06f0a2fa3689b4bf6cd1fe6847f9969',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [
@@ -52,7 +52,7 @@ maven_jar(
 maven_jar(
   name = 'queryparser',
   id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
-  sha1 = '53f0b3f0e700a8ec484195d3370688171e830634',
+  sha1 = '73be0a2d4ab3e6b574be1938bfb27f7f730f0ad9',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = [

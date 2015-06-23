@@ -1120,7 +1120,10 @@ authentication.
 |`clone_commands`    ||
 Clone commands as a map which maps the command name to the clone
 command. In the clone command '${project}' is used as
-placeholder for the project name.
+placeholder for the project name and '${project-base-name}' as name
+for the project base name (e.g. for a project 'foo/bar' '${project}'
+is a placeholder for 'foo/bar' and '${project-base-name}' is a
+placeholder for 'bar').
 
 Empty, if accessed anonymously and the download scheme requires
 authentication.

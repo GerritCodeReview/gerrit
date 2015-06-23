@@ -64,7 +64,7 @@ java_library(
     '//lib/log:log4j',
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core',
-    '//lib/lucene:query-parser',
+    '//lib/lucene:queryparser',
     '//lib/ow2:ow2-asm',
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-util',

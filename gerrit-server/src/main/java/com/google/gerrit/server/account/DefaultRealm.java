@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.mail.EmailSettings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -27,13 +28,17 @@ import java.util.Set;
 @Singleton
 public class DefaultRealm extends AbstractRealm {
   private final EmailExpander emailExpander;
+  private final EmailSettings emailSettings;
   private final AccountByEmailCache byEmail;
   private final AuthConfig authConfig;
 
   @Inject
-  DefaultRealm(final EmailExpander emailExpander,
-      final AccountByEmailCache byEmail, final AuthConfig authConfig) {
+  DefaultRealm(EmailExpander emailExpander,
+      EmailSettings emailSettings,
+      AccountByEmailCache byEmail,
+      AuthConfig authConfig) {
     this.emailExpander = emailExpander;
+    this.emailSettings = emailSettings;
     this.byEmail = byEmail;
     this.authConfig = authConfig;
   }
@@ -47,12 +52,18 @@ public class DefaultRealm extends AbstractRealm {
         case FULL_NAME:
           return Strings.emptyToNull(authConfig.getHttpDisplaynameHeader()) == null;
         case REGISTER_NEW_EMAIL:
-          return Strings.emptyToNull(authConfig.getHttpEmailHeader()) == null;
+          return emailSettings.allowRegisterNewEmail
+              && Strings.emptyToNull(authConfig.getHttpEmailHeader()) == null;
         default:
           return true;
       }
     } else {
-      return true;
+      switch (field) {
+        case REGISTER_NEW_EMAIL:
+          return emailSettings.allowRegisterNewEmail;
+        default:
+          return true;
+      }
     }
   }
 

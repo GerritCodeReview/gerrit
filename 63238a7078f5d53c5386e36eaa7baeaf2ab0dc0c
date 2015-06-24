@@ -22,6 +22,30 @@
       "revId": "63238a7078f5d53c5386e36eaa7baeaf2ab0dc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ee446f7_9bf22be4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-24T10:44:53Z",
+      "side": 1,
+      "message": "\u003e This is very sensible.\n\nI don\u0027t think this is a sensible change. It doesn\u0027t change the REST endpoint and it doesn\u0027t change what plugins can do.\nIt\u0027s just for convinience so that plugins don\u0027t need to copy the code if they do not want this check.\n\n \u003e can it be documented somewhere? For example in this  \n \u003e corresponding documentation of gerrit config or REST API \n \u003e endpoint?\n\nThe behaviour of the REST endpoint did not change. Why would it then be needed to update its documentation?\n\n\n \u003e Like, even if realm doesn\u0027t allow to create custom email \n \u003e addresses, it is still possible as exception from this \n \u003e rule, by writing a plugin and calling the method `foo` \n \u003e that deviate from the standard code path and skip the \n \u003e corresponding checks.\n\nThis is the nature of plugins. Plugins have access to all internals and they can bypass any check they want.\nThis change does not enable this, but it was always possible. Even without this change I can just copy the code without this check to my plugin and I\u0027m done.",
+      "parentUuid": "7ee446f7_5bd98364",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "63238a7078f5d53c5386e36eaa7baeaf2ab0dc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

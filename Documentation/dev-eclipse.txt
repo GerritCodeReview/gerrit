@@ -79,6 +79,20 @@ as a bookmarklet).
 recompiling.
 * To reflect your changes in the debug session, click `Dev Mode On` then `Compile`.
 
+
+=== Running GWT Debug Mode for Gerrit plugins
+
+Gerrit plugin can expose GWT module and its implementation can be inspected
+in SDM debug session. This support is experimental and should be improved.
+
+The only known way to make it currently work is to add plugin specific module
+name in `gerrit_gwt_debug` launch configuration and link the `client` source
+folder from plugin tree to `gerrit-gwtui/src/main/java` project, so that
+`codeserver` can find the sources and GWT XML module description file.
+
+After doing that, both modules: Gerrit core and plugin GWT modules can be
+activated during SDM (debug session)[http://imgur.com/yiQtULn].
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

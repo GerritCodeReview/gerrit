@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ee446f7_5bd98364",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T09:56:18Z",
+      "side": 1,
+      "message": "This is very sensible. My understanding was that all what you can or cannot do in Gerrit core, you can or cannot do in Plugin. Now, that we are starting to diverge from this rule, can it be documented somewhere? For example in this corresponding documentation of gerrit config or REST API endpoint?\n\nLike, even if realm doesn\u0027t allow to create custom email addresses, it is still possible as exception from this rule, by writing a plugin and calling the method `foo` that deviate from the standard code path and skip the corresponding checks.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "63238a7078f5d53c5386e36eaa7baeaf2ab0dc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "fed8363c_df9d7b6f",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-24T12:08:29Z",
+      "side": 1,
+      "message": "Use #!/usr/bin/env python as in [1] ;-)\n\n[1] https://gerrit-review.googlesource.com/68979",
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed8363c_1fa0c3ad",
         "filename": "tools/maven/api.py",
         "patchSetId": 14

@@ -50,7 +50,7 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'query-parser',
+  name = 'queryparser',
   id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
   sha1 = '53f0b3f0e700a8ec484195d3370688171e830634',
   license = 'Apache2.0',

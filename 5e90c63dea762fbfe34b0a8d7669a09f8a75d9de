@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dedff221_beefd9f8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T00:45:19Z",
+      "side": 1,
+      "message": "This causes warnings about `json` not being closed.\n\nMoving the declaration of `json` into the try-with-resources seems to fix it.",
+      "revId": "5e90c63dea762fbfe34b0a8d7669a09f8a75d9de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

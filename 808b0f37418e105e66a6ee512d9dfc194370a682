@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fed8363c_3f57472e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-24T11:32:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dedff221_de48257e",
+      "range": {
+        "startLine": 69,
+        "startChar": 29,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5eb5c2d8_ba629108",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-24T09:41:03Z",
       "side": 1,
       "message": "Have you run into this case?\n\nWhen I\u0027ve been testing my script [1] I found some changes that get included in the status:open results, but are in fact already merged or abandoned and are only included due to stale index.\n\nShould we perhaps add an option to force reindex such changes, so that they will not be picked up again on the next run?\n\n[1] https://gerrit-review.googlesource.com/68540",
+      "range": {
+        "startLine": 78,
+        "startChar": 13,
+        "endLine": 78,
+        "endChar": 52
+      },
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ee446f7_9bf78bcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-24T11:32:06Z",
+      "side": 1,
+      "message": "\u003e Have you run into this case?\n\nNo. This is just a precaution to protect against race conditions. E.g. someone could have manually abandoned/merged the change after the query was executed and before we attempted to abandon it.\n\n \u003e When I\u0027ve been testing my script [1] I found some \n \u003e changes that get included in the status:open results, \n \u003e but are in fact already merged or abandoned and are only \n \u003e included due to stale index.\n \u003e \n \u003e Should we perhaps add an option to force reindex such \n \u003e changes, so that they will not be picked up again on the \n \u003e next run?\n\nNot sure if I would do this here. Could we have another cleanup job which searches and fixes such inconsistencies?",
+      "parentUuid": "5eb5c2d8_ba629108",
       "range": {
         "startLine": 78,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fed8363c_5f5c0b4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-24T11:32:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dedff221_fe45e164",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 68
+      },
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dedff221_1ea0cdad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeCleanupRunner.java",
         "patchSetId": 12
@@ -82,6 +154,24 @@
       "writtenOn": "2015-06-24T09:41:03Z",
       "side": 1,
       "message": "Log the invalid values?",
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_7f61cf06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeCleanupRunner.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-24T11:32:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dedff221_1ea0cdad",
       "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

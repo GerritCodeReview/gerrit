@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fed8363c_ff45df64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-24T11:57:08Z",
+      "side": 1,
+      "message": "optional: remove this as the script is not really executing it manually :-)",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_1fa0c3ad",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-24T11:57:08Z",
+      "side": 1,
+      "message": "nit: this should be indented 2 levels (4 spaces more than the line 25)",
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_3fa587be",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-24T11:57:08Z",
+      "side": 1,
+      "message": "same as the previous comment",
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_5faa4b8d",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-24T11:57:08Z",
+      "side": 1,
+      "message": "use the same coding style like in the lines 25 and 27:\n\n  \u0027buck build api\u0027.split()\n\n?",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 37
+      },
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_7faf0f9c",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-24T11:57:08Z",
+      "side": 1,
+      "message": "same as the previous comment",
+      "range": {
+        "startLine": 55,
+        "startChar": 23,
+        "endLine": 55,
+        "endChar": 75
+      },
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_9f93f364",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-24T11:57:08Z",
+      "side": 1,
+      "message": "just for my understanding: why do we need a unicode string here (and only here)?",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

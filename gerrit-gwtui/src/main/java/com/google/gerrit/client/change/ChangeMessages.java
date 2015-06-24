@@ -25,7 +25,7 @@ public interface ChangeMessages extends Messages {
   String conflictingChanges(String count);
   String cherryPicks(int count);
   String cherryPicks(String count);
-  String sameTopic(int count);
-  String sameTopic(String count);
+  String submittedTogether(int count);
+  String submittedTogether(String count);
   String editPatchSet(int patchSet);
 }

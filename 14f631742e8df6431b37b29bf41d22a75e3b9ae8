@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ef7e6e1_63cac290",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-06-24T17:51:01Z",
+      "side": 1,
+      "message": "Probably worth specifying that this means JGit bug 468024. Or the text could link directly:\n\n This release fixes https://bugs.eclipse.org/468024 which can ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "14f631742e8df6431b37b29bf41d22a75e3b9ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

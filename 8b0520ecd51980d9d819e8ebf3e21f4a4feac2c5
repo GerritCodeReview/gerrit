@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eb5c2d8_1a2d3dce",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T03:20:39Z",
+      "side": 1,
+      "message": "\".jar\" is repeated",
+      "range": {
+        "startLine": 165,
+        "startChar": 19,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb5c2d8_5a27b5ed",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T03:20:39Z",
+      "side": 1,
+      "message": "cannot",
+      "range": {
+        "startLine": 174,
+        "startChar": 15,
+        "endLine": 174,
+        "endChar": 22
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb5c2d8_3a320131",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T03:20:39Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 174,
+        "startChar": 54,
+        "endLine": 174,
+        "endChar": 57
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dedff221_7e2c71cf",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T03:20:39Z",
+      "side": 1,
+      "message": "How/where should the alternative location be provided?",
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb5c2d8_7a2c79cf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Libraries.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T03:20:39Z",
+      "side": 1,
+      "message": "Unrelated to this change, but why are these \u0027final\u0027 modifiers commented out rather than just removed?",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 13
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dedff221_9e205dd4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/LibraryDownloader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T03:20:39Z",
+      "side": 1,
+      "message": "Why?",
+      "range": {
+        "startLine": 303,
+        "startChar": 5,
+        "endLine": 304,
+        "endChar": 25
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

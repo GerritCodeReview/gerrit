@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e12ced8_e9de954f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-24T23:54:52Z",
+      "side": 1,
+      "message": "Missing space before \"enforcing\"",
+      "revId": "515dad7987a388882770d0346c629d212d2c5c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e12ced8_c9e3d119",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-24T23:54:52Z",
+      "side": 1,
+      "message": "I think there are too many public methods here. Either have two public methods, or have one public method that inspects the config and make the other two private.",
+      "revId": "515dad7987a388882770d0346c629d212d2c5c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

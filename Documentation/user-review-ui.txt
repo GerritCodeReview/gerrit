@@ -564,10 +564,13 @@ conflict resolution must then be done manually.
 +
 image::images/user-review-ui-change-screen-conflicts-with.png[width=800, link="images/user-review-ui-change-screen-conflicts-with.png"]
 
-- [[same-topic]]`Same Topic`:
+- [[same-topic]]`Submitted Together`:
 +
-This tab page shows changes that have the same topic as the current
-change. Only open changes are included in the list.
+This tab page shows changes that will be submitted together with the
+currently viewed change, when clicking the submit button.
+This may include changes with the same topic if `change.submitWholeTopic`
+is enabled. It also includes ancestors of the current patch set.
+Only open changes are included in the list.
 +
 image::images/user-review-ui-change-screen-same-topic.png[width=800, link="images/user-review-ui-change-screen-same-topic.png"]
 

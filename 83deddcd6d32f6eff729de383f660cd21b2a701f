@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dedff221_7e3ab1f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T09:32:36Z",
+      "side": 1,
+      "message": "nit: one extra space here",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 18
+      },
+      "revId": "83deddcd6d32f6eff729de383f660cd21b2a701f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dedff221_9e4e9d89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T09:32:36Z",
+      "side": 1,
+      "message": "nit: wrap this line?",
+      "revId": "83deddcd6d32f6eff729de383f660cd21b2a701f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

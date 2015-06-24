@@ -2,9 +2,11 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -272,6 +274,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     submitStatusOnly(change3b.getChangeId());
 
     submitWithConflict(change3a.getChangeId());
+    ChangeInfo info3 = get(change3a.getChangeId());
 
     List<RevCommit> log3a = getRemoteLog(project, "branch");
     assertThat(log3a.get(0).getShortMessage()).isEqualTo(

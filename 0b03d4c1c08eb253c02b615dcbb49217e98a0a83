@@ -22,6 +22,30 @@
       "revId": "0b03d4c1c08eb253c02b615dcbb49217e98a0a83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_dfec9b06",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T06:14:07Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/68970",
+      "parentUuid": "fed8363c_ffd07f3f",
+      "range": {
+        "startLine": 526,
+        "startChar": 46,
+        "endLine": 526,
+        "endChar": 47
+      },
+      "revId": "0b03d4c1c08eb253c02b615dcbb49217e98a0a83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

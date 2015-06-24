@@ -41,8 +41,8 @@ interface ChangeConstants extends Constants {
   String conflictingChangesTooltip();
   String cherryPicks();
   String cherryPicksTooltip();
-  String sameTopic();
-  String sameTopicTooltip();
+  String submittedTogether();
+  String submittedTogetherTooltip();
   String noChanges();
   String indirectAncestor();
   String merged();

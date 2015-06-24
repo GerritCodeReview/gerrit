@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e51faaa_7cc7d986",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-24T23:46:03Z",
+      "side": 1,
+      "message": "Extra blank line.\n\nIf you want a visual distinction, consider a comment.",
+      "revId": "5869c5a4ed57c0337dc4171e8435d15a465cdebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e12ced8_09d1e941",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-24T23:46:03Z",
+      "side": 1,
+      "message": "name(\"a-topic-here\")",
+      "range": {
+        "startLine": 263,
+        "startChar": 22,
+        "endLine": 263,
+        "endChar": 36
+      },
+      "revId": "5869c5a4ed57c0337dc4171e8435d15a465cdebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_1cd49531",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-24T23:46:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t submitStatusOnly no longer be necessary since we don\u0027t depend on SUBMITTED anymore? Or is this ordered before that change?",
+      "revId": "5869c5a4ed57c0337dc4171e8435d15a465cdebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

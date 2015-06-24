@@ -523,7 +523,7 @@ public class RestApiServlet extends HttpServlet {
       InstantiationException, InvocationTargetException, MethodNotAllowedException {
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
-          JsonReader json = new JsonReader(br);) {
+          JsonReader json = new JsonReader(br)) {
         json.setLenient(true);
 
         JsonToken first;

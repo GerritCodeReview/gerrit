@@ -96,9 +96,7 @@ public class SchemaUpdater {
       if (version == null) {
         try {
           creator.create(db);
-        } catch (IOException e) {
-          throw new OrmException("Cannot initialize schema", e);
-        } catch (ConfigInvalidException e) {
+        } catch (IOException | ConfigInvalidException e) {
           throw new OrmException("Cannot initialize schema", e);
         }
 

@@ -831,9 +831,7 @@ public class MergeOp {
                 message(c, "Unspecified merge failure: " + s.name()));
             break;
         }
-      } catch (OrmException err) {
-        logWarn("Error updating change status for " + c.getId(), err);
-      } catch (IOException err) {
+      } catch (OrmException | IOException err) {
         logWarn("Error updating change status for " + c.getId(), err);
       }
     }

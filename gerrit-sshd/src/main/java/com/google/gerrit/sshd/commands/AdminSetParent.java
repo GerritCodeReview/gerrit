@@ -158,11 +158,7 @@ final class AdminSetParent extends SshCommand {
         }
       } catch (RepositoryNotFoundException notFound) {
         err.append("error: Project ").append(name).append(" not found\n");
-      } catch (IOException e) {
-        final String msg = "Cannot update project " + name;
-        log.error(msg, e);
-        err.append("error: ").append(msg).append("\n");
-      } catch (ConfigInvalidException e) {
+      } catch (IOException | ConfigInvalidException e) {
         final String msg = "Cannot update project " + name;
         log.error(msg, e);
         err.append("error: ").append(msg).append("\n");

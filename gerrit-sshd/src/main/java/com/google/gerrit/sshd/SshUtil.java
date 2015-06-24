@@ -60,9 +60,7 @@ public class SshUtil {
       }
       final byte[] bin = Base64.decodeBase64(Constants.encodeASCII(s));
       return new Buffer(bin).getRawPublicKey();
-    } catch (RuntimeException re) {
-      throw new InvalidKeySpecException("Cannot parse key", re);
-    } catch (SshException e) {
+    } catch (RuntimeException | SshException e) {
       throw new InvalidKeySpecException("Cannot parse key", e);
     }
   }

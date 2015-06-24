@@ -66,8 +66,6 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
       } else {
         try {
           in = new URL(input.url).openStream();
-        } catch (MalformedURLException e) {
-          throw new BadRequestException(e.getMessage());
         } catch (IOException e) {
           throw new BadRequestException(e.getMessage());
         }

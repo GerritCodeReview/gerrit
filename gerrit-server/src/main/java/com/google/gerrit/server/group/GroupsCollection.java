@@ -159,8 +159,7 @@ public class GroupsCollection implements
       try {
         AccountGroup.Id legacyId = AccountGroup.Id.parse(id);
         return groupControlFactory.controlFor(legacyId).getGroup();
-      } catch (IllegalArgumentException invalidId) {
-      } catch (NoSuchGroupException e) {
+      } catch (IllegalArgumentException | NoSuchGroupException e) {
       }
     }
 

@@ -355,8 +355,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         f.write(Constants.encode(d));
         f.commit();
       }
-    } catch (RepositoryNotFoundException e) {
-      log.error("Cannot update description for " + name, e);
     } catch (IOException e) {
       log.error("Cannot update description for " + name, e);
     }

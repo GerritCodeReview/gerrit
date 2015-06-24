@@ -95,10 +95,7 @@ public class QueryShell {
         db.close();
         db = null;
       }
-    } catch (OrmException err) {
-      out.println("fatal: Cannot open connection: " + err.getMessage());
-
-    } catch (SQLException err) {
+    } catch (OrmException | SQLException err) {
       out.println("fatal: Cannot open connection: " + err.getMessage());
     } finally {
       out.flush();
@@ -123,10 +120,7 @@ public class QueryShell {
         db.close();
         db = null;
       }
-    } catch (OrmException err) {
-      out.println("fatal: Cannot open connection: " + err.getMessage());
-
-    } catch (SQLException err) {
+    } catch (OrmException | SQLException err) {
       out.println("fatal: Cannot open connection: " + err.getMessage());
     } finally {
       out.flush();

@@ -239,9 +239,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       }
       rw.checkConnectivity();
       return rw;
-    } catch (IncorrectObjectTypeException err) {
-      throw new InvalidRevisionException();
-    } catch (MissingObjectException err) {
+    } catch (IncorrectObjectTypeException | MissingObjectException err) {
       throw new InvalidRevisionException();
     } catch (IOException err) {
       log.error("Repository \"" + repo.getDirectory()

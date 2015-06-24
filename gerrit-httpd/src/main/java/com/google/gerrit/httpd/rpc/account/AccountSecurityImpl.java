@@ -234,11 +234,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       } else {
         throw new EmailTokenVerifier.InvalidTokenException();
       }
-    } catch (EmailTokenVerifier.InvalidTokenException e) {
-      callback.onFailure(e);
-    } catch (AccountException e) {
-      callback.onFailure(e);
-    } catch (OrmException e) {
+    } catch (EmailTokenVerifier.InvalidTokenException | OrmException
+        | AccountException e) {
       callback.onFailure(e);
     }
   }

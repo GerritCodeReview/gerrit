@@ -90,7 +90,7 @@ public class ReviewerSuggestionCache {
         TimeUnit.MILLISECONDS);
     this.cache =
         CacheBuilder.newBuilder().maximumSize(1)
-            .expireAfterWrite(expiration, TimeUnit.MILLISECONDS)
+            .refreshAfterWrite(expiration, TimeUnit.MILLISECONDS)
             .build(new CacheLoader<Boolean, IndexSearcher>() {
               @Override
               public IndexSearcher load(Boolean key) throws Exception {

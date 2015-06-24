@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fed8363c_1fdfe34d",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T06:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eb5c2d8_1a2d3dce",
+      "range": {
+        "startLine": 165,
+        "startChar": 19,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5eb5c2d8_5a27b5ed",
         "filename": "Documentation/database-setup.txt",
         "patchSetId": 9
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "fed8363c_5fd96b64",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T06:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eb5c2d8_3a320131",
+      "range": {
+        "startLine": 174,
+        "startChar": 54,
+        "endLine": 174,
+        "endChar": 57
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_3fe4a721",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T06:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eb5c2d8_5a27b5ed",
+      "range": {
+        "startLine": 174,
+        "startChar": 15,
+        "endLine": 174,
+        "endChar": 22
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dedff221_7e2c71cf",
         "filename": "Documentation/database-setup.txt",
         "patchSetId": 9
@@ -82,6 +154,24 @@
       "writtenOn": "2015-06-24T03:20:39Z",
       "side": 1,
       "message": "How/where should the alternative location be provided?",
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_7fde2f4f",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T06:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dedff221_7e2c71cf",
       "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +236,30 @@
       "writtenOn": "2015-06-24T03:20:39Z",
       "side": 1,
       "message": "Why?",
+      "range": {
+        "startLine": 303,
+        "startChar": 5,
+        "endLine": 304,
+        "endChar": 25
+      },
+      "revId": "8b0520ecd51980d9d819e8ebf3e21f4a4feac2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed8363c_9ff213e4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/LibraryDownloader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T06:09:14Z",
+      "side": 1,
+      "message": "That\u0027s needed because db2jcc_license_cu.jar file is provided without sha1, because this is not stable, and thus can be different for different customers:\n\n  # Omit SHA-1 for license JAR as it\u0027s not stable and depends on the product\n  # the customer has purchased.\n  [library \"db2DriverLicense\"]\n    name \u003d DB2 Type 4 JDBC driver license (10.5)\n    url \u003d file:///opt/ibm/db2/V10.5/java/db2jcc_license_cu.jar\n    remove \u003d db2jcc_license_cu.jar\n\nBut even without sha1 check we still want to see new line in the output:\n\n  Database server type           [h2]: db2\n  Gerrit Code Review is not shipped with DB2 Type 4 JDBC driver (10.5)\n  **  This library is required for your configuration. **\n  Copy and install it now [Y/n]? Y\n  Copying file:///opt/ibm/db2/V10.5/java/db2jcc4.jar ...Checksum db2jcc4.jar OK\n  Gerrit Code Review is not shipped with DB2 Type 4 JDBC driver license (10.5)\n  ** This library is required by DB2 Type 4 JDBC driver (10.5). **\n  Copy and install it now [Y/n]? Y\n  Copying file:///opt/ibm/db2/V10.5/java/db2jcc_license_cu.jar ...\n  Server hostname                [localhost]:\n\nWithout this, the output would be:\n\n  Database server type           [h2]: db2\n  Gerrit Code Review is not shipped with DB2 Type 4 JDBC driver (10.5)\n  **  This library is required for your configuration. **\n  Copy and install it now [Y/n]? Y\n  Copying file:///opt/ibm/db2/V10.5/java/db2jcc4.jar ...Checksum db2jcc4.jar OK\n  Gerrit Code Review is not shipped with DB2 Type 4 JDBC driver license (10.5)\n  ** This library is required by DB2 Type 4 JDBC driver (10.5). **\n  Copy and install it now [Y/n]? Y\n  Copying file:///opt/ibm/db2/V10.5/java/db2jcc_license_cu.jar ...Server hostname [localhost]:\n\nBasically it\u0027s repeated wjat is done later in the method on line 316,317:\n\n  System.err.println(\"Checksum \" + dst.getFileName() + \" OK\");\n  System.err.flush();\n\nOf couse the code could be changed not to use earlier return, and reuse one flush statement, when we don\u0027t bother about deeper indentation level, like:\n\n  if (sha1 \u003d\u003d null) {\n      System.err.println(\"... Checksum verification skipped\");\n  } else {\n     // checksum logik\n  }\n  System.err.flush();\n\nDo you want me to do that?",
+      "parentUuid": "dedff221_9e205dd4",
       "range": {
         "startLine": 303,
         "startChar": 5,

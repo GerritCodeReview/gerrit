@@ -94,17 +94,16 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throw new AuthException("not allowed to use no_confirmation");
     }
 
+    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
+      throw new MethodNotAllowedException("realm does not allow adding emails");
+    }
+
     return apply(rsrc.getUser(), input);
   }
 
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, OrmException, EmailException,
-      MethodNotAllowedException {
-    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
-      throw new MethodNotAllowedException("realm does not allow adding emails");
-    }
-
+      ResourceNotFoundException, OrmException, EmailException {
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }

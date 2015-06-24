@@ -42,7 +42,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 import org.eclipse.jgit.errors.LargeObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;

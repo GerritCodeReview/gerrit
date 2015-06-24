@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dedff221_de48257e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T09:41:03Z",
+      "side": 1,
+      "message": "This will include draft changes if run by a user who can see draft changes.  Can that also happen here?  If so it might be better to use \"new\" instead?",
+      "range": {
+        "startLine": 69,
+        "startChar": 29,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb5c2d8_ba629108",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T09:41:03Z",
+      "side": 1,
+      "message": "Have you run into this case?\n\nWhen I\u0027ve been testing my script [1] I found some changes that get included in the status:open results, but are in fact already merged or abandoned and are only included due to stale index.\n\nShould we perhaps add an option to force reindex such changes, so that they will not be picked up again on the next run?\n\n[1] https://gerrit-review.googlesource.com/68540",
+      "range": {
+        "startLine": 78,
+        "startChar": 13,
+        "endLine": 78,
+        "endChar": 52
+      },
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dedff221_fe45e164",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T09:41:03Z",
+      "side": 1,
+      "message": "This will cause it to stop on the first error.  Would it be better to have separate handling of the initial query, and on the abandon?  Then if the query fails, abort. But if an abandon fails, log it and continue to the next?",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 68
+      },
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dedff221_1ea0cdad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeCleanupRunner.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-24T09:41:03Z",
+      "side": 1,
+      "message": "Log the invalid values?",
+      "revId": "808b0f37418e105e66a6ee512d9dfc194370a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

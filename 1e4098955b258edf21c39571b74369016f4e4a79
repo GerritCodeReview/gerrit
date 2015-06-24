@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9efc9ac6_e4deba4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-24T19:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fed8363c_ff45df64",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed8363c_df9d7b6f",
         "filename": "tools/maven/api.py",
         "patchSetId": 14

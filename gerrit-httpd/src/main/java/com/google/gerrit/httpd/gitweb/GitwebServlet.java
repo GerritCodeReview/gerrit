@@ -415,8 +415,7 @@ class GitwebServlet extends HttpServlet {
     }
 
 
-    try (@SuppressWarnings("UnusedDeclaration") // only open for existence-check
-         Repository repo = repoManager.openRepository(nameKey)) {
+    try (Repository repo = repoManager.openRepository(nameKey)) {
       CacheHeaders.setNotCacheable(rsp);
       exec(req, rsp, project);
     } catch (RepositoryNotFoundException e) {

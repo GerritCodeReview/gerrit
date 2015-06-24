@@ -163,6 +163,24 @@
       "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_dcde2d50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-24T23:54:52Z",
+      "side": 1,
+      "message": "I don\u0027t follow what you mean by \"give me the exact parent changes which  change X depends on\". In which branch? How would that solve the problem I stated, that we might be attempting to merge in unsubmittable parents from a side branch?\n\nConsider this scenario:\n\n  C\n  | \\\n  A  B\n\nwhere C and A are targeted to branch1, and B is targeted to branch2, and B has CR-1. We _must not_ merge C into branch1. Do you agree?\n\nRight now, looking at this code, the RevWalk will have identified A and B as potential dependencies of C that need to be submitted. But then when you call this method, B will not be returned. So the code will not bother to check B at all, and will assume it\u0027s ok to merge C. That is wrong.",
+      "parentUuid": "3e12ced8_89c4b984",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -99,7 +99,9 @@ public class ProjectApi {
       InheritableBoolean useContributorAgreements,
       InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
       InheritableBoolean createNewChangeForAllNotInTarget,
-      InheritableBoolean requireChangeId, String maxObjectSizeLimit,
+      InheritableBoolean requireChangeId,
+      InheritableBoolean enableSignedPush,
+      String maxObjectSizeLimit,
       SubmitType submitType, ProjectState state,
       Map<String, Map<String, ConfigParameterValue>> pluginConfigValues,
       AsyncCallback<ConfigInfo> cb) {
@@ -110,6 +112,9 @@ public class ProjectApi {
     in.setUseSignedOffBy(useSignedOffBy);
     in.setRequireChangeId(requireChangeId);
     in.setCreateNewChangeForAllNotInTarget(createNewChangeForAllNotInTarget);
+    if (enableSignedPush != null) {
+      in.setEnableSignedPush(enableSignedPush);
+    }
     in.setMaxObjectSizeLimit(maxObjectSizeLimit);
     in.setSubmitType(submitType);
     in.setState(state);
@@ -229,6 +234,12 @@ public class ProjectApi {
     }
     private final native void setCreateNewChangeForAllNotInTargetRaw(String v)
     /*-{ if(v)this.create_new_change_for_all_not_in_target=v; }-*/;
+
+    final void setEnableSignedPush(InheritableBoolean v) {
+      setEnableSignedPushRaw(v.name());
+    }
+    private final native void setEnableSignedPushRaw(String v)
+    /*-{ if(v)this.enable_signed_push=v; }-*/;
 
     final native void setMaxObjectSizeLimit(String l)
     /*-{ if(l)this.max_object_size_limit=l; }-*/;

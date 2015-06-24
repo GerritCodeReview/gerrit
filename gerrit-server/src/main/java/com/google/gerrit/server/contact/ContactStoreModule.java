@@ -18,23 +18,19 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.StringUtils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.Security;
 
 /** Creates the {@link ContactStore} based on the configuration. */
 public class ContactStoreModule extends AbstractModule {
@@ -52,7 +48,7 @@ public class ContactStoreModule extends AbstractModule {
       return new NoContactStore();
     }
 
-    if (!havePGP()) {
+    if (!BouncyCastleUtil.havePGP()) {
       throw new ProvisionException("BouncyCastle PGP not installed; "
           + " needed to encrypt contact information");
     }
@@ -72,26 +68,5 @@ public class ContactStoreModule extends AbstractModule {
     }
     return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema,
         connFactory);
-  }
-
-  private static boolean havePGP() {
-    try {
-      Class.forName(PGPPublicKey.class.getName());
-      addBouncyCastleProvider();
-      return true;
-    } catch (NoClassDefFoundError | ClassNotFoundException | SecurityException
-        | NoSuchMethodException | InstantiationException
-        | IllegalAccessException | InvocationTargetException
-        | ClassCastException noBouncyCastle) {
-      return false;
-    }
-  }
-
-  private static void addBouncyCastleProvider() throws ClassNotFoundException,
-          SecurityException, NoSuchMethodException, InstantiationException,
-          IllegalAccessException, InvocationTargetException {
-    Class<?> clazz = Class.forName(BouncyCastleProvider.class.getName());
-    Constructor<?> constructor = clazz.getConstructor();
-    Security.addProvider((java.security.Provider) constructor.newInstance());
   }
 }

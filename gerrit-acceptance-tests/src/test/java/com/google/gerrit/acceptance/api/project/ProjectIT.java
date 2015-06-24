@@ -23,8 +23,8 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.junit.Test;
 
@@ -51,21 +51,25 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name);
   }
 
-  @Test(expected = RestApiException.class)
-  public void createProjectFooBar() throws Exception {
+  @Test
+  public void createProjectWithMismatchedInput() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("foo");
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("name must match input.name");
     gApi.projects()
         .name("bar")
         .create(in);
   }
 
-  @Test(expected = ResourceConflictException.class)
+  @Test
   public void createProjectDuplicate() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("baz");
     gApi.projects()
         .create(in);
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Project already exists");
     gApi.projects()
         .create(in);
   }

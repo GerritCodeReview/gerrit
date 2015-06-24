@@ -736,12 +736,7 @@ public class ReceiveCommits {
           if (replace.insertPatchSet().checkedGet() != null) {
             replace.inputCommand.setResult(OK);
           }
-        } catch (IOException err) {
-          reject(replace.inputCommand, "internal server error");
-          log.error(String.format(
-              "Cannot add patch set to %d of %s",
-              e.getKey().get(), project.getName()), err);
-        } catch (InsertException err) {
+        } catch (IOException | InsertException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
               "Cannot add patch set to %d of %s",
@@ -2593,9 +2588,7 @@ public class ReceiveCommits {
           currentUser.getAccount()).update();
     } catch (InsertException e) {
       log.error("Can't insert patchset", e);
-    } catch (IOException e) {
-      log.error("Can't scan for changes to close", e);
-    } catch (OrmException e) {
+    } catch (IOException | OrmException e) {
       log.error("Can't scan for changes to close", e);
     } catch (SubmoduleException e) {
       log.error("Can't complete git links check", e);

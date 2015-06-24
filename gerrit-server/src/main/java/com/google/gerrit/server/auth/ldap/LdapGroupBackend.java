@@ -228,9 +228,7 @@ public class LdapGroupBackend implements GroupBackend {
           log.warn("Cannot close LDAP query handle", e);
         }
       }
-    } catch (NamingException e) {
-      log.warn("Cannot query LDAP for groups matching requested name", e);
-    } catch (LoginException e) {
+    } catch (NamingException | LoginException e) {
       log.warn("Cannot query LDAP for groups matching requested name", e);
     }
     return out;

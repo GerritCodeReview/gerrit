@@ -350,9 +350,7 @@ public abstract class QueryBuilder<T> {
         throws QueryParseException {
       try {
         return (Predicate<T>) method.invoke(builder, value);
-      } catch (RuntimeException e) {
-        throw error("Error in operator " + name + ":" + value, e);
-      } catch (IllegalAccessException e) {
+      } catch (RuntimeException | IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {
         throw error("Error in operator " + name + ":" + value, e.getCause());

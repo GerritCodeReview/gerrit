@@ -80,9 +80,7 @@ public class JythonShell {
     try {
       shell = console.newInstance();
       log.info("Jython shell instance created.");
-    } catch (InstantiationException e) {
-      throw noInterpreter(e);
-    } catch (IllegalAccessException e) {
+    } catch (InstantiationException | IllegalAccessException e) {
       throw noInterpreter(e);
     }
     injectedVariables = new ArrayList<>();
@@ -96,13 +94,8 @@ public class JythonShell {
       Method m;
       m = klazz.getMethod(name, sig);
       return m.invoke(instance, args);
-    } catch (NoSuchMethodException e) {
-      throw cannotStart(e);
-    } catch (SecurityException e) {
-      throw cannotStart(e);
-    } catch (IllegalArgumentException e) {
-      throw cannotStart(e);
-    } catch (IllegalAccessException e) {
+    } catch (NoSuchMethodException | IllegalAccessException
+        | IllegalArgumentException | SecurityException e) {
       throw cannotStart(e);
     }
   }

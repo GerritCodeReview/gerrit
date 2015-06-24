@@ -195,9 +195,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
           try {
             byte[] bin = Base64.decodeBase64(line.getBytes("ISO-8859-1"));
             keys.add(new Buffer(bin).getRawPublicKey());
-          } catch (RuntimeException e) {
-            logBadKey(path, line, e);
-          } catch (SshException e) {
+          } catch (RuntimeException | SshException e) {
             logBadKey(path, line, e);
           }
         }

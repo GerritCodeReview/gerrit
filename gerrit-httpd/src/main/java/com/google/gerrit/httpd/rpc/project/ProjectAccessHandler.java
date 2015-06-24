@@ -146,9 +146,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
               "You are not allowed to change the parent project since you are "
               + "not an administrator. You may save the modifications for review "
               + "so that an administrator can approve them.", e);
-        } catch (ResourceConflictException e) {
-          throw new UpdateParentFailedException(e.getMessage(), e);
-        } catch (UnprocessableEntityException e) {
+        } catch (ResourceConflictException | UnprocessableEntityException e) {
           throw new UpdateParentFailedException(e.getMessage(), e);
         }
         config.getProject().setParentName(parentProjectName);

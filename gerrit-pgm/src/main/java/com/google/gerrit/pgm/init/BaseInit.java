@@ -125,12 +125,7 @@ public class BaseInit extends SiteProgram {
       run.upgradeSchema();
 
       init.initializer.postRun(createSysInjector(init));
-    } catch (Exception failure) {
-      if (init.flags.deleteOnFailure) {
-        recursiveDelete(getSitePath());
-      }
-      throw failure;
-    } catch (Error failure) {
+    } catch (Exception | Error failure) {
       if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());
       }

@@ -45,15 +45,9 @@ public abstract class ConsoleUI {
   protected static <T extends Enum<?>> T[] all(final T value) {
     try {
       return (T[]) value.getClass().getMethod("values").invoke(null);
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (SecurityException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (IllegalAccessException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (InvocationTargetException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (NoSuchMethodException e) {
+    } catch (IllegalArgumentException | NoSuchMethodException
+        | InvocationTargetException | IllegalAccessException
+        | SecurityException e) {
       throw new IllegalArgumentException("Cannot obtain enumeration values", e);
     }
   }

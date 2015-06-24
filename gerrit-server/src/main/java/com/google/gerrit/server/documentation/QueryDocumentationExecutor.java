@@ -94,9 +94,7 @@ public class QueryDocumentationExecutor {
         out.add(result);
       }
       return out;
-    } catch (IOException e) {
-      throw new DocQueryException(e);
-    } catch (ParseException e) {
+    } catch (IOException | ParseException e) {
       throw new DocQueryException(e);
     }
   }

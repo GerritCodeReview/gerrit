@@ -92,9 +92,7 @@ public class RenameGroupOp extends DefaultQueueOp {
         }
       } catch (RepositoryNotFoundException noProject) {
         continue;
-      } catch (ConfigInvalidException err) {
-        log.error("Cannot rename group " + oldName + " in " + projectName, err);
-      } catch (IOException err) {
+      } catch (ConfigInvalidException | IOException err) {
         log.error("Cannot rename group " + oldName + " in " + projectName, err);
       }
     }

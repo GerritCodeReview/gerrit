@@ -53,9 +53,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
       byte[] utf8 = payload.getBytes("UTF-8");
       String base64 = Base64.encodeBytes(utf8);
       return emailRegistrationToken.newToken(base64);
-    } catch (XsrfException e) {
-      throw new IllegalArgumentException(e);
-    } catch (UnsupportedEncodingException e) {
+    } catch (XsrfException | UnsupportedEncodingException e) {
       throw new IllegalArgumentException(e);
     }
   }

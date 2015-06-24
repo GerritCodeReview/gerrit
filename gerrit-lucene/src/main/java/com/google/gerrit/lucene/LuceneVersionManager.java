@@ -115,9 +115,7 @@ class LuceneVersionManager implements LifecycleListener {
     FileBasedConfig cfg;
     try {
       cfg = loadGerritIndexConfig(sitePaths);
-    } catch (ConfigInvalidException e) {
-      throw fail(e);
-    } catch (IOException e) {
+    } catch (ConfigInvalidException | IOException e) {
       throw fail(e);
     }
 

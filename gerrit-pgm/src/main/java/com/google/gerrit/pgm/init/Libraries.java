@@ -53,9 +53,7 @@ class Libraries {
     final Config cfg = new Config();
     try {
       cfg.fromText(read(RESOURCE_FILE));
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage(), e);
-    } catch (ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
 

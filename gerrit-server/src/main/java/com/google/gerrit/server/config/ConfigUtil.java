@@ -31,15 +31,9 @@ public class ConfigUtil {
   private static <T> T[] allValuesOf(final T defaultValue) {
     try {
       return (T[]) defaultValue.getClass().getMethod("values").invoke(null);
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (SecurityException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (IllegalAccessException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (InvocationTargetException e) {
-      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
-    } catch (NoSuchMethodException e) {
+    } catch (IllegalArgumentException | NoSuchMethodException
+        | InvocationTargetException | IllegalAccessException
+        | SecurityException e) {
       throw new IllegalArgumentException("Cannot obtain enumeration values", e);
     }
   }

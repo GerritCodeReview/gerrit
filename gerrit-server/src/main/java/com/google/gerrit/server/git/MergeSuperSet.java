@@ -184,7 +184,7 @@ public class MergeSuperSet {
         }
       }
       changes = ChangeSet.create(chgs);
-      newCs = completeChangeSet(db, changes);
+      newCs = completeChangeSetWithoutTopic(db, changes);
     }
     return newCs;
   }

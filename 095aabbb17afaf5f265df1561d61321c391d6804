@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dedff221_fefec1a4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2780,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-24T02:53:10Z",
+      "side": 1,
+      "message": "refs/gpg-keys ?",
+      "range": {
+        "startLine": 2780,
+        "startChar": 5,
+        "endLine": 2780,
+        "endChar": 21
+      },
+      "revId": "095aabbb17afaf5f265df1561d61321c391d6804",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

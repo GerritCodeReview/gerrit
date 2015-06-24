@@ -78,16 +78,16 @@ public class RelatedChanges extends TabPanel {
       }
     },
 
-    SAME_TOPIC(Resources.C.sameTopic(),
-        Resources.C.sameTopicTooltip()) {
+    SUBMITTED_TOGETHER(Resources.C.submittedTogether(),
+        Resources.C.submittedTogether()) {
       @Override
       String getTitle(int count) {
-        return Resources.M.sameTopic(count);
+        return Resources.M.submittedTogether(count);
       }
 
       @Override
       String getTitle(String count) {
-        return Resources.M.sameTopic(count);
+        return Resources.M.submittedTogether(count);
       }
     },
 
@@ -171,9 +171,9 @@ public class RelatedChanges extends TabPanel {
     }
     getTab(Tab.RELATED_CHANGES).setShowIndirectAncestors(true);
     getTab(Tab.CHERRY_PICKS).setShowBranches(true);
-    getTab(Tab.SAME_TOPIC).setShowBranches(true);
-    getTab(Tab.SAME_TOPIC).setShowProjects(true);
-    getTab(Tab.SAME_TOPIC).setShowSubmittable(true);
+    getTab(Tab.SUBMITTED_TOGETHER).setShowBranches(true);
+    getTab(Tab.SUBMITTED_TOGETHER).setShowProjects(true);
+    getTab(Tab.SUBMITTED_TOGETHER).setShowSubmittable(true);
   }
 
   void set(final ChangeInfo info, final String revision) {
@@ -207,7 +207,7 @@ public class RelatedChanges extends TabPanel {
                      ListChangesOption.CURRENT_COMMIT,
                      ListChangesOption.DETAILED_LABELS,
                      ListChangesOption.LABELS),
-          new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
+          new TabChangeListCallback(Tab.SUBMITTED_TOGETHER, info.project(), revision));
     }
   }
 

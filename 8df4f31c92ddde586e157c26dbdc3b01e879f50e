@@ -199,6 +199,24 @@
       "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e12ced8_e9fd7580",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-25T13:39:06Z",
+      "side": 1,
+      "message": "\u003e I concluded anything not having the same destination branch as the change which included this by rev walk, is not safe to merge. \n\nAssuming you mean anything _open_ not having the same dest, that\u0027s fine. We still have to preserve the ability to merge in closed changes from another branch, though.\n\n\u003e So the current code uses ref(branch) in here, which I consider quite safe. \n\nI\u0027m still not following how the code you have written does the safe thing. B\u0027s commit will be identified as a commit to pass to byCommitsOnBranchNotMerged, but because B is not on the branch, its change will not be returned. Then in MergeSuperSet where it calls byCommitsOnBranchNotMerged, it will never add B to the superset of changes that it needs to check the status of. MergeSuperSet will return A and C, which are both submittable, MergeOp will conclude C is ok to merge, which it is not.\n\nAm I missing something?\n\nRegardless, please make sure there is a test covering this case.",
+      "parentUuid": "3e12ced8_a9d89d62",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,13 +18,17 @@
 from __future__ import print_function
 
 from collections import defaultdict, deque
+from optparse import OptionParser
 from os import chdir, path
 import re
 from shutil import copyfileobj
 from subprocess import Popen, PIPE
 from sys import stdout, stderr
 
-MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
+parser = OptionParser()
+parser.add_option('--asciidoc', action='store_true')
+opts, args = parser.parse_args()
+
 KNOWN_PROVIDED_DEPS = [
   '//lib/bouncycastle:bcpg',
   '//lib/bouncycastle:bcpkix',
@@ -36,7 +40,7 @@ def parse_graph():
   while not path.isfile('.buckconfig'):
     chdir('..')
   p = Popen(
-    ['buck', 'audit', 'classpath', '--dot'] + MAIN,
+    ['buck', 'audit', 'classpath', '--dot'] + args,
     stdout = PIPE)
   for line in p.stdout:
     m = re.search(r'"(//.*?)" -> "(//.*?)";', line)
@@ -60,7 +64,7 @@ def parse_graph():
 graph = parse_graph()
 licenses = defaultdict(set)
 
-queue = deque(MAIN)
+queue = deque(args)
 while queue:
   target = queue.popleft()
   for dep in graph[target]:
@@ -70,7 +74,8 @@ while queue:
   queue.extend(graph[target])
 used = sorted(licenses.keys())
 
-print("""\
+if opts.asciidoc:
+  print("""\
 Gerrit Code Review - Licenses
 =============================
 
@@ -122,26 +127,33 @@ Licenses
 for n in used:
   libs = sorted(licenses[n])
   name = n[len('//lib:LICENSE-'):]
-  print()
-  print('[[%s]]' % name.replace('.', '_'))
-  print(name)
-  print('~' * len(name))
-  print()
+  if opts.asciidoc:
+    print()
+    print('[[%s]]' % name.replace('.', '_'))
+    print(name)
+    print('~' * len(name))
+    print()
+  else:
+    print()
+    print(name)
+    print('--')
   for d in libs:
     if d.startswith('//lib:') or d.startswith('//lib/'):
       p = d[len('//lib:'):]
     else:
       p = d[d.index(':')+1:].lower()
     print('* ' + p)
-  print()
-  print('[[license]]')
-  print('[verse]')
-  print('--')
+  if opts.asciidoc:
+    print()
+    print('[[license]]')
+    print('[verse]')
+    print('--')
   with open(n[2:].replace(':', '/')) as fd:
     copyfileobj(fd, stdout)
   print('--')
 
-print("""
+if opts.asciidoc:
+  print("""
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efc9ac6_e43a3af8",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-25T09:12:18Z",
+      "side": 1,
+      "message": "I think this is not necessary. At least when I try it in an interactive python shell:\n\n  \u003e\u003e\u003e (\u0027a b %s d\u0027 % \"C\").split()\n  [\u0027a\u0027, \u0027b\u0027, \u0027C\u0027, \u0027d\u0027]\n\nit works as expected",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 25
+      },
+      "revId": "c287ba3f36d5093261a1c4ce351b03c6ef12c9c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

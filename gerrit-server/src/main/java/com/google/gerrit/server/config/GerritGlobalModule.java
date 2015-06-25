@@ -221,6 +221,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(GitwebConfig.class);
 
     bind(GcConfig.class);
+    bind(ChangeCleanupConfig.class);
 
     bind(ApprovalsUtil.class);
     bind(ChangeMergeQueue.class).in(SINGLETON);

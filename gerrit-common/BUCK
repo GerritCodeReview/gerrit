@@ -32,7 +32,7 @@ gwt_module(
     '//gerrit-reviewdb:client',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
-    '//lib/jgit:jgit',
+    '//lib/jgit:Edit',
   ],
   visibility = ['PUBLIC'],
 )

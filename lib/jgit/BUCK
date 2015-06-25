@@ -67,10 +67,16 @@ maven_jar(
   license = 'Apache2.0',
 )
 
-prebuilt_jar(
+gwt_module(
   name = 'Edit',
-  binary_jar = ':jgit_edit_src',
+  srcs = [':jgit_edit_src'],
+  deps = [':edit_src'],
   visibility = ['PUBLIC'],
+)
+
+prebuilt_jar(
+  name = 'edit_src',
+  binary_jar = ':jgit_edit_src',
 )
 
 genrule(
@@ -79,5 +85,5 @@ genrule(
     'org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  out = 'edit-src.jar',
+  out = 'edit.src.zip',
 )

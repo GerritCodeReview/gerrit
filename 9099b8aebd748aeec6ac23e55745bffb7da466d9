@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e51faaa_5cf3fde9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T00:57:42Z",
+      "side": 1,
+      "message": "This could be in a try-with-resources.  Then the catch at line 195 should be moved down to near 241, and the finally at line 245 can be removed.\n\nShould probably be in a separate change, though.",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 62
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e12ced8_49f001dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T00:57:42Z",
+      "side": 1,
+      "message": "[optional] add an \"ignored\" comment inside the catch block to silence CheckStyle warning about empty catch.",
+      "range": {
+        "startLine": 162,
+        "startChar": 6,
+        "endLine": 163,
+        "endChar": 7
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_7cf039dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T00:57:42Z",
+      "side": 1,
+      "message": "Can `in` be declared in a try-with-resources?",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_1ced75ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T00:57:42Z",
+      "side": 1,
+      "message": "Doesn\u0027t this get caught by the catch at line 112?",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 48
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e12ced8_29edcdff",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T00:57:42Z",
+      "side": 1,
+      "message": "Include this one in the multi-catch?\n\nOr is there a specific reason to only log the error for NoSuchProviderException?",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 41
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

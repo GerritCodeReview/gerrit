@@ -1,7 +1,7 @@
 include_defs('//gerrit-gwtui/gwt.defs')
 include_defs('//tools/gwt-constants.defs')
 
-DEPS = GWT_COMMON_DEPS + [
+DEPS = [
   '//gerrit-gwtexpui:CSS',
   '//lib:gwtjsonrpc',
 ]

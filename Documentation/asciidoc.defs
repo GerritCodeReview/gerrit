@@ -104,7 +104,11 @@ def genasciidoc(
     srcs = glob([
         'images/*.jpg',
         'images/*.png',
-      ]) + [':doc.css'],
+      ]) + [
+        ':doc.css',
+        '//gerrit-prettify:prettify.min.css',
+        '//gerrit-prettify:prettify.min.js',
+      ],
     out = out,
     visibility = visibility,
   )

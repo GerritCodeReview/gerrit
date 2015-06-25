@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "be179efa_b5b5e022",
+        "filename": "tools/default.defs",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T17:03:47Z",
+      "side": 1,
+      "message": "Removed gwt:dev here.",
+      "parentUuid": "be423edc_9dd503e5",
+      "range": {
+        "startLine": 172,
+        "startChar": 22,
+        "endLine": 172,
+        "endChar": 39
+      },
+      "revId": "cb6bb133da3627c1468b665ffeb58b76d485f1ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efc9ac6_44634e0f",
         "filename": "tools/default.defs",
         "patchSetId": 4

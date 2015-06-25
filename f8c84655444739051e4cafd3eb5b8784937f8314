@@ -178,6 +178,24 @@
       "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be423edc_1d9ed36a",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-25T11:56:00Z",
+      "side": 1,
+      "message": "Correct. This concrete case is not so much critical so you can just leave it as it is. But we should keep this in mind for longer function names, or chained calls like:\n\n  function1(...).function2(...).function3(\n      p1, p2, p3 ...",
+      "parentUuid": "be423edc_bdaebf9d",
+      "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -63,13 +63,8 @@ public class DownloadInfo extends JavaScriptObject {
       return command(commandName).replaceAll("\\$\\{project\\}", project);
     }
 
-    private String projectBaseName(String project) {
-      int i = project.lastIndexOf('/');
-      if (i < 0) {
-        return project;
-      } else {
-        return project.substring(i + 1);
-      }
+    private static String projectBaseName(String project) {
+      return project.substring(project.lastIndexOf('/') + 1);
     }
 
     public final Set<String> cloneCommandNames() {

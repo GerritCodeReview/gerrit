@@ -52,6 +52,24 @@
       "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_fc8d2939",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T09:33:04Z",
+      "side": 1,
+      "message": "The pep8 checker.\n\nhttp://paste.openstack.org/show/320844/\n\nNote there are several of these:\n\n E111 indentation is not a multiple of four\n\nThat\u0027s because PEP-8 says indentation should be 4, but for some reason we\u0027re using 2 consistently across the Python codebase here.  Same in git-repo.  I think 2 was stated in an earlier version of Google\u0027s style guide [1] which now says 4.\n\n[1] https://google-styleguide.googlecode.com/svn/trunk/pyguide.html#Indentation",
+      "parentUuid": "9efc9ac6_84394603",
+      "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

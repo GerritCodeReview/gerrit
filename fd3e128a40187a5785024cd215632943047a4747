@@ -52,6 +52,24 @@
       "revId": "fd3e128a40187a5785024cd215632943047a4747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e165aff_94ba640e",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T17:15:00Z",
+      "side": 1,
+      "message": "Maybe Buck changed things to compile sources from .zip and don\u0027t care about it being .src.zip.\n\nElsewhere we use .src.zip for an input of java files to the java compiler so I\u0027d prefer to stick with that convention even if Buck has relaxed it to .zip.",
+      "parentUuid": "7e11a608_93ba7c0e",
+      "revId": "fd3e128a40187a5785024cd215632943047a4747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

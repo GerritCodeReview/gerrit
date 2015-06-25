@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be423edc_bd123f91",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T05:56:47Z",
+      "side": 0,
+      "message": "This was superfluous in the base version. In new version neither $(location :t) macro nor explicit dependencies are used. So after buck clean, these targets are not built. Yet, the gen_licenses.py doesn\u0027t make use of this target, but only inspect build graph, by issuing buck audit classpath. The documentation doesn\u0027t mention explicitly, if buck audit classpath can be called before the targtes were built: [1], but I assume, that only dependency graph is needed to extract this information, so it should be OK.\n\n* [1] http://buckbuild.com/command/audit.html",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "89e8457b2b6daa85206e045e265657f2270c381d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

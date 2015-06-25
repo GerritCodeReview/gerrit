@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "be423edc_fde3e718",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T04:46:31Z",
+      "side": 1,
+      "message": "Yeah, I was kind of wondering about this comment, as Emacs  always did a good job with indentation, and suggested my original version. I havn\u0027t checked it with PEP-8 though. Thanks for fixing it.",
+      "parentUuid": "3e12ced8_49f5a1c2",
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed8363c_3fa587be",
         "filename": "tools/maven/api.py",
         "patchSetId": 14

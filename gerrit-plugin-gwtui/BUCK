@@ -2,10 +2,7 @@ COMMON = ['gerrit-gwtui-common/src/main/java/']
 SRC = 'src/main/java/com/google/gerrit/'
 SRCS = glob([SRC + '**/*.java'])
 
-DEPS = [
-  '//lib/gwt:user',
-  '//lib/gwt:dev',
-]
+DEPS = ['//lib/gwt:user']
 
 java_binary(
   name = 'gwtui-api',
@@ -27,7 +24,7 @@ java_library(
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
   exported_deps = ['//gerrit-gwtui-common:client-lib2'],
-  provided_deps = DEPS,
+  provided_deps = DEPS + ['//lib/gwt:dev'],
   visibility = ['PUBLIC'],
 )
 
@@ -53,6 +50,9 @@ java_doc(
   pkg = 'com.google.gerrit',
   paths = ['src/main/java'] + COMMON,
   srcs = SRCS,
-  deps = DEPS + ['//gerrit-gwtui-common:client-lib2'],
+  deps = DEPS + [
+    '//lib/gwt:dev__jar',
+    '//gerrit-gwtui-common:client-lib2',
+  ],
   visibility = ['PUBLIC'],
 )

@@ -29,9 +29,15 @@ genasciidoc(
 
 genrule(
   name = 'licenses.txt',
-  cmd = '$(exe :gen_licenses) >$OUT',
-  deps = [':gen_licenses'] + MAIN,
+  cmd = '$(exe :gen_licenses) --asciidoc ' + ' '.join(MAIN) + ' >$OUT',
   out = 'licenses.txt',
+)
+
+# Required by Google for gerrit-review.
+genrule(
+  name = 'js_licenses.txt',
+  cmd = '$(exe :gen_licenses) //gerrit-gwtui:ui_module >$OUT',
+  out = 'js_licenses.txt',
 )
 
 genrule(

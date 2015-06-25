@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eaea2fa_d2c4e485",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T17:44:22Z",
+      "side": 1,
+      "message": "Now I remember. Always when java_doc depends on a library, that itself has exported_deps, javadoc is failing in this obsucre way. That was porobably the reason I decoupled it and used a constant instead of doing it the right way.",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 4
+      },
+      "revId": "b0735a3c02fd930699176b54a0a99f0861272ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "b0735a3c02fd930699176b54a0a99f0861272ad4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb8aa3c_b0b5d822",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T19:38:09Z",
+      "side": 1,
+      "message": "Checking Buck souce code ... This has nothing to do with exported deps on itself, rather then how maven_jar() custom rule is implemented in gerrit core:\n\n  if exported_deps:\n    prebuilt_jar(\n      name \u003d \u0027%s__jar\u0027 % name,\n      deps \u003d deps + license,\n      binary_jar \u003d \u0027:%s__download_bin\u0027 % name,\n      source_jar \u003d \u0027:%s__download_src\u0027 % name if srcjar else None,\n    )\n    java_library(\n      name \u003d name,\n      exported_deps \u003d exported_deps + [\u0027:\u0027 + name + \u0027__jar\u0027],\n      visibility \u003d visibility,\n    )\n  else:\n    prebuilt_jar(\n      name \u003d name,\n      deps \u003d deps + license,\n      binary_jar \u003d \u0027:%s__download_bin\u0027 % name,\n      source_jar \u003d \u0027:%s__download_src\u0027 % name if srcjar else None,\n      visibility \u003d visibility,\n    )\n\n\nSo when exported_deps provided, java_library is created. This java_library doesn\u0027t have any srcs or resources and thus doesn\u0027t have the output. Without exported_deps prebuilt_jar() is used, that always has output:\n\n  $ buck targets --show_output //lib/gwt:dev\n  //lib/gwt:dev\n  $ buck targets --show_output //lib/gwt:user\n  //lib/gwt:user buck-out/gen/lib/gwt/user/gwt-user-2.7.0.jar\n\nThat\u0027s why $(location :target) telling us the same here. And the java_doc() makes use of $(location //lib/gwt:dev) that cannot work (now).",
+      "parentUuid": "5eaea2fa_52d11441",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 4
+      },
+      "revId": "b0735a3c02fd930699176b54a0a99f0861272ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

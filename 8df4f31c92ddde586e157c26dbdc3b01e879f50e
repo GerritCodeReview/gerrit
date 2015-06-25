@@ -181,6 +181,24 @@
       "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e12ced8_a9d89d62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-25T00:42:13Z",
+      "side": 1,
+      "message": "Currently we reject merging anything in a side branch, because it is tricky.\n\nConsider there is B and B\u0027 in your example, with B targeting branch2, CR-1, B\u0027(same change id, same sha1) targeting branch1, CR+2. Then we obviously want to pick B\u0027 which is in our branch.\n\nConsider it the other way round (swap the CR ratings). Then we would have a similar case to yours, which we don\u0027t want to merge.\n\nGiven these 2 examples, I concluded anything not having the same destination branch as the change which included this by rev walk, is not safe to merge. \n\nEven if B in your example had CR+2, you\u0027d modify a branch, which is not necessarily a destination branch of any change pulled in via the submitWholeTopic thing. So it would open a second way to modify different branches. And we probably don\u0027t want that either.\n\nSo the current code uses ref(branch) in here, which I consider quite safe. Notice the test in the other change, which tests the scenario you outlined, but an additional D having the same topic as C. If C cannot be merged because of ancestor problems, D should also not merge).",
+      "parentUuid": "9e51faaa_dcde2d50",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

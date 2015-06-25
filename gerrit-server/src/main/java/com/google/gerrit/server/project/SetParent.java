@@ -60,11 +60,17 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(final ProjectResource rsrc, Input input)
+  public String apply(ProjectResource rsrc, Input input) throws AuthException,
+      ResourceConflictException, ResourceNotFoundException,
+      UnprocessableEntityException, IOException {
+    return apply(rsrc, input, true);
+  }
+
+  public String apply(ProjectResource rsrc, Input input, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException,
       ResourceNotFoundException, UnprocessableEntityException, IOException {
     ProjectControl ctl = rsrc.getControl();
-    validateParentUpdate(ctl, input.parent, true);
+    validateParentUpdate(ctl, input.parent, checkIfAdmin);
     IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
     try {
       MetaDataUpdate md = updateFactory.create(rsrc.getNameKey());

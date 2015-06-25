@@ -189,61 +189,56 @@ public class CatServlet extends HttpServlet {
       return;
     }
 
-    final Repository repo;
-    try {
-      repo = repoManager.openRepository(project.getNameKey());
-    } catch (RepositoryNotFoundException e) {
-      getServletContext().log("Cannot open repository", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      return;
-    }
+    ObjectLoader blobLoader;
+    RevCommit fromCommit;
+    String suffix;
+    String path = patchKey.getFileName();
+    try (Repository repo = repoManager.openRepository(project.getNameKey())) {
+      try (ObjectReader reader = repo.newObjectReader();
+          RevWalk rw = new RevWalk(reader)) {
+        RevCommit c;
 
-    final ObjectLoader blobLoader;
-    final RevCommit fromCommit;
-    final String suffix;
-    final String path = patchKey.getFileName();
-    try (ObjectReader reader = repo.newObjectReader();
-        RevWalk rw = new RevWalk(reader)) {
-      final RevCommit c;
+        c = rw.parseCommit(ObjectId.fromString(revision));
+        if (side == 0) {
+          fromCommit = c;
+          suffix = "new";
 
-      c = rw.parseCommit(ObjectId.fromString(revision));
-      if (side == 0) {
-        fromCommit = c;
-        suffix = "new";
+        } else if (1 <= side && side - 1 < c.getParentCount()) {
+          fromCommit = rw.parseCommit(c.getParent(side - 1));
+          if (c.getParentCount() == 1) {
+            suffix = "old";
+          } else {
+            suffix = "old" + side;
+          }
 
-      } else if (1 <= side && side - 1 < c.getParentCount()) {
-        fromCommit = rw.parseCommit(c.getParent(side - 1));
-        if (c.getParentCount() == 1) {
-          suffix = "old";
         } else {
-          suffix = "old" + side;
-        }
-
-      } else {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-        return;
-      }
-
-      try (TreeWalk tw = TreeWalk.forPath(reader, path, fromCommit.getTree())) {
-        if (tw == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
 
-        if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
-          blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+        try (TreeWalk tw = TreeWalk.forPath(reader, path, fromCommit.getTree())) {
+          if (tw == null) {
+            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+          }
 
-        } else {
-          rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-          return;
+          if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
+            blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+
+          } else {
+            rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+          }
         }
       }
+    } catch (RepositoryNotFoundException e) {
+      getServletContext().log("Cannot open repository", e);
+      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      return;
     } catch (IOException | RuntimeException e) {
       getServletContext().log("Cannot read repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
-    } finally {
-      repo.close();
     }
 
     final byte[] raw =

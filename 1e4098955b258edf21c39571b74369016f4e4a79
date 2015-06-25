@@ -84,6 +84,23 @@
     },
     {
       "key": {
+        "uuid": "9e51faaa_dc2cedd3",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T01:58:41Z",
+      "side": 1,
+      "message": "nit: add another blank line between the imports and the first method.\n\n E302 expected 2 blank lines, found 1",
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed8363c_1fa0c3ad",
         "filename": "tools/maven/api.py",
         "patchSetId": 14
@@ -95,6 +112,24 @@
       "writtenOn": "2015-06-24T11:57:08Z",
       "side": 1,
       "message": "nit: this should be indented 2 levels (4 spaces more than the line 25)",
+      "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e12ced8_49f5a1c2",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T01:58:41Z",
+      "side": 1,
+      "message": "No, this is correct according to PEP-8.  If we indent it by 4 more:\n\n E127 continuation line over-indented for visual indent",
+      "parentUuid": "fed8363c_1fa0c3ad",
       "revId": "1e4098955b258edf21c39571b74369016f4e4a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

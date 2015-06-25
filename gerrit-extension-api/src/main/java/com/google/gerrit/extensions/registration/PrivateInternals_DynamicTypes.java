@@ -98,10 +98,7 @@ public class PrivateInternals_DynamicTypes {
           handles.add(item.set(b.getKey(), b.getProvider(), pluginName));
         }
       }
-    } catch (RuntimeException e) {
-      remove(handles);
-      throw e;
-    } catch (Error e) {
+    } catch (RuntimeException | Error e) {
       remove(handles);
       throw e;
     }
@@ -130,10 +127,7 @@ public class PrivateInternals_DynamicTypes {
           }
         }
       }
-    } catch (RuntimeException e) {
-      remove(handles);
-      throw e;
-    } catch (Error e) {
+    } catch (RuntimeException | Error e) {
       remove(handles);
       throw e;
     }
@@ -164,10 +158,7 @@ public class PrivateInternals_DynamicTypes {
           }
         }
       }
-    } catch (RuntimeException e) {
-      remove(handles);
-      throw e;
-    } catch (Error e) {
+    } catch (RuntimeException | Error e) {
       remove(handles);
       throw e;
     }

@@ -264,9 +264,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
 
     try {
       cfg.load();
-    } catch (IOException e) {
-      log.warn("Failed to load " + pluginConfigFile.toAbsolutePath(), e);
-    } catch (ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException e) {
       log.warn("Failed to load " + pluginConfigFile.toAbsolutePath(), e);
     }
 

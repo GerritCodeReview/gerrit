@@ -49,9 +49,7 @@ final class PluginReloadCommand extends SshCommand {
     } else {
       try {
         loader.reload(names);
-      } catch (InvalidPluginException e) {
-        throw die(e.getMessage());
-      } catch (PluginInstallException e) {
+      } catch (InvalidPluginException | PluginInstallException e) {
         throw die(e.getMessage());
       }
     }

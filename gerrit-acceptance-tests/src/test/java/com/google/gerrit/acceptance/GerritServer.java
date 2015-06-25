@@ -110,9 +110,7 @@ public class GerritServer {
       public void run() {
         try {
           serverStarted.await();
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        } catch (BrokenBarrierException e) {
+        } catch (InterruptedException | BrokenBarrierException e) {
           throw new RuntimeException(e);
         }
       }

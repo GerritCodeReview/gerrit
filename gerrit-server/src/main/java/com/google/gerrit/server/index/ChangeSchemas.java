@@ -308,9 +308,7 @@ public class ChangeSchemas {
             checkArgument(f.getName().startsWith("V"));
             schema.setVersion(Integer.parseInt(f.getName().substring(1)));
             all.put(schema.getVersion(), schema);
-          } catch (IllegalArgumentException e) {
-            throw new ExceptionInInitializerError(e);
-          } catch (IllegalAccessException e) {
+          } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new ExceptionInInitializerError(e);
           }
         } else {

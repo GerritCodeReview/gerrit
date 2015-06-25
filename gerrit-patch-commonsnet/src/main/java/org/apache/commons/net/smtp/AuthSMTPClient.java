@@ -145,9 +145,7 @@ public class AuthSMTPClient extends SMTPClient {
       Mac mac = Mac.getInstance(macName);
       mac.init(new SecretKeySpec(smtpPass.getBytes(UTF_8), macName));
       sec = toHex(mac.doFinal(nonce));
-    } catch (NoSuchAlgorithmException e) {
-      throw new IOException("Cannot use CRAM-" + alg, e);
-    } catch (InvalidKeyException e) {
+    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
       throw new IOException("Cannot use CRAM-" + alg, e);
     }
 

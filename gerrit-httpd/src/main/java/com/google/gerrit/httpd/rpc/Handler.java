@@ -66,13 +66,8 @@ public abstract class Handler<T> implements Callable<T> {
       if (r != null) {
         callback.onSuccess(r);
       }
-    } catch (NoSuchProjectException e) {
-      callback.onFailure(new NoSuchEntityException());
-
-    } catch (NoSuchRefException e) {
-      callback.onFailure(new NoSuchEntityException());
-
-    } catch (NoSuchChangeException e) {
+    } catch (NoSuchProjectException | NoSuchChangeException
+        | NoSuchRefException e) {
       callback.onFailure(new NoSuchEntityException());
 
     } catch (OrmException e) {

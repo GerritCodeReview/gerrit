@@ -203,11 +203,7 @@ public abstract class BaseCommand implements Command {
     final CmdLineParser clp = newCmdLineParser(options);
     try {
       clp.parseArgument(argv);
-    } catch (IllegalArgumentException err) {
-      if (!clp.wasHelpRequestedByOption()) {
-        throw new UnloggedFailure(1, "fatal: " + err.getMessage());
-      }
-    } catch (CmdLineException err) {
+    } catch (IllegalArgumentException | CmdLineException err) {
       if (!clp.wasHelpRequestedByOption()) {
         throw new UnloggedFailure(1, "fatal: " + err.getMessage());
       }

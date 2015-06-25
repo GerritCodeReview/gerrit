@@ -106,11 +106,8 @@ class DashboardsCollection implements
     for (ProjectState ps : myCtl.getProjectState().tree()) {
       try {
         return parse(ps.controlFor(user), ref, path, myCtl);
-      } catch (AmbiguousObjectException e) {
-        throw new ResourceNotFoundException(id);
-      } catch (IncorrectObjectTypeException e) {
-        throw new ResourceNotFoundException(id);
-      } catch (ConfigInvalidException e) {
+      } catch (AmbiguousObjectException | ConfigInvalidException
+          | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
         continue;

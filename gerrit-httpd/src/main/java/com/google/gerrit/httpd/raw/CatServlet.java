@@ -238,11 +238,7 @@ public class CatServlet extends HttpServlet {
           return;
         }
       }
-    } catch (IOException e) {
-      getServletContext().log("Cannot read repository", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      return;
-    } catch (RuntimeException e) {
+    } catch (IOException | RuntimeException e) {
       getServletContext().log("Cannot read repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;

@@ -55,9 +55,7 @@ class GerritServerConfigProvider implements Provider<Config> {
 
     try {
       cfg.load();
-    } catch (IOException e) {
-      throw new ProvisionException(e.getMessage(), e);
-    } catch (ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException e) {
       throw new ProvisionException(e.getMessage(), e);
     }
 

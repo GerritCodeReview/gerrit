@@ -105,10 +105,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
           new AccountSshKey(id, SshUtil.toOpenSshPublicKey(encoded));
       SshUtil.parse(key);
       return key;
-    } catch (NoSuchAlgorithmException e) {
-      throw new InvalidSshKeyException();
-
-    } catch (InvalidKeySpecException e) {
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
       throw new InvalidSshKeyException();
 
     } catch (NoSuchProviderException e) {

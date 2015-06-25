@@ -253,6 +253,24 @@
       "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1c5221_9608ac62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-25T19:28:21Z",
+      "side": 1,
+      "message": "If there is an ancestor which is not merged yet, we have different cases:\n1) The ancestor has one associated change, which is targeted at the same branch\n2) The ancestor has one associated change, which is targeted at another branch\n3) The ancestor has more than associated change(same sha1, same change id), which are targeted at different branches.\n  This has 2 sub categories:\n  3a) All changes are CR+2\n  3b) The change targeted at the same branch is CR+2, the other not\n  3c) The change targeted at the other branch is CR+2, while the one targeting the same branch is -2\n  3d) all the changes are CR-2\n4) The ancestor has no change associated with it.\n\n4) should never happen (direct pushes are merged already, everything else has to have a change)\n\nIn case 1) we want that ancestor change to be submitted and integrated.\nIn case 3) and a,b we want the change on the same branch to be submitted and integrated.\n\nIn 3c and 3d we expect Gerrit to prevent the merge as that change is not intended to be on the target branch.\n\nNow as far as I understand your question, you\u0027re worried about case 2)\n\nAnd if we choose to refuse to merge 2) this makes life very easy as we only care about the current branch in all cases then.\n\nThe code to prevent the case 2) being merged is in the first part of MergeOp:integrateIntoHistory as the merges cannot be performed.",
+      "parentUuid": "9e165aff_94e3841a",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

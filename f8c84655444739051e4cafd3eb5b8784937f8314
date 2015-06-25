@@ -142,6 +142,24 @@
       "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be423edc_fda447c3",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-25T11:08:11Z",
+      "side": 1,
+      "message": "OK, now it is clear. Only, if the FIRST parameter is put into the new line then we can have a less indentation for the parameter list:\n\n    s \u003d very_long_function_name_with_a_lot_of_parameters(\n        a, b, c, d, ...)\n\nGood to know as I don\u0027t really like any kind of vertical alignment in the source code (except the alignment by the indentation level).",
+      "parentUuid": "3e12ced8_097449ac",
+      "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "fd3e128a40187a5785024cd215632943047a4747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_7c91195b",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T07:36:53Z",
+      "side": 1,
+      "message": "Yes. We need Buck to recompile these source files into a micro JAR that contains only these classes. Naming it .src.zip means Buck will feed the contained Java files to javac for us. We do similar for Prolog-\u003eJava compile.",
+      "parentUuid": "3e12ced8_89aef99d",
+      "revId": "fd3e128a40187a5785024cd215632943047a4747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -189,7 +189,7 @@ def gerrit_plugin(
     gwt_binary(
       name = name + '__gwt_application',
       modules = [gwt_module],
-      deps = GWT_PLUGIN_DEPS,
+      deps = GWT_PLUGIN_DEPS + ['//lib/gwt:dev'],
       module_deps = [':%s__gwt_module' % name],
       local_workers = cpu_count(),
       strict = True,

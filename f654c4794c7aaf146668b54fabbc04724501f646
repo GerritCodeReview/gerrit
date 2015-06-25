@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efc9ac6_c4561e30",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T06:47:35Z",
+      "side": 1,
+      "message": "This is included extra with: GWT_COMMON_DEPS and used in all places: in core and plugin\n\nNow it\u0027s duplicated.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 29
+      },
+      "revId": "f654c4794c7aaf146668b54fabbc04724501f646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

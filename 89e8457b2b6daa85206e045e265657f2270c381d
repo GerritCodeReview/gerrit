@@ -46,6 +46,30 @@
       "revId": "89e8457b2b6daa85206e045e265657f2270c381d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be423edc_7df597c2",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T06:14:46Z",
+      "side": 0,
+      "message": "Thanks.",
+      "parentUuid": "9e51faaa_dc3aadf8",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "89e8457b2b6daa85206e045e265657f2270c381d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

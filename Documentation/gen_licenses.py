@@ -17,6 +17,7 @@
 
 from __future__ import print_function
 
+import argparse
 from collections import defaultdict, deque
 from os import chdir, path
 import re
@@ -24,7 +25,12 @@ from shutil import copyfileobj
 from subprocess import Popen, PIPE
 from sys import stdout, stderr
 
-MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
+parser = argparse.ArgumentParser()
+parser.add_argument('--asciidoc', action='store_true')
+parser.add_argument('--partial', action='store_true')
+parser.add_argument('targets', nargs='+')
+args = parser.parse_args()
+
 KNOWN_PROVIDED_DEPS = [
   '//lib/bouncycastle:bcpg',
   '//lib/bouncycastle:bcpkix',
@@ -36,13 +42,23 @@ def parse_graph():
   while not path.isfile('.buckconfig'):
     chdir('..')
   p = Popen(
-    ['buck', 'audit', 'classpath', '--dot'] + MAIN,
+    ['buck', 'audit', 'classpath', '--dot'] + args.targets,
     stdout = PIPE)
   for line in p.stdout:
     m = re.search(r'"(//.*?)" -> "(//.*?)";', line)
     if not m:
       continue
     target, dep = m.group(1), m.group(2)
+    if args.partial:
+      if dep == '//lib/codemirror:js_minifier':
+        if target == '//lib/codemirror:js':
+          continue
+        if target.startswith('//lib/codemirror:mode_'):
+          continue
+      if target == '//gerrit-gwtui:ui_module' and \
+         dep == '//gerrit-gwtexpui:CSS':
+        continue
+
     # Dependencies included in provided_deps set are contained in audit
     # classpath and must be sorted out. That's safe thing to do because
     # they are not included in the final artifact.
@@ -60,7 +76,7 @@ def parse_graph():
 graph = parse_graph()
 licenses = defaultdict(set)
 
-queue = deque(MAIN)
+queue = deque(args.targets)
 while queue:
   target = queue.popleft()
   for dep in graph[target]:
@@ -70,7 +86,8 @@ while queue:
   queue.extend(graph[target])
 used = sorted(licenses.keys())
 
-print("""\
+if args.asciidoc:
+  print("""\
 Gerrit Code Review - Licenses
 =============================
 
@@ -122,26 +139,33 @@ Licenses
 for n in used:
   libs = sorted(licenses[n])
   name = n[len('//lib:LICENSE-'):]
-  print()
-  print('[[%s]]' % name.replace('.', '_'))
-  print(name)
-  print('~' * len(name))
-  print()
+  if args.asciidoc:
+    print()
+    print('[[%s]]' % name.replace('.', '_'))
+    print(name)
+    print('~' * len(name))
+    print()
+  else:
+    print()
+    print(name)
+    print('--')
   for d in libs:
     if d.startswith('//lib:') or d.startswith('//lib/'):
       p = d[len('//lib:'):]
     else:
       p = d[d.index(':')+1:].lower()
     print('* ' + p)
-  print()
-  print('[[license]]')
-  print('[verse]')
-  print('--')
+  if args.asciidoc:
+    print()
+    print('[[license]]')
+    print('[verse]')
+    print('--')
   with open(n[2:].replace(':', '/')) as fd:
     copyfileobj(fd, stdout)
   print('--')
 
-print("""
+if args.asciidoc:
+  print("""
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

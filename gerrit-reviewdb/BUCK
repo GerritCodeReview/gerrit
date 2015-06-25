@@ -7,8 +7,8 @@ gwt_module(
   gwt_xml = SRC + 'ReviewDB.gwt.xml',
   deps = [
     '//gerrit-extension-api:client',
-    '//lib:gwtorm',
-    '//lib:gwtorm_src'
+    '//lib:gwtorm_client',
+    '//lib:gwtorm_client_src'
   ],
   visibility = ['PUBLIC'],
 )

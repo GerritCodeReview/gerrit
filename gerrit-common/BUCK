@@ -31,7 +31,7 @@ gwt_module(
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',
     '//lib:gwtjsonrpc',
-    '//lib:gwtorm',
+    '//lib:gwtorm_client',
     '//lib/jgit:Edit',
   ],
   visibility = ['PUBLIC'],

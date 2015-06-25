@@ -44,7 +44,7 @@ gwt_module(
     '//lib:gwtorm',
     '//lib/codemirror:codemirror',
     '//lib/gwt:user',
-    '//lib/jgit:jgit',
+    '//lib/jgit:Edit',
   ],
   visibility = [
     '//tools/eclipse:classpath',

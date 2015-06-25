@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e11a608_d3c4f485",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T17:10:53Z",
+      "side": 1,
+      "message": "Strictly speaking it\u0027s not GWT module. GWT module is clien code + XML module description. So I was confused to see here gwt_module() and expected it to be java_library() instead.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 1
+      },
+      "revId": "b14bb76d5b0927a8e2be46da1809f338f917f283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

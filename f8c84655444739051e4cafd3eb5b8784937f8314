@@ -70,6 +70,24 @@
       "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be423edc_1d49f37f",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-06-25T09:40:37Z",
+      "side": 1,
+      "message": "Hmm.. are we then intermixing two issues:\n- the indentation level of 2 instead of 4\n- the indentation of the function parameter list continuation\n?\n\nReading the PEP-8 I don\u0027t find what was wrong with my suggestion. I am not insisting on it but just want to understand why is it considered an error.\n\nBtw, if we take the vertical alignment (your proposal) as our style then what about a very long function name:\n\n  very_long_function_name_very_long_function_name_very_long_function_name(parameter1,\n                                                                          parameter2,\n                                                                          parameter3,\n\nit really doesn\u0027t seem to be an optimal style for this case?",
+      "parentUuid": "9e51faaa_fc8d2939",
+      "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

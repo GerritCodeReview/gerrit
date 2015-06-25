@@ -167,8 +167,7 @@ def gerrit_plugin(
       srcs = [],
       resources = list(set(srcs + resources)),
       deps = deps,
-      provided_deps = ['//lib/gwt:dev'] +
-        GWT_PLUGIN_DEPS,
+      provided_deps = GWT_PLUGIN_DEPS,
       visibility = ['PUBLIC'],
     )
     prebuilt_jar(
@@ -187,7 +186,7 @@ def gerrit_plugin(
     gwt_binary(
       name = name + '__gwt_application',
       modules = [gwt_module],
-      deps = GWT_PLUGIN_DEPS,
+      deps = GWT_PLUGIN_DEPS + ['//lib/gwt:dev'],
       module_deps = [':%s__gwt_module' % name],
       local_workers = cpu_count(),
       strict = True,

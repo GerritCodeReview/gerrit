@@ -2,9 +2,10 @@ include_defs('//gerrit-gwtui/gwt.defs')
 include_defs('//tools/gwt-constants.defs')
 from multiprocessing import cpu_count
 
-DEPS = GWT_COMMON_DEPS + [
+DEPS = [
   '//gerrit-gwtexpui:CSS',
   '//lib:gwtjsonrpc',
+  '//lib/gwt:dev',
 ]
 
 genrule(

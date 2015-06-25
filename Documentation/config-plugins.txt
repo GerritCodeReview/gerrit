@@ -442,6 +442,18 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/ref-protection/+/refs/heads/stable-2.11/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[reparent]]
+=== reparent
+
+A plugin that provides project reparenting as a self-service for project owners.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reparent[
+Project] |
+link:https://gerrit.googlesource.com/plugins/reparent/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/reparent/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[reviewers]]
 === reviewers
 

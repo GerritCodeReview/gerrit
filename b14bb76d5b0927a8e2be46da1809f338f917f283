@@ -22,6 +22,30 @@
       "revId": "b14bb76d5b0927a8e2be46da1809f338f917f283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e165aff_f4bf58fc",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T17:15:00Z",
+      "side": 1,
+      "message": "Well... sure. Its client code, bytecode and source, and no XML description. A gwt module as we use it doesn\u0027t require an XML description.",
+      "parentUuid": "7e11a608_d3c4f485",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 1
+      },
+      "revId": "b14bb76d5b0927a8e2be46da1809f338f917f283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,5 +1,6 @@
 include_defs('//Documentation/asciidoc.defs')
 include_defs('//Documentation/config.defs')
+include_defs('//lib/download.defs')
 include_defs('//tools/git.defs')
 
 DOC_DIR = 'Documentation'
@@ -39,6 +40,20 @@ genrule(
   srcs = ['doc.css.in'],
   cmd = 'cp $SRCS $OUT',
   out = 'doc.css',
+)
+
+download_resource(
+  name = 'prettify.min.css',
+  url = 'https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css',
+  sha1 = '8d6fbb331e8c39d88ae2e8d07ba7f43e08a6d05f',
+  out = 'prettify.min.css',
+)
+
+download_resource(
+  name = 'prettify.min.js',
+  url = 'https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js',
+  sha1 = 'dc88c36035221edf3d55e9c1b770a48b96d4872d',
+  out = 'prettify.min.js',
 )
 
 python_binary(

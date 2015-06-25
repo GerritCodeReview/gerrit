@@ -1,3 +1,4 @@
+include_defs('//lib/download.defs')
 include_defs('//lib/maven.defs')
 include_defs('//lib/codemirror/cm.defs')
 include_defs('//lib/codemirror/closure.defs')
@@ -113,12 +114,10 @@ genrule(
   out = 'codemirror.jar',
 )
 
-genrule(
+download_resource(
   name = 'zip',
-  cmd = '$(exe //tools:download_file)' +
-    ' -o $OUT' +
-    ' -u ' + URL +
-    ' -v ' + SHA1,
+  url = URL,
+  sha1 = SHA1,
   out = ZIP,
 )
 

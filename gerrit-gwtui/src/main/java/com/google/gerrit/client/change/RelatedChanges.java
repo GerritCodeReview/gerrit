@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -198,17 +199,11 @@ public class RelatedChanges extends TabPanel {
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
-    if (info.topic() != null && !"".equals(info.topic())) {
-      StringBuilder topicQuery = new StringBuilder();
-      topicQuery.append("status:open");
-      topicQuery.append(" ").append(op("topic", info.topic()));
-      ChangeList.query(topicQuery.toString(),
-          EnumSet.of(ListChangesOption.CURRENT_REVISION,
-                     ListChangesOption.CURRENT_COMMIT,
-                     ListChangesOption.DETAILED_LABELS,
-                     ListChangesOption.LABELS),
-          new TabChangeListCallback(Tab.SUBMITTED_TOGETHER, info.project(), revision));
-    }
+    // TODO(sbeller): show only on latest revision
+    RestApi call = new RestApi("changes/" + info.changeId() + "/revisions/"
+        + info.currentRevision()  + "/submitted_together");
+    call.get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
+          info.project(), revision));
   }
 
   private void setForOpenChange(final ChangeInfo info, final String revision) {

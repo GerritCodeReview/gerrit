@@ -22,6 +22,30 @@
       "revId": "b0735a3c02fd930699176b54a0a99f0861272ad4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eaea2fa_52d11441",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T18:11:27Z",
+      "side": 1,
+      "message": "Filed a issue upstream: [1].\n\n* [1] https://github.com/facebook/buck/issues/365",
+      "parentUuid": "5eaea2fa_d2c4e485",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 4
+      },
+      "revId": "b0735a3c02fd930699176b54a0a99f0861272ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

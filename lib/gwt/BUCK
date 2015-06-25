@@ -15,9 +15,14 @@ maven_jar(
   id = 'com.google.gwt:gwt-dev:' + VERSION,
   sha1 = 'db237e4be0aa1fe43425d2c51ab5485dba211ddd',
   license = 'Apache2.0',
-  deps = [
+  exported_deps = [
     ':javax-validation',
     ':javax-validation_src',
+    '//lib/ow2:ow2-asm',
+    '//lib/ow2:ow2-asm-analysis',
+    '//lib/ow2:ow2-asm-commons',
+    '//lib/ow2:ow2-asm-tree',
+    '//lib/ow2:ow2-asm-util',
   ],
   attach_source = False,
   exclude = ['org/eclipse/jetty/*'],

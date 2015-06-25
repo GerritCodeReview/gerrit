@@ -17,6 +17,14 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'ow2-asm-commons',
+  id = 'org.ow2.asm:asm-commons:' + VERSION,
+  sha1 = 'f8b86f4ee6e02082f63a658e00eb5506821253c6',
+  deps = [':ow2-asm-tree'],
+  license = 'ow2',
+)
+
+maven_jar(
   name = 'ow2-asm-tree',
   id = 'org.ow2.asm:asm-tree:' + VERSION,
   sha1 = '51085abcc4cb6c6e1cb5551e6f999eb8e31c5b2d',

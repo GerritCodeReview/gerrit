@@ -54,7 +54,8 @@ public class GarbageCollectionRunner implements Runnable {
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         gcLog.info("Ignoring missing gc schedule configuration");
       } else if (delay < 0 || interval <= 0) {
-        gcLog.warn("Ignoring invalid gc schedule configuration");
+        gcLog.warn(String.format(
+            "Ignoring invalid gc schedule configuration: %s", scheduleConfig));
       } else {
         queue.getDefaultQueue().scheduleAtFixedRate(gcRunner, delay,
             interval, TimeUnit.MILLISECONDS);

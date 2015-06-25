@@ -17,5 +17,6 @@ def documentation_attributes(revision):
     'source-highlighter=prettify',
     'stylesheet=doc.css',
     'linkcss=true',
+    'prettifydir=.',
     'revnumber="%s"' % revision,
   ]

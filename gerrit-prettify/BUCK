@@ -45,3 +45,15 @@ java_library(
   ],
   visibility = ['PUBLIC'],
 )
+
+export_file(
+  name = 'prettify.min.js',
+  src = 'src/main/resources/com/google/gerrit/prettify/client/prettify.js',
+  visibility = ['//Documentation:'],
+)
+
+export_file(
+  name = 'prettify.min.css',
+  src = 'src/main/resources/com/google/gerrit/prettify/client/prettify.css',
+  visibility = ['//Documentation:'],
+)

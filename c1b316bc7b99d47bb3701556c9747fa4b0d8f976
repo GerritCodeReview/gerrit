@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e51faaa_1c02553e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T01:19:14Z",
+      "side": 1,
+      "message": "query",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 39
+      },
+      "revId": "c1b316bc7b99d47bb3701556c9747fa4b0d8f976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

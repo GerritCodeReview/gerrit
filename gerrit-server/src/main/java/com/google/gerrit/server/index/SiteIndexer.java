@@ -269,6 +269,12 @@ public class SiteIndexer {
         }
         return null;
       }
+
+      @Override
+      public String toString() {
+        return "Index all changes of project " + project.get();
+      }
+
     };
   }
 

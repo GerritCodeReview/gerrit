@@ -187,7 +187,7 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
     boolean success = false;
     final IndexSearcher searcher;
     try {
-      searcher = searcherFactory.newSearcher(reader);
+      searcher = searcherFactory.newSearcher(reader, null);
       // Modification for Gerrit: Allow searcherFactory to transitively wrap the
       // provided reader.
       IndexReader unwrapped = searcher.getIndexReader();

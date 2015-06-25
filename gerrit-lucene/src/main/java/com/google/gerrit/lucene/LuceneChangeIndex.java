@@ -279,7 +279,8 @@ public class LuceneChangeIndex implements ChangeIndex {
         ChangeField.UPDATED.getName(), UninvertingReader.Type.LONG);
     return new SearcherFactory() {
       @Override
-      public IndexSearcher newSearcher(IndexReader reader) throws IOException {
+      public IndexSearcher newSearcher(IndexReader reader, IndexReader previousReader)
+          throws IOException {
         checkState(reader instanceof DirectoryReader,
             "expected DirectoryReader, found %s", reader.getClass().getName());
         return new IndexSearcher(

@@ -46,6 +46,30 @@
       "revId": "f654c4794c7aaf146668b54fabbc04724501f646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be423edc_9d5bc356",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T06:56:24Z",
+      "side": 1,
+      "message": "Good point. Probably i messed it up during migration to GWT 2.7.",
+      "parentUuid": "9e51faaa_dc9f0d6b",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 29
+      },
+      "revId": "f654c4794c7aaf146668b54fabbc04724501f646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

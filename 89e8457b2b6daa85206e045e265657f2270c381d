@@ -22,6 +22,30 @@
       "revId": "89e8457b2b6daa85206e045e265657f2270c381d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_dc3aadf8",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T06:05:20Z",
+      "side": 0,
+      "message": "Its actually not. I put it back after remembering why.\n\nIf we change the dependency tree of the target we need buck to rerun this command. Without it being a dep its cached rule says nothing is changed and it doesn\u0027t run the genrule(), so we never get the chance to run buck audit to query the graph and see the change.\n\nSee the parent commit/change for how I found out why deps is required. I rebased this onto the parent and nothing changed. Until I put deps back. :)",
+      "parentUuid": "be423edc_bd123f91",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "89e8457b2b6daa85206e045e265657f2270c381d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

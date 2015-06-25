@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e12ced8_a9341d0b",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T06:37:22Z",
+      "side": 0,
+      "message": "Removing this breaks dev mode.",
+      "revId": "89e8457b2b6daa85206e045e265657f2270c381d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

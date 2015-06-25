@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e12ced8_89871918",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-25T09:19:00Z",
+      "side": 1,
+      "message": "It was correct before.  Now we get:\n\n E128 continuation line under-indented for visual indent",
+      "revId": "f8c84655444739051e4cafd3eb5b8784937f8314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

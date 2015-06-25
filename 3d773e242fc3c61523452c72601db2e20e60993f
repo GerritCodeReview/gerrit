@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e9446c1_1bf3fbea",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-06-25T23:19:12Z",
+      "side": 1,
+      "message": "Does this show up in Documentation/licenses.txt?\n\nHow does this relate to gerrit-prettify:google-code-prettify and gerrit-prettify/src/main/resources/com/google/gerrit/prettify/client/prettify.js?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 19
+      },
+      "revId": "3d773e242fc3c61523452c72601db2e20e60993f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

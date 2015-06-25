@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3e12ced8_c92bd188",
+        "filename": "tools/default.defs",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T16:12:02Z",
+      "side": 1,
+      "message": "This is all messed up. gwt:dev should not be on this java_library() target.\n\ngwt:dev should only exist in the gwt_binary() rule where its needed to run the compiler. And in a few special cases when you have your own CSSLinker or something else very out of the ordinary where you are building a plugin for the compiler to run during compile. Those should still be isolated properly as the compiler plugins should not be in UI build paths.\n\n_THAT_ is why I don\u0027t want gwt:dev or its deps in GWT_PLUGIN_DEPS. Its just wrong. gwt:dev and its deps should be kept out until the very last second when gwt_binary() needs it.",
+      "parentUuid": "9efc9ac6_247052d2",
+      "range": {
+        "startLine": 172,
+        "startChar": 22,
+        "endLine": 172,
+        "endChar": 39
+      },
+      "revId": "cb6bb133da3627c1468b665ffeb58b76d485f1ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efc9ac6_44634e0f",
         "filename": "tools/default.defs",
         "patchSetId": 4

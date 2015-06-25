@@ -46,6 +46,30 @@
       "revId": "b14bb76d5b0927a8e2be46da1809f338f917f283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e11a608_13c78c87",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T17:21:17Z",
+      "side": 1,
+      "message": "OK, just checked that we have another two places in code base where gwt_module() without XML description are used. Missed that.",
+      "parentUuid": "9e165aff_f4bf58fc",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 1
+      },
+      "revId": "b14bb76d5b0927a8e2be46da1809f338f917f283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

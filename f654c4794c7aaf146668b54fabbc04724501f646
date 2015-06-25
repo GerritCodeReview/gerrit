@@ -22,6 +22,30 @@
       "revId": "f654c4794c7aaf146668b54fabbc04724501f646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e51faaa_dc9f0d6b",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-06-25T06:52:20Z",
+      "side": 1,
+      "message": "I don\u0027t understand why they are in GWT_COMMON_DEPS in the first place. These are only used by the compiler tools in gwt-dev. They should be deps of gwt-dev NOT deps being added into gwt_module() targets.",
+      "parentUuid": "9efc9ac6_c4561e30",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 29
+      },
+      "revId": "f654c4794c7aaf146668b54fabbc04724501f646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

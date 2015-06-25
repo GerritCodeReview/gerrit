@@ -10,7 +10,7 @@ gwt_module(
   deps = [
     '//lib:gwtjsonrpc',
     '//lib/gwt:user',
-    '//lib/jgit:jgit',
+    '//lib/jgit:edit_lib',
     '//lib/jgit:Edit',
   ],
   visibility = ['PUBLIC'],

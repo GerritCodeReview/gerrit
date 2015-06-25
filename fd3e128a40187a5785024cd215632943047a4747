@@ -34,6 +34,24 @@
       "revId": "fd3e128a40187a5785024cd215632943047a4747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e11a608_93ba7c0e",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-25T17:10:53Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. Changing output name to not have src.zip suffix, didn\u0027t change anything:\n\n  -  out \u003d \u0027edit.src.zip\u0027,\n  +  out \u003d \u0027edit-foo42.abcdef.zip\u0027,\n\nWhat am I missing?",
+      "parentUuid": "9e51faaa_7c91195b",
+      "revId": "fd3e128a40187a5785024cd215632943047a4747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

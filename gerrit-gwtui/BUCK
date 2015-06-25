@@ -48,6 +48,7 @@ gwt_module(
   visibility = [
     '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
+    '//Documentation:js_licenses.txt',
   ],
 )
 

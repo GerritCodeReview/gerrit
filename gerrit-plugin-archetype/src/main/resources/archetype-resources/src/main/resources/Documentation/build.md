@@ -31,6 +31,11 @@ Add link to the .buckversion file:
   cd @PLUGIN@ && ln -s bucklets/buckversion .buckversion
 ```
 
+Add link to the .watchmanconfig file:
+```
+  cd @PLUGIN@ && ln -s bucklets/watchmanconfig .watchmanconfig
+```
+
 To build the plugin, issue the following command:
 
 

@@ -289,6 +289,24 @@
       "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e9446c1_9bb54b23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-25T21:11:13Z",
+      "side": 1,
+      "message": "So MergeOp#integrateIntoHistory consists of two parts, the \n\"Perform the merges\" part and the \"Write out the new branch tips\" part. I view the \"Perform the merges\" as the critical part, which must not fail. (Later that part should be in one db transaction).\n\nBut to answer your question: We have a dry-run updateChangeStatus in the first \"Perform the merges\" part, which will throw up a MergeException as the CommitMergeStatus is MISSING_DEPENDENCY.",
+      "parentUuid": "be179efa_75d4e832",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

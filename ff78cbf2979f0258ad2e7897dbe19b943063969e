@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e165aff_54ea8ce8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-26T00:52:58Z",
+      "side": 1,
+      "message": "nit: no blank line here.  fixed in the latest PS.",
+      "revId": "ff78cbf2979f0258ad2e7897dbe19b943063969e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

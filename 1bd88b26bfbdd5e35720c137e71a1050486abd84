@@ -1,0 +1,250 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c0b916_0dbf11ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "submit",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_2dc44d84",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "Same comment as in getRemoteLog from a previous change: use delegation instead of this optional parameter hack.",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_0cbf17ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "name() for all these topics.",
+      "range": {
+        "startLine": 79,
+        "startChar": 22,
+        "endLine": 79,
+        "endChar": 40
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_6cba5b10",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "in submitting",
+      "range": {
+        "startLine": 81,
+        "startChar": 26,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_2cc45384",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "I think you want an else case checking that change2b and 3 weren\u0027t submitted.",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_cdc8299b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "name() for topics.",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_ccc82f9b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "Am I correct in following that this is the important difference from the previous test method? It probably deserves a comment.",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_edc5e57f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "How come these are approve() where in the previous test it was submitStatusOnly?",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_8dd22143",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "Missing space before \"but\"",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 14
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_adcfdd9d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "Missing space",
+      "range": {
+        "startLine": 261,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 12
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_ecc5eb7f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "Missing spaces",
+      "range": {
+        "startLine": 268,
+        "startChar": 8,
+        "endLine": 269,
+        "endChar": 13
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_8cd22743",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:53:16Z",
+      "side": 1,
+      "message": "This name is confusing. It made me think that you expected the value to match change3a, which would be wrong. It in fact matches change1, which is the right behavior. Just the name is confusing.",
+      "range": {
+        "startLine": 275,
+        "startChar": 20,
+        "endLine": 275,
+        "endChar": 25
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -78,6 +78,8 @@ public interface ChangeApi {
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
 
+  List<ChangeInfo> submittedTogether() throws RestApiException;
+
   String topic() throws RestApiException;
   void topic(String topic) throws RestApiException;
 
@@ -286,6 +288,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo check(FixInput fix) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ChangeInfo> submittedTogether() throws RestApiException {
       throw new NotImplementedException();
     }
   }

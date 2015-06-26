@@ -223,6 +223,14 @@ public class ChangeJson {
     return format(changeDataFactory.create(db.get(), c));
   }
 
+  public List<ChangeInfo> format(Iterable<Change.Id> ids) throws OrmException {
+    List<ChangeInfo> ret = new ArrayList<>();
+    for (Change.Id id : ids) {
+      ret.add(format(id));
+    }
+    return ret;
+  }
+
   public ChangeInfo format(ChangeData cd) throws OrmException {
     return format(cd, Optional.<PatchSet.Id> absent());
   }

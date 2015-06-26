@@ -16,6 +16,24 @@
       "revId": "fb2b9626fdb527a882e31b9a25f07ef2a929af24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e165aff_741b48a3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-26T06:10:52Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary to go into such detail.",
+      "parentUuid": "1e534a56_d8312df7",
+      "revId": "fb2b9626fdb527a882e31b9a25f07ef2a929af24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

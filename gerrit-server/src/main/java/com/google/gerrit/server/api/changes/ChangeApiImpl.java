@@ -49,6 +49,7 @@ import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
@@ -76,6 +77,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Abandon abandon;
   private final Revert revert;
   private final Restore restore;
+  private final SubmittedTogether submittedTogether;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
   private final PostReviewers postReviewers;
@@ -96,6 +98,7 @@ class ChangeApiImpl implements ChangeApi {
       Abandon abandon,
       Revert revert,
       Restore restore,
+      SubmittedTogether submittedTogether,
       GetTopic getTopic,
       PutTopic putTopic,
       PostReviewers postReviewers,
@@ -115,6 +118,7 @@ class ChangeApiImpl implements ChangeApi {
     this.suggestReviewers = suggestReviewers;
     this.abandon = abandon;
     this.restore = restore;
+    this.submittedTogether = submittedTogether;
     this.getTopic = getTopic;
     this.putTopic = putTopic;
     this.postReviewers = postReviewers;
@@ -192,6 +196,15 @@ class ChangeApiImpl implements ChangeApi {
       return changeApi.id(revert.apply(change, in)._number);
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot revert change", e);
+    }
+  }
+
+  @Override
+  public List<ChangeInfo> submittedTogether() throws RestApiException {
+    try {
+      return submittedTogether.apply(change);
+    } catch (Exception e) {
+      throw new RestApiException("Cannot query submittedTogether", e);
     }
   }
 

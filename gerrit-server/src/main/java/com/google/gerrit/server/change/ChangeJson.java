@@ -80,6 +80,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -221,6 +222,31 @@ public class ChangeJson {
       return checkOnly(changeDataFactory.create(db.get(), id));
     }
     return format(changeDataFactory.create(db.get(), c));
+  }
+
+  public List<ChangeInfo> format(Collection<Change.Id> ids) throws OrmException {
+    List<Change> changes = new ArrayList<>(ids.size());
+    try {
+      ChangeAccess cdb =  db.get().changes();
+      for (Change.Id id : ids) {
+        changes.add(cdb.get(id));
+      }
+    } catch (OrmException e) {
+      if (!has(CHECK)) {
+        throw e;
+      }
+      ReviewDb reviewDb = db.get();
+      List<ChangeInfo> ret = new ArrayList<>(ids.size());
+      for (Change.Id id : ids) {
+        ret.add(checkOnly(changeDataFactory.create(reviewDb, id)));
+      }
+      return ret;
+    }
+    List<ChangeInfo> ret = new ArrayList<>(ids.size());
+    for (Change.Id id : ids) {
+      ret.add(format(id));
+    }
+    return ret;
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {

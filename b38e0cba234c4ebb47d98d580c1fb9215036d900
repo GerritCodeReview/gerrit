@@ -16,6 +16,24 @@
       "revId": "b38e0cba234c4ebb47d98d580c1fb9215036d900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be179efa_f52638f0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-26T06:27:36Z",
+      "side": 1,
+      "message": "That will be in the next 2.10.x release, and I\u0027ll add a \"This release includes fixes from ... \" paragraph.",
+      "parentUuid": "9ec49ad3_04f596c3",
+      "revId": "b38e0cba234c4ebb47d98d580c1fb9215036d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

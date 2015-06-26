@@ -307,6 +307,24 @@
       "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_4db5191d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T22:42:13Z",
+      "side": 1,
+      "message": "Got it. This might indicate the dry run logic is a little confusing to follow, but that can be saved for later cleanup.",
+      "parentUuid": "7e9446c1_9bb54b23",
+      "revId": "8df4f31c92ddde586e157c26dbdc3b01e879f50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

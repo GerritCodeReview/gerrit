@@ -70,6 +70,30 @@
       "revId": "472b4f541729381f7a8a593d66c14e17b01c1db9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be179efa_f5d8f863",
+        "filename": "gerrit-prettify/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-26T00:55:03Z",
+      "side": 1,
+      "message": "wfm\n\n $ git ls-files | grep prettify.css\n gerrit-prettify/src/main/resources/com/google/gerrit/prettify/client/prettify.css",
+      "parentUuid": "7e9446c1_7bea3fe9",
+      "range": {
+        "startLine": 56,
+        "startChar": 9,
+        "endLine": 56,
+        "endChar": 74
+      },
+      "revId": "472b4f541729381f7a8a593d66c14e17b01c1db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

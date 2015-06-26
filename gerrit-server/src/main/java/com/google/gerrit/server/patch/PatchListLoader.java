@@ -19,6 +19,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -159,9 +160,16 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
       Set<String> paths = key.getOldId() != null
-          ? FluentIterable.from(patchListCache.get(
-                  new PatchListKey(key.projectKey, null, key.getNewId(),
-                  key.getWhitespace())).getPatches())
+          ? FluentIterable.from(
+                  Iterables.concat(
+                      patchListCache.get(
+                          new PatchListKey(key.projectKey, null,
+                              key.getNewId(), key.getWhitespace()))
+                          .getPatches(),
+                      patchListCache.get(
+                          new PatchListKey(key.projectKey, null,
+                              key.getOldId(), key.getWhitespace()))
+                          .getPatches()))
               .transform(new Function<PatchListEntry, String>() {
                 @Override
                 public String apply(PatchListEntry entry) {

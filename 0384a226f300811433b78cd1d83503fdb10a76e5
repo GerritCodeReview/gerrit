@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93cf3547_0c2877bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-26T23:58:00Z",
+      "side": 0,
+      "message": "Ideally you would still be able to use this if you have it, in particular when coming from ReceiveCommits and you\u0027re guaranteed to have only one repository and it\u0027s already open.",
+      "revId": "0384a226f300811433b78cd1d83503fdb10a76e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

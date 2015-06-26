@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "93cf3547_6c0c9b78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c0b916_2dc44d84",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_0cbf17ff",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 18
@@ -53,6 +71,30 @@
       "writtenOn": "2015-06-26T22:53:16Z",
       "side": 1,
       "message": "name() for all these topics.",
+      "range": {
+        "startLine": 79,
+        "startChar": 22,
+        "endLine": 79,
+        "endChar": 40
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_accfe39d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "createChange will take care of that.",
+      "parentUuid": "93cf3547_0cbf17ff",
       "range": {
         "startLine": 79,
         "startChar": 22,
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "93cf3547_4cdc3f57",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_6cba5b10",
+      "range": {
+        "startLine": 81,
+        "startChar": 26,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_2cc45384",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 18
@@ -99,6 +165,24 @@
       "writtenOn": "2015-06-26T22:53:16Z",
       "side": 1,
       "message": "I think you want an else case checking that change2b and 3 weren\u0027t submitted.",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_6de1f511",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_2cc45384",
       "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "b3c0b916_0dd63135",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "createChange will take care of it.",
+      "parentUuid": "b3c0b916_cdc8299b",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_ccc82f9b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 18
@@ -133,6 +235,24 @@
       "writtenOn": "2015-06-26T22:53:16Z",
       "side": 1,
       "message": "Am I correct in following that this is the important difference from the previous test method? It probably deserves a comment.",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_edec050a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_ccc82f9b",
       "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "93cf3547_ecec0b0a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Because of messing up.\n\nOriginally I wanted to make the first two and last two tests different changes. During review of https://gerrit-review.googlesource.com/#/c/68991/ I changed it to approve and did not think about the other tests above. :(",
+      "parentUuid": "b3c0b916_edc5e57f",
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c0b916_8dd22143",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 18
@@ -167,6 +305,30 @@
       "writtenOn": "2015-06-26T22:53:16Z",
       "side": 1,
       "message": "Missing space before \"but\"",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 14
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_8de9c1f8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c0b916_8dd22143",
       "range": {
         "startLine": 221,
         "startChar": 10,
@@ -202,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "93cf3547_ace60324",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c0b916_adcfdd9d",
+      "range": {
+        "startLine": 261,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 12
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_ecc5eb7f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 18
@@ -225,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "b3c0b916_ade6fd23",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_ecc5eb7f",
+      "range": {
+        "startLine": 268,
+        "startChar": 8,
+        "endLine": 269,
+        "endChar": 13
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_8cd22743",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 18
@@ -236,6 +446,30 @@
       "writtenOn": "2015-06-26T22:53:16Z",
       "side": 1,
       "message": "This name is confusing. It made me think that you expected the value to match change3a, which would be wrong. It in fact matches change1, which is the right behavior. Just the name is confusing.",
+      "range": {
+        "startLine": 275,
+        "startChar": 20,
+        "endLine": 275,
+        "endChar": 25
+      },
+      "revId": "1bd88b26bfbdd5e35720c137e71a1050486abd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_4c075f55",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-26T23:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_8cd22743",
       "range": {
         "startLine": 275,
         "startChar": 20,

@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "b3927912_5db5bb1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-06-26T20:13:12Z",
+      "side": 1,
+      "message": "Hmm, it probably could. But I\u0027m not sure how to do it cleanly without messing the code since stream is opened conditionally.",
+      "parentUuid": "9e51faaa_7cf039dc",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e51faaa_1ced75ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
         "patchSetId": 1
@@ -189,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "b3927912_7dbaf70f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-06-26T20:13:12Z",
+      "side": 1,
+      "message": "It does. I didn\u0027t want to change logic of code with this change. ResourceNotFoundException is probably also thrown by code inside the try block.\n\nSure, we could just replace this line with a \"continue\", but I\u0027m not sure if I like it more.",
+      "parentUuid": "9e51faaa_1ced75ff",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 48
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e12ced8_29edcdff",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
         "patchSetId": 1
@@ -200,6 +248,30 @@
       "writtenOn": "2015-06-25T00:57:42Z",
       "side": 1,
       "message": "Include this one in the multi-catch?\n\nOr is there a specific reason to only log the error for NoSuchProviderException?",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 41
+      },
+      "revId": "9099b8aebd748aeec6ac23e55745bffb7da466d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "536dbdeb_5ab5b51c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-06-26T20:13:12Z",
+      "side": 1,
+      "message": "Same here. I didn\u0027t want to change logic with this change.",
+      "parentUuid": "3e12ced8_29edcdff",
       "range": {
         "startLine": 111,
         "startChar": 6,

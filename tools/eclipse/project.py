@@ -178,7 +178,8 @@ def gen_classpath():
         classpathentry('lib', j, s)
   for s in sorted(gwt_src):
     p = path.join(ROOT, s, 'src', 'main', 'java')
-    classpathentry('lib', p, out='buck-out/eclipse/gwtsrc')
+    if path.exists(p):
+      classpathentry('lib', p, out='buck-out/eclipse/gwtsrc')
 
   classpathentry('con', JRE)
   classpathentry('output', 'buck-out/eclipse/classes')

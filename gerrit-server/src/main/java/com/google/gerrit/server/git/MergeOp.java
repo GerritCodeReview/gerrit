@@ -511,7 +511,7 @@ public class MergeOp {
           ListMultimap<SubmitType, Change> submitting = toSubmit.get(branch);
           for (SubmitType submitType : submitting.keySet()) {
             updateChangeStatus(submitting.get(submitType), branch, false);
-            updateSubscriptions(branch, submitting.get(submitType),
+            updateSubmoduleSubscriptions(branch, submitting.get(submitType),
                 getBranchTip(branch));
           }
           if (update != null) {
@@ -520,6 +520,7 @@ public class MergeOp {
         }
         closeRepository();
       }
+      updateSuperProjects(cs.branches());
       checkState(pendingRefUpdates.isEmpty(), "programmer error: "
           + "pending ref update list not emptied");
     } catch (NoSuchProjectException noProject) {
@@ -993,7 +994,7 @@ public class MergeOp {
     }
   }
 
-  private void updateSubscriptions(Branch.NameKey destBranch,
+  private void updateSubmoduleSubscriptions(Branch.NameKey destBranch,
       List<Change> submitted, CodeReviewCommit branchTip) {
     MergeTip mergeTip = mergeTips.get(destBranch);
     if (mergeTip != null
@@ -1001,14 +1002,24 @@ public class MergeOp {
       logDebug("Updating submodule subscriptions for {} changes",
           submitted.size());
       SubmoduleOp subOp =
-          subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
-              destProject.getProject(), submitted, commits,
-              getAccount(mergeTip.getCurrentTip()));
+          subOpFactory.create();
       try {
-        subOp.update();
+        subOp.updateSubmoduleSubscriptions(destBranch);
       } catch (SubmoduleException e) {
         logError("The gitLinks were not updated according to the subscriptions",
             e);
+      }
+    }
+  }
+
+  private void updateSuperProjects(Set<Branch.NameKey> branches) {
+    SubmoduleOp subOp = subOpFactory.create();
+    try {
+      subOp.updateSuperProjects(branches);
+    } catch (SubmoduleException e) {
+      if (log.isErrorEnabled()) {
+        log.error(
+            "The gitLinks were not updated according to the subscriptions", e);
       }
     }
   }

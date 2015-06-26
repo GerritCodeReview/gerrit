@@ -223,17 +223,37 @@ public class ChangeJson {
     return format(changeDataFactory.create(db.get(), c));
   }
 
-  public ChangeInfo format(ChangeData cd) throws OrmException {
-    return format(cd, Optional.<PatchSet.Id> absent());
+  public List<ChangeInfo> format(Collection<Change.Id> ids) throws OrmException {
+    List<ChangeData> changes = new ArrayList<>(ids.size());
+    List<ChangeInfo> ret = new ArrayList<>(ids.size());
+    ReviewDb reviewDb = db.get();
+    for (Change.Id id : ids) {
+      changes.add(changeDataFactory.create(reviewDb, id));
+    }
+    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    for (ChangeData cd : changes) {
+      ret.add(format(cd, Optional.<PatchSet.Id> absent(), false));
+    }
+    accountLoader.fill();
+    return ret;
   }
 
-  private ChangeInfo format(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+  public ChangeInfo format(ChangeData cd) throws OrmException {
+    return format(cd, Optional.<PatchSet.Id> absent(), true);
+  }
+
+  private ChangeInfo format(ChangeData cd, Optional<PatchSet.Id> limitToPsId,
+      boolean fillAccountLoader)
       throws OrmException {
     try {
-      accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-      ChangeInfo res = toChangeInfo(cd, limitToPsId);
-      accountLoader.fill();
-      return res;
+      if (fillAccountLoader) {
+        accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+        ChangeInfo res = toChangeInfo(cd, limitToPsId);
+        accountLoader.fill();
+        return res;
+      } else {
+        return toChangeInfo(cd, limitToPsId);
+      }
     } catch (PatchListNotAvailableException | OrmException | IOException
         | RuntimeException e) {
       if (!has(CHECK)) {
@@ -246,7 +266,7 @@ public class ChangeJson {
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
-    return format(cd, Optional.of(rsrc.getPatchSet().getId()));
+    return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
   }
 
   public List<List<ChangeInfo>> formatQueryResults(List<QueryResult> in)

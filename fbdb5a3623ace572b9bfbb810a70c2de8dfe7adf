@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de3d32a0_eedd9f51",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-26T06:21:02Z",
+      "side": 1,
+      "message": "maybe better: \"prettify source\"",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "fbdb5a3623ace572b9bfbb810a70c2de8dfe7adf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

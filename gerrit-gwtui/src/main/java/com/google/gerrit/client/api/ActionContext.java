@@ -157,6 +157,14 @@ public class ActionContext extends JavaScriptObject {
     api.get(wrap(cb));
   }
 
+  /**
+   * The same as {@link #get(RestApi, JavaScriptObject)} but without converting
+   * a {@link NativeString} result to String.
+   */
+  static final void getRaw(RestApi api, final JavaScriptObject cb) {
+    api.get(wrapRaw(cb));
+  }
+
   static final void post(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
     if (NativeString.is(in)) {
       post(api, ((NativeString) in).asString(), cb);
@@ -165,12 +173,40 @@ public class ActionContext extends JavaScriptObject {
     }
   }
 
+  /**
+   * The same as {@link #post(RestApi, JavaScriptObject, JavaScriptObject)} but
+   * without converting a {@link NativeString} result to String.
+   */
+  static final void postRaw(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
+    if (NativeString.is(in)) {
+      postRaw(api, ((NativeString) in).asString(), cb);
+    } else {
+      api.post(in, wrapRaw(cb));
+    }
+  }
+
   static final void post(RestApi api, String in, JavaScriptObject cb) {
     api.post(in, wrap(cb));
   }
 
+  /**
+   * The same as {@link #post(RestApi, String, JavaScriptObject)} but without
+   * converting a {@link NativeString} result to String.
+   */
+  static final void postRaw(RestApi api, String in, JavaScriptObject cb) {
+    api.post(in, wrapRaw(cb));
+  }
+
   static final void put(RestApi api, JavaScriptObject cb) {
     api.put(wrap(cb));
+  }
+
+  /**
+   * The same as {@link #put(RestApi, JavaScriptObject)} but without converting
+   * a {@link NativeString} result to String.
+   */
+  static final void putRaw(RestApi api, JavaScriptObject cb) {
+    api.put(wrapRaw(cb));
   }
 
   static final void put(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
@@ -181,12 +217,40 @@ public class ActionContext extends JavaScriptObject {
     }
   }
 
+  /**
+   * The same as {@link #put(RestApi, JavaScriptObject, JavaScriptObject)} but
+   * without converting a {@link NativeString} result to String.
+   */
+  static final void putRaw(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
+    if (NativeString.is(in)) {
+      putRaw(api, ((NativeString) in).asString(), cb);
+    } else {
+      api.put(in, wrapRaw(cb));
+    }
+  }
+
   static final void put(RestApi api, String in, JavaScriptObject cb) {
     api.put(in, wrap(cb));
   }
 
+  /**
+   * The same as {@link #put(RestApi, String, JavaScriptObject)} but without
+   * converting a {@link NativeString} result to String.
+   */
+  static final void putRaw(RestApi api, String in, JavaScriptObject cb) {
+    api.put(in, wrapRaw(cb));
+  }
+
   static final void delete(RestApi api, JavaScriptObject cb) {
     api.delete(wrap(cb));
+  }
+
+  /**
+   * The same as {@link #delete(RestApi, JavaScriptObject)} but without
+   * converting a {@link NativeString} result to String.
+   */
+  static final void deleteRaw(RestApi api, JavaScriptObject cb) {
+    api.delete(wrapRaw(cb));
   }
 
   private static GerritCallback<JavaScriptObject> wrap(final JavaScriptObject cb) {
@@ -199,6 +263,15 @@ public class ActionContext extends JavaScriptObject {
         } else {
           ApiGlue.invoke(cb, result);
         }
+      }
+    };
+  }
+
+  private static GerritCallback<JavaScriptObject> wrapRaw(final JavaScriptObject cb) {
+    return new GerritCallback<JavaScriptObject>() {
+      @Override
+      public void onSuccess(JavaScriptObject result) {
+        ApiGlue.invoke(cb, result);
       }
     };
   }

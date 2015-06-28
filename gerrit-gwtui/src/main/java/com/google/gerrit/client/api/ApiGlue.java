@@ -102,6 +102,12 @@ public class ApiGlue {
             Lcom/google/gwt/core/client/JavaScriptObject;)
           (this._api(u), b);
       },
+      get2: function(u,b) {
+        @com.google.gerrit.client.api.ActionContext::get2(
+            Lcom/google/gerrit/client/rpc/RestApi;
+            Lcom/google/gwt/core/client/JavaScriptObject;)
+          (this._api(u), b);
+      },
       post: function(u,i,b) {
         if (typeof i == 'string') {
           @com.google.gerrit.client.api.ActionContext::post(

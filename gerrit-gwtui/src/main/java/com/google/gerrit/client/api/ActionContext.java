@@ -157,6 +157,22 @@ public class ActionContext extends JavaScriptObject {
     api.get(wrap(cb));
   }
 
+  /**
+   * The same as {@link #get(RestApi, JavaScriptObject)} but without conversion
+   * from {@link NativeString} to String.
+   *
+   * @param api
+   * @param cb
+   */
+  static final void get2(RestApi api, final JavaScriptObject cb) {
+    api.get(new GerritCallback<JavaScriptObject>() {
+      @Override
+      public void onSuccess(JavaScriptObject result) {
+        ApiGlue.invoke(cb, result);
+      }
+    });
+  }
+
   static final void post(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
     if (NativeString.is(in)) {
       post(api, ((NativeString) in).asString(), cb);

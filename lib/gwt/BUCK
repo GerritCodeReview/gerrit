@@ -15,21 +15,17 @@ maven_jar(
   id = 'com.google.gwt:gwt-dev:' + VERSION,
   sha1 = 'c2c3dd5baf648a0bb199047a818be5e560f48982',
   license = 'Apache2.0',
-  deps = [
+  exported_deps = [
     ':javax-validation',
     ':javax-validation_src',
-    ':json',
+    '//lib/ow2:ow2-asm',
+    '//lib/ow2:ow2-asm-analysis',
+    '//lib/ow2:ow2-asm-commons',
+    '//lib/ow2:ow2-asm-tree',
+    '//lib/ow2:ow2-asm-util',
   ],
   attach_source = False,
   exclude = ['org/eclipse/jetty/*'],
-)
-
-maven_jar(
-  name = 'json',
-  id = 'org.json:json:20140107',
-  sha1 = 'd1ffca6e2482b002702c6a576166fd685e3370e3',
-  license = 'DO_NOT_DISTRIBUTE',
-  attach_source = False,
 )
 
 maven_jar(

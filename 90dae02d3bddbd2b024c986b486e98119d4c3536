@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13534556_18ba850e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2015,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-28T19:38:55Z",
+      "side": 1,
+      "message": "Found the root cause. Working on a fix atm.",
+      "revId": "90dae02d3bddbd2b024c986b486e98119d4c3536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

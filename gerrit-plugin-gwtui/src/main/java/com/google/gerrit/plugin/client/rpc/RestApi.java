@@ -110,7 +110,7 @@ public class RestApi {
   }
 
   private static native void get(String p, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.get(p, r) }-*/;
+  /*-{ $wnd.Gerrit.get2(p, r) }-*/;
 
   public <T extends JavaScriptObject>
   void put(AsyncCallback<T> cb) {

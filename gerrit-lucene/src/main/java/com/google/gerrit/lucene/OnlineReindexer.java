@@ -42,6 +42,7 @@ public class OnlineReindexer {
   private final SiteIndexer batchIndexer;
   private final ProjectCache projectCache;
   private final int version;
+  private boolean runnning;
 
   @Inject
   OnlineReindexer(
@@ -56,15 +57,28 @@ public class OnlineReindexer {
   }
 
   public void start() {
-    Thread t = new Thread() {
+    Thread t  = new Thread() {
       @Override
       public void run() {
-        reindex();
+        runnning = true;
+        try{
+          reindex();
+        }finally{
+          runnning = false;
+        }
       }
     };
     t.setName(String.format("Reindex v%d-v%d",
         version(indexes.getSearchIndex()), version));
     t.start();
+  }
+
+  public boolean isRunning() {
+    return runnning;
+  }
+
+  public int getVersion(){
+    return version;
   }
 
   private static int version(ChangeIndex i) {

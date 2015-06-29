@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f355d139_b721e8d9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ActionContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-29T13:10:38Z",
+      "side": 1,
+      "message": "I\u0027m a bit unhappy with doublicating all the methods, since all we need is just another wrap method...",
+      "revId": "a4bccbfafea9e77fc24dc3e74633d30de590274a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

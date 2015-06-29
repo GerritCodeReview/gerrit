@@ -168,6 +168,9 @@ link:cmd-show-connections.html[gerrit show-connections]::
 link:cmd-show-queue.html[gerrit show-queue]::
 	Display the background work queues, including replication.
 
+link:cmd-start-indexer.html[gerrit start-indexer]::
+	Start the online indexer.
+
 link:cmd-test-submit-rule.html[gerrit test-submit rule]::
 	Test prolog submit rules.
 

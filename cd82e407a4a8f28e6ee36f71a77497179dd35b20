@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b3c0b916_0d11518b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-29T20:09:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c0b916_2ddbed5d",
+      "range": {
+        "startLine": 1084,
+        "startChar": 4,
+        "endLine": 1084,
+        "endChar": 11
+      },
+      "revId": "cd82e407a4a8f28e6ee36f71a77497179dd35b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_2cdbf35d",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -36,6 +60,24 @@
       "writtenOn": "2015-06-26T23:05:30Z",
       "side": 1,
       "message": "Long line",
+      "revId": "cd82e407a4a8f28e6ee36f71a77497179dd35b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93cf3547_2c169384",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-29T20:09:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_2cdbf35d",
       "revId": "cd82e407a4a8f28e6ee36f71a77497179dd35b20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "93cf3547_0c11578b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-29T20:09:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c0b916_cdefc9fc",
+      "range": {
+        "startLine": 1090,
+        "startChar": 9,
+        "endLine": 1090,
+        "endChar": 35
+      },
+      "revId": "cd82e407a4a8f28e6ee36f71a77497179dd35b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_6ce1fb11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 9
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "b3c0b916_cdfa69b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-29T20:09:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_6ce1fb11",
+      "revId": "cd82e407a4a8f28e6ee36f71a77497179dd35b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93cf3547_0cd63735",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 9
@@ -93,6 +177,24 @@
       "writtenOn": "2015-06-26T23:05:30Z",
       "side": 1,
       "message": "Let this error propagate to a 500.",
+      "revId": "cd82e407a4a8f28e6ee36f71a77497179dd35b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c0b916_2d168d84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-29T20:09:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93cf3547_0cd63735",
       "revId": "cd82e407a4a8f28e6ee36f71a77497179dd35b20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

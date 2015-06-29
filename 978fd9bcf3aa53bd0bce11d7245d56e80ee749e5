@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "f355d139_372e78ce",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ActionContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-29T12:27:16Z",
+      "side": 1,
+      "message": "Do we need a getRaw here and in com.google.gerrit.client.api.Plugin#init as well?",
+      "range": {
+        "startLine": 130,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 105
+      },
+      "revId": "978fd9bcf3aa53bd0bce11d7245d56e80ee749e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13534556_38078956",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ActionContext.java",
         "patchSetId": 1

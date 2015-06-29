@@ -116,7 +116,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
       PatchSet p = commits.get(c.name());
       Change g = null;
       if (p != null) {
-        g = changes.get(p.getId().getParentKey()).change();
+        ChangeData cd = changes.get(p.getId().getParentKey());
+        if (cd != null) {
+          g = cd.change();
+        }
         added.add(p.getId().getParentKey());
       }
       parents.add(new ChangeAndCommit(g, p, c));

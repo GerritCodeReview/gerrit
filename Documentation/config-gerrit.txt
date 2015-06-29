@@ -910,6 +910,16 @@ keyboard shortcut is appended.
 Default is "Reply and score". In the user interface it becomes "Reply
 and score (Shortcut: a)".
 
+[[change.]]change.getRelatedByAncestors::
++
+Algorithm that is used to compute related changes on "Related Changes"
+tab on change screen. When set to "false" experimental secondary index
+based algorithm is used, that susbtantially reduces the database load.
+The new implementation is broken for very basic use cases, so that its
+usage is discouraged.
+
+Default is "true".
+
 [[changeCleanup]]
 === Section changeCleanup
 

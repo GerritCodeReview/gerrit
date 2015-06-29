@@ -1165,6 +1165,9 @@ link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |`report_bug_text`   |optional, not set if default|
 link:config-gerrit.html#gerrit.reportBugText[Display text for report
 bugs link].
+|`submitWholeTopic`  |optional |
+link:config-gerrit.html#change.submitWholeTopic[A configuration if
+the whole topic is submitted].
 |=================================
 
 [[git-web-info]]

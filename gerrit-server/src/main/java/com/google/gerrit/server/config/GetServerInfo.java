@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.git.SignedPushModule;
 import com.google.inject.Inject;
 
@@ -228,6 +229,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allUsers = allUsersName.get();
     info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
+    info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
     return info;
   }
 
@@ -335,6 +337,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String allUsers;
     public String reportBugUrl;
     public String reportBugText;
+    public Boolean submitWholeTopic;
   }
 
   public static class GitwebInfo {

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f355d139_f76ec0f6",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-29T13:24:05Z",
+      "side": 1,
+      "message": "Mention that NativeString related bug was fixed in Plugin API: [1]?\n\n* [1]   https://gerrit-review.googlesource.com/69180",
+      "revId": "b38e0cba234c4ebb47d98d580c1fb9215036d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ec49ad3_04f596c3",
         "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
         "patchSetId": 4

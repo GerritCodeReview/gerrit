@@ -8,6 +8,7 @@ java_library(
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:annotations',
     '//gerrit-common:server',
+    '//gerrit-lucene:lucene',
     '//gerrit-patch-jgit:server',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',

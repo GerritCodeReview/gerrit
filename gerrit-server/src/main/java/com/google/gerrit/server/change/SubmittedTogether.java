@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -32,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.List;
 
 @Singleton
 public class SubmittedTogether implements RestReadView<ChangeResource> {
@@ -52,7 +54,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Object apply(ChangeResource resource)
+  public List<ChangeInfo> apply(ChangeResource resource)
       throws AuthException, BadRequestException,
       ResourceConflictException, Exception {
     try {

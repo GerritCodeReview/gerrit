@@ -71,7 +71,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     this.sorter = sorter;
     this.indexes = indexes;
     byAncestorsOnly =
-        cfg.getBoolean("change", null, "getRelatedByAncestors", false);
+        cfg.getBoolean("change", null, "getRelatedByAncestors", true);
   }
 
   @Override

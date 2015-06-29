@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.git.SignedPushModule;
 import com.google.inject.Inject;
 
@@ -149,6 +150,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             .or("Reply") + "\u2026";
     info.updateDelay = (int) ConfigUtil.getTimeUnit(
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
+    info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
     return info;
   }
 
@@ -311,6 +313,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String replyLabel;
     public String replyTooltip;
     public int updateDelay;
+    public Boolean submitWholeTopic;
   }
 
   public static class ContactStoreInfo {

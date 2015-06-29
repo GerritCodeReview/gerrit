@@ -1048,22 +1048,25 @@ section.
 
 [options="header",cols="1,^1,5"]
 |=============================
-|Field Name      ||Description
-|`allow_drafts`  |not set if `false`|
+|Field Name           ||Description
+|`allow_drafts`       |not set if `false`|
 link:config-gerrit.html#change.allowDrafts[Whether draft workflow is
 allowed].
-|`large_change`  ||
+|`large_change`       ||
 link:config-gerrit.html#change.largeChange[Number of changed lines from
 which on a change is considered as a large change].
-|`reply_label`   ||
+|`reply_label`        ||
 link:config-gerrit.html#change.replyTooltip[Label name for the reply
 button].
-|`reply_tooltip` ||
+|`reply_tooltip`      ||
 link:config-gerrit.html#change.replyTooltip[Tooltip for the reply
 button].
-|`update_delay`  ||
+|`update_delay`       ||
 link:config-gerrit.html#change.updateDelay[How often in seconds the web
 interface should poll for updates to the currently open change].
+|`submit_whole_topic` ||
+link:config-gerrit.html#change.submitWholeTopic[A configuration if
+the whole topic is submitted].
 |=============================
 
 [[contact-store-info]]

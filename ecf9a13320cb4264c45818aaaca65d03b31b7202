@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d31a8db3_06ba3a0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-29T20:16:30Z",
+      "side": 1,
+      "message": "I do not understand what you suggest here.\n\nWe need to have this tab to help users with the new submission model which includes ancestors.\nAnd if we don\u0027t want to get rid of \"same topic\" we need to add another tab. But that\u0027s also not a good idea as we already have so many tabs there.\n\nMaybe we can move the \"same topic\" functionality into the \"related changes\" tab?\n\nI would like to transform the two \"related changes\"/\"same topic\" tabs into a \"fuzzily related changes\" and \"exact changes which would submit together\".\nAnd if we have disabled submission of a whole topic, then the topic itself is also just a fuzzy indicator that these changes are related.",
+      "parentUuid": "93cf3547_8ce9c7f8",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "ecf9a13320cb4264c45818aaaca65d03b31b7202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c0b916_4d075955",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
         "patchSetId": 6

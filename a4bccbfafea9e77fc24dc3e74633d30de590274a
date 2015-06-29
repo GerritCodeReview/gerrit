@@ -16,6 +16,24 @@
       "revId": "a4bccbfafea9e77fc24dc3e74633d30de590274a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13534556_1856052e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ActionContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-29T13:21:25Z",
+      "side": 1,
+      "message": "Yeah, that why I only fixed get that was reported to be broken ;-) I think it wouldn\u0027t really make sense to let POST and DELETE methods still broken, after your comment that PUT should be fixed too.",
+      "parentUuid": "f355d139_b721e8d9",
+      "revId": "a4bccbfafea9e77fc24dc3e74633d30de590274a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

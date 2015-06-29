@@ -942,7 +942,14 @@ a:hover.downloadLink {
   margin-right: 0.5em;
 }
 .downloadLinkCopyLabel .gwt-TextBox {
-  width: 30em;
+  width: 40em;
+}
+.downloadLinkCopyLabel span {
+  width: 40em;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /** UnifiedScreen **/

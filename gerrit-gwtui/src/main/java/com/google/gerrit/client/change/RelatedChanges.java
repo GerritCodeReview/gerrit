@@ -16,12 +16,14 @@ package com.google.gerrit.client.change;
 
 import static com.google.gerrit.common.PageLinks.op;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -75,6 +77,19 @@ public class RelatedChanges extends TabPanel {
       @Override
       String getTitle(String count) {
         return Resources.M.relatedChanges(count);
+      }
+    },
+
+    SUBMITTED_TOGETHER(Resources.C.submittedTogether(),
+        Resources.C.submittedTogether()) {
+      @Override
+      String getTitle(int count) {
+        return Resources.M.submittedTogether(count);
+      }
+
+      @Override
+      String getTitle(String count) {
+        return Resources.M.submittedTogether(count);
       }
     },
 
@@ -174,6 +189,9 @@ public class RelatedChanges extends TabPanel {
     getTab(Tab.SAME_TOPIC).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowProjects(true);
     getTab(Tab.SAME_TOPIC).setShowSubmittable(true);
+    getTab(Tab.SUBMITTED_TOGETHER).setShowBranches(true);
+    getTab(Tab.SUBMITTED_TOGETHER).setShowProjects(true);
+    getTab(Tab.SUBMITTED_TOGETHER).setShowSubmittable(true);
   }
 
   void set(final ChangeInfo info, final String revision) {
@@ -198,7 +216,12 @@ public class RelatedChanges extends TabPanel {
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
-    if (info.topic() != null && !"".equals(info.topic())) {
+    if (Gerrit.info().change().isSubmitWholeTopicEnabled()) {
+      // TODO(sbeller): show only on latest revision
+      ChangeApi.change(info.legacyId().get()).view("submitted_together")
+          .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
+              info.project(), revision));
+    } else if (info.topic() != null && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
       topicQuery.append("status:open");
       topicQuery.append(" ").append(op("topic", info.topic()));

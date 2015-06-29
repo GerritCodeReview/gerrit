@@ -571,6 +571,17 @@ change. Only open changes are included in the list.
 +
 image::images/user-review-ui-change-screen-same-topic.png[width=800, link="images/user-review-ui-change-screen-same-topic.png"]
 
+- [[submitted-together]]`Submitted Together`:
++
+This tab page shows changes that will be submitted together with the
+currently viewed change, when clicking the submit button. It includes
+ancestors of the current patch set.
++
+This may include changes and its ancestors with the same topic if
+`change.submitWholeTopic` is enabled. Only open changes with the
+same topic are included in the list.
++
+
 - [[cherry-picks]]`Cherry-Picks`:
 +
 This tab page shows changes with the same link:user-changeid.html[

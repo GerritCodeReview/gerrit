@@ -117,6 +117,9 @@ link:cmd-gc.html[gerrit gc]::
 link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 
+link:cmd-index-start.html[gerrit index start]::
+	Start the online indexer.
+
 link:cmd-logging-ls-level.html[gerrit logging ls-level]::
 	List loggers and their logging level.
 

@@ -39,6 +39,9 @@ public class GerritInfo extends JavaScriptObject {
   public final native String reportBugUrl() /*-{ return this.report_bug_url; }-*/;
   public final native String reportBugText() /*-{ return this.report_bug_text; }-*/;
 
+  public final native boolean isSubmitWholeTopicEnabled()
+      /*{ return this.submitWholeTopic; }*/;
+
   protected GerritInfo() {
   }
 }

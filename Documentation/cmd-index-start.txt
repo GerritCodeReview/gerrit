@@ -1,0 +1,33 @@
+= gerrit index start
+
+== NAME
+gerrit index start - Start the online indexer
+
+== SYNOPSIS
+--
+'ssh' -p @SSH_PORT@ @SSH_HOST@ 'gerrit index start'
+--
+
+== DESCRIPTION
+Gerrit supports online index schema upgrades. When starting Gerrit for the first
+time after an upgrade that requires an index schema upgrade, the online indexer
+will be started. If the schema upgrade is a success, the new index will be
+activated and if it fails, a statement in the logs will be printed with the
+number of successfully/failed indexed changes.
+
+This command allows restarting the online indexer without having to restart
+Gerrit. This command will not start indexer if it is already running or if the
+active index is the latest.
+
+== ACCESS
+Caller must be a member of the privileged 'Administrators' group.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

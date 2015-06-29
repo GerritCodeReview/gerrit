@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OnlineReindexer {
   private static final Logger log = LoggerFactory
@@ -42,6 +43,7 @@ public class OnlineReindexer {
   private final SiteIndexer batchIndexer;
   private final ProjectCache projectCache;
   private final int version;
+  private AtomicBoolean running;
 
   @Inject
   OnlineReindexer(
@@ -56,15 +58,29 @@ public class OnlineReindexer {
   }
 
   public void start() {
-    Thread t = new Thread() {
-      @Override
-      public void run() {
-        reindex();
-      }
-    };
-    t.setName(String.format("Reindex v%d-v%d",
-        version(indexes.getSearchIndex()), version));
-    t.start();
+    if (running.compareAndSet(false, true)) {
+      Thread t = new Thread() {
+        @Override
+        public void run() {
+          try {
+            reindex();
+          } finally {
+            running.set(false);
+          }
+        }
+      };
+      t.setName(String.format("Reindex v%d-v%d",
+          version(indexes.getSearchIndex()), version));
+      t.start();
+    }
+  }
+
+  public boolean isRunning() {
+    return running.get();
+  }
+
+  public int getVersion() {
+    return version;
   }
 
   private static int version(ChangeIndex i) {

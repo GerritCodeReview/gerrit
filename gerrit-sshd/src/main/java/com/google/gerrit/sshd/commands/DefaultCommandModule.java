@@ -75,12 +75,12 @@ public class DefaultCommandModule extends CommandModule {
     command("suexec").to(SuExec.class);
     listener().to(ShowCaches.StartupListener.class);
 
-    // The following commands can only be run on a server in Master mode
     command(gerrit, CreateAccountCommand.class);
     command(gerrit, CreateGroupCommand.class);
     command(gerrit, CreateProjectCommand.class);
     command(gerrit, SetHeadCommand.class);
     command(gerrit, AdminQueryShell.class);
+
     if (slaveMode) {
       command("git-receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
       command("gerrit-receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
@@ -105,7 +105,6 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, SetAccountCommand.class);
     command(gerrit, AdminSetParent.class);
 
-    command(gerrit, CreateAccountCommand.class);
     command(testSubmit, TestSubmitRuleCommand.class);
     command(testSubmit, TestSubmitTypeCommand.class);
 

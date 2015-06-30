@@ -43,6 +43,7 @@ public class OnlineReindexer {
   private final SiteIndexer batchIndexer;
   private final ProjectCache projectCache;
   private final int version;
+  private ChangeIndex index;
   private final AtomicBoolean running = new AtomicBoolean();
 
   @Inject
@@ -88,7 +89,7 @@ public class OnlineReindexer {
   }
 
   private void reindex() {
-    ChangeIndex index = checkNotNull(indexes.getWriteIndex(version),
+    index = checkNotNull(indexes.getWriteIndex(version),
         "not an active write schema version: %s", version);
     log.info("Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()), version(index));
@@ -100,9 +101,13 @@ public class OnlineReindexer {
           version(index), result.doneCount(), result.failedCount());
       return;
     }
+    log.info("Reindex to version {} complete", version(index));
+    activateIndex();
+  }
 
+  void activateIndex() {
     indexes.setSearchIndex(index);
-    log.info("Reindex complete, using schema version {}", version(index));
+    log.info("Using schema version {}", version(index));
     try {
       index.markReady(true);
     } catch (IOException e) {

@@ -126,6 +126,24 @@
       "revId": "56449061d7bc35d77a39a691c50b928aaf88502f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_541f6c8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T23:35:10Z",
+      "side": 1,
+      "message": "If you did that, if you had a single ChangeJson instance, then call format(cd1) followed by format(cd2), the accounts resulting from cd2 wouldn\u0027t get filled.",
+      "parentUuid": "93ce55a2_b427e0ed",
+      "revId": "56449061d7bc35d77a39a691c50b928aaf88502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -50,8 +50,6 @@ public class GitOverHttpModule extends ServletModule {
       filterRegex(git).through(authFilter);
       serveRegex(git).with(GitOverHttpServlet.class);
     }
-
-    filter("/a/*").through(authFilter);
   }
 
   private boolean isHttpEnabled(){

@@ -95,6 +95,8 @@ git upload-pack::
 
 [[admin_commands]]Administrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+link:cmd-activate-index.html[gerrit activate-index]::
+	Activate the latest index version available.
 
 link:cmd-close-connection.html[gerrit close-connection]::
 	Close the specified SSH connection.

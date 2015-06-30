@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f32311ea_a7c88a99",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-30T00:40:27Z",
+      "side": 1,
+      "message": "Unrelated to this patch, but if this comment is correct why are the following command calls not all inside the `if (!slaveMode)` condition?",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 72
+      },
+      "revId": "181d906cef201d85183f39dc5eae5083bc353033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

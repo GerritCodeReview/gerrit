@@ -50,6 +50,29 @@
       "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32311ea_87c58681",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-30T00:59:14Z",
+      "side": 1,
+      "message": "Hasn\u0027t this been superseded by the hackathon announced to follow the user conference Nov 2015?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

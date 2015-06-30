@@ -182,6 +182,22 @@ public class LuceneVersionManager implements LifecycleListener {
     return false;
   }
 
+  /**
+   * Activate the latest index if the current index is not already the latest.
+   *
+   * @return true if index was activate, otherwise false.
+   * @throws ReindexerAlreadyRunningException
+   */
+  public synchronized boolean activateLatestIndex()
+      throws ReindexerAlreadyRunningException {
+    validateReindexerNotRunning();
+    if (!isCurrentIndexVersionLatest()) {
+      reindexer.activateIndex();
+      return true;
+    }
+    return false;
+  }
+
   private boolean isCurrentIndexVersionLatest() {
     return reindexer == null
         || reindexer.getVersion() <= indexes.getSearchIndex().getSchema()

@@ -54,6 +54,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, GarbageCollectionCommand.class);
 
     command(index).toProvider(new DispatchCommandProvider(index));
+    command(index, IndexActivateCommand.class);
     command(index, IndexStartCommand.class);
 
     command(gerrit, "plugin").toProvider(new DispatchCommandProvider(plugin));

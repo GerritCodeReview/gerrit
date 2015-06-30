@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93ce55a2_f4db185e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:41:32Z",
+      "side": 1,
+      "message": "I think by this you mean, prior to removing the merge queue.",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "f5cc3c9b72e944b6eb7f4505e5a7d13c8bea025d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_d4e01c11",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:41:32Z",
+      "side": 1,
+      "message": "Did you mean paragraph breaks (+) here? Otherwise your wrapping is a little inconsistent.",
+      "revId": "f5cc3c9b72e944b6eb7f4505e5a7d13c8bea025d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_b4d5a029",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeConstants.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:41:32Z",
+      "side": 1,
+      "message": "How about \"...submitted together with this one\" or \"with this change\"",
+      "revId": "f5cc3c9b72e944b6eb7f4505e5a7d13c8bea025d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_33d3e84a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:41:32Z",
+      "side": 1,
+      "message": "Don\u0027t construct strings yourself, see how this works for related changes above.",
+      "revId": "f5cc3c9b72e944b6eb7f4505e5a7d13c8bea025d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,30 +15,32 @@ maintainer.
 
 ## Documentation
 
-For documentation about how to install and use Gerrit, visit
-https://gerrit-review.googlesource.com/Documentation/index.html.
+For information about how to install and use Gerrit, refer to
+[the documentation](https://gerrit-review.googlesource.com/Documentation/index.html).
 
 ## Source
 
-Our canonical Git repository is located at https://gerrit.googlesource.com/gerrit.
-There is a mirror of the repository at https://github.com/gerrit-review/gerrit.
+Our canonical Git repository is located on [googlesource.com](https://gerrit.googlesource.com/gerrit).
+There is a mirror of the repository on [Github](https://github.com/gerrit-review/gerrit).
 
-## Reporting issues
+## Reporting bugs
 
-Please report issues here: https://code.google.com/p/gerrit/issues/list.
+Please report bugs on the [issue tracker](https://code.google.com/p/gerrit/issues/list).
 
 ## Contribute
 
 Gerrit is the work of hundreds of contributors. We appreciate your help!
-Read the contribution guidelines:
-https://gerrit.googlesource.com/gerrit/+/master/SUBMITTING_PATCHES.
-Please note, that we do not accept Pull Requests.
+
+Please read the [contribution guidelines](https://gerrit.googlesource.com/gerrit/+/master/SUBMITTING_PATCHES).
+
+Note that we do not accept Pull Requests via the Github mirror.
 
 ## Getting in contact
 
-IRC chanel on freenode is #gerrit. Archive is under:
-http://echelog.com/logs/browse/gerrit. Developer Mailing list is:
-https://groups.google.com/forum/#!forum/repo-discuss.
+The IRC channel on freenode is #gerrit. An archive is available at:
+[echelog.com](http://echelog.com/logs/browse/gerrit).
+
+The Developer Mailing list is [repo-discuss on Google Groups](https://groups.google.com/forum/#!forum/repo-discuss).
 
 ## License
 

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73c9e19b_53c6648c",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:38:31Z",
+      "side": 1,
+      "message": "Awkward. How about: \"Whether whole topics should be submitted together.\"",
+      "range": {
+        "startLine": 1068,
+        "startChar": 48,
+        "endLine": 1069,
+        "endChar": 28
+      },
+      "revId": "313164e98f34efdb7067c8e82100c10b8e21e1a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_34d3d04a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:38:31Z",
+      "side": 1,
+      "message": "Following the pattern of allowDrafts() above, this should probably just be submitWholeTopic()",
+      "revId": "313164e98f34efdb7067c8e82100c10b8e21e1a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

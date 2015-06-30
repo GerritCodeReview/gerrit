@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f32311ea_67d69236",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-06-30T06:40:54Z",
+      "side": 1,
+      "message": "I\u0027ve done this intentionally because I didn\u0027t want to solve the merge conflict. I was going to either try to revert it again as a separate commit on master, or see if there\u0027s a way to fix it without reverting.",
+      "parentUuid": "93e9f5d1_dcd2ed43",
+      "revId": "b3fd46f632fbcf4647c35fc806302f9392000cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93e9f5d1_bcc52181",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2

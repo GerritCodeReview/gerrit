@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b3151985_050cf276",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T17:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93e9f5d1_9cc8659a",
+      "range": {
+        "startLine": 1168,
+        "startChar": 2,
+        "endLine": 1168,
+        "endChar": 18
+      },
+      "revId": "650ed5bed3a3bb40a92e583fcf7a18d9fc8c1ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73e481f7_1bb53b1e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b3151985_25076e56",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/GerritInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T17:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73e481f7_1bb53b1e",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 34
+      },
+      "revId": "650ed5bed3a3bb40a92e583fcf7a18d9fc8c1ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73e481f7_3bbaf70e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2015-06-30T06:13:25Z",
       "side": 1,
       "message": "This shouldn\u0027t be part of GerritInfo, but rather of ChangeConfigInfo.\n\nThe structure of the ServerInfo Json correlates with the structure in the gerrit.config file. GerritInfo is for config parameters from the \"gerrit\" section, ChangeConfigInfo is for the config parameters from the \"change\" section. Since submitWholeTopic is part of the \"change\" section, it should be moved to ChangeConfigInfo.",
+      "revId": "650ed5bed3a3bb40a92e583fcf7a18d9fc8c1ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93149589_c4e65e25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T17:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73e481f7_3bbaf70e",
       "revId": "650ed5bed3a3bb40a92e583fcf7a18d9fc8c1ef1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

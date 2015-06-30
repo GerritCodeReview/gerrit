@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73c9e19b_53f8a4b9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T21:46:28Z",
+      "side": 1,
+      "message": "Bad link.",
+      "revId": "56449061d7bc35d77a39a691c50b928aaf88502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_33052846",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T21:46:28Z",
+      "side": 1,
+      "message": "This is still a little hard to follow. How about just changing the first bullet point:\n\n* For each change whose submit type is not CHERRY_PICK, the changes which are ancestors...",
+      "revId": "56449061d7bc35d77a39a691c50b928aaf88502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_34051046",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T21:46:28Z",
+      "side": 1,
+      "message": "This should be indented one more level than its parent.",
+      "revId": "56449061d7bc35d77a39a691c50b928aaf88502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_1402143e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T21:46:28Z",
+      "side": 1,
+      "message": "Extra space",
+      "range": {
+        "startLine": 230,
+        "startChar": 24,
+        "endLine": 230,
+        "endChar": 27
+      },
+      "revId": "56449061d7bc35d77a39a691c50b928aaf88502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_13022c3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T21:46:28Z",
+      "side": 1,
+      "message": "You haven\u0027t actually solved the problem, which is that format(Change.Id) calls format(ChangeData) which creates a new AccountLoader in the inner loop.\n\nI meant:\n\n format(Collection\u003cChange.Id\u003e ids) {\n   accountLoader \u003d accountLoaderFactory.create(has(DETAILED_ACCOUNTS));\n   for (Change.Id id : ids) {\n     ret.add(format(id, Optional.absent(), false));\n   }\n }\n\nThen change below:\n \n private ChangeInfo format(ChangeData cd, Optional\u003cPatchSet.Id\u003e limitToPsId, boolean fillAccountLoader) {\n   try {\n     if (fillAccountLoader) {\n       accountLoader \u003d ...\n       ChangeInfo res \u003d toChangeInfo(cd, limitToPsId);\n       accountLoader.fill();\n       return res;\n     } else {\n       return toChangeInfo(limitToPsId);\n     }\n     ...\n }\n\nthat\u0027s maybe not the best interface but hopefully you get hte idea.",
+      "revId": "56449061d7bc35d77a39a691c50b928aaf88502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

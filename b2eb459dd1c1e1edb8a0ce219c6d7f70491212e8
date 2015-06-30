@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "93ce55a2_74f028da",
+        "filename": "Documentation/cmd-start-indexer.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-06-30T20:18:59Z",
+      "side": 1,
+      "message": "I am ok with your suggestion but what about the other command (https://gerrit-review.googlesource.com/#/c/69241/), how would name that one?",
+      "parentUuid": "53e69d29_f2b44823",
+      "range": {
+        "startLine": 4,
+        "startChar": 7,
+        "endLine": 4,
+        "endChar": 20
+      },
+      "revId": "b2eb459dd1c1e1edb8a0ce219c6d7f70491212e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53e69d29_d2b9441b",
         "filename": "gerrit-sshd/BUCK",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "73c9e19b_f3db305e",
+        "filename": "gerrit-sshd/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-06-30T20:18:59Z",
+      "side": 1,
+      "message": "Currently, the online indexer is a mechanism implemented in Lucene. I have on my TODO list to move this mechanism at the secondary index level to allow other implementations (ElasticSearch)to use it. Until then, I would prefer to keep this change as is.\n\nThis change is a quick hack to allow to upgrade to 2.11.x and fix secondary index issues without restarting Gerrit.",
+      "parentUuid": "53e69d29_d2b9441b",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "b2eb459dd1c1e1edb8a0ce219c6d7f70491212e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53e69d29_b2bec0ff",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StartIndexer.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-06-30T19:58:24Z",
       "side": 1,
       "message": "What about tracing the status? Or a \"--wait\" option as the replication --start command?",
+      "range": {
+        "startLine": 50,
+        "startChar": 47,
+        "endLine": 50,
+        "endChar": 55
+      },
+      "revId": "b2eb459dd1c1e1edb8a0ce219c6d7f70491212e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_d3e03411",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StartIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-06-30T20:18:59Z",
+      "side": 1,
+      "message": "That could be a nice improvement, let\u0027s see if this change goes in first :)",
+      "parentUuid": "53e69d29_b2bec0ff",
       "range": {
         "startLine": 50,
         "startChar": 47,

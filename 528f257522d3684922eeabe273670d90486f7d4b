@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33e929fb_d1b9441b",
+        "filename": "Documentation/cmd-activate-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-06-30T20:25:06Z",
+      "side": 1,
+      "message": "I would name this:\n    index --activate",
+      "range": {
+        "startLine": 8,
+        "startChar": 39,
+        "endLine": 8,
+        "endChar": 53
+      },
+      "revId": "528f257522d3684922eeabe273670d90486f7d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

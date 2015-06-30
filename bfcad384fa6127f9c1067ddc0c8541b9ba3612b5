@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "73e481f7_dbd2f343",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-30T07:57:13Z",
+      "side": 1,
+      "message": "I don\u0027t have time to mess around with image size. Removed.",
+      "parentUuid": "b3151985_85c58281",
+      "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3151985_e5d27643",
         "filename": "README.md",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-29T21:37:07Z",
       "side": 1,
       "message": "s/The //",
+      "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93e9f5d1_7cdb995c",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-30T07:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3151985_e5d27643",
       "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "93e9f5d1_9cef85fd",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-30T07:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93149589_64bfaafe",
+      "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f32311ea_87c58681",
         "filename": "README.md",
         "patchSetId": 2
@@ -64,6 +118,30 @@
       "writtenOn": "2015-06-30T00:59:14Z",
       "side": 1,
       "message": "Hasn\u0027t this been superseded by the hackathon announced to follow the user conference Nov 2015?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93e9f5d1_5cd6dd35",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-06-30T07:57:13Z",
+      "side": 1,
+      "message": "No idea.",
+      "parentUuid": "f32311ea_87c58681",
       "range": {
         "startLine": 58,
         "startChar": 0,

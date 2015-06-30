@@ -16,6 +16,24 @@
       "revId": "9b8240b0f67bf6c2f89b2437100265b0f825aa0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93e9f5d1_fc016939",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-30T11:39:37Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "73e481f7_1b07fb55",
+      "revId": "9b8240b0f67bf6c2f89b2437100265b0f825aa0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

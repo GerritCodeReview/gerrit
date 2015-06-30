@@ -20,14 +20,21 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.util.Map;
 
 public class ActionsIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config submitWholeTopicEnabled() {
+    return submitWholeTopicEnabledConfig();
+  }
+
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();

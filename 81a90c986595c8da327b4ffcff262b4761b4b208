@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73c9e19b_f32d70d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeConstants.properties",
+        "patchSetId": 15
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T21:47:52Z",
+      "side": 1,
+      "message": "s/Change/change/",
+      "range": {
+        "startLine": 28,
+        "startChar": 64,
+        "endLine": 28,
+        "endChar": 70
+      },
+      "revId": "81a90c986595c8da327b4ffcff262b4761b4b208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

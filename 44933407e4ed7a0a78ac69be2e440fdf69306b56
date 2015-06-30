@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "73c9e19b_33eac8ec",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93ce55a2_f4b43823",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93ce55a2_d4b93c1b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-30T19:35:51Z",
       "side": 1,
       "message": "This is going to be slower because it has to set up another server with this config option set. Faster would be to update the ProjectConfig for the project, something like:\n\n ProjectConfig cfg \u003d projectCache.checkedGet(project).getConfig();\n cfg.getProject().setSubmitType(CHERRY_PICK);\n saveProjectConfig(project, cfg);",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_14e7b422",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93ce55a2_d4b93c1b",
       "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "93ce55a2_f4067857",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93ce55a2_b4bec0ff",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73c9e19b_f3b45023",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 15
@@ -64,6 +118,24 @@
       "writtenOn": "2015-06-30T19:35:51Z",
       "side": 1,
       "message": "One line",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_13e7cc22",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c9e19b_f3b45023",
       "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "73c9e19b_f3069057",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c9e19b_d3b9541b",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93ce55a2_74c9489c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 15
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "73c9e19b_d30b945f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93ce55a2_74c9489c",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73c9e19b_93c3dc7d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 15
@@ -115,6 +223,24 @@
       "writtenOn": "2015-06-30T19:35:51Z",
       "side": 1,
       "message": "This is inefficient because it creates one AccountLoader per change, so each account info is going to be loaded multiple times. What you would want to do is populate accountLoader outside this loop, and tweak the inner format method below to optionally not create a new loader.",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_94150479",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c9e19b_93c3dc7d",
       "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -161,6 +287,48 @@
     },
     {
       "key": {
+        "uuid": "93ce55a2_b4100089",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93ce55a2_94c3c47d",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_b3101889",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c9e19b_b3bed8ff",
+      "range": {
+        "startLine": 40,
+        "startChar": 80,
+        "endLine": 40,
+        "endChar": 85
+      },
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93ce55a2_54c64c8c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 15
@@ -172,6 +340,24 @@
       "writtenOn": "2015-06-30T19:35:51Z",
       "side": 1,
       "message": "Awesome, glad this is so easy :)",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_d40b7c5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-06-30T21:28:08Z",
+      "side": 1,
+      "message": "It took me a while to realize that it\u0027s easy to reuse the jsonFormatter as I was looking at the GetRelated you wrote and I tried to format that myself with all the right things included. As an optional later step we want to inspect the list below and tweak it to include only the bare minimum of information sent over the wire (then we also don\u0027t need to compute as much on the server)\n\nFor example the DETAILED_LABELS | LABELS is only used to determine if the green check mark should be displayed. We could just compute\u0026cache that on the server.",
+      "parentUuid": "93ce55a2_54c64c8c",
       "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

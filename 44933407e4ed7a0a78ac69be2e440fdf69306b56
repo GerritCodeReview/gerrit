@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93ce55a2_f4b43823",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "This is a long run-on sentence. Consider breaking it up, possibly as a bulleted list.",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_d4b93c1b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "This is going to be slower because it has to set up another server with this config option set. Faster would be to update the ProjectConfig for the project, something like:\n\n ProjectConfig cfg \u003d projectCache.checkedGet(project).getConfig();\n cfg.getProject().setSubmitType(CHERRY_PICK);\n saveProjectConfig(project, cfg);",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_b4bec0ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "This doesn\u0027t produce useful failure messages. Recently I have been using assertions over iterables of strings, which are much more readable. You just need to transform the actual values appropriately. Something like:\n\n assertThat(Arrays.asList(expected))\n     .containsExactlyElementsIn(\n       Iterables.transform(actual, new Function\u003cChangeInfo, String\u003e() {...}))\n     .inOrder();",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_f3b45023",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "One line",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_d3b9541b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "This is only used once, you could inline it.",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_74c9489c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "Optional: This method could take a Collection, then this could be new ArrayList\u003c\u003e(ids.size());",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_93c3dc7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "This is inefficient because it creates one AccountLoader per change, so each account info is going to be loaded multiple times. What you would want to do is populate accountLoader outside this loop, and tweak the inner format method below to optionally not create a new loader.",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_b3bed8ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "Long line",
+      "range": {
+        "startLine": 40,
+        "startChar": 80,
+        "endLine": 40,
+        "endChar": 85
+      },
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_94c3c47d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "Nit: blank line after logger.",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_54c64c8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-06-30T19:35:51Z",
+      "side": 1,
+      "message": "Awesome, glad this is so easy :)",
+      "revId": "44933407e4ed7a0a78ac69be2e440fdf69306b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

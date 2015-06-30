@@ -151,6 +151,30 @@
       "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93e9f5d1_5c117d8a",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-06-30T08:59:31Z",
+      "side": 1,
+      "message": "Can we check with Dariusz?",
+      "parentUuid": "93e9f5d1_5cd6dd35",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "bfcad384fa6127f9c1067ddc0c8541b9ba3612b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

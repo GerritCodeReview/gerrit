@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73e481f7_1b07fb55",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-06-30T11:27:09Z",
+      "side": 0,
+      "message": "This is still needed, otherwise lots of tests are failing, e.g.:\n\nFAIL     72.8s  2 Passed   0 Skipped   1 Failed   com.google.gerrit.acceptance.api.accounts.AccountIT\nFAILURE starUnstarChange: Not true that \u003c401\u003e is equal to \u003c200\u003e\njava.lang.AssertionError: Not true that \u003c401\u003e is equal to \u003c200\u003e\n\tat com.google.common.truth.FailureStrategy.fail(FailureStrategy.java:27)\n\tat com.google.common.truth.FailureStrategy.fail(FailureStrategy.java:23)\n\tat com.google.common.truth.Subject.fail(Subject.java:230)\n\tat com.google.common.truth.Subject.isEqualTo(Subject.java:98)\n\tat com.google.common.truth.IntegerSubject.isEqualTo(IntegerSubject.java:66)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.getChange(AbstractDaemonTest.java:247)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.getChange(AbstractDaemonTest.java:240)\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.starUnstarChange(AccountIT.java:56)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n        ...",
+      "revId": "9b8240b0f67bf6c2f89b2437100265b0f825aa0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

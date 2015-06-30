@@ -117,6 +117,9 @@ link:cmd-gc.html[gerrit gc]::
 link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 
+link:cmd-index-index.html[gerrit index activate]::
+	Activate the latest index version available.
+
 link:cmd-index-start.html[gerrit index start]::
 	Start the online indexer.
 

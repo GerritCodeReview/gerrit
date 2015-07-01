@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73c9e19b_734cc094",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-01T16:23:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93e3b51e_ecb46b23",
+      "range": {
+        "startLine": 233,
+        "startChar": 22,
+        "endLine": 233,
+        "endChar": 48
+      },
+      "revId": "4736bda1774e894ce8c1c77fd36f257e3c2913e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3d43938_cdb9a91b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 18
@@ -36,6 +60,24 @@
       "writtenOn": "2015-07-01T01:15:53Z",
       "side": 1,
       "message": "Missing accountLoader.fill()",
+      "revId": "4736bda1774e894ce8c1c77fd36f257e3c2913e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ce55a2_34a190ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-01T16:23:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3d43938_cdb9a91b",
       "revId": "4736bda1774e894ce8c1c77fd36f257e3c2913e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

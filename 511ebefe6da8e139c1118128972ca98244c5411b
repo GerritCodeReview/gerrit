@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33e929fb_b1100089",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-07-01T11:06:14Z",
+      "side": 1,
+      "message": "how does this version differs from vanilla v4.0.1.201506240215-r ?",
+      "range": {
+        "startLine": 4,
+        "startChar": 28,
+        "endLine": 4,
+        "endChar": 40
+      },
+      "revId": "511ebefe6da8e139c1118128972ca98244c5411b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

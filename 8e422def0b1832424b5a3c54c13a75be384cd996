@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53e69d29_9215fc78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-01T13:08:25Z",
+      "side": 1,
+      "message": "Mention in the commit message that this is a first step towards storing user preferences in the All-Users repository?",
+      "revId": "8e422def0b1832424b5a3c54c13a75be384cd996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53e69d29_72fbb8b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-01T13:08:25Z",
+      "side": 1,
+      "message": "For transient I understand. Why are final also skipped?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 59
+      },
+      "revId": "8e422def0b1832424b5a3c54c13a75be384cd996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e929fb_f150c833",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-01T13:08:25Z",
+      "side": 1,
+      "message": "if it is set to the server default",
+      "range": {
+        "startLine": 263,
+        "startChar": 50,
+        "endLine": 264,
+        "endChar": 45
+      },
+      "revId": "8e422def0b1832424b5a3c54c13a75be384cd996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

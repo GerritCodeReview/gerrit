@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33e929fb_712298de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-01T12:16:27Z",
+      "side": 1,
+      "message": "Is it clear under which conditions the cd will be null?\nIf yes, then it would be helpful to explain that in the commit message.",
+      "revId": "7bd1244b2c4a397af95a43eb619d549a6bc9653b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "53e69d29_92da9c57",
+        "filename": "Documentation/cmd-activate-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-01T11:32:30Z",
+      "side": 1,
+      "message": "as suggested in the previos change:\n\n  gerrit index activate\n\nso we have all \"index\" related commands under the same main command",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "528f257522d3684922eeabe273670d90486f7d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33e929fb_d1b9441b",
         "filename": "Documentation/cmd-activate-index.txt",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2015-06-30T20:25:06Z",
       "side": 1,
       "message": "I would name this:\n    index --activate",
+      "range": {
+        "startLine": 8,
+        "startChar": 39,
+        "endLine": 8,
+        "endChar": 53
+      },
+      "revId": "528f257522d3684922eeabe273670d90486f7d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e929fb_11022c3e",
+        "filename": "Documentation/cmd-activate-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-01T11:32:30Z",
+      "side": 1,
+      "message": "I would discourage this approach because it stops to scale as soon as you need to provide additional options specific to the --activate or the --start case",
+      "parentUuid": "33e929fb_d1b9441b",
       "range": {
         "startLine": 8,
         "startChar": 39,

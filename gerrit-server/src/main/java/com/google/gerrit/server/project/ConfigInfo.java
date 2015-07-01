@@ -169,14 +169,19 @@ public class ConfigInfo {
             cfgFactory.getFromProjectConfigWithInheritance(project,
                 e.getPluginName());
         p.inheritable = true;
-        p.value = cfgWithInheritance.getString(e.getExportName(), configEntry.getDefaultValue());
+        p.value = configEntry.onRead(project,
+            cfgWithInheritance.getString(e.getExportName(),
+                configEntry.getDefaultValue()));
         p.configuredValue = configuredValue;
         p.inheritedValue = getInheritedValue(project, cfgFactory, e);
       } else {
         if (configEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
-          p.values = Arrays.asList(cfg.getStringList(e.getExportName()));
+          p.values = configEntry.onRead(project,
+              Arrays.asList(cfg.getStringList(e.getExportName())));
         } else {
-          p.value = configuredValue != null ? configuredValue : configEntry.getDefaultValue();
+          p.value = configEntry.onRead(project, configuredValue != null
+              ? configuredValue
+              : configEntry.getDefaultValue());
         }
       }
       Map<String, ConfigParameterInfo> pc = pluginConfig.get(e.getPluginName());

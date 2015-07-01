@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -511,8 +512,7 @@ public class MergeOp {
           ListMultimap<SubmitType, Change> submitting = toSubmit.get(branch);
           for (SubmitType submitType : submitting.keySet()) {
             updateChangeStatus(submitting.get(submitType), branch, false);
-            updateSubscriptions(branch, submitting.get(submitType),
-                getBranchTip(branch));
+            updateSubmoduleSubscriptions(branch, getBranchTip(branch));
           }
           if (update != null) {
             fireRefUpdated(branch, update);
@@ -520,6 +520,7 @@ public class MergeOp {
         }
         closeRepository();
       }
+      updateSuperProjects(cs.branches());
       checkState(pendingRefUpdates.isEmpty(), "programmer error: "
           + "pending ref update list not emptied");
     } catch (NoSuchProjectException noProject) {
@@ -993,23 +994,32 @@ public class MergeOp {
     }
   }
 
-  private void updateSubscriptions(Branch.NameKey destBranch,
-      List<Change> submitted, CodeReviewCommit branchTip) {
+  private void updateSubmoduleSubscriptions(Branch.NameKey destBranch,
+      CodeReviewCommit branchTip) {
     MergeTip mergeTip = mergeTips.get(destBranch);
     if (mergeTip != null
         && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
-      logDebug("Updating submodule subscriptions for {} changes",
-          submitted.size());
-      SubmoduleOp subOp =
-          subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
-              destProject.getProject(), submitted, commits,
-              getAccount(mergeTip.getCurrentTip()));
+      Set<Branch.NameKey> destBranchAsSet = Sets.newHashSet(destBranch);
+      logDebug("Updating submodule subscriptions for branches {}",
+          destBranchAsSet);
+      SubmoduleOp subOp = subOpFactory.create();
       try {
-        subOp.update();
+        subOp.updateSubmoduleSubscriptions(destBranchAsSet);
       } catch (SubmoduleException e) {
-        logError("The gitLinks were not updated according to the subscriptions",
-            e);
+        logError("The submodule subscriptions were not updated according"
+            + "to the .gitmodules files", e);
       }
+    }
+  }
+
+  private void updateSuperProjects(Set<Branch.NameKey> branches) {
+    SubmoduleOp subOp = subOpFactory.create();
+    logDebug("Updating superprojects");
+    try {
+      subOp.updateSuperProjects(branches);
+    } catch (SubmoduleException e) {
+      logError("The gitLinks were not updated according to the"
+          + "subscriptions", e);
     }
   }
 

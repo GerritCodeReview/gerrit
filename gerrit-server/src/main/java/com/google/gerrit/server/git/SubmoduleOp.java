@@ -14,15 +14,13 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -33,7 +31,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -62,32 +59,20 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class SubmoduleOp {
   public interface Factory {
-    SubmoduleOp create(Branch.NameKey destBranch, RevCommit mergeTip,
-        RevWalk rw, Repository db, Project destProject, List<Change> submitted,
-        Map<Change.Id, CodeReviewCommit> commits, Account account);
+    SubmoduleOp create();
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
   private static final String GIT_MODULES = ".gitmodules";
 
-  private final Branch.NameKey destBranch;
-  private RevCommit mergeTip;
-  private RevWalk rw;
   private final Provider<String> urlProvider;
-  private ReviewDb schema;
-  private Repository db;
-  private Project destProject;
-  private List<Change> submitted;
-  private final Map<Change.Id, CodeReviewCommit> commits;
   private final PersonIdent myIdent;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
@@ -98,31 +83,17 @@ public class SubmoduleOp {
   private final SubmoduleSectionParser.Factory subSecParserFactory;
 
   @Inject
-  public SubmoduleOp(@Assisted Branch.NameKey destBranch,
-      @Assisted RevCommit mergeTip,
-      @Assisted RevWalk rw,
+  public SubmoduleOp(
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       SchemaFactory<ReviewDb> sf,
-      @Assisted Repository db,
-      @Assisted Project destProject,
-      @Assisted List<Change> submitted,
-      @Assisted Map<Change.Id,
-      CodeReviewCommit> commits,
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
-      @Nullable @Assisted Account account,
+      @Nullable Account account,
       ChangeHooks changeHooks,
       SubmoduleSectionParser.Factory subSecParserFactory) {
-    this.destBranch = destBranch;
-    this.mergeTip = mergeTip;
-    this.rw = rw;
     this.urlProvider = urlProvider;
     this.schemaFactory = sf;
-    this.db = db;
-    this.destProject = destProject;
-    this.submitted = submitted;
-    this.commits = commits;
     this.myIdent = myIdent;
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
@@ -133,48 +104,40 @@ public class SubmoduleOp {
     updatedSubscribers = new HashSet<>();
   }
 
-  public void update() throws SubmoduleException {
-    try {
-      schema = schemaFactory.open();
-
-      updateSubmoduleSubscriptions();
-      updateSuperProjects(destBranch, rw, mergeTip.getId().toObjectId(), null);
-    } catch (OrmException | IOException e) {
-      throw new SubmoduleException("Cannot open database", e);
-    } finally {
-      if (schema != null) {
-        schema.close();
-        schema = null;
-      }
+  protected void updateSubmoduleSubscriptions(Set<Branch.NameKey> branches)
+      throws SubmoduleException {
+    for (Branch.NameKey branch : branches) {
+      updateSubmoduleSubscriptions(branch);
     }
   }
 
-  private void updateSubmoduleSubscriptions() throws SubmoduleException {
+  private void updateSubmoduleSubscriptions(Branch.NameKey destBranch)
+      throws SubmoduleException {
     if (urlProvider.get() == null) {
       logAndThrowSubmoduleException("Cannot establish canonical web url used to access gerrit."
               + " It should be provided in gerrit.config file.");
     }
+    try (ReviewDb schema = schemaFactory.open();) {
+      Repository repo = repoManager.openRepository(destBranch.getParentKey());
+      ObjectId id = repo.resolve(destBranch.get());
+      RevWalk rw = CodeReviewCommit.newRevWalk(repo);
+      RevCommit commit = rw.parseCommit(id);
 
-    try {
       Set<SubmoduleSubscription> oldSubscriptions =
           Sets.newHashSet(schema.submoduleSubscriptions()
               .bySuperProject(destBranch));
 
       Set<SubmoduleSubscription> newSubscriptions;
-      TreeWalk tw = TreeWalk.forPath(db, GIT_MODULES, mergeTip.getTree());
+      TreeWalk tw = TreeWalk.forPath(repo, GIT_MODULES, commit.getTree());
       if (tw != null
           && (FileMode.REGULAR_FILE.equals(tw.getRawMode(0)) ||
               FileMode.EXECUTABLE_FILE.equals(tw.getRawMode(0)))) {
         BlobBasedConfig bbc =
-            new BlobBasedConfig(null, db, mergeTip, GIT_MODULES);
+            new BlobBasedConfig(null, repo, commit, GIT_MODULES);
 
         String thisServer = new URI(urlProvider.get()).getHost();
 
-        Branch.NameKey target =
-            new Branch.NameKey(new Project.NameKey(destProject.getName()),
-                destBranch.get());
-
-        newSubscriptions = subSecParserFactory.create(bbc, thisServer, target)
+        newSubscriptions = subSecParserFactory.create(bbc, thisServer, destBranch)
             .parseAllSections();
       } else {
         newSubscriptions = Collections.emptySet();
@@ -216,73 +179,33 @@ public class SubmoduleOp {
     }
   }
 
-  private void updateSuperProjects(final Branch.NameKey updatedBranch, RevWalk myRw,
-      final ObjectId mergedCommit, final String msg) throws SubmoduleException,
-      IOException {
-    try {
-      final List<SubmoduleSubscription> subscribers =
-          schema.submoduleSubscriptions().bySubmodule(updatedBranch).toList();
+  protected void updateSuperProjects(Set<Branch.NameKey> updatedBranches)
+      throws SubmoduleException {
+    try (ReviewDb schema = schemaFactory.open();) {
+      // These (repo/branch) will be updated later with all the given
+      // individual submodule subscriptions
+      Multimap<Branch.NameKey, SubmoduleSubscription> targets
+          = HashMultimap.create();
 
-      if (!subscribers.isEmpty()) {
-        // Initialize the message buffer
-        StringBuilder sb = new StringBuilder();
-        if (msg != null) {
-          sb.append(msg);
-        } else {
-          // The first updatedBranch on a cascade event of automatic
-          // updates of repos is added to updatedSubscribers set so
-          // if we face a situation having
-          // submodule-a(master)-->super(master)-->submodule-a(master),
-          // it will be detected we have a circular subscription
-          // when updateSuperProjects is called having as updatedBranch
-          // the super(master) value.
-          updatedSubscribers.add(updatedBranch);
-
-          for (final Change chg : submitted) {
-            final CodeReviewCommit c = commits.get(chg.getId());
-            if (c != null
-                && (c.getStatusCode() == CommitMergeStatus.CLEAN_MERGE
-                    || c.getStatusCode() == CommitMergeStatus.CLEAN_PICK
-                    || c.getStatusCode() == CommitMergeStatus.CLEAN_REBASE)) {
-              myRw.parseBody(c);
-              sb.append("\n")
-                .append(c.getFullMessage());
-            }
-          }
+      for (Branch.NameKey updatedBranch : updatedBranches) {
+        for (SubmoduleSubscription sub : schema.submoduleSubscriptions()
+            .bySubmodule(updatedBranch)) {
+          targets.put(sub.getSuperProject(), sub);
         }
-
-        // update subscribers of this module
-        List<SubmoduleSubscription> incorrectSubscriptions = Lists.newLinkedList();
-        for (final SubmoduleSubscription s : subscribers) {
-          try {
-            if (!updatedSubscribers.add(s.getSuperProject())) {
-              log.error("Possible circular subscription involving " + s);
-            } else {
-
-            Map<Branch.NameKey, ObjectId> modules = new HashMap<>(1);
-              modules.put(updatedBranch, mergedCommit);
-
-            Map<Branch.NameKey, String> paths = new HashMap<>(1);
-              paths.put(updatedBranch, s.getPath());
-              updateGitlinks(s.getSuperProject(), myRw, modules, paths, sb.toString());
-            }
-          } catch (SubmoduleException e) {
-              log.warn("Cannot update gitlinks for " + s + " due to " + e.getMessage());
-              incorrectSubscriptions.add(s);
-          } catch (Exception e) {
-              log.error("Cannot update gitlinks for " + s, e);
+      }
+      updatedSubscribers.addAll(Sets.newHashSet(updatedBranches));
+      // update subscribers
+      for (Branch.NameKey dest : targets.keySet()) {
+        try {
+          if (!updatedSubscribers.add(dest)) {
+            log.error("Possible circular subscription involving " + dest);
+          } else {
+            updateGitlinks(dest, targets.get(dest));
           }
-        }
-
-        if (!incorrectSubscriptions.isEmpty()) {
-          try {
-            schema.submoduleSubscriptions().delete(incorrectSubscriptions);
-            log.info("Deleted incorrect submodule subscription(s) "
-                + incorrectSubscriptions);
-          } catch (OrmException e) {
-            log.error("Cannot delete submodule subscription(s) "
-                + incorrectSubscriptions, e);
-          }
+        } catch (SubmoduleException e) {
+          log.warn("Cannot update gitlinks for " + dest + " due to " + e.getMessage());
+        } catch (Exception e) {
+          log.error("Cannot update gitlinks for " + dest, e);
         }
       }
     } catch (OrmException e) {
@@ -290,51 +213,24 @@ public class SubmoduleOp {
     }
   }
 
-  private void updateGitlinks(final Branch.NameKey subscriber, RevWalk myRw,
-      final Map<Branch.NameKey, ObjectId> modules,
-      final Map<Branch.NameKey, String> paths, final String msg)
+  /**
+   * This updates the submodules in one branch of one repository.
+   *
+   * @param subscriber the branch of the repository which should be changed.
+   * @param updates The submodule updates which should be updated to.
+   * @throws SubmoduleException
+   */
+  private void updateGitlinks(final Branch.NameKey subscriber,
+      Collection<SubmoduleSubscription> updates)
       throws SubmoduleException {
     PersonIdent author = null;
 
-    final StringBuilder msgbuf = new StringBuilder("Updated git submodules\n");
     Repository pdb = null;
     RevWalk recRw = null;
 
+    final StringBuilder msgbuf = new StringBuilder("Updated git submodules\n\n");
     try {
       boolean sameAuthorForAll = true;
-
-      for (final Map.Entry<Branch.NameKey, ObjectId> me : modules.entrySet()) {
-        RevCommit c = myRw.parseCommit(me.getValue());
-        if (c == null) {
-          continue;
-        }
-
-        msgbuf.append("\nProject: ");
-        msgbuf.append(me.getKey().getParentKey().get());
-        msgbuf.append("  ").append(me.getValue().getName());
-        msgbuf.append("\n");
-        if (modules.size() == 1) {
-          if (!Strings.isNullOrEmpty(msg)) {
-            msgbuf.append(msg);
-          } else {
-            msgbuf.append("\n");
-            msgbuf.append(c.getFullMessage());
-          }
-        } else {
-          msgbuf.append(c.getShortMessage());
-        }
-        msgbuf.append("\n");
-
-        if (author == null) {
-          author = c.getAuthorIdent();
-        } else if (!author.equals(c.getAuthorIdent())) {
-          sameAuthorForAll = false;
-        }
-      }
-
-      if (!sameAuthorForAll || author == null) {
-        author = myIdent;
-      }
 
       pdb = repoManager.openRepository(subscriber.getParentKey());
       if (pdb.getRef(subscriber.get()) == null) {
@@ -342,24 +238,82 @@ public class SubmoduleOp {
             "The branch was probably deleted from the subscriber repository");
       }
 
-      final ObjectId currentCommitId =
-          pdb.getRef(subscriber.get()).getObjectId();
-
       DirCache dc = readTree(pdb, pdb.getRef(subscriber.get()));
       DirCacheEditor ed = dc.editor();
-      for (final Map.Entry<Branch.NameKey, ObjectId> me : modules.entrySet()) {
-        ed.add(new PathEdit(paths.get(me.getKey())) {
+
+      for (final SubmoduleSubscription s : updates) {
+        Repository subrepo = repoManager.openRepository(s.getSubmodule().getParentKey());
+        final ObjectId updateTo = subrepo.resolve(s.getSubmodule().get());
+
+        final RevWalk rw = CodeReviewCommit.newRevWalk(subrepo);
+        RevCommit newCommit = rw.parseCommit(updateTo);
+
+        if (newCommit == null) {
+          continue;
+        }
+
+        if (author == null) {
+          author = newCommit.getAuthorIdent();
+        } else if (!author.equals(newCommit.getAuthorIdent())) {
+          sameAuthorForAll = false;
+        }
+
+        DirCacheEntry dce = dc.getEntry(s.getPath());
+        ObjectId oldId = null;
+        if (dce != null) {
+          if (!dce.getFileMode().equals(FileMode.GITLINK)) {
+            logError("Requested to update gitlink " + s.getPath() + " in "
+                + s.getSubmodule().getParentKey().get() + " but entry doesn't"
+                + "have gitlink file mode.", null);
+            continue;
+          }
+          oldId = dce.getObjectId();
+        } else {
+          // This submodule did not exist before. We do not want to add
+          // the full sub module history to the commit message, so omit it.
+          oldId = updateTo;
+        }
+
+        ed.add(new PathEdit(s.getPath()) {
           @Override
           public void apply(DirCacheEntry ent) {
             ent.setFileMode(FileMode.GITLINK);
-            ent.setObjectId(me.getValue().copy());
+            ent.setObjectId(updateTo);
           }
         });
+
+        msgbuf.append("Project: " + s.getSubmodule().getParentKey().get());
+        msgbuf.append(" " + s.getSubmodule().getShortName());
+        msgbuf.append(" " + updateTo.getName());
+        msgbuf.append("\n\n");
+
+        try {
+          rw.markStart(newCommit);
+
+          if (oldId != null) {
+            rw.markUninteresting(rw.parseCommit(oldId));
+          }
+          for (RevCommit c : rw) {
+            String msg = c.getFullMessage();
+            msgbuf.append(msg);
+          }
+        } catch (IOException e) {
+          logError("Could not perform a revwalk to create superproject"
+              + "commit message", e);
+          msgbuf.append("error generating commit message");
+        }
       }
       ed.finish();
 
+      if (!sameAuthorForAll || author == null) {
+        author = myIdent;
+      }
+
       ObjectInserter oi = pdb.newObjectInserter();
       ObjectId tree = dc.writeTree(oi);
+
+      final ObjectId currentCommitId =
+          pdb.getRef(subscriber.get()).getObjectId();
 
       final CommitBuilder commit = new CommitBuilder();
       commit.setTreeId(tree);
@@ -394,7 +348,7 @@ public class SubmoduleOp {
       recRw = new RevWalk(pdb);
 
       // Recursive call: update subscribers of the subscriber
-      updateSuperProjects(subscriber, recRw, commitId, msgbuf.toString());
+      updateSuperProjects(Sets.newHashSet(subscriber));
     } catch (IOException e) {
         throw new SubmoduleException("Cannot update gitlinks for "
             + subscriber.get(), e);
@@ -421,15 +375,27 @@ public class SubmoduleOp {
     }
   }
 
+  private static void logError(String errorMsg) {
+    if (log.isErrorEnabled()) {
+      log.error(errorMsg);
+    }
+  }
+
+  private static void logError(String errorMsg, Exception e) {
+    if (log.isErrorEnabled()) {
+      log.error(errorMsg, e);
+    }
+  }
+
   private static void logAndThrowSubmoduleException(final String errorMsg,
       final Exception e) throws SubmoduleException {
-    log.error(errorMsg, e);
+    logError(errorMsg, e);
     throw new SubmoduleException(errorMsg, e);
   }
 
   private static void logAndThrowSubmoduleException(final String errorMsg)
       throws SubmoduleException {
-    log.error(errorMsg);
+    logError(errorMsg);
     throw new SubmoduleException(errorMsg);
   }
 }

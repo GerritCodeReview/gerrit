@@ -3139,7 +3139,7 @@ it records in any commits Gerrit creates.  This is set by
 <<user.name,user.name>> and <<user.email,user.email>>, or guessed
 from the local operating system.
 +
-* 'Code Review' `<`'review'`@`'example.com'`>`
+* `Code Review <review@example.com>`
 +
 If set to a name and email address in brackets, Gerrit will use
 this name and email address for any messages, overriding the name

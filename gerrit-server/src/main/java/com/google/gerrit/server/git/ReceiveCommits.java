@@ -325,7 +325,7 @@ public class ReceiveCommits {
   private SetMultimap<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
-  private final SubmoduleOp.Factory subOpFactory;
+  private final Provider<SubmoduleOp> subOpProvider;
   private final Provider<Submit> submitProvider;
   private final MergeOp.Factory mergeFactory;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -375,7 +375,7 @@ public class ReceiveCommits {
       ReceiveConfig config,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory,
+      final Provider<SubmoduleOp> subOpProvider,
       final Provider<Submit> submitProvider,
       final MergeOp.Factory mergeFactory,
       final ChangeKindCache changeKindCache,
@@ -422,7 +422,7 @@ public class ReceiveCommits {
     this.rp = new ReceivePack(repo);
     this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
-    this.subOpFactory = subOpFactory;
+    this.subOpProvider = subOpProvider;
     this.submitProvider = submitProvider;
     this.mergeFactory = mergeFactory;
     this.pluginConfigEntries = pluginConfigEntries;
@@ -598,6 +598,7 @@ public class ReceiveCommits {
       rp.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
     }
 
+    Set<Branch.NameKey> branches = Sets.newHashSet();
     for (final ReceiveCommand c : commands) {
         if (c.getResult() == OK) {
           if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
@@ -613,6 +614,8 @@ public class ReceiveCommits {
               case UPDATE:
               case UPDATE_NONFASTFORWARD:
                 autoCloseChanges(c);
+                branches.add(new Branch.NameKey(project.getNameKey(),
+                    c.getRefName()));
                 break;
 
               case DELETE:
@@ -651,6 +654,16 @@ public class ReceiveCommits {
           }
         }
     }
+    // Update superproject gitlinks if required.
+    SubmoduleOp op = subOpProvider.get();
+    try {
+       op.updateSubmoduleSubscriptions(db, branches);
+       op.updateSuperProjects(db, branches);
+    } catch (SubmoduleException e) {
+      log.error("Can't update submodule subscriptions"
+          + "or update the superprojects", e);
+    }
+
     closeProgress.end();
     commandProgress.end();
     progress.end();
@@ -2592,19 +2605,10 @@ public class ReceiveCommits {
           closeProgress.update(1);
         }
       }
-
-      // Update superproject gitlinks if required.
-      subOpFactory.create(
-          branch, newTip, rw, repo, project,
-          new ArrayList<Change>(),
-          new HashMap<Change.Id, CodeReviewCommit>(),
-          currentUser.getAccount()).update();
     } catch (RestApiException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException | OrmException e) {
       log.error("Can't scan for changes to close", e);
-    } catch (SubmoduleException e) {
-      log.error("Can't complete git links check", e);
     }
   }
 

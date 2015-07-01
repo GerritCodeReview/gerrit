@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "53e69d29_12022c3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-01T13:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53e69d29_9215fc78",
+      "revId": "8e422def0b1832424b5a3c54c13a75be384cd996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53e69d29_72fbb8b8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "33e929fb_915f3c40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-01T13:46:51Z",
+      "side": 1,
+      "message": "With final we usually mark constant attributes. They shouldn\u0027t be serialized.",
+      "parentUuid": "53e69d29_72fbb8b8",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 59
+      },
+      "revId": "8e422def0b1832424b5a3c54c13a75be384cd996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33e929fb_f150c833",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 10
@@ -53,6 +95,30 @@
       "writtenOn": "2015-07-01T13:08:25Z",
       "side": 1,
       "message": "if it is set to the server default",
+      "range": {
+        "startLine": 263,
+        "startChar": 50,
+        "endLine": 264,
+        "endChar": 45
+      },
+      "revId": "8e422def0b1832424b5a3c54c13a75be384cd996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53e69d29_f22d68d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-01T13:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33e929fb_f150c833",
       "range": {
         "startLine": 263,
         "startChar": 50,

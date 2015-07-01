@@ -69,6 +69,30 @@
       "revId": "528f257522d3684922eeabe273670d90486f7d4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c9e19b_f337b00c",
+        "filename": "Documentation/cmd-activate-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-07-01T13:19:24Z",
+      "side": 1,
+      "message": "I like the sub commands approach. I split those commands because I thought that I will need options eventually (e.g. activate could take the version to activate and the default could be the latest). I will do this tomorrow at work, today is a holiday here in Canada.",
+      "parentUuid": "33e929fb_11022c3e",
+      "range": {
+        "startLine": 8,
+        "startChar": 39,
+        "endLine": 8,
+        "endChar": 53
+      },
+      "revId": "528f257522d3684922eeabe273670d90486f7d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

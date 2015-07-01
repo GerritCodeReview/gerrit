@@ -56,7 +56,9 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -75,6 +77,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -364,15 +367,39 @@ public class ChangeUtil {
     }
 
     ReviewDb db = this.db.get();
-    for (PatchSet ps : db.patchSets().byChange(changeId)) {
-      // These should all be draft patch sets.
-      deleteOnlyDraftPatchSet(ps, change);
-    }
+    db.changes().beginTransaction(change.getId());
+    try {
+      Map<RevId, String> refsToDelete = new HashMap<>();
+      for (PatchSet ps : db.patchSets().byChange(changeId)) {
+        // These should all be draft patch sets.
+        deleteOnlyDraftPatchSetPreserveRef(db, ps);
+        refsToDelete.put(ps.getRevision(), ps.getRefName());
+      }
+      db.changeMessages().delete(db.changeMessages().byChange(changeId));
+      db.starredChanges().delete(db.starredChanges().byChange(changeId));
+      db.changes().delete(Collections.singleton(change));
 
-    db.changeMessages().delete(db.changeMessages().byChange(changeId));
-    db.starredChanges().delete(db.starredChanges().byChange(changeId));
-    db.changes().delete(Collections.singleton(change));
-    indexer.delete(change.getId());
+      // Delete all refs at once
+      try (Repository repo = gitManager.openRepository(change.getProject());
+          RevWalk rw = new RevWalk(repo)) {
+        BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
+        for (Map.Entry<RevId, String> e : refsToDelete.entrySet()) {
+          ru.addCommand(new ReceiveCommand(ObjectId.fromString(e.getKey().get()),
+              ObjectId.zeroId(), e.getValue()));
+        }
+        ru.execute(rw, NullProgressMonitor.INSTANCE);
+        for (ReceiveCommand cmd : ru.getCommands()) {
+          if (cmd.getResult() != ReceiveCommand.Result.OK) {
+            throw new IOException("failed: " + cmd);
+          }
+        }
+      }
+
+      db.commit();
+      indexer.delete(change.getId());
+    } finally {
+      db.rollback();
+    }
   }
 
   public void deleteOnlyDraftPatchSet(PatchSet patch, Change change)
@@ -400,15 +427,7 @@ public class ChangeUtil {
       gitRefUpdated.fire(change.getProject(), update, ReceiveCommand.Type.DELETE);
     }
 
-    ReviewDb db = this.db.get();
-    db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(patchSetId));
-    db.changeMessages().delete(db.changeMessages().byPatchSet(patchSetId));
-    // No need to delete from notedb; draft patch sets will be filtered out.
-    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
-    db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
-    db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
-
-    db.patchSets().delete(Collections.singleton(patch));
+    deleteOnlyDraftPatchSetPreserveRef(this.db.get(), patch);
   }
 
   /**
@@ -448,6 +467,23 @@ public class ChangeUtil {
 
   private IdentifiedUser user() {
     return (IdentifiedUser) userProvider.get();
+  }
+
+  private static void deleteOnlyDraftPatchSetPreserveRef(ReviewDb db,
+      PatchSet patch) throws NoSuchChangeException, OrmException {
+    PatchSet.Id patchSetId = patch.getId();
+    if (!patch.isDraft()) {
+      throw new NoSuchChangeException(patchSetId.getParentKey());
+    }
+
+    db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(patchSetId));
+    db.changeMessages().delete(db.changeMessages().byPatchSet(patchSetId));
+    // No need to delete from notedb; draft patch sets will be filtered out.
+    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
+    db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
+    db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
+
+    db.patchSets().delete(Collections.singleton(patch));
   }
 
   public static PatchSet.Id nextPatchSetId(PatchSet.Id id) {

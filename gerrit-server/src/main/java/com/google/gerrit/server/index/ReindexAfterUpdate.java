@@ -120,6 +120,12 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
             new Branch.NameKey(project, ref)));
       }
     }
+
+    @Override
+    public String toString() {
+      return "Get changes to reindex caused by " + event.getRefName()
+          + " update of project " + event.getProjectName();
+    }
   }
 
   private class Index extends Task<Void> {
@@ -137,6 +143,12 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       Change c = db.changes().get(id);
       indexerFactory.create(executor, indexes).index(db, c);
       return null;
+    }
+
+    @Override
+    public String toString() {
+      return "Index change " + id.get() + " of project "
+          + event.getProjectName();
     }
   }
 }

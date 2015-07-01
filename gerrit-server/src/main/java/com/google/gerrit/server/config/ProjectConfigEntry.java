@@ -225,6 +225,34 @@ public class ProjectConfigEntry {
   }
 
   /**
+   * Called after reading the project config value. To modify the value before
+   * returning it to the client, override this method and return the modified
+   * value. Default implementation returns the same value.
+   *
+   * @param project the project.
+   * @param value the actual value of the config entry (computed out of the
+   *        configured value, the inherited value and the default value).
+   * @return the modified value.
+   */
+  public String onRead(ProjectState project, String value) {
+    return value;
+  }
+
+  /**
+   * Called after reading the project config value of type ARRAY. To modify the
+   * values before returning it to the client, override this method and return
+   * the modified values. Default implementation returns the same values.
+   *
+   * @param project the project.
+   * @param values the actual values of the config entry (computed out of the
+   *        configured value, the inherited value and the default value).
+   * @return the modified values.
+   */
+  public List<String> onRead(ProjectState project, List<String> values) {
+    return values;
+  }
+
+  /**
    * Called after a project config is updated.
    *
    * @param project project name.

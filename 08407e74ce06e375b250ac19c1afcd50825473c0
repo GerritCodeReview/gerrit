@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "13650596_286ccbfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-02T14:57:44Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. Another option is to still rely on python on the PATH (that also works on other platform). In any event, this can\u0027t be used here, as it\u0027s system dependent.",
+      "parentUuid": "13650596_6862c30d",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65e029b0_0f34e502",
         "filename": "BUCK",
         "patchSetId": 1

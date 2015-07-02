@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "13650596_6862c30d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-02T14:42:49Z",
+      "side": 1,
+      "message": "Buck meanwhile [1] changed the config setting for the\npython interpreter. It is now at\n\n  [python]\n      interpreter \u003d [...]\n\n\u003e Be nice if upstream Buck can find a way to allow us to not\n\u003e have to modify a tracked file on \"other platform\".\n\nSince users need to do preparation steps anyways, one\ncould ask them to use `.buckconfig.local` instead of\n`.buckconfig`.\nThe setting gets picked up from there too, and the tree would\nnot get dirty.\n\n\n\n[1] https://github.com/facebook/buck/commit/c54bd42a1b67350a4540999c5a2f3db835b59ba1#diff-8f1584359ddb86afcf929abd7ef5edd5L63",
+      "parentUuid": "72a1d25d_fc24c9de",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "08407e74ce06e375b250ac19c1afcd50825473c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65e029b0_0f34e502",
         "filename": "BUCK",
         "patchSetId": 1

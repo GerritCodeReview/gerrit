@@ -670,6 +670,30 @@ Watchman can either be de-installed or disabled. See
 link:#buck-daemon[Using Buck daemon] section above how to temporarily
 disable `buckd`.
 
+=== Re-triggering rule execution
+
+There is no way to re-trigger custom rules with side effects, like
+`api_{deploy|install}`. This is a `genrule()` that depends on Java sources
+and is deploying the Plugin API through custom Python script to the local or
+remote Maven repositories. When for some reasons the deployment was undone,
+there is no supported way to re-trigger the execution of `api_{deploy|install}`
+targets. That's because `--no-cache` option will ignore the `Buck` cache, but
+there is no way to ignore `buck-out` directory. To overcome this Buck's design
+limitation new `tools/maven/api.py` script was added, that always re-triggers
+installation or deployment of Plugin API to local or Central Maven repository.
+
+```
+  tools/maven/api.py {deploy|install}
+```
+
+Dry run mode is also supported:
+
+```
+  tools/maven/api.py -n {deploy|install}
+```
+
+With this script the deployment would re-trigger on every invocation.
+
 == Troubleshooting Buck
 
 In some cases problems with Buck itself need to be investigated. See for example

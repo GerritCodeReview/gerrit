@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7353a1ca_c32dd6d1",
+        "filename": "Documentation/cmd-activate-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-07-02T18:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53e69d29_92da9c57",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "528f257522d3684922eeabe273670d90486f7d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33e929fb_d1b9441b",
         "filename": "Documentation/cmd-activate-index.txt",
         "patchSetId": 1

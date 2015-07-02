@@ -104,6 +104,11 @@ ref:: Git reference pointing at the revision.  This reference is
 available through the Gerrit Code Review server's Git interface
 for the containing change.
 
+downloadCommands:: Map that maps download scheme names to maps of
+download command names to download commands. Download commands that
+require authentication contain `'${USER}'` as placeholder for the
+username.
+
 uploader:: Uploader of the patch set in <<account,account attribute>>.
 
 author:: Author of this patchset in <<account,account attribute>>.

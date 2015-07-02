@@ -20,6 +20,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -32,6 +35,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
@@ -56,7 +60,11 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -70,6 +78,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,6 +86,8 @@ import java.util.Map;
 public class EventFactory {
   private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
   private final AccountCache accountCache;
+  private final AnonymousUser anonymous;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schema;
@@ -86,9 +97,14 @@ public class EventFactory {
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
+  private final OneOffRequestContext oneOffRequestContext;
+  private final DynamicMap<DownloadScheme> downloadSchemes;
+  private final DynamicMap<DownloadCommand> downloadCommands;
 
   @Inject
   EventFactory(AccountCache accountCache,
+      AnonymousUser anonymous,
+      ChangeControl.GenericFactory changeControlFactory,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       PatchSetInfoFactory psif,
       PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
@@ -96,8 +112,13 @@ public class EventFactory {
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      ChangeKindCache changeKindCache) {
+      ChangeKindCache changeKindCache,
+      OneOffRequestContext oneOffRequestContext,
+      DynamicMap<DownloadScheme> downloadSchemes,
+      DynamicMap<DownloadCommand> downloadCommands) {
     this.accountCache = accountCache;
+    this.anonymous = anonymous;
+    this.changeControlFactory = changeControlFactory;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
     this.schema = schema;
@@ -107,6 +128,9 @@ public class EventFactory {
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
+    this.oneOffRequestContext = oneOffRequestContext;
+    this.downloadSchemes = downloadSchemes;
+    this.downloadCommands = downloadCommands;
   }
 
   /**
@@ -414,6 +438,7 @@ public class EventFactory {
       }
 
       Change change = db.changes().get(pId.getParentKey());
+      p.downloadCommands = getDownloadCommands(change, patchSet);
       List<Patch> list =
           patchListCache.get(change, patchSet).toPatchList(pId);
       for (Patch pe : list) {
@@ -423,7 +448,7 @@ public class EventFactory {
         }
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-    } catch (OrmException e) {
+    } catch (OrmException | NoSuchChangeException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
     } catch (PatchSetInfoNotAvailableException e) {
       log.error(String.format("Cannot get authorEmail for %s.", pId), e);
@@ -431,6 +456,39 @@ public class EventFactory {
       log.error(String.format("Cannot get size information for %s.", pId), e);
     }
     return p;
+  }
+
+  private Map<String, Map<String, String>> getDownloadCommands(Change change,
+      PatchSet patchSet) throws OrmException, NoSuchChangeException {
+    try (ManualRequestContext ctx = oneOffRequestContext.open("${USER}")) {
+      Map<String, Map<String, String>> schemeMap = new HashMap<>();
+      for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+        String schemeName = e.getExportName();
+        DownloadScheme scheme = e.getProvider().get();
+        if (!scheme.isEnabled()) {
+          continue;
+        }
+
+        if (!scheme.isAuthSupported()
+            && !changeControlFactory.controlFor(change, anonymous)
+                .isPatchVisible(patchSet, db.get())) {
+          continue;
+        }
+
+        Map<String, String> commandMap = new HashMap<>();
+        schemeMap.put(schemeName, commandMap);
+        for (DynamicMap.Entry<DownloadCommand> e2 : downloadCommands) {
+          String commandName = e2.getExportName();
+          DownloadCommand command = e2.getProvider().get();
+          String c = command.getCommand(
+              scheme, change.getProject().get(), patchSet.getRefName());
+          if (c != null) {
+            commandMap.put(commandName, c);
+          }
+        }
+      }
+      return schemeMap;
+    }
   }
 
   public void addApprovals(PatchSetAttribute p, PatchSet.Id id,

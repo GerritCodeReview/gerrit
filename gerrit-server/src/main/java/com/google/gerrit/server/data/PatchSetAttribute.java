@@ -17,12 +17,14 @@ package com.google.gerrit.server.data;
 import com.google.gerrit.server.change.ChangeKind;
 
 import java.util.List;
+import java.util.Map;
 
 public class PatchSetAttribute {
   public String number;
   public String revision;
   public List<String> parents;
   public String ref;
+  public Map<String, Map<String, String>> downloadCommands;
   public AccountAttribute uploader;
   public Long createdOn;
   public AccountAttribute author;

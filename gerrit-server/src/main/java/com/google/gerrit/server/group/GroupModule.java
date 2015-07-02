@@ -17,6 +17,7 @@ package com.google.gerrit.server.group;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.InternalIdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.IncludingGroupMembership;
@@ -29,6 +30,7 @@ public class GroupModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(InternalUser.Factory.class);
+    factory(InternalIdentifiedUser.Factory.class);
     factory(IncludingGroupMembership.Factory.class);
 
     bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);

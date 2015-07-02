@@ -242,6 +242,11 @@ public class IdentifiedUser extends CurrentUser {
     this.realUser = realUser != null ? realUser : this;
   }
 
+  protected IdentifiedUser(CapabilityControl.Factory capabilityControlFactory) {
+    this(capabilityControlFactory, null, null, null, null, null, null, null,
+        null, null, null, null);
+  }
+
   @Override
   public CurrentUser getRealUser() {
     return realUser;

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33e3e94b_41c9329c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-02T14:16:08Z",
+      "side": 1,
+      "message": "Can remove this line now from the commit message.",
+      "revId": "5de70292ba27f6264944dc493335812c238acb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e3e94b_e1c3267c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-02T14:16:08Z",
+      "side": 1,
+      "message": "Would insert some minimal yet present blank space between the above image and this new one. This would be so that newcomers do not first think that these 2 images make just 1 screen. (Would be more readable anyway.) -Or, you could move your new (above) sentence part to in-between the images, introducing yours with it \u003d\u003e also separating the two.",
+      "revId": "5de70292ba27f6264944dc493335812c238acb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7353a1ca_e30b325f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-02T14:16:08Z",
+      "side": 1,
+      "message": "This initRevisionsAction method is becoming cluttered over time indeed. I\u0027d refactor the above new if block so it becomes a private, helper-ish method.",
+      "revId": "5de70292ba27f6264944dc493335812c238acb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7353a1ca_83103e89",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-02T14:16:08Z",
+      "side": 1,
+      "message": "This color looks fine to me for the new highlighting. However, I would use the same red as the existing doc in that page for the circles and text used in the hereby new png.",
+      "revId": "5de70292ba27f6264944dc493335812c238acb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

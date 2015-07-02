@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f367919d_67f8b2ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1020697
+      },
+      "writtenOn": "2015-07-02T12:48:00Z",
+      "side": 1,
+      "message": "Oh sorry, i didn\u0027t get this. Maybe this could be done by mocking the change. I dont know where \u0027allOpenChanges\u0027 is defined, but this would be the entry point.\n\nThanks anyway",
+      "parentUuid": "739481c1_dbbef300",
+      "range": {
+        "startLine": 119,
+        "startChar": 19,
+        "endLine": 119,
+        "endChar": 21
+      },
+      "revId": "7bd1244b2c4a397af95a43eb619d549a6bc9653b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33e929fb_712298de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 2

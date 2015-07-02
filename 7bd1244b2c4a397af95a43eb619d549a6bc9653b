@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "739481c1_dbbef300",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-02T12:36:17Z",
+      "side": 1,
+      "message": "As discussed in the previous comments, we don\u0027t know the exact conditions that cause cd to be null.",
+      "parentUuid": "f367919d_07ea16ec",
+      "range": {
+        "startLine": 119,
+        "startChar": 19,
+        "endLine": 119,
+        "endChar": 21
+      },
+      "revId": "7bd1244b2c4a397af95a43eb619d549a6bc9653b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33e929fb_712298de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 2

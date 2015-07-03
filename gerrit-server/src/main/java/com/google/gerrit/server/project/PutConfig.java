@@ -74,7 +74,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public Map<String, Map<String, ConfigValue>> pluginConfigValues;
   }
 
-  private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final ProjectCache projectCache;
   private final GitRepositoryManager gitMgr;
   private final ProjectState.Factory projectStateFactory;
@@ -87,7 +87,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final ChangeHooks hooks;
 
   @Inject
-  PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
+  PutConfig(Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
       GitRepositoryManager gitMgr,
       ProjectState.Factory projectStateFactory,
@@ -131,7 +131,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
 
     final MetaDataUpdate md;
     try {
-      md = metaDataUpdateFactory.create(projectName);
+      md = metaDataUpdateFactory.get().create(projectName);
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get());
     } catch (IOException e) {

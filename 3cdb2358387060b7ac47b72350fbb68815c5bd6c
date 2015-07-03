@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f367919d_0778d69f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-03T18:40:06Z",
+      "side": 1,
+      "message": "As pointed out by Stefan in this comment it cannot be upgraded to this version atm: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/68563/7//COMMIT_MSG@7",
+      "revId": "3cdb2358387060b7ac47b72350fbb68815c5bd6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -98,4 +98,16 @@ public final class AccountGroupByIdAud {
     removedBy = deleter;
     removedOn = when;
   }
+
+  public Account.Id getAddedBy() {
+    return addedBy;
+  }
+
+  public Account.Id getRemovedBy() {
+    return removedBy;
+  }
+
+  public Timestamp getRemovedOn() {
+    return removedOn;
+  }
 }

@@ -592,6 +592,89 @@ describes the new owner group.
   }
 ----
 
+[[get-audit-log]]
+=== Get Audit Log
+--
+'GET /groups/link:#group-id[\{group-id\}]/log.audit'
+--
+
+Gets the audit log of a Gerrit internal group.
+
+.Request
+----
+  GET /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/log.audit HTTP/1.0
+----
+
+As response a list of link:#group-audit-event-info[GroupAuditEventInfo]
+entities is returned that describes the audit events of the group. The
+returned audit events are sorted by date in reverse order so that the
+newest audit event comes first.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "member": {
+        "url": "#/admin/groups/uuid-fdda826a0815859ab48d22a05a43472f0f55f89a",
+        "options": {},
+        "group_id": 3,
+        "owner": "Administrators",
+        "owner_id": "e56678641565e7f59dd5c6878f5bcbc842bf150a",
+        "id": "fdda826a0815859ab48d22a05a43472f0f55f89a",
+        "name": "MyGroup"
+      },
+      "type": "REMOVE_GROUP",
+      "user": {
+        "_account_id": 1000000,
+        "name": "Administrator",
+        "email": "admin@example.com",
+        "username": "admin"
+      },
+      "date": "2015-07-03 09:22:26.348000000"
+    },
+    {
+      "member": {
+        "url": "#/admin/groups/uuid-fdda826a0815859ab48d22a05a43472f0f55f89a",
+        "options": {},
+        "group_id": 3,
+        "owner": "Administrators",
+        "owner_id": "e56678641565e7f59dd5c6878f5bcbc842bf150a",
+        "id": "fdda826a0815859ab48d22a05a43472f0f55f89a",
+        "name": "MyGroup"
+      },
+      "type": "ADD_GROUP",
+      "user": {
+        "_account_id": 1000000,
+        "name": "Administrator",
+        "email": "admin@example.com",
+        "username": "admin"
+      },
+      "date": "2015-07-03 08:43:36.592000000"
+    },
+    {
+      "member": {
+        "_account_id": 1000000,
+        "name": "Administrator",
+        "email": "admin@example.com",
+        "username": "admin"
+      },
+      "type": "ADD_USER",
+      "user": {
+        "_account_id": 1000001,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "username": "jdoe"
+      },
+      "date": "2015-07-01 13:36:36.602000000"
+    }
+  ]
+----
+
 [[group-member-endpoints]]
 == Group Member Endpoints
 
@@ -1107,6 +1190,38 @@ Group name that uniquely identifies one group.
 
 [[json-entities]]
 == JSON Entities
+
+[[group-audit-event-info]]
+=== GroupAuditEventInfo
+The `GroupAuditEventInfo` entity contains information about an audit
+event of a group.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`member`  |
+The group member that is added/removed. If `type` is `ADD_USER` or
+`REMOVE_USER` the member is returned as detailed
+link:rest-api-accounts.html#account-info[AccountInfo] entity, if `type`
+is `ADD_GROUP` or `REMOVE_GROUP` the member is returned as
+link:#group-info[GroupInfo] entity.
+|`type`    |
+The event type, can be: `ADD_USER`, `REMOVE_USER`, `ADD_GROUP` or
+`REMOVE_GROUP`.
+
+`ADD_USER`: A user was added as member to the group.
+
+`REMOVE_USER`: A user member was removed from the group.
+
+`ADD_GROUP`: A group was included as member in the group.
+
+`REMOVE_GROUP`: An included group was removed from the group.
+|`user`    |
+The user that did the add/remove as detailed
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`date`    |
+The timestamp of the event.
+|======================
 
 [[group-info]]
 === GroupInfo

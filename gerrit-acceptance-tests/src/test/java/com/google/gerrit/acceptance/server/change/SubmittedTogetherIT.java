@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.ProjectConfig;
 
 import org.eclipse.jgit.lib.Repository;

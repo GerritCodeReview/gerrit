@@ -23,7 +23,6 @@ import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;

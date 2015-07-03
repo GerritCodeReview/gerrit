@@ -123,7 +123,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email;
-    in.waitForMerge = true;
     gApi.changes()
         .id(project.get() + "~master~" + r.getChangeId())
         .current()

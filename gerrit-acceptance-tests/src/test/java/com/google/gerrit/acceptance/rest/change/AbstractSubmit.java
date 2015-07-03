@@ -221,7 +221,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private void submit(String changeId, int expectedStatus) throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
-    subm.waitForMerge = false;
     RestResponse r =
         adminSession.post("/changes/" + changeId + "/submit", subm);
     assertThat(r.getStatusCode()).isEqualTo(expectedStatus);

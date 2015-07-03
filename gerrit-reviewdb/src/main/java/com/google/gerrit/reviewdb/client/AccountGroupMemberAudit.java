@@ -103,4 +103,16 @@ public final class AccountGroupMemberAudit {
     removedBy = addedBy;
     removedOn = key.addedOn;
   }
+
+  public Account.Id getAddedBy() {
+    return addedBy;
+  }
+
+  public Account.Id getRemovedBy() {
+    return removedBy;
+  }
+
+  public Timestamp getRemovedOn() {
+    return removedOn;
+  }
 }

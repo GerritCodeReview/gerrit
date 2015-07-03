@@ -68,6 +68,7 @@ public interface AdminConstants extends Constants {
   String headingParentProjectName();
   String columnProjectName();
   String headingAgreements();
+  String headingAuditLog();
 
   String headingProjectSubmitType();
   String projectSubmitType_FAST_FORWARD_ONLY();
@@ -89,6 +90,13 @@ public interface AdminConstants extends Constants {
   String columnGroupNotifications();
   String columnGroupVisibleToAll();
 
+  String columnDate();
+  String columnType();
+  String columnByUser();
+
+  String typeAdded();
+  String typeRemoved();
+
   String columnBranchName();
   String columnBranchRevision();
   String initialRevision();
@@ -104,6 +112,7 @@ public interface AdminConstants extends Constants {
   String createGroupTitle();
   String groupTabGeneral();
   String groupTabMembers();
+  String groupTabAuditLog();
   String projectListTitle();
   String projectFilter();
   String createProjectTitle();

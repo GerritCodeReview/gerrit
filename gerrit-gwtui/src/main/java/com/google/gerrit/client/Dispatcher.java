@@ -50,6 +50,7 @@ import com.google.gerrit.client.account.MyWatchedProjectsScreen;
 import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
+import com.google.gerrit.client.admin.AccountGroupAuditLogScreen;
 import com.google.gerrit.client.admin.AccountGroupInfoScreen;
 import com.google.gerrit.client.admin.AccountGroupMembersScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
@@ -831,6 +832,8 @@ public class Dispatcher {
               Gerrit.display(token, new AccountGroupInfoScreen(group, token));
             } else if (AccountGroupScreen.MEMBERS.equals(panel)) {
               Gerrit.display(token, new AccountGroupMembersScreen(group, token));
+            } else if (AccountGroupScreen.AUDIT_LOG.equals(panel)) {
+              Gerrit.display(token, new AccountGroupAuditLogScreen(group, token));
             } else {
               Gerrit.display(token, new NotFoundScreen());
             }

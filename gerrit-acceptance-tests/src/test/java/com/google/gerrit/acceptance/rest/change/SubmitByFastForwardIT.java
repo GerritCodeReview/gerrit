@@ -61,7 +61,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   @Test
   public void submitTwoChangesWithFastForward_missingDependency() throws Exception {
     RevCommit oldHead = getRemoteHead();
-    PushOneCommit.Result change = createChange();
+    createChange();
     PushOneCommit.Result change2 = createChange();
 
     submitWithConflict(change2.getChangeId());

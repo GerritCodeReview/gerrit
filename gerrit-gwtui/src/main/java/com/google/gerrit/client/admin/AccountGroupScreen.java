@@ -25,15 +25,20 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 public abstract class AccountGroupScreen extends MenuScreen {
   public static final String INFO = "info";
   public static final String MEMBERS = "members";
+  public static final String AUDIT_LOG = "audit-log";
 
   private final GroupInfo group;
+  private final String token;
   private final String membersTabToken;
+  private final String auditLogTabToken;
 
   public AccountGroupScreen(final GroupInfo toShow, final String token) {
     setRequiresSignIn(true);
 
     this.group = toShow;
+    this.token = token;
     this.membersTabToken = getTabToken(token, MEMBERS);
+    this.auditLogTabToken = getTabToken(token, AUDIT_LOG);
 
     link(Util.C.groupTabGeneral(), getTabToken(token, INFO));
     link(Util.C.groupTabMembers(), membersTabToken,
@@ -56,6 +61,11 @@ public abstract class AccountGroupScreen extends MenuScreen {
     GroupApi.isGroupOwner(group.name(), new GerritCallback<Boolean>() {
       @Override
       public void onSuccess(Boolean result) {
+        if (result) {
+          link(Util.C.groupTabAuditLog(), auditLogTabToken,
+              AccountGroup.isInternalGroup(group.getGroupUUID()));
+          setToken(token);
+        }
         display(group, result);
       }
     });

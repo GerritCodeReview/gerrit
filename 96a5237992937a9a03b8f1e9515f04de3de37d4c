@@ -22,6 +22,30 @@
       "revId": "96a5237992937a9a03b8f1e9515f04de3de37d4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e3e94b_015baa56",
+        "filename": "Documentation/cmd-index-start.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-07-03T20:14:15Z",
+      "side": 1,
+      "message": "Done, I reworked the code to not allow to restart the indexer while it is running. The user will get a an error message on the command line if he does, let me know if you still want to add this to the documentation or the output of the command is enough.",
+      "parentUuid": "13650596_88acd7ab",
+      "range": {
+        "startLine": 18,
+        "startChar": 20,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "96a5237992937a9a03b8f1e9515f04de3de37d4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

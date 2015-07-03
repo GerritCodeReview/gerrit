@@ -34,6 +34,24 @@
       "revId": "affe5e944fdfc87ee2d41ccca6e47e1a8677647a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13650596_c8896f32",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-03T11:00:29Z",
+      "side": 1,
+      "message": "removed 222-225",
+      "parentUuid": "d9d46c30_76cb9094",
+      "revId": "affe5e944fdfc87ee2d41ccca6e47e1a8677647a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

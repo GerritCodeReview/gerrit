@@ -193,6 +193,12 @@ public class GroupApi {
     }
   }
 
+  /** Add members to a group. */
+  public static void getAuditLog(AccountGroup.UUID group,
+      AsyncCallback<JsArray<GroupAuditEventInfo>> cb) {
+    group(group).view("log.audit").get(cb);
+  }
+
   private static RestApi members(AccountGroup.UUID group) {
     return group(group).view("members");
   }

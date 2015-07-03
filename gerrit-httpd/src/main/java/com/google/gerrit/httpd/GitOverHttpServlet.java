@@ -91,7 +91,7 @@ public class GitOverHttpServlet extends GitServlet {
   public static final String URL_REGEX;
   static {
     StringBuilder url = new StringBuilder();
-    url.append("^(?:/p/|/)(.*/(?:info/refs");
+    url.append("^(?:/a)?(?:/p/|/)(.*/(?:info/refs");
     for (String name : GitSmartHttpTools.VALID_SERVICES) {
       url.append('|').append(name);
     }

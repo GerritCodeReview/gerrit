@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7353a1ca_e33c92f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-03T19:16:52Z",
+      "side": 1,
+      "message": "This is the result of a breaking change in 2.0. \"_id\" may not be changed.\n\n[1] https://www.elastic.co/guide/en/elasticsearch/reference/master/_mappings.html#_meta_fields_have_limited_configuration",
+      "range": {
+        "startLine": 67,
+        "startChar": 48,
+        "endLine": 67,
+        "endChar": 50
+      },
+      "revId": "8a25649cb3265b67f90d5e794748ffb235dce24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

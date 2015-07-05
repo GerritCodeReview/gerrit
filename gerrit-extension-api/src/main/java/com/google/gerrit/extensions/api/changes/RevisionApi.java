@@ -29,7 +29,6 @@ public interface RevisionApi {
   void delete() throws RestApiException;
   void review(ReviewInput in) throws RestApiException;
 
-  /** {@code submit} with {@link SubmitInput#waitForMerge} set to true. */
   void submit() throws RestApiException;
   void submit(SubmitInput in) throws RestApiException;
   void publish() throws RestApiException;

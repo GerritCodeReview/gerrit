@@ -152,7 +152,6 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public void submit() throws RestApiException {
     SubmitInput in = new SubmitInput();
-    in.waitForMerge = true;
     submit(in);
   }
 

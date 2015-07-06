@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
@@ -23,8 +25,11 @@ import com.google.gerrit.sshd.SuExec;
 
 /** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {
-  public DefaultCommandModule(boolean slave) {
+  private final DownloadConfig downloadConfig;
+
+  public DefaultCommandModule(boolean slave, DownloadConfig downloadCfg) {
     slaveMode = slave;
+    downloadConfig = downloadCfg;
   }
 
   @Override
@@ -68,10 +73,12 @@ public class DefaultCommandModule extends CommandModule {
     command("scp").to(ScpCommand.class);
 
     // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms
-    command("git-upload-pack").to(Commands.key(git, "upload-pack"));
-    command(git, "upload-pack").to(Upload.class);
-    command("git-upload-archive").to(Commands.key(git, "upload-archive"));
-    command(git, "upload-archive").to(UploadArchive.class);
+    if (sshEnabled()) {
+      command("git-upload-pack").to(Commands.key(git, "upload-pack"));
+      command(git, "upload-pack").to(Upload.class);
+      command("git-upload-archive").to(Commands.key(git, "upload-archive"));
+      command(git, "upload-archive").to(UploadArchive.class);
+    }
     command("suexec").to(SuExec.class);
     listener().to(ShowCaches.StartupListener.class);
 
@@ -87,9 +94,11 @@ public class DefaultCommandModule extends CommandModule {
       command(git, "receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
       command(gerrit, "test-submit").to(NotSupportedInSlaveModeFailureCommand.class);
     } else {
-      command("git-receive-pack").to(Commands.key(git, "receive-pack"));
-      command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
-      command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
+      if (sshEnabled()) {
+        command("git-receive-pack").to(Commands.key(git, "receive-pack"));
+        command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
+        command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
+      }
       command(gerrit, "test-submit").toProvider(
           new DispatchCommandProvider(testSubmit));
     }
@@ -113,5 +122,11 @@ public class DefaultCommandModule extends CommandModule {
     command(logging, ListLoggingLevelCommand.class);
     alias(logging, "ls", ListLoggingLevelCommand.class);
     alias(logging, "set", SetLoggingLevelCommand.class);
+  }
+
+  private boolean sshEnabled() {
+    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.SSH)
+        || downloadConfig.getDownloadSchemes().contains(
+            DownloadScheme.DEFAULT_DOWNLOADS);
   }
 }

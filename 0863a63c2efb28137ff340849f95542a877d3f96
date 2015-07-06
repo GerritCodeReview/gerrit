@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5365bdc2_daac25ad",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-06T06:48:37Z",
+      "side": 1,
+      "message": "Note: these are not merged yet.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 9
+      },
+      "revId": "0863a63c2efb28137ff340849f95542a877d3f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

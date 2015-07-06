@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f367919d_278b9af4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-06T08:10:55Z",
+      "side": 1,
+      "message": "\"list of audit events\"?",
+      "range": {
+        "startLine": 140,
+        "startChar": 13,
+        "endLine": 140,
+        "endChar": 25
+      },
+      "revId": "fdaf30d049e1bed9e2621a1c9e1cc4cc59fedcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f367919d_c76abe99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-06T08:10:55Z",
+      "side": 1,
+      "message": "get?",
+      "range": {
+        "startLine": 271,
+        "startChar": 41,
+        "endLine": 271,
+        "endChar": 45
+      },
+      "revId": "fdaf30d049e1bed9e2621a1c9e1cc4cc59fedcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

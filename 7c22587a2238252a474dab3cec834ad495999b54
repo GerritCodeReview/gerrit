@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9347353e_2c1fb38f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:21:46Z",
+      "side": 1,
+      "message": "Not sure what you meant by \"acquire\" here. I would have said \"add\", except it\u0027s not being added, it\u0027s being moved from SubmoduleSubscriptionsIT. So perhaps:\n\n Move pushChangeTo from SubmoduleSubscriptionsIT into superclass",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "7c22587a2238252a474dab3cec834ad495999b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_4c1cff98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:21:46Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "7c22587a2238252a474dab3cec834ad495999b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_6e028f3f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:21:46Z",
+      "side": 1,
+      "message": "Unnecessary blank line",
+      "revId": "7c22587a2238252a474dab3cec834ad495999b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_6c19bba7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:21:46Z",
+      "side": 1,
+      "message": "aka incrementAndGet",
+      "range": {
+        "startLine": 50,
+        "startChar": 52,
+        "endLine": 50,
+        "endChar": 65
+      },
+      "revId": "7c22587a2238252a474dab3cec834ad495999b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

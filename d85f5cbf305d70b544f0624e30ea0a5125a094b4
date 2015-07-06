@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9347353e_cc5aaf51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done, right. Though originally I intended to have only two methods visible outside that class (updating the submodule subscriptions and updating superprojects each with one method).\n\nIf in the future we want to have any atomicity guarantees (maybe provided in `updateSubmoduleSubscriptions(Set\u003cBranch.NameKey\u003e)`, we can still change it back.",
+      "parentUuid": "9347353e_0cc9179d",
+      "range": {
+        "startLine": 1002,
+        "startChar": 26,
+        "endLine": 1002,
+        "endChar": 41
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_4cd31f49",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 45
@@ -36,6 +60,24 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Eventually should we consider failing the merge here?\n\nI guess maybe not if we don\u0027t have any atomicity guarantees.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_8e509b33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Yes we should do that eventually, though I would not consider that the scope of this change. (Think of this topic as a \"user visible feature\" to allow different submodules be updated at the same time. This is not a \"refactoring under the hood, improving atomicity\")",
+      "parentUuid": "9347353e_4cd31f49",
       "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "9347353e_ec5f6b3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_eec3df7b",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_6cd0db3b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 45
@@ -70,6 +130,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "While you\u0027re here, I don\u0027t think anybody ever says \"gitLinks\", it\u0027s either \"gitlinks\" or \"git links\"",
+      "range": {
+        "startLine": 1021,
+        "startChar": 20,
+        "endLine": 1021,
+        "endChar": 28
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_0c659713",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_6cd0db3b",
       "range": {
         "startLine": 1021,
         "startChar": 20,
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "9347353e_2c62530c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_0ec90b9d",
+      "range": {
+        "startLine": 1022,
+        "startChar": 13,
+        "endLine": 1022,
+        "endChar": 26
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_ace00310",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 45
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "9347353e_ac556322",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_ace00310",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_ccd54f29",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 45
@@ -133,6 +259,24 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "This is redundant, log.error checks the log level. It is only necessary if one of the arguments to the formatter is itself potentially expensive to construct.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_6e19afa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_ccd54f29",
       "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_4e1cf398",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_4ed31349",
+      "range": {
+        "startLine": 663,
+        "startChar": 44,
+        "endLine": 663,
+        "endChar": 49
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_2ec6c78b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_ae555722",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "I made it a Provider for now as it has state.",
+      "parentUuid": "d33d2da0_2ec6c78b",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_8cdb475f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -190,6 +376,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Why protected? Is someone subclassing this?",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 11
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_4c6f9ff3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done, I forgot about the subtle difference of default-package and protected.",
+      "parentUuid": "9347353e_8cdb475f",
       "range": {
         "startLine": 107,
         "startChar": 2,
@@ -242,6 +452,48 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_ce5aa351",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_6ed0cf3b",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_6c6c5bfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_8edb3b5f",
+      "range": {
+        "startLine": 120,
+        "startChar": 18,
+        "endLine": 120,
+        "endChar": 24
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_ecda0b58",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -253,6 +505,24 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Use try-with-resources to close this",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_8c37c70d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_ecda0b58",
       "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -299,6 +569,48 @@
     },
     {
       "key": {
+        "uuid": "9347353e_ac3c83f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_2cedf303",
+      "range": {
+        "startLine": 123,
+        "startChar": 19,
+        "endLine": 123,
+        "endChar": 35
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_ee5f5f3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_0cf037d9",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_4cea3fed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -310,6 +622,24 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Long line",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_ac8e4336",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_4cea3fed",
       "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -356,6 +686,48 @@
     },
     {
       "key": {
+        "uuid": "9347353e_cc31cf19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_6ce7fb21",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_0e658b13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_8c06e756",
+      "range": {
+        "startLine": 184,
+        "startChar": 18,
+        "endLine": 184,
+        "endChar": 24
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_aee0f70f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -367,6 +739,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Nit: \u003d on end of previous line",
+      "range": {
+        "startLine": 188,
+        "startChar": 10,
+        "endLine": 188,
+        "endChar": 11
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_cc838f0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_aee0f70f",
       "range": {
         "startLine": 188,
         "startChar": 10,
@@ -402,6 +798,30 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_2e62470c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "We cannot use putAll here easily, as we need to have access to `sub.getSuperProject()` for the first parameter here, but `sub` would go away if we were to replace the for loop.\n\nMaybe some magic with a `Function()` to get back the correct pairs, though I don\u0027t see it yet.",
+      "parentUuid": "9347353e_ac0ba35f",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 9
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_ced54329",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -425,6 +845,30 @@
     },
     {
       "key": {
+        "uuid": "9347353e_ec368b0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_ced54329",
+      "range": {
+        "startLine": 196,
+        "startChar": 32,
+        "endLine": 196,
+        "endChar": 47
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_cc10ef8a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -436,6 +880,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Update subscribers.",
+      "range": {
+        "startLine": 197,
+        "startChar": 9,
+        "endLine": 197,
+        "endChar": 27
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_4e6f93f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_cc10ef8a",
       "range": {
         "startLine": 197,
         "startChar": 9,
@@ -488,6 +956,48 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_6e6c4ffe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_eedaff57",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_0c4cb793",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "The cases differed before (the case for the SubmoduleException had an additional  `incorrectSubscriptions.add(s);` here (which is logically part of the updateSubmoduleSupscriptions and not of the updateSuperProject)\n\nThe removal is now part of updateGitlinks.",
+      "parentUuid": "d33d2da0_0ef02bd9",
+      "range": {
+        "startLine": 206,
+        "startChar": 58,
+        "endLine": 206,
+        "endChar": 85
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_2eede703",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -499,6 +1009,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Update",
+      "range": {
+        "startLine": 217,
+        "startChar": 5,
+        "endLine": 217,
+        "endChar": 17
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_8e37bb0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_2eede703",
       "range": {
         "startLine": 217,
         "startChar": 5,
@@ -534,6 +1068,30 @@
     },
     {
       "key": {
+        "uuid": "9347353e_2c497384",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_4eea33ed",
+      "range": {
+        "startLine": 220,
+        "startChar": 20,
+        "endLine": 220,
+        "endChar": 23
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_6ee7ef21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -545,6 +1103,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Unnecessary final",
+      "range": {
+        "startLine": 223,
+        "startChar": 30,
+        "endLine": 223,
+        "endChar": 35
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_ae3c77f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_6ee7ef21",
       "range": {
         "startLine": 223,
         "startChar": 30,
@@ -574,6 +1156,24 @@
     },
     {
       "key": {
+        "uuid": "9347353e_4c46bf73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_ec15ab77",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_0cfbd7b8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -585,6 +1185,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Unnecessary finals here and below",
+      "range": {
+        "startLine": 244,
+        "startChar": 11,
+        "endLine": 244,
+        "endChar": 16
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_8ca267b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Below (`updateTo`) is required, here is unnecessary.",
+      "parentUuid": "9347353e_0cfbd7b8",
       "range": {
         "startLine": 244,
         "startChar": 11,
@@ -614,6 +1238,24 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_ce31c319",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_2cf893b9",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_8e06db56",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -625,6 +1267,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "resolve() is very fuzzy. Do we intend to support a submodule subscription named \"foo~2^1\"? I wouldn\u0027t think so.\n\nUse subrepo.getRefDatabase().exactRef(s.submodule().get())",
+      "range": {
+        "startLine": 246,
+        "startChar": 42,
+        "endLine": 246,
+        "endChar": 50
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_6c437b62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_8e06db56",
       "range": {
         "startLine": 246,
         "startChar": 42,
@@ -654,6 +1320,24 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_ee367f0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_ae0b975f",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_ce10e38a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -671,6 +1355,24 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_0e4cab93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "`parseCommit` never returns null, this is bogus.\n\nThe intention however was to prevent writing bogus values into the submodule subscription. I do realize this is nuts as we just look up the exact sha1.",
+      "parentUuid": "d33d2da0_ce10e38a",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_4c05df44",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -682,6 +1384,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "s/, null//",
+      "range": {
+        "startLine": 267,
+        "startChar": 43,
+        "endLine": 267,
+        "endChar": 49
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_aca723c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_4c05df44",
       "range": {
         "startLine": 267,
         "startChar": 43,
@@ -717,6 +1443,30 @@
     },
     {
       "key": {
+        "uuid": "9347353e_ccac6fad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_6c029b3f",
+      "range": {
+        "startLine": 273,
+        "startChar": 25,
+        "endLine": 273,
+        "endChar": 26
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_8c2d07d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -728,6 +1478,30 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Is this the most sensible commit message?\n\nIf we update platform/frameworks/base in AOSP, do we want this to say:\n\n Project: android platform/frameworks/base deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\n?",
+      "range": {
+        "startLine": 285,
+        "startChar": 22,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_2e496784",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Actually that would be\n\n    Project: platform/frameworks/base master deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\nassuming `platform/frameworks/base` to be the project name.\nApart from the branch this is the current state of submodule subscriptions, followed by the full commit message after these lines.\n\nPersonally I disagree with having this information recorded into the commit message of the superproject as it seems redundant to me (as you can navigate to the submodule and check the log c0ffee00..deadbeef).\n\nI want to make it configurable eventually. So you can select between\n\n* the current form of very verbose log including the full commit message (similar to git log actually)\n\n* a shortlog similar to `git log --oneline` (or similar to Linus merge messages in linux)\n\n* space efficient (no message except a canonical \"Updated submodules\\n\" commit message title)\n\nIn the first two options we may want to record the topic or a topicletter eventually as well.\n\nTL;DR: I don\u0027t want to change the status quo of submodule update messages in this series, but later.",
+      "parentUuid": "9347353e_8c2d07d3",
       "range": {
         "startLine": 285,
         "startChar": 22,
@@ -757,6 +1531,24 @@
     },
     {
       "key": {
+        "uuid": "9347353e_6c9e1b6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_ac32c32b",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_0efbcbb8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -768,6 +1560,24 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Why this instead of failing the operation?",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_4e46b373",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Failing now",
+      "parentUuid": "d33d2da0_0efbcbb8",
       "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -791,6 +1601,24 @@
     },
     {
       "key": {
+        "uuid": "d33d2da0_6e436f62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_2ef887b9",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_ee159f77",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 45
@@ -802,6 +1630,24 @@
       "writtenOn": "2015-07-06T20:17:54Z",
       "side": 1,
       "message": "Get rid of these and use the log methods directly. We have them in MergeOp only because of prepending the context prefix.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_8c898733",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_ee159f77",
       "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.groups;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.DeleteIncludedGroups;
 import com.google.gerrit.server.group.DeleteMembers;
+import com.google.gerrit.server.group.GetAuditLog;
 import com.google.gerrit.server.group.GetDescription;
 import com.google.gerrit.server.group.GetDetail;
 import com.google.gerrit.server.group.GetGroup;
@@ -67,6 +69,7 @@ class GroupApiImpl implements GroupApi {
   private final ListIncludedGroups listGroups;
   private final AddIncludedGroups addGroups;
   private final DeleteIncludedGroups deleteGroups;
+  private final GetAuditLog getAuditLog;
   private final GroupResource rsrc;
 
   @AssistedInject
@@ -87,6 +90,7 @@ class GroupApiImpl implements GroupApi {
       ListIncludedGroups listGroups,
       AddIncludedGroups addGroups,
       DeleteIncludedGroups deleteGroups,
+      GetAuditLog getAuditLog,
       @Assisted GroupResource rsrc) {
     this.getGroup = getGroup;
     this.getDetail = getDetail;
@@ -104,6 +108,7 @@ class GroupApiImpl implements GroupApi {
     this.listGroups = listGroups;
     this.addGroups = addGroups;
     this.deleteGroups = deleteGroups;
+    this.getAuditLog = getAuditLog;
     this.rsrc = rsrc;
   }
 
@@ -258,4 +263,12 @@ class GroupApiImpl implements GroupApi {
     }
   }
 
+  @Override
+  public List<? extends GroupAuditEventInfo> auditLog() throws RestApiException {
+    try {
+      return getAuditLog.apply(rsrc);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get audit log", e);
+    }
+  }
 }

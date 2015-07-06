@@ -31,6 +31,7 @@ import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
+import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -329,7 +330,8 @@ public class WebAppInitializer extends GuiceServletContextListener
     final List<Module> modules = new ArrayList<>();
     modules.add(sysInjector.getInstance(SshModule.class));
     modules.add(new SshHostKeyModule());
-    modules.add(new DefaultCommandModule(false));
+    modules.add(new DefaultCommandModule(false,
+        sysInjector.getInstance(DownloadConfig.class)));
     return sysInjector.createChildInjector(modules);
   }
 

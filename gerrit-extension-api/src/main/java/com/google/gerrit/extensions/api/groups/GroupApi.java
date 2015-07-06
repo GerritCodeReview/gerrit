@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.groups;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -132,4 +133,12 @@ public interface GroupApi {
    * @throws RestApiException
    */
   void removeGroups(String... groups) throws RestApiException;
+
+  /**
+   * Returns the audit log of the group.
+   *
+   * @return list of audit events of the group.
+   * @throws RestApiException
+   */
+  List<? extends GroupAuditEventInfo> auditLog() throws RestApiException;
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "739481c1_bb32072c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-06T01:37:09Z",
+      "side": 1,
+      "message": "Should this be synchronized?",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5365bdc2_fa2c89d3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-06T01:37:09Z",
+      "side": 1,
+      "message": "Same question as the other change.  What if we run this when using an index other than Lucene?",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

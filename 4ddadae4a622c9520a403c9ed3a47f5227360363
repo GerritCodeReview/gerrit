@@ -16,6 +16,23 @@
       "revId": "4ddadae4a622c9520a403c9ed3a47f5227360363",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f367919d_a750ead7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexActivateCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-06T11:06:33Z",
+      "side": 1,
+      "message": "the activateLatestIndex() can also return true if a reindexing is already running... therefore, this message may be misleading in such a case.",
+      "revId": "4ddadae4a622c9520a403c9ed3a47f5227360363",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

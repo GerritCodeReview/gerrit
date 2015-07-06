@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "739481c1_9ba2abb7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/GroupAuditEventInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-06T09:35:29Z",
+      "side": 1,
+      "message": "nit: unnecessary semicolon",
+      "range": {
+        "startLine": 21,
+        "startChar": 50,
+        "endLine": 21,
+        "endChar": 51
+      },
+      "revId": "cb3920a7730da1588c376769870bc20c8b224c51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

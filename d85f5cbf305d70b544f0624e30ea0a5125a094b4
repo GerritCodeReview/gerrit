@@ -1,0 +1,810 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9347353e_0cc9179d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Constructing this set is unnecessary, you added a method updateSubmoduleSubscriptions(Branch.NameKey)",
+      "range": {
+        "startLine": 1002,
+        "startChar": 26,
+        "endLine": 1002,
+        "endChar": 41
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_4cd31f49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Eventually should we consider failing the merge here?\n\nI guess maybe not if we don\u0027t have any atomicity guarantees.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_eec3df7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Can this instance be reused between method calls here and above?",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_6cd0db3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "While you\u0027re here, I don\u0027t think anybody ever says \"gitLinks\", it\u0027s either \"gitlinks\" or \"git links\"",
+      "range": {
+        "startLine": 1021,
+        "startChar": 20,
+        "endLine": 1021,
+        "endChar": 28
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_0ec90b9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Missing space",
+      "range": {
+        "startLine": 1022,
+        "startChar": 13,
+        "endLine": 1022,
+        "endChar": 26
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_ace00310",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_ccd54f29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "This is redundant, log.error checks the log level. It is only necessary if one of the arguments to the formatter is itself potentially expensive to construct.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_4ed31349",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "\"Check\" implies a read-only operation. Perhaps \"Can\u0027t update submodules\"",
+      "range": {
+        "startLine": 663,
+        "startChar": 44,
+        "endLine": 663,
+        "endChar": 49
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_2ec6c78b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "If this takes no args, there\u0027s no point in having an assisted factory.\n\nIf there is state and it can\u0027t be a singleton, use a Provider at the call sites.\n\nIf there is no state, just make it a singleton.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_8cdb475f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Why protected? Is someone subclassing this?",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 11
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_6ed0cf3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Why reopen the schema instead of passing one in?\n\nYou can still pass in a ReviewDb instance to one of the public methods even if you want to avoid holding on to it in this class (though I\u0027m not sure that\u0027s even necessary here).",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_8edb3b5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we typically call ReviewDbs \"schema\", just \"db\"",
+      "range": {
+        "startLine": 120,
+        "startChar": 18,
+        "endLine": 120,
+        "endChar": 24
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_ecda0b58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Use try-with-resources to close this",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_2cedf303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Optional: If you\u0027re not actually using any of the CodeReviewCommit features then this can just be new RevWalk(repo)",
+      "range": {
+        "startLine": 123,
+        "startChar": 19,
+        "endLine": 123,
+        "endChar": 35
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_0cf037d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Use try-with-resources to close this",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_4cea3fed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_6ce7fb21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Why reopening?",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_8c06e756",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "db",
+      "range": {
+        "startLine": 184,
+        "startChar": 18,
+        "endLine": 184,
+        "endChar": 24
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_aee0f70f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Nit: \u003d on end of previous line",
+      "range": {
+        "startLine": 188,
+        "startChar": 10,
+        "endLine": 188,
+        "endChar": 11
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_ac0ba35f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "targets.putAll(\n     sub.getSuperProject(),\n     db.submoduleSubscriptions().bySubmodule(updatedBranch));",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 9
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_ced54329",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Unnecessary, just addAll(updatedBranches)",
+      "range": {
+        "startLine": 196,
+        "startChar": 32,
+        "endLine": 196,
+        "endChar": 47
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_cc10ef8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Update subscribers.",
+      "range": {
+        "startLine": 197,
+        "startChar": 9,
+        "endLine": 197,
+        "endChar": 27
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_0ef02bd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Why are these cases different? Do we expect SubmoduleExceptions to be so common that including the stack trace would spam the logs?",
+      "range": {
+        "startLine": 206,
+        "startChar": 58,
+        "endLine": 206,
+        "endChar": 85
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_eedaff57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_2eede703",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Update",
+      "range": {
+        "startLine": 217,
+        "startChar": 5,
+        "endLine": 217,
+        "endChar": 17
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_4eea33ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "the (or omit entirely)",
+      "range": {
+        "startLine": 220,
+        "startChar": 20,
+        "endLine": 220,
+        "endChar": 23
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_6ee7ef21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "range": {
+        "startLine": 223,
+        "startChar": 30,
+        "endLine": 223,
+        "endChar": 35
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_ec15ab77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Unnecessary final and long line",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_0cfbd7b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Unnecessary finals here and below",
+      "range": {
+        "startLine": 244,
+        "startChar": 11,
+        "endLine": 244,
+        "endChar": 16
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_2cf893b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Must be closed.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_8e06db56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "resolve() is very fuzzy. Do we intend to support a submodule subscription named \"foo~2^1\"? I wouldn\u0027t think so.\n\nUse subrepo.getRefDatabase().exactRef(s.submodule().get())",
+      "range": {
+        "startLine": 246,
+        "startChar": 42,
+        "endLine": 246,
+        "endChar": 50
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_ae0b975f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Must be closed.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_ce10e38a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "What does this case mean?",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_4c05df44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "s/, null//",
+      "range": {
+        "startLine": 267,
+        "startChar": 43,
+        "endLine": 267,
+        "endChar": 49
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_6c029b3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "submodule",
+      "range": {
+        "startLine": 273,
+        "startChar": 25,
+        "endLine": 273,
+        "endChar": 26
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_8c2d07d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Is this the most sensible commit message?\n\nIf we update platform/frameworks/base in AOSP, do we want this to say:\n\n Project: android platform/frameworks/base deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\n?",
+      "range": {
+        "startLine": 285,
+        "startChar": 22,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9347353e_ac32c32b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Inline.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_0efbcbb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Why this instead of failing the operation?",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_2ef887b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_ee159f77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:17:54Z",
+      "side": 1,
+      "message": "Get rid of these and use the log methods directly. We have them in MergeOp only because of prepending the context prefix.",
+      "revId": "d85f5cbf305d70b544f0624e30ea0a5125a094b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

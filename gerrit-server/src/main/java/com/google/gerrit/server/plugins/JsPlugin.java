@@ -58,7 +58,7 @@ class JsPlugin extends Plugin {
   }
 
   @Override
-  void stop(PluginGuiceEnvironment env) {
+  protected void stop(PluginGuiceEnvironment env) {
     if (manager != null) {
       manager.stop();
       httpInjector = null;
@@ -83,7 +83,7 @@ class JsPlugin extends Plugin {
   }
 
   @Override
-  boolean canReload() {
+  protected boolean canReload() {
     return true;
   }
 

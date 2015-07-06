@@ -151,7 +151,7 @@ public class ServerPlugin extends Plugin {
   }
 
   @Override
-  boolean canReload() {
+  protected boolean canReload() {
     Attributes main = manifest.getMainAttributes();
     String v = main.getValue("Gerrit-ReloadMode");
     if (Strings.isNullOrEmpty(v) || "reload".equalsIgnoreCase(v)) {
@@ -167,7 +167,7 @@ public class ServerPlugin extends Plugin {
   }
 
   @Override
-  void start(PluginGuiceEnvironment env) throws Exception {
+  protected void start(PluginGuiceEnvironment env) throws Exception {
     RequestContext oldContext = env.enter(this);
     try {
       startPlugin(env);
@@ -241,7 +241,7 @@ public class ServerPlugin extends Plugin {
   }
 
   @Override
-  void stop(PluginGuiceEnvironment env) {
+  protected void stop(PluginGuiceEnvironment env) {
     if (serverManager != null) {
       RequestContext oldContext = env.enter(this);
       try {

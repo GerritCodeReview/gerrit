@@ -130,9 +130,9 @@ public abstract class Plugin {
     return disabled;
   }
 
-  abstract void start(PluginGuiceEnvironment env) throws Exception;
+  protected abstract void start(PluginGuiceEnvironment env) throws Exception;
 
-  abstract void stop(PluginGuiceEnvironment env);
+  protected abstract void stop(PluginGuiceEnvironment env);
 
   public abstract PluginContentScanner getContentScanner();
 
@@ -168,7 +168,7 @@ public abstract class Plugin {
     return "Plugin [" + name + "]";
   }
 
-  abstract boolean canReload();
+  protected abstract boolean canReload();
 
   boolean isModified(Path jar) {
     return snapshot.lastModified() != lastModified(jar);

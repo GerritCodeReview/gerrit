@@ -145,7 +145,7 @@ public class PluginGuiceEnvironment {
         || (httpMaps != null && httpMaps.containsKey(type));
   }
 
-  Module getSysModule() {
+  public Module getSysModule() {
     return sysModule;
   }
 
@@ -210,15 +210,15 @@ public class PluginGuiceEnvironment {
     return httpGen.get();
   }
 
-  RequestContext enter(Plugin plugin) {
+  public RequestContext enter(Plugin plugin) {
     return local.setContext(new PluginRequestContext(plugin.getPluginUser()));
   }
 
-  void exit(RequestContext old) {
+  public void exit(RequestContext old) {
     local.setContext(old);
   }
 
-  void onStartPlugin(Plugin plugin) {
+  public void onStartPlugin(Plugin plugin) {
     RequestContext oldContext = enter(plugin);
     try {
       attachItem(sysItems, plugin.getSysInjector(), plugin);

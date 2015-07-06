@@ -266,7 +266,7 @@ class WalkSorter {
   }
 
   @AutoValue
-  static abstract class PatchSetData {
+  abstract static class PatchSetData {
     @VisibleForTesting
     static PatchSetData create(ChangeData cd, PatchSet ps, RevCommit commit) {
       return new AutoValue_WalkSorter_PatchSetData(cd, ps, commit);

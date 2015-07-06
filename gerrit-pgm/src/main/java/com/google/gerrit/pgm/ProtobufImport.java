@@ -136,7 +136,7 @@ public class ProtobufImport extends SiteProgram {
   }
 
   @AutoValue
-  static abstract class Relation {
+  abstract static class Relation {
     private static Relation create(RelationModel model, ReviewDb db)
         throws IllegalAccessException, InvocationTargetException,
         NoSuchMethodException, ClassNotFoundException {

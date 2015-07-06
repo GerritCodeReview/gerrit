@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "98059200_7cb41923",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33d2da0_ae32b72b",
+      "revId": "dced9de31093230b5422d80560866f14bf4671a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9347353e_8c50a733",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 44
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_7db41723",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9347353e_8c50a733",
+      "revId": "dced9de31093230b5422d80560866f14bf4671a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_ce2703ed",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 44
@@ -47,6 +83,24 @@
       "writtenOn": "2015-07-06T20:23:25Z",
       "side": 1,
       "message": "How is this different from pushChangeTo which you added in the parent commit?",
+      "revId": "dced9de31093230b5422d80560866f14bf4671a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_5cb95d17",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:43:07Z",
+      "side": 1,
+      "message": "The `pushChangeTo` method is pushing directly into the repo `refs/heads/master`, while this is pushing to the magic branch `refs/for/master` waiting for review.\n\nI moved this method into the parent commit while keeping its naming scheme, (push \u003d direct integration into the branch history, while uploadTo can be anything, in this case uploading for review).",
+      "parentUuid": "d33d2da0_ce2703ed",
       "revId": "dced9de31093230b5422d80560866f14bf4671a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -46,6 +46,30 @@
       "revId": "96a5237992937a9a03b8f1e9515f04de3de37d4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f367919d_c7515edf",
+        "filename": "Documentation/cmd-index-start.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-06T11:01:41Z",
+      "side": 1,
+      "message": "This is fine for me. I would vote for also documenting this behavior here.\n\nAs a further development we could also thing about the \"--force\" option of the start which would stop the already running index and start it from the beginning. This can be useful when we see (in the error_log) that the indexing will anyway need to be restarted.\nAlternatively, instead of \"--force\" we could have another command \"index stop\"\n\nThis can be done in follow up change(s).",
+      "parentUuid": "33e3e94b_015baa56",
+      "range": {
+        "startLine": 18,
+        "startChar": 20,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "96a5237992937a9a03b8f1e9515f04de3de37d4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

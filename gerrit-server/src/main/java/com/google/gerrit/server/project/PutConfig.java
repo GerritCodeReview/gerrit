@@ -79,7 +79,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   }
 
   private final Config gerritConfig;
-  private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final ProjectCache projectCache;
   private final GitRepositoryManager gitMgr;
   private final ProjectState.Factory projectStateFactory;
@@ -93,7 +93,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
 
   @Inject
   PutConfig(@GerritServerConfig Config gerritConfig,
-      MetaDataUpdate.User metaDataUpdateFactory,
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
       GitRepositoryManager gitMgr,
       ProjectState.Factory projectStateFactory,
@@ -138,7 +138,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
 
     final MetaDataUpdate md;
     try {
-      md = metaDataUpdateFactory.create(projectName);
+      md = metaDataUpdateFactory.get().create(projectName);
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get());
     } catch (IOException e) {

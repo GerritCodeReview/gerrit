@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f367919d_e756e2d4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-06T11:01:41Z",
+      "side": 1,
+      "message": "Does this mean that it is not possible to trigger reindexing when the index version is the latest? Why should this be forbidden? Maybe a site admin activated the latest index version although there were some changes where the indexing failed and would now like to (re)start the indexing again.",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "739481c1_bb32072c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
         "patchSetId": 4
@@ -13,6 +30,24 @@
       "writtenOn": "2015-07-06T01:37:09Z",
       "side": 1,
       "message": "Should this be synchronized?",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13650596_6843a314",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-06T11:01:41Z",
+      "side": 1,
+      "message": "I think it must be synchronized as other thread(s) will access this variable.",
+      "parentUuid": "739481c1_bb32072c",
       "revId": "52071e5dac17062df3ead14ba942228b1c695676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

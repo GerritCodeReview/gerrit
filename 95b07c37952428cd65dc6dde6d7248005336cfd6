@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9347353e_ec2ccbd3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:19:36Z",
+      "side": 1,
+      "message": "Can we come up with some better names? What is the difference between \"adding\" and \"creating\"? Why is one a \"Subscription\" and the other a \"SubmoduleSubscription\"?",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33d2da0_4e05d344",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-06T20:19:36Z",
+      "side": 1,
+      "message": "I don\u0027t really care one way or the other but renaming this seems like unnecessary churn",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

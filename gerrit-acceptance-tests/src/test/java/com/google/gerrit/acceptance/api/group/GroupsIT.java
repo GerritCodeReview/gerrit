@@ -27,8 +27,13 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.GroupAuditEventInfo;
+import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditEventInfo;
+import com.google.gerrit.extensions.common.GroupAuditEventInfo.Type;
+import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -36,11 +41,13 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -420,6 +427,62 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(groups).hasSize(1);
     assertThat(groups).containsKey("Administrators");
     assertGroupInfo(adminGroup, Iterables.getOnlyElement(groups.values()));
+  }
+
+  @Test
+  public void getAuditLog() throws Exception {
+    GroupApi g = gApi.groups().create(name("group"));
+    List<? extends GroupAuditEventInfo> auditEvents = g.auditLog();
+    assertThat(auditEvents).hasSize(1);
+    assertAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, admin.id);
+
+    g.addMembers(user.username);
+    auditEvents = g.auditLog();
+    assertThat(auditEvents).hasSize(2);
+    assertAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, user.id);
+
+    g.removeMembers(user.username);
+    auditEvents = g.auditLog();
+    assertThat(auditEvents).hasSize(3);
+    assertAuditEvent(auditEvents.get(0), Type.REMOVE_USER, admin.id, user.id);
+
+    String otherGroup = name("otherGroup");
+    gApi.groups().create(otherGroup);
+    g.addGroups(otherGroup);
+    auditEvents = g.auditLog();
+    assertThat(auditEvents).hasSize(4);
+    assertAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, otherGroup);
+
+    g.removeGroups(otherGroup);
+    auditEvents = g.auditLog();
+    assertThat(auditEvents).hasSize(5);
+    assertAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id, otherGroup);
+
+    Timestamp lastDate = null;
+    for (GroupAuditEventInfo auditEvent : auditEvents) {
+      if (lastDate != null) {
+        assertThat(lastDate).isGreaterThan(auditEvent.date);
+      }
+      lastDate = auditEvent.date;
+    }
+  }
+
+  private void assertAuditEvent(GroupAuditEventInfo info, Type expectedType,
+      Account.Id expectedUser, Account.Id expectedMember) {
+    assertThat(info.user._accountId).isEqualTo(expectedUser.get());
+    assertThat(info.type).isEqualTo(expectedType);
+    assertThat(info).isInstanceOf(UserMemberAuditEventInfo.class);
+    assertThat(((UserMemberAuditEventInfo) info).member._accountId).isEqualTo(
+        expectedMember.get());
+  }
+
+  private void assertAuditEvent(GroupAuditEventInfo info, Type expectedType,
+      Account.Id expectedUser, String expectedMemberGroupName) {
+    assertThat(info.user._accountId).isEqualTo(expectedUser.get());
+    assertThat(info.type).isEqualTo(expectedType);
+    assertThat(info).isInstanceOf(GroupMemberAuditEventInfo.class);
+    assertThat(((GroupMemberAuditEventInfo) info).member.name).isEqualTo(
+        expectedMemberGroupName);
   }
 
   private void assertMembers(String group, TestAccount... expectedMembers)

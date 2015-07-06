@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9347353e_0c7e778f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:17:20Z",
+      "side": 1,
+      "message": "I renamed it to `addSubscriptionEntry` now, as it actually just writes one entry in the config file .",
+      "parentUuid": "9347353e_ec2ccbd3",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_4e05d344",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
         "patchSetId": 44
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-06T20:19:36Z",
       "side": 1,
       "message": "I don\u0027t really care one way or the other but renaming this seems like unnecessary churn",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_aab9cf1b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-06T22:17:20Z",
+      "side": 1,
+      "message": "I remember debugging this a while ago.\n\nThere is a class variable `cfg` which we use to get the canonicalWebUrl. Before this change we had a local variable `cfg` as well, introduced just after using the class variable. I consider this shading bad style, which is why I cleaned it up.",
+      "parentUuid": "d33d2da0_4e05d344",
       "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

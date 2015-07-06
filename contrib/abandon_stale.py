@@ -101,7 +101,7 @@ def _main():
         logging.error("Gerrit URL is required")
         return 1
 
-    pattern = re.compile(r"^([\d]+)(months|years|weeks)")
+    pattern = re.compile(r"^([\d]+)(month[s]?|year[s]?|week[s]?)")
     match = pattern.match(options.age)
     if not match:
         logging.error("Invalid age: %s", options.age)

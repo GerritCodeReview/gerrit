@@ -74,6 +74,6 @@ number is omitted._
 
 ## Events
 
-Next developer conference is September 2015, Berlin.
-Next user conference is November 2015, MV, CA. Registration form is
-[here](http://goo.gl/forms/fifi2YQTc7).
+- November 7-8 2015: Gerrit User Conference, Mountain View. ([Register](http://goo.gl/forms/fifi2YQTc7)).
+- November 9-13 2015: Gerrit Hackathon, Mountain View. (Invitation Only).
+- March 2016: Gerrit Hackathon, Berlin. (Details to be confirmed).

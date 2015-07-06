@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f367919d_27b4fab9",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-06T06:42:31Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the statement: \"Fixes included in 2.10.6 are not listed here\" be added, like in previous release note for 2.11 release?",
+      "revId": "62c11be425e0d189fe5e8d836aacb633810a7cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f367919d_47ad6e73",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.2.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-06T06:42:31Z",
+      "side": 1,
+      "message": "This one wasn\u0027t merged yet: [1].\n\n* [1] https://gerrit-review.googlesource.com/69180",
+      "revId": "62c11be425e0d189fe5e8d836aacb633810a7cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

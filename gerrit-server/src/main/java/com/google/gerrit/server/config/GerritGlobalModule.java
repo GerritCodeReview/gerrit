@@ -123,6 +123,8 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.rules.SubmitRulesModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -181,6 +183,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GroupModule());
     install(new NoteDbModule());
     install(new PrologModule());
+    install(new SubmitRulesModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());
 
@@ -207,6 +210,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
+    factory(SubmitRuleEvaluator.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)

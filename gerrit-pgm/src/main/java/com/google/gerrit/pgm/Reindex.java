@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.project.rules.SubmitRulesModule;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -128,6 +129,7 @@ public class Reindex extends SiteProgram {
     // Scan changes from git instead of relying on the secondary index, as we
     // will have just deleted the old (possibly corrupt) index.
     modules.add(ScanningChangeCacheImpl.module());
+    modules.add(new SubmitRulesModule());
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
 
     return dbInjector.createChildInjector(modules);

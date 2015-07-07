@@ -241,7 +241,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (!mergeable) {
           return CLICK_FAILURE_OTHER_TOOLTIP;
         }
-        MergeOp.checkSubmitRule(c);
+        mergeOpProvider.get().checkSubmitRule(c);
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
@@ -261,7 +261,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    */
   public boolean submittable(ChangeData cd) {
     try {
-      MergeOp.checkSubmitRule(cd);
+      mergeOpProvider.get().checkSubmitRule(cd);
       return true;
     } catch (ResourceConflictException | OrmException e) {
       return false;
@@ -280,7 +280,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
 
     try {
-      MergeOp.checkSubmitRule(cd);
+      mergeOpProvider.get().checkSubmitRule(cd);
     } catch (ResourceConflictException e) {
       visible = false;
     } catch (OrmException e) {

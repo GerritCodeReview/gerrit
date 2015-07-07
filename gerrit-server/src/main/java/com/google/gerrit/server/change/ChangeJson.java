@@ -153,6 +153,7 @@ public class ChangeJson {
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final GpgApiAdapter gpgApi;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -178,6 +179,7 @@ public class ChangeJson {
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       GpgApiAdapter gpgApi,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -197,6 +199,7 @@ public class ChangeJson {
     this.cmUtil = cmUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
     this.gpgApi = gpgApi;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
@@ -477,7 +480,7 @@ public class ChangeJson {
     if (cd.getSubmitRecords() != null) {
       return cd.getSubmitRecords();
     }
-    cd.setSubmitRecords(new SubmitRuleEvaluator(cd)
+    cd.setSubmitRecords(submitRuleEvalFactory.create(cd)
         .setFastEvalLabels(true)
         .setAllowDraft(true)
         .evaluate());

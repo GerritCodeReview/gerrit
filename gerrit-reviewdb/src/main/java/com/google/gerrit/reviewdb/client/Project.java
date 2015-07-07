@@ -289,4 +289,12 @@ public final class Project {
   public void setParentName(NameKey n) {
     parent = n;
   }
+
+  public String getSubmitRule() {
+    return "gerrit.prolog-submit-rule";
+  }
+
+  public String getSubmitTypeRule() {
+    return "gerrit.prolog-submit-type";
+  }
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,12 @@
 
 package com.google.gerrit.server.project;
 
-@SuppressWarnings("serial")
-public class RuleEvalException extends Exception {
-  public RuleEvalException(String message) {
-    super(message);
-  }
+import com.google.gerrit.reviewdb.client.PatchSet;
 
-  public RuleEvalException(Throwable cause) {
-    super(cause);
-  }
-
-  public RuleEvalException(String message, Throwable cause) {
-    super(message, cause);
-  }
+public class SubmitRuleFlags {
+  public PatchSet patchSet;
+  public boolean fastEvalLabels;
+  public boolean allowDraft;
+  public boolean allowClosed;
+  public boolean logErrors = true;
 }

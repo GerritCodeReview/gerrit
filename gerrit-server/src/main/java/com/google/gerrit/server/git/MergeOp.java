@@ -69,6 +69,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleEvaluator.Factory;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -144,6 +145,7 @@ public class MergeOp {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
+  private final Factory submitRuleEvalFactory;
 
   private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
@@ -172,6 +174,7 @@ public class MergeOp {
   private Map<Branch.NameKey, CodeReviewCommit> openBranches;
   private Map<Branch.NameKey, MergeTip> mergeTips;
 
+
   @Inject
   MergeOp(AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
@@ -194,7 +197,8 @@ public class MergeOp {
       @GerritPersonIdent PersonIdent serverIdent,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<SubmoduleOp> subOpProvider,
-      TagCache tagCache) {
+      TagCache tagCache,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
@@ -217,6 +221,7 @@ public class MergeOp {
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
 
     commits = new HashMap<>();
     pendingRefUpdates = new HashMap<>();
@@ -244,14 +249,14 @@ public class MergeOp {
     });
   }
 
-  public static List<SubmitRecord> checkSubmitRule(ChangeData cd)
+  public List<SubmitRecord> checkSubmitRule(ChangeData cd)
       throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException(
           "missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
+    List<SubmitRecord> results = submitRuleEvalFactory.create(cd)
         .setPatchSet(patchSet)
         .evaluate();
     Optional<SubmitRecord> ok = findOkRecord(results);
@@ -707,7 +712,7 @@ public class MergeOp {
   private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
     try {
       ChangeData cd = changeDataFactory.create(db, ctl);
-      SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
+      SubmitTypeRecord r = submitRuleEvalFactory.create(cd).setPatchSet(ps)
           .getSubmitType();
       if (r.status != SubmitTypeRecord.Status.OK) {
         logError("Failed to get submit type for " + ctl.getChange().getKey());

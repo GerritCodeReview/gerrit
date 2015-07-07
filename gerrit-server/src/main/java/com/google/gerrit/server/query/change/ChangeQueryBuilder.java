@@ -53,6 +53,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
@@ -164,6 +165,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final TrackingFooters trackingFooters;
     final boolean allowsDrafts;
     final ChangeIndex index;
+    final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
     private final Provider<CurrentUser> self;
 
@@ -191,7 +193,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
-        @GerritServerConfig Config cfg) {
+        @GerritServerConfig Config cfg,
+        SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
       this(db, queryProvider, rewriter, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
@@ -199,7 +202,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           projectCache, listChildProjects, submitStrategyFactory,
           conflictsCache, trackingFooters,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
-          indexes != null ? indexes.getSearchIndex() : null);
+          indexes != null ? indexes.getSearchIndex() : null, submitRuleEvalFactory);
     }
 
     private Arguments(
@@ -225,7 +228,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
         boolean allowsDrafts,
-        ChangeIndex index) {
+        ChangeIndex index,
+        SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
      this.db = db;
      this.queryProvider = queryProvider;
      this.rewriter = rewriter;
@@ -249,6 +253,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.trackingFooters = trackingFooters;
      this.allowsDrafts = allowsDrafts;
      this.index = index;
+     this.submitRuleEvalFactory = submitRuleEvalFactory;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -258,7 +263,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitStrategyFactory,
-          conflictsCache, trackingFooters, allowsDrafts, index);
+          conflictsCache, trackingFooters, allowsDrafts, index,
+          submitRuleEvalFactory);
     }
 
     Arguments asUser(Account.Id otherId) {

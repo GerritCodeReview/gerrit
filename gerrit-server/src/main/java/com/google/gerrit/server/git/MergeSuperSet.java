@@ -68,17 +68,21 @@ public class MergeSuperSet {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager repoManager;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
   private final Config cfg;
+
 
   @Inject
   MergeSuperSet(@GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManager = repoManager;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
   }
 
   public ChangeSet completeChangeSet(ReviewDb db, Change change)
@@ -104,7 +108,7 @@ public class MergeSuperSet {
         for (Change.Id cId : pc.get(project)) {
           ChangeData cd = changeDataFactory.create(db, cId);
 
-          SubmitTypeRecord r = new SubmitRuleEvaluator(cd).getSubmitType();
+          SubmitTypeRecord r = submitRuleEvalFactory.create(cd).getSubmitType();
           if (r.status != SubmitTypeRecord.Status.OK) {
             logErrorAndThrow("Failed to get submit type for " + cd.getId());
           }

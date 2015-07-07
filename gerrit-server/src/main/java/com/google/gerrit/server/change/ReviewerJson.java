@@ -49,16 +49,19 @@ public class ReviewerJson {
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      AccountLoader.Factory accountLoaderFactory) {
+      AccountLoader.Factory accountLoaderFactory,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
@@ -109,7 +112,7 @@ public class ReviewerJson {
     ChangeData cd = changeDataFactory.create(db.get(), ctl);
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec : new SubmitRuleEvaluator(cd)
+      for (SubmitRecord rec : submitRuleEvalFactory.create(cd)
           .setPatchSet(ps)
           .setFastEvalLabels(true)
           .setAllowDraft(true)

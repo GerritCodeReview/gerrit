@@ -34,8 +34,6 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -300,6 +298,7 @@ public class Util {
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(PatchListCache.class).toProvider(nullProvider);
         bind(Realm.class).to(FakeRealm.class);
+        bind(SubmitRuleEvaluator.Factory.class).toProvider(nullProvider);
 
         factory(CapabilityControl.Factory.class);
         factory(ChangeControl.AssistedFactory.class);
@@ -330,9 +329,7 @@ public class Util {
   }
 
   public InMemoryRepository add(ProjectConfig pc) {
-    PrologEnvironment.Factory envFactory = null;
     ProjectControl.AssistedFactory projectControlFactory = null;
-    RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
 
@@ -346,8 +343,8 @@ public class Util {
       throw new RuntimeException(e);
     }
     all.put(pc.getName(), new ProjectState(sitePaths,
-        projectCache, allProjectsName, projectControlFactory, envFactory,
-        repoManager, rulesCache, commentLinks, pc));
+        projectCache, allProjectsName, projectControlFactory,
+        repoManager, commentLinks, pc));
     return repo;
   }
 

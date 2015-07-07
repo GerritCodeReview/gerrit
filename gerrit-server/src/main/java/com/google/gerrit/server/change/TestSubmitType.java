@@ -37,6 +37,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
@@ -44,10 +45,12 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   @Inject
   TestSubmitType(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      RulesCache rules) {
+      RulesCache rules,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
   }
 
   @Override
@@ -60,18 +63,16 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-    SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
+    SubmitRuleEvaluator evaluator = submitRuleEvalFactory.create(
           changeDataFactory.create(db.get(), rsrc.getControl()));
 
     SubmitTypeRecord rec = evaluator.setPatchSet(rsrc.getPatchSet())
         .setLogErrors(false)
-        .setSkipSubmitFilters(input.filters == Filters.SKIP)
-        .setRule(input.rule)
         .getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format(
           "rule %s produced invalid result: %s",
-          evaluator.getSubmitRule(), rec));
+          evaluator.getRuleName(), rec));
     }
 
     return rec.type;

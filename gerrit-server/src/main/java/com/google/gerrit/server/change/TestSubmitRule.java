@@ -52,6 +52,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
   private final AccountLoader.Factory accountInfoFactory;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
@@ -60,11 +61,13 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   TestSubmitRule(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
-      AccountLoader.Factory infoFactory) {
+      AccountLoader.Factory infoFactory,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.accountInfoFactory = infoFactory;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
   }
 
   @Override
@@ -77,21 +80,16 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-    SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
+    SubmitRuleEvaluator evaluator = submitRuleEvalFactory.create(
         changeDataFactory.create(db.get(), rsrc.getControl()));
 
     List<SubmitRecord> records = evaluator.setPatchSet(rsrc.getPatchSet())
           .setLogErrors(false)
-          .setSkipSubmitFilters(input.filters == Filters.SKIP)
-          .setRule(input.rule)
           .evaluate();
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {
       out.add(new Record(r, accounts));
-    }
-    if (!out.isEmpty()) {
-      out.get(0).prologReductionCount = evaluator.getReductionsConsumed();
     }
     accounts.fill();
     return out;

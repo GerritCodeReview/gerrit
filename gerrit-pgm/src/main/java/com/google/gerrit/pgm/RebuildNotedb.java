@@ -48,6 +48,7 @@ import com.google.gerrit.server.index.ReindexAfterUpdate;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.rules.SubmitRulesModule;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -210,6 +211,7 @@ public class RebuildNotedb extends SiteProgram {
     return dbInjector.createChildInjector(new AbstractModule() {
       @Override
       public void configure() {
+        install(new SubmitRulesModule());
         install(dbInjector.getInstance(BatchProgramModule.class));
         install(SearchingChangeCacheImpl.module());
         install(new NoteDbModule());

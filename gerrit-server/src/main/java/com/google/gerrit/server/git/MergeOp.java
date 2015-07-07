@@ -65,6 +65,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleEvaluator.Factory;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -317,6 +318,7 @@ public class MergeOp implements AutoCloseable {
   private final InternalChangeQuery internalChangeQuery;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
+  private final Factory submitRuleEvalFactory;
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
 
@@ -338,6 +340,7 @@ public class MergeOp implements AutoCloseable {
   private ReviewDb db;
   private SubmitInput submitInput;
 
+
   @Inject
   MergeOp(ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
@@ -348,7 +351,8 @@ public class MergeOp implements AutoCloseable {
       ProjectCache projectCache,
       InternalChangeQuery internalChangeQuery,
       SubmitStrategyFactory submitStrategyFactory,
-      Provider<SubmoduleOp> subOpProvider) {
+      Provider<SubmoduleOp> subOpProvider,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.repoManager = repoManager;
@@ -359,6 +363,7 @@ public class MergeOp implements AutoCloseable {
     this.internalChangeQuery = internalChangeQuery;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
 
     openRepos = new HashMap<>();
   }
@@ -406,7 +411,7 @@ public class MergeOp implements AutoCloseable {
     });
   }
 
-  public static void checkSubmitRule(ChangeData cd)
+  public void checkSubmitRule(ChangeData cd)
       throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
@@ -452,11 +457,11 @@ public class MergeOp implements AutoCloseable {
     throw new IllegalStateException();
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd)
+  private List<SubmitRecord> getSubmitRecords(ChangeData cd)
       throws OrmException {
     List<SubmitRecord> results = cd.getSubmitRecords();
     if (results == null) {
-      results = new SubmitRuleEvaluator(cd).evaluate();
+      results = submitRuleEvalFactory.create(cd).evaluate();
       cd.setSubmitRecords(results);
     }
     return results;

@@ -862,8 +862,8 @@ public class RefControlTest {
       throw new RuntimeException(e);
     }
     all.put(pc.getName(), new ProjectState(sitePaths,
-        projectCache, allProjectsName, projectControlFactory, envFactory,
-        repoManager, rulesCache, commentLinks, pc));
+        projectCache, allProjectsName, projectControlFactory,
+        repoManager, commentLinks, pc));
     return repo;
   }
 

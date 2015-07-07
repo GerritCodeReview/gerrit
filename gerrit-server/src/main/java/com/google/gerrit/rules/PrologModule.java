@@ -15,16 +15,28 @@
 package com.google.gerrit.rules;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.project.SubmitRule;
+import com.google.gerrit.server.project.SubmitTypeRule;
+import com.google.gerrit.server.project.rules.PrologBasedSubmitRule;
+import com.google.gerrit.server.project.rules.PrologRuleEvaluator;
 
 public class PrologModule extends FactoryModule {
   @Override
   protected void configure() {
     install(new EnvironmentModule());
     bind(PrologEnvironment.Args.class);
+    bind(SubmitRule.class)
+        .annotatedWith(Exports.named("prolog-submit-rule"))
+        .to(PrologBasedSubmitRule.class);
+    bind(SubmitTypeRule.class)
+        .annotatedWith(Exports.named("prolog-submit-type"))
+        .to(PrologBasedSubmitRule.class);
+    factory(PrologRuleEvaluator.Factory.class);
   }
 
-  static class EnvironmentModule extends FactoryModule {
+  public static class EnvironmentModule extends FactoryModule {
     @Override
     protected void configure() {
       DynamicSet.setOf(binder(), PredicateProvider.class);

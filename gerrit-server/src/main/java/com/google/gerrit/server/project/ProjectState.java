@@ -32,8 +32,6 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -45,9 +43,6 @@ import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import com.googlecode.prolog_cafe.exceptions.CompileException;
-import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
-
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -55,7 +50,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -81,17 +75,12 @@ public class ProjectState {
   private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
-  private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
-  private final RulesCache rulesCache;
   private final List<CommentLinkInfo> commentLinks;
 
   private final ProjectConfig config;
   private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
-
-  /** Prolog rule state. */
-  private volatile PrologMachineCopy rulesMachine;
 
   /** Last system time the configuration's revision was examined. */
   private volatile long lastCheckTime;
@@ -111,9 +100,7 @@ public class ProjectState {
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
       final ProjectControl.AssistedFactory projectControlFactory,
-      final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
-      final RulesCache rulesCache,
       final List<CommentLinkInfo> commentLinks,
       @Assisted final ProjectConfig config) {
     this.sitePaths = sitePaths;
@@ -121,9 +108,7 @@ public class ProjectState {
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
     this.allProjectsName = allProjectsName;
     this.projectControlFactory = projectControlFactory;
-    this.envFactory = envFactory;
     this.gitMgr = gitMgr;
-    this.rulesCache = rulesCache;
     this.commentLinks = commentLinks;
     this.config = config;
     this.configs = Maps.newHashMap();
@@ -181,32 +166,6 @@ public class ProjectState {
    */
   public CapabilityCollection getCapabilityCollection() {
     return capabilities;
-  }
-
-  /** @return Construct a new PrologEnvironment for the calling thread. */
-  public PrologEnvironment newPrologEnvironment() throws CompileException {
-    PrologMachineCopy pmc = rulesMachine;
-    if (pmc == null) {
-      pmc = rulesCache.loadMachine(
-          getProject().getNameKey(),
-          config.getRulesId());
-      rulesMachine = pmc;
-    }
-    return envFactory.create(pmc);
-  }
-
-  /**
-   * Like {@link #newPrologEnvironment()} but instead of reading the rules.pl
-   * read the provided input stream.
-   *
-   * @param name a name of the input stream. Could be any name.
-   * @param in stream to read prolog rules from
-   * @throws CompileException
-   */
-  public PrologEnvironment newPrologEnvironment(String name, Reader in)
-      throws CompileException {
-    PrologMachineCopy pmc = rulesCache.loadMachine(name, in);
-    return envFactory.create(pmc);
   }
 
   public Project getProject() {

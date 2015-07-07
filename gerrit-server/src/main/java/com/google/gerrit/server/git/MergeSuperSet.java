@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -78,17 +79,21 @@ public class MergeSuperSet {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager repoManager;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
   private final Config cfg;
+
 
   @Inject
   MergeSuperSet(@GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManager = repoManager;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
   }
 
   public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)

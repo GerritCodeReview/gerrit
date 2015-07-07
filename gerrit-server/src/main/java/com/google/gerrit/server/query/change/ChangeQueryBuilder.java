@@ -61,6 +61,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
@@ -180,6 +181,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final IndexConfig indexConfig;
     final Provider<ListMembers> listMembers;
     final boolean allowsDrafts;
+    final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
     private final Provider<CurrentUser> self;
 
@@ -211,7 +213,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         TrackingFooters trackingFooters,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
-        @GerritServerConfig Config cfg) {
+        @GerritServerConfig Config cfg,
+        SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
       this(db, queryProvider, rewriter, opFactories, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory, notesFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
@@ -219,7 +222,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           projectCache, listChildProjects, submitDryRun, conflictsCache,
           trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
           indexConfig, listMembers,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
+          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
+          submitRuleEvalFactory);
     }
 
     private Arguments(
@@ -249,7 +253,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeIndex index,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
-        boolean allowsDrafts) {
+        boolean allowsDrafts,
+        SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
      this.db = db;
      this.queryProvider = queryProvider;
      this.rewriter = rewriter;
@@ -277,6 +282,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.indexConfig = indexConfig;
      this.listMembers = listMembers;
      this.allowsDrafts = allowsDrafts;
+     this.submitRuleEvalFactory = submitRuleEvalFactory;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -287,7 +293,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun,
           conflictsCache, trackingFooters, index, indexConfig, listMembers,
-          allowsDrafts);
+          allowsDrafts, submitRuleEvalFactory);
     }
 
     Arguments asUser(Account.Id otherId) {

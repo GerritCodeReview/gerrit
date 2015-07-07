@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assert_;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.server.project.rules.SubmitRulesModule;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.inject.Guice;
 import com.google.inject.Module;
@@ -60,6 +61,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
       throws CompileException, IOException {
     ArrayList<Module> moduleList = new ArrayList<>();
     moduleList.add(new PrologModule.EnvironmentModule());
+    moduleList.add(new SubmitRulesModule());
     moduleList.addAll(Arrays.asList(modules));
 
     envFactory = Guice.createInjector(moduleList)

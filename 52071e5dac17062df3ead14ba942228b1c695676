@@ -122,6 +122,24 @@
       "revId": "52071e5dac17062df3ead14ba942228b1c695676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "132d0577_281fab8f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-07T22:31:38Z",
+      "side": 1,
+      "message": "I think it\u0027s better to only bind the command if the index supports online indexing.\n\nBut since Lucene is effectively the only index we use (I don\u0027t think anyone uses Solr) it\u0027s probably OK to leave it like this in this change, and do the refactoring in follow-up changes on master.",
+      "parentUuid": "98059200_9ce7e522",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

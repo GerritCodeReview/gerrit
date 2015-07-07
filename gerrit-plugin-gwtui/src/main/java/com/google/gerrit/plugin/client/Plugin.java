@@ -14,6 +14,8 @@
 
 package com.google.gerrit.plugin.client;
 
+import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.plugin.client.extension.Panel;
 import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -91,6 +93,19 @@ public final class Plugin extends JavaScriptObject {
   private final native void screenRegex(String p, JavaScriptObject e)
   /*-{ this.screen(new $wnd.RegExp(p), e) }-*/;
 
+  /**
+   * Register a panel for an UI extension point.
+   *
+   * @param extensionPoint the UI extension point for which the panel should be registered.
+   * @param entry callback function invoked to create the panel widgets.
+   */
+  public final void panel(GerritUiExtensionPoint extensionPoint, Panel.EntryPoint entry) {
+    panel(extensionPoint.name(), wrap(entry));
+  }
+
+  private final native void panel(String i, JavaScriptObject e)
+  /*-{ this.panel(i, e) }-*/;
+
   protected Plugin() {
   }
 
@@ -103,6 +118,13 @@ public final class Plugin extends JavaScriptObject {
     return $entry(function(c){
       b.@com.google.gerrit.plugin.client.screen.Screen.EntryPoint::onLoad(Lcom/google/gerrit/plugin/client/screen/Screen;)(
         @com.google.gerrit.plugin.client.screen.Screen::new(Lcom/google/gerrit/plugin/client/screen/Screen$Context;)(c));
+    });
+  }-*/;
+
+  private static final native JavaScriptObject wrap(Panel.EntryPoint b) /*-{
+    return $entry(function(c){
+      b.@com.google.gerrit.plugin.client.extension.Panel.EntryPoint::onLoad(Lcom/google/gerrit/plugin/client/extension/Panel;)(
+        @com.google.gerrit.plugin.client.extension.Panel::new(Lcom/google/gerrit/plugin/client/extension/Panel$Context;)(c));
     });
   }-*/;
 }

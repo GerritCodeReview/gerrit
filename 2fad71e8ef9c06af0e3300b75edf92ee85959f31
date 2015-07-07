@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f6d649_5db95b17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:08:25Z",
+      "side": 1,
+      "message": "Missing space",
+      "range": {
+        "startLine": 664,
+        "startChar": 13,
+        "endLine": 664,
+        "endChar": 15
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_3dbe8f01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:08:25Z",
+      "side": 1,
+      "message": "\"due to \u003cmsg\u003e\" is redundant, since the log entry will also contain the full stack trace (including message)",
+      "range": {
+        "startLine": 199,
+        "startChar": 58,
+        "endLine": 200,
+        "endChar": 30
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

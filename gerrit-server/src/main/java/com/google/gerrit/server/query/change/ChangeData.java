@@ -295,7 +295,7 @@ public class ChangeData {
   public static ChangeData createForTest(Project.NameKey project, Change.Id id,
       int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, project, id);
+        null, null, null, null, null, null, null, null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -314,6 +314,7 @@ public class ChangeData {
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
   private final MergeabilityCache mergeabilityCache;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Project.NameKey project;
@@ -355,6 +356,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id) {
@@ -372,6 +374,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
     this.project = project;
     this.legacyId = id;
   }
@@ -391,6 +394,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -407,6 +411,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
     legacyId = c.getId();
     change = c;
     project = c.getProject();
@@ -427,6 +432,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory,
       @Assisted ReviewDb db,
       @Assisted ChangeNotes cn) {
     this.db = db;
@@ -443,6 +449,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
     legacyId = cn.getChangeId();
     change = cn.getChange();
     project = cn.getProjectName();
@@ -464,6 +471,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -480,6 +488,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
     legacyId = c.getId();
     change = c.getChange();
     changeControl = c;
@@ -502,6 +511,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     checkState(!notesMigration.readChanges(),
@@ -520,6 +530,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
     this.legacyId = id;
     this.project = null;
   }
@@ -895,7 +906,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord = new SubmitRuleEvaluator(this).getSubmitType();
+      submitTypeRecord = submitRuleEvalFactory.create(this).getSubmitType();
     }
     return submitTypeRecord;
   }

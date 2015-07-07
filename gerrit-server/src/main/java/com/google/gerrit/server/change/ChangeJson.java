@@ -159,6 +159,8 @@ public class ChangeJson {
   private final ActionJson actionJson;
   private final GpgApiAdapter gpgApi;
   private final ChangeNotes.Factory notesFactory;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
+  private final Submit submit;
 
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
@@ -185,6 +187,8 @@ public class ChangeJson {
       ActionJson actionJson,
       GpgApiAdapter gpgApi,
       ChangeNotes.Factory notesFactory,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory,
+      Submit submit,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -203,6 +207,8 @@ public class ChangeJson {
     this.cmUtil = cmUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
+    this.submit = submit;
     this.gpgApi = gpgApi;
     this.notesFactory = notesFactory;
     this.options = options.isEmpty()
@@ -403,7 +409,7 @@ public class ChangeJson {
       }
       out.mergeable = cd.isMergeable();
     }
-    out.submittable = Submit.submittable(cd);
+    out.submittable = submit.submittable(cd);
     ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {
       out.insertions = changedLines.insertions;
@@ -487,7 +493,7 @@ public class ChangeJson {
     }
     List<SubmitRecord> records = submitRecords.get(cd.getId());
     if (records == null) {
-      records = new SubmitRuleEvaluator(cd)
+      records = submitRuleEvalFactory.create(cd)
         .setFastEvalLabels(true)
         .setAllowDraft(true)
         .evaluate();

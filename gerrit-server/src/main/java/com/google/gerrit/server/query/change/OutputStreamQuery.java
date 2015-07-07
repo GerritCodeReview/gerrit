@@ -80,6 +80,7 @@ public class OutputStreamQuery {
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
@@ -103,7 +104,8 @@ public class OutputStreamQuery {
       QueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      CurrentUser user) {
+      CurrentUser user,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
@@ -111,6 +113,7 @@ public class OutputStreamQuery {
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
     this.user = user;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
   }
 
   void setLimit(int n) {
@@ -252,7 +255,7 @@ public class OutputStreamQuery {
     }
 
     if (includeSubmitRecords) {
-      eventFactory.addSubmitRecords(c, new SubmitRuleEvaluator(d)
+      eventFactory.addSubmitRecords(c, submitRuleEvalFactory.create(d)
           .setAllowClosed(true)
           .setAllowDraft(true)
           .evaluate());

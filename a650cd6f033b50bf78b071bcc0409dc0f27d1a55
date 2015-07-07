@@ -122,6 +122,30 @@
       "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_7ca2d9ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:08:08Z",
+      "side": 1,
+      "message": "Adding a message is not a bad idea. I would still recommend a SQL statement for selecting submitted changes. We are talking about literally \u003c0.01% of changes here, it\u0027s not worth it to scan the other 99.99%.",
+      "parentUuid": "b8f6d649_5d3efbea",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

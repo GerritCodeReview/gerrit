@@ -234,7 +234,6 @@ public class GerritGlobalModule extends FactoryModule {
         .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
 
     factory(MergeOp.Factory.class);
-    factory(SubmoduleOp.Factory.class);
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(ChangeControl.GenericFactory.class);

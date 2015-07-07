@@ -467,7 +467,7 @@ public class MergeOp {
   private void integrateIntoHistory(ChangeSet cs)
       throws MergeException, NoSuchChangeException, ResourceConflictException {
     logDebug("Beginning merge attempt on {}", changes);
-    Map<Branch.NameKey, ListMultimap<SubmitType, Change>> toSubmit =
+    Map<Branch.NameKey, ListMultimap<SubmitType, ChangeData>> toSubmit =
         new HashMap<>();
     try {
       openSchema();
@@ -476,8 +476,13 @@ public class MergeOp {
         openRepository(project);
         for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
           setDestProject(branch);
-          ListMultimap<SubmitType, Change> submitting =
-              validateChangeList(queryProvider.get().submitted(branch));
+
+          List<ChangeData> cds = new ArrayList<>();
+          for (Change.Id id : cs.changesByBranch().get(branch)) {
+            cds.add(changeDataFactory.create(db, id));
+          }
+          ListMultimap<SubmitType, ChangeData> submitting
+              = validateChangeList(cds);
           toSubmit.put(branch, submitting);
 
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
@@ -508,7 +513,8 @@ public class MergeOp {
           pendingRefUpdates.remove(branch);
 
           setDestProject(branch);
-          ListMultimap<SubmitType, Change> submitting = toSubmit.get(branch);
+          ListMultimap<SubmitType, ChangeData> submitting
+              = toSubmit.get(branch);
           for (SubmitType submitType : submitting.keySet()) {
             updateChangeStatus(submitting.get(submitType), branch, false);
             updateSubscriptions(branch, submitting.get(submitType),
@@ -536,15 +542,16 @@ public class MergeOp {
   }
 
   private MergeTip preMerge(SubmitStrategy strategy,
-      List<Change> submitted, CodeReviewCommit branchTip)
-      throws MergeException {
+      List<ChangeData> submitted, CodeReviewCommit branchTip)
+      throws MergeException, OrmException {
     logDebug("Running submit strategy {} for {} commits {}",
         strategy.getClass().getSimpleName(), submitted.size(), submitted);
     List<CodeReviewCommit> toMerge = new ArrayList<>(submitted.size());
-    for (Change c : submitted) {
-      CodeReviewCommit commit = commits.get(c.getId());
+    for (ChangeData cd : submitted) {
+      CodeReviewCommit commit = commits.get(cd.change().getId());
       checkState(commit != null,
-          "commit for %s not found by validateChangeList", c.getId());
+          "commit for %s not found by validateChangeList",
+          cd.change().getId());
       toMerge.add(commit);
     }
     MergeTip mergeTip = strategy.run(branchTip, toMerge);
@@ -659,10 +666,10 @@ public class MergeOp {
     return alreadyAccepted;
   }
 
-  private ListMultimap<SubmitType, Change> validateChangeList(
+  private ListMultimap<SubmitType, ChangeData> validateChangeList(
       List<ChangeData> submitted) throws MergeException {
     logDebug("Validating {} changes", submitted.size());
-    ListMultimap<SubmitType, Change> toSubmit = ArrayListMultimap.create();
+    ListMultimap<SubmitType, ChangeData> toSubmit = ArrayListMultimap.create();
 
     Map<String, Ref> allRefs;
     try {
@@ -687,8 +694,9 @@ public class MergeOp {
         throw new MergeException("Failed to validate changes", e);
       }
       Change.Id changeId = cd.getId();
-      if (chg.getStatus() != Change.Status.SUBMITTED) {
-        logDebug("Change {} is not submitted: {}", changeId, chg.getStatus());
+      if (chg.getStatus() != Change.Status.SUBMITTED
+          && chg.getStatus() != Change.Status.NEW) {
+        logDebug("Change {} is not new or submitted: {}", changeId, chg.getStatus());
         continue;
       }
       if (chg.currentPatchSetId() == null) {
@@ -779,7 +787,7 @@ public class MergeOp {
       }
 
       commit.add(canMergeFlag);
-      toSubmit.put(submitType, chg);
+      toSubmit.put(submitType, cd);
     }
     logDebug("Submitting on this run: {}", toSubmit);
     return toSubmit;
@@ -898,9 +906,9 @@ public class MergeOp {
     return "";
   }
 
-  private void updateChangeStatus(List<Change> submitted,
-      Branch.NameKey destBranch, boolean dryRun)
-      throws NoSuchChangeException, MergeException, ResourceConflictException {
+  private void updateChangeStatus(List<ChangeData> submitted,
+      Branch.NameKey destBranch, boolean dryRun) throws OrmException,
+      NoSuchChangeException, MergeException, ResourceConflictException {
     if (!dryRun) {
       logDebug("Updating change status for {} changes", submitted.size());
     } else {
@@ -908,7 +916,8 @@ public class MergeOp {
           submitted.size());
     }
     MergeTip mergeTip = mergeTips.get(destBranch);
-    for (Change c : submitted) {
+    for (ChangeData cd : submitted) {
+      Change c = cd.change();
       CodeReviewCommit commit = commits.get(c.getId());
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
@@ -994,15 +1003,20 @@ public class MergeOp {
   }
 
   private void updateSubscriptions(Branch.NameKey destBranch,
-      List<Change> submitted, CodeReviewCommit branchTip) {
+      List<ChangeData> submitted, CodeReviewCommit branchTip)
+      throws OrmException {
     MergeTip mergeTip = mergeTips.get(destBranch);
     if (mergeTip != null
         && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
       logDebug("Updating submodule subscriptions for {} changes",
           submitted.size());
+      ArrayList<Change> cs = new ArrayList<>(submitted.size());
+      for (ChangeData cd : submitted) {
+        cs.add(cd.change());
+      }
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
-              destProject.getProject(), submitted, commits,
+              destProject.getProject(), cs, commits,
               getAccount(mergeTip.getCurrentTip()));
       try {
         subOp.update();

@@ -1789,9 +1789,6 @@ public class ReceiveCommits {
     for (Change c : changes) {
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
-        case SUBMITTED:
-          addMessage("Change " + c.getChangeId() + " submitted.");
-          break;
         case MERGED:
           addMessage("Change " + c.getChangeId() + " merged.");
           break;

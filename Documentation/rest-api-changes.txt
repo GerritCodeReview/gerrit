@@ -3756,8 +3756,7 @@ The `refs/heads/` prefix is omitted.
 |`subject`            ||
 The subject of the change (header line of the commit message).
 |`status`             ||
-The status of the change (`NEW`, `SUBMITTED`, `MERGED`, `ABANDONED`,
-`DRAFT`).
+The status of the change (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
 |`created`            ||
 The link:rest-api.html#timestamp[timestamp] of when the change was
 created.
@@ -4322,7 +4321,7 @@ link:#commit-info[CommitInfo] entity.
 |`_revision_number`        |optional|The revision number.
 |`_current_revision_number`|optional|The current revision number.
 |`status`                  |optional|The status of the change. The status of
-the change is one of (`NEW`, `SUBMITTED`, `MERGED`, `ABANDONED`, `DRAFT`).
+the change is one of (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
 |===========================
 
 [[related-changes-info]]
@@ -4530,8 +4529,8 @@ after submitting.
 |==========================
 |Field Name    ||Description
 |`status`      ||
-The status of the change after submitting, can be `MERGED` or
-`SUBMITTED`.+
+The status of the change after submitting is `MERGED`.
++
 As `wait_for_merge` in the link:#submit-input[SubmitInput] is deprecated and
 the request always waits for the merge to be completed, you can expect
 `MERGED` to be returned here.

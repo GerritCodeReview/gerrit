@@ -61,7 +61,7 @@ public class RefNames {
    * Special ref for GPG public keys used by {@link
    * com.google.gerrit.server.git.SignedPushPreReceiveHook}.
    */
-  public static final String REFS_GPG_KEYS = REFS + "gpg-keys";
+  public static final String REFS_GPG_KEYS = "refs/meta/gpg-keys";
 
   public static String fullName(String ref) {
     return ref.startsWith(REFS) ? ref : REFS_HEADS + ref;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "333689c8_09c9099d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 44
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-07T00:43:04Z",
+      "side": 1,
+      "message": "It was also renamed.  Not sure if it\u0027s worth mentioning that in the commit message, though.",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "f3f427b76ea5e6a51d6e3a84f2e1a1265dd14d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

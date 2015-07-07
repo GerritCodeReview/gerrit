@@ -162,24 +162,17 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    submitStatusOnly(change2.getChangeId());
-    submitStatusOnly(change3.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
     submit(change4.getChangeId());
 
     List<RevCommit> log = getRemoteLog();
     assertThat(log.get(0).getShortMessage()).isEqualTo(
         change4.getCommit().getShortMessage());
-    assertThat(log.get(0).getParent(0)).isEqualTo(log.get(1));
+    assertThat(log.get(1).getId()).isEqualTo(initialHead.getId());
 
-    assertThat(log.get(1).getShortMessage()).isEqualTo(
-        change3.getCommit().getShortMessage());
-    assertThat(log.get(1).getParent(0)).isEqualTo(log.get(2));
-
-    assertThat(log.get(2).getShortMessage()).isEqualTo(
-        change2.getCommit().getShortMessage());
-    assertThat(log.get(2).getParent(0)).isEqualTo(log.get(3));
-
-    assertThat(log.get(3).getId()).isEqualTo(initialHead.getId());
+    assertNew(change2.getChangeId());
+    assertNew(change3.getChangeId());
   }
 
   @Test
@@ -238,57 +231,16 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     RevCommit initialHead = getRemoteHead();
 
     testRepo.reset(initialHead);
-    createChange("Change 2", "b", "b");
+    PushOneCommit.Result change2 = createChange("Change 2", "b", "b");
     PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
-    createChange("Change 4", "d", "d");
-    PushOneCommit.Result change5 = createChange("Change 5", "e", "e");
+    PushOneCommit.Result change4 = createChange("Change 5", "e", "e");
 
-    // Out of the above, only submit 3 and 5.
-    submitStatusOnly(change3.getChangeId());
-    submit(change5.getChangeId());
+    // Out of the above, only submit 4. 2,3 are not related to 4
+    // by topic or ancestor (due to cherrypicking!)
+    approve(change3.getChangeId());
+    submit(change4.getChangeId());
 
-    ChangeInfo info3 = get(change3.getChangeId());
-    assertThat(info3.status).isEqualTo(ChangeStatus.MERGED);
-
-    List<RevCommit> log = getRemoteLog();
-    assertThat(log.get(0).getShortMessage())
-        .isEqualTo(change5.getCommit().getShortMessage());
-    assertThat(log.get(1).getShortMessage())
-        .isEqualTo(change3.getCommit().getShortMessage());
-    assertThat(log.get(2).getShortMessage())
-        .isEqualTo(initialHead.getShortMessage());
-  }
-
-  @Test
-  public void submitChangeAfterParentFailsDueToConflict() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-
-    testRepo.reset(initialHead);
-    PushOneCommit.Result change2 = createChange("Change 2", "b", "b1");
-    submit(change2.getChangeId());
-
-    testRepo.reset(initialHead);
-    PushOneCommit.Result change3 = createChange("Change 3", "b", "b2");
-    assertThat(change3.getCommit().getParent(0)).isEqualTo(initialHead);
-    PushOneCommit.Result change4 = createChange("Change 3", "c", "c3");
-
-    submitStatusOnly(change3.getChangeId());
-    submitStatusOnly(change4.getChangeId());
-
-    // Merge fails; change3 contains the delta "b1" -> "b2", which cannot be
-    // applied against tip.
-    // As change4 sits on top of change 3 we need to trigger submission there
-    // to include it into the mergeing
-    submitWithConflict(change4.getChangeId());
-
-    // change4 is a clean merge, so should succeed in the same run where change3
-    // failed.
-    ChangeInfo info4 = get(change4.getChangeId());
-    assertThat(info4.status).isEqualTo(ChangeStatus.MERGED);
-    List<RevCommit> log = getRemoteLog();
-    assertThat(log.get(0).getShortMessage())
-        .isEqualTo(change4.getCommit().getShortMessage());
-    assertThat(log.get(1).getShortMessage())
-        .isEqualTo(change2.getCommit().getShortMessage());
+    assertNew(change2.getChangeId());
+    assertNew(change3.getChangeId());
   }
 }

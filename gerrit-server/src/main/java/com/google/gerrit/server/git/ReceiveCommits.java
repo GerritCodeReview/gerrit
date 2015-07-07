@@ -62,10 +62,14 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -88,6 +92,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -332,6 +337,8 @@ public class ReceiveCommits {
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
 
+  private final Provider<PostReview> review;
+
   private final List<CommitValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
@@ -378,6 +385,7 @@ public class ReceiveCommits {
       final Provider<SubmoduleOp> subOpProvider,
       final Provider<Submit> submitProvider,
       final Provider<MergeOp> mergeOpProvider,
+      final Provider<PostReview> review,
       final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
@@ -414,6 +422,7 @@ public class ReceiveCommits {
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
     this.changeKindCache = changeKindCache;
+    this.review = review;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -667,6 +676,9 @@ public class ReceiveCommits {
     closeProgress.end();
     commandProgress.end();
     progress.end();
+    // publishAllDraftComments();
+    // This would be the alternative place to publish the draft comments all in
+    // one go. all of replaceByChange.keySet() would need to be updated
     reportMessages();
   }
 
@@ -1778,6 +1790,7 @@ public class ReceiveCommits {
       if (magicBranch != null && magicBranch.submit) {
         submit(projectControl.controlFor(change), ps);
       }
+      publishAllComments(projectControl.controlFor(change), ps);
     }
   }
 
@@ -1810,6 +1823,19 @@ public class ReceiveCommits {
           addMessage("change " + c.getChangeId() + " is "
               + c.getStatus().name().toLowerCase());
       }
+    }
+  }
+
+  private void publishAllComments(ChangeControl changeCtl, PatchSet ps) {
+    RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
+
+    ReviewInput input = new ReviewInput();
+    input.drafts = ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS;
+
+    try {
+      review.get().apply(rsrc, input);
+    } catch (Exception e) {
+      log.error("trying to post updates", e);
     }
   }
 

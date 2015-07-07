@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "333689c8_29eded03",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-07T05:37:12Z",
+      "side": 1,
+      "message": "As fun as this name is, it fails Git\u0027s REF_NORMAL check. It is impossible to push to refs/gpg-keys.\n\nIf you try to push to refs/gpg-keys it push just \"forgets\" the server advertised the ref and sends 0{40} as the old id. Which the server will refuse to recreate the ref, as it already exists. You can see this by setting GIT_TRACE_PACKET\u003d1 in your environment before running git push.\n\nYou can also observe the filtering that git push is subject to by passing --refs to the ls-remote command. It doesn\u0027t show refs/gpg-keys:\n\n  $ git ls-remote --refs http://localhost:8080/All-Users\n  ce42cdf...        refs/meta/config\n\nNotice no refs/gpg-keys was present in the output. Drop --refs and it shows up. :(",
+      "revId": "c5861d81cb404b5b6a103a139767c2efecaf0ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

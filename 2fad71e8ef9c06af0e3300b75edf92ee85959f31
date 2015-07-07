@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_3dac4fa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:11:09Z",
+      "side": 1,
+      "message": "Unnecessary ;",
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_3dbe8f01",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 46
@@ -41,6 +58,69 @@
         "startChar": 58,
         "endLine": 200,
         "endChar": 30
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_1db193ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:11:09Z",
+      "side": 1,
+      "message": "Unnecessary final and semicolon.",
+      "range": {
+        "startLine": 239,
+        "startChar": 67,
+        "endLine": 239,
+        "endChar": 68
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_fd95c747",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:11:09Z",
+      "side": 1,
+      "message": "ref could be null",
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_dc920d5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:11:09Z",
+      "side": 1,
+      "message": "Missing space.\n\nPlease double-check these in the future.",
+      "range": {
+        "startLine": 290,
+        "startChar": 17,
+        "endLine": 290,
+        "endChar": 29
       },
       "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -36,11 +36,13 @@ public class ApiGlue {
   private static native void init0() /*-{
     var serverUrl = @com.google.gwt.core.client.GWT::getHostPageBaseURL()();
     var ScreenDefinition = @com.google.gerrit.client.api.ExtensionScreen.Definition::TYPE;
+    var PanelDefinition = @com.google.gerrit.client.api.ExtensionPanel.Definition::TYPE;
     $wnd.Gerrit = {
       JsonString: @com.google.gerrit.client.rpc.NativeString::TYPE,
       events: {},
       plugins: {},
       screens: {},
+      panels: {},
       change_actions: {},
       edit_actions: {},
       revision_actions: {},
@@ -85,6 +87,11 @@ public class ApiGlue {
       _screen: function(p,r,c){
         var s = new ScreenDefinition(r,c);
         (this.screens[p] || (this.screens[p]=[])).push(s);
+      },
+      panel: function(i,c){this._panel(this.getPluginName(),i,c)},
+      _panel: function(n,i,c){
+        var p = new PanelDefinition(n,c);
+        (this.panels[i] || (this.panels[i]=[])).push(p);
       },
 
       url: function (d) {

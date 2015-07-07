@@ -64,6 +64,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
+  private final SubmitRuleEvaluator.Factory submitRuleEvalFactory;
 
   @Inject
   Mergeable(GitRepositoryManager gitManager,
@@ -72,7 +73,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer,
-      MergeabilityCache cache) {
+      MergeabilityCache cache,
+      SubmitRuleEvaluator.Factory submitRuleEvalFactory) {
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -80,6 +82,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
+    this.submitRuleEvalFactory = submitRuleEvalFactory;
   }
 
   public void setOtherBranches(boolean otherBranches) {
@@ -138,7 +141,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet)
       throws OrmException {
     SubmitTypeRecord rec =
-        new SubmitRuleEvaluator(cd).setPatchSet(patchSet).getSubmitType();
+        submitRuleEvalFactory.create(cd).setPatchSet(patchSet).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

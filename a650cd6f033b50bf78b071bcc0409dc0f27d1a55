@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f6d649_5d55db20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-07T22:35:06Z",
+      "side": 1,
+      "message": "It would be nice to delete (or comment out) STATUS_SUBMITTED and SUBMITTED in gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java in the same CL.\n\ngetStatus() returns null for an unknown status, so one way to do this would be to use\n\n if (c.getStatus() \u003d\u003d null) {\n   ...\n }\n\nin that case.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

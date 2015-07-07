@@ -202,22 +202,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     submit(changeId, HttpStatus.SC_CONFLICT);
   }
 
-  protected void submitStatusOnly(String changeId) throws Exception {
-    approve(changeId);
-    Change c = queryProvider.get().byKeyPrefix(changeId).get(0).change();
-    c.setStatus(Change.Status.SUBMITTED);
-    db.changes().update(Collections.singleton(c));
-    db.patchSetApprovals().insert(Collections.singleton(
-        new PatchSetApproval(
-            new PatchSetApproval.Key(
-                c.currentPatchSetId(),
-                admin.id,
-                LabelId.SUBMIT),
-            (short) 1,
-            new Timestamp(System.currentTimeMillis()))));
-    indexer.index(db, c);
-  }
-
   private void submit(String changeId, int expectedStatus) throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
@@ -263,6 +247,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertThat(ref).isNotNull();
       assertThat(ref.getObjectId()).isEqualTo(expectedId);
     }
+  }
+
+  protected void assertNew(String changeId) throws Exception {
+    assertThat(get(changeId).status).isEqualTo(ChangeStatus.NEW);
   }
 
   protected void assertApproved(String changeId) throws Exception {

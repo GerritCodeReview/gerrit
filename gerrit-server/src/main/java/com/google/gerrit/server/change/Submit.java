@@ -374,26 +374,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .orNull();
   }
 
-  private Change submitToDatabase(final ReviewDb db, final Change.Id changeId,
-      final Timestamp timestamp) throws OrmException,
-      ResourceConflictException {
-    Change ret = db.changes().atomicUpdate(changeId,
-      new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change change) {
-          if (change.getStatus().isOpen()) {
-            change.setStatus(Change.Status.SUBMITTED);
-            change.setLastUpdatedOn(timestamp);
-            return change;
-          }
-          return null;
-        }
-      });
-    if (ret != null) {
+  private Change assertChangeOpen(final ReviewDb db, final Change.Id changeId)
+      throws OrmException, ResourceConflictException {
+    Change ret = db.changes().get(changeId);
+    if (ret.getStatus().isOpen()) {
       return ret;
     } else {
       throw new ResourceConflictException("change " + changeId + " is "
-          + status(db.changes().get(changeId)));
+          + status(ret));
     }
   }
 
@@ -416,7 +404,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           cd.changeControl(), update, caller, timestamp);
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
-      change = submitToDatabase(db, change.getId(), timestamp);
+      assertChangeOpen(db, change.getId());
       db.commit();
     } finally {
       db.rollback();
@@ -454,7 +442,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
             c.changeControl(), update, caller, timestamp);
         // Write update commit after all normalized label commits.
         batch.write(update, new CommitBuilder());
-        submitToDatabase(db, c.getId(), timestamp);
+        assertChangeOpen(db, c.getId());
       }
       db.commit();
     } finally {

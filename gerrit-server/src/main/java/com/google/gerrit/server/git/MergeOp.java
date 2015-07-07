@@ -476,8 +476,13 @@ public class MergeOp {
         openRepository(project);
         for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
           setDestProject(branch);
+
+          List<ChangeData> cds = new ArrayList<>();
+          for (Change.Id id : cs.changesByBranch().get(branch)) {
+            cds.add(changeDataFactory.create(db, id));
+          }
           ListMultimap<SubmitType, Change> submitting =
-              validateChangeList(queryProvider.get().submitted(branch));
+              validateChangeList(cds);
           toSubmit.put(branch, submitting);
 
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
@@ -687,8 +692,9 @@ public class MergeOp {
         throw new MergeException("Failed to validate changes", e);
       }
       Change.Id changeId = cd.getId();
-      if (chg.getStatus() != Change.Status.SUBMITTED) {
-        logDebug("Change {} is not submitted: {}", changeId, chg.getStatus());
+      if (chg.getStatus() != Change.Status.SUBMITTED
+          && chg.getStatus() != Change.Status.NEW) {
+        logDebug("Change {} is not new or submitted: {}", changeId, chg.getStatus());
         continue;
       }
       if (chg.currentPatchSetId() == null) {

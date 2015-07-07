@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "b8f6d649_1d5f5341",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T22:52:42Z",
+      "side": 1,
+      "message": "Don\u0027t inject this if you\u0027re not going to do it.",
+      "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_dd60cb05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T22:52:42Z",
+      "side": 1,
+      "message": "Lots of code here. You could just write a single SQL statement that does:\n\n UPDATE changes\n SET status \u003d \u0027n\u0027\n WHERE status \u003d \u0027s\u0027\n\nIt\u0027ll be shorter and faster and doesn\u0027t depend on the enum value you\u0027re deleting.",
+      "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_5d55db20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
         "patchSetId": 1
@@ -13,6 +47,30 @@
       "writtenOn": "2015-07-07T22:35:06Z",
       "side": 1,
       "message": "It would be nice to delete (or comment out) STATUS_SUBMITTED and SUBMITTED in gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java in the same CL.\n\ngetStatus() returns null for an unknown status, so one way to do this would be to use\n\n if (c.getStatus() \u003d\u003d null) {\n   ...\n }\n\nin that case.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_bd6dfffb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T22:52:42Z",
+      "side": 1,
+      "message": "I\u0027ll go one step further and say you must delete these enum values in this change.\n\nLook at other schema upgrades that remove access method. They have to run manual SQL statements to get around the fact that they no longer have the access methods.\n\nOn the plus side, in this case you actually save a ton of code by using SQL :)",
+      "parentUuid": "b8f6d649_5d55db20",
       "range": {
         "startLine": 64,
         "startChar": 0,

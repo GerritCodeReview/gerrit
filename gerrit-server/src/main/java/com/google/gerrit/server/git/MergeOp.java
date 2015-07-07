@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -157,7 +158,7 @@ public class MergeOp {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final Submit submit;
   private final SubmitStrategyFactory submitStrategyFactory;
-  private final SubmoduleOp.Factory subOpFactory;
+  private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
   private final WorkQueue workQueue;
 
@@ -201,7 +202,7 @@ public class MergeOp {
       SchemaFactory<ReviewDb> schemaFactory,
       Submit submit,
       SubmitStrategyFactory submitStrategyFactory,
-      SubmoduleOp.Factory subOpFactory,
+      Provider<SubmoduleOp> subOpProvider,
       TagCache tagCache,
       WorkQueue workQueue,
       @Assisted ChangeSet changes,
@@ -226,7 +227,7 @@ public class MergeOp {
     this.schemaFactory = schemaFactory;
     this.submit = submit;
     this.submitStrategyFactory = submitStrategyFactory;
-    this.subOpFactory = subOpFactory;
+    this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
     this.workQueue = workQueue;
     this.changes = changes;
@@ -500,6 +501,7 @@ public class MergeOp {
         closeRepository();
       }
       logDebug("Write out the new branch tips");
+      SubmoduleOp subOp = subOpProvider.get();
       for (Project.NameKey project : cs.projects()) {
         openRepository(project);
         for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
@@ -511,8 +513,7 @@ public class MergeOp {
           ListMultimap<SubmitType, Change> submitting = toSubmit.get(branch);
           for (SubmitType submitType : submitting.keySet()) {
             updateChangeStatus(submitting.get(submitType), branch, false);
-            updateSubscriptions(branch, submitting.get(submitType),
-                getBranchTip(branch));
+            updateSubmoduleSubscriptions(subOp, branch, getBranchTip(branch));
           }
           if (update != null) {
             fireRefUpdated(branch, update);
@@ -520,6 +521,7 @@ public class MergeOp {
         }
         closeRepository();
       }
+      updateSuperProjects(subOp, cs.branches());
       checkState(pendingRefUpdates.isEmpty(), "programmer error: "
           + "pending ref update list not emptied");
     } catch (NoSuchProjectException noProject) {
@@ -993,23 +995,29 @@ public class MergeOp {
     }
   }
 
-  private void updateSubscriptions(Branch.NameKey destBranch,
-      List<Change> submitted, CodeReviewCommit branchTip) {
+  private void updateSubmoduleSubscriptions(SubmoduleOp subOp,
+      Branch.NameKey destBranch, CodeReviewCommit branchTip) {
     MergeTip mergeTip = mergeTips.get(destBranch);
     if (mergeTip != null
         && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
-      logDebug("Updating submodule subscriptions for {} changes",
-          submitted.size());
-      SubmoduleOp subOp =
-          subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
-              destProject.getProject(), submitted, commits,
-              getAccount(mergeTip.getCurrentTip()));
+      logDebug("Updating submodule subscriptions for branch {}", destBranch);
       try {
-        subOp.update();
+        subOp.updateSubmoduleSubscriptions(db, destBranch);
       } catch (SubmoduleException e) {
-        logError("The gitLinks were not updated according to the subscriptions",
-            e);
+        logError("The submodule subscriptions were not updated according"
+            + "to the .gitmodules files", e);
       }
+    }
+  }
+
+  private void updateSuperProjects(SubmoduleOp subOp,
+      Set<Branch.NameKey> branches) {
+    logDebug("Updating superprojects");
+    try {
+      subOp.updateSuperProjects(db, branches);
+    } catch (SubmoduleException e) {
+      logError("The gitlinks were not updated according to the "
+          + "subscriptions", e);
     }
   }
 

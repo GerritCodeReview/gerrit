@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "98059200_5c903d51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_9d436362",
+      "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_1c3875f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -53,6 +71,24 @@
       "writtenOn": "2015-07-07T23:08:08Z",
       "side": 1,
       "message": "Can be one line?",
+      "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_5d903b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98059200_1c3875f9",
       "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -176,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_bd9f3f64",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:22:28Z",
+      "side": 1,
+      "message": "Because I felt like so. (Anything else in this change is pure deletion, while this is substitution, so it\u0027s easy to get it wrong and also easy for reviewers to not notice in a pile of deleted code, so I marked it)",
+      "parentUuid": "98059200_bc462172",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 28
+      },
+      "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_5da71bc9",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
         "patchSetId": 3
@@ -187,6 +247,30 @@
       "writtenOn": "2015-07-07T23:08:08Z",
       "side": 1,
       "message": "You could get away with renaming this footer to Merged-with.",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 20
+      },
+      "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_7d8bf728",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:22:28Z",
+      "side": 1,
+      "message": "I\u0027d not want to do that in the current change but later if that cleanup is strongly desired.",
+      "parentUuid": "b8f6d649_5da71bc9",
       "range": {
         "startLine": 125,
         "startChar": 11,

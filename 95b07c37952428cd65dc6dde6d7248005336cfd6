@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "98059200_1c0bd52e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:58:01Z",
+      "side": 1,
+      "message": "ok, renaming it again to `addSubscriptionToConfig`, maybe `configureSubscription` would be better",
+      "parentUuid": "b8f6d649_dd920b5e",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_4e05d344",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
         "patchSetId": 44

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "98059200_fc95c947",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:25:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98059200_bc6d01fc",
+      "revId": "fe4e9165b71f4bab9501939fff1a738f4f887774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_9c6a45e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 2
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "98059200_1cb195ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:25:27Z",
+      "side": 1,
+      "message": "Done, I assumed to timestamp update is desired behavior.",
+      "parentUuid": "98059200_9c6a45e0",
+      "revId": "fe4e9165b71f4bab9501939fff1a738f4f887774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_3d332f23",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 2
@@ -70,6 +106,30 @@
       "writtenOn": "2015-07-07T22:58:35Z",
       "side": 1,
       "message": "Nit: \u003d on preceding line.",
+      "range": {
+        "startLine": 485,
+        "startChar": 14,
+        "endLine": 485,
+        "endChar": 15
+      },
+      "revId": "fe4e9165b71f4bab9501939fff1a738f4f887774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_9c436562",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:25:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_3d332f23",
       "range": {
         "startLine": 485,
         "startChar": 14,

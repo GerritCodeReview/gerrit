@@ -18,9 +18,11 @@ import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.account.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.api.ChangeGlue;
+import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
@@ -85,6 +87,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -167,6 +170,7 @@ public class ChangeScreen extends Screen {
   @UiField Topic topic;
   @UiField Element actionText;
   @UiField Element actionDate;
+  @UiField SimplePanel changeExtension;
 
   @UiField Actions actions;
   @UiField Labels labels;
@@ -222,6 +226,10 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    ExtensionPanel extensionPanel =
+        new ExtensionPanel(GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK);
+    extensionPanel.putInt(GerritUiExtensionPoint.Key.CHANGE_ID, changeId.get());
+    changeExtension.add(extensionPanel);
     CallbackGroup group = new CallbackGroup();
     if (Gerrit.isSignedIn()) {
       ChangeList.query("change:" + changeId.get() + " has:draft",

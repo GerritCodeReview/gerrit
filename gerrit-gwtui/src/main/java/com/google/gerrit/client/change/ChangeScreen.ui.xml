@@ -322,6 +322,10 @@ limitations under the License.
       height: 16px !important;
       vertical-align: bottom;
     }
+
+    .changeExtension {
+      padding-top: 5px;
+    }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>
@@ -472,6 +476,7 @@ limitations under the License.
           </table>
           <hr/>
           <c:Labels ui:field='labels' styleName='{style.labels}'/>
+          <g:SimplePanel ui:field='changeExtension' styleName='{style.changeExtension}'/>
           <div id='change_plugins'/>
         </td>
         <td class='{style.relatedColumn}'>

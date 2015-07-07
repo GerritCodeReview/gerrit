@@ -16,6 +16,24 @@
       "revId": "c5861d81cb404b5b6a103a139767c2efecaf0ccc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "132d0577_08fbc7b8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-07T06:57:24Z",
+      "side": 1,
+      "message": "\u003e it fails Git\u0027s REF_NORMAL check\n\nWhere is this documented?  I found git-check-ref-format [1] and that seems to accept refs/gpg-keys:\n\n $ git check-ref-format refs/gpg-keys; echo $?\n 0\n\nbut as you said, if I create refs/gpg-keys it\u0027s not shown in the results of `git ls-remote --refs`.\n\n[1] http://git-scm.com/docs/git-check-ref-format",
+      "parentUuid": "333689c8_29eded03",
+      "revId": "c5861d81cb404b5b6a103a139767c2efecaf0ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

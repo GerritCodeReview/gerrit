@@ -44,23 +44,18 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    submitStatusOnly(change2.getChangeId());
-    submitStatusOnly(change3.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
     submit(change4.getChangeId());
 
     RevCommit tip = getRemoteLog().get(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
-        change4.getCommit().getShortMessage());
-
-    tip = tip.getParent(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
-        change3.getCommit().getShortMessage());
-
-    tip = tip.getParent(0);
     assertThat(tip.getShortMessage()).isEqualTo(
-        change2.getCommit().getShortMessage());
+        change4.getCommit().getShortMessage());
+    assertThat(tip.getParent(0).getId()).isEqualTo(
+        initialHead.getId());
 
-    assertThat(tip.getParent(0).getId()).isEqualTo(initialHead.getId());
+    assertNew(change2.getChangeId());
+    assertNew(change3.getChangeId());
   }
 
   @Test

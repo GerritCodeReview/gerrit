@@ -252,7 +252,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     }
   }
 
-  public class AccessSectionInfo {
+  public static class AccessSectionInfo {
     public Map<String, PermissionInfo> permissions;
 
     public AccessSectionInfo(AccessSection section) {

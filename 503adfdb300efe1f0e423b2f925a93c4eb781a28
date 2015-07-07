@@ -22,6 +22,30 @@
       "revId": "503adfdb300efe1f0e423b2f925a93c4eb781a28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_6ad0b73b",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-07-07T05:53:11Z",
+      "side": 1,
+      "message": "Yes, it is. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Identity",
+      "parentUuid": "132d0577_48ea1fed",
+      "range": {
+        "startLine": 75,
+        "startChar": 22,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "503adfdb300efe1f0e423b2f925a93c4eb781a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

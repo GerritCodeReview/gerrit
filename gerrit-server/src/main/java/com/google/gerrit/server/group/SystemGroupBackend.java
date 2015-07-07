@@ -101,30 +101,27 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
     final GroupReference ref = getGroup(uuid);
-    if (ref != null) {
-      return new GroupDescription.Basic() {
-        @Override
-        public String getName() {
-          return ref.getName();
-        }
+    return new GroupDescription.Basic() {
+      @Override
+      public String getName() {
+        return ref.getName();
+      }
 
-        @Override
-        public AccountGroup.UUID getGroupUUID() {
-          return ref.getUUID();
-        }
+      @Override
+      public AccountGroup.UUID getGroupUUID() {
+        return ref.getUUID();
+      }
 
-        @Override
-        public String getUrl() {
-          return null;
-        }
+      @Override
+      public String getUrl() {
+        return null;
+      }
 
-        @Override
-        public String getEmailAddress() {
-          return null;
-        }
-      };
-    }
-    return null;
+      @Override
+      public String getEmailAddress() {
+        return null;
+      }
+    };
   }
 
   @Override

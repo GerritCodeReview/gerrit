@@ -382,7 +382,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         @Override
         public Change update(Change change) {
           if (change.getStatus().isOpen()) {
-            change.setStatus(Change.Status.SUBMITTED);
             change.setLastUpdatedOn(timestamp);
             return change;
           }

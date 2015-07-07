@@ -46,6 +46,30 @@
       "revId": "503adfdb300efe1f0e423b2f925a93c4eb781a28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333689c8_8906d956",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-07T05:54:51Z",
+      "side": 1,
+      "message": "OK, thanks.",
+      "parentUuid": "5333fdd6_6ad0b73b",
+      "range": {
+        "startLine": 75,
+        "startChar": 22,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "503adfdb300efe1f0e423b2f925a93c4eb781a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

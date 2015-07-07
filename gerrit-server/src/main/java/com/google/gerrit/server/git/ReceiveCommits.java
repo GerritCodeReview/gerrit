@@ -785,7 +785,7 @@ public class ReceiveCommits {
     try {
       List<CheckedFuture<?, RestApiException>> futures = Lists.newArrayList();
       for (ReplaceRequest replace : replaceByChange.values()) {
-        if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
+        if (replace.inputCommand == magicBranch.cmd) {
           futures.add(replace.insertPatchSet());
         }
       }

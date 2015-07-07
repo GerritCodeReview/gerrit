@@ -104,6 +104,24 @@
       "revId": "dced9de31093230b5422d80560866f14bf4671a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_3c857113",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:15:59Z",
+      "side": 1,
+      "message": "\u003e push \u003d direct integration into the branch history, while uploadTo can be anything, in this case uploading for review\n\nThat is a distinction I have never heard before. In both cases it happens by running \"git push\", and \"git push\" is how you upload content to the server. It says nothing about what the server does with it once the transfer is complete.\n\nPushing to refs/for/* is commonly called \"pushing for review\".",
+      "parentUuid": "98059200_5cb95d17",
+      "revId": "dced9de31093230b5422d80560866f14bf4671a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

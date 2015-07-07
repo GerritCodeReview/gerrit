@@ -107,7 +107,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "Clicking the button would fail.";
 
   public enum Status {
-    SUBMITTED, MERGED
+    MERGED
   }
 
   public static class Output {
@@ -225,8 +225,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       throw new ResourceConflictException("change is deleted");
     }
     switch (change.getStatus()) {
-      case SUBMITTED:
-        return new Output(Status.SUBMITTED, change);
       case MERGED:
         return new Output(Status.MERGED, change);
       case NEW:

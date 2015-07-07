@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "98059200_3c333123",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-07T23:01:04Z",
+      "side": 1,
+      "message": "Is this right? I wonder if the caller should just not call into notedb at that point because the status of the change has not changed yet.\n\nIf I understand correctly then either way, this would belong as part of the parent change.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 39
+      },
+      "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_5c3efdea",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
         "patchSetId": 3

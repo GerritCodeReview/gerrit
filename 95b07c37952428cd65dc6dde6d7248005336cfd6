@@ -87,6 +87,24 @@
       "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333689c8_e9159577",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T06:47:25Z",
+      "side": 1,
+      "message": "it\u0027s code churn either way, but if you prefer to rather rename the class variable I\u0027d do that.",
+      "parentUuid": "333689c8_29c6cd8b",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

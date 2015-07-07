@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_7d39b700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T22:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_1d5f5341",
+      "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_dd60cb05",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
         "patchSetId": 1
@@ -71,6 +89,30 @@
       "side": 1,
       "message": "I\u0027ll go one step further and say you must delete these enum values in this change.\n\nLook at other schema upgrades that remove access method. They have to run manual SQL statements to get around the fact that they no longer have the access methods.\n\nOn the plus side, in this case you actually save a ton of code by using SQL :)",
       "parentUuid": "b8f6d649_5d55db20",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "a650cd6f033b50bf78b071bcc0409dc0f27d1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_5d3efbea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T22:57:52Z",
+      "side": 1,
+      "message": "I have deleted enum values now.\n\nI am not sure if a simple SQL statement would cut it. Do we want to also setup a notification for the user \"This change was submitted but put back to new, because of a server upgrade\" ?",
+      "parentUuid": "b8f6d649_bd6dfffb",
       "range": {
         "startLine": 64,
         "startChar": 0,

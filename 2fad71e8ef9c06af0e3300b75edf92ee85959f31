@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98059200_bc7861a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_5db95b17",
+      "range": {
+        "startLine": 664,
+        "startChar": 13,
+        "endLine": 664,
+        "endChar": 15
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_3dac4fa9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 46
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_dd7b2b9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_3dac4fa9",
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_3dbe8f01",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 46
@@ -53,6 +95,30 @@
       "writtenOn": "2015-07-07T23:08:25Z",
       "side": 1,
       "message": "\"due to \u003cmsg\u003e\" is redundant, since the log entry will also contain the full stack trace (including message)",
+      "range": {
+        "startLine": 199,
+        "startChar": 58,
+        "endLine": 200,
+        "endChar": 30
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_9c75a5aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_3dbe8f01",
       "range": {
         "startLine": 199,
         "startChar": 58,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_bd785fa0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_1db193ff",
+      "range": {
+        "startLine": 239,
+        "startChar": 67,
+        "endLine": 239,
+        "endChar": 68
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_fd95c747",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 46
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "98059200_7cfc1982",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_fd95c747",
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_dc920d5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 46
@@ -116,6 +224,30 @@
       "writtenOn": "2015-07-07T23:11:09Z",
       "side": 1,
       "message": "Missing space.\n\nPlease double-check these in the future.",
+      "range": {
+        "startLine": 290,
+        "startChar": 17,
+        "endLine": 290,
+        "endChar": 29
+      },
+      "revId": "2fad71e8ef9c06af0e3300b75edf92ee85959f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_5c015d0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-07T23:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98059200_dc920d5e",
       "range": {
         "startLine": 290,
         "startChar": 17,

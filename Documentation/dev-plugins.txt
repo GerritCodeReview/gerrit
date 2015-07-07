@@ -962,6 +962,51 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
 [[ui_extension]]
 == UI Extension
 
+[[panels]]
+=== Panels
+
+GWT plugins can contribute panels to Gerrit screens.
+
+Gerrit screens define extension points where plugins can add GWT
+panels with custom controls:
+
+* Change Screen:
+** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK`:
++
+Panel will be shown below the change info block.
+
+** The following parameters are provided:
+*** `GerritUiExtensionPoint.Key.CHANGE_ID`:
++
+The numeric change ID
+
+* User Profile Screen:
+** `GerritUiExtensionPoint.PROFILE_SCREEN_BOTTOM`:
++
+Panel will be shown at the bottom of the screen below the grid with the
+profile data.
+
+Example panel:
+[source,java]
+----
+public class MyPlugin extends PluginEntryPoint {
+  @Override
+  public void onPluginLoad() {
+    Plugin.get().panel(GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
+        new Panel.EntryPoint() {
+          @Override
+          public void onLoad(Panel panel) {
+            panel.setWidget(new InlineLabel("My Panel for change "
+                + panel.getInt(GerritUiExtensionPoint.Key.CHANGE_ID, -1));
+          }
+        });
+  }
+}
+----
+
+[[actions]]
+=== Actions
+
 Plugins can contribute UI actions on core Gerrit pages. This is useful
 for workflow customization or exposing plugin functionality through the
 UI in addition to SSH commands and the REST API.

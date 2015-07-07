@@ -59,6 +59,7 @@ final class Plugin extends JavaScriptObject {
       on: function(e,f){G.on(e,f)},
       onAction: function(t,n,c){G._onAction(this.name,t,n,c)},
       screen: function(p,c){G._screen(this.name,p,c)},
+      panel: function(i,c){G._panel(this.name,i,c)},
 
       url: function (u){return G.url(this._url(u))},
       get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(

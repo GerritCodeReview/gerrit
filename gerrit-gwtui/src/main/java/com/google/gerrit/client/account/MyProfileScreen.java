@@ -19,6 +19,8 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
@@ -86,6 +88,7 @@ public class MyProfileScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    add(new ExtensionPanel(GerritUiExtensionPoint.PROFILE_SCREEN_BOTTOM));
     display(Gerrit.getUserAccount());
     display();
   }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_dd920b5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:12:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure how this is better. How is \"add\" different from \"create\"? What is the difference between a \"subscription\" and a \"subscription entry\"?",
+      "parentUuid": "9347353e_0c7e778f",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d33d2da0_4e05d344",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
         "patchSetId": 44
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "it\u0027s code churn either way, but if you prefer to rather rename the class variable I\u0027d do that.",
       "parentUuid": "333689c8_29c6cd8b",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_9d9c8370",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-07T23:12:37Z",
+      "side": 1,
+      "message": "Thanks for explaining, I am fine with this in this change.",
+      "parentUuid": "333689c8_e9159577",
       "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

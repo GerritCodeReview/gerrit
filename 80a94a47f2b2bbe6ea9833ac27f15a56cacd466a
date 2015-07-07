@@ -16,6 +16,24 @@
       "revId": "80a94a47f2b2bbe6ea9833ac27f15a56cacd466a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333689c8_491ce198",
+        "filename": ".settings/edu.umd.cs.findbugs.core.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-07T22:26:41Z",
+      "side": 1,
+      "message": "No.",
+      "parentUuid": "98059200_fcf949be",
+      "revId": "80a94a47f2b2bbe6ea9833ac27f15a56cacd466a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

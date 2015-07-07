@@ -69,6 +69,24 @@
       "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333689c8_29c6cd8b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-07T00:44:32Z",
+      "side": 1,
+      "message": "Maybe rename the class variable in a separate commit?",
+      "parentUuid": "5333fdd6_aab9cf1b",
+      "revId": "95b07c37952428cd65dc6dde6d7248005336cfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -33,18 +33,22 @@ public abstract class ChangeSet {
         ImmutableSetMultimap.builder();
     ImmutableSetMultimap.Builder<Project.NameKey, Change.Id> pcb =
         ImmutableSetMultimap.builder();
+    ImmutableSetMultimap.Builder<Branch.NameKey, Change.Id> cbb =
+        ImmutableSetMultimap.builder();
 
     for (Change c : changes) {
-      Project.NameKey project = c.getDest().getParentKey();
+      Branch.NameKey branch = c.getDest();
+      Project.NameKey project = branch.getParentKey();
       pb.add(project);
-      bb.add(c.getDest());
+      bb.add(branch);
       ib.add(c.getId());
-      pbb.put(project, c.getDest());
+      pbb.put(project, branch);
       pcb.put(project, c.getId());
+      cbb.put(branch, c.getId());
     }
 
     return new AutoValue_ChangeSet(pb.build(), bb.build(),
-        ib.build(), pbb.build(), pcb.build());
+        ib.build(), pbb.build(), pcb.build(), cbb.build());
   }
 
   public static ChangeSet create(Change change) {
@@ -58,6 +62,8 @@ public abstract class ChangeSet {
       branchesByProject();
   public abstract ImmutableSetMultimap<Project.NameKey, Change.Id>
       changesByProject();
+  public abstract ImmutableSetMultimap<Branch.NameKey, Change.Id>
+      changesByBranch();
 
   @Override
   public int hashCode() {

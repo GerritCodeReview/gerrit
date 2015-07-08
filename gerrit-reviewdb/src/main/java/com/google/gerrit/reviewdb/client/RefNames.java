@@ -59,7 +59,7 @@ public class RefNames {
 
   /**
    * Special ref for GPG public keys used by {@link
-   * com.google.gerrit.server.git.SignedPushPreReceiveHook}.
+   * com.google.gerrit.server.git.gpg.SignedPushPreReceiveHook}.
    */
   public static final String REFS_GPG_KEYS = "refs/meta/gpg-keys";
 

@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5333fdd6_aa3c6ff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "It\u0027s CM5 on current master. But may be just drop the version here.  Who knows what Codemirror version is going to be used, once this change is merged? 42?",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_8b2dedd2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ChunkManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "SideBySide and Unified",
+      "range": {
+        "startLine": 44,
+        "startChar": 39,
+        "endLine": 44,
+        "endChar": 49
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_ab32a92b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "Outdated comment.",
+      "range": {
+        "startLine": 566,
+        "startChar": 45,
+        "endLine": 566,
+        "endChar": 57
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_cb27f5ec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NoOpKeyCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "Unrelated to this change.",
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_0a657b13",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "SideBySideTable ?",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_eb2cb1d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySideSkipManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "SideBySide",
+      "range": {
+        "startLine": 29,
+        "startChar": 61,
+        "endLine": 29,
+        "endChar": 72
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_2a623f0c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "and Unified.",
+      "range": {
+        "startLine": 29,
+        "startChar": 61,
+        "endLine": 29,
+        "endChar": 71
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_0b22dddc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "UnifiedTable?",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_2b1f998f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedDiffChunkInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "Missing License.",
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_4b1ce598",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedPatchSetSelectBox.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "Can\u0027t we derive it from PatchSetSelectBox and re-use some parts of the code?",
+      "range": {
+        "startLine": 40,
+        "startChar": 31,
+        "endLine": 40,
+        "endChar": 48
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7342c131_6b19a1a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedSkipBar.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "Can\u0027t we derive it from SkipBar and re-use some parts of the code?",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 38
+      },
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_4a6f73f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "Remove unused code, here and below?",
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_6a6c37fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedTable.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-08T09:43:39Z",
+      "side": 1,
+      "message": "Nit: trailing blanks.",
+      "revId": "d15732050181738807faf28fff95287b91b62026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

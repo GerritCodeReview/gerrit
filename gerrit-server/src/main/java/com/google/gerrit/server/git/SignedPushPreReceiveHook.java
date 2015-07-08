@@ -19,6 +19,7 @@ import static org.bouncycastle.openpgp.PGPSignature.DEFAULT_CERTIFICATION;
 import static org.bouncycastle.openpgp.PGPSignature.POSITIVE_CERTIFICATION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
@@ -46,6 +47,8 @@ import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -215,10 +218,18 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
       // http://www.bouncycastle.org/jira/browse/BJB-45
       log.warn("Key is revoked: {}", toString(key));
       return false;
-    } else if (key.getValidSeconds() == 0) {
-      log.warn("Key is expired: {}", toString(key));
-      return false;
     }
+
+    long validSecs = key.getValidSeconds();
+    if (validSecs != 0) {
+      DateTime created = new DateTime(key.getCreationTime());
+      DateTime now = new DateTime(TimeUtil.nowTs());
+      if (new Duration(created, now).getStandardSeconds() > validSecs) {
+        log.warn("Key is expired: {}", toString(key));
+        return false;
+      }
+    }
+
     return verifyPublicKeyCertifications(key, ident);
   }
 

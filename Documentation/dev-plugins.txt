@@ -980,6 +980,20 @@ Panel will be shown below the change info block.
 +
 The numeric change ID
 
+* Project Info Screen:
+** `GerritUiExtensionPoint.PROJECT_INFO_SCREEN_TOP`:
++
+Panel will be shown at the top of the screen.
+
+** `GerritUiExtensionPoint.PROJECT_INFO_SCREEN_BOTTOM`:
++
+Panel will be shown at the bottom of the screen.
+
+** The following parameters are provided:
+*** `GerritUiExtensionPoint.Key.PROJECT_NAME`:
++
+The name of the project.
+
 * User Profile Screen:
 ** `GerritUiExtensionPoint.PROFILE_SCREEN_BOTTOM`:
 +

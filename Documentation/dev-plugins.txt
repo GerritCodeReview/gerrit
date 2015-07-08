@@ -1730,6 +1730,31 @@ public class MyPlugin extends PluginEntryPoint {
 }
 ----
 
+[[user-settings-screen]]
+== Add User Settings Screen
+
+A link:#gwt_ui_extension[GWT plugin] can implement a user settings
+screen that is integrated into the Gerrit user settings menu.
+
+Example settings screen:
+[source,java]
+----
+public class MyPlugin extends PluginEntryPoint {
+  @Override
+  public void onPluginLoad() {
+    Plugin.get().settingsScreen("my-preferences", "My Preferences",
+        new Screen.EntryPoint() {
+          @Override
+          public void onLoad(Screen screen) {
+            screen.setPageTitle("Settings");
+            screen.add(new InlineLabel("My Preferences");
+            screen.show();
+          }
+    });
+  }
+}
+----
+
 [[settings-screen]]
 == Plugin Settings Screen
 

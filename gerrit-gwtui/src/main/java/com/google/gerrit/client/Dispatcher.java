@@ -28,6 +28,7 @@ import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_AGREEMENTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_CONTACT;
+import static com.google.gerrit.common.PageLinks.SETTINGS_EXTENSION;
 import static com.google.gerrit.common.PageLinks.SETTINGS_HTTP_PASSWORD;
 import static com.google.gerrit.common.PageLinks.SETTINGS_MYGROUPS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_NEW_AGREEMENT;
@@ -64,6 +65,7 @@ import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ExtensionScreen;
+import com.google.gerrit.client.api.ExtensionSettingsScreen;
 import com.google.gerrit.client.change.ChangeScreen;
 import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
@@ -717,6 +719,16 @@ public class Dispatcher {
 
         if (matchPrefix(SETTINGS_NEW_AGREEMENT + "/", token)) {
           return new NewAgreementScreen(skip(token));
+        }
+
+        if (matchPrefix(SETTINGS_EXTENSION, token)) {
+          ExtensionSettingsScreen view =
+              new ExtensionSettingsScreen(skip(token));
+          if (view.isFound()) {
+            return view;
+          } else {
+            return new NotFoundScreen();
+          }
         }
 
         return new NotFoundScreen();

@@ -19,12 +19,6 @@ import os.path
 import re
 import sys
 
-version_text = """# Maven style API version (e.g. '2.x-SNAPSHOT').
-# Used by :api_install and :api_deploy targets
-# when talking to the destination repository.
-#
-GERRIT_VERSION = '%s'
-"""
 parser = OptionParser()
 opts, args = parser.parse_args()
 
@@ -33,31 +27,34 @@ if not len(args):
 elif len(args) > 1:
   parser.error('too many arguments')
 
-new_version = args[0]
-pattern = re.compile(r'(\s*)<version>[-.\w]+</version>')
+DEST_PATTERN = r'\g<1>%s\g<3>' % args[0]
 
+
+def replace_in_file(filename, src_pattern):
+  try:
+    f = open(filename, "r")
+    s = f.read()
+    f.close()
+    s = re.sub(src_pattern, DEST_PATTERN, s)
+    f = open(filename, "w")
+    f.write(s)
+    f.close()
+  except IOError as err:
+    print('error updating %s: %s' % (filename, err), file=sys.stderr)
+
+
+src_pattern = re.compile(r'^(\s*<version>)([-.\w]+)(</version>\s*)$',
+                         re.MULTILINE)
 for project in ['gerrit-extension-api', 'gerrit-plugin-api',
                 'gerrit-plugin-archetype', 'gerrit-plugin-gwt-archetype',
                 'gerrit-plugin-gwtui', 'gerrit-plugin-js-archetype',
                 'gerrit-war']:
   pom = os.path.join(project, 'pom.xml')
-  try:
-    outxml = ""
-    found = False
-    for line in open(pom, "r"):
-      m = pattern.match(line)
-      if m and not found:
-        outxml += "%s<version>%s</version>\n" % (m.group(1), new_version)
-        found = True
-      else:
-        outxml += line
-    with open(pom, "w") as outfile:
-      outfile.write(outxml)
-  except IOError as err:
-    print('error updating %s: %s' % (pom, err), file=sys.stderr)
+  replace_in_file(pom, src_pattern)
 
-try:
-  with open('VERSION', "w") as version_file:
-    version_file.write(version_text % new_version)
-except IOError as err:
-  print('error updating VERSION: %s' % err, file=sys.stderr)
+src_pattern = re.compile(r"^(GERRIT_VERSION = ')([-.\w]+)(')$", re.MULTILINE)
+replace_in_file('VERSION', src_pattern)
+
+src_pattern = re.compile(r'^(\s*-DarchetypeVersion=)([-.\w]+)(\s*\\)$',
+                         re.MULTILINE)
+replace_in_file(os.path.join('Documentation', 'dev-plugins.txt'), src_pattern)

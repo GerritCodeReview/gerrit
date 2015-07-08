@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "333689c8_29624d0c",
+        "filename": "Documentation/cmd-index-start.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-08T13:25:25Z",
+      "side": 1,
+      "message": "the indexer",
+      "range": {
+        "startLine": 19,
+        "startChar": 36,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "fb40726e716c9e4fc704018417f07955185c4c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

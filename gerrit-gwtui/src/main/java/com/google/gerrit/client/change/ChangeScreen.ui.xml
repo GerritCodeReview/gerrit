@@ -323,6 +323,10 @@ limitations under the License.
       vertical-align: bottom;
     }
 
+    .headerExtension {
+      display: inline-block;
+    }
+
     .changeExtension {
       padding-top: 5px;
     }
@@ -338,6 +342,7 @@ limitations under the License.
             </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
           </span>
         </div>
+        <g:SimplePanel ui:field='headerExtension' styleName='{style.headerExtension}'/>
       </div>
 
       <div class='{style.infoLine}'>

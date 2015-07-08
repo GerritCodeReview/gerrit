@@ -18,6 +18,9 @@ public enum GerritUiExtensionPoint {
   /* ChangeScreen */
   CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
 
+  /* MyPasswordScreen */
+  PASSWORD_SCREEN_BOTTOM,
+
   /* MyProfileScreen */
   PROFILE_SCREEN_BOTTOM,
 

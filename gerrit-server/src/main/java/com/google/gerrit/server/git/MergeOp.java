@@ -393,8 +393,7 @@ public class MergeOp {
       throws ResourceConflictException, OrmException {
     for (Change.Id id : cs.ids()) {
       ChangeData cd = changeDataFactory.create(db, id);
-      if (cd.change().getStatus() != Change.Status.NEW
-          && cd.change().getStatus() != Change.Status.SUBMITTED){
+      if (cd.change().getStatus() != Change.Status.NEW){
         throw new OrmException("Change " + cd.change().getChangeId()
             + " is in state " + cd.change().getStatus());
       } else {
@@ -424,8 +423,6 @@ public class MergeOp {
           break;
         case MERGED:
           // we're racing here, but having it already merged is fine.
-        case SUBMITTED:
-          // ok
       }
     }
   }
@@ -692,9 +689,8 @@ public class MergeOp {
         throw new MergeException("Failed to validate changes", e);
       }
       Change.Id changeId = cd.getId();
-      if (chg.getStatus() != Change.Status.SUBMITTED
-          && chg.getStatus() != Change.Status.NEW) {
-        logDebug("Change {} is not new or submitted: {}", changeId, chg.getStatus());
+      if (chg.getStatus() != Change.Status.NEW) {
+        logDebug("Change {} is not new: {}", changeId, chg.getStatus());
         continue;
       }
       if (chg.currentPatchSetId() == null) {

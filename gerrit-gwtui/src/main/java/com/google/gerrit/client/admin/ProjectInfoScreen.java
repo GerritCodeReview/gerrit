@@ -690,7 +690,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     return pluginConfigValues;
   }
 
-  public class ProjectDownloadPanel extends DownloadPanel {
+  public static class ProjectDownloadPanel extends DownloadPanel {
     public ProjectDownloadPanel(String project, boolean isAllowsAnonymous) {
       super(project, isAllowsAnonymous);
     }

@@ -15,11 +15,13 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.config.DownloadInfo.DownloadCommandInfo;
 import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
@@ -114,6 +116,12 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     });
 
+    ExtensionPanel extensionPanelTop =
+        new ExtensionPanel(GerritUiExtensionPoint.PROJECT_INFO_SCREEN_TOP);
+    extensionPanelTop.put(GerritUiExtensionPoint.Key.PROJECT_NAME,
+        getProjectKey().get());
+    add(extensionPanelTop);
+
     add(new ProjectDownloadPanel(getProjectKey().get(), true));
 
     initDescription();
@@ -126,6 +134,12 @@ public class ProjectInfoScreen extends ProjectScreen {
     add(pluginOptionsPanel);
     add(saveProject);
     add(actionsGrid);
+
+    ExtensionPanel extensionPanelBottom =
+        new ExtensionPanel(GerritUiExtensionPoint.PROJECT_INFO_SCREEN_BOTTOM);
+    extensionPanelBottom.put(GerritUiExtensionPoint.Key.PROJECT_NAME,
+        getProjectKey().get());
+    add(extensionPanelBottom);
   }
 
   @Override

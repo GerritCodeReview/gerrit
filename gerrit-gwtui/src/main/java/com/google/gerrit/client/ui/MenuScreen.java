@@ -49,6 +49,11 @@ public abstract class MenuScreen extends Screen {
   }
 
   @Override
+  protected FlowPanel getBody() {
+    return body;
+  }
+
+  @Override
   protected void add(final Widget w) {
     body.add(w);
   }

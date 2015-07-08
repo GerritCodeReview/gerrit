@@ -118,6 +118,10 @@ a:hover {
   cursor: pointer;
 }
 
+.extensionPanel {
+  padding-top: 10px;
+}
+
 /** MenuScreen **/
 .menuScreenMenuBar {
   background: topMenuColor;

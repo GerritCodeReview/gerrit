@@ -82,7 +82,6 @@ import com.google.inject.Injector;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
-import com.google.inject.assistedinject.Assisted;
 import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.HostKey;
@@ -131,10 +130,6 @@ import java.util.concurrent.Callable;
  * be merged cleanly.
  */
 public class MergeOp {
-  public interface Factory {
-    MergeOp create(ChangeSet changes, IdentifiedUser caller);
-  }
-
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
   private final AccountCache accountCache;
@@ -164,9 +159,7 @@ public class MergeOp {
   private final Map<Change.Id, CodeReviewCommit> commits;
   private final List<Change> toUpdate;
   private final PerThreadRequestScope.Scoper threadScoper;
-  private final ChangeSet changes;
-  private final IdentifiedUser caller;
-  private final String logPrefix;
+  private String logPrefix;
 
   private ProjectState destProject;
   private ReviewDb db;
@@ -203,9 +196,7 @@ public class MergeOp {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
-      WorkQueue workQueue,
-      @Assisted ChangeSet changes,
-      @Assisted IdentifiedUser caller) {
+      WorkQueue workQueue) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
@@ -229,11 +220,9 @@ public class MergeOp {
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
     this.workQueue = workQueue;
-    this.changes = changes;
-    this.caller = caller;
     commits = new HashMap<>();
     toUpdate = Lists.newArrayList();
-    logPrefix = String.format("[%s]: ", String.valueOf(changes.hashCode()));
+
 
     pendingRefUpdates = new HashMap<>();
     openBranches = new HashMap<>();
@@ -405,8 +394,9 @@ public class MergeOp {
 
   // For historic reasons we will first go into the submitted state
   // TODO(sbeller): remove this when we get rid of Change.Status.SUBMITTED
-  private void submitAllChanges(ChangeSet cs, boolean force)
-      throws OrmException, ResourceConflictException, IOException {
+  private void submitAllChanges(ChangeSet cs, IdentifiedUser caller,
+      boolean force) throws OrmException, ResourceConflictException,
+      IOException {
     for (Change.Id id : cs.ids()) {
       ChangeData cd = changeDataFactory.create(db, id);
       switch (cd.change().getStatus()) {
@@ -430,8 +420,10 @@ public class MergeOp {
     }
   }
 
-  public void merge(boolean checkPermissions) throws NoSuchChangeException,
+  public void merge(ChangeSet changes, IdentifiedUser caller,
+      boolean checkPermissions) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
+    logPrefix = String.format("[%s]: ", String.valueOf(changes.hashCode()));
     logDebug("Beginning merge of {}", changes);
     try {
       openSchema();
@@ -441,12 +433,12 @@ public class MergeOp {
       if (checkPermissions) {
         logDebug("Submitting all calculated changes while "
             + "enforcing submit rules");
-        submitAllChanges(cs, false);
+        submitAllChanges(cs, caller, false);
         logDebug("Checking permissions");
         checkPermissions(cs);
       } else {
         logDebug("Submitting all calculated changes ignoring submit rules");
-        submitAllChanges(cs, true);
+        submitAllChanges(cs, caller, true);
       }
       try {
         integrateIntoHistory(cs);
@@ -466,7 +458,7 @@ public class MergeOp {
 
   private void integrateIntoHistory(ChangeSet cs)
       throws MergeException, NoSuchChangeException, ResourceConflictException {
-    logDebug("Beginning merge attempt on {}", changes);
+    logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, ListMultimap<SubmitType, Change>> toSubmit =
         new HashMap<>();
     try {

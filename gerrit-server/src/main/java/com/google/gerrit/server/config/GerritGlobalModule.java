@@ -74,7 +74,6 @@ import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
-import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
@@ -233,7 +232,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
         .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
 
-    factory(MergeOp.Factory.class);
     factory(SubmoduleOp.Factory.class);
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);

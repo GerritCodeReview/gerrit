@@ -128,7 +128,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final MergeOp.Factory mergeOpFactory;
+  private final Provider<MergeOp> mergeOpProvider;
   private final ChangeIndexer indexer;
   private final LabelNormalizer labelNormalizer;
   private final AccountsCollection accounts;
@@ -149,7 +149,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      MergeOp.Factory mergeOpFactory,
+      Provider<MergeOp> mergeOpProvider,
       AccountsCollection accounts,
       ChangesCollection changes,
       ChangeIndexer indexer,
@@ -164,7 +164,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.mergeOpFactory = mergeOpFactory;
+    this.mergeOpProvider = mergeOpProvider;
     this.accounts = accounts;
     this.changes = changes;
     this.indexer = indexer;
@@ -215,7 +215,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ChangeSet submittedChanges = ChangeSet.create(submit(rsrc, caller, false));
 
     try {
-      mergeOpFactory.create(submittedChanges, caller).merge(true);
+      mergeOpProvider.get().merge(submittedChanges, caller, true);
       change = dbProvider.get().changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);

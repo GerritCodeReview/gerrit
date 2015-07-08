@@ -994,6 +994,11 @@ Panel will be shown at the bottom of the screen.
 +
 The name of the project.
 
+* User Password Screen:
+** `GerritUiExtensionPoint.PASSWORD_SCREEN_BOTTOM`:
++
+Panel will be shown at the bottom of the screen.
+
 * User Profile Screen:
 ** `GerritUiExtensionPoint.PROFILE_SCREEN_BOTTOM`:
 +

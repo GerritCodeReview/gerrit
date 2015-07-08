@@ -81,7 +81,6 @@ limitations under the License.
       display: inline-block;
       position: relative;
       height: HEADER_HEIGHT;
-      width: 300px;
     }
     .star {
       position: absolute;
@@ -323,6 +322,15 @@ limitations under the License.
       vertical-align: bottom;
     }
 
+    .headerExtension {
+      display: inline-block;
+      float: right;
+    }
+
+    .headerExtension>div>div {
+      float: left;
+    }
+
     .changeExtension {
       padding-top: 5px;
     }
@@ -337,6 +345,7 @@ limitations under the License.
               <ui:attribute name='title'/>
             </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
           </span>
+          <g:SimplePanel ui:field='headerExtension' styleName='{style.headerExtension}'/>
         </div>
       </div>
 

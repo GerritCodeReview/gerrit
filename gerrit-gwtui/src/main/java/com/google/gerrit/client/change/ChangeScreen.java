@@ -149,6 +149,7 @@ public class ChangeScreen extends Screen {
   private FileTable.Mode fileTableMode;
 
   @UiField HTMLPanel headerLine;
+  @UiField SimplePanel headerExtension;
   @UiField Style style;
   @UiField ToggleButton star;
   @UiField Anchor permalink;
@@ -226,6 +227,10 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    ExtensionPanel headerExtensionPanel =
+        new ExtensionPanel(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER);
+    headerExtensionPanel.putInt(GerritUiExtensionPoint.Key.CHANGE_ID, changeId.get());
+    headerExtension.add(headerExtensionPanel);
     ExtensionPanel extensionPanel =
         new ExtensionPanel(GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK);
     extensionPanel.putInt(GerritUiExtensionPoint.Key.CHANGE_ID, changeId.get());

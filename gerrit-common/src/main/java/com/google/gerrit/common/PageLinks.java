@@ -33,6 +33,7 @@ public class PageLinks {
   public static final String SETTINGS_CONTACT = "/settings/contact";
   public static final String SETTINGS_PROJECTS = "/settings/projects";
   public static final String SETTINGS_NEW_AGREEMENT = "/settings/new-agreement";
+  public static final String SETTINGS_EXTENSION = "/settings/x/";
   public static final String REGISTER = "/register";
 
   public static final String MINE = "/";
@@ -126,6 +127,10 @@ public class PageLinks {
 
   public static String toGroup(AccountGroup.UUID uuid) {
     return ADMIN_GROUPS + "uuid-" + uuid;
+  }
+
+  public static String toSettings(String pluginName, String path) {
+    return SETTINGS_EXTENSION + pluginName + "/" + path;
   }
 
   private static String status(Status status) {

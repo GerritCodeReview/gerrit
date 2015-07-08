@@ -94,6 +94,19 @@ public final class Plugin extends JavaScriptObject {
   /*-{ this.screen(new $wnd.RegExp(p), e) }-*/;
 
   /**
+   * Register a settings screen displayed at {@code /#/settings/x/plugin/token}.
+   *
+   * @param token literal anchor token appearing after the plugin name.
+   * @param entry callback function invoked to create the settings screen widgets.
+   */
+  public final void settingsScreen(String token, String menu, Screen.EntryPoint entry) {
+    settingsScreen(token, menu, wrap(entry));
+  }
+
+  private final native void settingsScreen(String t, String m, JavaScriptObject e)
+  /*-{ this.settingsScreen(t, m, e) }-*/;
+
+  /**
    * Register a panel for an UI extension point.
    *
    * @param extensionPoint the UI extension point for which the panel should be registered.

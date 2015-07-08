@@ -153,7 +153,7 @@ public class MergeOp {
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ProjectCache projectCache;
-  private final Provider<InternalChangeQuery> queryProvider;
+  private final InternalChangeQuery internalChangeQuery;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final Submit submit;
   private final SubmitStrategyFactory submitStrategyFactory;
@@ -197,7 +197,7 @@ public class MergeOp {
       MergeValidators.Factory mergeValidatorsFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       ProjectCache projectCache,
-      Provider<InternalChangeQuery> queryProvider,
+      InternalChangeQuery internalChangeQuery,
       SchemaFactory<ReviewDb> schemaFactory,
       Submit submit,
       SubmitStrategyFactory submitStrategyFactory,
@@ -222,7 +222,7 @@ public class MergeOp {
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.projectCache = projectCache;
-    this.queryProvider = queryProvider;
+    this.internalChangeQuery = internalChangeQuery;
     this.schemaFactory = schemaFactory;
     this.submit = submit;
     this.submitStrategyFactory = submitStrategyFactory;
@@ -477,7 +477,7 @@ public class MergeOp {
         for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
           setDestProject(branch);
           ListMultimap<SubmitType, Change> submitting =
-              validateChangeList(queryProvider.get().submitted(branch));
+              validateChangeList(internalChangeQuery.submitted(branch));
           toSubmit.put(branch, submitting);
 
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
@@ -1208,8 +1208,7 @@ public class MergeOp {
       throws NoSuchChangeException {
     try {
       openSchema();
-      for (ChangeData cd
-          : queryProvider.get().byProjectOpen(destProject)) {
+      for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
         abandonOneChange(cd.change());
       }
       db.close();

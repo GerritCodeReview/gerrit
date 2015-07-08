@@ -19,9 +19,12 @@ public enum GerritUiExtensionPoint {
   CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
 
   /* MyProfileScreen */
-  PROFILE_SCREEN_BOTTOM;
+  PROFILE_SCREEN_BOTTOM,
+
+  /* ProjectInfoScreen */
+  PROJECT_INFO_SCREEN_TOP, PROJECT_INFO_SCREEN_BOTTOM;
 
   public enum Key {
-    CHANGE_ID
+    CHANGE_ID, PROJECT_NAME
   }
 }

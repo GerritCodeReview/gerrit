@@ -15,6 +15,8 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.api.ExtensionSettingsScreen;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.common.PageLinks;
 
@@ -36,6 +38,13 @@ public abstract class SettingsScreen extends MenuScreen {
     link(Util.C.tabMyGroups(), PageLinks.SETTINGS_MYGROUPS);
     if (Gerrit.info().auth().useContributorAgreements()) {
       link(Util.C.tabAgreements(), PageLinks.SETTINGS_AGREEMENTS);
+    }
+
+    for (String pluginName : ExtensionSettingsScreen.Definition.plugins()) {
+      for (ExtensionSettingsScreen.Definition def :
+          Natives.asList(ExtensionSettingsScreen.Definition.get(pluginName))) {
+        link(def.getMenu(), PageLinks.toSettings(pluginName, def.getPath()));
+      }
     }
   }
 

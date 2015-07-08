@@ -971,6 +971,11 @@ Gerrit screens define extension points where plugins can add GWT
 panels with custom controls:
 
 * Change Screen:
+** `GerritUiExtensionPoint.CHANGE_SCREEN_HEADER`:
++
+Panel will be shown in the header bar to the right of the change
+status.
+
 ** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK`:
 +
 Panel will be shown below the change info block.

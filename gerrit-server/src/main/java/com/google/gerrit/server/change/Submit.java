@@ -51,7 +51,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
@@ -89,16 +88,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private static final String CLICK_FAILURE_TOOLTIP =
       "Clicking the button would fail.";
 
-  public enum Status {
-    SUBMITTED, MERGED
-  }
-
   public static class Output {
-    public Status status;
     transient Change change;
 
-    private Output(Status s, Change c) {
-      status = s;
+    private Output(Change c) {
       change = c;
     }
   }
@@ -199,10 +192,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       throw new ResourceConflictException("change is deleted");
     }
     switch (change.getStatus()) {
-      case SUBMITTED:
-        return new Output(Status.SUBMITTED, change);
       case MERGED:
-        return new Output(Status.MERGED, change);
+        return new Output(change);
       case NEW:
         ChangeMessage msg = getConflictMessage(rsrc);
         if (msg != null) {

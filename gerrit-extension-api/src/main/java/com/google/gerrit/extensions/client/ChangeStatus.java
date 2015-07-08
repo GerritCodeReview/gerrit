@@ -28,38 +28,11 @@ public enum ChangeStatus {
    * <p>
    * Changes in the NEW state can be moved to:
    * <ul>
-   * <li>{@link #SUBMITTED} - when the Submit Patch Set action is used;
+   * <li>{@link #MERGED} - when the Submit Patch Set action is used;
    * <li>{@link #ABANDONED} - when the Abandon action is used.
    * </ul>
    */
   NEW,
-
-  /**
-   * Change is open, but has been submitted to the merge queue.
-   *
-   * <p>
-   * A change enters the SUBMITTED state when an authorized user presses the
-   * "submit" action through the web UI, requesting that Gerrit merge the
-   * change's current patch set into the destination branch.
-   *
-   * <p>
-   * Typically a change resides in the SUBMITTED for only a brief sub-second
-   * period while the merge queue fires and the destination branch is updated.
-   * However, if a dependency commit (directly or transitively) is not yet
-   * merged into the branch, the change will hang in the SUBMITTED state
-   * indefinitely.
-   *
-   * <p>
-   * Changes in the SUBMITTED state can be moved to:
-   * <ul>
-   * <li>{@link #NEW} - when a replacement patch set is supplied, OR when a
-   * merge conflict is detected;
-   * <li>{@link #MERGED} - when the change has been successfully merged into
-   * the destination branch;
-   * <li>{@link #ABANDONED} - when the Abandon action is used.
-   * </ul>
-   */
-  SUBMITTED,
 
   /**
    * Change is a draft change that only consists of draft patchsets.

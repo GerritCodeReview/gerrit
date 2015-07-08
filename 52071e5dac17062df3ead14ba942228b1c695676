@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5333fdd6_8aa24bb7",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-08T13:11:45Z",
+      "side": 1,
+      "message": "OK, I agree. This can be done later and in the master branch.",
+      "parentUuid": "b8f6d649_3d10cf87",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "739481c1_bb32072c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
         "patchSetId": 4

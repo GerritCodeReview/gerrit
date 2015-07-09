@@ -22,6 +22,30 @@
       "revId": "e63102a5eba72c984d44c75785654c0ad90946d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_bde4dfcf",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-07-09T12:04:12Z",
+      "side": 1,
+      "message": "never, I will change this for \u003d\u003d",
+      "parentUuid": "5333fdd6_2a94ff47",
+      "range": {
+        "startLine": 187,
+        "startChar": 34,
+        "endLine": 187,
+        "endChar": 36
+      },
+      "revId": "e63102a5eba72c984d44c75785654c0ad90946d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

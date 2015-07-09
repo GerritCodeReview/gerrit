@@ -251,8 +251,6 @@ public final class Change {
   private static final char MIN_OPEN = 'a';
   /** Database constant for {@link Status#NEW}. */
   public static final char STATUS_NEW = 'n';
-  /** Database constant for {@link Status#SUBMITTED}. */
-  public static final char STATUS_SUBMITTED = 's';
   /** Database constant for {@link Status#DRAFT}. */
   public static final char STATUS_DRAFT = 'd';
   /** Maximum database status constant for an open change. */
@@ -285,38 +283,11 @@ public final class Change {
      * <p>
      * Changes in the NEW state can be moved to:
      * <ul>
-     * <li>{@link #SUBMITTED} - when the Submit Patch Set action is used;
+     * <li>{@link #MERGED} - when the Submit Patch Set action is used;
      * <li>{@link #ABANDONED} - when the Abandon action is used.
      * </ul>
      */
     NEW(STATUS_NEW, ChangeStatus.NEW),
-
-    /**
-     * Change is open, but has been submitted to the merge queue.
-     *
-     * <p>
-     * A change enters the SUBMITTED state when an authorized user presses the
-     * "submit" action through the web UI, requesting that Gerrit merge the
-     * change's current patch set into the destination branch.
-     *
-     * <p>
-     * Typically a change resides in the SUBMITTED for only a brief sub-second
-     * period while the merge queue fires and the destination branch is updated.
-     * However, if a dependency commit (a {@link PatchSetAncestor}, directly or
-     * transitively) is not yet merged into the branch, the change will hang in
-     * the SUBMITTED state indefinitely.
-     *
-     * <p>
-     * Changes in the SUBMITTED state can be moved to:
-     * <ul>
-     * <li>{@link #NEW} - when a replacement patch set is supplied, OR when a
-     * merge conflict is detected;
-     * <li>{@link #MERGED} - when the change has been successfully merged into
-     * the destination branch;
-     * <li>{@link #ABANDONED} - when the Abandon action is used.
-     * </ul>
-     */
-    SUBMITTED(STATUS_SUBMITTED, ChangeStatus.SUBMITTED),
 
     /**
      * Change is a draft change that only consists of draft patchsets.

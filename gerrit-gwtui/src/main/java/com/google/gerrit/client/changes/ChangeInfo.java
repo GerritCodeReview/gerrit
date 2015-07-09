@@ -15,9 +15,9 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.WebLinkInfo;
-import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.diff.FileInfo;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;

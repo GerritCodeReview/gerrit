@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.diff.CommentRange;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;

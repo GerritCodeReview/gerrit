@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -137,9 +135,9 @@ public class CherryPick extends SubmitStrategy {
             args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(), n);
         mergeTip.moveTipTo(result, n);
       }
-      PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(args.rw,
-          args.canMergeFlag, mergeTip.getCurrentTip(), args.alreadyAccepted);
-      setRefLogIdent(submitApproval);
+      args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+          mergeTip.getCurrentTip(), args.alreadyAccepted);
+      setRefLogIdent();
     } else {
       // One or more dependencies were not met. The status was already marked on
       // the commit so we have nothing further to perform at this time.
@@ -157,7 +155,8 @@ public class CherryPick extends SubmitStrategy {
 
     CodeReviewCommit newCommit =
         (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
-            args.inserter, mergeTip, n, args.serverIdent.get(),
+            args.inserter, mergeTip, n, args.caller.newCommitterIdent(
+                TimeUtil.nowTs(), args.serverIdent.get().getTimeZone()),
             cherryPickCmtMsg, args.rw);
 
     PatchSet.Id id =

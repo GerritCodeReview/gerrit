@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeTip;
@@ -49,17 +49,17 @@ public class MergeIfNecessary extends SubmitStrategy {
     while (!sorted.isEmpty()) {
       CodeReviewCommit mergedFrom = sorted.remove(0);
       branchTip =
-          args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo,
-              args.rw, args.inserter, args.canMergeFlag, args.destBranch,
-              branchTip, mergedFrom);
+          args.mergeUtil.mergeOneCommit(
+              args.caller.newCommitterIdent(
+                  TimeUtil.nowTs(), args.serverIdent.get().getTimeZone()),
+              args.repo, args.rw, args.inserter, args.canMergeFlag,
+              args.destBranch, branchTip, mergedFrom);
       mergeTip.moveTipTo(branchTip, mergedFrom);
     }
 
-    final PatchSetApproval submitApproval =
-        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, branchTip,
-            args.alreadyAccepted);
-    setRefLogIdent(submitApproval);
-
+    args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, branchTip,
+        args.alreadyAccepted);
+    setRefLogIdent();
     return mergeTip;
   }
 

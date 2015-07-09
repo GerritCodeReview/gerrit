@@ -46,25 +46,25 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    submitStatusOnly(change2.getChangeId());
-    submitStatusOnly(change3.getChangeId());
+    // change2 stays untouched.
+    approve(change2.getChangeId());
+    // Change 3 is a fast-forward, no need to merge.
+    submit(change3.getChangeId());
+    // We need to merge change4.
     submit(change4.getChangeId());
 
     RevCommit tip = getRemoteLog().get(0);
     assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
         change4.getCommit().getShortMessage());
-
-    tip = tip.getParent(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
+    assertThat(tip.getParent(0).getShortMessage()).isEqualTo(
         change3.getCommit().getShortMessage());
+    assertThat(tip.getParent(0).getParent(0).getId()).isEqualTo(
+        initialHead.getId());
 
-    tip = tip.getParent(0);
-    assertThat(tip.getShortMessage()).isEqualTo(
-        change2.getCommit().getShortMessage());
-
-    assertThat(tip.getParent(0).getId()).isEqualTo(initialHead.getId());
     assertAuthor(tip, admin.getIdent());
     assertCommitter(tip, admin.getIdent());
+
+    assertNew(change2.getChangeId());
   }
 
   @Test

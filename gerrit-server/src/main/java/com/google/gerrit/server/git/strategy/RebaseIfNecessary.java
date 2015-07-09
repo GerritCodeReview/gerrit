@@ -110,7 +110,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 CommitMergeStatus.CLEAN_REBASE);
             newCommits.put(newPatchSet.getId().getParentKey(),
                 mergeTip.getCurrentTip());
-            setRefLogIdent(args.mergeUtil.getSubmitter(n));
+            setRefLogIdent();
           } catch (MergeConflictException e) {
             n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
           } catch (NoSuchChangeException | OrmException | IOException
@@ -135,10 +135,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
                     args.repo, args.rw, args.inserter, args.canMergeFlag,
                     args.destBranch, mergeTip.getCurrentTip(), n), n);
           }
-          PatchSetApproval submitApproval =
-              args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-                  mergeTip.getCurrentTip(), args.alreadyAccepted);
-          setRefLogIdent(submitApproval);
+          args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+              mergeTip.getCurrentTip(), args.alreadyAccepted);
+          setRefLogIdent();
         } catch (IOException e) {
           throw new MergeException("Cannot merge " + n.name(), e);
         }

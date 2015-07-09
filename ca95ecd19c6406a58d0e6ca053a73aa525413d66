@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "132d0577_e836730e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-09T13:22:14Z",
+      "side": 1,
+      "message": "shall",
+      "range": {
+        "startLine": 10,
+        "startChar": 62,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333689c8_094ca993",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-09T13:22:14Z",
+      "side": 1,
+      "message": "extend",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333689c8_29496d84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-09T13:22:14Z",
+      "side": 1,
+      "message": "overridden",
+      "range": {
+        "startLine": 13,
+        "startChar": 61,
+        "endLine": 13,
+        "endChar": 70
+      },
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "132d0577_084ca793",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-09T13:22:14Z",
+      "side": 1,
+      "message": "No need to wrap anymore.",
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

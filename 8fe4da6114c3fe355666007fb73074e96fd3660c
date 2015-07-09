@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f6d649_3df1ef90",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T04:22:49Z",
+      "side": 1,
+      "message": "And this is my third concern with the current state of this change. Apparently there is something wrong with the event stream yielding merge events. This might be related to failure of sending emails in MergeOp.",
+      "range": {
+        "startLine": 219,
+        "startChar": 6,
+        "endLine": 219,
+        "endChar": 8
+      },
+      "revId": "8fe4da6114c3fe355666007fb73074e96fd3660c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

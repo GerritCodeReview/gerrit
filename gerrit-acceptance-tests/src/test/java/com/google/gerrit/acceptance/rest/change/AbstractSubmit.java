@@ -61,6 +61,7 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -271,6 +272,27 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
     assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
+  }
+
+  protected void assertAuthor(RevCommit commit, PersonIdent expectedAuthor) {
+    // Don't compare the exact time
+    assertThat(commit.getCommitterIdent().getEmailAddress())
+        .isEqualTo(expectedAuthor.getEmailAddress());
+    assertThat(commit.getCommitterIdent().getName())
+        .isEqualTo(expectedAuthor.getName());
+    assertThat(commit.getCommitterIdent().getTimeZone())
+        .isEqualTo(expectedAuthor.getTimeZone());
+  }
+
+  protected void assertCommitter(RevCommit commit,
+      PersonIdent expectedCommitter) {
+    // Don't compare the exact time
+    assertThat(commit.getCommitterIdent().getEmailAddress())
+        .isEqualTo(expectedCommitter.getEmailAddress());
+    assertThat(commit.getCommitterIdent().getName())
+        .isEqualTo(expectedCommitter.getName());
+    assertThat(commit.getCommitterIdent().getTimeZone())
+        .isEqualTo(expectedCommitter.getTimeZone());
   }
 
   protected void assertSubmitter(String changeId, int psId)

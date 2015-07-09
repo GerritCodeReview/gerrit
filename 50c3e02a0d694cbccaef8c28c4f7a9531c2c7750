@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_fd46e724",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T18:59:55Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "98059200_5cc95d1d",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 50
+      },
+      "revId": "50c3e02a0d694cbccaef8c28c4f7a9531c2c7750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_7d53f7e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_1d52b3e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T18:59:55Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "b8f6d649_7d53f7e7",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "50c3e02a0d694cbccaef8c28c4f7a9531c2c7750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_3cce9127",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
         "patchSetId": 11
@@ -59,6 +107,30 @@
       "writtenOn": "2015-07-09T18:49:37Z",
       "side": 0,
       "message": "This should happen in the parent change, too.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 31
+      },
+      "revId": "50c3e02a0d694cbccaef8c28c4f7a9531c2c7750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_3d4d6f42",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T18:59:55Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "98059200_3cce9127",
       "range": {
         "startLine": 124,
         "startChar": 0,

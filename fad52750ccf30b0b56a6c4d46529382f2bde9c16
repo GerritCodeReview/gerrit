@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98059200_7cf77988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/SignedPushPreReceiveHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T00:29:07Z",
+      "side": 1,
+      "message": "I still want to factor out this part into a testable class.",
+      "revId": "fad52750ccf30b0b56a6c4d46529382f2bde9c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

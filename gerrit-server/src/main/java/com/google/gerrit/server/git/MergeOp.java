@@ -157,7 +157,6 @@ public class MergeOp {
   private final WorkQueue workQueue;
 
   private final Map<Change.Id, CodeReviewCommit> commits;
-  private final List<Change> toUpdate;
   private final PerThreadRequestScope.Scoper threadScoper;
   private String logPrefix;
 
@@ -221,9 +220,6 @@ public class MergeOp {
     this.tagCache = tagCache;
     this.workQueue = workQueue;
     commits = new HashMap<>();
-    toUpdate = Lists.newArrayList();
-
-
     pendingRefUpdates = new HashMap<>();
     openBranches = new HashMap<>();
     mergeTips = new HashMap<>();
@@ -686,7 +682,6 @@ public class MergeOp {
       if (chg.currentPatchSetId() == null) {
         logError("Missing current patch set on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
-        toUpdate.add(chg);
         continue;
       }
 
@@ -701,7 +696,6 @@ public class MergeOp {
           || ps.getRevision().get() == null) {
         logError("Missing patch set or revision on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
-        toUpdate.add(chg);
         continue;
       }
 
@@ -712,7 +706,6 @@ public class MergeOp {
       } catch (IllegalArgumentException iae) {
         logError("Invalid revision on patch set " + ps.getId());
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
-        toUpdate.add(chg);
         continue;
       }
 
@@ -729,7 +722,6 @@ public class MergeOp {
         logError("Revision " + idstr + " of patch set " + ps.getId()
             + " is not contained in any ref");
         commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
-        toUpdate.add(chg);
         continue;
       }
 
@@ -739,7 +731,6 @@ public class MergeOp {
       } catch (IOException e) {
         logError("Invalid commit " + idstr + " on patch set " + ps.getId(), e);
         commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
-        toUpdate.add(chg);
         continue;
       }
 
@@ -756,7 +747,6 @@ public class MergeOp {
         logDebug("Revision {} of patch set {} failed validation: {}",
             idstr, ps.getId(), mve.getStatus());
         commit.setStatusCode(mve.getStatus());
-        toUpdate.add(chg);
         continue;
       }
 
@@ -766,7 +756,6 @@ public class MergeOp {
         logError("No submit type for revision " + idstr + " of patch set "
             + ps.getId());
         commit.setStatusCode(CommitMergeStatus.NO_SUBMIT_TYPE);
-        toUpdate.add(chg);
         continue;
       }
 

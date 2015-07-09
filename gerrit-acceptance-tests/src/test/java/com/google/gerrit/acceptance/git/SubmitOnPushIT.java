@@ -53,10 +53,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject
   private ChangeNotes.Factory changeNotesFactory;
 
-  @Inject
-  @GerritPersonIdent
-  private PersonIdent serverIdent;
-
   @Test
   public void submitOnPush() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");

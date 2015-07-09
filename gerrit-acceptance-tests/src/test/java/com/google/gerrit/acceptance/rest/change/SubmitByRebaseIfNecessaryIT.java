@@ -43,6 +43,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertApproved(change.getChangeId());
     assertCurrentRevision(change.getChangeId(), 1, head);
     assertSubmitter(change.getChangeId(), 1);
+    assertAuthor(head, admin.getIdent());
+    assertCommitter(head, admin.getIdent());
   }
 
   @Test
@@ -65,6 +67,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertCurrentRevision(change2.getChangeId(), 2, head);
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 2);
+    assertAuthor(head, admin.getIdent());
+    assertCommitter(head, serverIdent.get());
   }
 
   @Test

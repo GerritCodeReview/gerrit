@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
@@ -67,6 +68,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
@@ -147,6 +149,10 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   private Provider<AnonymousUser> anonymousUser;
+
+  @Inject
+  @GerritPersonIdent
+  protected Provider<PersonIdent> serverIdent;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;

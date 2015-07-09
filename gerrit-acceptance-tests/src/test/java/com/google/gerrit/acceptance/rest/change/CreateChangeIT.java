@@ -56,7 +56,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createEmptyChange_InvalidStatus() throws Exception {
-    ChangeInfo ci = newChangeInfo(ChangeStatus.SUBMITTED);
+    ChangeInfo ci = newChangeInfo(ChangeStatus.MERGED);
     assertCreateFails(ci, BadRequestException.class,
         "unsupported change status");
   }

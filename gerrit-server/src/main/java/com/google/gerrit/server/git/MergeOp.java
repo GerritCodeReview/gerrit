@@ -475,7 +475,7 @@ public class MergeOp {
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
           for (SubmitType submitType : submitTypes) {
             SubmitStrategy strategy = createStrategy(branch, submitType,
-                getBranchTip(branch));
+                getBranchTip(branch), caller);
 
             MergeTip mergeTip = preMerge(strategy, submitting.get(submitType),
                 getBranchTip(branch));
@@ -547,10 +547,10 @@ public class MergeOp {
   }
 
   private SubmitStrategy createStrategy(Branch.NameKey destBranch,
-      SubmitType submitType, CodeReviewCommit branchTip)
+      SubmitType submitType, CodeReviewCommit branchTip, IdentifiedUser caller)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
+        canMergeFlag, getAlreadyAccepted(branchTip), destBranch, caller);
   }
 
   private void openRepository(Project.NameKey name)

@@ -33,6 +33,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -84,15 +85,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
         } else {
           try {
-            IdentifiedUser uploader =
-                args.identifiedUserFactory.create(args.mergeUtil
-                    .getSubmitter(n).getAccountId());
             PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.change(), n.getPatchsetId(), uploader,
+                    n.change(), n.getPatchsetId(), args.caller,
                     mergeTip.getCurrentTip(), args.mergeUtil,
                     args.serverIdent.get(), false, ValidatePolicy.NONE);
-
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(args.db,
                 n.getControl(), n.getPatchsetId())) {
@@ -109,7 +106,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                     newPatchSet.getId()));
             mergeTip.getCurrentTip().copyFrom(n);
             mergeTip.getCurrentTip().setControl(
-                args.changeControlFactory.controlFor(n.change(), uploader));
+                args.changeControlFactory.controlFor(n.change(), args.caller));
             mergeTip.getCurrentTip().setPatchsetId(newPatchSet.getId());
             mergeTip.getCurrentTip().setStatusCode(
                 CommitMergeStatus.CLEAN_REBASE);

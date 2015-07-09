@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "98059200_fcd709b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T20:52:15Z",
+      "side": 1,
+      "message": "PS in.available() does not do what you want, it only checks if bytes would be available without blocking, not whether there is remaining data.",
+      "parentUuid": "b8f6d649_5dc95b1d",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_5c6f1da8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
         "patchSetId": 2

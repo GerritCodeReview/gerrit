@@ -31,6 +31,6 @@ public enum GerritUiExtensionPoint {
   PROJECT_INFO_SCREEN_TOP, PROJECT_INFO_SCREEN_BOTTOM;
 
   public enum Key {
-    CHANGE_ID, PROJECT_NAME
+    ACCOUNT_INFO, CHANGE_ID, PROJECT_NAME
   }
 }

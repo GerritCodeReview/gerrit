@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.account.AccountInfo;
-import com.google.gerrit.client.account.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.info.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;

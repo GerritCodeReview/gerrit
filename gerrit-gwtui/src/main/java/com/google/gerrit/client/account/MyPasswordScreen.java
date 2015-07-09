@@ -94,7 +94,7 @@ public class MyPasswordScreen extends SettingsScreen {
   protected void onLoad() {
     super.onLoad();
     ExtensionPanel extensionPanel =
-        new ExtensionPanel(GerritUiExtensionPoint.PASSWORD_SCREEN_BOTTOM);
+        createExtensionPoint(GerritUiExtensionPoint.PASSWORD_SCREEN_BOTTOM);
     extensionPanel.addStyleName(Gerrit.RESOURCES.css().extensionPanel());
     add(extensionPanel);
 

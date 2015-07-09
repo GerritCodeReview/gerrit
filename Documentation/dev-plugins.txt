@@ -1013,11 +1013,23 @@ The name of the project.
 +
 Panel will be shown at the bottom of the screen.
 
+** The following parameters are provided:
+*** `GerritUiExtensionPoint.Key.ACCOUNT_INFO`:
++
+The link:rest-api-accounts.html#account-info[AccountInfo] entity for
+the current user.
+
 * User Profile Screen:
 ** `GerritUiExtensionPoint.PROFILE_SCREEN_BOTTOM`:
 +
 Panel will be shown at the bottom of the screen below the grid with the
 profile data.
+
+** The following parameters are provided:
+*** `GerritUiExtensionPoint.Key.ACCOUNT_INFO`:
++
+The link:rest-api-accounts.html#account-info[AccountInfo] entity for
+the current user.
 
 Example panel:
 [source,java]

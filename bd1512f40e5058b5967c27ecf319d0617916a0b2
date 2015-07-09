@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8904e0b_ffc4bf85",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-09T08:38:14Z",
+      "side": 1,
+      "message": "Do we normally use this in such case?",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "bd1512f40e5058b5967c27ecf319d0617916a0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_eab10700",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-09T08:38:14Z",
+      "side": 1,
+      "message": "Nit: Missing blank.",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "bd1512f40e5058b5967c27ecf319d0617916a0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

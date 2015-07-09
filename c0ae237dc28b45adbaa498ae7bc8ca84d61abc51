@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "98059200_3ce7b1a9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T21:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98059200_7ced3987",
+      "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_bce18198",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
         "patchSetId": 1
@@ -66,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "98059200_fc0029c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T21:24:32Z",
+      "side": 1,
+      "message": "I will fix it in https://gerrit-review.googlesource.com/#/c/69387/ as this patch should document current behavior only.",
+      "parentUuid": "b8f6d649_5df27b67",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 50
+      },
+      "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f6d649_3de7afa9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
         "patchSetId": 1
@@ -77,6 +119,24 @@
       "writtenOn": "2015-07-09T21:13:38Z",
       "side": 1,
       "message": "assertAuthor/Committer here",
+      "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_1cecf587",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T21:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_3de7afa9",
       "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

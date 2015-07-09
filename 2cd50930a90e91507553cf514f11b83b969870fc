@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98059200_bc6741cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T17:22:26Z",
+      "side": 1,
+      "message": "I found out the hard way that an ArmoredInputStream only reads up until the first \"---- END * ----\" block, ignoring the rest of its stream. So if we concatenate blocks together, we need to wrap a new ArmoredInputStream around each one.\n\n(In case you were wondering, BcPGPObjectFactory can also be used with other non-armored streams that definitely do contain multiple objects, like reading from a pubring.gpg file.)",
+      "parentUuid": "98059200_7c6ad999",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_5c6f1da8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "98059200_9c6485c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T17:22:26Z",
+      "side": 1,
+      "message": "I\u0027m happy to explain in the class javadoc what kinds of checks we\u0027re doing.\n\nWhat distinction are you making between \"validation\" and \"verification\" here? I\u0027ve read https://en.wikipedia.org/wiki/Verification_and_validation a couple times now and I still don\u0027t think there\u0027s a meaningful difference, it sounds like standards organization mumbo jumbo to me. But if you can explain it in a way that makes sense, I\u0027ll buy it.\n\nThat said I am not going to change the set of checks this class does, nor am I going to change this method name to \"validateAndVerify\". So maybe we should just come up with a term that is not so loaded. Like \"check\".\n\nAs for reporting a list of problems, yeah, that\u0027s the output of the process. What would the output of a validation/verification process be, other than a status report of what we found?",
+      "parentUuid": "98059200_5c6f1da8",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_3c745178",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-07-09T17:08:17Z",
       "side": 1,
       "message": "This will allow using expired keys after 2038 (end of epoch).\nI am not sure if this code will be around at that time though. Maybe a todo note will do?",
+      "range": {
+        "startLine": 64,
+        "startChar": 28,
+        "endLine": 64,
+        "endChar": 45
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_3d744f78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T17:22:26Z",
+      "side": 1,
+      "message": "System.currentTimeMillis() returns a long. If it were an int, we\u0027d have been in trouble before either of us was born:\nhttps://www.google.com/search?q\u003d4+billion+milliseconds+in+days",
+      "parentUuid": "98059200_3c745178",
       "range": {
         "startLine": 64,
         "startChar": 28,

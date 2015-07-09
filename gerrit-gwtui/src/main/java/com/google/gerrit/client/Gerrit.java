@@ -822,10 +822,15 @@ public class Gerrit implements EntryPoint {
     req.setCallback(new RequestCallback() {
       @Override
       public void onResponseReceived(Request req, Response resp) {
-        if (resp.getStatusCode() == Response.SC_OK) {
-          cb.onSuccess(DocInfo.create());
-        } else {
-          cb.onSuccess(null);
+        switch (resp.getStatusCode()) {
+          case Response.SC_OK:
+          case Response.SC_MOVED_PERMANENTLY:
+          case Response.SC_MOVED_TEMPORARILY:
+            cb.onSuccess(DocInfo.create());
+            break;
+          default:
+            cb.onSuccess(null);
+            break;
         }
       }
 

@@ -38,20 +38,9 @@ public class PublicKeyCheckerTest {
   public void wrongKeyId() throws Exception {
     TestKey k = TestKey.key1();
     long badId = k.getKeyId() + 1;
-    CheckResult result = checker.check(
-        k.getPublicKey(), badId, k.getFirstUserId());
+    CheckResult result = checker.check(k.getPublicKey(), badId);
     assertEquals(
         Arrays.asList("Public key does not match ID 46328A8D"),
-        result.getProblems());
-  }
-
-  @Test
-  public void wrongUserId() throws Exception {
-    TestKey k = TestKey.key1();
-    CheckResult result = checker.check(
-        k.getPublicKey(), k.getKeyId(), "test2@example.com");
-    assertEquals(
-        Arrays.asList("No certification for User ID test2@example.com"),
         result.getProblems());
   }
 
@@ -71,8 +60,7 @@ public class PublicKeyCheckerTest {
   }
 
   private void assertProblems(TestKey tk, String... expected) throws Exception {
-    CheckResult result = checker.check(
-        tk.getPublicKey(), tk.getKeyId(), tk.getFirstUserId());
+    CheckResult result = checker.check(tk.getPublicKey(), tk.getKeyId());
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 }

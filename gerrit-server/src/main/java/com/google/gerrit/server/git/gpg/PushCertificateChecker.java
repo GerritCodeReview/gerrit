@@ -136,8 +136,7 @@ public abstract class PushCertificateChecker {
               "Signature not valid with public key: " + keyToString(k));
           continue;
         }
-        CheckResult result = publicKeyChecker.check(
-            k, sig.getKeyID(), cert.getPusherIdent().getUserId());
+        CheckResult result = publicKeyChecker.check(k, sig.getKeyID());
         if (result.isOk()) {
           return;
         }

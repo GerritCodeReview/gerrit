@@ -15,38 +15,21 @@
 package com.google.gerrit.server.git.gpg;
 
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
-import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyToString;
-import static org.bouncycastle.openpgp.PGPSignature.CERTIFICATION_REVOCATION;
-import static org.bouncycastle.openpgp.PGPSignature.DEFAULT_CERTIFICATION;
-import static org.bouncycastle.openpgp.PGPSignature.POSITIVE_CERTIFICATION;
 
-import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
-import org.bouncycastle.openpgp.PGPSignature;
-import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /** Checker for GPG public keys for use in a push certificate. */
 public class PublicKeyChecker {
-  private static final Logger log =
-      LoggerFactory.getLogger(PublicKeyChecker.class);
-
   /**
    * Check a public key.
    *
    * @param key the public key.
    * @param expectedKeyId the key ID that the caller expects.
-   * @param expectedUserId a user ID that the caller expects to be present and
-   *     correct.
    */
-  public final CheckResult check(PGPPublicKey key, long expectedKeyId,
-      String expectedUserId) {
+  public final CheckResult check(PGPPublicKey key, long expectedKeyId) {
     List<String> problems = new ArrayList<>();
     if (key.getKeyID() != expectedKeyId) {
       problems.add(
@@ -66,8 +49,7 @@ public class PublicKeyChecker {
         problems.add("Key is expired");
       }
     }
-    checkCertifications(key, expectedUserId, problems);
-    checkCustom(key, expectedKeyId, expectedUserId, problems);
+    checkCustom(key, expectedKeyId, problems);
     return new CheckResult(problems);
   }
 
@@ -78,57 +60,10 @@ public class PublicKeyChecker {
    *
    * @param key the public key.
    * @param expectedKeyId the key ID that the caller expects.
-   * @param expectedUserId a user ID that the caller expects to be present and
-   *     correct.
    * @param problems list to which any problems should be added.
    */
   public void checkCustom(PGPPublicKey key, long expectedKeyId,
-      String expectedUserId, List<String> problems) {
-    // Default implementation does nothing.
-  }
-
-  // TODO(dborowitz): Remove some/all of these checks.
-  private static void checkCertifications(PGPPublicKey key, String userId,
       List<String> problems) {
-    @SuppressWarnings("unchecked")
-    Iterator<PGPSignature> sigs = key.getSignaturesForID(userId);
-    if (sigs == null) {
-      sigs = Collections.emptyIterator();
-    }
-    boolean ok = false;
-    boolean revoked = false;
-    try {
-      while (sigs.hasNext()) {
-        PGPSignature sig = sigs.next();
-        if (sig.getKeyID() != key.getKeyID()) {
-          // TODO(dborowitz): Support certifications by other trusted keys?
-          continue;
-        } else if (sig.getSignatureType() != DEFAULT_CERTIFICATION
-            && sig.getSignatureType() != POSITIVE_CERTIFICATION
-            && sig.getSignatureType() != CERTIFICATION_REVOCATION) {
-          continue;
-        }
-        sig.init(new BcPGPContentVerifierBuilderProvider(), key);
-        if (sig.verifyCertification(userId, key)) {
-          if (sig.getSignatureType() == CERTIFICATION_REVOCATION) {
-            revoked = true;
-          } else {
-            ok = true;
-          }
-        } else {
-          problems.add("Invalid signature for User ID " + userId);
-        }
-      }
-    } catch (PGPException e) {
-      problems.add("Error in certifications");
-      log.warn("Error in certification verification for public key: "
-          + keyToString(key), e);
-    }
-
-    if (revoked) {
-      problems.add("User ID " + userId + " is revoked");
-    } else if (!ok) {
-      problems.add("No certification for User ID " + userId);
-    }
+    // Default implementation does nothing.
   }
 }

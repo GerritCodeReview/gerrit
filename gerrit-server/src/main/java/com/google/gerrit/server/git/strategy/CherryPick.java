@@ -153,33 +153,18 @@ public class CherryPick extends SubmitStrategy {
 
     args.rw.parseBody(n);
 
-    PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
-
-    IdentifiedUser cherryPickUser;
-    PersonIdent serverNow = args.serverIdent.get();
-    PersonIdent cherryPickCommitterIdent;
-    if (submitAudit != null) {
-      cherryPickUser =
-          args.identifiedUserFactory.create(submitAudit.getAccountId());
-      cherryPickCommitterIdent = cherryPickUser.newCommitterIdent(
-          serverNow.getWhen(), serverNow.getTimeZone());
-    } else {
-      cherryPickUser = args.identifiedUserFactory.create(n.change().getOwner());
-      cherryPickCommitterIdent = serverNow;
-    }
-
     String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);
 
     CodeReviewCommit newCommit =
         (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
-            args.inserter, mergeTip, n, cherryPickCommitterIdent,
+            args.inserter, mergeTip, n, args.serverIdent.get(),
             cherryPickCmtMsg, args.rw);
 
     PatchSet.Id id =
         ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());
     PatchSet ps = new PatchSet(id);
     ps.setCreatedOn(TimeUtil.nowTs());
-    ps.setUploader(cherryPickUser.getAccountId());
+    ps.setUploader(args.caller.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
 
     RefUpdate ru;
@@ -220,9 +205,8 @@ public class CherryPick extends SubmitStrategy {
     newCommit.copyFrom(n);
     newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
     newCommit.setControl(
-        args.changeControlFactory.controlFor(n.change(), cherryPickUser));
+        args.changeControlFactory.controlFor(n.change(), args.caller));
     newCommits.put(newCommit.getPatchsetId().getParentKey(), newCommit);
-    setRefLogIdent(submitAudit);
     return newCommit;
   }
 

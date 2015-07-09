@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5333fdd6_6a7517a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-09T13:43:00Z",
+      "side": 1,
+      "message": "When avatar plugin is deployed on live server, is serverInfo aware of it? Sure, when the request re-submited then this information is there, But is this request re-submited? Worth it to mention in the commit message tghat this works as expected (and was tested)?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "77702de9ea7893ce0bed1911363662f78f4e6978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GitwebType;
@@ -54,6 +57,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AllUsersName allUsersName;
   private final String anonymousCowardName;
   private final GitwebConfig gitwebConfig;
+  private final String docUrl;
 
   @Inject
   public GetServerInfo(
@@ -79,6 +83,21 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.allUsersName = allUsersName;
     this.anonymousCowardName = anonymousCowardName;
     this.gitwebConfig = gitwebConfig;
+    this.docUrl = getDocUrl(config);
+  }
+
+  private static String getDocUrl(Config config) {
+    String[] values = config.getStringList("gerrit", null, "docUrl");
+    if (values.length == 0) {
+      return null;
+    }
+    String docUrl = values[0];
+    if (Strings.isNullOrEmpty(docUrl)) {
+      return "";
+    }
+    checkArgument(docUrl.endsWith("/"),
+        "gerrit.docUrl must end with slash: %s", docUrl);
+    return docUrl;
   }
 
   @Override
@@ -230,6 +249,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allUsers = allUsersName.get();
     info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
+    info.docUrl = docUrl;
     return info;
   }
 
@@ -336,6 +356,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GerritInfo {
     public String allProjects;
     public String allUsers;
+    public String docUrl;
     public String reportBugUrl;
     public String reportBugText;
   }

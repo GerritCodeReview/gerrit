@@ -22,6 +22,30 @@
       "revId": "77702de9ea7893ce0bed1911363662f78f4e6978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8904e0b_7f0bcf5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-09T13:52:04Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve added the information to the commit message.\n\nDone",
+      "parentUuid": "5333fdd6_6a7517a6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "77702de9ea7893ce0bed1911363662f78f4e6978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

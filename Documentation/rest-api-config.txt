@@ -1163,6 +1163,10 @@ Name of the link:config-gerrit.html#gerrit.allProjects[root project].
 |`all_users_name`    ||
 Name of the link:config-gerrit.html#gerrit.allUsers[project in which
 meta data of all users is stored].
+|`doc_url`           |optional|
+Custom base URL where Gerrit server documentation is located.
+(Documentation may still be available at /Documentation relative to the
+Gerrit base path even if this value is unset.)
 |`report_bug_url`    |optional|
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |`report_bug_text`   |optional, not set if default|

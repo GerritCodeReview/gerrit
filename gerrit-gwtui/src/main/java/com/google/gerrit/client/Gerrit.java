@@ -113,6 +113,7 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static ServerInfo myServerInfo;
   private static boolean hasDocumentation;
+  private static String docUrl;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static String defaultScreenToken;
@@ -434,12 +435,18 @@ public class Gerrit implements EntryPoint {
       @Override
       public void onSuccess(DocInfo indexInfo) {
         hasDocumentation = indexInfo != null;
+        docUrl = "/Documentation/";
       }
     }));
     ConfigServerApi.serverInfo(cbg.add(new GerritCallback<ServerInfo>() {
       @Override
       public void onSuccess(ServerInfo info) {
         myServerInfo = info;
+        String du = info.gerrit().docUrl();
+        if (du != null && !du.isEmpty()) {
+          hasDocumentation = true;
+          docUrl = du;
+        }
       }
     }));
     HostPageDataService hpd = GWT.create(HostPageDataService.class);
@@ -1001,7 +1008,7 @@ public class Gerrit implements EntryPoint {
 
   private static void addDocLink(final LinkMenuBar m, final String text,
       final String href) {
-    final Anchor atag = anchor(text, selfRedirect("/Documentation/" + href));
+    final Anchor atag = anchor(text, docUrl + href);
     atag.setTarget("_blank");
     m.add(atag);
   }

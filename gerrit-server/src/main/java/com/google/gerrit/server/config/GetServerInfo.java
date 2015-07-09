@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GitwebType;
@@ -230,7 +232,16 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allUsers = allUsersName.get();
     info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
+    info.docUrl = getDocUrl(cfg);
     return info;
+  }
+
+  private String getDocUrl(Config cfg) {
+    String docUrl = cfg.getString("gerrit", null, "docUrl");
+    if (Strings.isNullOrEmpty(docUrl)) {
+      return null;
+    }
+    return CharMatcher.is('/').trimTrailingFrom(docUrl) + '/';
   }
 
   private GitwebInfo getGitwebInfo(GitwebConfig cfg) {
@@ -336,6 +347,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GerritInfo {
     public String allProjects;
     public String allUsers;
+    public String docUrl;
     public String reportBugUrl;
     public String reportBugText;
   }

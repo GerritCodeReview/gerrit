@@ -22,11 +22,13 @@ import com.google.gerrit.common.data.GitwebType;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
@@ -54,6 +56,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AllUsersName allUsersName;
   private final String anonymousCowardName;
   private final GitwebConfig gitwebConfig;
+  private final DynamicItem<AvatarProvider> avatar;
 
   @Inject
   public GetServerInfo(
@@ -67,7 +70,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       @AnonymousCowardName String anonymousCowardName,
-      GitwebConfig gitwebConfig) {
+      GitwebConfig gitwebConfig,
+      DynamicItem<AvatarProvider> avatar) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -79,6 +83,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.allUsersName = allUsersName;
     this.anonymousCowardName = anonymousCowardName;
     this.gitwebConfig = gitwebConfig;
+    this.avatar = avatar;
   }
 
   @Override
@@ -92,6 +97,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.gitweb = getGitwebInfo(gitwebConfig);
+    info.plugin = getPluginInfo();
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
     info.user = getUserInfo(anonymousCowardName);
@@ -244,6 +250,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
+  private PluginConfigInfo getPluginInfo() {
+    PluginConfigInfo info = new PluginConfigInfo();
+    info.hasAvatars = toBoolean(avatar.get() != null);
+    return info;
+  }
+
   private SshdInfo getSshdInfo(Config cfg) {
     String[] addr = cfg.getStringList("sshd", null, "listenAddress");
     if (addr.length == 1 && isOff(addr[0])) {
@@ -287,6 +299,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public DownloadInfo download;
     public GerritInfo gerrit;
     public GitwebInfo gitweb;
+    public PluginConfigInfo plugin;
     public SshdInfo sshd;
     public SuggestInfo suggest;
     public UserConfigInfo user;
@@ -343,6 +356,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GitwebInfo {
     public String url;
     public GitwebType type;
+  }
+
+  public static class PluginConfigInfo {
+    public Boolean hasAvatars;
   }
 
   public static class SshdInfo {

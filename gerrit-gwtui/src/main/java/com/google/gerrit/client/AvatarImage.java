@@ -91,6 +91,10 @@ public class AvatarImage extends Image implements LoadHandler {
   }
 
   private void loadAvatar(AccountInfo account, int size, boolean addPopup) {
+    if (!Gerrit.info().plugin().hasAvatars()) {
+      return;
+    }
+
      // TODO Kill /accounts/*/avatar URL.
     String u = account.email();
     if (Gerrit.isSignedIn()

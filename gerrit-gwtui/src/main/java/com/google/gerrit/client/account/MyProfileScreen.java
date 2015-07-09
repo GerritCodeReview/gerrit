@@ -44,14 +44,16 @@ public class MyProfileScreen extends SettingsScreen {
     HorizontalPanel h = new HorizontalPanel();
     add(h);
 
-    VerticalPanel v = new VerticalPanel();
-    v.addStyleName(Gerrit.RESOURCES.css().avatarInfoPanel());
-    h.add(v);
-    avatar = new AvatarImage();
-    v.add(avatar);
-    changeAvatar = new Anchor(Util.C.changeAvatar(), "", "_blank");
-    changeAvatar.setVisible(false);
-    v.add(changeAvatar);
+    if (Gerrit.info().plugin().hasAvatars()) {
+      VerticalPanel v = new VerticalPanel();
+      v.addStyleName(Gerrit.RESOURCES.css().avatarInfoPanel());
+      h.add(v);
+      avatar = new AvatarImage();
+      v.add(avatar);
+      changeAvatar = new Anchor(Util.C.changeAvatar(), "", "_blank");
+      changeAvatar.setVisible(false);
+      v.add(changeAvatar);
+    }
 
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
@@ -95,19 +97,21 @@ public class MyProfileScreen extends SettingsScreen {
   }
 
   void display(final Account account) {
-    avatar.setAccount(FormatUtil.asInfo(account), 93, false);
-    new RestApi("/accounts/").id("self").view("avatar.change.url")
-        .get(new AsyncCallback<NativeString>() {
-          @Override
-          public void onSuccess(NativeString changeUrl) {
-            changeAvatar.setHref(changeUrl.asString());
-            changeAvatar.setVisible(true);
-          }
+    if (Gerrit.info().plugin().hasAvatars()) {
+      avatar.setAccount(FormatUtil.asInfo(account), 93, false);
+      new RestApi("/accounts/").id("self").view("avatar.change.url")
+          .get(new AsyncCallback<NativeString>() {
+            @Override
+            public void onSuccess(NativeString changeUrl) {
+              changeAvatar.setHref(changeUrl.asString());
+              changeAvatar.setVisible(true);
+            }
 
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        });
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          });
+    }
 
     int row = 0;
     if (Gerrit.info().auth().siteHasUsernames()) {

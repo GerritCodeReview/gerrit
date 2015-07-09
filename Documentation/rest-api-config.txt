@@ -1280,6 +1280,18 @@ The maximal memory size. The value is returned with a unit abbreviation
 The number of open files.
 |============================
 
+[[plugin-config-info]]
+=== PluginConfigInfo
+The `PluginConfigInfo` entity contains information about Gerrit
+extensions by plugins.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`has_avatars` |not set if `false`|
+Whether an avatar provider is registered.
+|===========================
+
 [[receive-info]]
 === ReceiveInfo
 The `ReceiveInfo` entity contains information about the configuration
@@ -1322,7 +1334,9 @@ link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
 |`gitweb `                 |optional|
 Information about the link:config-gerrit.html#gitweb[gitweb]
-configuration as link:#git-web-info[GitwebInfo] entity.
+|`plugin `                 ||
+Information about Gerrit extensions by plugins as
+link:#plugin-config-info[PluginConfigInfo] entity.
 |`receive`                 |optional|
 Information about the receive-pack configuration as a
 link:#receive-info[ReceiveInfo] entity.

@@ -15,6 +15,8 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.api.ExtensionSettingsScreen;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.MenuScreen;
@@ -83,5 +85,13 @@ public abstract class SettingsScreen extends MenuScreen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.settingsHeading());
+  }
+
+  protected ExtensionPanel createExtensionPoint(
+      GerritUiExtensionPoint extensionPoint) {
+    ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
+    extensionPanel.putObject(GerritUiExtensionPoint.Key.ACCOUNT_INFO,
+        Gerrit.getUserAccountInfo());
+    return extensionPanel;
   }
 }

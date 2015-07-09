@@ -15,7 +15,7 @@
 package com.google.gerrit.client.groups;
 
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;

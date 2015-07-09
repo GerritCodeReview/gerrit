@@ -151,6 +151,7 @@ public class ChangeScreen extends Screen {
 
   @UiField HTMLPanel headerLine;
   @UiField SimplePanel headerExtension;
+  @UiField SimplePanel headerExtensionRight;
   @UiField Style style;
   @UiField ToggleButton star;
   @UiField Anchor permalink;
@@ -268,6 +269,8 @@ public class ChangeScreen extends Screen {
   private void addExtensionPoints() {
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER,
         headerExtension);
+    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
+        headerExtensionRight);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
         changeExtension);

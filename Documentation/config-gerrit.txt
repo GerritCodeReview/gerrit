@@ -1695,6 +1695,18 @@ By default unset, as the git daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
+[[gerrit.docUrl]]gerrit.docUrl::
++
+Optional base URL for documentation, under which one can find
+"index.html", "rest-api.html", etc. Used as the base for the fixed set
+of links in the "Documentation" tab. A slash is implicitly appended.
+(For finer control over the top menu, consider writing a
+link:dev-plugins.html#top-menu-extensions[plugin].)
++
+If unset or empty, the documentation tab will only be shown if
+`/Documentation/index.html` can be reached by the browser at app load
+time.
+
 [[gerrit.installCommitMsgHookCommand]]gerrit.installCommitMsgHookCommand::
 +
 Optional command to install the `commit-msg` hook. Typically of the

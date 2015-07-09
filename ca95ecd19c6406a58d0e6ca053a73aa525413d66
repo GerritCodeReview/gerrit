@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_9db243cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2015-07-09T14:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "132d0577_e836730e",
+      "range": {
+        "startLine": 10,
+        "startChar": 62,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "333689c8_094ca993",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-09T13:22:14Z",
       "side": 1,
       "message": "extend",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_fc94a914",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2015-07-09T14:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "333689c8_094ca993",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_7d81b7d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2015-07-09T14:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "333689c8_29496d84",
+      "range": {
+        "startLine": 13,
+        "startChar": 61,
+        "endLine": 13,
+        "endChar": 70
+      },
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "132d0577_084ca793",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java",
         "patchSetId": 3
@@ -82,6 +154,24 @@
       "writtenOn": "2015-07-09T13:22:14Z",
       "side": 1,
       "message": "No need to wrap anymore.",
+      "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_1c8075d0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2015-07-09T14:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "132d0577_084ca793",
       "revId": "ca95ecd19c6406a58d0e6ca053a73aa525413d66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

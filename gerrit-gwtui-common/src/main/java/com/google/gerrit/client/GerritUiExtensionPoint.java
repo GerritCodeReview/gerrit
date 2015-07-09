@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 public enum GerritUiExtensionPoint {
   /* ChangeScreen */
   CHANGE_SCREEN_HEADER,
+  CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
   CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
   CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
 

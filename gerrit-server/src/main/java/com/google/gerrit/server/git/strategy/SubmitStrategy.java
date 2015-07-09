@@ -17,7 +17,6 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -184,13 +183,11 @@ public abstract class SubmitStrategy {
 
   /**
    * Set the ref log identity if it wasn't set yet.
-   *
-   * @param submitApproval the approval that submitted the patch set
    */
-  protected final void setRefLogIdent(PatchSetApproval submitApproval) {
-    if (refLogIdent == null && submitApproval != null) {
+  protected final void setRefLogIdent() {
+    if (refLogIdent == null) {
       refLogIdent = args.identifiedUserFactory.create(
-          submitApproval.getAccountId()) .newRefLogIdent();
+          args.caller.getAccountId()).newRefLogIdent();
     }
   }
 }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.groups;
 
-import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;

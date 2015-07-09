@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "98059200_7ced3987",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T21:13:38Z",
+      "side": 1,
+      "message": "Factor out a common method that takes two PersonIdents.",
+      "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_bce18198",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
         "patchSetId": 1
@@ -19,6 +36,47 @@
         "endLine": 70,
         "endChar": 50
       },
+      "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_5df27b67",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T21:13:38Z",
+      "side": 1,
+      "message": "One uses the user name and the other uses the full name?\n\nFeel free to fix this to be consistent with the others.",
+      "parentUuid": "98059200_bce18198",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 50
+      },
+      "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_3de7afa9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T21:13:38Z",
+      "side": 1,
+      "message": "assertAuthor/Committer here",
       "revId": "c0ae237dc28b45adbaa498ae7bc8ca84d61abc51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

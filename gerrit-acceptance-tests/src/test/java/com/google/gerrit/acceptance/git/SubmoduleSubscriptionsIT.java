@@ -24,8 +24,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
@@ -52,6 +50,34 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  public void testSubmoduleCommitMessage() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    pushChangeTo(subRepo, "master");
+    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+
+    // The first update doesn't include the rev log
+    RevWalk rw = subRepo.getRevWalk();
+    RevCommit subCommitMsg = rw.parseCommit(subHEAD);
+    expectToHaveCommitMessage(superRepo, "master",
+        "Updated git submodules\n\n" +
+        "Project: " + name("subscribed-to-project")
+            + " master " + subHEAD.name() + "\n\n");
+
+    // The next commit should generate only its commit message,
+    // omitting previous commit logs
+    subHEAD = pushChangeTo(subRepo, "master");
+    subCommitMsg = rw.parseCommit(subHEAD);
+    expectToHaveCommitMessage(superRepo, "master",
+        "Updated git submodules\n\n" +
+        "Project: " + name("subscribed-to-project")
+            + " master " + subHEAD.name() + "\n\n" +
+        subCommitMsg.getFullMessage() + "\n\n");
+  }
+
+  @Test
   public void testSubscriptionUnsubscribe() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -66,8 +92,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEADbeforeUnsubscribing);
 
-    pushChangeTo(superRepo, "master", "commit after unsubscribe");
-    pushChangeTo(subRepo, "master", "commit after unsubscribe");
+    pushChangeTo(superRepo, "refs/heads/master",
+        "commit after unsubscribe", "");
+    pushChangeTo(subRepo, "refs/heads/master",
+        "commit after unsubscribe", "");
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEADbeforeUnsubscribing);
   }
@@ -87,8 +115,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEADbeforeUnsubscribing);
 
-    pushChangeTo(superRepo, "master", "commit after unsubscribe");
-    pushChangeTo(subRepo, "master", "commit after unsubscribe");
+    pushChangeTo(superRepo, "refs/heads/master",
+        "commit after unsubscribe", "");
+    pushChangeTo(subRepo, "refs/heads/master",
+        "commit after unsubscribe", "");
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEADbeforeUnsubscribing);
   }
@@ -122,27 +152,6 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "subscribed-to-project", subHEAD);
 
     assertThat(hasSubmodule(subRepo, "master", "super-project")).isFalse();
-  }
-
-  private static AtomicInteger contentCounter = new AtomicInteger(0);
-
-  private ObjectId pushChangeTo(TestRepository<?> repo, String branch, String message)
-      throws Exception {
-
-    ObjectId ret = repo.branch("HEAD").commit().insertChangeId()
-      .message(message)
-      .add("a.txt", "a contents: " + contentCounter.addAndGet(1))
-      .create();
-
-    repo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/" + branch)).call();
-
-    return ret;
-  }
-
-  private ObjectId pushChangeTo(TestRepository<?> repo, String branch)
-      throws Exception {
-    return pushChangeTo(repo, branch, "some change");
   }
 
   private void deleteAllSubscriptions(TestRepository<?> repo, String branch)
@@ -198,4 +207,14 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     }
   }
 
+  private void expectToHaveCommitMessage(TestRepository<?> repo,
+      String branch, String expectedMessage) throws Exception {
+
+    ObjectId commitId = repo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/" + branch).getObjectId();
+
+    RevWalk rw = repo.getRevWalk();
+    RevCommit c = rw.parseCommit(commitId);
+    assertThat(c.getFullMessage()).isEqualTo(expectedMessage);
+  }
 }

@@ -29,6 +29,8 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   protected TestRepository<?> createProjectWithPush(String name)
       throws Exception {
@@ -38,25 +40,54 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return cloneProject(project);
   }
 
-  protected void createSubscription(
-      TestRepository<?> repo, String branch, String subscribeToRepo,
-      String subscribeToBranch) throws Exception {
-    subscribeToRepo = name(subscribeToRepo);
+  private static AtomicInteger contentCounter = new AtomicInteger(0);
 
+  protected ObjectId pushChangeTo(TestRepository<?> repo, String ref,
+      String message, String topic) throws Exception {
+    ObjectId ret = repo.branch("HEAD").commit().insertChangeId()
+      .message(message)
+      .add("a.txt", "a contents: " + contentCounter.incrementAndGet())
+      .create();
+    String refspec = "HEAD:" + ref;
+    if (!topic.isEmpty()) {
+      refspec += "/" + topic;
+    }
+    repo.git().push().setRemote("origin").setRefSpecs(
+        new RefSpec(refspec)).call();
+    return ret;
+  }
+
+  protected ObjectId pushChangeTo(TestRepository<?> repo, String branch)
+      throws Exception {
+    return pushChangeTo(repo, "refs/heads/" + branch, "some change", "");
+  }
+
+  protected void createSubscription(TestRepository<?> repo, String branch,
+      String subscribeToRepo, String subscribeToBranch) throws Exception {
+    Config config = new Config();
+    prepareSubscriptionConfigEntry(config, subscribeToRepo, subscribeToBranch);
+    pushSubscriptionConfig(repo, branch, config);
+  }
+
+  protected void prepareSubscriptionConfigEntry(Config config,
+      String subscribeToRepo, String subscribeToBranch) {
+    subscribeToRepo = name(subscribeToRepo);
     // The submodule subscription module checks for gerrit.canonicalWebUrl to
     // detect if it's configured for automatic updates. It doesn't matter if
     // it serves from that URL.
     String url = cfg.getString("gerrit", null, "canonicalWebUrl") + "/"
         + subscribeToRepo;
+    config.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
+    config.setString("submodule", subscribeToRepo, "url", url);
+    config.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+  }
 
-    Config cfg = new Config();
-    cfg.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
-    cfg.setString("submodule", subscribeToRepo, "url", url);
-    cfg.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+  protected void pushSubscriptionConfig(TestRepository<?> repo,
+      String branch, Config config) throws Exception {
 
     repo.branch("HEAD").commit().insertChangeId()
       .message("subject: adding new subscription")
-      .add(".gitmodules", cfg.toText().toString())
+      .add(".gitmodules", config.toText().toString())
       .create();
 
     repo.git().push().setRemote("origin").setRefSpecs(

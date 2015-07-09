@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
@@ -86,5 +87,46 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subRepoId);
+  }
+
+  @Test
+  public void testUpdateManySubmodules() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> sub1 = createProjectWithPush("sub1");
+    TestRepository<?> sub2 = createProjectWithPush("sub2");
+    TestRepository<?> sub3 = createProjectWithPush("sub3");
+
+    Config config = new Config();
+    prepareSubscriptionConfigEntry(config, "sub1", "master");
+    prepareSubscriptionConfigEntry(config, "sub2", "master");
+    prepareSubscriptionConfigEntry(config, "sub3", "master");
+    pushSubscriptionConfig(superRepo, "master", config);
+
+    ObjectId superPreviousId = pushChangeTo(superRepo, "master");
+
+    ObjectId sub1Id = pushChangeTo(sub1, "refs/for/master",
+        "some message", "same-topic");
+    ObjectId sub2Id = pushChangeTo(sub2, "refs/for/master",
+        "some message", "same-topic");
+    ObjectId sub3Id = pushChangeTo(sub3, "refs/for/master",
+        "some message", "same-topic");
+
+    approve(getChangeId(sub1, sub1Id).get());
+    approve(getChangeId(sub2, sub2Id).get());
+    approve(getChangeId(sub3, sub3Id).get());
+
+    gApi.changes().id(getChangeId(sub1, sub1Id).get()).current().submit();
+
+    expectToHaveSubmoduleState(superRepo, "master", "sub1", sub1Id);
+    expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2Id);
+    expectToHaveSubmoduleState(superRepo, "master", "sub3", sub3Id);
+
+    superRepo.git().fetch().setRemote("origin").call()
+      .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    assertWithMessage("submodule subscription update "
+        + "should have made one commit")
+        .that(superRepo.getRepository().resolve("origin/master^"))
+        .isEqualTo(superPreviousId);
   }
 }

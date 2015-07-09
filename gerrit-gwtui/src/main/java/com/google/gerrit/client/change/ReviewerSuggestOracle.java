@@ -15,10 +15,10 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.FormatUtil;
-import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.groups.GroupBaseInfo;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.SuggestAfterTypingNCharsOracle;

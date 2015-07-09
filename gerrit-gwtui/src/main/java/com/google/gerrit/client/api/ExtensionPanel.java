@@ -66,6 +66,12 @@ public class ExtensionPanel extends FlowPanel {
     }
   }
 
+  public void putObject(GerritUiExtensionPoint.Key key, JavaScriptObject value) {
+    for (Context ctx : contexts) {
+      ctx.putObject(key.name(), value);
+    }
+  }
+
   @Override
   protected void onLoad() {
     super.onLoad();
@@ -122,6 +128,7 @@ public class ExtensionPanel extends FlowPanel {
     final native void put(String k, String v) /*-{ this.p[k] = v; }-*/;
     final native void putInt(String k, int v) /*-{ this.p[k] = v; }-*/;
     final native void putBoolean(String k, boolean v) /*-{ this.p[k] = v; }-*/;
+    final native void putObject(String k, JavaScriptObject v) /*-{ this.p[k] = v; }-*/;
 
     private static final native Context create(
         JavaScriptObject T,

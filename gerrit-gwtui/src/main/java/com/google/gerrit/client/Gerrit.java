@@ -20,7 +20,6 @@ import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
 
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.AccountCapabilities;
-import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.account.Preferences;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
@@ -34,6 +33,7 @@ import com.google.gerrit.client.documentation.DocInfo;
 import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.patches.UnifiedPatchScreen;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;

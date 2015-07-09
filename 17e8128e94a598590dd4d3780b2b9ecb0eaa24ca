@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8904e0b_3f154778",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-09T19:12:40Z",
+      "side": 1,
+      "message": "unused import?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "17e8128e94a598590dd4d3780b2b9ecb0eaa24ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_9d3da399",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-09T19:12:40Z",
+      "side": 1,
+      "message": "Get audit log of a group.",
+      "range": {
+        "startLine": 196,
+        "startChar": 2,
+        "endLine": 196,
+        "endChar": 32
+      },
+      "revId": "17e8128e94a598590dd4d3780b2b9ecb0eaa24ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

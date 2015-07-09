@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_5dc95b1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T20:46:39Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s a bug, it\u0027s just a questionable API decision.\n\nI\u0027ve rewritten it to enforce that there is a single object per stream, using checkState in place of a comment. But I\u0027m not sure it\u0027s more readable overall.",
+      "parentUuid": "98059200_5c583d00",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_5c6f1da8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
         "patchSetId": 2
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "That article is mumbo jumbo to me as well.\n\nSo IMHO validation is getting the formal aspects right.\n * proper formal syntax (formatting)\n * using a key which matches its ID,\n * and is not expired nor revoked\n * proper user name\n * and all the other stuff which is not \"crypto\"\n\nVerification on the other hand just answers the question:\n * Could this signature be forged or is it legit (i.e. we can be sure the holder of the key is in possession of the private key)\n * Do we trust the key (i.e. is there a chain of trust or other means we trust it) ?\n\nI admit this is still a bit hand waving, but that\u0027s the distinction I remember from classes.",
       "parentUuid": "98059200_9c6485c7",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_1cd3d5cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T20:46:39Z",
+      "side": 1,
+      "message": "I think I see what you\u0027re getting at, but OpenPGP kinda blurs the lines here. For example, checking for revision is a stupidly complex process that involves checking authorized revocation certification packets and potential revocation certification revocations in proper timestamp order. Is that really qualitatively different from trust chain checking?\n\nChanged to \"Check\".",
+      "parentUuid": "b8f6d649_fd5dc7f6",
       "range": {
         "startLine": 41,
         "startChar": 5,
@@ -237,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "b8f6d649_3dce8f27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PushCertificateVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T20:46:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f6d649_7d6ad799",
+      "range": {
+        "startLine": 102,
+        "startChar": 40,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_fc5dc9f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/VerificationResult.java",
         "patchSetId": 2
@@ -248,6 +320,30 @@
       "writtenOn": "2015-07-09T17:08:17Z",
       "side": 1,
       "message": "I am debating whether this should be `isVerified()`, although this includes both problems of validation and verification.",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_1dd3d3cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/VerificationResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-09T20:46:39Z",
+      "side": 1,
+      "message": "isOk",
+      "parentUuid": "98059200_fc5dc9f6",
       "range": {
         "startLine": 38,
         "startChar": 17,

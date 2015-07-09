@@ -976,6 +976,10 @@ panels with custom controls:
 Panel will be shown in the header bar to the right of the change
 status.
 
+** `GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS`:
++
+Panel will be shown in the header bar on the right side of the buttons.
+
 ** `GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS`:
 +
 Panel will be shown in the header bar on the right side of the pop down

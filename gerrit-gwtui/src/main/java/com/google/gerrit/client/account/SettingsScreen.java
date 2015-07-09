@@ -20,32 +20,63 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.common.PageLinks;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class SettingsScreen extends MenuScreen {
+  private final Set<String> allMenuNames;
+  private final Set<String> ambiguousMenuNames;
+
   public SettingsScreen() {
     setRequiresSignIn(true);
 
-    link(Util.C.tabAccountSummary(), PageLinks.SETTINGS);
-    link(Util.C.tabPreferences(), PageLinks.SETTINGS_PREFERENCES);
-    link(Util.C.tabWatchedProjects(), PageLinks.SETTINGS_PROJECTS);
-    link(Util.C.tabContactInformation(), PageLinks.SETTINGS_CONTACT);
+    this.allMenuNames = new HashSet<>();
+    this.ambiguousMenuNames = new HashSet<>();
+
+    linkByGerrit(Util.C.tabAccountSummary(), PageLinks.SETTINGS);
+    linkByGerrit(Util.C.tabPreferences(), PageLinks.SETTINGS_PREFERENCES);
+    linkByGerrit(Util.C.tabWatchedProjects(), PageLinks.SETTINGS_PROJECTS);
+    linkByGerrit(Util.C.tabContactInformation(), PageLinks.SETTINGS_CONTACT);
     if (Gerrit.info().hasSshd()) {
-      link(Util.C.tabSshKeys(), PageLinks.SETTINGS_SSHKEYS);
+      linkByGerrit(Util.C.tabSshKeys(), PageLinks.SETTINGS_SSHKEYS);
     }
     if (Gerrit.info().auth().isHttpPasswordSettingsEnabled()) {
-      link(Util.C.tabHttpAccess(), PageLinks.SETTINGS_HTTP_PASSWORD);
+      linkByGerrit(Util.C.tabHttpAccess(), PageLinks.SETTINGS_HTTP_PASSWORD);
     }
-    link(Util.C.tabWebIdentities(), PageLinks.SETTINGS_WEBIDENT);
-    link(Util.C.tabMyGroups(), PageLinks.SETTINGS_MYGROUPS);
+    linkByGerrit(Util.C.tabWebIdentities(), PageLinks.SETTINGS_WEBIDENT);
+    linkByGerrit(Util.C.tabMyGroups(), PageLinks.SETTINGS_MYGROUPS);
     if (Gerrit.info().auth().useContributorAgreements()) {
-      link(Util.C.tabAgreements(), PageLinks.SETTINGS_AGREEMENTS);
+      linkByGerrit(Util.C.tabAgreements(), PageLinks.SETTINGS_AGREEMENTS);
     }
 
     for (String pluginName : ExtensionSettingsScreen.Definition.plugins()) {
       for (ExtensionSettingsScreen.Definition def :
           Natives.asList(ExtensionSettingsScreen.Definition.get(pluginName))) {
-        link(def.getMenu(), PageLinks.toSettings(pluginName, def.getPath()));
+        if(!allMenuNames.add(def.getMenu())) {
+          ambiguousMenuNames.add(def.getMenu());
+        }
       }
     }
+
+    for (String pluginName : ExtensionSettingsScreen.Definition.plugins()) {
+      for (ExtensionSettingsScreen.Definition def :
+          Natives.asList(ExtensionSettingsScreen.Definition.get(pluginName))) {
+        linkByPlugin(pluginName, def.getMenu(),
+            PageLinks.toSettings(pluginName, def.getPath()));
+      }
+    }
+  }
+
+  private void linkByGerrit(String text, String target) {
+    allMenuNames.add(text);
+    link(text, target);
+  }
+
+  private void linkByPlugin(String pluginName, String text, String target) {
+    if (ambiguousMenuNames.contains(text)) {
+      text += " ("+ pluginName + ")";
+    }
+    link(text, target);
   }
 
   @Override

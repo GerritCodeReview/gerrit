@@ -437,7 +437,7 @@ public class MergeOp {
         submitAllChanges(cs, caller, true);
       }
       try {
-        integrateIntoHistory(cs);
+        integrateIntoHistory(cs, caller);
       } catch (MergeException e) {
         logError("Merge Conflict", e);
         throw new ResourceConflictException("Merge Conflict", e);
@@ -452,7 +452,7 @@ public class MergeOp {
     }
   }
 
-  private void integrateIntoHistory(ChangeSet cs)
+  private void integrateIntoHistory(ChangeSet cs, IdentifiedUser caller)
       throws MergeException, NoSuchChangeException, ResourceConflictException {
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, ListMultimap<SubmitType, Change>> toSubmit =
@@ -471,7 +471,7 @@ public class MergeOp {
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
           for (SubmitType submitType : submitTypes) {
             SubmitStrategy strategy = createStrategy(branch, submitType,
-                getBranchTip(branch));
+                getBranchTip(branch), caller);
 
             MergeTip mergeTip = preMerge(strategy, submitting.get(submitType),
                 getBranchTip(branch));
@@ -543,10 +543,10 @@ public class MergeOp {
   }
 
   private SubmitStrategy createStrategy(Branch.NameKey destBranch,
-      SubmitType submitType, CodeReviewCommit branchTip)
+      SubmitType submitType, CodeReviewCommit branchTip, IdentifiedUser caller)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
+        canMergeFlag, getAlreadyAccepted(branchTip), destBranch, caller);
   }
 
   private void openRepository(Project.NameKey name)

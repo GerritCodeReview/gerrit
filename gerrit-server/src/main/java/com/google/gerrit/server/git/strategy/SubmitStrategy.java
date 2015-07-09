@@ -66,6 +66,7 @@ public abstract class SubmitStrategy {
     protected final MergeUtil mergeUtil;
     protected final ChangeIndexer indexer;
     protected final MergeSorter mergeSorter;
+    protected final IdentifiedUser caller;
 
     Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
         Provider<PersonIdent> serverIdent, ReviewDb db,
@@ -73,7 +74,7 @@ public abstract class SubmitStrategy {
         RevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
         ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
-        ChangeIndexer indexer) {
+        ChangeIndexer indexer, IdentifiedUser caller) {
       this.identifiedUserFactory = identifiedUserFactory;
       this.serverIdent = serverIdent;
       this.db = db;
@@ -89,6 +90,7 @@ public abstract class SubmitStrategy {
       this.mergeUtil = mergeUtil;
       this.indexer = indexer;
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
+      this.caller = caller;
     }
   }
 

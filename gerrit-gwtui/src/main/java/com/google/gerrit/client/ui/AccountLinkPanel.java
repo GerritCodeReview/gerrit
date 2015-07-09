@@ -17,7 +17,7 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Account;

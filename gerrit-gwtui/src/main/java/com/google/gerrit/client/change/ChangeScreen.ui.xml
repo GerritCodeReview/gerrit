@@ -393,6 +393,7 @@ limitations under the License.
           <g:Button ui:field='download' styleName=''>
             <div><ui:msg>Download</ui:msg></div>
           </g:Button>
+          <g:SimplePanel ui:field='headerExtensionRight' styleName='{style.headerExtension}'/>
         </g:FlowPanel>
         <c:StarIcon ui:field='star' styleName='{style.star}' title='Star the change (Shortcut: s)'>
           <ui:attribute name='title'/>

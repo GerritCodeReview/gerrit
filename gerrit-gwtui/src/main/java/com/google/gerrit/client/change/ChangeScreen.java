@@ -87,6 +87,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -150,6 +151,7 @@ public class ChangeScreen extends Screen {
 
   @UiField HTMLPanel headerLine;
   @UiField SimplePanel headerExtension;
+  @UiField SimplePanel headerExtensionRight;
   @UiField Style style;
   @UiField ToggleButton star;
   @UiField Anchor permalink;
@@ -227,14 +229,7 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    ExtensionPanel headerExtensionPanel =
-        new ExtensionPanel(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER);
-    headerExtensionPanel.putInt(GerritUiExtensionPoint.Key.CHANGE_ID, changeId.get());
-    headerExtension.add(headerExtensionPanel);
-    ExtensionPanel extensionPanel =
-        new ExtensionPanel(GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK);
-    extensionPanel.putInt(GerritUiExtensionPoint.Key.CHANGE_ID, changeId.get());
-    changeExtension.add(extensionPanel);
+    addExtensionPoints();
     CallbackGroup group = new CallbackGroup();
     if (Gerrit.isSignedIn()) {
       ChangeList.query("change:" + changeId.get() + " has:draft",
@@ -269,6 +264,22 @@ public class ChangeScreen extends Screen {
             loadConfigInfo(info, base);
           }
         }));
+  }
+
+  private void addExtensionPoints() {
+    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER,
+        headerExtension);
+    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
+        headerExtensionRight);
+    addExtensionPoint(
+        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
+        changeExtension);
+  }
+
+  private void addExtensionPoint(GerritUiExtensionPoint extensionPoint, Panel p) {
+    ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
+    extensionPanel.putInt(GerritUiExtensionPoint.Key.CHANGE_ID, changeId.get());
+    p.add(extensionPanel);
   }
 
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {

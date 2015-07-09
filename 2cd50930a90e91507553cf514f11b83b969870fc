@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98059200_7c6ad999",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T17:08:17Z",
+      "side": 1,
+      "message": "Why do we need to have a `do ... while(found)` here?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_5c6f1da8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T17:08:17Z",
+      "side": 1,
+      "message": "What exactly do we verify? (This method seems to do validation as well as verification as well as reporting a list of warnings)",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_3c745178",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T17:08:17Z",
+      "side": 1,
+      "message": "This will allow using expired keys after 2038 (end of epoch).\nI am not sure if this code will be around at that time though. Maybe a todo note will do?",
+      "range": {
+        "startLine": 64,
+        "startChar": 28,
+        "endLine": 64,
+        "endChar": 45
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_1c79956e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T17:08:17Z",
+      "side": 1,
+      "message": "Going by the code in this method, this sounds more like validateCertifications?",
+      "range": {
+        "startLine": 91,
+        "startChar": 22,
+        "endLine": 91,
+        "endChar": 42
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_7d6ad799",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PushCertificateVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T17:08:17Z",
+      "side": 1,
+      "message": "/./g./",
+      "range": {
+        "startLine": 102,
+        "startChar": 40,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_fc5dc9f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/VerificationResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T17:08:17Z",
+      "side": 1,
+      "message": "I am debating whether this should be `isVerified()`, although this includes both problems of validation and verification.",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "2cd50930a90e91507553cf514f11b83b969870fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

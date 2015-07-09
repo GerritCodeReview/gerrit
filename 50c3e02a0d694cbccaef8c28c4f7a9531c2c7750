@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98059200_5cc95d1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-09T18:49:37Z",
+      "side": 0,
+      "message": "(in the parent change)\n\nThis should checkArgument(Status !\u003d MERGED) instead.",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 50
+      },
+      "revId": "50c3e02a0d694cbccaef8c28c4f7a9531c2c7750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f6d649_7d53f7e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-09T18:49:37Z",
+      "side": 0,
+      "message": "(in the parent change)\nThis should be MERGED, not SUBMITTED.",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "50c3e02a0d694cbccaef8c28c4f7a9531c2c7750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98059200_3cce9127",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-09T18:49:37Z",
+      "side": 0,
+      "message": "This should happen in the parent change, too.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 31
+      },
+      "revId": "50c3e02a0d694cbccaef8c28c4f7a9531c2c7750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,13 +15,13 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.account.AccountInfo;
-import com.google.gerrit.client.account.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.info.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;

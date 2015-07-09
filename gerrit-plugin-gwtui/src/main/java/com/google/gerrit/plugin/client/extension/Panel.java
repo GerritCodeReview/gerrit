@@ -69,6 +69,8 @@ public class Panel extends SimplePanel {
     final native int getBoolean(String k, boolean d) /*-{
       return this.p.hasOwnProperty(k) ? this.p[k] : d
     }-*/;
+    final native JavaScriptObject getObject(String k)
+    /*-{ return this.p[k]; }-*/;
 
 
     final native void detach(Panel p) /*-{
@@ -100,5 +102,9 @@ public class Panel extends SimplePanel {
 
   public int getBoolean(GerritUiExtensionPoint.Key key, boolean defaultValue) {
     return ctx.getBoolean(key.name(), defaultValue);
+  }
+
+  public JavaScriptObject getObject(GerritUiExtensionPoint.Key key) {
+    return ctx.getObject(key.name());
   }
 }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;

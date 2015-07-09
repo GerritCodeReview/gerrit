@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f6d649_5d6f1ba8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-09T17:16:37Z",
+      "side": 1,
+      "message": "This is exactly one spot where I also have problems in https://gerrit-review.googlesource.com/#/c/69382/\n\nI think this code here is a cleanup refactoring, while the code above is adding the new configuration option. So these 2 might be different enough to go in different commits?",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 52
+      },
+      "revId": "6d4296b7c98065241a41d2a697209196d0b8c82b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "5333fdd6_8a232bb4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T08:35:52Z",
+      "side": 1,
+      "message": "On second thought this looks like a bug to me and not a feature. The general use case is: the requests are independent from each other and all what is expected from CallbackGroup is to make sure that final callback is get called after all requests/callbacks in the group were processed. Making the exception from this rule: requests are always dependent as a default behavior is wrong assumption and means serious and unnecessary performance degradation.\n\nConsider two independent requests: R_1, R_2, and two corresponding callbacks C_1, C_2. For simplicity let say, that R_1 duration is 10 sec, R_2 \u003d 0, C_1 \u003d 0, C_2 \u003d 10.\n\nWith wrong dependent requests assumption (current CallbackGroup  implementation) the processing would take 20 sec, with this order of events:\n\n* R_1 (10) | R_2 (0)\n* C_1 (0)\n* C_2 (10)\n\nWith correct implementation (unordered callback invocation for independent requests) the processing would take 10 sec:\n\n* R_1 (10) | R_2 (0), C_2 (10)\n* C_1 (0)\n\nIOW: CallbackGroup should not preserve the order of the callback invocation per default. Of course, there should be a way to enforce the exception from this rule, e.g.: have OrderedCallbackGroup for that or other means.",
+      "parentUuid": "5333fdd6_4a1bf379",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8904e0b_dff9bbbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1

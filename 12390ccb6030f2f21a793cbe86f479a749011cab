@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8904e0b_5f2febc8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T04:33:50Z",
+      "side": 1,
+      "message": "On second though, this is confusing, because when multiple plugins are adding \"Settings\" panel, then the first is added to allMenuNames, second is added to ambiguousMenuNames and third isn\u0027t added at all. But I think, that the code still works. Because the iteration on line 61 is working over plugins and not entries in ambiguousMenuNames.",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "12390ccb6030f2f21a793cbe86f479a749011cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

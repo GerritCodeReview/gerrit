@@ -32,7 +32,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.git.SignedPushModule;
+import com.google.gerrit.server.git.gpg.SignedPushModule;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;

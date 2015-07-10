@@ -22,6 +22,30 @@
       "revId": "12390ccb6030f2f21a793cbe86f479a749011cab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8904e0b_1f2963c1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-10T05:21:55Z",
+      "side": 1,
+      "message": "It\u0027s intended like this.\n\n\u0027allMenuNames\u0027 and \u0027ambiguousMenuNames\u0027 are Sets and not Lists. On the first time we find \"Settings\" as name, \"Settings\" is added to \u0027allMenuNames\u0027. On the second time we find that it is already contained in \u0027allMenuNames\u0027 and hence this name is used more than once which is why we add it to \u0027ambiguousMenuNames\u0027.\n\nLater when we add the menu items (starting from line 61) we know that whenever a menu name is contained in \u0027ambiguousMenuNames\u0027 it was used more than once, hence we must include the plugin name into the menu name, to make it unique.",
+      "parentUuid": "f8904e0b_5f2febc8",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "12390ccb6030f2f21a793cbe86f479a749011cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

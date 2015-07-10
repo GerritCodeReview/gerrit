@@ -177,7 +177,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, Optional.<Short> absent());
   }
 
-  public void submit(Iterable<SubmitRecord> submitRecords) {
+  public void merge(Iterable<SubmitRecord> submitRecords) {
     this.status = Change.Status.MERGED;
     this.submitRecords = ImmutableList.copyOf(submitRecords);
     checkArgument(!this.submitRecords.isEmpty(),

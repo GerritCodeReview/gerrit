@@ -108,7 +108,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
 
-    update.submit(ImmutableList.of(
+    update.merge(ImmutableList.of(
         submitRecord("NOT_READY", null,
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Code-Review", "NEED", null)),
@@ -173,7 +173,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
 
-    update.submit(ImmutableList.of(
+    update.merge(ImmutableList.of(
         submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
 

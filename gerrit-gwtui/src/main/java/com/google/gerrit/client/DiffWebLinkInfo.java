@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.info.WebLinkInfo;
+
 public class DiffWebLinkInfo extends WebLinkInfo {
   public final native boolean showOnSideBySideDiffView()
   /*-{ return this.show_on_side_by_side_diff_view || false; }-*/;

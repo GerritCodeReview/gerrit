@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "385ca663_99edfb05",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:05:14Z",
+      "side": 1,
+      "message": "Generally speaking the reason we do this with a Provider is that you get a new instance with the current timestamp each time you call serverIdent.get(). I think that\u0027s a good feature to preserve for future uses; it shouldn\u0027t matter in this case because you\u0027re explicitly not comparing timestamps.",
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

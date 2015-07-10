@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "5333fdd6_ea0bc72c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-10T05:30:32Z",
+      "side": 1,
+      "message": "\u003e Do we garantuee that the order of callbacks invocation \n \u003e is preserved?\n\nYes, this is the purpose of callback group. It guarantees that the callbacks are executed in the correct order.",
+      "parentUuid": "5333fdd6_aa01cf10",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8904e0b_dff9bbbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1
@@ -76,6 +100,30 @@
       "writtenOn": "2015-07-10T04:26:17Z",
       "side": 1,
       "message": "Are we going to bother the user with such a details?\n\n  docUrl \u003d CharMatcher.is(\u0027/\u0027).trimFrom(docUrl) + \"/\";\n\nLike in all other places in the code.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 57
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8904e0b_df221bdd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-10T05:30:32Z",
+      "side": 1,
+      "message": "I also think that we should just append the \"/\" if it is missing.",
+      "parentUuid": "f8904e0b_dff9bbbe",
       "range": {
         "startLine": 98,
         "startChar": 4,

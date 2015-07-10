@@ -15,10 +15,10 @@
 package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.actions.ActionButton;
-import com.google.gerrit.client.actions.ActionInfo;
-import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
-import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.info.ActionInfo;
+import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.info.ChangeInfo.EditInfo;
+import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;

@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "58307a12_220bce60",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T18:36:19Z",
+      "side": 1,
+      "message": "| A user investigating the network activity in their browser is by definition poking into implementation details, and gets to live with any confusion.\n\nWe should add to the documentation: \"Please don\u0027t investigate network activity in your brwoser, or if you do, you would live with confusion.\" ;-)",
+      "parentUuid": "385ca663_39ddcf52",
+      "range": {
+        "startLine": 1709,
+        "startChar": 0,
+        "endLine": 1710,
+        "endChar": 58
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5333fdd6_aa01cf10",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 1
@@ -287,6 +311,30 @@
       "side": 1,
       "message": "So...that was a tangent. IMO this code doesn\u0027t need changing:\n\n* CallbackGroup as implemented today guarantees order. We might replace it with some alternative in the future, but it is what it is today.\n* We want to do the documentation check in parallel so we don\u0027t have to wait for the config callback to return before firing off that request.",
       "parentUuid": "f8904e0b_ff603f05",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f83ccef3_ffea1fe9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T18:36:19Z",
+      "side": 1,
+      "message": "Right. \u003ci was arguing for the future.",
+      "parentUuid": "385ca663_f9d19741",
       "range": {
         "startLine": 434,
         "startChar": 4,

@@ -1489,15 +1489,13 @@ public class ReceiveCommits {
 
   private void selectNewAndReplacedChangesFromMagicBranch() {
     newChanges = Lists.newArrayList();
-    final RevWalk walk = rp.getRevWalk();
-
     SetMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector = new GroupCollector(refsById, db);
+    try (RevWalk walk = rp.getRevWalk()) {
+      walk.reset();
+      walk.sort(RevSort.TOPO);
+      walk.sort(RevSort.REVERSE, true);
 
-    walk.reset();
-    walk.sort(RevSort.TOPO);
-    walk.sort(RevSort.REVERSE, true);
-    try {
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
         for (RevCommit c : magicBranch.baseCommit) {

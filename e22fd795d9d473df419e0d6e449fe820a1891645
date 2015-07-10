@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "385ca663_d9001338",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:13:08Z",
+      "side": 1,
+      "message": "Asserting time1 \u003d\u003d time2 is not the only use case. We have tests where we do things like sort a bunch of commits by committer timestamp. And in non-test code you should probably never inject this as a non-provider, so it sets a bad example to see it like that in tests.",
+      "parentUuid": "385ca663_7910e788",
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18536256_58c35d7e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 4

@@ -265,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "b867b630_b5c72089",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:00:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385ca663_d91933a8",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18536256_3806695a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
         "patchSetId": 11
@@ -282,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "b867b630_d5ce1ca1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:00:05Z",
+      "side": 1,
+      "message": "Done, we pass in 2 arguments now for author and committer.",
+      "parentUuid": "18536256_3806695a",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18536256_180ba560",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
         "patchSetId": 11
@@ -293,6 +329,24 @@
       "writtenOn": "2015-07-10T18:27:30Z",
       "side": 1,
       "message": "Behavior change?",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b867b630_35ddd052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:00:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18536256_180ba560",
       "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

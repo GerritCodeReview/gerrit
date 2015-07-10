@@ -15,9 +15,10 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
-import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
-import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
+import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.info.ChangeInfo.EditInfo;
+import com.google.gerrit.client.info.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.CallbackGroup.Callback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;

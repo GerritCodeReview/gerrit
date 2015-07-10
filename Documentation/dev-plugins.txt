@@ -990,9 +990,10 @@ buttons.
 Panel will be shown below the change info block.
 
 ** The following parameters are provided:
-*** `GerritUiExtensionPoint.Key.CHANGE_ID`:
+*** `GerritUiExtensionPoint.Key.CHANGE_INFO`:
 +
-The numeric change ID
+The link:rest-api-changes.html#change-info[ChangeInfo] entity for the
+current change.
 
 * Project Info Screen:
 ** `GerritUiExtensionPoint.PROJECT_INFO_SCREEN_TOP`:

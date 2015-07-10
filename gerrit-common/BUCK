@@ -24,8 +24,7 @@ gwt_module(
   name = 'client',
   srcs = glob([SRC + 'common/**/*.java'], excludes = EXCLUDES),
   gwt_xml = SRC + 'Common.gwt.xml',
-  deps = [
-    ':annotations',
+  exported_deps = [
     '//gerrit-extension-api:client',
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',

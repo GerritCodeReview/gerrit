@@ -15,7 +15,7 @@
 package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.actions.ActionButton;
-import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.info.ActionInfo;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.RestApi;

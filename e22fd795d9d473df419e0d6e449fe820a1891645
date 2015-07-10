@@ -34,6 +34,121 @@
       "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18536256_58c35d7e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-10T18:12:38Z",
+      "side": 1,
+      "message": "The usual JUnit order is expected, actual",
+      "range": {
+        "startLine": 277,
+        "startChar": 33,
+        "endLine": 278,
+        "endChar": 26
+      },
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_d9e77321",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-10T18:12:38Z",
+      "side": 1,
+      "message": "Would a name like\n\n assertEqualsExceptTime\n\nor\n\n assertPersonEquals\n\nbe intuitive here?",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 35
+      },
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_b9f9dfbf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-10T18:12:38Z",
+      "side": 1,
+      "message": "(optional) I think I\u0027d find it easier to read if the caller calls\n\n assertPersonEquals(expectedAuthor, commit.getAuthorIdent());\n\ndirectly.",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 77
+      },
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_99f69bcd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-10T18:12:38Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 50
+      },
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_190bab60",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-10T18:12:38Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "98667235_d419fca7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T21:42:48Z",
+      "side": 1,
+      "message": "Yes we\u0027ve had this discussion before. If we do s/merge/integrate/ globally in Gerrit, this is one of the places it would happen.",
+      "parentUuid": "b867b630_752908c1",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 39
+      },
+      "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_5c3efdea",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
         "patchSetId": 3

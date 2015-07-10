@@ -15,8 +15,8 @@
 package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.actions.ActionInfo;
-import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.info.ActionInfo;
+import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;

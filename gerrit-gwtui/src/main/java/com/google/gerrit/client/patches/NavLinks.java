@@ -15,8 +15,8 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.PatchSet;

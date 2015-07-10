@@ -15,7 +15,7 @@
 package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.ErrorDialog;
-import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.info.ActionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;

@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
 import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
-import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -183,17 +182,17 @@ public class IndexRewriteTest {
   public void testGetPossibleStatus() throws Exception {
     assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
     assertEquals(EnumSet.of(NEW), status("is:new"));
-    assertEquals(EnumSet.of(SUBMITTED, DRAFT, MERGED, ABANDONED),
+    assertEquals(EnumSet.of(DRAFT, MERGED, ABANDONED),
         status("-is:new"));
     assertEquals(EnumSet.of(NEW, MERGED), status("is:new OR is:merged"));
 
     EnumSet<Change.Status> none = EnumSet.noneOf(Change.Status.class);
     assertEquals(none, status("is:new is:merged"));
-    assertEquals(none, status("(is:new is:draft) (is:merged is:submitted)"));
-    assertEquals(none, status("(is:new is:draft) (is:merged is:submitted)"));
+    assertEquals(none, status("(is:new is:draft) (is:merged)"));
+    assertEquals(none, status("(is:new is:draft) (is:merged)"));
 
-    assertEquals(EnumSet.of(MERGED, SUBMITTED),
-        status("(is:new is:draft) OR (is:merged OR is:submitted)"));
+    assertEquals(EnumSet.of(MERGED),
+        status("(is:new is:draft) OR (is:merged)"));
   }
 
   @Test

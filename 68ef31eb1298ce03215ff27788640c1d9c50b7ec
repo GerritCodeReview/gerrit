@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18536256_f8ea31e9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be assertNoSubmitter?",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 19
+      },
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_f91cf799",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "assertNoSubmitter?",
+      "range": {
+        "startLine": 151,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 19
+      },
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18536256_d8e76d21",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "assertNoSubmitter?",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_991fbb8d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeAlwaysIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "assertAuthor/Committer here?",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18536256_b8f0b9db",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "Inconsistent with \"change2\" and \"change4\"",
+      "range": {
+        "startLine": 51,
+        "startChar": 7,
+        "endLine": 51,
+        "endChar": 15
+      },
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18536256_98edf505",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "assertNoSubmitter for unmerged changes.",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_d91933a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "This looks like you\u0027re fixing the behavior change I pointed out in a previous commit; probably you want to squash this fix.\n\nAlso, it might be clearer to do this as:\n\n PersonIdent serverIdent \u003d args.serverIdent.get();\n PersonIdent committer \u003d args.caller.newCommitterIdent(\n     serverIdent.getWhen(), serverIdent.getTimeZone());",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18536256_3806695a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "Behavior change?",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18536256_180ba560",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:27:30Z",
+      "side": 1,
+      "message": "Behavior change?",
+      "revId": "68ef31eb1298ce03215ff27788640c1d9c50b7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

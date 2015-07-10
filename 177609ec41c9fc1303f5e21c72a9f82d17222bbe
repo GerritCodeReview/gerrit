@@ -185,6 +185,30 @@
     },
     {
       "key": {
+        "uuid": "f8904e0b_df63fb0f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T09:26:57Z",
+      "side": 1,
+      "message": "\"Talk is cheap. Show me the code\": Here is the correct implementation of CallbackGroup in ECMAScript 6 with OOP-style class syntax:\n\n  class CallbackGroup {\n    constructor(doneCallback) {\n      // final callback to be called when all requests/callbacks were processed\n      this.doneCallback \u003d doneCallback;\n      this.counter \u003d 0;\n    }\n    add(callback) {\n      this.counter++;\n      return function () {\n        // call own callback\n        callback.apply(this, arguments);\n        // is this callback the last one?\n        this.counter--;\n        if (this.counter \u003d\u003d\u003d 0) {\n          // call final callback when all requests were processed\n          this.doneCallback();\n        }\n      }\n    }\n  }",
+      "parentUuid": "5333fdd6_ea22e7ac",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8904e0b_dff9bbbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1

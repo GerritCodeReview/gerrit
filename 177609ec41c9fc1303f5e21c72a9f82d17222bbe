@@ -161,6 +161,30 @@
     },
     {
       "key": {
+        "uuid": "5333fdd6_ea22e7ac",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T08:59:43Z",
+      "side": 1,
+      "message": "Of course not: the final callback is still needed, because we have to do something (render a view) after all these independent requests/callbacks were processed and not before.\n\nAgain: these requirements have a final callback that is get called after all independent requests and their callbacks were processed and having dependent requests and process their callbacks in order of adding them to the callback group are orthogonal requirements and must not be put and assumed per default in generic CallbackGroup implementation.",
+      "parentUuid": "f8904e0b_3f5f8741",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8904e0b_dff9bbbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1

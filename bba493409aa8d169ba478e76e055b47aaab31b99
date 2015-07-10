@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b867b630_d500dc37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:29:17Z",
+      "side": 1,
+      "message": "So I think assertPersonEquals will do for now.",
+      "parentUuid": "98667235_54dccc52",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 27
+      },
+      "revId": "bba493409aa8d169ba478e76e055b47aaab31b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b867b630_95c4a485",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
         "patchSetId": 5
@@ -60,6 +84,30 @@
       "writtenOn": "2015-07-10T19:59:26Z",
       "side": 1,
       "message": "I don\u0027t know what this TODO is saying. Maybe\n\n  assertEqualsExceptTime(..., .getAuthorIdent());\n  // TODO: Check the committer, too.\n  // assertEqualsExceptTime(admin.getIdent(), newHead.getCommitterIdent();\n\nOr\n\n  // TODO: The committer should be admin, not administrator.\n  assertEqualsExceptTime(administrator.getIdent(), newHead.getAuthorIdent());",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "bba493409aa8d169ba478e76e055b47aaab31b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98667235_b4c72089",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:29:17Z",
+      "side": 1,
+      "message": "I\u0027ll go with the first suggestion for now.\n\nThe second suggestion looks weird, as there is no entity `administrator`.",
+      "parentUuid": "b867b630_95c4a485",
       "range": {
         "startLine": 69,
         "startChar": 0,

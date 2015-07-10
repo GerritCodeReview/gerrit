@@ -16,6 +16,24 @@
       "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385ca663_7910e788",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T18:11:12Z",
+      "side": 1,
+      "message": "I thought this aligned with the deletion in SubmitOnPushIT.java\nand speaking of tests, we will likely never compare times?\n\nAnyway changed.",
+      "parentUuid": "385ca663_99edfb05",
+      "revId": "e22fd795d9d473df419e0d6e449fe820a1891645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

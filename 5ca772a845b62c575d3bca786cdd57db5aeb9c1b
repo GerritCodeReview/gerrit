@@ -46,6 +46,30 @@
       "revId": "5ca772a845b62c575d3bca786cdd57db5aeb9c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58307a12_22e2ae18",
+        "filename": "gerrit-gwtui-common/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T14:40:26Z",
+      "side": 1,
+      "message": "OK, I must admit, from just looking at the source without access to my machine, I don\u0027t understand why this doesn\u0027t compile. Will look later into it (with my machine) ;-)",
+      "parentUuid": "58307a12_a2c4fe84",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 35
+      },
+      "revId": "5ca772a845b62c575d3bca786cdd57db5aeb9c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

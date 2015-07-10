@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.projects;
 
-import com.google.gerrit.client.WebLinkInfo;
-import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.info.ActionInfo;
+import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.JavaScriptObject;

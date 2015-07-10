@@ -12,13 +12,16 @@ gwt_module(
   ]),
   deps = [
     ':google-code-prettify',
+    '//gerrit-gwtexpui:SafeHtml',
+  ],
+  exported_deps = [
     '//gerrit-patch-jgit:client',
     '//gerrit-reviewdb:client',
-    '//gerrit-gwtexpui:SafeHtml',
     '//lib:gwtjsonrpc',
-    '//lib/gwt:user',
+    '//lib:gwtjsonrpc_src',
     '//lib/jgit:Edit',
   ],
+  provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 

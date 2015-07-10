@@ -9,9 +9,9 @@ gwt_module(
   gwt_xml = SRC + 'JGit.gwt.xml',
   deps = [
     '//lib:gwtjsonrpc',
-    '//lib/gwt:user',
     '//lib/jgit:Edit',
   ],
+  provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 

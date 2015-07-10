@@ -1,3 +1,12 @@
+EXPORTED_DEPS = [
+  '//gerrit-common:client',
+  '//gerrit-gwtexpui:Clippy',
+  '//gerrit-gwtexpui:GlobalKey',
+  '//gerrit-gwtexpui:Progress',
+  '//gerrit-gwtexpui:SafeHtml',
+  '//gerrit-gwtexpui:UserAgent',
+]
+DEPS = ['//lib/gwt:user']
 SRC = 'src/main/java/com/google/gerrit/'
 DIFFY = glob(['src/main/resources/com/google/gerrit/client/diffy*.png'])
 
@@ -6,7 +15,8 @@ gwt_module(
   srcs = glob([SRC + 'client/**/*.java']),
   gwt_xml = SRC + 'GerritGwtUICommon.gwt.xml',
   resources = glob(['src/main/**/*']),
-  deps = ['//lib/gwt:user'],
+  exported_deps = EXPORTED_DEPS,
+  provided_deps = DEPS,
   visibility = ['PUBLIC'],
 )
 
@@ -20,7 +30,8 @@ java_library(
   name = 'client-lib2',
   srcs = glob(['src/main/**/*.java']),
   resources = glob(['src/main/**/*']),
-  provided_deps = ['//lib/gwt:user'],
+  exported_deps = EXPORTED_DEPS,
+  provided_deps = DEPS,
   visibility = ['PUBLIC'],
 )
 

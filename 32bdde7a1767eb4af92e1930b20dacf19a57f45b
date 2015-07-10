@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "98667235_14b9b418",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T19:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18536256_f8d19141",
+      "revId": "32bdde7a1767eb4af92e1930b20dacf19a57f45b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18536256_18e28518",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
         "patchSetId": 6

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98667235_54dccc52",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T20:15:21Z",
+      "side": 1,
+      "message": "Or go whole hog and implement a PersonSubject ;)",
+      "parentUuid": "b867b630_55c32c7e",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 27
+      },
+      "revId": "bba493409aa8d169ba478e76e055b47aaab31b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b867b630_95c4a485",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
         "patchSetId": 5

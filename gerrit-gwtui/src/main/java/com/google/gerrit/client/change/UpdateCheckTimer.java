@@ -15,7 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

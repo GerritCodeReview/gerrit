@@ -444,16 +444,15 @@ public class MergeUtil {
     };
   }
 
-  public CodeReviewCommit mergeOneCommit(final PersonIdent myIdent,
-      final Repository repo, final RevWalk rw, final ObjectInserter inserter,
-      final RevFlag canMergeFlag, final Branch.NameKey destBranch,
-      final CodeReviewCommit mergeTip, final CodeReviewCommit n)
-      throws MergeException {
+  public CodeReviewCommit mergeOneCommit(PersonIdent author,
+      PersonIdent committer, Repository repo, RevWalk rw,
+      ObjectInserter inserter, RevFlag canMergeFlag, Branch.NameKey destBranch,
+      CodeReviewCommit mergeTip, CodeReviewCommit n) throws MergeException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        return writeMergeCommit(myIdent, rw, inserter, canMergeFlag, destBranch,
-            mergeTip, m.getResultTreeId(), n);
+        return writeMergeCommit(author, committer, rw, inserter, canMergeFlag,
+            destBranch, mergeTip, m.getResultTreeId(), n);
       } else {
         failed(rw, canMergeFlag, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
       }
@@ -496,12 +495,12 @@ public class MergeUtil {
     return failed;
   }
 
-  public CodeReviewCommit writeMergeCommit(final PersonIdent myIdent,
-      final RevWalk rw, final ObjectInserter inserter,
-      final RevFlag canMergeFlag, final Branch.NameKey destBranch,
-      final CodeReviewCommit mergeTip, final ObjectId treeId,
-      final CodeReviewCommit n) throws IOException,
-      MissingObjectException, IncorrectObjectTypeException {
+  public CodeReviewCommit writeMergeCommit(PersonIdent author,
+      PersonIdent committer, RevWalk rw, ObjectInserter inserter,
+      RevFlag canMergeFlag, Branch.NameKey destBranch,
+      CodeReviewCommit mergeTip, ObjectId treeId, CodeReviewCommit n)
+      throws IOException, MissingObjectException,
+      IncorrectObjectTypeException {
     final List<CodeReviewCommit> merged = new ArrayList<>();
     rw.resetRetain(canMergeFlag);
     rw.markStart(n);
@@ -532,8 +531,8 @@ public class MergeUtil {
     final CommitBuilder mergeCommit = new CommitBuilder();
     mergeCommit.setTreeId(treeId);
     mergeCommit.setParentIds(mergeTip, n);
-    mergeCommit.setAuthor(myIdent);
-    mergeCommit.setCommitter(myIdent);
+    mergeCommit.setAuthor(author);
+    mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
 
     CodeReviewCommit mergeResult =

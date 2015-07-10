@@ -249,7 +249,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
       assertThat(c.getParentCount()).isEqualTo(2);
       assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
-      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(
+          serverIdent.getEmailAddress());
       assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
           admin.email);
     }

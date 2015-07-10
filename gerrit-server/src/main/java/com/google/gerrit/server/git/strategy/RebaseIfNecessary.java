@@ -32,6 +32,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -130,8 +131,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
           if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
             mergeTip.moveTipTo(n, n);
           } else {
+            PersonIdent myIdent = args.serverIdent.get();
             mergeTip.moveTipTo(
-                args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
+                args.mergeUtil.mergeOneCommit(myIdent, myIdent,
                     args.repo, args.rw, args.inserter, args.canMergeFlag,
                     args.destBranch, mergeTip.getCurrentTip(), n), n);
           }

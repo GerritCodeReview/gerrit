@@ -19,6 +19,8 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeTip;
 
+import org.eclipse.jgit.lib.PersonIdent;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -48,10 +50,11 @@ public class MergeIfNecessary extends SubmitStrategy {
     // For every other commit do a pair-wise merge.
     while (!sorted.isEmpty()) {
       CodeReviewCommit mergedFrom = sorted.remove(0);
+      PersonIdent caller = args.caller.newCommitterIdent(TimeUtil.nowTs(),
+          args.serverIdent.get().getTimeZone());
       branchTip =
           args.mergeUtil.mergeOneCommit(
-              args.caller.newCommitterIdent(
-                  TimeUtil.nowTs(), args.serverIdent.get().getTimeZone()),
+              args.serverIdent.get(), caller,
               args.repo, args.rw, args.inserter, args.canMergeFlag,
               args.destBranch, branchTip, mergedFrom);
       mergeTip.moveTipTo(branchTip, mergedFrom);

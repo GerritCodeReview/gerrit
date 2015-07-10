@@ -36,6 +36,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -130,8 +131,9 @@ public class CherryPick extends SubmitStrategy {
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
         mergeTip.moveTipTo(n, n);
       } else {
-        CodeReviewCommit result = args.mergeUtil.mergeOneCommit(
-            args.serverIdent.get(), args.repo, args.rw, args.inserter,
+        PersonIdent myIdent = args.serverIdent.get();
+        CodeReviewCommit result = args.mergeUtil.mergeOneCommit(myIdent,
+            myIdent, args.repo, args.rw, args.inserter,
             args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(), n);
         mergeTip.moveTipTo(result, n);
       }

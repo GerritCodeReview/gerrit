@@ -61,7 +61,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(tip.getParent(0).getParent(0).getId()).isEqualTo(
         initialHead.getId());
 
-    assertAuthor(tip, admin.getIdent());
+    assertAuthor(tip, serverIdent);
     assertCommitter(tip, admin.getIdent());
 
     assertNew(change2.getChangeId());

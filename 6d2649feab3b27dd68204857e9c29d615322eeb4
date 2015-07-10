@@ -70,6 +70,30 @@
       "revId": "6d2649feab3b27dd68204857e9c29d615322eeb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b867b630_552e8cca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-10T20:34:33Z",
+      "side": 1,
+      "message": "More context: before https://gerrit-review.googlesource.com/30881, Documentation/ was a relative link.",
+      "parentUuid": "98667235_94f664cd",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 35
+      },
+      "revId": "6d2649feab3b27dd68204857e9c29d615322eeb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

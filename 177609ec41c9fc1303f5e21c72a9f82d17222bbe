@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "5333fdd6_4a1bf379",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T05:45:35Z",
+      "side": 1,
+      "message": "Indeed:\n\n  The enclosing group buffers returned results and ensures that\n  {@code onSuccess} is called exactly once for each callback \n  in the group, in the same order that callbacks were added.",
+      "parentUuid": "5333fdd6_ea0bc72c",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8904e0b_dff9bbbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1

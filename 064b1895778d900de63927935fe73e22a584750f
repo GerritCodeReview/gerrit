@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b867b630_55dccc52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T20:13:52Z",
+      "side": 1,
+      "message": "Why did the !\u003d CHERRY_PICK case go away?",
+      "revId": "064b1895778d900de63927935fe73e22a584750f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b867b630_b5f0c0db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T20:13:52Z",
+      "side": 1,
+      "message": "You want to reuse the timestamp in both the author and committer. Right now there\u0027s a chance they will differ.\n\nThe only way to guarantee they are the same is to call serverIdent.get() once and use the timestamp from that:\n\n PersonIdent serverIdent \u003d args.serverIdent.get();\n PersonIdent callerIdent \u003d args.caller.newCommitterIdent(\n     serverIdent.getWhen(), serverIdent.getTimeZone());",
+      "range": {
+        "startLine": 50,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 71
+      },
+      "revId": "064b1895778d900de63927935fe73e22a584750f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98667235_34ddd052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T20:13:52Z",
+      "side": 1,
+      "message": "Same comment as in mergeAlways",
+      "revId": "064b1895778d900de63927935fe73e22a584750f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

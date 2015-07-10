@@ -137,6 +137,30 @@
     },
     {
       "key": {
+        "uuid": "f8904e0b_3f5f8741",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-10T08:44:36Z",
+      "side": 1,
+      "message": "\u003e With correct implementation (unordered callback \n \u003e invocation for independent requests) the processing \n \u003e would take 10 sec:\n\nIf you have independent requests, just don\u0027t use a callback group and you get this behaviour, don\u0027t you?",
+      "parentUuid": "5333fdd6_8a232bb4",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8904e0b_dff9bbbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1

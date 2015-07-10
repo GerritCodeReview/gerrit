@@ -209,6 +209,30 @@
     },
     {
       "key": {
+        "uuid": "f8904e0b_ff603f05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-10T09:39:54Z",
+      "side": 1,
+      "message": "\u003e Of course not: the final callback is still needed,   \n \u003e because we have to do something (render a view) after \n \u003e all these independent requests/callbacks were processed \n \u003e and not before.\n\nOK, if this is the requirement (do n independent requests/callbacks and then have 1 final callback in the end) then CallbackGroup needs to be adapted for this. But we must keep the possibility to enforce the order of callbacks since current code relies on it.",
+      "parentUuid": "f8904e0b_df63fb0f",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8904e0b_dff9bbbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 1

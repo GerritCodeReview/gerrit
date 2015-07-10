@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "98667235_d4ce1ca1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385ca663_795aa751",
+      "revId": "5764e43f27c4da113b3460aca33a905a1e0df5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18536256_7810e188",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-10T18:31:22Z",
       "side": 1,
       "message": "So you decided against inserting ChangeMessages?",
+      "revId": "5764e43f27c4da113b3460aca33a905a1e0df5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98667235_f4d19841",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:14:16Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "18536256_7810e188",
       "revId": "5764e43f27c4da113b3460aca33a905a1e0df5f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

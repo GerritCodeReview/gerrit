@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58307a12_e2e72621",
+        "filename": "gerrit-plugin-gwtui/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T17:14:37Z",
+      "side": 1,
+      "message": "Note that this is not enough for GWT compiler, because the sources are needed as well. So I wonder if it worth to include it at all, or rather require the plugin to fetch gwtjsonrpc, gwtjsonrpc_src, gwtorm, gwtorm_src in addition when plugin exposes GWT module?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "23677e6ca29a3ffffd0d67acdf940291f6705ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

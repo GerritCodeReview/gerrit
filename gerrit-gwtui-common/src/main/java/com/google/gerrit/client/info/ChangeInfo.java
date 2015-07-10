@@ -12,12 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.info;
 
-import com.google.gerrit.client.WebLinkInfo;
-import com.google.gerrit.client.actions.ActionInfo;
-import com.google.gerrit.client.diff.FileInfo;
-import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
@@ -129,8 +125,8 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
-  final native int _number() /*-{ return this._number; }-*/;
-  final native boolean _more_changes()
+  public final native int _number() /*-{ return this._number; }-*/;
+  public final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;
 
   public final boolean submittable() {
@@ -232,7 +228,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean optional() /*-{ return this.optional ? true : false; }-*/;
     public final native boolean blocking() /*-{ return this.blocking ? true : false; }-*/;
     public final native short defaultValue() /*-{ return this.default_value; }-*/;
-    final native short _value()
+    public final native short _value()
     /*-{
       if (this.value) return this.value;
       if (this.disliked) return -1;

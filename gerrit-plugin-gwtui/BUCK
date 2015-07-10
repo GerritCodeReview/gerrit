@@ -9,7 +9,6 @@ java_binary(
   name = 'gwtui-api',
   deps = [
     ':gwtui-api-lib',
-    '//gerrit-extension-api:client-lib',
     '//gerrit-gwtui-common:client-lib',
   ],
   visibility = ['PUBLIC'],
@@ -25,14 +24,7 @@ java_library(
   name = 'gwtui-api-lib2',
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
-  exported_deps = [
-    '//gerrit-extension-api:client-lib',
-    '//gerrit-gwtexpui:Clippy',
-    '//gerrit-gwtexpui:GlobalKey',
-    '//gerrit-gwtexpui:SafeHtml',
-    '//gerrit-gwtexpui:UserAgent',
-    '//gerrit-gwtui-common:client-lib2',
-  ],
+  exported_deps = ['//gerrit-gwtui-common:client-lib2'],
   provided_deps = DEPS + ['//lib/gwt:dev'],
   visibility = ['PUBLIC'],
 )
@@ -67,8 +59,12 @@ java_doc(
   paths = COMMON + GWTEXPUI,
   srcs = SRCS,
   deps = DEPS + [
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm_client',
     '//lib/gwt:dev__jar',
     '//gerrit-gwtui-common:client-lib2',
+    '//gerrit-common:client',
+    '//gerrit-reviewdb:client',
   ],
   visibility = ['PUBLIC'],
   do_it_wrong = True,

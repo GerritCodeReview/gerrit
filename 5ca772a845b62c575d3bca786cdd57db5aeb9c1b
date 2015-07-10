@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58307a12_62c3167f",
+        "filename": "gerrit-gwtui-common/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T14:02:10Z",
+      "side": 1,
+      "message": "Should \u0027//lib:gwtjsonrpc\u0027 be added here?",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 35
+      },
+      "revId": "5ca772a845b62c575d3bca786cdd57db5aeb9c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

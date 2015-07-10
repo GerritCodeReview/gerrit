@@ -19,24 +19,24 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
-import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
-import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
-import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
-import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
-import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.RevisionInfoCache;
 import com.google.gerrit.client.changes.StarredChanges;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
-import com.google.gerrit.client.diff.FileInfo;
+import com.google.gerrit.client.info.ActionInfo;
+import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.info.FileInfo;
 import com.google.gerrit.client.info.AccountInfo.AvatarInfo;
+import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.info.ChangeInfo.EditInfo;
+import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
+import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.projects.ConfigInfoCache.Entry;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -230,7 +230,6 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    addExtensionPoints();
     CallbackGroup group = new CallbackGroup();
     if (Gerrit.isSignedIn()) {
       ChangeList.query("change:" + changeId.get() + " has:draft",
@@ -262,26 +261,28 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo info) {
             info.init();
+            addExtensionPoints(info);
             loadConfigInfo(info, base);
           }
         }));
   }
 
-  private void addExtensionPoints() {
+  private void addExtensionPoints(ChangeInfo change) {
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER,
-        headerExtension);
+        headerExtension, change);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
-        headerExtensionMiddle);
+        headerExtensionMiddle, change);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
-        headerExtensionRight);
+        headerExtensionRight, change);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
-        changeExtension);
+        changeExtension, change);
   }
 
-  private void addExtensionPoint(GerritUiExtensionPoint extensionPoint, Panel p) {
+  private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,
+      Panel p, ChangeInfo change) {
     ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
-    extensionPanel.putInt(GerritUiExtensionPoint.Key.CHANGE_ID, changeId.get());
+    extensionPanel.putObject(GerritUiExtensionPoint.Key.CHANGE_INFO, change);
     p.add(extensionPanel);
   }
 

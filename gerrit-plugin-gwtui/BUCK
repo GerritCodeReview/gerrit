@@ -67,8 +67,12 @@ java_doc(
   paths = COMMON + GWTEXPUI,
   srcs = SRCS,
   deps = DEPS + [
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm_client',
     '//lib/gwt:dev__jar',
     '//gerrit-gwtui-common:client-lib2',
+    '//gerrit-common:client',
+    '//gerrit-reviewdb:client',
   ],
   visibility = ['PUBLIC'],
   do_it_wrong = True,

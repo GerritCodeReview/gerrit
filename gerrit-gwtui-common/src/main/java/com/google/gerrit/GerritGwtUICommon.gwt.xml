@@ -14,5 +14,6 @@
  limitations under the License.
 -->
 <module>
+  <inherits name='com.google.gerrit.Common'/>
   <source path='client' />
 </module>

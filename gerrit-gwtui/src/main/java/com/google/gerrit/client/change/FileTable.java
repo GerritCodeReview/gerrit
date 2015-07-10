@@ -22,7 +22,7 @@ import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
-import com.google.gerrit.client.diff.FileInfo;
+import com.google.gerrit.client.info.FileInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;

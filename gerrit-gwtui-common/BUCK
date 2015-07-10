@@ -6,7 +6,13 @@ gwt_module(
   srcs = glob([SRC + 'client/**/*.java']),
   gwt_xml = SRC + 'GerritGwtUICommon.gwt.xml',
   resources = glob(['src/main/**/*']),
-  deps = ['//lib/gwt:user'],
+  deps = [
+    '//lib/gwt:user',
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm_client',
+    '//gerrit-common:client',
+    '//gerrit-reviewdb:client',
+  ],
   visibility = ['PUBLIC'],
 )
 
@@ -20,7 +26,13 @@ java_library(
   name = 'client-lib2',
   srcs = glob(['src/main/**/*.java']),
   resources = glob(['src/main/**/*']),
-  provided_deps = ['//lib/gwt:user'],
+  provided_deps = [
+    '//lib/gwt:user',
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm_client',
+    '//gerrit-common:client',
+    '//gerrit-reviewdb:client',
+  ],
   visibility = ['PUBLIC'],
 )
 

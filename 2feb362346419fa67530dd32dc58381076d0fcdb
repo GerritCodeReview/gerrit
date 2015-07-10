@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b867b630_7510e888",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T20:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b867b630_d5e73c21",
+      "range": {
+        "startLine": 450,
+        "startChar": 0,
+        "endLine": 450,
+        "endChar": 18
+      },
+      "revId": "2feb362346419fa67530dd32dc58381076d0fcdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f83ccef3_9fedd305",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b867b630_5515ec76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T20:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f83ccef3_9fedd305",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "2feb362346419fa67530dd32dc58381076d0fcdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b867b630_150b7460",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-07-10T20:18:51Z",
       "side": 1,
       "message": "String value \u003d cfg.getString(...)\n\nshould work now (without having to worry about getString\u0027s bad behavior with empty values because we treat null and empty the same).",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 66
+      },
+      "revId": "2feb362346419fa67530dd32dc58381076d0fcdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98667235_d4e73c21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T20:21:26Z",
+      "side": 1,
+      "message": "Done. That\u0027s why I sent this to you :)",
+      "parentUuid": "b867b630_150b7460",
       "range": {
         "startLine": 242,
         "startChar": 0,

@@ -79,7 +79,7 @@ public class TestAccount {
   }
 
   public PersonIdent getIdent() {
-    return new PersonIdent(username, email);
+    return new PersonIdent(fullName, email);
   }
 
   public String getHttpUrl(GerritServer server) {

@@ -34,8 +34,6 @@ public class Util {
         return C.statusLongDraft();
       case NEW:
         return C.statusLongNew();
-      case SUBMITTED:
-        return C.statusLongSubmitted();
       case MERGED:
         return C.statusLongMerged();
       case ABANDONED:

@@ -71,16 +71,13 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 public class MergeUtil {
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
@@ -165,10 +162,6 @@ public class MergeUtil {
     }
     Collections.sort(result, CodeReviewCommit.ORDER);
     return result;
-  }
-
-  public PatchSetApproval getSubmitter(CodeReviewCommit c) {
-    return approvalsUtil.getSubmitter(db.get(), c.notes(), c.getPatchsetId());
   }
 
   public RevCommit createCherryPickFromCommit(Repository repo,
@@ -347,52 +340,6 @@ public class MergeUtil {
     return false;
   }
 
-  public PersonIdent computeMergeCommitAuthor(final PersonIdent myIdent,
-      final RevWalk rw, final List<CodeReviewCommit> codeReviewCommits) {
-    PatchSetApproval submitter = null;
-    for (final CodeReviewCommit c : codeReviewCommits) {
-      PatchSetApproval s = getSubmitter(c);
-      if (submitter == null
-          || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {
-        submitter = s;
-      }
-    }
-
-    // Try to use the submitter's identity for the merge commit author.
-    // If all of the commits being merged are created by the submitter,
-    // prefer the identity line they used in the commits rather than the
-    // preferred identity stored in the user account. This way the Git
-    // commit records are more consistent internally.
-    //
-    PersonIdent authorIdent;
-    if (submitter != null) {
-      IdentifiedUser who =
-          identifiedUserFactory.create(submitter.getAccountId());
-      Set<String> emails = new HashSet<>();
-      for (RevCommit c : codeReviewCommits) {
-        try {
-          rw.parseBody(c);
-        } catch (IOException e) {
-          log.warn("Cannot parse commit " + c.name(), e);
-          continue;
-        }
-        emails.add(c.getAuthorIdent().getEmailAddress());
-      }
-
-      final Timestamp dt = submitter.getGranted();
-      final TimeZone tz = myIdent.getTimeZone();
-      if (emails.size() == 1 && who.hasEmailAddress(emails.iterator().next())) {
-        authorIdent =
-            new PersonIdent(codeReviewCommits.get(0).getAuthorIdent(), dt, tz);
-      } else {
-        authorIdent = who.newCommitterIdent(dt, tz);
-      }
-    } else {
-      authorIdent = myIdent;
-    }
-    return authorIdent;
-  }
-
   public boolean canMerge(final MergeSorter mergeSorter,
       final Repository repo, final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge)
@@ -497,16 +444,15 @@ public class MergeUtil {
     };
   }
 
-  public CodeReviewCommit mergeOneCommit(final PersonIdent myIdent,
-      final Repository repo, final RevWalk rw, final ObjectInserter inserter,
-      final RevFlag canMergeFlag, final Branch.NameKey destBranch,
-      final CodeReviewCommit mergeTip, final CodeReviewCommit n)
-      throws MergeException {
+  public CodeReviewCommit mergeOneCommit(PersonIdent author,
+      PersonIdent committer, Repository repo, RevWalk rw,
+      ObjectInserter inserter, RevFlag canMergeFlag, Branch.NameKey destBranch,
+      CodeReviewCommit mergeTip, CodeReviewCommit n) throws MergeException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        return writeMergeCommit(myIdent, rw, inserter, canMergeFlag, destBranch,
-            mergeTip, m.getResultTreeId(), n);
+        return writeMergeCommit(author, committer, rw, inserter, canMergeFlag,
+            destBranch, mergeTip, m.getResultTreeId(), n);
       } else {
         failed(rw, canMergeFlag, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
       }
@@ -549,12 +495,12 @@ public class MergeUtil {
     return failed;
   }
 
-  public CodeReviewCommit writeMergeCommit(final PersonIdent myIdent,
-      final RevWalk rw, final ObjectInserter inserter,
-      final RevFlag canMergeFlag, final Branch.NameKey destBranch,
-      final CodeReviewCommit mergeTip, final ObjectId treeId,
-      final CodeReviewCommit n) throws IOException,
-      MissingObjectException, IncorrectObjectTypeException {
+  public CodeReviewCommit writeMergeCommit(PersonIdent author,
+      PersonIdent committer, RevWalk rw, ObjectInserter inserter,
+      RevFlag canMergeFlag, Branch.NameKey destBranch,
+      CodeReviewCommit mergeTip, ObjectId treeId, CodeReviewCommit n)
+      throws IOException, MissingObjectException,
+      IncorrectObjectTypeException {
     final List<CodeReviewCommit> merged = new ArrayList<>();
     rw.resetRetain(canMergeFlag);
     rw.markStart(n);
@@ -582,13 +528,11 @@ public class MergeUtil {
       }
     }
 
-    PersonIdent authorIdent = computeMergeCommitAuthor(myIdent, rw, merged);
-
     final CommitBuilder mergeCommit = new CommitBuilder();
     mergeCommit.setTreeId(treeId);
     mergeCommit.setParentIds(mergeTip, n);
-    mergeCommit.setAuthor(authorIdent);
-    mergeCommit.setCommitter(myIdent);
+    mergeCommit.setAuthor(author);
+    mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
 
     CodeReviewCommit mergeResult =
@@ -691,7 +635,7 @@ public class MergeUtil {
     return id;
   }
 
-  public PatchSetApproval markCleanMerges(final RevWalk rw,
+  public void markCleanMerges(final RevWalk rw,
       final RevFlag canMergeFlag, final CodeReviewCommit mergeTip,
       final Set<RevCommit> alreadyAccepted) throws MergeException {
     if (mergeTip == null) {
@@ -699,12 +643,10 @@ public class MergeUtil {
       // at the start of the merge process. We also elected to merge nothing,
       // probably due to missing dependencies. Nothing was cleanly merged.
       //
-      return null;
+      return;
     }
 
     try {
-      PatchSetApproval submitApproval = null;
-
       rw.resetRetain(canMergeFlag);
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.REVERSE, true);
@@ -717,13 +659,8 @@ public class MergeUtil {
       while ((c = (CodeReviewCommit) rw.next()) != null) {
         if (c.getPatchsetId() != null) {
           c.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-          if (submitApproval == null) {
-            submitApproval = getSubmitter(c);
-          }
         }
       }
-
-      return submitApproval;
     } catch (IOException e) {
       throw new MergeException("Cannot mark clean merges", e);
     }

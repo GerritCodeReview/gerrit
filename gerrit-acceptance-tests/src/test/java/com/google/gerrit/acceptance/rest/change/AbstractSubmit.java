@@ -41,7 +41,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -61,6 +60,7 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -71,8 +71,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -145,9 +143,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     change1.assertChange(Change.Status.MERGED, "test-topic", admin);
     change2.assertChange(Change.Status.MERGED, "test-topic", admin);
     change3.assertChange(Change.Status.MERGED, "test-topic", admin);
+    // Check for the exact change to have the correct submitter.
+    assertSubmitter(change3);
+    // Also check submitters for changes submitted via the topic relationship.
     assertSubmitter(change1);
     assertSubmitter(change2);
-    assertSubmitter(change3);
   }
 
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {
@@ -202,22 +202,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     submit(changeId, HttpStatus.SC_CONFLICT);
   }
 
-  protected void submitStatusOnly(String changeId) throws Exception {
-    approve(changeId);
-    Change c = queryProvider.get().byKeyPrefix(changeId).get(0).change();
-    c.setStatus(Change.Status.SUBMITTED);
-    db.changes().update(Collections.singleton(c));
-    db.patchSetApprovals().insert(Collections.singleton(
-        new PatchSetApproval(
-            new PatchSetApproval.Key(
-                c.currentPatchSetId(),
-                admin.id,
-                LabelId.SUBMIT),
-            (short) 1,
-            new Timestamp(System.currentTimeMillis()))));
-    indexer.index(db, c);
-  }
-
   private void submit(String changeId, int expectedStatus) throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
@@ -265,12 +249,26 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
+  protected void assertNew(String changeId) throws Exception {
+    assertThat(get(changeId).status).isEqualTo(ChangeStatus.NEW);
+  }
+
   protected void assertApproved(String changeId) throws Exception {
     ChangeInfo c = get(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
     assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
+  }
+
+  protected void assertPersonEquals(PersonIdent expected,
+      PersonIdent actual) {
+    assertThat(actual.getEmailAddress())
+        .isEqualTo(expected.getEmailAddress());
+    assertThat(actual.getName())
+        .isEqualTo(expected.getName());
+    assertThat(actual.getTimeZone())
+        .isEqualTo(expected.getTimeZone());
   }
 
   protected void assertSubmitter(String changeId, int psId)
@@ -281,6 +279,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter.isSubmit()).isTrue();
     assertThat(submitter.getAccountId()).isEqualTo(admin.getId());
+  }
+
+  protected void assertNoSubmitter(String changeId, int psId)
+      throws OrmException {
+    ChangeNotes cn = notesFactory.create(
+        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change());
+    PatchSetApproval submitter = approvalsUtil.getSubmitter(
+        db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+    assertThat(submitter).isNull();
   }
 
   protected void assertCherryPick(TestRepository<?> testRepo,

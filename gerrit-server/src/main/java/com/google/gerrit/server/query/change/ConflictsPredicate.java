@@ -117,7 +117,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
                 args.submitStrategyFactory.create(submitType,
                     db.get(), repo, rw, null, canMergeFlag,
                     getAlreadyAccepted(repo, rw, commit),
-                    otherChange.getDest());
+                    otherChange.getDest(), null);
             CodeReviewCommit otherCommit =
                 (CodeReviewCommit) rw.parseCommit(other);
             otherCommit.add(canMergeFlag);

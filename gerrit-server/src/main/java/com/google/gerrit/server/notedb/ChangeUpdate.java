@@ -164,7 +164,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setStatus(Change.Status status) {
-    checkArgument(status != Change.Status.SUBMITTED,
+    checkArgument(status != Change.Status.MERGED,
         "use submit(Iterable<PatchSetApproval>)");
     this.status = status;
   }
@@ -177,8 +177,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, Optional.<Short> absent());
   }
 
-  public void submit(Iterable<SubmitRecord> submitRecords) {
-    status = Change.Status.SUBMITTED;
+  public void merge(Iterable<SubmitRecord> submitRecords) {
+    this.status = Change.Status.MERGED;
     this.submitRecords = ImmutableList.copyOf(submitRecords);
     checkArgument(!this.submitRecords.isEmpty(),
         "no submit records specified at submit time");

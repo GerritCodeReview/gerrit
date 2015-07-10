@@ -20,11 +20,12 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -35,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -44,15 +46,14 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.validators.MergeValidationException;
@@ -89,6 +90,7 @@ import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -105,6 +107,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -144,6 +147,7 @@ public class MergeOp {
   private final GitReferenceUpdated gitRefUpdated;
   private final GitRepositoryManager repoManager;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final LabelNormalizer labelNormalizer;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeSuperSet mergeSuperSet;
   private final MergeValidators.Factory mergeValidatorsFactory;
@@ -151,12 +155,13 @@ public class MergeOp {
   private final ProjectCache projectCache;
   private final InternalChangeQuery internalChangeQuery;
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final Submit submit;
+  private final PersonIdent serverIdent;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
   private final WorkQueue workQueue;
 
+  private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private final PerThreadRequestScope.Scoper threadScoper;
   private String logPrefix;
@@ -185,6 +190,7 @@ public class MergeOp {
       GitReferenceUpdated gitRefUpdated,
       GitRepositoryManager repoManager,
       IdentifiedUser.GenericFactory identifiedUserFactory,
+      LabelNormalizer labelNormalizer,
       MergedSender.Factory mergedSenderFactory,
       MergeSuperSet mergeSuperSet,
       MergeValidators.Factory mergeValidatorsFactory,
@@ -192,7 +198,7 @@ public class MergeOp {
       ProjectCache projectCache,
       InternalChangeQuery internalChangeQuery,
       SchemaFactory<ReviewDb> schemaFactory,
-      Submit submit,
+      @GerritPersonIdent PersonIdent serverIdent,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<SubmoduleOp> subOpProvider,
       TagCache tagCache,
@@ -208,6 +214,7 @@ public class MergeOp {
     this.gitRefUpdated = gitRefUpdated;
     this.repoManager = repoManager;
     this.identifiedUserFactory = identifiedUserFactory;
+    this.labelNormalizer = labelNormalizer;
     this.mergedSenderFactory = mergedSenderFactory;
     this.mergeSuperSet = mergeSuperSet;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
@@ -215,7 +222,7 @@ public class MergeOp {
     this.projectCache = projectCache;
     this.internalChangeQuery = internalChangeQuery;
     this.schemaFactory = schemaFactory;
-    this.submit = submit;
+    this.serverIdent = serverIdent;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
@@ -223,6 +230,8 @@ public class MergeOp {
     commits = new HashMap<>();
     pendingRefUpdates = new HashMap<>();
     openBranches = new HashMap<>();
+    pendingRefUpdates = new HashMap<>();
+    records = new HashMap<>();
     mergeTips = new HashMap<>();
 
     Injector child = injector.createChildInjector(new AbstractModule() {
@@ -379,40 +388,11 @@ public class MergeOp {
       throws ResourceConflictException, OrmException {
     for (Change.Id id : cs.ids()) {
       ChangeData cd = changeDataFactory.create(db, id);
-      if (cd.change().getStatus() != Change.Status.NEW
-          && cd.change().getStatus() != Change.Status.SUBMITTED){
+      if (cd.change().getStatus() != Change.Status.NEW){
         throw new OrmException("Change " + cd.change().getChangeId()
             + " is in state " + cd.change().getStatus());
       } else {
-        checkSubmitRule(cd);
-      }
-    }
-  }
-
-  // For historic reasons we will first go into the submitted state
-  // TODO(sbeller): remove this when we get rid of Change.Status.SUBMITTED
-  private void submitAllChanges(ChangeSet cs, IdentifiedUser caller,
-      boolean force) throws OrmException, ResourceConflictException,
-      IOException {
-    for (Change.Id id : cs.ids()) {
-      ChangeData cd = changeDataFactory.create(db, id);
-      switch (cd.change().getStatus()) {
-        case ABANDONED:
-          throw new ResourceConflictException("Change " + cd.getId() +
-              " was abandoned while processing this change set");
-        case DRAFT:
-          throw new ResourceConflictException("Cannot submit draft " + cd.getId());
-        case NEW:
-          RevisionResource rsrc =
-              new RevisionResource(new ChangeResource(cd.changeControl(), null),
-              cd.currentPatchSet());
-          logDebug("Submitting change id {}", cd.change().getId());
-          submit.submit(rsrc, caller, force);
-          break;
-        case MERGED:
-          // we're racing here, but having it already merged is fine.
-        case SUBMITTED:
-          // ok
+        records.put(cd.change().getId(), checkSubmitRule(cd));
       }
     }
   }
@@ -428,17 +408,11 @@ public class MergeOp {
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, changes);
       logDebug("Calculated to merge {}", cs);
       if (checkPermissions) {
-        logDebug("Submitting all calculated changes while "
-            + "enforcing submit rules");
-        submitAllChanges(cs, caller, false);
         logDebug("Checking permissions");
         checkPermissions(cs);
-      } else {
-        logDebug("Submitting all calculated changes ignoring submit rules");
-        submitAllChanges(cs, caller, true);
       }
       try {
-        integrateIntoHistory(cs);
+        integrateIntoHistory(cs, caller);
       } catch (MergeException e) {
         logError("Merge Conflict", e);
         throw new ResourceConflictException("Merge Conflict", e);
@@ -453,10 +427,10 @@ public class MergeOp {
     }
   }
 
-  private void integrateIntoHistory(ChangeSet cs)
+  private void integrateIntoHistory(ChangeSet cs, IdentifiedUser caller)
       throws MergeException, NoSuchChangeException, ResourceConflictException {
     logDebug("Beginning merge attempt on {}", cs);
-    Map<Branch.NameKey, ListMultimap<SubmitType, Change>> toSubmit =
+    Map<Branch.NameKey, ListMultimap<SubmitType, ChangeData>> toSubmit =
         new HashMap<>();
     try {
       openSchema();
@@ -465,24 +439,25 @@ public class MergeOp {
         openRepository(project);
         for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
           setDestProject(branch);
-          ListMultimap<SubmitType, Change> submitting =
-              validateChangeList(internalChangeQuery.submitted(branch));
+
+          List<ChangeData> cds = new ArrayList<>();
+          for (Change.Id id : cs.changesByBranch().get(branch)) {
+            cds.add(changeDataFactory.create(db, id));
+          }
+          ListMultimap<SubmitType, ChangeData> submitting =
+              validateChangeList(cds);
           toSubmit.put(branch, submitting);
 
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
           for (SubmitType submitType : submitTypes) {
             SubmitStrategy strategy = createStrategy(branch, submitType,
-                getBranchTip(branch));
+                getBranchTip(branch), caller);
 
             MergeTip mergeTip = preMerge(strategy, submitting.get(submitType),
                 getBranchTip(branch));
             mergeTips.put(branch, mergeTip);
-            if (submitType != SubmitType.CHERRY_PICK) {
-              // For cherry picking we have relaxed atomic guarantees
-              // as traditionally Gerrit kept going cherry picking if one
-              // failed. We want to keep it for now.
-              updateChangeStatus(submitting.get(submitType), branch, true);
-            }
+            updateChangeStatus(submitting.get(submitType), branch,
+                true, caller);
           }
           inserter.flush();
         }
@@ -498,9 +473,10 @@ public class MergeOp {
           pendingRefUpdates.remove(branch);
 
           setDestProject(branch);
-          ListMultimap<SubmitType, Change> submitting = toSubmit.get(branch);
+          ListMultimap<SubmitType, ChangeData> submitting = toSubmit.get(branch);
           for (SubmitType submitType : submitting.keySet()) {
-            updateChangeStatus(submitting.get(submitType), branch, false);
+            updateChangeStatus(submitting.get(submitType), branch,
+                false, caller);
             updateSubmoduleSubscriptions(subOp, branch, getBranchTip(branch));
           }
           if (update != null) {
@@ -526,15 +502,15 @@ public class MergeOp {
   }
 
   private MergeTip preMerge(SubmitStrategy strategy,
-      List<Change> submitted, CodeReviewCommit branchTip)
-      throws MergeException {
+      List<ChangeData> submitted, CodeReviewCommit branchTip)
+      throws MergeException, OrmException {
     logDebug("Running submit strategy {} for {} commits {}",
         strategy.getClass().getSimpleName(), submitted.size(), submitted);
     List<CodeReviewCommit> toMerge = new ArrayList<>(submitted.size());
-    for (Change c : submitted) {
-      CodeReviewCommit commit = commits.get(c.getId());
+    for (ChangeData cd : submitted) {
+      CodeReviewCommit commit = commits.get(cd.change().getId());
       checkState(commit != null,
-          "commit for %s not found by validateChangeList", c.getId());
+          "commit for %s not found by validateChangeList", cd.change().getId());
       toMerge.add(commit);
     }
     MergeTip mergeTip = strategy.run(branchTip, toMerge);
@@ -545,10 +521,10 @@ public class MergeOp {
   }
 
   private SubmitStrategy createStrategy(Branch.NameKey destBranch,
-      SubmitType submitType, CodeReviewCommit branchTip)
+      SubmitType submitType, CodeReviewCommit branchTip, IdentifiedUser caller)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
+        canMergeFlag, getAlreadyAccepted(branchTip), destBranch, caller);
   }
 
   private void openRepository(Project.NameKey name)
@@ -649,10 +625,10 @@ public class MergeOp {
     return alreadyAccepted;
   }
 
-  private ListMultimap<SubmitType, Change> validateChangeList(
+  private ListMultimap<SubmitType, ChangeData> validateChangeList(
       List<ChangeData> submitted) throws MergeException {
     logDebug("Validating {} changes", submitted.size());
-    ListMultimap<SubmitType, Change> toSubmit = ArrayListMultimap.create();
+    ListMultimap<SubmitType, ChangeData> toSubmit = ArrayListMultimap.create();
 
     Map<String, Ref> allRefs;
     try {
@@ -677,8 +653,8 @@ public class MergeOp {
         throw new MergeException("Failed to validate changes", e);
       }
       Change.Id changeId = cd.getId();
-      if (chg.getStatus() != Change.Status.SUBMITTED) {
-        logDebug("Change {} is not submitted: {}", changeId, chg.getStatus());
+      if (chg.getStatus() != Change.Status.NEW) {
+        logDebug("Change {} is not new: {}", changeId, chg.getStatus());
         continue;
       }
       if (chg.currentPatchSetId() == null) {
@@ -762,7 +738,7 @@ public class MergeOp {
       }
 
       commit.add(canMergeFlag);
-      toSubmit.put(submitType, chg);
+      toSubmit.put(submitType, cd);
     }
     logDebug("Submitting on this run: {}", toSubmit);
     return toSubmit;
@@ -881,9 +857,10 @@ public class MergeOp {
     return "";
   }
 
-  private void updateChangeStatus(List<Change> submitted,
-      Branch.NameKey destBranch, boolean dryRun)
-      throws NoSuchChangeException, MergeException, ResourceConflictException {
+  private void updateChangeStatus(List<ChangeData> submitted,
+      Branch.NameKey destBranch, boolean dryRun, IdentifiedUser caller)
+      throws NoSuchChangeException, MergeException, ResourceConflictException,
+      OrmException {
     if (!dryRun) {
       logDebug("Updating change status for {} changes", submitted.size());
     } else {
@@ -891,7 +868,8 @@ public class MergeOp {
           submitted.size());
     }
     MergeTip mergeTip = mergeTips.get(destBranch);
-    for (Change c : submitted) {
+    for (ChangeData cd : submitted) {
+      Change c = cd.change();
       CodeReviewCommit commit = commits.get(c.getId());
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
@@ -901,6 +879,14 @@ public class MergeOp {
         logDebug("Submitted change {} did not appear in set of new commits"
             + " produced by merge strategy", c.getId());
         continue;
+      }
+
+      if (!dryRun) {
+        try {
+          setApproval(cd, caller);
+        } catch (IOException e) {
+          throw new OrmException(e);
+        }
       }
 
       String txt = s.getMessage();
@@ -1091,6 +1077,127 @@ public class MergeOp {
         return c;
       }
     });
+  }
+
+  private void setApproval(ChangeData cd, IdentifiedUser user)
+      throws OrmException, IOException {
+    Timestamp timestamp = TimeUtil.nowTs();
+    ChangeControl control = cd.changeControl();
+    PatchSet.Id psId = cd.currentPatchSet().getId();
+    PatchSet.Id psIdNewRev = commits.get(cd.change().getId())
+        .change().currentPatchSetId();
+
+    logDebug("Add approval for " + cd + " from user " + user);
+    ChangeUpdate update = updateFactory.create(control, timestamp);
+    List<SubmitRecord> record = records.get(cd.change().getId());
+    if (record != null) {
+      update.merge(record);
+    }
+    db.changes().beginTransaction(cd.change().getId());
+    try {
+      BatchMetaDataUpdate batch = approve(control, psId, user,
+          update, timestamp);
+      batch.write(update, new CommitBuilder());
+
+      // If the submit strategy created a new revision (rebase, cherry-pick)
+      // approve that as well
+      if (!psIdNewRev.equals(psId)) {
+        batch = approve(control, psIdNewRev, user,
+            update, timestamp);
+        // Write update commit after all normalized label commits.
+        batch.write(update, new CommitBuilder());
+      }
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+    indexer.index(db, cd.change());
+  }
+
+  private BatchMetaDataUpdate approve(ChangeControl control, PatchSet.Id psId,
+      IdentifiedUser user, ChangeUpdate update, Timestamp timestamp)
+          throws OrmException {
+    Map<PatchSetApproval.Key, PatchSetApproval> byKey = Maps.newHashMap();
+    for (PatchSetApproval psa :
+      approvalsUtil.byPatchSet(db, control, psId)) {
+      if (!byKey.containsKey(psa.getKey())) {
+        byKey.put(psa.getKey(), psa);
+      }
+    }
+
+    PatchSetApproval submit = new PatchSetApproval(
+          new PatchSetApproval.Key(
+              psId,
+              user.getAccountId(),
+              LabelId.SUBMIT),
+              (short) 1, TimeUtil.nowTs());
+    byKey.put(submit.getKey(), submit);
+    submit.setValue((short) 1);
+    submit.setGranted(timestamp);
+
+    // Flatten out existing approvals for this patch set based upon the current
+    // permissions. Once the change is closed the approvals are not updated at
+    // presentation view time, except for zero votes used to indicate a reviewer
+    // was added. So we need to make sure votes are accurate now. This way if
+    // permissions get modified in the future, historical records stay accurate.
+    LabelNormalizer.Result normalized =
+        labelNormalizer.normalize(control, byKey.values());
+
+    // TODO(dborowitz): Don't use a label in notedb; just check when status
+    // change happened.
+    update.putApproval(submit.getLabel(), submit.getValue());
+    logDebug("Adding submit label " + submit);
+
+    db.patchSetApprovals().upsert(normalized.getNormalized());
+    db.patchSetApprovals().delete(normalized.deleted());
+
+    try {
+      return saveToBatch(control, update, normalized, timestamp);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  private BatchMetaDataUpdate saveToBatch(ChangeControl ctl,
+      ChangeUpdate callerUpdate, LabelNormalizer.Result normalized,
+      Timestamp timestamp) throws IOException {
+    Table<Account.Id, String, Optional<Short>> byUser = HashBasedTable.create();
+    for (PatchSetApproval psa : normalized.updated()) {
+      byUser.put(psa.getAccountId(), psa.getLabel(),
+          Optional.of(psa.getValue()));
+    }
+    for (PatchSetApproval psa : normalized.deleted()) {
+      byUser.put(psa.getAccountId(), psa.getLabel(), Optional.<Short> absent());
+    }
+
+    BatchMetaDataUpdate batch = callerUpdate.openUpdate();
+    for (Account.Id accountId : byUser.rowKeySet()) {
+      if (!accountId.equals(callerUpdate.getUser().getAccountId())) {
+        ChangeUpdate update = updateFactory.create(
+            ctl.forUser(identifiedUserFactory.create(accountId)), timestamp);
+        update.setSubject("Finalize approvals at submit");
+        putApprovals(update, byUser.row(accountId));
+
+        CommitBuilder commit = new CommitBuilder();
+        commit.setCommitter(new PersonIdent(serverIdent, timestamp));
+        batch.write(update, commit);
+      }
+    }
+
+    putApprovals(callerUpdate,
+        byUser.row(callerUpdate.getUser().getAccountId()));
+    return batch;
+  }
+
+  private static void putApprovals(ChangeUpdate update,
+      Map<String, Optional<Short>> approvals) {
+    for (Map.Entry<String, Optional<Short>> e : approvals.entrySet()) {
+      if (e.getValue().isPresent()) {
+        update.putApproval(e.getKey(), e.getValue().get());
+      } else {
+        update.removeApproval(e.getKey());
+      }
+    }
   }
 
   private void sendMergedEmail(final Change c, final PatchSetApproval from) {

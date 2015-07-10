@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8904e0b_9f033343",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T04:26:17Z",
+      "side": 1,
+      "message": "Given that gerrit.war contains the docs i don\u0027t see any sense in suporting this and would handle unet and empty the same way.",
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8904e0b_fff6ffcd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T04:26:17Z",
+      "side": 1,
+      "message": "Why not to tell the users the truth: Even when set, the web UI will query for `/Documentation/index.html` when the\napp loads and discard the value. One could argue, this is implementaton detail. But when a user investigates the network activity in her browser, that request is still executed, even though she provided the documntation URL. This may be confusing.",
+      "range": {
+        "startLine": 1709,
+        "startChar": 0,
+        "endLine": 1710,
+        "endChar": 58
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5333fdd6_aa01cf10",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T04:26:17Z",
+      "side": 1,
+      "message": "The same callback group is used for both requests. Do we garantuee that the order of callbacks invocation is preserved? Otherwise the line 438 would erroneouly override the corect value retrived and set on line 449.",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 7
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8904e0b_dff9bbbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T04:26:17Z",
+      "side": 1,
+      "message": "Are we going to bother the user with such a details?\n\n  docUrl \u003d CharMatcher.is(\u0027/\u0027).trimFrom(docUrl) + \"/\";\n\nLike in all other places in the code.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 57
+      },
+      "revId": "177609ec41c9fc1303f5e21c72a9f82d17222bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

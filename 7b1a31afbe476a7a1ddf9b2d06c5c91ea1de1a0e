@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8904e0b_df4c5b96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-10T12:43:46Z",
+      "side": 1,
+      "message": "@Davido: Do you think it\u0027s possible to adapt gerrit-gwtui-common so that it depends on \u0027gerrit-reviewdb:client\u0027 and \u0027//lib:gwtjsonrpc\u0027 and then export these dependencies as part of the gerrit-plugin-gwtui jar? It would be really cool to be able to make more *Info classes to gerrit-gwtui-common to make them available to UI plugins. I tried changing the Buck dependencies, but it didn\u0027t work for me :(",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "7b1a31afbe476a7a1ddf9b2d06c5c91ea1de1a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

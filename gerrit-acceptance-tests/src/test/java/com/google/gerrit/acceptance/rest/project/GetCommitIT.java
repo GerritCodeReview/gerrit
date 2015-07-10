@@ -102,9 +102,9 @@ public class GetCommitIT extends AbstractDaemonTest {
     assertThat(info.subject).isEqualTo("test commit");
     assertThat(info.message).isEqualTo(
         "test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-    assertThat(info.author.name).isEqualTo("admin");
+    assertThat(info.author.name).isEqualTo("Administrator");
     assertThat(info.author.email).isEqualTo("admin@example.com");
-    assertThat(info.committer.name).isEqualTo("admin");
+    assertThat(info.committer.name).isEqualTo("Administrator");
     assertThat(info.committer.email).isEqualTo("admin@example.com");
 
     CommitInfo parent = Iterables.getOnlyElement(info.parents);

@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
@@ -132,14 +131,15 @@ public class CherryPick extends SubmitStrategy {
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
         mergeTip.moveTipTo(n, n);
       } else {
-        CodeReviewCommit result = args.mergeUtil.mergeOneCommit(
-            args.serverIdent.get(), args.repo, args.rw, args.inserter,
+        PersonIdent myIdent = args.serverIdent.get();
+        CodeReviewCommit result = args.mergeUtil.mergeOneCommit(myIdent,
+            myIdent, args.repo, args.rw, args.inserter,
             args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(), n);
         mergeTip.moveTipTo(result, n);
       }
-      PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(args.rw,
-          args.canMergeFlag, mergeTip.getCurrentTip(), args.alreadyAccepted);
-      setRefLogIdent(submitApproval);
+      args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+          mergeTip.getCurrentTip(), args.alreadyAccepted);
+      setRefLogIdent();
     } else {
       // One or more dependencies were not met. The status was already marked on
       // the commit so we have nothing further to perform at this time.
@@ -153,33 +153,19 @@ public class CherryPick extends SubmitStrategy {
 
     args.rw.parseBody(n);
 
-    PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
-
-    IdentifiedUser cherryPickUser;
-    PersonIdent serverNow = args.serverIdent.get();
-    PersonIdent cherryPickCommitterIdent;
-    if (submitAudit != null) {
-      cherryPickUser =
-          args.identifiedUserFactory.create(submitAudit.getAccountId());
-      cherryPickCommitterIdent = cherryPickUser.newCommitterIdent(
-          serverNow.getWhen(), serverNow.getTimeZone());
-    } else {
-      cherryPickUser = args.identifiedUserFactory.create(n.change().getOwner());
-      cherryPickCommitterIdent = serverNow;
-    }
-
     String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);
 
+    PersonIdent committer = args.caller.newCommitterIdent(
+        TimeUtil.nowTs(), args.serverIdent.get().getTimeZone());
     CodeReviewCommit newCommit =
         (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
-            args.inserter, mergeTip, n, cherryPickCommitterIdent,
-            cherryPickCmtMsg, args.rw);
+            args.inserter, mergeTip, n, committer, cherryPickCmtMsg, args.rw);
 
     PatchSet.Id id =
         ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());
     PatchSet ps = new PatchSet(id);
     ps.setCreatedOn(TimeUtil.nowTs());
-    ps.setUploader(cherryPickUser.getAccountId());
+    ps.setUploader(args.caller.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
 
     RefUpdate ru;
@@ -220,9 +206,9 @@ public class CherryPick extends SubmitStrategy {
     newCommit.copyFrom(n);
     newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
     newCommit.setControl(
-        args.changeControlFactory.controlFor(n.change(), cherryPickUser));
+        args.changeControlFactory.controlFor(n.change(), args.caller));
     newCommits.put(newCommit.getPatchsetId().getParentKey(), newCommit);
-    setRefLogIdent(submitAudit);
+    setRefLogIdent();
     return newCommit;
   }
 

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.MergeException;
@@ -43,10 +42,9 @@ public class FastForwardOnly extends SubmitStrategy {
       n.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
     }
 
-    PatchSetApproval submitApproval =
-        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, newMergeTipCommit,
-            args.alreadyAccepted);
-    setRefLogIdent(submitApproval);
+    args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+        newMergeTipCommit, args.alreadyAccepted);
+    setRefLogIdent();
 
     return mergeTip;
   }

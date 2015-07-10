@@ -88,14 +88,14 @@ public class SubmitStrategyFactory {
   public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
       final Repository repo, final RevWalk rw, final ObjectInserter inserter,
       final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
-      final Branch.NameKey destBranch)
+      final Branch.NameKey destBranch, final IdentifiedUser caller)
       throws MergeException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
     final SubmitStrategy.Arguments args =
         new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db,
             changeControlFactory, repo, rw, inserter, canMergeFlag,
             alreadyAccepted, destBranch,approvalsUtil,
-            mergeUtilFactory.create(project), indexer);
+            mergeUtilFactory.create(project), indexer, caller);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);

@@ -15,7 +15,7 @@
 package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;

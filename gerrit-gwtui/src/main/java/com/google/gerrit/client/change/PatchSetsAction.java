@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
+import com.google.gerrit.client.info.ChangeInfo.EditInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;

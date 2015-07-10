@@ -46,25 +46,32 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    submitStatusOnly(change2.getChangeId());
-    submitStatusOnly(change3.getChangeId());
-    submit(change4.getChangeId());
+    // Change 2 stays untouched.
+    approve(change2.getChangeId());
+    // Change 3 is a fast-forward, no need to merge.
+    submit(change3.getChangeId());
 
     RevCommit tip = getRemoteLog().get(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
-        change4.getCommit().getShortMessage());
-
-    tip = tip.getParent(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
-        change3.getCommit().getShortMessage());
-
-    tip = tip.getParent(0);
     assertThat(tip.getShortMessage()).isEqualTo(
-        change2.getCommit().getShortMessage());
-
-    assertThat(tip.getParent(0).getId()).isEqualTo(initialHead.getId());
+        change3.getCommit().getShortMessage());
+    assertThat(tip.getParent(0).getId()).isEqualTo(
+        initialHead.getId());
     assertPersonEquals(admin.getIdent(), tip.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), tip.getCommitterIdent());
+
+    // We need to merge change 4.
+    submit(change4.getChangeId());
+
+    tip = getRemoteLog().get(0);
+    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
+        change4.getCommit().getShortMessage());
+    assertThat(tip.getParent(0).getShortMessage()).isEqualTo(
+        change3.getCommit().getShortMessage());
+
+    assertPersonEquals(admin.getIdent(), tip.getAuthorIdent());
+    assertPersonEquals(serverIdent.get(), tip.getCommitterIdent());
+
+    assertNew(change2.getChangeId());
   }
 
   @Test
@@ -188,6 +195,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
           initialHead2.getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(
           change3Conflict.getCommit().getShortMessage());
+      assertNoSubmitter(change1a.getChangeId(), 1);
+      assertNoSubmitter(change2a.getChangeId(), 1);
+      assertNoSubmitter(change2b.getChangeId(), 1);
+      assertNoSubmitter(change3.getChangeId(), 1);
     } else {
       assertThat(tip1.getShortMessage()).isEqualTo(
           change1b.getCommit().getShortMessage());
@@ -195,6 +206,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
           initialHead2.getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(
           change3Conflict.getCommit().getShortMessage());
+      assertNoSubmitter(change2a.getChangeId(), 1);
+      assertNoSubmitter(change2b.getChangeId(), 1);
+      assertNoSubmitter(change3.getChangeId(), 1);
     }
   }
 

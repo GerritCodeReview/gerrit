@@ -111,6 +111,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     RevCommit head = getRemoteHead();
     assertThat(head).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
-    assertSubmitter(change2.getChangeId(), 1);
+    assertNoSubmitter(change2.getChangeId(), 1);
   }
 }

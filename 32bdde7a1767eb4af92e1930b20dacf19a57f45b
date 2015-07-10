@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18536256_f8d19141",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:18:47Z",
+      "side": 1,
+      "message": "This seems like a behavior change. On the LHS we have\n\n cherryPickUserIdent \u003d cherryPickUser.newCommitterIdent(...)\n\nHere you\u0027re switching it to serverIdent.\n\nI guess I\u0027m ok with this since it\u0027s more consistent with what we do for merges, but at least mention the behavior change in the commit message.",
+      "revId": "32bdde7a1767eb4af92e1930b20dacf19a57f45b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18536256_18e28518",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-10T18:18:47Z",
+      "side": 1,
+      "message": "args.caller may be null, right? I don\u0027t think RebaseChange.rebase can handle nulls (l. 282, I believe).\n\nPlease check that all the other submit strategy codepaths can handle null too.",
+      "range": {
+        "startLine": 88,
+        "startChar": 51,
+        "endLine": 88,
+        "endChar": 62
+      },
+      "revId": "32bdde7a1767eb4af92e1930b20dacf19a57f45b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

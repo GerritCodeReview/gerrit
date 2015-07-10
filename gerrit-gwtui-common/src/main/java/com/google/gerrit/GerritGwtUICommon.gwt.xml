@@ -14,5 +14,12 @@
  limitations under the License.
 -->
 <module>
+  <inherits name='org.eclipse.jgit.JGit'/>
+  <inherits name='com.google.gerrit.Common'/>
+  <inherits name='com.google.gerrit.extensions.Extensions'/>
+  <inherits name='com.google.gerrit.prettify.PrettyFormatter'/>
+  <inherits name='com.google.gwtexpui.clippy.Clippy'/>
+  <inherits name='com.google.gwtexpui.globalkey.GlobalKey'/>
+  <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
   <source path='client' />
 </module>

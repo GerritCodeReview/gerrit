@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "b867b630_752908c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T21:05:10Z",
+      "side": 1,
+      "message": "done, though I wonder if we should go with `integrate()` eventually. (This keeps the mind open to cherry-picking and rebasing, I\u0027d tend to forget those when talking about merging all the time)",
+      "parentUuid": "b867b630_f5ea38e9",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 39
+      },
+      "revId": "dcc7c63c2304b558252e13f7fd348fffb347ce43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98059200_5c3efdea",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
         "patchSetId": 3

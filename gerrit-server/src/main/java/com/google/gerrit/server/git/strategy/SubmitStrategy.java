@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -66,6 +67,7 @@ public abstract class SubmitStrategy {
     protected final MergeUtil mergeUtil;
     protected final ChangeIndexer indexer;
     protected final MergeSorter mergeSorter;
+    protected final IdentifiedUser caller;
 
     Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
         Provider<PersonIdent> serverIdent, ReviewDb db,
@@ -73,7 +75,7 @@ public abstract class SubmitStrategy {
         RevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
         ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
-        ChangeIndexer indexer) {
+        ChangeIndexer indexer, IdentifiedUser caller) {
       this.identifiedUserFactory = identifiedUserFactory;
       this.serverIdent = serverIdent;
       this.db = db;
@@ -89,6 +91,7 @@ public abstract class SubmitStrategy {
       this.mergeUtil = mergeUtil;
       this.indexer = indexer;
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
+      this.caller = caller;
     }
   }
 
@@ -115,6 +118,7 @@ public abstract class SubmitStrategy {
   public final MergeTip run(final CodeReviewCommit currentTip,
       final Collection<CodeReviewCommit> toMerge) throws MergeException {
     refLogIdent = null;
+    checkState(args.caller != null);
     return _run(currentTip, toMerge);
   }
 
@@ -182,13 +186,11 @@ public abstract class SubmitStrategy {
 
   /**
    * Set the ref log identity if it wasn't set yet.
-   *
-   * @param submitApproval the approval that submitted the patch set
    */
-  protected final void setRefLogIdent(PatchSetApproval submitApproval) {
-    if (refLogIdent == null && submitApproval != null) {
+  protected final void setRefLogIdent() {
+    if (refLogIdent == null) {
       refLogIdent = args.identifiedUserFactory.create(
-          submitApproval.getAccountId()) .newRefLogIdent();
+          args.caller.getAccountId()).newRefLogIdent();
     }
   }
 }

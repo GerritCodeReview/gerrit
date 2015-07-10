@@ -58,23 +58,22 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    submitStatusOnly(change2.getChangeId());
-    submitStatusOnly(change3.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
     submit(change4.getChangeId());
 
     List<RevCommit> log = getRemoteLog();
     RevCommit tip = log.get(0);
     assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
         change4.getCommit().getShortMessage());
-
-    tip = tip.getParent(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
-        change3.getCommit().getShortMessage());
-
-    tip = tip.getParent(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
-        change2.getCommit().getShortMessage());
-
+    assertThat(tip.getParent(0).getShortMessage()).isEqualTo(
+        initialHead.getShortMessage());
     assertThat(tip.getParent(0).getId()).isEqualTo(initialHead.getId());
+
+    assertPersonEquals(admin.getIdent(), tip.getAuthorIdent());
+    assertPersonEquals(serverIdent.get(), tip.getCommitterIdent());
+
+    assertNew(change2.getChangeId());
+    assertNew(change3.getChangeId());
   }
 }

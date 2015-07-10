@@ -26,14 +26,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -120,7 +118,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "a.txt", "other content");
     r.assertErrorStatus();
-    r.assertChange(Change.Status.NEW, null, admin);
+    r.assertChange(Change.Status.NEW, null);
     r.assertMessage(CommitMergeStatus.PATH_CONFLICT.getMessage());
   }
 

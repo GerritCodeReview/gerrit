@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;

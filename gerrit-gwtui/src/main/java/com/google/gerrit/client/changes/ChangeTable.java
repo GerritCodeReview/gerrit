@@ -18,8 +18,9 @@ import static com.google.gerrit.client.FormatUtil.relativeFormat;
 import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;

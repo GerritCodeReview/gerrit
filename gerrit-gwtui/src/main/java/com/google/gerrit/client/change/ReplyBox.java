@@ -18,13 +18,13 @@ import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
-import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
-import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInput;
 import com.google.gerrit.client.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.info.ChangeInfo.ApprovalInfo;
+import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;

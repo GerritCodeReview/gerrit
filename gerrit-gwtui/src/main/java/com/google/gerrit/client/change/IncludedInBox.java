@@ -15,7 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
+import com.google.gerrit.client.info.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;

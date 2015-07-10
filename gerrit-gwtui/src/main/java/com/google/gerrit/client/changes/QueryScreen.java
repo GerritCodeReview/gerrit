@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;

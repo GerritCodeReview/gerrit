@@ -15,7 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.DiffWebLinkInfo;
-import com.google.gerrit.client.WebLinkInfo;
+import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;

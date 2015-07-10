@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeTip;
+
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,17 +44,19 @@ public class MergeAlways extends SubmitStrategy {
     }
     while (!sorted.isEmpty()) {
       CodeReviewCommit mergedFrom = sorted.remove(0);
+      PersonIdent caller = args.caller.newCommitterIdent(TimeUtil.nowTs(),
+          args.serverIdent.get().getTimeZone());
       CodeReviewCommit newTip =
-          args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo, args.rw,
-              args.inserter, args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),
-              mergedFrom);
+          args.mergeUtil.mergeOneCommit(caller,
+              args.serverIdent.get(),
+              args.repo, args.rw, args.inserter, args.canMergeFlag,
+              args.destBranch, mergeTip.getCurrentTip(), mergedFrom);
       mergeTip.moveTipTo(newTip, mergedFrom);
     }
 
-    final PatchSetApproval submitApproval =
-        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, mergeTip.getCurrentTip(),
-            args.alreadyAccepted);
-    setRefLogIdent(submitApproval);
+    args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+        mergeTip.getCurrentTip(), args.alreadyAccepted);
+    setRefLogIdent();
 
     return mergeTip;
   }

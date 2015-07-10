@@ -18,7 +18,6 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.change.RebaseChange;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -33,6 +32,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -84,15 +84,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
         } else {
           try {
-            IdentifiedUser uploader =
-                args.identifiedUserFactory.create(args.mergeUtil
-                    .getSubmitter(n).getAccountId());
             PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.change(), n.getPatchsetId(), uploader,
+                    n.change(), n.getPatchsetId(), args.caller,
                     mergeTip.getCurrentTip(), args.mergeUtil,
                     args.serverIdent.get(), false, ValidatePolicy.NONE);
-
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(args.db,
                 n.getControl(), n.getPatchsetId())) {
@@ -109,13 +105,13 @@ public class RebaseIfNecessary extends SubmitStrategy {
                     newPatchSet.getId()));
             mergeTip.getCurrentTip().copyFrom(n);
             mergeTip.getCurrentTip().setControl(
-                args.changeControlFactory.controlFor(n.change(), uploader));
+                args.changeControlFactory.controlFor(n.change(), args.caller));
             mergeTip.getCurrentTip().setPatchsetId(newPatchSet.getId());
             mergeTip.getCurrentTip().setStatusCode(
                 CommitMergeStatus.CLEAN_REBASE);
             newCommits.put(newPatchSet.getId().getParentKey(),
                 mergeTip.getCurrentTip());
-            setRefLogIdent(args.mergeUtil.getSubmitter(n));
+            setRefLogIdent();
           } catch (MergeConflictException e) {
             n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
           } catch (NoSuchChangeException | OrmException | IOException
@@ -135,15 +131,15 @@ public class RebaseIfNecessary extends SubmitStrategy {
           if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
             mergeTip.moveTipTo(n, n);
           } else {
+            PersonIdent myIdent = args.serverIdent.get();
             mergeTip.moveTipTo(
-                args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
+                args.mergeUtil.mergeOneCommit(myIdent, myIdent,
                     args.repo, args.rw, args.inserter, args.canMergeFlag,
                     args.destBranch, mergeTip.getCurrentTip(), n), n);
           }
-          PatchSetApproval submitApproval =
-              args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-                  mergeTip.getCurrentTip(), args.alreadyAccepted);
-          setRefLogIdent(submitApproval);
+          args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+              mergeTip.getCurrentTip(), args.alreadyAccepted);
+          setRefLogIdent();
         } catch (IOException e) {
           throw new MergeException("Cannot merge " + n.name(), e);
         }

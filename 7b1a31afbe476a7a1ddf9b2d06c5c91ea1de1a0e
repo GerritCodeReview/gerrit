@@ -22,6 +22,30 @@
       "revId": "7b1a31afbe476a7a1ddf9b2d06c5c91ea1de1a0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f83ccef3_1fb9c318",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-10T13:20:17Z",
+      "side": 1,
+      "message": "What do you mean by it didn\u0027t work?",
+      "parentUuid": "f8904e0b_df4c5b96",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "7b1a31afbe476a7a1ddf9b2d06c5c91ea1de1a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

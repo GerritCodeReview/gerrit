@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98059200_7c3f7977",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/GetCommitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T00:08:22Z",
+      "side": 1,
+      "message": "This is a drive-by bugfix.\n\nLooking at https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-commit\n\nThe author.name should be the full name.",
+      "revId": "ad4e3536470af3e076f0c8c2b8bfe7568f738f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

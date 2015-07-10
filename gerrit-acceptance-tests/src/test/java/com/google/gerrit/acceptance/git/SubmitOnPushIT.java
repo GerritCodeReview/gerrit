@@ -53,10 +53,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject
   private ChangeNotes.Factory changeNotesFactory;
 
-  @Inject
-  @GerritPersonIdent
-  private PersonIdent serverIdent;
-
   @Test
   public void submitOnPush() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
@@ -257,7 +253,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
       assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
       assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
-          serverIdent.getEmailAddress());
+          serverIdent.get().getEmailAddress());
     }
   }
 

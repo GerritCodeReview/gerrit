@@ -61,6 +61,7 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -271,6 +272,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
     assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
+  }
+
+  protected void assertEqualsExceptTime(PersonIdent expected,
+      PersonIdent actual) {
+    assertThat(actual.getEmailAddress())
+        .isEqualTo(expected.getEmailAddress());
+    assertThat(actual.getName())
+        .isEqualTo(expected.getName());
+    assertThat(actual.getTimeZone())
+        .isEqualTo(expected.getTimeZone());
   }
 
   protected void assertSubmitter(String changeId, int psId)

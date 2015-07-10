@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b867b630_b5f9e0bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:30:51Z",
+      "side": 1,
+      "message": "Because the use case doesn\u0027t exist any more and we need the error checking performed in `updateChangeStatus`.\n\nBefore this was the case:\n\nChange 1, submitted, cherry-pick pending on branchA\nChange 2, submitted, cherry-pick pending on branchA\nChange 3, new on branchA\n\nNow if you submitted Change 3, it tried cherry-picking all of them, and if change 2 failed, you still got 1 and 3.\nThis whole \"they target the same branch and are pending, so they may affect each other during integration\" is no more.\n\nIf they are in not in the same topic, you would submit change 3 and 1 and 2 would stay unaffected (in approved state, but not submitted). If they are in a topic however, we want to give stronger guarantees now.\n\n\nHaving `updateChangeStatus` performed on all changes makes us pretty sure, there will be no errors in the part below `logDebug(\"Write out the new branch tips\");` which\nwrites the changed refs to the filesystem and updates notedb (setApproval is called down there), so we have reasonable expectation of atomicity then.",
+      "parentUuid": "b867b630_55dccc52",
+      "revId": "064b1895778d900de63927935fe73e22a584750f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b867b630_b5f0c0db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
         "patchSetId": 13
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "98667235_3406705a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:30:51Z",
+      "side": 1,
+      "message": "I did not understand the implications when you first suggested this.",
+      "parentUuid": "b867b630_b5f0c0db",
+      "range": {
+        "startLine": 50,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 71
+      },
+      "revId": "064b1895778d900de63927935fe73e22a584750f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98667235_34ddd052",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
         "patchSetId": 13
@@ -53,6 +95,24 @@
       "writtenOn": "2015-07-10T20:13:52Z",
       "side": 1,
       "message": "Same comment as in mergeAlways",
+      "revId": "064b1895778d900de63927935fe73e22a584750f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98667235_140b7460",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-10T20:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98667235_34ddd052",
       "revId": "064b1895778d900de63927935fe73e22a584750f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

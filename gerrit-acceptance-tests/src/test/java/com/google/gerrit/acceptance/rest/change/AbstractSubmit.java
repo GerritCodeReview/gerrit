@@ -229,8 +229,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       BranchInfo branch =
           newGson().fromJson(b.getReader(),
               new TypeToken<BranchInfo>() {}.getType());
-      assertThat(branch.revision).isEqualTo(
-          mergeResults.get(Integer.toString(change._number)));
+      assertThat(mergeResults).isNotEmpty();
+      String newRev = mergeResults.get(Integer.toString(change._number));
+      assertThat(newRev).isNotNull();
+      assertThat(branch.revision).isEqualTo(newRev);
     }
     b.consume();
   }

@@ -1489,27 +1489,28 @@ public class ReceiveCommits {
 
   private void selectNewAndReplacedChangesFromMagicBranch() {
     newChanges = Lists.newArrayList();
-    final RevWalk walk = rp.getRevWalk();
 
     SetMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector = new GroupCollector(refsById, db);
 
-    walk.reset();
-    walk.sort(RevSort.TOPO);
-    walk.sort(RevSort.REVERSE, true);
+    rp.getRevWalk().reset();
+    rp.getRevWalk().sort(RevSort.TOPO);
+    rp.getRevWalk().sort(RevSort.REVERSE, true);
     try {
-      walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
+      rp.getRevWalk().markStart(
+          rp.getRevWalk().parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
         for (RevCommit c : magicBranch.baseCommit) {
-          walk.markUninteresting(c);
+          rp.getRevWalk().markUninteresting(c);
         }
         Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
         if (targetRef != null) {
-          walk.markUninteresting(walk.parseCommit(targetRef.getObjectId()));
+          rp.getRevWalk().markUninteresting(
+              rp.getRevWalk().parseCommit(targetRef.getObjectId()));
         }
       } else {
         markHeadsAsUninteresting(
-            walk,
+            rp.getRevWalk(),
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
@@ -1518,7 +1519,7 @@ public class ReceiveCommits {
       final int maxBatchChanges =
           receiveConfig.getEffectiveMaxBatchChangesLimit(currentUser);
       for (;;) {
-        final RevCommit c = walk.next();
+        final RevCommit c = rp.getRevWalk().next();
         if (c == null) {
           break;
         }

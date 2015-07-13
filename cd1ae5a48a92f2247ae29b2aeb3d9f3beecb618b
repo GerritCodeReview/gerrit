@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "780ffe78_63d7a232",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountProjectWatch.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-13T04:50:23Z",
+      "side": 1,
+      "message": "\"notifications for\"",
+      "range": {
+        "startLine": 123,
+        "startChar": 27,
+        "endLine": 123,
+        "endChar": 28
+      },
+      "revId": "cd1ae5a48a92f2247ae29b2aeb3d9f3beecb618b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

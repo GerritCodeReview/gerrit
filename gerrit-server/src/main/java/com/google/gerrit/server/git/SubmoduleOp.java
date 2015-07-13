@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.gwtorm.server.OrmException;
@@ -42,6 +43,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -76,11 +78,13 @@ public class SubmoduleOp {
   private final Account account;
   private final ChangeHooks changeHooks;
   private final SubmoduleSectionParser.Factory subSecParserFactory;
+  private final boolean verboseSuperProject;
 
   @Inject
   public SubmoduleOp(
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       @GerritPersonIdent PersonIdent myIdent,
+      @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       @Nullable Account account,
@@ -93,6 +97,7 @@ public class SubmoduleOp {
     this.account = account;
     this.changeHooks = changeHooks;
     this.subSecParserFactory = subSecParserFactory;
+    this.verboseSuperProject = cfg.getBoolean("submodule", "", true);
 
     updatedSubscribers = new HashSet<>();
   }
@@ -274,24 +279,25 @@ public class SubmoduleOp {
               ent.setObjectId(updateTo);
             }
           });
+          if (verboseSuperProject) {
+            msgbuf.append("Project: " + s.getSubmodule().getParentKey().get());
+            msgbuf.append(" " + s.getSubmodule().getShortName());
+            msgbuf.append(" " + updateTo.getName());
+            msgbuf.append("\n\n");
 
-          msgbuf.append("Project: " + s.getSubmodule().getParentKey().get());
-          msgbuf.append(" " + s.getSubmodule().getShortName());
-          msgbuf.append(" " + updateTo.getName());
-          msgbuf.append("\n\n");
+            try {
+              rw.markStart(newCommit);
 
-          try {
-            rw.markStart(newCommit);
-
-            if (oldId != null) {
-              rw.markUninteresting(rw.parseCommit(oldId));
+              if (oldId != null) {
+                rw.markUninteresting(rw.parseCommit(oldId));
+              }
+              for (RevCommit c : rw) {
+                msgbuf.append(c.getFullMessage() + "\n\n");
+              }
+            } catch (IOException e) {
+              logAndThrowSubmoduleException("Could not perform a revwalk to "
+                  + "create superproject commit message", e);
             }
-            for (RevCommit c : rw) {
-              msgbuf.append(c.getFullMessage() + "\n\n");
-            }
-          } catch (IOException e) {
-            logAndThrowSubmoduleException("Could not perform a revwalk to "
-                + "create superproject commit message", e);
           }
         }
       }

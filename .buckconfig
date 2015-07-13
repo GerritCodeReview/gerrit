@@ -27,4 +27,4 @@
 
 [cache]
   mode = dir
-  dir = ~/.gerritcodereview/buck-cache/cache
+  dir = ~/.gerritcodereview/buck-cache/locally-built-artifacts

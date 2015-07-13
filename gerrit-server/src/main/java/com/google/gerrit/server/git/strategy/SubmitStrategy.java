@@ -128,7 +128,7 @@ public abstract class SubmitStrategy {
 
   /**
    * Checks whether the given commit can be merged.
-   *
+   * <p>
    * Implementations must ensure that invoking this method modifies neither the
    * git repository nor the Gerrit database.
    *
@@ -160,7 +160,7 @@ public abstract class SubmitStrategy {
    * <p>
    * By default this method returns an empty map, but subclasses may override
    * this method to provide any newly created commits.
-   *
+   * <p>
    * This method may only be called after {@link #run(CodeReviewCommit,
    * Collection)}.
    *

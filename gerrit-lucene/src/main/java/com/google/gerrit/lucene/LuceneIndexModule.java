@@ -65,6 +65,7 @@ public class LuceneIndexModule extends LifecycleModule {
   private class SingleVersionModule extends LifecycleModule {
     @Override
     public void configure() {
+      factory(OnlineReindexer.Factory.class);
       listener().to(SingleVersionListener.class);
     }
 

@@ -291,10 +291,10 @@ public final class Project {
   }
 
   public String getSubmitRule() {
-    return "gerrit.prolog-submit-rule";
+    return "gerrit.default-submit-rule";
   }
 
   public String getSubmitTypeRule() {
-    return "gerrit.prolog-submit-type";
+    return "gerrit.default-submit-type";
   }
 }

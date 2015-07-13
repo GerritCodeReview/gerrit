@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project.rules;
 
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.project.SubmitRule;
@@ -25,7 +26,15 @@ public class SubmitRulesModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(SubmitRuleEvaluator.Factory.class);
+
     DynamicMap.mapOf(binder(), SubmitRule.class);
+    bind(SubmitRule.class)
+        .annotatedWith(Exports.named("default-submit-rule"))
+        .to(DefaultSubmitRule.class);
+
     DynamicMap.mapOf(binder(), SubmitTypeRule.class);
+    bind(SubmitTypeRule.class)
+        .annotatedWith(Exports.named("default-submit-type"))
+        .to(DefaultSubmitTypeRule.class);
   }
 }

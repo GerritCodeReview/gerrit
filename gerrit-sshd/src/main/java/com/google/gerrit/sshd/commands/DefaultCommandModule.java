@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.lucene.OnlineReindexer;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.sshd.CommandModule;
@@ -41,6 +42,7 @@ public class DefaultCommandModule extends CommandModule {
     final CommandName plugin = Commands.named(gerrit, "plugin");
     final CommandName testSubmit = Commands.named(gerrit, "test-submit");
 
+    factory(OnlineReindexer.Factory.class);
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);
     command(gerrit, BanCommitCommand.class);

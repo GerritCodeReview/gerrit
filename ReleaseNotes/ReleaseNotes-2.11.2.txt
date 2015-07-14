@@ -32,7 +32,13 @@ problems.
 Bug Fixes
 ---------
 
-* link:link:https://code.google.com/p/gerrit/issues/detail?id=3460[Issue 3460]:
+* link:https://code.google.com/p/gerrit/issues/detail?id=2761[Issue 2761]:
+Fix incorrect file list when comparing patchsets.
++
+When comparing a patchset with another one, the added and deleted files were not
+displayed properly.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3460[Issue 3460]:
 Fix regression in the search box auto-suggestions.
 +
 A change introduced in version 2.11 caused the auto-suggestions to not work

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "780ffe78_232f6aca",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-14T07:31:10Z",
+      "side": 1,
+      "message": "The revision of the commit on the corresponding plugin change is c7782a9d018efea16ce7c10547e38f8c8c66c3ed",
+      "revId": "0bfecdaea71c8c7c3e5a14b1ca15dac89d9fd82b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

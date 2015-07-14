@@ -18,7 +18,9 @@ import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DEFAUL
 import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESIZE_CHOICES;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.StringListPanel;
+import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -216,6 +218,11 @@ public class MyPreferencesScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    ExtensionPanel extensionPanel =
+        createExtensionPoint(GerritUiExtensionPoint.PREFERENCES_SCREEN_BOTTOM);
+    extensionPanel.addStyleName(Gerrit.RESOURCES.css().extensionPanel());
+    add(extensionPanel);
+
     AccountApi.self().view("preferences")
         .get(new ScreenLoadCallback<Preferences>(this) {
       @Override

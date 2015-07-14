@@ -55,6 +55,7 @@ public class Module extends RestApiModule {
     put(GROUP_KIND, "owner").to(PutOwner.class);
     get(GROUP_KIND, "options").to(GetOptions.class);
     put(GROUP_KIND, "options").to(PutOptions.class);
+    get(GROUP_KIND, "log.audit").to(GetAuditLog.class);
 
     child(GROUP_KIND, "members").to(MembersCollection.class);
     get(MEMBER_KIND).to(GetMember.class);

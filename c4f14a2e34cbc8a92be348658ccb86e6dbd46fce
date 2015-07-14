@@ -22,6 +22,23 @@
       "revId": "c4f14a2e34cbc8a92be348658ccb86e6dbd46fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9814b289_24a2d2b9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-14T09:40:45Z",
+      "side": 1,
+      "message": "Don\u0027t we need to pass any parameters into this?  Otherwise how will the plugin know which change it\u0027s being displayed for?",
+      "revId": "c4f14a2e34cbc8a92be348658ccb86e6dbd46fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -210,7 +210,11 @@ public class CreateChange implements
       validateCommit(git, refControl, c, me, ins);
       updateRef(git, rw, c, change, ins.getPatchSet());
 
-      change.setTopic(input.topic);
+      String topic = input.topic;
+      if (topic != null) {
+        topic = Strings.emptyToNull(topic.trim());
+      }
+      change.setTopic(topic);
       ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
       ins.setGroups(groups);
       ins.insert();

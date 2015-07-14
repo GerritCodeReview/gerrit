@@ -24,18 +24,20 @@ import com.google.gwt.user.client.ui.Button;
 class FollowUpAction extends ActionMessageBox {
   private final String project;
   private final String branch;
+  private final String topic;
   private final String base;
 
-  FollowUpAction(Button b, String project, String branch, String key) {
+  FollowUpAction(Button b, String project, String branch, String topic, String key) {
     super(b);
     this.project = project;
     this.branch = branch;
+    this.topic = topic;
     this.base = project + "~" + branch + "~" + key;
   }
 
   @Override
   void send(String message) {
-    ChangeApi.createChange(project, branch, null, message, base,
+    ChangeApi.createChange(project, branch, topic, message, base,
         new GerritCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo result) {

@@ -60,6 +60,7 @@ class Actions extends Composite {
   private ChangeInfo changeInfo;
   private String revision;
   private String project;
+  private String topic;
   private String subject;
   private String message;
   private String branch;
@@ -80,6 +81,7 @@ class Actions extends Composite {
     CommitInfo commit = revInfo.commit();
     changeId = info.legacyId();
     project = info.project();
+    topic = info.topic();
     subject = commit.subject();
     message = commit.message();
     branch = info.branch();
@@ -160,7 +162,7 @@ class Actions extends Composite {
   void onFollowUp(@SuppressWarnings("unused") ClickEvent e) {
     if (followUpAction == null) {
       followUpAction = new FollowUpAction(followUp, project,
-          branch, key);
+          branch, topic, key);
     }
     followUpAction.show();
   }

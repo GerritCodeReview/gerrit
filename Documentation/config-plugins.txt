@@ -360,6 +360,19 @@ Documentation] |
 https://gerrit.googlesource.com/plugins/javamelody/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[labelui]]
+=== labelui
+
+The labelui plugin adds a user preference that allows users to choose a
+table control to render the labels/approvals on the change screen
+(similar to how labels/approvals were rendered on the old change
+screen).
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/labelui[
+Project] |
+link:https://gerrit.googlesource.com/plugins/labelui/+doc/master/src/main/resources/Documentation/about.md[
+Documentation]
+
 [[menuextender]]
 === menuextender
 

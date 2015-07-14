@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "18afe290_78156177",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-14T12:41:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9814b289_c443fe60",
+      "range": {
+        "startLine": 976,
+        "startChar": 38,
+        "endLine": 976,
+        "endChar": 62
+      },
+      "revId": "c4f14a2e34cbc8a92be348658ccb86e6dbd46fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9814b289_24a2d2b9",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2015-07-14T09:40:45Z",
       "side": 1,
       "message": "Don\u0027t we need to pass any parameters into this?  Otherwise how will the plugin know which change it\u0027s being displayed for?",
+      "revId": "c4f14a2e34cbc8a92be348658ccb86e6dbd46fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18afe290_98f955c0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-14T12:41:09Z",
+      "side": 1,
+      "message": "Yes, the change ID is provided.\n\nThe formatting in the documentation could be better, but basically my intention was that the text from line 983-986 applies to all extension points in the change screen (bullet on the same lavel as the extension points). Not sure how to do this better with the possibilities that asciidoc provides. Do you thing I should rather repeat the parameters for each extension point in the change screen?",
+      "parentUuid": "9814b289_24a2d2b9",
       "revId": "c4f14a2e34cbc8a92be348658ccb86e6dbd46fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -350,13 +350,10 @@ link:https://console.developers.google.com/project/164060093628/storage/gerrit-d
 gerrit-documentation] storage bucket.
 
 [[update-links]]
-==== Update Google Code project links
+==== Update homepage links
 
-* Go to http://code.google.com/p/gerrit/admin
-* Update the documentation link in the `Resources` section of the
-Description text, and in the `Links` section.
-* Add a link to the new release notes in the `News` section of the
-Description text
+Upload a change on the link:https://gerrit-review.googlesource.com/#/admin/projects/homepage[
+homepage project] to change the version numbers to the new version.
 
 [[update-issues]]
 ==== Update the Issues

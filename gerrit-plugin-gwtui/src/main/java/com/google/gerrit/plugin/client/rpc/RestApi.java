@@ -110,7 +110,7 @@ public class RestApi {
   }
 
   private static native void get(String p, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.get(p, r) }-*/;
+  /*-{ $wnd.Gerrit.get_raw(p, r) }-*/;
 
   public <T extends JavaScriptObject>
   void put(AsyncCallback<T> cb) {
@@ -118,7 +118,7 @@ public class RestApi {
   }
 
   private static native void put(String p, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.put(p, r) }-*/;
+  /*-{ $wnd.Gerrit.put_raw(p, r) }-*/;
 
   public <T extends JavaScriptObject>
   void put(String content, AsyncCallback<T> cb) {
@@ -127,7 +127,7 @@ public class RestApi {
 
   private static native
   void put(String p, String c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.put(p, c, r) }-*/;
+  /*-{ $wnd.Gerrit.put_raw(p, c, r) }-*/;
 
   public <T extends JavaScriptObject>
   void put(JavaScriptObject content, AsyncCallback<T> cb) {
@@ -136,7 +136,7 @@ public class RestApi {
 
   private static native
   void put(String p, JavaScriptObject c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.put(p, c, r) }-*/;
+  /*-{ $wnd.Gerrit.put_raw(p, c, r) }-*/;
 
   public <T extends JavaScriptObject>
   void post(String content, AsyncCallback<T> cb) {
@@ -145,7 +145,7 @@ public class RestApi {
 
   private static native
   void post(String p, String c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.post(p, c, r) }-*/;
+  /*-{ $wnd.Gerrit.post_raw(p, c, r) }-*/;
 
   public <T extends JavaScriptObject>
   void post(JavaScriptObject content, AsyncCallback<T> cb) {
@@ -154,14 +154,14 @@ public class RestApi {
 
   private static native
   void post(String p, JavaScriptObject c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.post(p, c, r) }-*/;
+  /*-{ $wnd.Gerrit.post_raw(p, c, r) }-*/;
 
   public void delete(AsyncCallback<NoContent> cb) {
     delete(path(), wrap(cb));
   }
 
   private static native void delete(String p, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.del(p, r) }-*/;
+  /*-{ $wnd.Gerrit.del_raw(p, r) }-*/;
 
   private static native <T extends JavaScriptObject>
   JavaScriptObject wrap(AsyncCallback<T> b) /*-{

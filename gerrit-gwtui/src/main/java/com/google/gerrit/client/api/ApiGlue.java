@@ -102,6 +102,12 @@ public class ApiGlue {
             Lcom/google/gwt/core/client/JavaScriptObject;)
           (this._api(u), b);
       },
+      get_raw: function(u,b) {
+        @com.google.gerrit.client.api.ActionContext::getRaw(
+            Lcom/google/gerrit/client/rpc/RestApi;
+            Lcom/google/gwt/core/client/JavaScriptObject;)
+          (this._api(u), b);
+      },
       post: function(u,i,b) {
         if (typeof i == 'string') {
           @com.google.gerrit.client.api.ActionContext::post(
@@ -111,6 +117,21 @@ public class ApiGlue {
             (this._api(u), i, b);
         } else {
           @com.google.gerrit.client.api.ActionContext::post(
+              Lcom/google/gerrit/client/rpc/RestApi;
+              Lcom/google/gwt/core/client/JavaScriptObject;
+              Lcom/google/gwt/core/client/JavaScriptObject;)
+            (this._api(u), i, b);
+        }
+      },
+      post_raw: function(u,i,b) {
+        if (typeof i == 'string') {
+          @com.google.gerrit.client.api.ActionContext::postRaw(
+              Lcom/google/gerrit/client/rpc/RestApi;
+              Ljava/lang/String;
+              Lcom/google/gwt/core/client/JavaScriptObject;)
+            (this._api(u), i, b);
+        } else {
+          @com.google.gerrit.client.api.ActionContext::postRaw(
               Lcom/google/gerrit/client/rpc/RestApi;
               Lcom/google/gwt/core/client/JavaScriptObject;
               Lcom/google/gwt/core/client/JavaScriptObject;)
@@ -139,6 +160,28 @@ public class ApiGlue {
             (this._api(u), i);
         }
       },
+      put_raw: function(u,i,b) {
+        if (b) {
+          if (typeof i == 'string') {
+            @com.google.gerrit.client.api.ActionContext::putRaw(
+                Lcom/google/gerrit/client/rpc/RestApi;
+                Ljava/lang/String;
+                Lcom/google/gwt/core/client/JavaScriptObject;)
+              (this._api(u), i, b);
+          } else {
+            @com.google.gerrit.client.api.ActionContext::putRaw(
+                Lcom/google/gerrit/client/rpc/RestApi;
+                Lcom/google/gwt/core/client/JavaScriptObject;
+                Lcom/google/gwt/core/client/JavaScriptObject;)
+              (this._api(u), i, b);
+          }
+        } else {
+          @com.google.gerrit.client.api.ActionContext::putRaw(
+              Lcom/google/gerrit/client/rpc/RestApi;
+              Lcom/google/gwt/core/client/JavaScriptObject;)
+            (this._api(u), i);
+        }
+      },
       'delete': function(u,b) {
         @com.google.gerrit.client.api.ActionContext::delete(
             Lcom/google/gerrit/client/rpc/RestApi;
@@ -147,6 +190,12 @@ public class ApiGlue {
       },
       del: function(u,b) {
         @com.google.gerrit.client.api.ActionContext::delete(
+            Lcom/google/gerrit/client/rpc/RestApi;
+            Lcom/google/gwt/core/client/JavaScriptObject;)
+          (this._api(u), b);
+      },
+      del_raw: function(u,b) {
+        @com.google.gerrit.client.api.ActionContext::deleteRaw(
             Lcom/google/gerrit/client/rpc/RestApi;
             Lcom/google/gwt/core/client/JavaScriptObject;)
           (this._api(u), b);

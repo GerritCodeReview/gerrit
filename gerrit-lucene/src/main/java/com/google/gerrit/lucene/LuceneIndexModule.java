@@ -48,6 +48,7 @@ public class LuceneIndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     factory(LuceneChangeIndex.Factory.class);
+    factory(OnlineReindexer.Factory.class);
     install(new IndexModule(threads));
     if (singleVersion == null && base == null) {
       install(new MultiVersionModule());
@@ -65,7 +66,6 @@ public class LuceneIndexModule extends LifecycleModule {
   private static class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
-      factory(OnlineReindexer.Factory.class);
       listener().to(LuceneVersionManager.class);
     }
   }

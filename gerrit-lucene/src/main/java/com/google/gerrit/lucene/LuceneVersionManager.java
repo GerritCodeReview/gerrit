@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 @Singleton
-class LuceneVersionManager implements LifecycleListener {
+public class LuceneVersionManager implements LifecycleListener {
   private static final Logger log = LoggerFactory
       .getLogger(LuceneVersionManager.class);
 
@@ -95,6 +95,7 @@ class LuceneVersionManager implements LifecycleListener {
   private final IndexCollection indexes;
   private final OnlineReindexer.Factory reindexerFactory;
   private final boolean onlineUpgrade;
+  private OnlineReindexer reindexer;
 
   @Inject
   LuceneVersionManager(
@@ -165,7 +166,53 @@ class LuceneVersionManager implements LifecycleListener {
 
     int latest = write.get(0).version;
     if (onlineUpgrade && latest != search.version) {
-      reindexerFactory.create(latest).start();
+      reindexer = reindexerFactory.create(latest);
+      reindexer.start();
+    }
+  }
+
+  /**
+   * Start the online reindexer if the current index is not already the latest.
+   *
+   * @return true if started, otherwise false.
+   * @throws ReindexerAlreadyRunningException
+   */
+  public synchronized boolean startReindexer()
+      throws ReindexerAlreadyRunningException {
+    validateReindexerNotRunning();
+    if (!isCurrentIndexVersionLatest()) {
+      reindexer.start();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Activate the latest index if the current index is not already the latest.
+   *
+   * @return true if index was activate, otherwise false.
+   * @throws ReindexerAlreadyRunningException
+   */
+  public synchronized boolean activateLatestIndex()
+      throws ReindexerAlreadyRunningException {
+    validateReindexerNotRunning();
+    if (!isCurrentIndexVersionLatest()) {
+      reindexer.activateIndex();
+      return true;
+    }
+    return false;
+  }
+
+  private boolean isCurrentIndexVersionLatest() {
+    return reindexer == null
+        || reindexer.getVersion() == indexes.getSearchIndex().getSchema()
+            .getVersion();
+  }
+
+  private void validateReindexerNotRunning()
+      throws ReindexerAlreadyRunningException {
+    if (reindexer != null && reindexer.isRunning()) {
+      throw new ReindexerAlreadyRunningException();
     }
   }
 

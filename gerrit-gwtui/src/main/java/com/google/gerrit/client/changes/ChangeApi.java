@@ -45,11 +45,12 @@ public class ChangeApi {
    * new change is created as NEW.
    *
    */
-  public static void createChange(String project, String branch,
+  public static void createChange(String project, String branch, String topic,
       String subject, String base, AsyncCallback<ChangeInfo> cb) {
     CreateChangeInput input = CreateChangeInput.create();
     input.project(emptyToNull(project));
     input.branch(emptyToNull(branch));
+    input.topic(emptyToNull(topic));
     input.subject(emptyToNull(subject));
     input.baseChange(emptyToNull(base));
 
@@ -249,6 +250,7 @@ public class ChangeApi {
     }
 
     public final native void branch(String b) /*-{ if(b)this.branch=b; }-*/;
+    public final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
     public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
     public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
     public final native void baseChange(String b) /*-{ if(b)this.base_change=b; }-*/;

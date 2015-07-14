@@ -24,6 +24,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
@@ -33,6 +34,7 @@ import java.util.List;
 public abstract class CreateChangeDialog extends TextAreaActionDialog {
   private SuggestBox newChange;
   private List<BranchInfo> branches;
+  private TextBox topic;
 
   public CreateChangeDialog(Project.NameKey project) {
     super(Util.C.dialogCreateChangeTitle(),
@@ -44,6 +46,15 @@ public abstract class CreateChangeDialog extends TextAreaActionDialog {
             branches = Natives.asList(result);
           }
         });
+
+    topic = new TextBox();
+    topic.setWidth("100%");
+    topic.getElement().getStyle().setProperty("boxSizing", "border-box");
+    FlowPanel newTopicPanel = new FlowPanel();
+    newTopicPanel.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());
+    newTopicPanel.add(topic);
+    panel.insert(newTopicPanel, 0);
+    panel.insert(new SmallHeading(Util.C.newChangeTopicSuggestion()), 0);
 
     newChange = new SuggestBox(new HighlightSuggestOracle() {
       @Override
@@ -60,14 +71,13 @@ public abstract class CreateChangeDialog extends TextAreaActionDialog {
 
     newChange.setWidth("100%");
     newChange.getElement().getStyle().setProperty("boxSizing", "border-box");
-    message.setCharacterWidth(70);
-
-    FlowPanel mwrap = new FlowPanel();
-    mwrap.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());
-    mwrap.add(newChange);
-
-    panel.insert(mwrap, 0);
+    FlowPanel newChangePanel = new FlowPanel();
+    newChangePanel.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());
+    newChangePanel.add(newChange);
+    panel.insert(newChangePanel, 0);
     panel.insert(new SmallHeading(Util.C.newChangeBranchSuggestion()), 0);
+
+    message.setCharacterWidth(70);
   }
 
   @Override
@@ -79,6 +89,10 @@ public abstract class CreateChangeDialog extends TextAreaActionDialog {
 
   public String getDestinationBranch() {
     return newChange.getText();
+  }
+
+  public String getDestinationTopic() {
+    return topic.getText();
   }
 
   static class BranchSuggestion implements Suggestion {

@@ -27,7 +27,7 @@ public class EditConfigAction {
   static void call(final Button b, final String project) {
     b.setEnabled(false);
 
-    ChangeApi.createChange(project, RefNames.REFS_CONFIG,
+    ChangeApi.createChange(project, RefNames.REFS_CONFIG, null,
         Util.C.editConfigMessage(), null, new GerritCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo result) {

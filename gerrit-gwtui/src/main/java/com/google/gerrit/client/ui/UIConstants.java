@@ -29,4 +29,5 @@ public interface UIConstants extends Constants {
   String dialogCreateChangeTitle();
   String dialogCreateChangeHeading();
   String newChangeBranchSuggestion();
+  String newChangeTopicSuggestion();
 }

@@ -600,6 +600,12 @@ public class ChangeJson {
         PatchSetApproval psa = current.get(accountId, lt.getName());
         if (psa != null) {
           value = Integer.valueOf(psa.getValue());
+          if (value == 0) {
+            // This may be a dummy approval that was inserted when the reviewer
+            // was added. Explicitly check whether the user can vote on this
+            // label.
+            value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
+          }
           date = psa.getGranted();
         } else {
           // Either the user cannot vote on this label, or they were added as a

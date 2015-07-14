@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 
@@ -469,5 +471,30 @@ public class ChangeIT extends AbstractDaemonTest {
           .withOption(ListChangesOption.REVIEWED)
           .get())
         .hasSize(2);
+  }
+
+  @Test
+  public void votable() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    gApi.changes().id(triplet).addReviewer(user.username);
+    ChangeInfo c = gApi.changes().id(triplet).get(EnumSet.of(
+        ListChangesOption.DETAILED_LABELS));
+    LabelInfo codeReview = c.labels.get("Code-Review");
+    assertThat(codeReview.all).hasSize(1);
+    ApprovalInfo approval = codeReview.all.get(0);
+    assertThat(approval._accountId).isEqualTo(user.id.get());
+    assertThat(approval.value).isEqualTo(0);
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    blockLabel(cfg, "Code-Review", REGISTERED_USERS, "refs/heads/*");
+    saveProjectConfig(project, cfg);
+    c = gApi.changes().id(triplet).get(EnumSet.of(
+        ListChangesOption.DETAILED_LABELS));
+    codeReview = c.labels.get("Code-Review");
+    assertThat(codeReview.all).hasSize(1);
+    approval = codeReview.all.get(0);
+    assertThat(approval._accountId).isEqualTo(user.id.get());
+    assertThat(approval.value).isNull();
   }
 }

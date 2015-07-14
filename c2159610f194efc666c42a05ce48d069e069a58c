@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9814b289_a42242db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-14T01:22:06Z",
+      "side": 1,
+      "message": "This configuration setting is not descriptive of what it actually does.\n\nAlso, it should be documented in config-gerrit.txt",
+      "range": {
+        "startLine": 100,
+        "startChar": 46,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "c2159610f194efc666c42a05ce48d069e069a58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,6 +24,9 @@ public enum GerritUiExtensionPoint {
   /* MyPasswordScreen */
   PASSWORD_SCREEN_BOTTOM,
 
+  /* MyPreferencesScreen */
+  PREFERENCES_SCREEN_BOTTOM,
+
   /* MyProfileScreen */
   PROFILE_SCREEN_BOTTOM,
 

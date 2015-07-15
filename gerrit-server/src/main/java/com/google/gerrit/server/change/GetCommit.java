@@ -54,6 +54,7 @@ public class GetCommit implements RestReadView<RevisionResource> {
       rw.parseBody(commit);
       CommitInfo info = json.create(ChangeJson.NO_OPTIONS)
           .toCommit(rsrc.getControl(), rw, commit, addLinks);
+      info.commit = commit.name();
       Response<CommitInfo> r = Response.ok(info);
       if (rsrc.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));

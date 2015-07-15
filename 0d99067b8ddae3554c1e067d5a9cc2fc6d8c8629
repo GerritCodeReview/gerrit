@@ -88,6 +88,24 @@
       "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1817e2d9_f8b8d116",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-15T17:11:46Z",
+      "side": 1,
+      "message": "canRebase is way overkill for what we need for this orange dot anyway, which is just \"is commit X merged into branch B\".\n\nBut yeah in retrospect this should definitely not be in the ETag generation. We can do a request when the user hits the rebase button prior to rendering the dialog.",
+      "parentUuid": "581ddaf5_1ad25d46",
+      "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

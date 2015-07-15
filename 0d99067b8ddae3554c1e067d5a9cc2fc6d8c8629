@@ -106,6 +106,24 @@
       "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3820262d_f9b8d716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-15T17:20:07Z",
+      "side": 1,
+      "message": "\u003e \"is commit X merged into branch B\"\n\nOr...not even. \"Is commit X the tip of branch B?\" should be sufficient. No? Am I missing something?",
+      "parentUuid": "1817e2d9_f8b8d116",
+      "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

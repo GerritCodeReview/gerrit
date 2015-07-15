@@ -124,6 +124,24 @@
       "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84256dc_bddb1f5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-15T18:09:33Z",
+      "side": 1,
+      "message": "| What we want to know here is whether its possible to do a rebase or is the change already up-to-date [...]\n\nReally, this is all nice to have. Now, that I have seen load time around 30 seconds on gerrit-review, nobody really cares, if the button is orange or blue: the use would just kill the window. If we don\u0027t know a way to load change screen with 1-2 seconds, highest tolerale time for the user, than it only means that we don\u0027t offer orange button, and not wait up to 30 seconds to compute the colour of the buton.",
+      "parentUuid": "784c5e14_7beeff00",
+      "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

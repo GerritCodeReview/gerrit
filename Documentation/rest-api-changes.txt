@@ -3944,25 +3944,25 @@ The `CommentRange` entity describes the range of an inline comment.
 === CommitInfo
 The `CommitInfo` entity contains information about a commit.
 
-[options="header",cols="1,6"]
-|==========================
-|Field Name    |Description
-|`commit`      |The commit ID.
-|`parents`     |
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`commit`      ||The commit ID.
+|`parents`     ||
 The parent commits of this commit as a list of
 link:#commit-info[CommitInfo] entities. In each parent
 only the `commit` and `subject` fields are populated.
-|`author`      |The author of the commit as a
+|`author`      ||The author of the commit as a
 link:#git-person-info[GitPersonInfo] entity.
-|`committer`   |The committer of the commit as a
+|`committer`   ||The committer of the commit as a
 link:#git-person-info[GitPersonInfo] entity.
-|`subject`     |
+|`subject`     ||
 The subject of the commit (header line of the commit message).
-|`message`     |The commit message.
+|`message`     ||The commit message.
 |`web_links`   |optional|
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
-|==========================
+|===========================
 
 [[diff-content]]
 === DiffContent

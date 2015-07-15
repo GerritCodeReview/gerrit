@@ -70,6 +70,24 @@
       "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "581ddaf5_1ad25d46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-15T16:24:48Z",
+      "side": 1,
+      "message": "Urrrgh. This is very expensive for us to compute for a simple orange circle icon. I bet most users don\u0027t even know what that orange circle means.\n\nRight now its costing us \u003e1s per etag generation on one of our bigger projects. This canRebase stuff isn\u0027t cheap. It hurts less when its an async REST API that runs in the background after the change screen is loaded, because at least then the user isn\u0027t waiting for this information before they can see the change and open a file.\n\nThere are a lot of other visual elements on the change screen that are dynamic that are not part of the /detail cached call. It seems like this information should be moved there.",
+      "parentUuid": "784c5e14_7beeff00",
+      "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

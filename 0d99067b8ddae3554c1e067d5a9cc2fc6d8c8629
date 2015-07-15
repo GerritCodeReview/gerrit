@@ -16,6 +16,24 @@
       "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "784c5e14_dbb3933a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-07-15T08:12:23Z",
+      "side": 1,
+      "message": "Yeah its not surprising since rebase.canRebase is very heavy. I guess we could add a cache into canRebase, which should speed things up.",
+      "parentUuid": "d802aa8c_e6b35e3a",
+      "revId": "0d99067b8ddae3554c1e067d5a9cc2fc6d8c8629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

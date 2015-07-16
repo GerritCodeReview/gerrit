@@ -36,6 +36,8 @@ import com.google.gerrit.server.git.gpg.SignedPushModule;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -45,6 +47,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
+  private static final Logger log = LoggerFactory
+      .getLogger(GetServerInfo.class);
+
   private final Config config;
   private final AuthConfig authConfig;
   private final Realm realm;
@@ -94,6 +99,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.gitweb = getGitwebInfo(gitwebConfig);
+    info.site = getSiteInfo(config);
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
     info.user = getUserInfo(anonymousCowardName);
@@ -255,6 +261,27 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
+  private SiteInfo getSiteInfo(Config cfg) {
+    String[] urlAliases = cfg.getStringList("site", null, "urlAlias");
+    if (urlAliases.length == 0) {
+      return null;
+    }
+
+    SiteInfo info = new SiteInfo();
+    info.urlAliases = new HashMap<>();
+    for (String urlAlias : urlAliases) {
+      String[] s = urlAlias.split("[:]");
+      if (s.length == 2) {
+        info.urlAliases.put(s[0], s[1]);
+      } else {
+        log.warn(String.format(
+            "Invalid URL alias in gerrit.config: site.urlAlias = %s",
+            urlAlias));
+      }
+    }
+    return info;
+  }
+
   private SshdInfo getSshdInfo(Config cfg) {
     String[] addr = cfg.getStringList("sshd", null, "listenAddress");
     if (addr.length == 1 && isOff(addr[0])) {
@@ -298,6 +325,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public DownloadInfo download;
     public GerritInfo gerrit;
     public GitwebInfo gitweb;
+    public SiteInfo site;
     public SshdInfo sshd;
     public SuggestInfo suggest;
     public UserConfigInfo user;
@@ -355,6 +383,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GitwebInfo {
     public String url;
     public GitwebType type;
+  }
+
+  public static class SiteInfo {
+    public Map<String, String> urlAliases;
   }
 
   public static class SshdInfo {

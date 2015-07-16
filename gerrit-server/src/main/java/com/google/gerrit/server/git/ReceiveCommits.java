@@ -105,6 +105,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.DirectPushSender;
+import com.google.gerrit.server.mail.BranchUpdateSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -283,6 +284,7 @@ public class ReceiveCommits {
   private final AccountResolver accountResolver;
   private final CmdLineParser.Factory optionParserFactory;
   private final DirectPushSender.Factory directPushSenderFactory;
+  private final BranchUpdateSender.Factory branchUpdateSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final GitReferenceUpdated gitRefUpdated;
@@ -354,6 +356,7 @@ public class ReceiveCommits {
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final DirectPushSender.Factory directPushSenderFactory,
+      final BranchUpdateSender.Factory branchUpdateSenderFactory,
       final GitReferenceUpdated gitRefUpdated,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
@@ -396,6 +399,7 @@ public class ReceiveCommits {
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.directPushSenderFactory = directPushSenderFactory;
+    this.branchUpdateSenderFactory = branchUpdateSenderFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
@@ -659,6 +663,7 @@ public class ReceiveCommits {
           }
 
           if (isHead(c)) {
+            sendBranchUpdateEmail(c);
             processDirectPushEmail(c);
           }
         }
@@ -2735,23 +2740,54 @@ public class ReceiveCommits {
     List<RevCommit> pushedCommits = new ArrayList<RevCommit>();
     try {
       rw.reset();
+
+      // Find merge base
+      rw.setRevFilter(RevFilter.MERGE_BASE);
       rw.markStart(rw.parseCommit(cmd.getNewId()));
-      if (!ObjectId.zeroId().equals(cmd.getOldId())) {
-        rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
-      }
+      rw.markStart(rw.parseCommit(cmd.getOldId()));
+      RevCommit base = rw.next();
+
+      rw.reset();
+
+      // Walk all new commits, ignore all old commits
+      rw.markStart(rw.parseCommit(cmd.getNewId()));
+      rw.markUninteresting(base);
+
       RevCommit c;
       while ((c = rw.next()) != null) {
         rw.parseBody(c);
         pushedCommits.add(c);
       }
 
-      // Send an email for each commit in this push
+      // Send an email for each new commit in this push
       for (int i = pushedCommits.size() - 1; i >= 0; i--) {
         sendDirectPushEmail(cmd, pushedCommits.get(i));
       }
     } catch (IOException e) {
       log.error("Can't find commit to send direct push email", e);
     }
+  }
+
+  private void sendBranchUpdateEmail(final ReceiveCommand cmd) {
+    workQueue.getDefaultQueue()
+      .submit(requestScopePropagator.wrap(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            final BranchUpdateSender mail =
+              branchUpdateSenderFactory.create(project, cmd);
+            mail.setFrom(currentUser.getAccountId());
+            mail.send();
+          } catch (Exception e) {
+            log.error("Cannot send email for branch update", e);
+          }
+        }
+
+        @Override
+        public String toString() {
+          return "send-email branch updated";
+        }
+      }));
   }
 
   private void sendDirectPushEmail(final ReceiveCommand cmd,

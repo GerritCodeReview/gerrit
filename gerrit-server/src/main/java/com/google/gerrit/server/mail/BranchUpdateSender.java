@@ -43,12 +43,10 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.util.TemporaryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,60 +55,106 @@ import java.io.IOException;
 import java.util.List;
 
 /** Send email for each change being pushed directly into the repository. */
-public class DirectPushSender extends NotificationEmail {
-  private static final Logger log = LoggerFactory.getLogger(DirectPushSender.class);
+public class BranchUpdateSender extends NotificationEmail {
+  private static final Logger log = LoggerFactory.getLogger(BranchUpdateSender.class);
 
   protected static ChangeData newChangeData(EmailArguments ea, Change.Id id) {
     return ea.changeDataFactory.create(ea.db.get(), id);
   }
 
   public static interface Factory {
-    DirectPushSender create(Project project, ReceiveCommand cmd,
-        RevCommit commit);
+    BranchUpdateSender create(Project project, ReceiveCommand cmd);
   }
 
-  private static int HEAP_EST_SIZE = 32 * 1024;
-
   protected final ReceiveCommand cmd;
-  protected final RevCommit commit;
   protected final Project.NameKey project;
 
   @Inject
-  protected DirectPushSender(EmailArguments ea,
+  protected BranchUpdateSender(EmailArguments ea,
       @AnonymousCowardName String anonymousCowardName,
-      @Assisted Project project, @Assisted ReceiveCommand cmd,
-      @Assisted RevCommit commit) {
-    super(ea, "direct-push", new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
+      @Assisted Project project, @Assisted ReceiveCommand cmd) {
+    super(ea, "ref-update", new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
     this.cmd = cmd;
     this.project = project.getNameKey();
-    this.commit = commit;
   }
 
-  public String getCommitId() {
-    return commit.name();
+  public String getNewId() {
+    return cmd.getNewId().getName();
   }
 
-  public String getSubject() {
-    return commit.getShortMessage();
+  public String getShortNewId() {
+    return cmd.getNewId().abbreviate(12).toString();
   }
 
-  public String getFullMessage() {
-    return commit.getFullMessage();
+  public String getOldId() {
+    return cmd.getOldId().getName();
+  }
+
+  public String getShortOldId() {
+    return cmd.getOldId().abbreviate(12).toString();
+  }
+
+  public String getRefName() {
+    return cmd.getRefName();
+  }
+
+  public String getCommitSummary() {
+    try (Repository git = args.server.openRepository(project)) {
+      try {
+        RevWalk rw = new RevWalk(git);
+        RevWalk merged = new RevWalk(git);
+        RevCommit oldId = rw.parseCommit(cmd.getOldId());
+        RevCommit newId = rw.parseCommit(cmd.getNewId());
+
+        rw.reset();
+
+        rw.setRevFilter(RevFilter.MERGE_BASE);
+        rw.markStart(rw.parseCommit(oldId));
+        rw.markStart(rw.parseCommit(newId));
+
+        // Find a merge base
+        RevCommit mergeBase = rw.next();
+        rw.reset();
+
+        rw.markStart(oldId);
+        rw.markStart(newId);
+        rw.markUninteresting(mergeBase);
+
+        RevCommit c;
+        String result = "";
+        while ((c = rw.next()) != null) {
+          rw.parseBody(c);
+
+          if (merged.isMergedInto(c, newId)) {
+            result += "+" + c.abbreviate(12) + " " + c.getShortMessage() + "\n";
+          } else {
+            result += "-" + c.abbreviate(12) + " " + c.getShortMessage() + "\n";
+          }
+        }
+
+        return result;
+      } catch (IOException e) {
+        log.error("Cannot find commit to create summary", e);
+        return "";
+      }
+    } catch (IOException e) {
+      log.error("Cannot open repository to read log", e);
+      return "";
+    }
   }
 
   @Override
   protected Watchers getWatchers(NotifyType type) throws OrmException {
     Change.Id id = new Change.Id(0);
-    DirectPushWatch watch = new DirectPushWatch(args,
-        project, args.projectCache.get(project),
-        newChangeData(args, id));
+    BranchUpdateWatch watch = new BranchUpdateWatch(args,
+        project, args.projectCache.get(project), newChangeData(args, id));
     return watch.getWatchers(type);
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
   @Override
   protected void format() throws EmailException {
-    appendText(velocifyFile("DirectPush.vm"));
+    appendText(velocifyFile("BranchUpdate.vm"));
   }
 
   /** Setup the message headers and envelope (TO, CC, BCC, FROM). */
@@ -119,17 +163,12 @@ public class DirectPushSender extends NotificationEmail {
 
     super.init();
 
-    includeWatchers(NotifyType.DIRECT_PUSH_CHANGES);
+    includeWatchers(NotifyType.REF_UPDATES);
     setSubjectHeader();
-    setCommitIdHeader();
   }
 
   private void setSubjectHeader() throws EmailException {
-    setHeader("Subject", velocifyFile("ChangeSubject.vm"));
-  }
-
-  private void setCommitIdHeader() {
-    setHeader("X-Gerrit-Commit", getCommitId());
+    setHeader("Subject", velocifyFile("BranchUpdateSubject.vm"));
   }
 
   @Override
@@ -137,35 +176,8 @@ public class DirectPushSender extends NotificationEmail {
     super.setupVelocityContext();
   }
 
-  /** Show patch set as unified difference. */
-  public String getUnifiedDiff() {
-    int maxSize = args.settings.maximumDiffSize;
-    TemporaryBuffer.Heap buf =
-        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxSize), maxSize);
-    try (DiffFormatter fmt = new DiffFormatter(buf)) {
-      try (Repository git = args.server.openRepository(project)) {
-        try {
-          fmt.setRepository(git);
-          fmt.setDetectRenames(true);
-
-          fmt.format(commit.getParent(0), commit);
-          return RawParseUtils.decode(buf.toByteArray());
-        } catch (IOException e) {
-          if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
-            return "";
-          }
-          log.error("Cannot format patch", e);
-          return "";
-        }
-      } catch (IOException e) {
-        log.error("Cannot open repository to format patch", e);
-        return "";
-      }
-    }
-  }
-
-  private static class DirectPushWatch extends ProjectWatch {
-    public DirectPushWatch(EmailArguments args, Project.NameKey project,
+  private static class BranchUpdateWatch extends ProjectWatch {
+    public BranchUpdateWatch(EmailArguments args, Project.NameKey project,
     ProjectState projectState, ChangeData changeData) {
       super(args, project, projectState, changeData);
     }

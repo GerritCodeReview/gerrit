@@ -28,23 +28,19 @@
 ##
 ## This Template:
 ## --------------
-## The DirectPush.vm template will determine the contents of the email for
-## pushing directly into the repository.
+## The BranchUpdate.vm template will determine the contents of the email for
+## a ref update on this repository caused by a direct push.
 ##
-$fromName has pushed a new change directly into the repository.
+$fromName has updated $email.refName from $email.shortNewId to $email.shortOldId.
 
-Change subject: $email.subject
+Reference: $email.refName
 ......................................................................
 
-$email.fullMessage
+$email.commitSummary
 
-$email.unifiedDiff
---
-
-#if$(email.sshHost)
-  git pull ssh://$email.sshHost/$projectName $email.commitId
-#end
 --
 Gerrit-MessageType: $messageClass
 Gerrit-Project: $projectName
-Gerrit-Branch: $branch.shortName
+Gerrit-Ref: $email.refName
+Gerrit-OldId: $email.oldId
+Gerrit-NewId: $email.newId

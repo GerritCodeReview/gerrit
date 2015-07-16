@@ -72,6 +72,7 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.ProjectDashboardScreen;
 import com.google.gerrit.client.changes.QueryScreen;
+import com.google.gerrit.client.config.ServerInfo.SiteInfo;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.DisplaySide;
@@ -203,7 +204,9 @@ public class Dispatcher {
     }
   }
 
-  private static void select(final String token) {
+  private static void select(String token) {
+    token = replaceUrlAlias(token);
+
     if (matchPrefix(QUERY, token)) {
       query(token);
 
@@ -266,6 +269,20 @@ public class Dispatcher {
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
+  }
+
+  private static String replaceUrlAlias(String token) {
+    SiteInfo site = Gerrit.info().site();
+    if (site == null || site.urlAliases() == null) {
+      return token;
+    }
+
+    for (String urlAlias : site.urlAliases()) {
+      if (matchPrefix(urlAlias, token)) {
+        return site.urlAlias(urlAlias) + skip(token);
+      }
+    }
+    return token;
   }
 
   private static void redirectFromLegacyToken(String oldToken, String newToken) {

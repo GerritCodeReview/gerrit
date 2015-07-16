@@ -1788,6 +1788,10 @@ public class MyPlugin extends PluginEntryPoint {
 }
 ----
 
+By defining an link:config-gerrit.html#urlAlias[urlAlias] Gerrit
+administrators can map plugin screens into the Gerrit URL namespace or
+even replace Gerrit screens by plugin screens.
+
 [[settings-screen]]
 == Plugin Settings Screen
 

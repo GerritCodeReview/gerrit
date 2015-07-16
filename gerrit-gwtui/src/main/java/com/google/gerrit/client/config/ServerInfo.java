@@ -14,7 +14,12 @@
 
 package com.google.gerrit.client.config;
 
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+
+import java.util.Set;
 
 public class ServerInfo extends JavaScriptObject {
   public final native AuthInfo auth() /*-{ return this.auth; }-*/;
@@ -28,6 +33,14 @@ public class ServerInfo extends JavaScriptObject {
   public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;
   public final native UserConfigInfo user() /*-{ return this.user; }-*/;
   public final native ReceiveInfo receive() /*-{ return this.receive; }-*/;
+
+  public final Set<String> urlAliasMatches() {
+    return Natives.keys(_urlAliases());
+  }
+
+  public final native String urlAliasToken(String n) /*-{ return this.url_aliases[n]; }-*/;
+  private final native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
+
 
   public final boolean hasContactStore() {
     return contactStore() != null;

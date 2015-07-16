@@ -100,6 +100,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.gitweb = getGitwebInfo(gitwebConfig);
     info.plugin = getPluginInfo();
+    info.site = getSiteInfo(config);
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
     info.user = getUserInfo(anonymousCowardName);
@@ -267,6 +268,21 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
+  private SiteInfo getSiteInfo(Config cfg) {
+    String[] urlAliasPairs = cfg.getStringList("site", null, "urlAlias");
+    if (urlAliasPairs.length == 0) {
+      return null;
+    }
+
+    SiteInfo info = new SiteInfo();
+    info.urlAliases = new HashMap<>();
+    for (String urlAliasPair : urlAliasPairs) {
+      UrlAlias urlAlias = new UrlAlias(urlAliasPair);
+      info.urlAliases.put(urlAlias.getUrlPathFrom(), urlAlias.getUrlPathTo());
+    }
+    return info;
+  }
+
   private SshdInfo getSshdInfo(Config cfg) {
     String[] addr = cfg.getStringList("sshd", null, "listenAddress");
     if (addr.length == 1 && isOff(addr[0])) {
@@ -311,6 +327,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public GerritInfo gerrit;
     public GitwebInfo gitweb;
     public PluginConfigInfo plugin;
+    public SiteInfo site;
     public SshdInfo sshd;
     public SuggestInfo suggest;
     public UserConfigInfo user;
@@ -372,6 +389,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   public static class PluginConfigInfo {
     public Boolean hasAvatars;
+  }
+
+  public static class SiteInfo {
+    public Map<String, String> urlAliases;
   }
 
   public static class SshdInfo {

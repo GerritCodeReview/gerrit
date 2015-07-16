@@ -291,12 +291,6 @@ public class MergeOp {
     }
   }
 
-  private void openSchema() throws OrmException {
-    if (db == null) {
-      db = schemaFactory.open();
-    }
-  }
-
   private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
     return Iterables.tryFind(in, new Predicate<SubmitRecord>() {
       @Override
@@ -397,14 +391,13 @@ public class MergeOp {
     }
   }
 
-  public void merge(ChangeSet changes, IdentifiedUser caller,
+  public void merge(ReviewDb db, ChangeSet changes, IdentifiedUser caller,
       boolean checkPermissions) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
+    this.db = db;
     logPrefix = String.format("[%s]: ", String.valueOf(changes.hashCode()));
     logDebug("Beginning merge of {}", changes);
     try {
-      openSchema();
-
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, changes);
       logDebug("Calculated to merge {}", cs);
       if (checkPermissions) {
@@ -420,10 +413,6 @@ public class MergeOp {
     } catch (IOException e) {
       // Anything before the merge attempt is an error
       throw new OrmException(e);
-    } finally {
-      if (db != null) {
-        db.close();
-      }
     }
   }
 
@@ -433,7 +422,6 @@ public class MergeOp {
     Map<Branch.NameKey, ListMultimap<SubmitType, ChangeData>> toSubmit =
         new HashMap<>();
     try {
-      openSchema();
       logDebug("Perform the merges");
       for (Project.NameKey project : cs.projects()) {
         openRepository(project);
@@ -1298,12 +1286,9 @@ public class MergeOp {
   private void abandonAllOpenChanges(Project.NameKey destProject)
       throws NoSuchChangeException {
     try {
-      openSchema();
       for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
         abandonOneChange(cd.change());
       }
-      db.close();
-      db = null;
     } catch (IOException | OrmException e) {
       logWarn("Cannot abandon changes for deleted project ", e);
     }

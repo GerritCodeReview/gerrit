@@ -182,8 +182,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ChangeSet submittedChanges = ChangeSet.create(changes);
 
     try {
-      mergeOpProvider.get().merge(submittedChanges, caller, true);
-      change = dbProvider.get().changes().get(change.getId());
+      mergeOpProvider.get().merge(
+          dbProvider.get(), submittedChanges, caller, true);
+      ReviewDb db = dbProvider.get();
+      change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
     }

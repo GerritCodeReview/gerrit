@@ -1789,7 +1789,7 @@ public class ReceiveCommits {
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     List<Change> changes = Lists.newArrayList(rsrc.getChange());
     try {
-      mergeOpProvider.get().merge(ChangeSet.create(changes),
+      mergeOpProvider.get().merge(db, ChangeSet.create(changes),
           (IdentifiedUser) changeCtl.getCurrentUser(), false);
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);

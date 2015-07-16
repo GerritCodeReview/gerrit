@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d802aa8c_26ebb6f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-16T22:00:05Z",
+      "side": 1,
+      "message": "You shouldn\u0027t have to make a new database connection here; there should already a database connection available in the HTTP request context.",
+      "revId": "8864df3f391dd9dea899fe44ddb5187781e79666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

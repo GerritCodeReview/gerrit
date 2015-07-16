@@ -3278,6 +3278,20 @@ If true the server checks the site header, footer and CSS files for
 updated versions. If false, a server restart is required to change
 any of these resources. Default is true, allowing automatic reloads.
 
+[[site.urlAlias]]site.urlAlias::
++
+A pair of URL paths, separated by ":", where the first URL path is an
+alias for the second URL path. ":" in a URL path can be escaped by
+"\\:".
++
+This allows to map plugin screens into the Gerrit URL namespace, e.g.:
+`site.urlAlias = /myscreen/:/x/myplugin/myscreen/`
++
+This can also be used to replace Gerrit screens with plugin screens,
+e.g. to replace change screen: `site.urlAlias = /c/:/x/myplugin/c/`
++
+`site.urlAlias` can be specified multiple times.
+
 [[ssh-alias]]
 === Section ssh-alias
 

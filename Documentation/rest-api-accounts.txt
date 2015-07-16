@@ -1564,6 +1564,9 @@ Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 |`my`                           ||
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
+|`url_aliases`                  |optional|
+A map of URL path pairs, where the first URL path is an alias for the
+second URL path.
 |============================================
 
 [[preferences-input]]
@@ -1610,6 +1613,9 @@ Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 |`my`                           |optional|
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
+|`url_aliases`                  |optional|
+A map of URL path pairs, where the first URL path is an alias for the
+second URL path.
 |============================================
 
 [[query-limit-info]]

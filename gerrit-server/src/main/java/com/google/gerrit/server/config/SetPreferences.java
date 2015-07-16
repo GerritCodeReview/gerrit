@@ -64,7 +64,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
       p.load(md);
       com.google.gerrit.server.account.SetPreferences.storeMyMenus(p, i.my);
       p.commit(md);
-      return new PreferenceInfo(null, p, md.getRepository());
+      return new PreferenceInfo(null, p, null, md.getRepository());
     } finally {
       md.close();
     }

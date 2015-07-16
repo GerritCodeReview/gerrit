@@ -54,6 +54,7 @@ final class Plugin extends JavaScriptObject {
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
       refreshMenuBar: @com.google.gerrit.client.api.ApiGlue::refreshMenuBar(),
+      refreshUrlAliases: @com.google.gerrit.client.api.ApiGlue::refreshUrlAliases(),
       isSignedIn: @com.google.gerrit.client.api.ApiGlue::isSignedIn(),
       showError: @com.google.gerrit.client.api.ApiGlue::showError(Ljava/lang/String;),
       on: function(e,f){G.on(e,f)},

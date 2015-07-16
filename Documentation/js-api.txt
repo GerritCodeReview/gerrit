@@ -887,6 +887,10 @@ Redisplays the current web UI view, refreshing all information.
 === Gerrit.refreshMenuBar()
 Refreshes Gerrit's menu bar.
 
+[[Gerrit_refreshUrlAliases]]
+=== Gerrit.refreshUrlAliases()
+Refreshes the URL aliases of the current user.
+
 [[Gerrit_isSignedIn]]
 === Gerrit.isSignedIn()
 Checks if user is signed in.

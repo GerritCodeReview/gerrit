@@ -22,6 +22,30 @@
       "revId": "99db8f83d1b153c78d5a21d0c22b0e55834e9dfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84256dc_1deb33f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-16T07:27:36Z",
+      "side": 1,
+      "message": "I don\u0027t know the exact reasoning behind this, but I believe it\u0027s related to Google having custom, manually written, implementations of these interfaces. Maybe Dave can say more about it.",
+      "parentUuid": "784c5e14_1b049b49",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "99db8f83d1b153c78d5a21d0c22b0e55834e9dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

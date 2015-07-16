@@ -141,7 +141,6 @@ public class ChangeJson {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
-  private final RebaseChange rebaseChange;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -164,8 +163,7 @@ public class ChangeJson {
       WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
       Provider<ConsistencyChecker> checkerProvider,
-      ActionJson actionJson,
-      RebaseChange rebaseChange) {
+      ActionJson actionJson) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -183,7 +181,6 @@ public class ChangeJson {
     this.cmUtil = cmUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
-    this.rebaseChange = rebaseChange;
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -893,7 +890,7 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(out,
-          new RevisionResource(new ChangeResource(ctl, rebaseChange), in));
+          new RevisionResource(new ChangeResource(ctl), in));
     }
 
     return out;

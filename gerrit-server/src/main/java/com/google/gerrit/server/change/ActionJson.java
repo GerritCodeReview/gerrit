@@ -36,16 +36,13 @@ import java.util.Map;
 public class ActionJson {
   private final Revisions revisions;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
-  private final RebaseChange rebaseChange;
 
   @Inject
   ActionJson(
       Revisions revisions,
-      DynamicMap<RestView<ChangeResource>> changeViews,
-      RebaseChange rebaseChange) {
+      DynamicMap<RestView<ChangeResource>> changeViews) {
     this.revisions = revisions;
     this.changeViews = changeViews;
-    this.rebaseChange = rebaseChange;
   }
 
   public Map<String, ActionInfo> format(RevisionResource rsrc) {
@@ -72,7 +69,7 @@ public class ActionJson {
     Provider<CurrentUser> userProvider = Providers.of(ctl.getCurrentUser());
     for (UiAction.Description d : UiActions.from(
         changeViews,
-        new ChangeResource(ctl, rebaseChange),
+        new ChangeResource(ctl),
         userProvider)) {
       out.put(d.getId(), new ActionInfo(d));
     }

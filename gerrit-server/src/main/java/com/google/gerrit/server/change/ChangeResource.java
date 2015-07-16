@@ -36,16 +36,13 @@ public class ChangeResource implements RestResource, HasETag {
       new TypeLiteral<RestView<ChangeResource>>() {};
 
   private final ChangeControl control;
-  private final RebaseChange rebaseChange;
 
-  public ChangeResource(ChangeControl control, RebaseChange rebaseChange) {
+  public ChangeResource(ChangeControl control) {
     this.control = control;
-    this.rebaseChange = rebaseChange;
   }
 
   protected ChangeResource(ChangeResource copy) {
     this.control = copy.control;
-    this.rebaseChange = copy.rebaseChange;
   }
 
   public ChangeControl getControl() {
@@ -60,7 +57,6 @@ public class ChangeResource implements RestResource, HasETag {
     return getControl().getNotes();
   }
 
-
   // This includes all information relevant for ETag computation
   // unrelated to the UI.
   public void prepareETag(Hasher h, CurrentUser user) {
@@ -68,8 +64,8 @@ public class ChangeResource implements RestResource, HasETag {
       .putInt(getChange().getRowVersion())
       .putInt(user.isIdentifiedUser()
           ? ((IdentifiedUser) user).getAccountId().get()
-          : 0)
-      .putBoolean(rebaseChange != null && rebaseChange.canRebase(this));
+          : 0);
+
     byte[] buf = new byte[20];
     ObjectId noteId;
     try {

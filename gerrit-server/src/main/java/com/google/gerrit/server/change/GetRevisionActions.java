@@ -39,17 +39,15 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   private final ActionJson delegate;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Config config;
-  private final RebaseChange rebaseChange;
+
   @Inject
   GetRevisionActions(
       ActionJson delegate,
       Provider<InternalChangeQuery> queryProvider,
-      @GerritServerConfig Config config,
-      RebaseChange rebaseChange) {
+      @GerritServerConfig Config config) {
     this.delegate = delegate;
     this.queryProvider = queryProvider;
     this.config = config;
-    this.rebaseChange = rebaseChange;
   }
 
   @Override
@@ -68,7 +66,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
     CurrentUser user = rsrc.getControl().getCurrentUser();
     try {
       for (ChangeData c : queryProvider.get().byTopicOpen(topic)) {
-        new ChangeResource(c.changeControl(), rebaseChange).prepareETag(h, user);
+        new ChangeResource(c.changeControl()).prepareETag(h, user);
       }
     } catch (OrmException e){
       throw new OrmRuntimeException(e);

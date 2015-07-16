@@ -49,7 +49,6 @@ public class ChangesCollection implements
   private final ChangeUtil changeUtil;
   private final CreateChange createChange;
   private final ChangeIndexer changeIndexer;
-  private final RebaseChange rebaseChange;
 
   @Inject
   ChangesCollection(
@@ -59,8 +58,7 @@ public class ChangesCollection implements
       DynamicMap<RestView<ChangeResource>> views,
       ChangeUtil changeUtil,
       CreateChange createChange,
-      ChangeIndexer changeIndexer,
-      RebaseChange rebaseChange) {
+      ChangeIndexer changeIndexer) {
     this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
@@ -68,7 +66,6 @@ public class ChangesCollection implements
     this.changeUtil = changeUtil;
     this.createChange = createChange;
     this.changeIndexer = changeIndexer;
-    this.rebaseChange = rebaseChange;
   }
 
   @Override
@@ -105,7 +102,7 @@ public class ChangesCollection implements
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(id);
     }
-    return new ChangeResource(control, rebaseChange);
+    return new ChangeResource(control);
   }
 
   public ChangeResource parse(Change.Id id)
@@ -115,7 +112,7 @@ public class ChangesCollection implements
   }
 
   public ChangeResource parse(ChangeControl control) {
-    return new ChangeResource(control, rebaseChange);
+    return new ChangeResource(control);
   }
 
   @SuppressWarnings("unchecked")

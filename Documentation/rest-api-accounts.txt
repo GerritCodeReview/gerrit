@@ -1526,42 +1526,42 @@ password is deleted.
 The `PreferencesInfo` entity contains information about a user's preferences.
 
 [options="header",cols="1,^1,5"]
-|=====================================
-|Field Name              ||Description
-|`changes_per_page`               ||
+|============================================
+|Field Name                     ||Description
+|`changes_per_page`             ||
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
-|`show_site_header`   |not set if `false`|
+|`show_site_header`             |not set if `false`|
 Whether the site header should be shown.
-|`use_flash_clipboard`     |not set if `false`|
+|`use_flash_clipboard`          |not set if `false`|
 Whether to use the flash clipboard widget.
-|`download_scheme`      ||
+|`download_scheme`              ||
 The type of download URL the user prefers to use.
-|`download_command`     ||
+|`download_command`             ||
 The type of download command the user prefers to use.
-|`copy_self_on_email`       |not set if `false`|
+|`copy_self_on_email`           |not set if `false`|
 Whether to CC me on comments I write.
-|`date_format`         ||
+|`date_format`                  ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
-|`time_format`     ||
+|`time_format`                  ||
 The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
-|`relative_date_in_change_table`  |not set if `false`|
+|`relative_date_in_change_table`|not set if `false`|
 Whether to show relative dates in the changes table.
-|`size_bar_in_change_table`      |not set if `false`|
+|`size_bar_in_change_table`     |not set if `false`|
 Whether to show the change sizes as colored bars in the change table.
-|`legacycid_in_change_table`      |not set if `false`|
+|`legacycid_in_change_table`    |not set if `false`|
 Whether to show change number in the change table.
-|`mute_common_path_prefixes` |not set if `false`|
+|`mute_common_path_prefixes`    |not set if `false`|
 Whether to mute common path prefixes in file names in the file table.
-|`review_category_strategy`   ||
+|`review_category_strategy`     ||
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
-|`diff_view`     ||
+|`diff_view`                    ||
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
-|=====================================
+|============================================
 
 [[preferences-input]]
 === PreferencesInput
@@ -1569,42 +1569,42 @@ The `PreferencesInput` entity contains information for setting the
 user preferences. Fields which are not set will not be updated.
 
 [options="header",cols="1,^1,5"]
-|=====================================
-|Field Name              ||Description
-|`changes_per_page`               |optional|
+|============================================
+|Field Name                     ||Description
+|`changes_per_page`             |optional|
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
-|`show_site_header`   |optional|
+|`show_site_header`             |optional|
 Whether the site header should be shown.
-|`use_flash_clipboard`     |optional|
+|`use_flash_clipboard`          |optional|
 Whether to use the flash clipboard widget.
-|`download_scheme`      |optional|
+|`download_scheme`              |optional|
 The type of download URL the user prefers to use.
-|`download_command`     |optional|
+|`download_command`             |optional|
 The type of download command the user prefers to use.
-|`copy_self_on_email`       |optional|
+|`copy_self_on_email`           |optional|
 Whether to CC me on comments I write.
-|`date_format`         |optional|
+|`date_format`                  |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
-|`time_format`     |optional|
+|`time_format`                  |optional|
 The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
-|`relative_date_in_change_table`  |optional|
+|`relative_date_in_change_table`|optional|
 Whether to show relative dates in the changes table.
-|`size_bar_in_change_table`      |optional|
+|`size_bar_in_change_table`     |optional|
 Whether to show the change sizes as colored bars in the change table.
-|`legacycid_in_change_table`      |optional|
+|`legacycid_in_change_table`    |optional|
 Whether to show change number in the change table.
-|`mute_common_path_prefixes` |optional|
+|`mute_common_path_prefixes`    |optional|
 Whether to mute common path prefixes in file names in the file table.
-|`review_category_strategy`   |optional|
+|`review_category_strategy`     |optional|
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
-|`diff_view`     |optional|
+|`diff_view`                    |optional|
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
-|=====================================
+|============================================
 
 [[query-limit-info]]
 === QueryLimitInfo

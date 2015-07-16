@@ -47,6 +47,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
+  private final static String URL_ALIAS = "urlAlias";
+  private final static String KEY_MATCH = "match";
+  private final static String KEY_TOKEN = "token";
+
   private final Config config;
   private final AuthConfig authConfig;
   private final Realm realm;
@@ -102,6 +106,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.plugin = getPluginInfo();
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
+    info.urlAliases = getUrlAliasesInfo(config);
     info.user = getUserInfo(anonymousCowardName);
     info.receive = getReceiveInfo(config);
     return info;
@@ -267,6 +272,15 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
+  private Map<String, String> getUrlAliasesInfo(Config cfg) {
+    Map<String, String> urlAliases = new HashMap<>();
+    for (String subsection : cfg.getSubsections(URL_ALIAS)) {
+      urlAliases.put(cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
+         cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
+    }
+    return !urlAliases.isEmpty() ? urlAliases : null;
+  }
+
   private SshdInfo getSshdInfo(Config cfg) {
     String[] addr = cfg.getStringList("sshd", null, "listenAddress");
     if (addr.length == 1 && isOff(addr[0])) {
@@ -313,6 +327,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public PluginConfigInfo plugin;
     public SshdInfo sshd;
     public SuggestInfo suggest;
+    public Map<String, String> urlAliases;
     public UserConfigInfo user;
     public ReceiveInfo receive;
   }

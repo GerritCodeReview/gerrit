@@ -96,6 +96,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
@@ -204,7 +206,9 @@ public class Dispatcher {
     }
   }
 
-  private static void select(final String token) {
+  private static void select(String token) {
+    token = replaceUrlAlias(token);
+
     if (matchPrefix(QUERY, token)) {
       query(token);
 
@@ -267,6 +271,23 @@ public class Dispatcher {
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
+  }
+
+  private static String replaceUrlAlias(String token) {
+    if (Gerrit.info().urlAliasMatches() == null) {
+      return token;
+    }
+
+    for (String urlAliasMatch : Gerrit.info().urlAliasMatches()) {
+      MatchResult match = RegExp.compile(urlAliasMatch).exec(token);
+      if (match != null) {
+        token = Gerrit.info().urlAliasToken(urlAliasMatch);
+        for (int i = 1; i < match.getGroupCount(); i++) {
+          token = token.replaceAll("\\$" + i, match.getGroup(i));
+        }
+      }
+    }
+    return token;
   }
 
   private static void redirectFromLegacyToken(String oldToken, String newToken) {

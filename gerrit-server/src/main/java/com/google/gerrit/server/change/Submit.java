@@ -53,6 +53,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -100,6 +101,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final GitRepositoryManager repoManager;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final AccountsCollection accounts;
   private final ChangesCollection changes;
@@ -116,8 +118,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       Provider<MergeOp> mergeOpProvider,
+      SchemaFactory<ReviewDb> schemaFactory,
       AccountsCollection accounts,
       ChangesCollection changes,
+
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider) {
     this.dbProvider = dbProvider;
@@ -125,6 +129,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.mergeOpProvider = mergeOpProvider;
+    this.schemaFactory = schemaFactory;
     this.accounts = accounts;
     this.changes = changes;
     this.label = MoreObjects.firstNonNull(
@@ -181,9 +186,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
     ChangeSet submittedChanges = ChangeSet.create(changes);
 
-    try {
-      mergeOpProvider.get().merge(submittedChanges, caller, true);
-      change = dbProvider.get().changes().get(change.getId());
+    try (ReviewDb db = schemaFactory.open()){
+      mergeOpProvider.get().merge(db, submittedChanges, caller, true);
+      change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
     }

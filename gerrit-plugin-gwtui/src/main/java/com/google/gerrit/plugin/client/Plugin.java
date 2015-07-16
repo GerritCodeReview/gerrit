@@ -56,6 +56,10 @@ public final class Plugin extends JavaScriptObject {
   public final native void refreshMenuBar()
   /*-{ return this.refreshMenuBar() }-*/;
 
+  /** Refresh the URL aliases of the current user. */
+  public final native void refreshUrlAliases()
+  /*-{ return this.refreshUrlAliases() }-*/;
+
   /** Check if user is signed in. */
   public final native boolean isSignedIn()
   /*-{ return this.isSignedIn() }-*/;

@@ -70,6 +70,7 @@ public class ApiGlue {
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
       refreshMenuBar: @com.google.gerrit.client.api.ApiGlue::refreshMenuBar(),
+      refreshUrlAliases: @com.google.gerrit.client.api.ApiGlue::refreshUrlAliases(),
       isSignedIn: @com.google.gerrit.client.api.ApiGlue::isSignedIn(),
       showError: @com.google.gerrit.client.api.ApiGlue::showError(Ljava/lang/String;),
       getCurrentUser: @com.google.gerrit.client.api.ApiGlue::getCurrentUser(),
@@ -266,6 +267,10 @@ public class ApiGlue {
 
   private static final void refreshMenuBar() {
     Gerrit.refreshMenuBar();
+  }
+
+  private static final void refreshUrlAliases() {
+    Gerrit.refreshUrlAliases();
   }
 
   private static final boolean isSignedIn() {

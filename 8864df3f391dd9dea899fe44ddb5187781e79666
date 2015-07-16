@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "581ddaf5_7af7d9ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-16T23:14:02Z",
+      "side": 1,
+      "message": "*facepalm*\n\nThe stack trace is on the next line, in db.changes(). That means the actual merge succeeded. And then closed the repo.\n\nRemoving the db.close() calls works.\n\nHowever, I still see this stack trace in my warning logs:\n\n 1) Automatic ReviewDb only available in request scope\n   at com.google.gerrit.server.util.ThreadLocalRequestContext$1.provideReviewDb(ThreadLocalRequestContext.java:70) (via modules: com.google.gerrit.server.config.GerritGlobalModule -\u003e com.google.gerrit.server.util.ThreadLocalRequestContext$1)\n   while locating com.google.gerrit.reviewdb.server.ReviewDb\n   at com.google.gerrit.server.mail.MergedSender.\u003cinit\u003e(MergedSender.java:42)\n   while locating com.google.gerrit.server.mail.MergedSender annotated with @com.google.inject.internal.UniqueAnnotations$Internal(value\u003d9)\n \n 1 error\n \tat com.google.inject.internal.InjectorImpl$2.get(InjectorImpl.java:1025)\n \tat com.google.inject.assistedinject.FactoryProvider2.invoke(FactoryProvider2.java:770)\n \tat com.sun.proxy.$Proxy69.create(Unknown Source)\n \tat com.google.gerrit.server.git.MergeOp$5.run(MergeOp.java:1205)\n \tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n \tat java.util.concurrent.FutureTask.run(FutureTask.java:237)\n \tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:151)\n \tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:266)\n \tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:377)\n \tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1113)\n \tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:588)\n \tat java.lang.Thread.run(Thread.java:745)\n\n\n\n\nI\u0027m not 100% sure that\u0027s a regression; it might just be that email doesn\u0027t work in tests. But you should check on it.",
+      "parentUuid": "d802aa8c_66faceb4",
+      "revId": "8864df3f391dd9dea899fe44ddb5187781e79666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_e6059e4d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 1

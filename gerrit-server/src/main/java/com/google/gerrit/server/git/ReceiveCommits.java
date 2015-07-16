@@ -557,6 +557,7 @@ public class ReceiveCommits {
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
     batch = repo.getRefDatabase().newBatchUpdate();
+    batch.setPushCertificate(rp.getPushCertificate());
     batch.setRefLogIdent(rp.getRefLogIdent());
     batch.setRefLogMessage("push", true);
 

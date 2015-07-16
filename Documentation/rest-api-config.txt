@@ -1330,6 +1330,9 @@ configuration as link:#git-web-info[GitwebInfo] entity.
 |`receive`                 |optional|
 Information about the receive-pack configuration as a
 link:#receive-info[ReceiveInfo] entity.
+|`site`                    |optional|
+Information about the configuration from the
+link:config-gerrit.html#site[site] section as link:#site-info[SiteInfo]
 |`sshd`                    |optional|
 Information about the configuration from the
 link:config-gerrit.html#sshd[sshd] section as link:#sshd-info[SshdInfo]
@@ -1343,6 +1346,20 @@ Information about the configuration from the
 link:config-gerrit.html#user[user] section as link:#user-config-info[
 UserConfigInfo] entity.
 |=======================================
+
+[[site-info]]
+=== SiteInfo
+The `SiteInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#site[site]
+section.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`url_aliases` |optional|
+A map of URL path pairs, where the first URL path is an alias for the
+second URL path.
+|===========================
 
 [[sshd-info]]
 === SshdInfo

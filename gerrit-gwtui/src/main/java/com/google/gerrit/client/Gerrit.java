@@ -112,6 +112,8 @@ public class Gerrit implements EntryPoint {
 
   private static String myHost;
   private static ServerInfo myServerInfo;
+  private static List<TopMenuItem> myMenuItems;
+  private static Map<String, String> myUrlAliases;
   private static boolean hasDocumentation;
   private static String docUrl;
   private static HostPageData.Theme myTheme;
@@ -325,6 +327,11 @@ public class Gerrit implements EntryPoint {
     myAccountDiffPref = accountDiffPref;
   }
 
+  /** @return map of URL aliases for the currently signed in user */
+  public static Map<String, String> getUserUrlAliases() {
+    return myUrlAliases;
+  }
+
   /** @return true if the user is currently authenticated */
   public static boolean isSignedIn() {
     return getUserAccount() != null;
@@ -447,6 +454,14 @@ public class Gerrit implements EntryPoint {
           hasDocumentation = true;
           docUrl = du;
         }
+      }
+    }));
+    AccountApi.self().view("preferences")
+        .get(cbg.add(new GerritCallback<Preferences>() {
+      @Override
+      public void onSuccess(Preferences prefs) {
+        myMenuItems = Natives.asList(prefs.my());
+        myUrlAliases = prefs.urlAliases();
       }
     }));
     HostPageDataService hpd = GWT.create(HostPageDataService.class);
@@ -596,9 +611,7 @@ public class Gerrit implements EntryPoint {
       new MessageOfTheDayBar(hpd.messages).show();
     }
     CallbackGroup cbg = new CallbackGroup();
-    if (isSignedIn()) {
-      AccountApi.self().view("preferences").get(cbg.add(createMyMenuBarCallback()));
-    }
+    addMyMenus();
     PluginLoader.load(hpd.plugins,
         hpd.pluginsLoadTimeout,
         cbg.addFinal(new GerritCallback<VoidResult>() {
@@ -646,7 +659,14 @@ public class Gerrit implements EntryPoint {
       LinkMenuBar myBar = new LinkMenuBar();
       menuBars.put(GerritTopMenu.MY.menuName, myBar);
       if (populateMyMenu) {
-        AccountApi.self().view("preferences").get(createMyMenuBarCallback());
+        AccountApi.self().view("preferences")
+            .get(new GerritCallback<Preferences>() {
+              @Override
+              public void onSuccess(Preferences result) {
+                myMenuItems = Natives.asList(result.my());
+                addMyMenus();
+              }
+            });
       }
       menuLeft.add(myBar, C.menuMine());
       menuLeft.selectTab(1);
@@ -822,6 +842,16 @@ public class Gerrit implements EntryPoint {
     });
   }
 
+  public static void refreshUrlAliases() {
+    AccountApi.self().view("preferences")
+        .get(new GerritCallback<Preferences>() {
+          @Override
+          public void onSuccess(Preferences prefs) {
+            myUrlAliases = prefs.urlAliases();
+          }
+        });
+  }
+
   private static void getDocIndex(final AsyncCallback<DocInfo> cb) {
     RequestBuilder req =
         new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL()
@@ -853,25 +883,21 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static AsyncCallback<Preferences> createMyMenuBarCallback() {
-    return new GerritCallback<Preferences>() {
-      @Override
-      public void onSuccess(Preferences prefs) {
-        LinkMenuBar myBar = menuBars.get(GerritTopMenu.MY.menuName);
-        myBar.clear();
-        List<TopMenuItem> myMenuItems = Natives.asList(prefs.my());
-        String url = null;
-        if (!myMenuItems.isEmpty()) {
-          if (myMenuItems.get(0).getUrl().startsWith("#")) {
-            url = myMenuItems.get(0).getUrl().substring(1);
-          }
-          for (TopMenuItem item : myMenuItems) {
-            addExtensionLink(myBar, item);
-          }
+  private static void addMyMenus() {
+    if (Gerrit.isSignedIn() && myMenuItems != null) {
+      LinkMenuBar myBar = menuBars.get(GerritTopMenu.MY.menuName);
+      myBar.clear();
+      String url = null;
+      if (!myMenuItems.isEmpty()) {
+        if (myMenuItems.get(0).getUrl().startsWith("#")) {
+          url = myMenuItems.get(0).getUrl().substring(1);
         }
-        defaultScreenToken = url;
+        for (TopMenuItem item : myMenuItems) {
+          addExtensionLink(myBar, item);
+        }
       }
-    };
+      defaultScreenToken = url;
+    }
   }
 
   public static void applyUserPreferences() {

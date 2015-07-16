@@ -45,7 +45,7 @@ public class GetPreferences implements RestReadView<ConfigResource> {
       VersionedAccountPreferences p =
           VersionedAccountPreferences.forDefault();
       p.load(git);
-      return new PreferenceInfo(null, p, git);
+      return new PreferenceInfo(null, p, null, git);
     }
   }
 }

@@ -15,6 +15,9 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.extensions.TopMenuItem;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
@@ -25,10 +28,13 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Preferences extends JavaScriptObject {
-  public static Preferences create(AccountGeneralPreferences in, List<TopMenuItem> myMenus) {
+  public static Preferences create(AccountGeneralPreferences in,
+      List<TopMenuItem> myMenus, Map<String, String> urlAliases) {
     Preferences p = createObject().cast();
     if (in == null) {
       in = AccountGeneralPreferences.createDefault();
@@ -48,6 +54,9 @@ public class Preferences extends JavaScriptObject {
     p.reviewCategoryStrategy(in.getReviewCategoryStrategy());
     p.diffView(in.getDiffView());
     p.setMyMenus(myMenus);
+    if (urlAliases != null) {
+      p.setUrlAliases(urlAliases);
+    }
     return p;
   }
 
@@ -191,6 +200,26 @@ public class Preferences extends JavaScriptObject {
   }
   final native void initMy() /*-{ this.my = []; }-*/;
   final native void addMy(TopMenuItem m) /*-{ this.my.push(m); }-*/;
+
+  public final Map<String, String> urlAliases() {
+    Map<String, String> urlAliases = new HashMap<>();
+    for (String k : Natives.keys(_urlAliases())) {
+      urlAliases.put(k, urlAlias(k));
+    }
+    return urlAliases;
+  }
+
+  private final native String urlAlias(String n) /*-{ return this.url_aliases[n]; }-*/;
+  private final native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
+
+  public final void setUrlAliases(Map<String, String> urlAliases) {
+    initUrlAliases();
+    for (Map.Entry<String, String> e : urlAliases.entrySet()) {
+      putUrlAlias(e.getKey(), e.getValue());
+    }
+  }
+  private final native void putUrlAlias(String k, String v) /*-{ this.url_aliases[k] = v; }-*/;
+  private final native void initUrlAliases() /*-{ this.url_aliases = {}; }-*/;
 
   protected Preferences() {
   }

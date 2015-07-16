@@ -99,6 +99,8 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.util.Map;
+
 public class Dispatcher {
   public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id) {
     return toPatch("", diffBase, id);
@@ -273,13 +275,19 @@ public class Dispatcher {
 
   private static String replaceUrlAlias(String token) {
     SiteInfo site = Gerrit.info().site();
-    if (site == null || site.urlAliases() == null) {
-      return token;
+    if (site != null && site.urlAliases() != null) {
+      for (String urlAlias : site.urlAliases()) {
+        if (matchPrefix(urlAlias, token)) {
+          return site.urlAlias(urlAlias) + skip(token);
+        }
+      }
     }
 
-    for (String urlAlias : site.urlAliases()) {
-      if (matchPrefix(urlAlias, token)) {
-        return site.urlAlias(urlAlias) + skip(token);
+    if (Gerrit.isSignedIn()) {
+      for (Map.Entry<String, String> e : Gerrit.getUserUrlAliases().entrySet()) {
+        if (matchPrefix(e.getKey(), token)) {
+          return e.getValue() + skip(token);
+        }
       }
     }
     return token;

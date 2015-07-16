@@ -96,6 +96,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
@@ -204,7 +206,9 @@ public class Dispatcher {
     }
   }
 
-  private static void select(final String token) {
+  private static void select(String token) {
+    token = Gerrit.getUrlAliasMatcher().replace(token);
+
     if (matchPrefix(QUERY, token)) {
       query(token);
 

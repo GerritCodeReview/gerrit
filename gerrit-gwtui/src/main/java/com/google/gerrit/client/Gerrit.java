@@ -112,6 +112,7 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static ServerInfo myServerInfo;
   private static AccountPreferencesInfo myPrefs;
+  private static UrlAliasMatcher urlAliasMatcher;
   private static boolean hasDocumentation;
   private static String docUrl;
   private static HostPageData.Theme myTheme;
@@ -294,6 +295,10 @@ public class Gerrit implements EntryPoint {
     return myServerInfo;
   }
 
+  public static UrlAliasMatcher getUrlAliasMatcher() {
+    return urlAliasMatcher;
+  }
+
   /** Site theme information (site specific colors)/ */
   public static HostPageData.Theme getTheme() {
     return myTheme;
@@ -446,6 +451,7 @@ public class Gerrit implements EntryPoint {
       @Override
       public void onSuccess(ServerInfo info) {
         myServerInfo = info;
+        urlAliasMatcher = new UrlAliasMatcher(info.urlAliases());
         String du = info.gerrit().docUrl();
         if (du != null && !du.isEmpty()) {
           hasDocumentation = true;

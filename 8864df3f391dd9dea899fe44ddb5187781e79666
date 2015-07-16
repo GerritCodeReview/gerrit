@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "d802aa8c_66faceb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-16T23:03:07Z",
+      "side": 1,
+      "message": "Yes, that\u0027s a head-scratcher.\n\nBut many other Rest{Read,Modify}Views[1] manage to get by with injecting a Provider\u003cReviewDb\u003e. They open it using Guice magic. It might be that there\u0027s something special about Submit/MergeOp that makes this impossible, but we need to understand what that is.\n\n\u003e nowhere the database is actually opened.\n\nNaively, this cannot be the problem. dbProvider.get() works just fine on l. 186 of the LHS.\n\n[1] find g* -name \\*.java | xargs grep -l \u0027Rest.*View\u0027 | xargs grep \u0027^\\s*Provider\u003cReviewDb\u003e\u0027",
+      "parentUuid": "581ddaf5_5af1b5dd",
+      "revId": "8864df3f391dd9dea899fe44ddb5187781e79666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_e6059e4d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 1

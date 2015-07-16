@@ -46,6 +46,30 @@
       "revId": "99db8f83d1b153c78d5a21d0c22b0e55834e9dfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "784c5e14_9b28abbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-16T07:34:09Z",
+      "side": 1,
+      "message": "If this appears to be true, then this fact should be reflected in the commit message.",
+      "parentUuid": "b84256dc_1deb33f0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "99db8f83d1b153c78d5a21d0c22b0e55834e9dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

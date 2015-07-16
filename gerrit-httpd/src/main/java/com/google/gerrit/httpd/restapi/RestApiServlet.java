@@ -476,7 +476,7 @@ public class RestApiServlet extends HttpServlet {
 
   private void checkPreconditions(HttpServletRequest req)
       throws PreconditionFailedException {
-    if ("*".equals(req.getHeader("If-None-Match"))) {
+    if ("*".equals(req.getHeader(HttpHeaders.IF_NONE_MATCH))) {
       throw new PreconditionFailedException("Resource already exists");
     }
   }

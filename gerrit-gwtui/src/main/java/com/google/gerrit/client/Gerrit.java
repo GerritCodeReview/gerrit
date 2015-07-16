@@ -20,7 +20,6 @@ import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
 
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.AccountCapabilities;
-import com.google.gerrit.client.account.Preferences;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
@@ -30,10 +29,11 @@ import com.google.gerrit.client.config.AuthInfo;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.config.ServerInfo;
 import com.google.gerrit.client.documentation.DocInfo;
-import com.google.gerrit.client.extensions.TopMenu;
-import com.google.gerrit.client.extensions.TopMenuItem;
-import com.google.gerrit.client.extensions.TopMenuList;
 import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.TopMenu;
+import com.google.gerrit.client.info.TopMenuItem;
+import com.google.gerrit.client.info.TopMenuList;
 import com.google.gerrit.client.patches.UnifiedPatchScreen;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -457,9 +457,9 @@ public class Gerrit implements EntryPoint {
       }
     }));
     AccountApi.self().view("preferences")
-        .get(cbg.add(new GerritCallback<Preferences>() {
+        .get(cbg.add(new GerritCallback<AccountPreferencesInfo>() {
       @Override
-      public void onSuccess(Preferences prefs) {
+      public void onSuccess(AccountPreferencesInfo prefs) {
         myMenuItems = Natives.asList(prefs.my());
         myUrlAliases = prefs.urlAliases();
       }
@@ -660,9 +660,9 @@ public class Gerrit implements EntryPoint {
       menuBars.put(GerritTopMenu.MY.menuName, myBar);
       if (populateMyMenu) {
         AccountApi.self().view("preferences")
-            .get(new GerritCallback<Preferences>() {
+            .get(new GerritCallback<AccountPreferencesInfo>() {
               @Override
-              public void onSuccess(Preferences result) {
+              public void onSuccess(AccountPreferencesInfo result) {
                 myMenuItems = Natives.asList(result.my());
                 addMyMenus();
               }
@@ -844,9 +844,9 @@ public class Gerrit implements EntryPoint {
 
   public static void refreshUrlAliases() {
     AccountApi.self().view("preferences")
-        .get(new GerritCallback<Preferences>() {
+        .get(new GerritCallback<AccountPreferencesInfo>() {
           @Override
-          public void onSuccess(Preferences prefs) {
+          public void onSuccess(AccountPreferencesInfo prefs) {
             myUrlAliases = prefs.urlAliases();
           }
         });

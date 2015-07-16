@@ -22,7 +22,8 @@ import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.config.ConfigServerApi;
-import com.google.gerrit.client.extensions.TopMenuItem;
+import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.TopMenuItem;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -224,9 +225,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     add(extensionPanel);
 
     AccountApi.self().view("preferences")
-        .get(new ScreenLoadCallback<Preferences>(this) {
+        .get(new ScreenLoadCallback<AccountPreferencesInfo>(this) {
       @Override
-      public void preDisplay(Preferences prefs) {
+      public void preDisplay(AccountPreferencesInfo prefs) {
         display(prefs);
       }
     });
@@ -247,7 +248,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     diffView.setEnabled(on);
   }
 
-  private void display(Preferences p) {
+  private void display(AccountPreferencesInfo p) {
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
     copySelfOnEmails.setValue(p.copySelfOnEmail());
@@ -360,9 +361,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
 
     AccountApi.self().view("preferences")
-        .put(Preferences.create(p, items, null), new GerritCallback<Preferences>() {
+        .put(AccountPreferencesInfo.create(p, items, null), new GerritCallback<AccountPreferencesInfo>() {
           @Override
-          public void onSuccess(Preferences prefs) {
+          public void onSuccess(AccountPreferencesInfo prefs) {
             Gerrit.getUserAccount().setGeneralPreferences(p);
             Gerrit.applyUserPreferences();
             enable(true);
@@ -390,9 +391,9 @@ public class MyPreferencesScreen extends SettingsScreen {
       resetButton.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          ConfigServerApi.defaultPreferences(new GerritCallback<Preferences>() {
+          ConfigServerApi.defaultPreferences(new GerritCallback<AccountPreferencesInfo>() {
             @Override
-            public void onSuccess(Preferences p) {
+            public void onSuccess(AccountPreferencesInfo p) {
               MyPreferencesScreen.this.display(p.my());
               widget.setEnabled(true);
             }

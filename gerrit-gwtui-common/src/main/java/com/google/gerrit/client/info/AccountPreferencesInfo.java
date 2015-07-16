@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.account;
+package com.google.gerrit.client.info;
 
-import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
@@ -32,10 +31,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Preferences extends JavaScriptObject {
-  public static Preferences create(AccountGeneralPreferences in,
+public class AccountPreferencesInfo extends JavaScriptObject {
+  public static AccountPreferencesInfo create(AccountGeneralPreferences in,
       List<TopMenuItem> myMenus, Map<String, String> urlAliases) {
-    Preferences p = createObject().cast();
+    AccountPreferencesInfo p = createObject().cast();
     if (in == null) {
       in = AccountGeneralPreferences.createDefault();
     }
@@ -221,6 +220,6 @@ public class Preferences extends JavaScriptObject {
   private final native void putUrlAlias(String k, String v) /*-{ this.url_aliases[k] = v; }-*/;
   private final native void initUrlAliases() /*-{ this.url_aliases = {}; }-*/;
 
-  protected Preferences() {
+  protected AccountPreferencesInfo() {
   }
 }

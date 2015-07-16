@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.extensions;
+package com.google.gerrit.client.info;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
-public class TopMenu extends JavaScriptObject {
+public class TopMenuList extends JsArray<TopMenu> {
 
-  protected TopMenu() {
+  protected TopMenuList() {
   }
-
-  public final native String getName() /*-{ return this.name; }-*/;
-
-  public final native JsArray<TopMenuItem> getItems() /*-{ return this.items; }-*/;
 }

@@ -14,7 +14,12 @@
 
 package com.google.gerrit.client.config;
 
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+
+import java.util.Set;
 
 public class ServerInfo extends JavaScriptObject {
   public final native AuthInfo auth() /*-{ return this.auth; }-*/;
@@ -24,6 +29,7 @@ public class ServerInfo extends JavaScriptObject {
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
   public final native GitwebInfo gitweb() /*-{ return this.gitweb; }-*/;
   public final native PluginConfigInfo plugin() /*-{ return this.plugin; }-*/;
+  public final native SiteInfo site() /*-{ return this.site; }-*/;
   public final native SshdInfo sshd() /*-{ return this.sshd; }-*/;
   public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;
   public final native UserConfigInfo user() /*-{ return this.user; }-*/;
@@ -64,6 +70,18 @@ public class ServerInfo extends JavaScriptObject {
     public final native boolean hasAvatars() /*-{ return this.has_avatars || false; }-*/;
 
     protected PluginConfigInfo() {
+    }
+  }
+
+  public static class SiteInfo extends JavaScriptObject {
+    public final Set<String> urlAliases() {
+      return Natives.keys(_urlAliases());
+    }
+
+    public final native String urlAlias(String n) /*-{ return this.url_aliases[n]; }-*/;
+    private final native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
+
+    protected SiteInfo() {
     }
   }
 

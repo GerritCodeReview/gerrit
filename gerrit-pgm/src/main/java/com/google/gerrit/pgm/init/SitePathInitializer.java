@@ -106,6 +106,7 @@ public class SitePathInitializer {
     extractMailExample("CommentFooter.vm");
     extractMailExample("Footer.vm");
     extractMailExample("DirectPush.vm");
+    extractMailExample("BranchUpdate.vm");
     extractMailExample("Merged.vm");
     extractMailExample("MergeFail.vm");
     extractMailExample("NewChange.vm");

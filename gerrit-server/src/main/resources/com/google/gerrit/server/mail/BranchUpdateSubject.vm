@@ -1,4 +1,4 @@
-## Copyright (C) 2015 The Android Open Source Project
+## Copyright (C) 2010 The Android Open Source Project
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -28,23 +28,11 @@
 ##
 ## This Template:
 ## --------------
-## The DirectPush.vm template will determine the contents of the email for
-## pushing directly into the repository.
+## The BranchUpdateSubject.vm template will determine the subject line for
+## BranchUpdate emails.
 ##
-$fromName has pushed a new change directly into the repository.
-
-Change subject: $email.subject
-......................................................................
-
-$email.fullMessage
-
-$email.unifiedDiff
---
-
-#if$(email.sshHost)
-  git pull ssh://$email.sshHost/$projectName $email.commitId
+##
+#macro(ellipsis $length $str)
+#if($str.length() > $length)#set($length = $length - 3)${str.substring(0,$length)}...#else$str#end
 #end
---
-Gerrit-MessageType: $messageClass
-Gerrit-Project: $projectName
-Gerrit-Branch: $branch.shortName
+Update to $email.refname

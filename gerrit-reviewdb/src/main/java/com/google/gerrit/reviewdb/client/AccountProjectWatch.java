@@ -23,7 +23,7 @@ public final class AccountProjectWatch {
 
   public enum NotifyType {
     NEW_CHANGES, NEW_PATCHSETS, ALL_COMMENTS, SUBMITTED_CHANGES,
-    ABANDONED_CHANGES, DIRECT_PUSH_CHANGES, ALL
+    ABANDONED_CHANGES, BRANCH_UPDATES, DIRECT_PUSH_CHANGES, ALL
   }
 
   public static final String FILTER_ALL = "*";
@@ -120,6 +120,10 @@ public final class AccountProjectWatch {
   @Column(id = 7)
   protected boolean notifyDirectPushChanges;
 
+  /** Automatically receive notifications for branch updates to this project */
+  @Column(id = 8)
+  protected boolean notifyBranchUpdates;
+
   protected AccountProjectWatch() {
   }
 
@@ -160,6 +164,9 @@ public final class AccountProjectWatch {
       case ABANDONED_CHANGES:
         return notifyAbandonedChanges;
 
+      case BRANCH_UPDATES:
+        return notifyBranchUpdates;
+
       case DIRECT_PUSH_CHANGES:
         return notifyDirectPushChanges;
 
@@ -191,6 +198,10 @@ public final class AccountProjectWatch {
         notifyAbandonedChanges = v;
         break;
 
+      case BRANCH_UPDATES:
+        notifyBranchUpdates = v;
+        break;
+
       case DIRECT_PUSH_CHANGES:
         notifyDirectPushChanges = v;
         break;
@@ -201,6 +212,7 @@ public final class AccountProjectWatch {
         notifyAllComments = v;
         notifySubmittedChanges = v;
         notifyAbandonedChanges = v;
+        notifyBranchUpdates = v;
         notifyDirectPushChanges = v;
         break;
     }

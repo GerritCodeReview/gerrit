@@ -99,6 +99,7 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
+import com.google.gerrit.server.mail.BranchUpdateSender;
 import com.google.gerrit.server.mail.DirectPushSender;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -197,6 +198,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(GroupMembers.Factory.class);
     factory(EmailMerge.Factory.class);
     factory(MergedSender.Factory.class);
+    factory(BranchUpdateSender.Factory.class);
     factory(DirectPushSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(MergeUtil.Factory.class);

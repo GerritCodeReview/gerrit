@@ -14,63 +14,25 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Strings;
-import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.common.ActionInfo;
-import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
 
 import java.util.Map;
 
 @Singleton
-public class GetRevisionActions implements ETagView<RevisionResource> {
-  private final ActionJson delegate;
-  private final Provider<InternalChangeQuery> queryProvider;
-  private final Config config;
+public class GetRevisionActions implements RestReadView<RevisionResource> {
+  private final ActionJson json;
 
   @Inject
-  GetRevisionActions(
-      ActionJson delegate,
-      Provider<InternalChangeQuery> queryProvider,
-      @GerritServerConfig Config config) {
-    this.delegate = delegate;
-    this.queryProvider = queryProvider;
-    this.config = config;
+  GetRevisionActions(ActionJson json) {
+    this.json = json;
   }
 
   @Override
   public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) {
-    return Response.withMustRevalidate(delegate.format(rsrc));
-  }
-
-  @Override
-  public String getETag(RevisionResource rsrc) {
-    String topic = rsrc.getChange().getTopic();
-    if (!Submit.wholeTopicEnabled(config)
-        || Strings.isNullOrEmpty(topic)) {
-      return rsrc.getETag();
-    }
-    Hasher h = Hashing.md5().newHasher();
-    CurrentUser user = rsrc.getControl().getCurrentUser();
-    try {
-      for (ChangeData c : queryProvider.get().byTopicOpen(topic)) {
-        new ChangeResource(c.changeControl()).prepareETag(h, user);
-      }
-    } catch (OrmException e){
-      throw new OrmRuntimeException(e);
-    }
-    return h.hash().toString();
+    return Response.ok(json.format(rsrc));
   }
 }

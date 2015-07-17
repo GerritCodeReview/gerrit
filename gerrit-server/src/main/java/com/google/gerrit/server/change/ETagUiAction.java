@@ -14,25 +14,17 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.common.ActionInfo;
-import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.common.hash.Hasher;
+import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.webui.UiAction;
 
-import java.util.Map;
-
-@Singleton
-public class GetRevisionActions implements RestReadView<RevisionResource> {
-  private final ActionJson json;
-
-  @Inject
-  GetRevisionActions(ActionJson json) {
-    this.json = json;
-  }
-
-  @Override
-  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) {
-    return Response.ok(json.format(rsrc));
-  }
+/** Extension of {@link UiAction} contributing to an ETag. */
+public interface ETagUiAction<R extends RestResource> extends UiAction<R> {
+  /**
+   * Contribute to the current ETag computation.
+   *
+   * @param h hasher to add action specific state into.
+   * @param rsrc the current resource.
+   */
+  void buildETag(Hasher h, R rsrc);
 }

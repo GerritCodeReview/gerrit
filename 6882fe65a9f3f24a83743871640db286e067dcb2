@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84256dc_1d6ed3f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SuggestAccounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-17T11:26:12Z",
+      "side": 1,
+      "message": "We try to avoid using naked Ids. We have too many of them. Use Account.Id instead.",
+      "range": {
+        "startLine": 157,
+        "startChar": 58,
+        "endLine": 157,
+        "endChar": 60
+      },
+      "revId": "6882fe65a9f3f24a83743871640db286e067dcb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84256dc_7d611707",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SuggestAccounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-17T11:26:12Z",
+      "side": 1,
+      "message": "Can\u0027t AccountCache.get(id).getAccount() be used instead to avoid database hit?",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 38
+      },
+      "revId": "6882fe65a9f3f24a83743871640db286e067dcb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

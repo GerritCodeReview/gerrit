@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
@@ -40,6 +41,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -50,7 +52,7 @@ import java.io.IOException;
 
 @Singleton
 public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
-    UiAction<RevisionResource> {
+    ETagUiAction<RevisionResource> {
 
   private static final Logger log = LoggerFactory.getLogger(Rebase.class);
 
@@ -98,6 +100,27 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     }
 
     return json.format(change.getId());
+  }
+
+  @Override
+  public void buildETag(Hasher h, RevisionResource rsrc) {
+    if (rsrc.getControl().canRebase()) {
+      try {
+        Change change = rsrc.getChange();
+        try (Repository git = repoManager.openRepository(change.getProject())) {
+          Ref ref = git.getRefDatabase().exactRef(change.getDest().get());
+          if (ref != null && ref.getObjectId() != null) {
+            byte[] buf = new byte[20];
+            ref.getObjectId().copyRawTo(buf, 0);
+            h.putBytes(buf);
+          }
+        }
+      } catch (IOException e) {
+        // A future successful retry will compute a different ETag
+        // and automatically pick up the correct result.
+        log.warn("cannot read project for ETag", e);
+      }
+    }
   }
 
   private String findBaseRev(RevWalk rw, RevisionResource rsrc,

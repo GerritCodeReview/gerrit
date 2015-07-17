@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -40,7 +41,7 @@ import java.io.IOException;
 
 @Singleton
 public class CherryPick implements RestModifyView<RevisionResource, CherryPickInput>,
-    UiAction<RevisionResource> {
+    ETagUiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson json;
@@ -99,7 +100,16 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
     return new UiAction.Description()
       .setLabel("Cherry Pick")
       .setTitle("Cherry pick change to a different branch")
-      .setVisible(resource.getControl().getProjectControl().canUpload()
-          && resource.isCurrent());
+      .setVisible(canCherryPick(resource));
+  }
+
+  private static boolean canCherryPick(RevisionResource resource) {
+    return resource.getControl().getProjectControl().canUpload()
+        && resource.isCurrent();
+  }
+
+  @Override
+  public void buildETag(Hasher h, RevisionResource rsrc) {
+    h.putBoolean(canCherryPick(rsrc));
   }
 }

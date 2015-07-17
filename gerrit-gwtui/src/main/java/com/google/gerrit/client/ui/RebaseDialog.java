@@ -32,14 +32,14 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public abstract class RebaseDialog extends CommentedActionDialog {
   private final SuggestBox base;
-  private final CheckBox cb;
-  private List<ChangeInfo> changes;
+  private final CheckBox changeParent;
+  private List<ChangeInfo> candidateChanges;
   private final boolean sendEnabled;
 
   public RebaseDialog(final String project, final String branch,
@@ -48,13 +48,15 @@ public abstract class RebaseDialog extends CommentedActionDialog {
     this.sendEnabled = sendEnabled;
     sendButton.setText(Util.C.buttonRebaseChangeSend());
 
-    // create the suggestion box
+    // Create the suggestion box to filter over a list of recent changes
+    // open on the same branch. The list of candidates is primed by the
+    // changeParent CheckBox (below) getting enabled by the user.
     base = new SuggestBox(new HighlightSuggestOracle() {
       @Override
       protected void onRequestSuggestions(Request request, Callback done) {
         String query = request.getQuery().toLowerCase();
-        LinkedList<ChangeSuggestion> suggestions = new LinkedList<>();
-        for (final ChangeInfo ci : changes) {
+        List<ChangeSuggestion> suggestions = new ArrayList<>();
+        for (ChangeInfo ci : candidateChanges) {
           if (changeId.equals(ci.legacyId())) {
             continue;  // do not suggest current change
           }
@@ -73,13 +75,14 @@ public abstract class RebaseDialog extends CommentedActionDialog {
         Util.C.rebasePlaceholderMessage());
     base.setStyleName(Gerrit.RESOURCES.css().rebaseSuggestBox());
 
-    // the checkbox which must be clicked before the change list is populated
-    cb = new CheckBox(Util.C.rebaseConfirmMessage());
-    cb.addClickHandler(new ClickHandler() {
+    // The changeParent checkbox must be clicked to load into browser memory
+    // a list of open changes from the same project and same branch that this
+    // change may rebase onto.
+    changeParent = new CheckBox(Util.C.rebaseConfirmMessage());
+    changeParent.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-        boolean checked = ((CheckBox) event.getSource()).getValue();
-        if (checked) {
+        if (changeParent.getValue()) {
           ChangeList.query(
               PageLinks.projectQuery(new Project.NameKey(project))
                   + " " + PageLinks.op("branch", branch)
@@ -88,8 +91,15 @@ public abstract class RebaseDialog extends CommentedActionDialog {
               new GerritCallback<ChangeList>() {
                 @Override
                 public void onSuccess(ChangeList result) {
-                  changes = Natives.asList(result);
+                  candidateChanges = Natives.asList(result);
                   updateControls(true);
+                }
+
+                @Override
+                public void onFailure(Throwable err) {
+                  updateControls(false);
+                  changeParent.setValue(false);
+                  super.onFailure(err);
                 }
               });
         } else {
@@ -99,7 +109,7 @@ public abstract class RebaseDialog extends CommentedActionDialog {
     });
 
     // add the checkbox and suggestbox widgets to the content panel
-    contentPanel.add(cb);
+    contentPanel.add(changeParent);
     contentPanel.add(base);
     contentPanel.setStyleName(Gerrit.RESOURCES.css().rebaseContentPanel());
   }
@@ -131,7 +141,7 @@ public abstract class RebaseDialog extends CommentedActionDialog {
   }
 
   public String getBase() {
-    return cb.getValue() ? base.getText() : null;
+    return changeParent.getValue() ? base.getText() : null;
   }
 
   private static class ChangeSuggestion implements Suggestion {

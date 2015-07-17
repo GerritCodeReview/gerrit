@@ -73,7 +73,10 @@ public class ActionJson {
         userProvider)) {
       out.put(d.getId(), new ActionInfo(d));
     }
-    // TODO(sbeller): why do we need to treat followup specially here?
+
+    // The followup action is a client-side only operation that does not
+    // have a server side handler. It must be manually registered into the
+    // resulting action map.
     if (ctl.getChange().getStatus().isOpen()) {
       UiAction.Description descr = new UiAction.Description();
       PrivateInternals_UiActionDescription.setId(descr, "followup");

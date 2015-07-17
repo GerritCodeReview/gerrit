@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "581ddaf5_faa689cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T22:47:32Z",
+      "side": 1,
+      "message": "I think you need to hash a placeholder here so the total number of hashed entries is the same. Otherwise in some unlikely circumstances you might get the same ETag if view 3 of 5 fails in one request, and view 4 of 5 fails in another request.",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802aa8c_664d2e8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T22:47:32Z",
+      "side": 1,
+      "message": "Hash something there.",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802aa8c_464a3279",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T22:47:32Z",
+      "side": 1,
+      "message": "But what if some view decides that null title and empty title are semantically?!?\n\nJust kidding, this is fine.",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802aa8c_26473671",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T22:47:32Z",
+      "side": 1,
+      "message": "Still sad that we have to have this extra repo open in here :(",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802aa8c_06443a68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T22:47:32Z",
+      "side": 1,
+      "message": "Not hurting anything, but is this necessary since we also have the row version?",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "581ddaf5_9aabcd92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T22:47:32Z",
+      "side": 1,
+      "message": "Per my other comments, I think you need a placeholder here.",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

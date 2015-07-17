@@ -335,7 +335,7 @@ public class RestApiServlet extends HttpServlet {
         @SuppressWarnings("rawtypes")
         Response<?> r = (Response) result;
         status = r.statusCode();
-        configureCaching(req, res, rsrc, r.caching());
+        configureCaching(req, res, rsrc, viewData.view, r.caching());
       } else if (result instanceof Response.Redirect) {
         CacheHeaders.setNotCacheable(res);
         res.sendRedirect(((Response.Redirect) result).location());
@@ -434,8 +434,9 @@ public class RestApiServlet extends HttpServlet {
     return false;
   }
 
-  private static <T> void configureCaching(HttpServletRequest req,
-      HttpServletResponse res, RestResource rsrc, CacheControl c) {
+  private static <R extends RestResource> void configureCaching(
+      HttpServletRequest req, HttpServletResponse res, R rsrc,
+      RestView<R> view, CacheControl c) {
     if (isGetOrHead(req)) {
       switch (c.getType()) {
         case NONE:
@@ -443,13 +444,13 @@ public class RestApiServlet extends HttpServlet {
           CacheHeaders.setNotCacheable(res);
           break;
         case PRIVATE:
-          addResourceStateHeaders(res, rsrc);
+          addResourceStateHeaders(res, rsrc, view);
           CacheHeaders.setCacheablePrivate(res,
               c.getAge(), c.getUnit(),
               c.isMustRevalidate());
           break;
         case PUBLIC:
-          addResourceStateHeaders(res, rsrc);
+          addResourceStateHeaders(res, rsrc, view);
           CacheHeaders.setCacheable(req, res,
               c.getAge(), c.getUnit(),
               c.isMustRevalidate());
@@ -460,12 +461,12 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static void addResourceStateHeaders(
-      HttpServletResponse res, RestResource rsrc) {
-    if (rsrc instanceof RestResource.HasETag) {
-      res.setHeader(
-          HttpHeaders.ETAG,
-          ((RestResource.HasETag) rsrc).getETag());
+  private static  <R extends RestResource> void addResourceStateHeaders(
+      HttpServletResponse res, R rsrc, RestView<R> view) {
+    if (view instanceof ETagView) {
+      res.setHeader(HttpHeaders.ETAG, ((ETagView<R>) view).getETag(rsrc));
+    } else if (rsrc instanceof RestResource.HasETag) {
+      res.setHeader(HttpHeaders.ETAG, ((RestResource.HasETag) rsrc).getETag());
     }
     if (rsrc instanceof RestResource.HasLastModified) {
       res.setDateHeader(
@@ -999,7 +1000,7 @@ public class RestApiServlet extends HttpServlet {
     if (err != null) {
       RequestUtil.setErrorTraceAttribute(req, err);
     }
-    configureCaching(req, res, null, c);
+    configureCaching(req, res, null, null, c);
     res.setStatus(statusCode);
     replyText(req, res, msg);
   }

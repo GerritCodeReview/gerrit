@@ -89,12 +89,7 @@ class Actions extends Composite {
     changeInfo = info;
 
     initChangeActions(info, hasUser);
-
-    NativeMap<ActionInfo> actionMap = revInfo.hasActions()
-        ? revInfo.actions()
-        : NativeMap.<ActionInfo> create();
-    actionMap.copyKeysIntoChildren("id");
-    reloadRevisionActions(actionMap);
+    initRevisionActions(revInfo.actions());
   }
 
   private void initChangeActions(ChangeInfo info, boolean hasUser) {
@@ -114,10 +109,11 @@ class Actions extends Composite {
     }
   }
 
-  void reloadRevisionActions(NativeMap<ActionInfo> actions) {
+  private void initRevisionActions(NativeMap<ActionInfo> actions) {
     if (!Gerrit.isSignedIn()) {
       return;
     }
+
     boolean canSubmit = actions.containsKey("submit");
     if (canSubmit) {
       ActionInfo action = actions.get("submit");

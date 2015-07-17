@@ -15,10 +15,12 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.CallbackGroup.Callback;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Change;
@@ -96,11 +98,9 @@ public class ChangeApi {
     return call(id, "detail");
   }
 
-  public static RestApi actions(int id, String revision) {
-    if (revision == null || revision.equals("")) {
-      revision = "current";
-    }
-    return call(id, revision, "actions");
+  public static void actions(int id, String revision,
+      AsyncCallback<NativeMap<ActionInfo>> cb) {
+    revision(id, revision).id("actions").get(cb);
   }
 
   public static RestApi comments(int id) {

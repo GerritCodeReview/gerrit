@@ -315,8 +315,8 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean hasFiles() /*-{ return this.hasOwnProperty('files') }-*/;
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
 
-    public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
-    public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
+    public final native NativeMap<ActionInfo> actions() /*-{ return this.actions || {}; }-*/;
+    public final native void setActions(NativeMap<ActionInfo> m) /*-{ this.actions = m }-*/;
 
     public final native boolean hasFetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;

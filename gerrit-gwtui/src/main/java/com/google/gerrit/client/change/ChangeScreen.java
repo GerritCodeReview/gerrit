@@ -269,18 +269,6 @@ public class ChangeScreen extends Screen {
     call.get(cb);
   }
 
-  void loadRevisionInfo() {
-    RestApi call = ChangeApi.actions(changeId.get(), revision);
-    call.background();
-    call.get(new GerritCallback<NativeMap<ActionInfo>>() {
-      @Override
-      public void onSuccess(NativeMap<ActionInfo> actionMap) {
-        actionMap.copyKeysIntoChildren("id");
-        renderRevisionInfo(changeInfo, actionMap);
-      }
-    });
-  }
-
   @Override
   protected void onUnload() {
     if (replyAction != null) {
@@ -368,8 +356,8 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void initRevisionsAction(ChangeInfo info, String revision,
-      NativeMap<ActionInfo> actions) {
+  private void initRevisionsAction(ChangeInfo info, RevisionInfo revInfo) {
+    NativeMap<ActionInfo> actions = revInfo.actions();
     int currentPatchSet;
     if (info.currentRevision() != null
         && info.revisions().containsKey(info.currentRevision())) {
@@ -381,7 +369,7 @@ public class ChangeScreen extends Screen {
     }
 
     String currentlyViewedPatchSet;
-    if (info.revision(revision).id().equals("edit")) {
+    if (revInfo.id().equals("edit")) {
       currentlyViewedPatchSet =
           Resources.M.editPatchSet(RevisionInfo.findEditParent(info.revisions()
               .values()));
@@ -395,7 +383,6 @@ public class ChangeScreen extends Screen {
         info.legacyId(), revision, edit,
         style, headerLine, patchSets);
 
-    RevisionInfo revInfo = info.revision(revision);
     if (revInfo.draft()) {
       if (actions.containsKey("publish")) {
         publish.setVisible(true);
@@ -406,6 +393,9 @@ public class ChangeScreen extends Screen {
         deleteRevision.setTitle(actions.get("/").title());
       }
     }
+
+    commit.setParentNotCurrent(actions.containsKey("rebase")
+        && actions.get("rebase").enabled());
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {
@@ -793,6 +783,7 @@ public class ChangeScreen extends Screen {
 
   private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
+
     if (edit != null) {
       edit.setName(edit.commit().commit());
       info.setEdit(edit);
@@ -827,6 +818,7 @@ public class ChangeScreen extends Screen {
         }
       }
     }
+
     final RevisionInfo rev = resolveRevisionToDisplay(info);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
@@ -837,7 +829,7 @@ public class ChangeScreen extends Screen {
     } else {
       loadDiff(b, rev, lastReply, group);
     }
-    loadCommit(rev, group);
+    loadActionsAndCommit(rev, group);
 
     if (loaded) {
       group.done();
@@ -854,7 +846,6 @@ public class ChangeScreen extends Screen {
           commentLinkProcessor = result.getCommentLinkProcessor();
           setTheme(result.getTheme());
           renderChangeInfo(info);
-          loadRevisionInfo();
         }
       }));
   }
@@ -982,22 +973,33 @@ public class ChangeScreen extends Screen {
     return r;
   }
 
-  private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
-    if (rev.isEdit()) {
-      return;
-    }
-
-    ChangeApi.commitWithLinks(changeId.get(), rev.name(),
-        group.add(new AsyncCallback<CommitInfo>() {
+  private void loadActionsAndCommit(final RevisionInfo rev, CallbackGroup group) {
+    ChangeApi.actions(changeId.get(), rev.name(),
+        group.add(new AsyncCallback<NativeMap<ActionInfo>>() {
           @Override
-          public void onSuccess(CommitInfo info) {
-            rev.setCommit(info);
+          public void onSuccess(NativeMap<ActionInfo> actionMap) {
+            actionMap.copyKeysIntoChildren("id");
+            rev.setActions(actionMap);
           }
 
           @Override
           public void onFailure(Throwable caught) {
           }
         }));
+
+    if (!rev.isEdit()) {
+      ChangeApi.commitWithLinks(changeId.get(), rev.name(),
+          group.add(new AsyncCallback<CommitInfo>() {
+            @Override
+            public void onSuccess(CommitInfo info) {
+              rev.setCommit(info);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          }));
+    }
   }
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
@@ -1155,14 +1157,10 @@ public class ChangeScreen extends Screen {
       setVisible(strategy, false);
     }
 
-    // Properly render revision actions initially while waiting for
-    // the callback to populate them correctly.
-    NativeMap<ActionInfo> emptyMap = NativeMap.<ActionInfo> create();
-    initRevisionsAction(info, revision, emptyMap);
-    quickApprove.setVisible(false);
-    actions.reloadRevisionActions(emptyMap);
-
     RevisionInfo revisionInfo = info.revision(revision);
+    initRevisionsAction(info, revisionInfo);
+    quickApprove.setVisible(false);
+
     boolean current = revision.equals(info.currentRevision())
         && !revisionInfo.isEdit();
 
@@ -1187,14 +1185,6 @@ public class ChangeScreen extends Screen {
     } else {
       quickApprove.setVisible(false);
     }
-  }
-
-  private void renderRevisionInfo(ChangeInfo info,
-      NativeMap<ActionInfo> actionMap) {
-    initRevisionsAction(info, revision, actionMap);
-    commit.setParentNotCurrent(actionMap.containsKey("rebase")
-        && actionMap.get("rebase").enabled());
-    actions.reloadRevisionActions(actionMap);
   }
 
   private void renderOwner(ChangeInfo info) {

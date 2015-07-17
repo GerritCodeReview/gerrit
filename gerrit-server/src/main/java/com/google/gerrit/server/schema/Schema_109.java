@@ -21,7 +21,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class Schema_109 extends SchemaVersion {
-
   @Inject
   Schema_109(Provider<Schema_108> prior) {
     super(prior);
@@ -29,11 +28,8 @@ public class Schema_109 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    String cmd = "UPDATE changes SET status = 'n' WHERE status = 's';";
-    ui.message("Running " + cmd);
     try (StatementExecutor e = newExecutor(db)) {
-      e.execute(cmd);
+      e.execute("UPDATE changes SET status = 'n' WHERE status = 's';");
     }
-    ui.message("done");
   }
 }

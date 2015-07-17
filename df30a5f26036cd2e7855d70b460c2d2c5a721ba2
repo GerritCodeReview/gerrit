@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d802aa8c_66964e55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T23:35:22Z",
+      "side": 1,
+      "message": "No, that\u0027s not what I\u0027m talking about.\n\nSuppose you have three views: A, B, C, and the ETag methods for each view are implemented to do one of three things:\n\n* h.putBoolean(true)\n* h.putBoolean(false)\n* throw RuntimeException\n\nThe following states are different, yet all produce the same ETag:\n\n* A:error, B:true, C:true\n* A:true, B:error, C:true\n* A:true, B:true, C:error\n\nThe problem is that the number of puts varies depending on which of the calls actually put a value.\n\nActually, now that I think about it, this is not just about errors. Say A can do either:\n\n* putString(\"A\")\n* putString(\"A\"), putString(\"B\")\n\nand B can do either:\n\n* putString(\"B\"), putString(\"C\")\n* putString(\"C\")\n\nThen there are two ways to get \"ABC\".",
+      "parentUuid": "d802aa8c_e6a11eb6",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_664d2e8f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 5
@@ -100,6 +118,24 @@
       "side": 1,
       "message": "This is actually even wrong. I had to use the rebaseChange.get().canRebase() logic in case the parent change of this change added a new patch set.\n\nAnd that was messy, and does open the repository.\n\nWe may need to do something like cache Repository handles per request if we want to avoid these opens.",
       "parentUuid": "d802aa8c_26473671",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802aa8c_46935263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-17T23:35:22Z",
+      "side": 1,
+      "message": "I know. I mentioned before that I tried to implement this once and it was messy and I gave up.",
+      "parentUuid": "581ddaf5_5a969554",
       "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -108,12 +109,12 @@ class SuggestAccounts implements RestReadView<TopLevelResource> {
     Map<Account.Id, String> queryEmail = new HashMap<>();
 
     for (Account p : db.accounts().suggestByFullName(a, b, limit)) {
-      addSuggestion(matches, p.getId());
+      addSuggestion(matches, p);
     }
     if (matches.size() < limit) {
       for (Account p : db.accounts()
           .suggestByPreferredEmail(a, b, limit - matches.size())) {
-        addSuggestion(matches, p.getId());
+        addSuggestion(matches, p);
       }
     }
     if (matches.size() < limit) {
@@ -146,7 +147,20 @@ class SuggestAccounts implements RestReadView<TopLevelResource> {
     return m;
   }
 
-  private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account.Id id) {
+  private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account a) {
+    if (!a.isActive()) {
+      return false;
+    }
+    return addActive(map, a.getId());
+  }
+
+  private boolean addSuggestion(Map<Id, AccountInfo> map, Id id)
+      throws OrmException {
+    Account a = db.accounts().get(id);
+    return addSuggestion(map, a);
+  }
+
+  private boolean addActive(Map<Account.Id, AccountInfo> map, Account.Id id) {
     if (!map.containsKey(id) && accountControl.canSee(id)) {
       map.put(id, accountLoader.get(id));
       return true;

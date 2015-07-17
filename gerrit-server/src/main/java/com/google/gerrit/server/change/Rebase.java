@@ -39,7 +39,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -50,7 +49,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-@Singleton
 public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     HasETag<RevisionResource> {
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d802aa8c_e62ebecb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-17T15:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "581ddaf5_da2e25cc",
+      "revId": "e8af7877617910e564d74b658d1d1da42c37baa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_2604d649",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "581ddaf5_9a28adbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-17T15:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d802aa8c_2604d649",
+      "revId": "e8af7877617910e564d74b658d1d1da42c37baa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_46f7d2ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-07-17T03:13:02Z",
       "side": 1,
       "message": "Unnecessary blank line.",
+      "revId": "e8af7877617910e564d74b658d1d1da42c37baa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "581ddaf5_fa33e930",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-17T15:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d802aa8c_46f7d2ca",
       "revId": "e8af7877617910e564d74b658d1d1da42c37baa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

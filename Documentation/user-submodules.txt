@@ -97,6 +97,7 @@ to identify if it registers any submodules (if the commit contains new
 gitlinks and a .gitmodules file with all required info) and if so,
 a new submodule subscription is registered.
 
+[[automatic_update]]
 == Automatic Update of Superprojects
 
 After a superproject is subscribed to a submodule, it is not

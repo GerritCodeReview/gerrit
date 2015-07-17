@@ -3772,6 +3772,18 @@ If no groups are added, any user will be allowed to execute
 'upload-pack' on the server.
 
 
+[[submodule]]
+=== Section submodule
+
+[[submodule.verbosesuperprojectupdate]]submodule.verboseSuperprojectUpdate
++
+When using link:user-submodules.html#automatic_update[automatic superproject updates]
+this option will determine if the submodule commit messages are included into
+the commit message of the superproject update.
++
+By default this is true.
+
+
 [[user]]
 === Section user
 

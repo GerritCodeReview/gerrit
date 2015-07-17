@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.GerritConfig;
+
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -50,6 +52,31 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "false")
+  public void testSubmoduleShortCommitMessage() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    pushChangeTo(subRepo, "master");
+    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+
+    // The first update doesn't include any commit messages
+    ObjectId subRepoId = pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subRepoId);
+    expectToHaveCommitMessage(superRepo, "master",
+        "Updated git submodules\n\n");
+
+    // Any following update also has a short message
+    subRepoId = pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subRepoId);
+    expectToHaveCommitMessage(superRepo, "master",
+        "Updated git submodules\n\n");
+  }
+
+  @Test
+
   public void testSubmoduleCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");

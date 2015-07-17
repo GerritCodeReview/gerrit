@@ -84,9 +84,14 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
         } else {
           try {
+            PatchSet oldPatchSet = args.db.patchSets().get(n.getPatchsetId());
+            if (oldPatchSet == null) {
+              throw new InvalidChangeOperationException("missing PatchSet");
+            }
+
             PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.change(), n.getPatchsetId(), args.caller,
+                    n.change(), oldPatchSet, args.caller,
                     mergeTip.getCurrentTip(), args.mergeUtil,
                     args.serverIdent.get(), false, ValidatePolicy.NONE);
             List<PatchSetApproval> approvals = Lists.newArrayList();

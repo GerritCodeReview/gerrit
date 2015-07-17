@@ -98,7 +98,7 @@ public class RebaseChange {
    * @param git the repository.
    * @param rw the RevWalk.
    * @param changeControl the control of the change to rebase.
-   * @param patchSetId the patch set ID to rebase.
+   * @param patchSet the patch set to rebase.
    * @param uploader the user that creates the rebased patch set.
    * @param newBaseRev the commit that should be the new base.
    * @throws NoSuchChangeException if the change to which the patch set belongs
@@ -111,15 +111,15 @@ public class RebaseChange {
    *     allowed.
    */
   public void rebase(Repository git, RevWalk rw, ChangeControl changeControl,
-      PatchSet.Id patchSetId, IdentifiedUser uploader, String newBaseRev)
+      PatchSet patchSet, IdentifiedUser uploader, String newBaseRev)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
       ResourceConflictException, InvalidChangeOperationException {
     Change change = changeControl.getChange();
     try (ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {
-        baseRev = findBaseRevision(
-            patchSetId, db.get(), change.getDest(), git, rw);
+        baseRev =
+            findBaseRevision(patchSet, db.get(), change.getDest(), git, rw);
       }
       ObjectId baseObjectId = git.resolve(baseRev);
       if (baseObjectId == null) {
@@ -131,7 +131,7 @@ public class RebaseChange {
       PersonIdent committerIdent =
           uploader.newCommitterIdent(TimeUtil.nowTs(), serverTimeZone);
 
-      rebase(git, rw, inserter, change, patchSetId,
+      rebase(git, rw, inserter, change, patchSet,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, true, ValidatePolicy.GERRIT);
@@ -147,8 +147,7 @@ public class RebaseChange {
    * this commit's parent, or the destination branch tip in the case where the
    * parent's change is merged.
    *
-   * @param patchSetId patch set ID for which the new base commit should be
-   *     found.
+   * @param patchSet patch set for which the new base commit should be found.
    * @param db the ReviewDb.
    * @param destBranch the destination branch.
    * @param git the repository.
@@ -159,16 +158,10 @@ public class RebaseChange {
    * @throws IOException if accessing the repository fails.
    * @throws OrmException if accessing the database fails.
    */
-  private static String findBaseRevision(PatchSet.Id patchSetId,
+  private static String findBaseRevision(PatchSet patchSet,
       ReviewDb db, Branch.NameKey destBranch, Repository git, RevWalk rw)
       throws InvalidChangeOperationException, IOException, OrmException {
     String baseRev = null;
-
-    PatchSet patchSet = db.patchSets().get(patchSetId);
-    if (patchSet == null) {
-      throw new InvalidChangeOperationException(
-          "Patch set " + patchSetId + " not found");
-    }
     RevCommit commit = rw.parseCommit(
         ObjectId.fromString(patchSet.getRevision().get()));
 
@@ -238,7 +231,7 @@ public class RebaseChange {
    * @param git the repository.
    * @param inserter the object inserter.
    * @param change the change to rebase.
-   * @param patchSetId the patch set ID to rebase.
+   * @param patchSet the patch set to rebase.
    * @param uploader the user that creates the rebased patch set.
    * @param baseCommit the commit that should be the new base.
    * @param mergeUtil merge utilities for the destination project.
@@ -255,18 +248,17 @@ public class RebaseChange {
    *     allowed.
    */
   public PatchSet rebase(Repository git, RevWalk rw,
-      ObjectInserter inserter, Change change, PatchSet.Id patchSetId,
+      ObjectInserter inserter, Change change, PatchSet patchSet,
       IdentifiedUser uploader, RevCommit baseCommit, MergeUtil mergeUtil,
       PersonIdent committerIdent, boolean runHooks, ValidatePolicy validate)
       throws NoSuchChangeException, OrmException, IOException,
       InvalidChangeOperationException, MergeConflictException {
-    if (!change.currentPatchSetId().equals(patchSetId)) {
+    if (!change.currentPatchSetId().equals(patchSet.getId())) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
-    PatchSet originalPatchSet = db.get().patchSets().get(patchSetId);
 
     RevCommit rebasedCommit;
-    ObjectId oldId = ObjectId.fromString(originalPatchSet.getRevision().get());
+    ObjectId oldId = ObjectId.fromString(patchSet.getRevision().get());
     ObjectId newId = rebaseCommit(git, inserter, rw.parseCommit(oldId),
         baseCommit, mergeUtil, committerIdent);
 
@@ -278,7 +270,7 @@ public class RebaseChange {
     PatchSetInserter patchSetInserter = patchSetInserterFactory
         .create(git, rw, changeControl, rebasedCommit)
         .setValidatePolicy(validate)
-        .setDraft(originalPatchSet.isDraft())
+        .setDraft(patchSet.isDraft())
         .setUploader(uploader.getAccountId())
         .setSendMail(false)
         .setRunHooks(runHooks);
@@ -287,10 +279,10 @@ public class RebaseChange {
     ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(db.get())), uploader.getAccountId(),
-            TimeUtil.nowTs(), patchSetId);
+            TimeUtil.nowTs(), patchSet.getId());
 
     cmsg.setMessage("Patch Set " + newPatchSetId.get()
-        + ": Patch Set " + patchSetId.get() + " was rebased");
+        + ": Patch Set " + patchSet.getId().get() + " was rebased");
 
     Change newChange = patchSetInserter
         .setMessage(cmsg)
@@ -343,27 +335,23 @@ public class RebaseChange {
     return objectId;
   }
 
-  public boolean canRebase(ChangeResource r) {
-    Change c = r.getChange();
-    return canRebase(c.getProject(), c.currentPatchSetId(), c.getDest());
-  }
-
   public boolean canRebase(RevisionResource r) {
     return canRebase(r.getChange().getProject(),
-        r.getPatchSet().getId(), r.getChange().getDest());
+        r.getPatchSet(), r.getChange().getDest());
   }
 
-  public boolean canRebase(Project.NameKey project, PatchSet.Id patchSetId,
+  private boolean canRebase(Project.NameKey project, PatchSet patchSet,
       Branch.NameKey branch) {
     try (Repository git = gitManager.openRepository(project)) {
       try (RevWalk rw = new RevWalk(git)) {
-        findBaseRevision(patchSetId, db.get(), branch, git, rw);
+        findBaseRevision(patchSet, db.get(), branch, git, rw);
         return true;
       } catch (InvalidChangeOperationException e) {
         return false;
       } catch (OrmException | IOException e) {
-        log.warn("Error checking if patch set " + patchSetId + " on " + branch
-            + " can be rebased", e);
+        log.warn(String.format(
+            "Error checking if patch set %s on %s can be rebased",
+            patchSet.getId(), branch), e);
         return false;
       }
     } catch (IOException err) {

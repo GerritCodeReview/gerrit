@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -97,9 +96,7 @@ public class RebaseChange {
    *
    * @param git the repository.
    * @param rw the RevWalk.
-   * @param changeControl the control of the change to rebase.
-   * @param patchSet the patch set to rebase.
-   * @param uploader the user that creates the rebased patch set.
+   * @param rsrc revision to rebase.
    * @param newBaseRev the commit that should be the new base.
    * @throws NoSuchChangeException if the change to which the patch set belongs
    *     does not exist or is not visible to the user.
@@ -110,30 +107,33 @@ public class RebaseChange {
    * @throws InvalidChangeOperationException if rebase is not possible or not
    *     allowed.
    */
-  public void rebase(Repository git, RevWalk rw, ChangeControl changeControl,
-      PatchSet patchSet, IdentifiedUser uploader, String newBaseRev)
-      throws NoSuchChangeException, EmailException, OrmException, IOException,
-      ResourceConflictException, InvalidChangeOperationException {
-    Change change = changeControl.getChange();
+  public void rebase(Repository git, RevWalk rw, RevisionResource rsrc,
+      String newBaseRev) throws NoSuchChangeException, EmailException,
+          OrmException, IOException, ResourceConflictException,
+          InvalidChangeOperationException {
+    Change change = rsrc.getChange();
+    PatchSet patchSet = rsrc.getPatchSet();
+    IdentifiedUser uploader = (IdentifiedUser) rsrc.getControl().getCurrentUser();
+
     try (ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;
       if (baseRev == null) {
-        baseRev =
-            findBaseRevision(patchSet, db.get(), change.getDest(), git, rw);
+        baseRev = findBaseRevision(patchSet, change.getDest(), git, rw);
       }
+
       ObjectId baseObjectId = git.resolve(baseRev);
       if (baseObjectId == null) {
         throw new InvalidChangeOperationException(
           "Cannot rebase: Failed to resolve baseRev: " + baseRev);
       }
-      RevCommit baseCommit = rw.parseCommit(baseObjectId);
 
+      RevCommit baseCommit = rw.parseCommit(baseObjectId);
       PersonIdent committerIdent =
           uploader.newCommitterIdent(TimeUtil.nowTs(), serverTimeZone);
 
       rebase(git, rw, inserter, change, patchSet,
           uploader, baseCommit, mergeUtilFactory.create(
-              changeControl.getProjectControl().getProjectState(), true),
+              rsrc.getControl().getProjectControl().getProjectState(), true),
           committerIdent, true, ValidatePolicy.GERRIT);
     } catch (MergeConflictException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -148,7 +148,6 @@ public class RebaseChange {
    * parent's change is merged.
    *
    * @param patchSet patch set for which the new base commit should be found.
-   * @param db the ReviewDb.
    * @param destBranch the destination branch.
    * @param git the repository.
    * @param rw the RevWalk.
@@ -158,8 +157,8 @@ public class RebaseChange {
    * @throws IOException if accessing the repository fails.
    * @throws OrmException if accessing the database fails.
    */
-  private static String findBaseRevision(PatchSet patchSet,
-      ReviewDb db, Branch.NameKey destBranch, Repository git, RevWalk rw)
+  private String findBaseRevision(PatchSet patchSet,
+      Branch.NameKey destBranch, Repository git, RevWalk rw)
       throws InvalidChangeOperationException, IOException, OrmException {
     String baseRev = null;
     RevCommit commit = rw.parseCommit(
@@ -176,9 +175,9 @@ public class RebaseChange {
 
     RevId parentRev = new RevId(commit.getParent(0).name());
 
-    for (PatchSet depPatchSet : db.patchSets().byRevision(parentRev)) {
+    for (PatchSet depPatchSet : db.get().patchSets().byRevision(parentRev)) {
       Change.Id depChangeId = depPatchSet.getId().getParentKey();
-      Change depChange = db.changes().get(depChangeId);
+      Change depChange = db.get().changes().get(depChangeId);
       if (!depChange.getDest().equals(destBranch)) {
         continue;
       }
@@ -196,7 +195,7 @@ public class RebaseChange {
               + " dependent change.");
         }
         PatchSet latestDepPatchSet =
-            db.patchSets().get(depChange.currentPatchSetId());
+            db.get().patchSets().get(depChange.currentPatchSetId());
         baseRev = latestDepPatchSet.getRevision().get();
       }
       break;
@@ -336,25 +335,20 @@ public class RebaseChange {
   }
 
   public boolean canRebase(RevisionResource r) {
-    return canRebase(r.getChange().getProject(),
-        r.getPatchSet(), r.getChange().getDest());
+    return canRebase(r.getPatchSet(), r.getChange().getDest());
   }
 
-  private boolean canRebase(Project.NameKey project, PatchSet patchSet,
-      Branch.NameKey branch) {
-    try (Repository git = gitManager.openRepository(project)) {
-      try (RevWalk rw = new RevWalk(git)) {
-        findBaseRevision(patchSet, db.get(), branch, git, rw);
-        return true;
-      } catch (InvalidChangeOperationException e) {
-        return false;
-      } catch (OrmException | IOException e) {
-        log.warn(String.format(
-            "Error checking if patch set %s on %s can be rebased",
-            patchSet.getId(), branch), e);
-        return false;
-      }
-    } catch (IOException err) {
+  private boolean canRebase(PatchSet patchSet, Branch.NameKey dest) {
+    try (Repository git = gitManager.openRepository(dest.getParentKey());
+        RevWalk rw = new RevWalk(git)) {
+      findBaseRevision(patchSet, dest, git, rw);
+      return true;
+    } catch (InvalidChangeOperationException e) {
+      return false;
+    } catch (OrmException | IOException e) {
+      log.warn(String.format(
+          "Error checking if patch set %s on %s can be rebased",
+          patchSet.getId(), dest), e);
       return false;
     }
   }

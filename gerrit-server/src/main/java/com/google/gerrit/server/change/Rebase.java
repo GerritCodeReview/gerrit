@@ -91,8 +91,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");
       }
-      rebaseChange.get().rebase(repo, rw, control, rsrc.getPatchSet(),
-          rsrc.getUser(), findBaseRev(rw, rsrc, input));
+      rebaseChange.get().rebase(repo, rw, rsrc, findBaseRev(rw, rsrc, input));
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (NoSuchChangeException e) {
@@ -137,6 +136,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     if (baseChange == null) {
       return null;
     }
+
     if (!baseChange.getProject().equals(change.getProject())) {
       throw new ResourceConflictException(
           "base change is in wrong project: " + baseChange.getProject());

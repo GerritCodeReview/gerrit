@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d802aa8c_e6a11eb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-17T23:03:28Z",
+      "side": 1,
+      "message": "That is basically a birthday attack on MD5. Highly unlikely.",
+      "parentUuid": "581ddaf5_faa689cb",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_664d2e8f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 5
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "581ddaf5_5a969554",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-17T23:03:28Z",
+      "side": 1,
+      "message": "This is actually even wrong. I had to use the rebaseChange.get().canRebase() logic in case the parent change of this change added a new patch set.\n\nAnd that was messy, and does open the repository.\n\nWe may need to do something like cache Repository handles per request if we want to avoid these opens.",
+      "parentUuid": "d802aa8c_26473671",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_06443a68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "d802aa8c_c6a622cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-17T23:03:28Z",
+      "side": 1,
+      "message": "No. Removed.",
+      "parentUuid": "d802aa8c_06443a68",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "581ddaf5_9aabcd92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -98,6 +152,24 @@
       "writtenOn": "2015-07-17T22:47:32Z",
       "side": 1,
       "message": "Per my other comments, I think you need a placeholder here.",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "581ddaf5_7a935963",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-17T23:03:28Z",
+      "side": 1,
+      "message": "I kind of disagree. The length will be different on failures, so the MD5 hash should be really very different.",
+      "parentUuid": "581ddaf5_9aabcd92",
       "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

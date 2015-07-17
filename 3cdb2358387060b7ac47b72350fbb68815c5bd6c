@@ -16,6 +16,24 @@
       "revId": "3cdb2358387060b7ac47b72350fbb68815c5bd6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84256dc_bd5ebf41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-17T05:41:57Z",
+      "side": 1,
+      "message": "@Stefan, any comment if your statement from the link above is still valid?",
+      "parentUuid": "f367919d_0778d69f",
+      "revId": "3cdb2358387060b7ac47b72350fbb68815c5bd6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

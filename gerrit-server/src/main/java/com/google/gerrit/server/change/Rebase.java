@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
@@ -30,6 +31,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.extensions.webui.HasETag;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -50,7 +52,7 @@ import java.io.IOException;
 
 @Singleton
 public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
-    UiAction<RevisionResource> {
+    HasETag<RevisionResource> {
 
   private static final Logger log = LoggerFactory.getLogger(Rebase.class);
 
@@ -89,7 +91,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");
       }
-      rebaseChange.get().rebase(repo, rw, control, rsrc.getPatchSet().getId(),
+      rebaseChange.get().rebase(repo, rw, control, rsrc.getPatchSet(),
           rsrc.getUser(), findBaseRev(rw, rsrc, input));
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -98,6 +100,13 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     }
 
     return json.format(change.getId());
+  }
+
+  @Override
+  public void buildETag(Hasher h, RevisionResource rsrc) {
+    if (rsrc.getControl().canRebase()) {
+      h.putBoolean(rebaseChange.get().canRebase(rsrc));
+    }
   }
 
   private String findBaseRev(RevWalk rw, RevisionResource rsrc,

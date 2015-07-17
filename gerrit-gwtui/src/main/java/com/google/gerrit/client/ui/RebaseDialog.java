@@ -20,8 +20,10 @@ import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -79,8 +81,9 @@ public abstract class RebaseDialog extends CommentedActionDialog {
         boolean checked = ((CheckBox) event.getSource()).getValue();
         if (checked) {
           ChangeList.query(
-              "project:" + project + " AND branch:" + branch
-                  + " AND is:open NOT age:90d",
+              PageLinks.projectQuery(new Project.NameKey(project))
+                  + " " + PageLinks.op("branch", branch)
+                  + " is:open -age:90d",
               Collections.<ListChangesOption> emptySet(),
               new GerritCallback<ChangeList>() {
                 @Override

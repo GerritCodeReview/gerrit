@@ -826,7 +826,9 @@ public class RestApiServlet extends HttpServlet {
       final BinaryResult src) throws IOException {
     BinaryResult gz;
     long len = src.getContentLength();
-    if (256 <= len && len <= (10 << 20)) {
+    if (len < 256) {
+      return src; // Do not compress very small payloads.
+    } else if (len <= (10 << 20)) {
       gz = compress(src);
       if (len <= gz.getContentLength()) {
         return src;

@@ -24,6 +24,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.hash.Hasher;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.webui.HasETag;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
@@ -72,7 +74,7 @@ import java.util.Map;
 
 @Singleton
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
-    UiAction<RevisionResource> {
+    HasETag<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Submit.class);
 
   private static final String DEFAULT_TOOLTIP =
@@ -170,17 +172,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    List<Change> changes;
-    if (submitWholeTopic && !Strings.isNullOrEmpty(change.getTopic())) {
-      changes = new ArrayList<>();
-      for (ChangeData cd : getChangesByTopic(change.getTopic())) {
-        changes.add(cd.change());
-      }
-    } else {
-      changes = Arrays.asList(change);
-    }
-    ChangeSet submittedChanges = ChangeSet.create(changes);
-
+    ChangeSet submittedChanges = ChangeSet.create(findRelatedChanges(change));
     try {
       ReviewDb db = dbProvider.get();
       mergeOpProvider.get().merge(db, submittedChanges, caller, true);
@@ -204,6 +196,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       default:
         throw new ResourceConflictException("change is " + status(change));
     }
+  }
+
+  private List<Change> findRelatedChanges(Change change) throws OrmException {
+    if (submitWholeTopic && !Strings.isNullOrEmpty(change.getTopic())) {
+      List<Change> changes = new ArrayList<>();
+      for (ChangeData cd : getChangesByTopic(change.getTopic())) {
+        changes.add(cd.change());
+      }
+      return changes;
+    }
+
+    return Arrays.asList(change);
   }
 
   /**
@@ -318,6 +322,26 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
         .setVisible(true)
         .setEnabled(Boolean.TRUE.equals(enabled));
+    }
+  }
+
+  @Override
+  public void buildETag(Hasher h, RevisionResource rsrc) {
+    ChangeControl ctl = rsrc.getControl();
+    if (ctl.canSubmit()) {
+      rsrc.getChangeResource().prepareETag(h, ctl.getCurrentUser());
+      try {
+        for (Change change : findRelatedChanges(rsrc.getChange())) {
+          if (!change.getId().equals(rsrc.getChange().getId())) {
+            h.putInt(change.getId().get())
+             .putLong(change.getLastUpdatedOn().getTime())
+             .putInt(change.getRowVersion());
+          }
+        }
+      } catch (OrmException e) {
+        // Skip now, causing an ETag change. A future retry will have
+        // a different ETag and pick up the changed resource.
+      }
     }
   }
 

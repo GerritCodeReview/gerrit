@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -28,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.webui.HasETag;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -43,8 +45,8 @@ import org.eclipse.jgit.lib.Config;
 import java.io.IOException;
 
 @Singleton
-public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input>,
-    UiAction<RevisionResource> {
+public class DeleteDraftPatchSet implements
+    RestModifyView<RevisionResource, Input>, HasETag<RevisionResource> {
   public static class Input {
   }
 
@@ -97,17 +99,32 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   @Override
   public UiAction.Description getDescription(RevisionResource rsrc) {
     try {
-      int psCount = dbProvider.get().patchSets()
-          .byChange(rsrc.getChange().getId()).toList().size();
       return new UiAction.Description()
         .setTitle(String.format("Delete draft revision %d",
             rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(allowDrafts
-            && rsrc.getPatchSet().isDraft()
-            && rsrc.getControl().canDeleteDraft(dbProvider.get())
-            && psCount > 1);
+        .setVisible(canDeleteDraft(rsrc));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
+    }
+  }
+
+  private boolean canDeleteDraft(RevisionResource rsrc) throws OrmException {
+    int psCount = dbProvider.get().patchSets()
+        .byChange(rsrc.getChange().getId()).toList().size();
+    return allowDrafts
+        && rsrc.getPatchSet().isDraft()
+        && rsrc.getControl().canDeleteDraft(dbProvider.get())
+        && psCount > 1;
+  }
+
+  @Override
+  public void buildETag(Hasher h, RevisionResource rsrc) {
+    if (rsrc.getPatchSet().isDraft()) {
+      try {
+        h.putBoolean(canDeleteDraft(rsrc));
+      } catch (OrmException e) {
+        h.putBoolean(false);
+      }
     }
   }
 

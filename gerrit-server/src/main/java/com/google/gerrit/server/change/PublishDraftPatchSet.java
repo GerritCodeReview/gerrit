@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -26,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PublishDraftPatchSet.Input;
+import com.google.gerrit.server.extensions.webui.HasETag;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -38,8 +40,8 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class PublishDraftPatchSet implements RestModifyView<RevisionResource, Input>,
-    UiAction<RevisionResource> {
+public class PublishDraftPatchSet implements
+    RestModifyView<RevisionResource, Input>, HasETag<RevisionResource> {
   public static class Input {
   }
 
@@ -126,10 +128,25 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       return new UiAction.Description()
         .setTitle(String.format("Publish revision %d",
             rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
-            && rsrc.getControl().canPublish(dbProvider.get()));
+        .setVisible(canPublishDraft(rsrc));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
+    }
+  }
+
+  private boolean canPublishDraft(RevisionResource rsrc) throws OrmException {
+    return rsrc.getPatchSet().isDraft()
+        && rsrc.getControl().canPublish(dbProvider.get());
+  }
+
+  @Override
+  public void buildETag(Hasher h, RevisionResource rsrc) {
+    if (rsrc.getPatchSet().isDraft()) {
+      try {
+        h.putBoolean(canPublishDraft(rsrc));
+      } catch (OrmException e) {
+        h.putBoolean(false);
+      }
     }
   }
 

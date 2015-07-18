@@ -16,6 +16,24 @@
       "revId": "663d7883cc964465315f1775bea0223e7ae3404b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802aa8c_069d5a6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-18T00:26:35Z",
+      "side": 1,
+      "message": "When to you reply to a review?\n\nOver the past few weeks I did mainly series of changes, so maybe 5 changes in one branch at a time. So now I look at the reviews and fix all the problems marking it with `Done`. However I may have done that for changes {1,2,3}/5 and then leave for lunch. Would you just click on `reply` then? Or when you have integrated the changes into each change separately?\n\nI feel like I want to work with the review feedback as long as I\u0027d like and only when I am done, the reviewers need to be notified again, so ideally when a new version is available for review.\n\nSo currently I mark the review things as done, reply them (to not forget them) and just when finishing all changes in the branch uploading the whole set of changes. Then there is delay and more emails than necessary which may be annoying to the reviewers.",
+      "parentUuid": "9814b289_24ddb252",
+      "revId": "663d7883cc964465315f1775bea0223e7ae3404b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

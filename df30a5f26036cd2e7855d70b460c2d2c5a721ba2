@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "581ddaf5_fa8f6931",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-18T01:32:04Z",
+      "side": 1,
+      "message": "Noted. I reworked this to always include the plugin and export name. If the view fails to create we hash \u0027E\u0027 before the next plugin. If the view creates, we hash \u0027\\n\u0027 between views.",
+      "parentUuid": "d802aa8c_66964e55",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d802aa8c_664d2e8f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
         "patchSetId": 5
@@ -66,6 +84,24 @@
       "writtenOn": "2015-07-17T22:47:32Z",
       "side": 1,
       "message": "Hash something there.",
+      "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d802aa8c_a6844617",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-18T01:32:04Z",
+      "side": 1,
+      "message": "We just treat it as though the view doesn\u0027t exist. Or wasn\u0027t a UiAction.",
+      "parentUuid": "d802aa8c_664d2e8f",
       "revId": "df30a5f26036cd2e7855d70b460c2d2c5a721ba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

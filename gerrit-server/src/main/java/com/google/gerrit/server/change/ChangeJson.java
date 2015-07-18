@@ -98,8 +98,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.QueryResult;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -122,6 +123,12 @@ import java.util.TreeMap;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
+  public static final Set<ListChangesOption> NO_OPTIONS =
+      Collections.emptySet();
+
+  public interface Factory {
+    ChangeJson create(Set<ListChangesOption> options);
+  }
 
   private final Provider<ReviewDb> db;
   private final LabelNormalizer labelNormalizer;
@@ -145,7 +152,7 @@ public class ChangeJson {
   private AccountLoader accountLoader;
   private FixInput fix;
 
-  @Inject
+  @AssistedInject
   ChangeJson(
       Provider<ReviewDb> db,
       LabelNormalizer ln,
@@ -163,7 +170,8 @@ public class ChangeJson {
       WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
       Provider<ConsistencyChecker> checkerProvider,
-      ActionJson actionJson) {
+      ActionJson actionJson,
+      @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -181,17 +189,7 @@ public class ChangeJson {
     this.cmUtil = cmUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
-    options = EnumSet.noneOf(ListChangesOption.class);
-  }
-
-  public ChangeJson addOption(ListChangesOption o) {
-    options.add(o);
-    return this;
-  }
-
-  public ChangeJson addOptions(Collection<ListChangesOption> o) {
-    options.addAll(o);
-    return this;
+    this.options = EnumSet.copyOf(options);
   }
 
   public ChangeJson fix(FixInput fix) {

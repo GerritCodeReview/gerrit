@@ -33,14 +33,13 @@ import java.util.concurrent.TimeUnit;
 
 public class GetCommit implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
-  private final ChangeJson json;
+  private final ChangeJson.Factory json;
 
   @Option(name = "--links", usage = "Add weblinks")
   private boolean addLinks;
 
   @Inject
-  GetCommit(GitRepositoryManager repoManager,
-      ChangeJson json) {
+  GetCommit(GitRepositoryManager repoManager, ChangeJson.Factory json) {
     this.repoManager = repoManager;
     this.json = json;
   }
@@ -53,8 +52,9 @@ public class GetCommit implements RestReadView<RevisionResource> {
       String rev = rsrc.getPatchSet().getRevision().get();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
-      Response<CommitInfo> r = Response.ok(
-          json.toCommit(rsrc.getControl(), rw, commit, addLinks));
+      CommitInfo info = json.create(ChangeJson.NO_OPTIONS)
+          .toCommit(rsrc.getControl(), rw, commit, addLinks);
+      Response<CommitInfo> r = Response.ok(info);
       if (rsrc.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }

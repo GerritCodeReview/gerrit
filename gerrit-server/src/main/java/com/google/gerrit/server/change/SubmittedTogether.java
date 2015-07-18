@@ -40,13 +40,12 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(
       SubmittedTogether.class);
 
-  private final ChangeJson json;
-
+  private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final MergeSuperSet mergeSuperSet;
 
   @Inject
-  SubmittedTogether(ChangeJson json,
+  SubmittedTogether(ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
       MergeSuperSet mergeSuperSet) {
     this.json = json;
@@ -61,12 +60,12 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     try {
       ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(),
           ChangeSet.create(resource.getChange()));
-      json.addOptions(EnumSet.of(
+      return json.create(EnumSet.of(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT,
           ListChangesOption.DETAILED_LABELS,
-          ListChangesOption.LABELS));
-      return json.format(cs.ids());
+          ListChangesOption.LABELS))
+        .format(cs.ids());
     } catch (OrmException | IOException e) {
       log.error("Error on getting a ChangeSet", e);
       throw e;

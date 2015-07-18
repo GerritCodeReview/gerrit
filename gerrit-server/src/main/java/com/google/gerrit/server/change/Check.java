@@ -25,19 +25,20 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.util.EnumSet;
+
 public class Check implements RestReadView<ChangeResource>,
     RestModifyView<ChangeResource, FixInput> {
-  private final ChangeJson json;
+  private final ChangeJson.Factory jsonFactory;
 
   @Inject
-  Check(ChangeJson json) {
-    this.json = json;
-    json.addOption(ListChangesOption.CHECK);
+  Check(ChangeJson.Factory json) {
+    this.jsonFactory = json;
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
-    return Response.withMustRevalidate(json.format(rsrc));
+    return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
   @Override
@@ -49,6 +50,10 @@ public class Check implements RestReadView<ChangeResource>,
         && !ctl.getCurrentUser().getCapabilities().canMaintainServer()) {
       throw new AuthException("Cannot fix change");
     }
-    return Response.withMustRevalidate(json.fix(input).format(rsrc));
+    return Response.withMustRevalidate(newChangeJson().fix(input).format(rsrc));
+  }
+
+  private ChangeJson newChangeJson() {
+    return jsonFactory.create(EnumSet.of(ListChangesOption.CHECK));
   }
 }

@@ -53,7 +53,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final ChangeHooks hooks;
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeJson json;
+  private final ChangeJson.Factory json;
   private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeUpdate.Factory updateFactory;
@@ -62,7 +62,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   Restore(ChangeHooks hooks,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
-      ChangeJson json,
+      ChangeJson.Factory json,
       ChangeIndexer indexer,
       ChangeMessagesUtil cmUtil,
       ChangeUpdate.Factory updateFactory) {
@@ -136,8 +136,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         dbProvider.get());
-    ChangeInfo result = json.format(change);
-    return result;
+    return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
   @Override

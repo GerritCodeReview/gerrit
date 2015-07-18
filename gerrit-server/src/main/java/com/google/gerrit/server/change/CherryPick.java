@@ -43,12 +43,12 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
     UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final CherryPickChange cherryPickChange;
-  private final ChangeJson json;
+  private final ChangeJson.Factory json;
 
   @Inject
   CherryPick(Provider<ReviewDb> dbProvider,
       CherryPickChange cherryPickChange,
-      ChangeJson json) {
+      ChangeJson.Factory json) {
     this.dbProvider = dbProvider;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
@@ -84,7 +84,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
           cherryPickChange.cherryPick(revision.getChange(),
               revision.getPatchSet(), input.message, refName,
               refControl);
-      return json.format(cherryPickedChangeId);
+      return json.create(ChangeJson.NO_OPTIONS).format(cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (MergeException e) {

@@ -85,7 +85,7 @@ public class CreateChange implements
   private final ProjectsCollection projectsCollection;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
-  private final ChangeJson json;
+  private final ChangeJson.Factory jsonFactory;
   private final ChangeUtil changeUtil;
   private final boolean allowDrafts;
 
@@ -97,7 +97,7 @@ public class CreateChange implements
       ProjectsCollection projectsCollection,
       CommitValidators.Factory commitValidatorsFactory,
       ChangeInserter.Factory changeInserterFactory,
-      ChangeJson json,
+      ChangeJson.Factory json,
       ChangeUtil changeUtil,
       @GerritServerConfig Config config) {
     this.db = db;
@@ -107,7 +107,7 @@ public class CreateChange implements
     this.projectsCollection = projectsCollection;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
-    this.json = json;
+    this.jsonFactory = json;
     this.changeUtil = changeUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
   }
@@ -219,6 +219,7 @@ public class CreateChange implements
       ins.setGroups(groups);
       ins.insert();
 
+      ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
       return Response.created(json.format(change.getId()));
     }
   }

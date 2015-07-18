@@ -53,7 +53,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeJson json;
+  private final ChangeJson.Factory json;
   private final ChangeIndexer indexer;
   private final ChangeUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
@@ -62,7 +62,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   Abandon(ChangeHooks hooks,
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
-      ChangeJson json,
+      ChangeJson.Factory json,
       ChangeIndexer indexer,
       ChangeUpdate.Factory updateFactory,
       ChangeMessagesUtil cmUtil) {
@@ -90,8 +90,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       throw new ResourceConflictException("draft changes cannot be abandoned");
     }
     change = abandon(control, input.message, caller.getAccount());
-    ChangeInfo result = json.format(change);
-    return result;
+    return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
   public Change abandon(ChangeControl control,

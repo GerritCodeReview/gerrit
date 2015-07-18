@@ -472,12 +472,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       RestModifyView<ChangeResource, SubmitInput> {
     private final Provider<ReviewDb> dbProvider;
     private final Submit submit;
-    private final ChangeJson json;
+    private final ChangeJson.Factory json;
 
     @Inject
     CurrentRevision(Provider<ReviewDb> dbProvider,
         Submit submit,
-        ChangeJson json) {
+        ChangeJson.Factory json) {
       this.dbProvider = dbProvider;
       this.submit = submit;
       this.json = json;
@@ -495,8 +495,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       } else if (!rsrc.getControl().isPatchVisible(ps, dbProvider.get())) {
         throw new AuthException("current revision not accessible");
       }
+
       Output out = submit.apply(new RevisionResource(rsrc, ps), input);
-      return json.format(out.change);
+      return json.create(ChangeJson.NO_OPTIONS).format(out.change);
     }
   }
 }

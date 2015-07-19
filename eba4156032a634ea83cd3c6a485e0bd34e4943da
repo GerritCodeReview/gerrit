@@ -22,6 +22,30 @@
       "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "581ddaf5_ba89f12e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-19T00:01:17Z",
+      "side": 1,
+      "message": "You are right, its not really OK here either. The computation is just too heavy weight for the ETag in either API.\n\nThe difference is the expected latency. /changes/{id}/detail needs to be faster because it blocks display of ChangeScreen and is part of the \"any new comments\" polling the browser runs in the background while ChangeScreen is open.\n\n/changes/{id}/revisions/{sha1}/actions can be slower as it runs async once the ChangeScreen is loaded and updates the already displayed UI when it comes back. This makes the UI feel more responsive. The browser also does not poll actions every 10s like it does /detail.\n\nGiven the ETag computation is close in cost to just computing the reply I wanted to avoid ETag generation for /actions. Then Dave Borowitz pointed out how slow it is for Submit to compute its contribution to /actions when multiple changes share a topic.\n\nActions don\u0027t change that often on a change. I think they change less often than /detail as many comments published to a change don\u0027t come with votes that change the submit status and don\u0027t change parents that change rebase status. So /detail updates more often than /actions and needs to be quicker at detecting that.\n\nEven expensive caching of /actions is better than no caching due to the cost of submit computation on a multi-change topic and how infrequent action states change.\n\nBut. Yes. I am still not happy about the cost here. Submit is even worse. We likely need to come back and optimize these further somehow.",
+      "parentUuid": "784c5e14_3b9dd76a",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 53
+      },
+      "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

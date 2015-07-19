@@ -46,6 +46,30 @@
       "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84256dc_bd379f0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-19T21:33:26Z",
+      "side": 1,
+      "message": "| /changes/{id}/revisions/{sha1}/actions can be slower as it runs async once the ChangeScreen is loaded\n\nI was aware of the fact that /changes/{id}/revisions/{sha1}/actions runs asynchronously and that /changes/\u003cid\u003e/detail is polling every 30 seconds.  It\u0027s very important that the user gets visual feedback ASAP after opening a change in change screen, so yes, I agree that canRebase() sucks less in GET /actions context.\n\nHowever, I compare this not only between GET /actions and GET /detail, but between the situation before submit-whole-topic was introduced and after it. Before introdction of (optional and disabled per default) submit-whole-topic feature and before split of GET /actions from GET /detail REST endpoint (because submitability computation was trivial and fast enough to be done within GET /detail, and there wasn\u0027t need to optimize it), the \"rebaseability\" computation was done only once and never again for the same change (in getDescription() method), when nothing changed with the change. The every 30 sec. polling compared ETag, that was only induced from change metadata and *not* target branch, figured it wasn\u0027t changed and moved forward with the life.\n\nAfter submit-whole-topic feature was introduced, GET actions  was splitted, done asynchronously, and with this change ETag computation includes canRebase() invocation. That means, that every time, the change is opened in change screen, this computation takes place. In fact when ETag for GET actions is changed, then canRebase() even invoked twice:\n\n* 1. in ETag computation itself\n* 2. in getDescription() invocation\n\nIt feels very wrong to me, that we for one perform such heavy weight computation in cache key computation phase, and for another don\u0027t do any memoization/caching with these computed values. This should be changed (something similar to  MergeabilityCache, though, I guess, RebaseabilityCache can be memory based).\n\nI also wonder if enable or disable rebase button on change screen is really worth to pay the price for this performance degradation? What is wrong to always make rebase button enable and compute the real rebaseaility, after the user click on this button, iow, if she really cares about this use case atm?\n\nFYI: one idea I proposed in one of the changes where split of GET actions from GET /detail was implemented is to do dedicated REST endpoint invocation conditionally: only when submit-whole-topic was activated in gerrit config. But I see, how this condition would complicate the logic in change screen and handlers.",
+      "parentUuid": "581ddaf5_ba89f12e",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 53
+      },
+      "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

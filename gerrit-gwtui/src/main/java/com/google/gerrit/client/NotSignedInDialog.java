@@ -26,10 +26,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 /** A dialog box telling the user they are not signed in. */
-public class NotSignedInDialog extends PluginSafePopupPanel implements CloseHandler<PopupPanel> {
+public class NotSignedInDialog extends PopupPanel implements CloseHandler<PopupPanel> {
   private Button signin;
   private boolean buttonClicked;
 

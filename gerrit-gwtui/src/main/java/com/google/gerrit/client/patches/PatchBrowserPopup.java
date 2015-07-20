@@ -22,14 +22,14 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
-import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
-class PatchBrowserPopup extends PluginSafeDialogBox implements
+class PatchBrowserPopup extends DialogBox implements
     PositionCallback, ResizeHandler {
   private final Patch.Key callerKey;
   private final PatchTable fileList;

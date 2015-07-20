@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtexpui.user.client.CopyableLabel;
 
 public class MyPasswordScreen extends SettingsScreen {
   private CopyableLabel password;

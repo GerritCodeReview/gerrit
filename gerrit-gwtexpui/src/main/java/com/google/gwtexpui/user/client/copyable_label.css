@@ -16,10 +16,17 @@
 .label {
   vertical-align: top;
 }
-.control {
-  margin-left: 5px;
-  display: inline-block !important;
+.copier {
+  display: inline-block;
   height: 14px;
   width: 14px;
-  overflow: hidden;
+  font-size: 12px;
+  vertical-align: top;
+  padding: 0;
+  border: 0;
+  background-color: inherit;
+  cursor: pointer;
+}
+.copier:focus {
+  outline: none;
 }

@@ -20,7 +20,7 @@ import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtexpui.user.client.CopyableLabel;
 
 import java.util.Set;
 

@@ -1074,6 +1074,9 @@ message is contained in the response body.
 
 Returns a list of all changes which are submitted when
 link:#submit-change[\{submit\}] is called for this change.
+including the current change itself. If there are no other
+changes submitted together with this change, an empty list
+will be returned however.
 
 .Request
 ----

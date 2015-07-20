@@ -51,14 +51,14 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
 
-    assertSubmittedTogether(id1, id1);
+    assertSubmittedTogether(id1);
     assertSubmittedTogether(id2, id2, id1);
   }
 
   @Test
   public void respectsWholeTopicAndAncestors() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    // Create two independant commits and push.
+    // Create two independent commits and push.
     RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")
         .message("subject: 1")
@@ -78,8 +78,45 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogether(id1, id2, id1);
       assertSubmittedTogether(id2, id2, id1);
     } else {
-      assertSubmittedTogether(id1, id1);
-      assertSubmittedTogether(id2, id2);
+      assertSubmittedTogether(id1);
+      assertSubmittedTogether(id2);
+    }
+  }
+
+  @Test
+  public void testTopicChaining() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    // Create two independent commits and push.
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
+
+    testRepo.reset(initialHead);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
+
+    RevCommit c3_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id3 = getChangeId(c3_1);
+    pushHead(testRepo, "refs/for/master/" + name("unrelated-topic"), false);
+
+    if (isSubmitWholeTopicEnabled()) {
+      assertSubmittedTogether(id1, id2, id1);
+      assertSubmittedTogether(id2, id2, id1);
+      assertSubmittedTogether(id3, id3, id2, id1);
+    } else {
+      assertSubmittedTogether(id1);
+      assertSubmittedTogether(id2);
+      assertSubmittedTogether(id3, id3, id2);
     }
   }
 
@@ -102,8 +139,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
 
-    assertSubmittedTogether(id1, id1);
-    assertSubmittedTogether(id2, id2);
+    assertSubmittedTogether(id1);
+    assertSubmittedTogether(id2);
   }
 
   private void assertSubmittedTogether(String chId, String... expected)

@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -66,7 +67,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
           ListChangesOption.CURRENT_COMMIT,
           ListChangesOption.DETAILED_LABELS,
           ListChangesOption.LABELS));
-      return json.format(cs.ids());
+      if (cs.ids().size() > 1) {
+        return json.format(cs.ids());
+      } else {
+        return Collections.emptyList();
+      }
     } catch (OrmException | IOException e) {
       log.error("Error on getting a ChangeSet", e);
       throw e;

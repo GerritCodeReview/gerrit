@@ -46,7 +46,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
   public Object apply(ConfigResource rsrc, Input i) throws BadRequestException,
       IOException, ConfigInvalidException {
     if (i.changesPerPage != null || i.showSiteHeader != null
-        || i.useFlashClipboard != null || i.downloadScheme != null
+        || i.downloadScheme != null
         || i.downloadCommand != null || i.copySelfOnEmail != null
         || i.dateFormat != null || i.timeFormat != null
         || i.relativeDateInChangeTable != null

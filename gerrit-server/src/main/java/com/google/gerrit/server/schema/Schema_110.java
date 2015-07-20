@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.clippy.client;
+package com.google.gerrit.server.schema;
 
-import com.google.gwt.resources.client.CssResource;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public interface ClippyCss extends CssResource {
-  String label();
-  String control();
+public class Schema_110 extends SchemaVersion {
+  @Inject
+  Schema_110(Provider<Schema_109> prior) {
+    super(prior);
+  }
 }

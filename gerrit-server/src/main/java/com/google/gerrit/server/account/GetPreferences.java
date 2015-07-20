@@ -97,7 +97,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
   public static class PreferenceInfo {
     Short changesPerPage;
     Boolean showSiteHeader;
-    Boolean useFlashClipboard;
     DownloadScheme downloadScheme;
     DownloadCommand downloadCommand;
     Boolean copySelfOnEmail;
@@ -116,7 +115,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
       if (p != null) {
         changesPerPage = p.getMaximumPageSize();
         showSiteHeader = p.isShowSiteHeader() ? true : null;
-        useFlashClipboard = p.isUseFlashClipboard() ? true : null;
         downloadScheme = p.getDownloadUrl();
         downloadCommand = p.getDownloadCommand();
         copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;

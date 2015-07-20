@@ -45,7 +45,6 @@ import java.util.List;
 
 public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
-  private CheckBox useFlashClipboard;
   private CheckBox copySelfOnEmails;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
@@ -64,7 +63,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     super.onInitUI();
 
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
-    useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
@@ -144,10 +142,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     row++;
 
     formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, useFlashClipboard);
-    row++;
-
-    formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, copySelfOnEmails);
     row++;
 
@@ -200,7 +194,6 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     final OnEditEnabler e = new OnEditEnabler(save);
     e.listenTo(showSiteHeader);
-    e.listenTo(useFlashClipboard);
     e.listenTo(copySelfOnEmails);
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
@@ -227,7 +220,6 @@ public class MyPreferencesScreen extends SettingsScreen {
 
   private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
-    useFlashClipboard.setEnabled(on);
     copySelfOnEmails.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
@@ -242,7 +234,6 @@ public class MyPreferencesScreen extends SettingsScreen {
 
   private void display(Preferences p) {
     showSiteHeader.setValue(p.showSiteHeader());
-    useFlashClipboard.setValue(p.useFlashClipboard());
     copySelfOnEmails.setValue(p.copySelfOnEmail());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
@@ -324,7 +315,6 @@ public class MyPreferencesScreen extends SettingsScreen {
   private void doSave() {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
-    p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,

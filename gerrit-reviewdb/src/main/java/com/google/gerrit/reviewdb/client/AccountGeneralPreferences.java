@@ -113,9 +113,7 @@ public final class AccountGeneralPreferences {
   @Column(id = 3)
   protected boolean showSiteHeader;
 
-  /** Should the Flash helper movie be used to copy text to the clipboard? */
-  @Column(id = 4)
-  protected boolean useFlashClipboard;
+  // DELETED: id = 11 (useFlashClipboard)
 
   /** Type of download URL the user prefers to use. */
   @Column(id = 5, length = 20, notNull = false)
@@ -177,14 +175,6 @@ public final class AccountGeneralPreferences {
 
   public void setShowSiteHeader(final boolean b) {
     showSiteHeader = b;
-  }
-
-  public boolean isUseFlashClipboard() {
-    return useFlashClipboard;
-  }
-
-  public void setUseFlashClipboard(final boolean b) {
-    useFlashClipboard = b;
   }
 
   public DownloadScheme getDownloadUrl() {
@@ -310,7 +300,6 @@ public final class AccountGeneralPreferences {
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
-    useFlashClipboard = true;
     copySelfOnEmail = false;
     reviewCategoryStrategy = null;
     downloadUrl = null;

@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwtexpui.user.client.UserAgent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,9 +144,11 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, showSiteHeader);
     row++;
 
-    formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, useFlashClipboard);
-    row++;
+    if (!UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled()) {
+      formGrid.setText(row, labelIdx, "");
+      formGrid.setWidget(row, fieldIdx, useFlashClipboard);
+      row++;
+    }
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, copySelfOnEmails);

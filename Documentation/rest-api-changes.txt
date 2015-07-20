@@ -1073,7 +1073,11 @@ message is contained in the response body.
 --
 
 Returns a list of all changes which are submitted when
-link:#submit-change[\{submit\}] is called for this change.
+link:#submit-change[\{submit\}] is called for this change,
+including the current change itself.
+
+An empty list is returned if this change will be submitted
+by itself (no other changes).
 
 .Request
 ----

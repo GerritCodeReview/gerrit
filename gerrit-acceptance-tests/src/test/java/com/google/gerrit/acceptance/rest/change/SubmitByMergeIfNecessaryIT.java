@@ -75,6 +75,28 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  public void submitWithOutdatedParentsBlocked() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
+    PushOneCommit.Result change1 = createChange("Change 1", "b", "b",
+        "I0000000000000000000000000000000000000001");
+    PushOneCommit.Result change2 = createChange("Change 2", "c", "c",
+        "I0000000000000000000000000000000000000002");
+
+    // change 1 needs approval.
+    submitWithConflict(change2.getChangeId());
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change1b = createChange("Change 1b", "d", "d",
+        "I0000000000000000000000000000000000000001");
+
+    // change 1 is out of date; the 2 revisions don't collide with each other.
+    // and the second revision is approved
+    approve(change1.getChangeId());
+    submitWithConflict(change2.getChangeId());
+  }
+
+  @Test
   public void submitChangesAcrossRepos() throws Exception {
     Project.NameKey p1 = createProject("project-where-we-submit");
     Project.NameKey p2 = createProject("project-impacted-via-topic");

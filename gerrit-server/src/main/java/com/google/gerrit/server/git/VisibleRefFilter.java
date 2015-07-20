@@ -68,7 +68,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     this.showMetadata = showMetadata;
   }
 
-  public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeperately) {
+  public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeparately) {
     if (projectCtl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
       Map<String, Ref> r = Maps.newHashMap(refs);
       if (!projectCtl.controlForRef(RefNames.REFS_CONFIG).isVisible()) {
@@ -136,11 +136,11 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     // If we have tags that were deferred, we need to do a revision walk
     // to identify what tags we can actually reach, and what we cannot.
     //
-    if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeperately)) {
+    if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeparately)) {
       TagMatcher tags = tagCache.get(projectName).matcher(
           tagCache,
           db,
-          filterTagsSeperately ? filter(db.getAllRefs()).values() : result.values());
+          filterTagsSeparately ? filter(db.getAllRefs()).values() : result.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
           result.put(tag.getName(), tag);

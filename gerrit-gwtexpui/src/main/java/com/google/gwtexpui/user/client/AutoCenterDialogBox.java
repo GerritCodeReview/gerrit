@@ -18,9 +18,10 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.DialogBox;
 
 /** A DialogBox that automatically re-centers itself if the window changes */
-public class AutoCenterDialogBox extends PluginSafeDialogBox {
+public class AutoCenterDialogBox extends DialogBox {
   private HandlerRegistration recenter;
 
   public AutoCenterDialogBox() {

@@ -15,11 +15,7 @@
 package com.google.gwtexpui.user.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * User agent feature tests we don't create permutations for.
@@ -32,7 +28,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class UserAgent {
   static final boolean hasCopy = hasCopy();
-  private static final EventBus bus = new SimpleEventBus();
 
   private static boolean hasCopy() {
     String ua = userAgent();
@@ -43,15 +38,6 @@ public class UserAgent {
   }
 
   private static native String userAgent() /*-{ return navigator.userAgent }-*/;
-
-  public static HandlerRegistration addDialogVisibleHandler(
-      DialogVisibleHandler handler) {
-    return bus.addHandler(DialogVisibleEvent.getType(), handler);
-  }
-
-  static void fireDialogVisible(Widget w, boolean visible) {
-    bus.fireEvent(new DialogVisibleEvent(w, visible));
-  }
 
   /**
    * Test for and disallow running this application in an &lt;iframe&gt;.

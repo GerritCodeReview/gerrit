@@ -28,9 +28,9 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class KeyHelpPopup extends PluginSafePopupPanel implements
+public class KeyHelpPopup extends PopupPanel implements
     KeyPressHandler, KeyDownHandler {
   private final FocusPanel focus;
 

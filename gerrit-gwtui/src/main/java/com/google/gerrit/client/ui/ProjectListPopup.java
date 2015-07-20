@@ -25,6 +25,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -33,12 +34,11 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
 /** A popup containing all projects. */
 public class ProjectListPopup {
   private HighlightingProjectsTable projectsTab;
-  private PluginSafeDialogBox popup;
+  private DialogBox popup;
   private NpTextBox filterTxt;
   private HorizontalPanel filterPanel;
   private String match;
@@ -155,7 +155,7 @@ public class ProjectListPopup {
       }
     });
 
-    popup = new PluginSafeDialogBox();
+    popup = new DialogBox();
     popup.setModal(false);
     popup.setText(popupText);
   }

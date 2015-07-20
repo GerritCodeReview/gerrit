@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "cd1f4a53_95e46418",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-20T23:26:32Z",
+      "side": 1,
+      "message": "Thanks for the honest feedback. I rewrote this change to keep the Flash support around for any browser which we don\u0027t think supports the newer copy API.",
+      "parentUuid": "b88a569d_fdc2c779",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "b82c8f72ba97ed58eb418237af0d5fc52be1230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b88a569d_ddbd0b05",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

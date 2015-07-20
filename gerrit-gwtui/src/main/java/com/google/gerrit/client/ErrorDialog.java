@@ -26,13 +26,13 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 /** A dialog box showing an error message, when bad things happen. */
-public class ErrorDialog extends PluginSafePopupPanel {
+public class ErrorDialog extends PopupPanel {
   private final Label text;
   private final FlowPanel body;
   private final Button closey;

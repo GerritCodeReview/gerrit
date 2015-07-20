@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 abstract class RightSidePopdownAction {
   private final ChangeScreen.Style style;
@@ -49,7 +48,7 @@ abstract class RightSidePopdownAction {
       return;
     }
 
-    final PluginSafePopupPanel p = new PluginSafePopupPanel(true) {
+    final PopupPanel p = new PopupPanel(true) {
       @Override
       public void setPopupPosition(int left, int top) {
         top -= Document.get().getBodyOffsetTop();

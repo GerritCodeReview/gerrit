@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b88a569d_3dc50f80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T08:56:04Z",
+      "side": 1,
+      "message": "See my comments below on supported browser versions and missing support in Safari, i think that this approach to replace working feature with something that isn\u0027t there is a bad idea.\n\nI would expect this change improve the situation and to try to avoid using flash, by trying if the current browser supports Clipboard API spec, and if it doesn\u0027t fall back to using flash, like it worked before this change. Instead this change kills working feature for the majority of Gerrit users.",
+      "revId": "b82c8f72ba97ed58eb418237af0d5fc52be1230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_fdc2c779",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T08:56:04Z",
+      "side": 1,
+      "message": "This change require very recent browser version, that implement the Clipboard API spec. Consider big enterprises and in fact I just checked for number of my customers, they have \"very recent\" Firefox here: 31.8.0 and IE 8. So I guess, they would upgrade in 5-10 years to FF 41.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "b82c8f72ba97ed58eb418237af0d5fc52be1230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_ddbd0b05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T08:56:04Z",
+      "side": 1,
+      "message": "Given that Apple folks don\u0027t even participate in discussion on Clipboard API spec, it\u0027s not going to be implemented ever. Mention somewhere in the documentation this serious limitation?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "b82c8f72ba97ed58eb418237af0d5fc52be1230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_1dc85397",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/user/client/CopyableLabel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T08:56:04Z",
+      "side": 1,
+      "message": "At least for FF you could probably try the feature check.\n\n  document.queryCommandEnabled(\"copy\")",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 7
+      },
+      "revId": "b82c8f72ba97ed58eb418237af0d5fc52be1230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "784c5e14_9b842b18",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/user/client/UserAgent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T08:56:04Z",
+      "side": 1,
+      "message": "Unused? I guess, that FF, IE and Opera are not checked, because you just try to execute them and fall back to disable the feature, when it didn\u0027t work.",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "b82c8f72ba97ed58eb418237af0d5fc52be1230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

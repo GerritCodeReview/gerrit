@@ -7,6 +7,7 @@ gwt_module(
   resources = [
     SRC + 'clippy/client/clippy.css',
     SRC + 'clippy/client/clippy.swf',
+    SRC + 'clippy/client/CopyableLabelText.properties',
   ],
   provided_deps = ['//lib/gwt:user'],
   deps = [
@@ -84,6 +85,7 @@ gwt_module(
   name = 'UserAgent',
   srcs = glob([SRC + 'user/client/*.java']),
   gwt_xml = SRC + 'user/User.gwt.xml',
+  resources = [SRC + 'user/client/tooltip.css'],
   provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )

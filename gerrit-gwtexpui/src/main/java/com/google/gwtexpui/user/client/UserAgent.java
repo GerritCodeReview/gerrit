@@ -27,6 +27,65 @@ import com.google.gwt.user.client.Window;
  * trivial compared to the time developers lose building their application.
  */
 public class UserAgent {
+  private static boolean jsClip = guessJavaScriptClipboard();
+
+  public static boolean hasJavaScriptClipboard() {
+    return jsClip;
+  }
+
+  public static void disableJavaScriptClipboard() {
+    jsClip = false;
+  }
+
+  private static native boolean nativeHasCopy()
+  /*-{ return $doc['queryCommandSupported'] && $doc.queryCommandSupported('copy') }-*/;
+
+  private static boolean guessJavaScriptClipboard() {
+    String ua = Window.Navigator.getUserAgent();
+    int chrome = major(ua, "Chrome/");
+    if (chrome > 0) {
+      return 42 <= chrome;
+    }
+
+    int ff = major(ua, "Firefox/");
+    if (ff > 0) {
+      return 41 <= ff;
+    }
+
+    int opera = major(ua, "OPR/");
+    if (opera > 0) {
+      return 29 <= opera;
+    }
+
+    int msie = major(ua, "MSIE ");
+    if (msie > 0) {
+      return 9 <= msie;
+    }
+
+    if (nativeHasCopy()) {
+      // Firefox 39.0 lies and says it supports copy, then fails.
+      // So we try this after the browser specific test above.
+      return true;
+    }
+
+    // Safari is not planning to support document.execCommand('copy').
+    // Assume the browser does not have the feature.
+    return false;
+  }
+
+  private static int major(String ua, String product) {
+    int entry = ua.indexOf(product);
+    if (entry >= 0) {
+      String s = ua.substring(entry + product.length());
+      String p = s.split("[ /;,.)]", 2)[0];
+      try {
+        return Integer.parseInt(p);
+      } catch (NumberFormatException nan) {
+      }
+    }
+    return -1;
+  }
+
   public static class Flash {
     private static boolean checked;
     private static boolean installed;

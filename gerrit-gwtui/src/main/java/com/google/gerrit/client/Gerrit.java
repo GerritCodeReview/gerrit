@@ -86,7 +86,6 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
 import com.google.gwtjsonrpc.client.JsonDefTarget;
@@ -877,7 +876,6 @@ public class Gerrit implements EntryPoint {
   public static void applyUserPreferences() {
     if (myAccount != null) {
       final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
-      CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
       if (siteHeader != null) {
         siteHeader.setVisible(p.isShowSiteHeader());
       }

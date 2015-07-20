@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtexpui.user.client.CopyableLabel;
 
 class SshHostKeyPanel extends Composite {
   SshHostKeyPanel(final SshHostKey info) {

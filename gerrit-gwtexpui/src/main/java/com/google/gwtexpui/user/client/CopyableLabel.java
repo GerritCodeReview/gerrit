@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.clippy.client;
+package com.google.gwtexpui.user.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,46 +25,35 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.http.client.URL;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtexpui.user.client.UserAgent;
 
-/**
- * Label which permits the user to easily copy the complete content.
- * <p>
- * If the Flash plugin is available a "movie" is embedded that provides
- * one-click copying of the content onto the system clipboard. The label (if
- * visible) can also be clicked, switching from a label to an input box,
- * allowing the user to copy the text with a keyboard shortcut.
- */
+/** Label which permits the user to easily copy the complete content. */
 public class CopyableLabel extends Composite implements HasText {
-  private static final int SWF_WIDTH = 110;
-  private static final int SWF_HEIGHT = 14;
-  private static boolean flashEnabled = true;
+  interface Resources extends ClientBundle {
+    static final Resources I = GWT.create(Resources.class);
+
+    @Source("copyable_label.css")
+    Css css();
+  }
+
+  interface Css extends CssResource {
+    String label();
+    String copier();
+  }
 
   static {
-    ClippyResources.I.css().ensureInjected();
-  }
-
-  public static boolean isFlashEnabled() {
-    return flashEnabled;
-  }
-
-  public static void setFlashEnabled(final boolean on) {
-    flashEnabled = on;
-  }
-
-  private static String swfUrl() {
-    return ClippyResources.I.swf().getSafeUri().asString();
+    Resources.I.css().ensureInjected();
   }
 
   private final FlowPanel content;
@@ -71,7 +61,7 @@ public class CopyableLabel extends Composite implements HasText {
   private int visibleLen;
   private Label textLabel;
   private TextBox textBox;
-  private Element swf;
+  private Button copier;
 
   public CopyableLabel() {
     this("");
@@ -102,16 +92,35 @@ public class CopyableLabel extends Composite implements HasText {
 
     if (showLabel) {
       textLabel = new InlineLabel(getText());
-      textLabel.setStyleName(ClippyResources.I.css().label());
+      textLabel.setStyleName(Resources.I.css().label());
       textLabel.addClickHandler(new ClickHandler() {
         @Override
-        public void onClick(final ClickEvent event) {
+        public void onClick(ClickEvent event) {
           showTextBox();
         }
       });
       content.add(textLabel);
     }
-    embedMovie();
+
+    if (UserAgent.hasCopy) {
+      copier = new Button("&#x1f4cb;"); // CLIPBOARD
+      copier.setStyleName(Resources.I.css().copier());
+      Tooltip.addStyle(copier);
+      Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());
+      copier.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          copy();
+        }
+      });
+      copier.addMouseOutHandler(new MouseOutHandler() {
+        @Override
+        public void onMouseOut(MouseOutEvent event) {
+          Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());
+        }
+      });
+      content.add(copier);
+    }
   }
 
   /**
@@ -120,43 +129,9 @@ public class CopyableLabel extends Composite implements HasText {
    * @param text the new preview text, should be shorter than the original text
    *        which would be copied to the clipboard.
    */
-  public void setPreviewText(final String text) {
+  public void setPreviewText(String text) {
     if (textLabel != null) {
       textLabel.setText(text);
-    }
-  }
-
-  private void embedMovie() {
-    if (flashEnabled && UserAgent.hasFlash && text.length() > 0) {
-      final String flashVars = "text=" + URL.encodeQueryString(getText());
-      final SafeHtmlBuilder h = new SafeHtmlBuilder();
-
-      h.openElement("div");
-      h.setStyleName(ClippyResources.I.css().control());
-
-      h.openElement("object");
-      h.setWidth(SWF_WIDTH);
-      h.setHeight(SWF_HEIGHT);
-      h.setAttribute("classid", "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000");
-      h.paramElement("movie", swfUrl());
-      h.paramElement("FlashVars", flashVars);
-
-      h.openElement("embed");
-      h.setWidth(SWF_WIDTH);
-      h.setHeight(SWF_HEIGHT);
-      h.setAttribute("wmode", "transparent");
-      h.setAttribute("type", "application/x-shockwave-flash");
-      h.setAttribute("src", swfUrl());
-      h.setAttribute("FlashVars", flashVars);
-      h.closeSelf();
-
-      h.closeElement("object");
-      h.closeElement("div");
-
-      if (swf != null) {
-        getElement().removeChild(swf);
-      }
-      DOM.appendChild(getElement(), swf = SafeHtml.parse(h));
     }
   }
 
@@ -166,7 +141,7 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   @Override
-  public void setText(final String newText) {
+  public void setText(String newText) {
     text = newText;
     visibleLen = newText.length();
 
@@ -177,7 +152,6 @@ public class CopyableLabel extends Composite implements HasText {
       textBox.setText(getText());
       textBox.selectAll();
     }
-    embedMovie();
   }
 
   private void showTextBox() {
@@ -236,4 +210,20 @@ public class CopyableLabel extends Composite implements HasText {
     }
     textLabel.setVisible(true);
   }
+
+  private void copy() {
+    TextBox t = new TextBox();
+    try {
+      t.setText(getText());
+      content.add(t);
+      t.selectAll();
+      exec(Document.get(), "copy");
+      Tooltip.setLabel(copier, CopyableLabelText.I.copied());
+    } finally {
+      t.removeFromParent();
+    }
+  }
+
+  private static native void exec(Document d, String c)
+  /*-{ d.execCommand(c) }-*/;
 }

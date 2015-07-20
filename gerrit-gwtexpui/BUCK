@@ -1,22 +1,5 @@
 SRC = 'src/main/java/com/google/gwtexpui/'
 
-gwt_module(
-  name = 'Clippy',
-  srcs = glob([SRC + 'clippy/client/*.java']),
-  gwt_xml = SRC + 'clippy/Clippy.gwt.xml',
-  resources = [
-    SRC + 'clippy/client/clippy.css',
-    SRC + 'clippy/client/clippy.swf',
-  ],
-  provided_deps = ['//lib/gwt:user'],
-  deps = [
-    ':SafeHtml',
-    ':UserAgent',
-    '//lib:LICENSE-clippy',
-  ],
-  visibility = ['PUBLIC'],
-)
-
 java_library(
   name = 'CSS',
   srcs = glob([SRC + 'css/rebind/*.java']),
@@ -84,6 +67,10 @@ gwt_module(
   name = 'UserAgent',
   srcs = glob([SRC + 'user/client/*.java']),
   gwt_xml = SRC + 'user/User.gwt.xml',
+  resources = glob([
+    SRC + 'user/client/*.css',
+    SRC + 'user/client/*.properties',
+  ]),
   provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
@@ -100,7 +87,6 @@ java_library(
   srcs = [],
   resources = glob(
     [SRC + n for n in [
-      'clippy/**/*',
       'globalkey/**/*',
       'safehtml/**/*',
       'user/**/*',

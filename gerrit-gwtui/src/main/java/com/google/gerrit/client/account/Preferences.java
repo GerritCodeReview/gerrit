@@ -35,7 +35,6 @@ public class Preferences extends JavaScriptObject {
     }
     p.changesPerPage(in.getMaximumPageSize());
     p.showSiteHeader(in.isShowSiteHeader());
-    p.useFlashClipboard(in.isUseFlashClipboard());
     p.downloadScheme(in.getDownloadUrl());
     p.downloadCommand(in.getDownloadCommand());
     p.copySelfOnEmail(in.isCopySelfOnEmails());
@@ -59,9 +58,6 @@ public class Preferences extends JavaScriptObject {
 
   public final native boolean showSiteHeader()
   /*-{ return this.show_site_header || false }-*/;
-
-  public final native boolean useFlashClipboard()
-  /*-{ return this.use_flash_clipboard || false }-*/;
 
   public final DownloadScheme downloadScheme() {
     String s = downloadSchemeRaw();
@@ -128,9 +124,6 @@ public class Preferences extends JavaScriptObject {
 
   public final native void showSiteHeader(boolean s)
   /*-{ this.show_site_header = s }-*/;
-
-  public final native void useFlashClipboard(boolean u)
-  /*-{ this.use_flash_clipboard = u }-*/;
 
   public final void downloadScheme(DownloadScheme d) {
     downloadSchemeRaw(d != null ? d.toString() : null);

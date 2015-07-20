@@ -27,7 +27,6 @@ java_library(
   resources = glob(['src/main/**/*']),
   exported_deps = [
     '//gerrit-extension-api:client-lib',
-    '//gerrit-gwtexpui:Clippy',
     '//gerrit-gwtexpui:GlobalKey',
     '//gerrit-gwtexpui:SafeHtml',
     '//gerrit-gwtexpui:UserAgent',

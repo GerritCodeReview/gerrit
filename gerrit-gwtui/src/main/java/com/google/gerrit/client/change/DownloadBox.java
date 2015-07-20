@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtexpui.user.client.CopyableLabel;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

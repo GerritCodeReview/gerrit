@@ -312,7 +312,9 @@ public class MergeOp {
       return ImmutableList.of(ok.get());
     } else if (results.isEmpty()) {
       throw new IllegalStateException(String.format(
-          "SubmitRuleEvaluator.evaluate returned empty list for %s in %s",
+          "SubmitRuleEvaluator.evaluate for change %s " +
+          "returned empty list for %s in %s",
+          cd.getId(),
           patchSet.getId(),
           cd.change().getProject().get()));
     }
@@ -320,15 +322,17 @@ public class MergeOp {
     for (SubmitRecord record : results) {
       switch (record.status) {
         case CLOSED:
-          throw new ResourceConflictException("change is closed");
+          throw new ResourceConflictException(String.format(
+              "change %s is closed", cd.getId()));
 
         case RULE_ERROR:
           throw new ResourceConflictException(String.format(
-              "rule error: %s",
-              record.errorMessage));
+              "rule error for change %s: %s",
+              cd.getId(), record.errorMessage));
 
         case NOT_READY:
           StringBuilder msg = new StringBuilder();
+          msg.append(cd.getId() + ":");
           for (SubmitRecord.Label lbl : record.labels) {
             switch (lbl.status) {
               case OK:
@@ -336,32 +340,27 @@ public class MergeOp {
                 continue;
 
               case REJECT:
-                if (msg.length() > 0) {
-                  msg.append("; ");
-                }
-                msg.append("blocked by ").append(lbl.label);
+                msg.append(" blocked by ").append(lbl.label);
+                msg.append(";");
                 continue;
 
               case NEED:
-                if (msg.length() > 0) {
-                  msg.append("; ");
-                }
-                msg.append("needs ").append(lbl.label);
+                msg.append(" needs ").append(lbl.label);
+                msg.append(";");
                 continue;
 
               case IMPOSSIBLE:
-                if (msg.length() > 0) {
-                  msg.append("; ");
-                }
-                msg.append("needs ").append(lbl.label)
+                msg.append(" needs ").append(lbl.label)
                 .append(" (check project access)");
+                msg.append(";");
                 continue;
 
               default:
                 throw new IllegalStateException(String.format(
-                    "Unsupported SubmitRecord.Label %s for %s in %s",
+                    "Unsupported SubmitRecord.Label %s for %s in %s in %s",
                     lbl.toString(),
                     patchSet.getId(),
+                    cd.getId(),
                     cd.change().getProject().get()));
             }
           }

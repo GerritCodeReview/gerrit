@@ -897,7 +897,6 @@ link:#preferences-info[PreferencesInfo] entity.
   {
     "changes_per_page": 25,
     "show_site_header": true,
-    "use_flash_clipboard": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
@@ -951,7 +950,6 @@ link:#preferences-input[PreferencesInput] entity.
   {
     "changes_per_page": 50,
     "show_site_header": true,
-    "use_flash_clipboard": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
@@ -999,7 +997,6 @@ link:#preferences-info[PreferencesInfo] entity.
   {
     "changes_per_page": 50,
     "show_site_header": true,
-    "use_flash_clipboard": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
@@ -1533,8 +1530,6 @@ The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
 |`show_site_header`   |not set if `false`|
 Whether the site header should be shown.
-|`use_flash_clipboard`     |not set if `false`|
-Whether to use the flash clipboard widget.
 |`download_scheme`      ||
 The type of download URL the user prefers to use.
 |`download_command`     ||
@@ -1576,8 +1571,6 @@ The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
 |`show_site_header`   |optional|
 Whether the site header should be shown.
-|`use_flash_clipboard`     |optional|
-Whether to use the flash clipboard widget.
 |`download_scheme`      |optional|
 The type of download URL the user prefers to use.
 |`download_command`     |optional|

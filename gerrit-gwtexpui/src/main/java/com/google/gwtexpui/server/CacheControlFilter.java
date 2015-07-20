@@ -80,7 +80,6 @@ public class CacheControlFilter implements Filter {
         || pathInfo.endsWith(".cache.png")
         || pathInfo.endsWith(".cache.css")
         || pathInfo.endsWith(".cache.jar")
-        || pathInfo.endsWith(".cache.swf")
         || pathInfo.endsWith(".cache.txt")
         || pathInfo.endsWith(".cache.js")) {
       return true;

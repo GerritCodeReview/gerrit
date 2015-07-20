@@ -30,7 +30,6 @@ public interface AccountConstants extends Constants {
   String dateFormatLabel();
   String contextWholeFile();
   String showSiteHeader();
-  String useFlashClipboard();
   String copySelfOnEmails();
   String reviewCategoryLabel();
   String messageShowInReviewCategoryNone();

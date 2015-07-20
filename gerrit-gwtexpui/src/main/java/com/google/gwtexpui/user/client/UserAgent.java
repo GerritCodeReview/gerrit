@@ -31,9 +31,16 @@ import com.google.gwt.user.client.ui.Widget;
  * trivial compared to the time developers lose building their application.
  */
 public class UserAgent {
-  /** Does the browser have ShockwaveFlash plugin enabled? */
-  public static final boolean hasFlash = hasFlash();
+  static final boolean hasCopy = hasCopy();
   private static final EventBus bus = new SimpleEventBus();
+
+  private static boolean hasCopy() {
+    String ua = Window.Navigator.getUserAgent();
+    if (ua.indexOf("Safari/") >= 0 && ua.indexOf("Chrome/") < 0) {
+      return false;
+    }
+    return true;
+  }
 
   public static HandlerRegistration addDialogVisibleHandler(
       DialogVisibleHandler handler) {
@@ -43,24 +50,6 @@ public class UserAgent {
   static void fireDialogVisible(Widget w, boolean visible) {
     bus.fireEvent(new DialogVisibleEvent(w, visible));
   }
-
-  private static native boolean hasFlash()
-  /*-{
-    if (navigator.plugins && navigator.plugins.length) {
-      if (navigator.plugins['Shockwave Flash'])     return true;
-      if (navigator.plugins['Shockwave Flash 2.0']) return true;
-
-    } else if (navigator.mimeTypes && navigator.mimeTypes.length) {
-      var mimeType = navigator.mimeTypes['application/x-shockwave-flash'];
-      if (mimeType && mimeType.enabledPlugin) return true;
-
-    } else {
-      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7'); return true; } catch (e) {}
-      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6'); return true; } catch (e) {}
-      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   return true; } catch (e) {}
-    }
-    return false;
-  }-*/;
 
   /**
    * Test for and disallow running this application in an &lt;iframe&gt;.

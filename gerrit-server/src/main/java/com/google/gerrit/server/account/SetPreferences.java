@@ -54,7 +54,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
   public static class Input {
     public Short changesPerPage;
     public Boolean showSiteHeader;
-    public Boolean useFlashClipboard;
     public DownloadScheme downloadScheme;
     public DownloadCommand downloadCommand;
     public Boolean copySelfOnEmail;
@@ -123,9 +122,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.showSiteHeader != null) {
         p.setShowSiteHeader(i.showSiteHeader);
-      }
-      if (i.useFlashClipboard != null) {
-        p.setUseFlashClipboard(i.useFlashClipboard);
       }
       if (i.downloadScheme != null) {
         p.setDownloadUrl(i.downloadScheme);

@@ -21,7 +21,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtexpui.user.client.CopyableLabel;
 
 public class DownloadCommandLink extends Anchor implements ClickHandler {
   private final CopyableLabel copyLabel;

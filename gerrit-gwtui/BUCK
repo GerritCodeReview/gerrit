@@ -27,7 +27,6 @@ gwt_module(
   deps = [
     ':freebie_application_icon_set',
     '//gerrit-gwtui-common:diffy_logo',
-    '//gerrit-gwtexpui:Clippy',
     '//gerrit-gwtexpui:GlobalKey',
     '//gerrit-gwtexpui:Progress',
     '//gerrit-gwtexpui:SafeHtml',

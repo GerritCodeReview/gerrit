@@ -47,8 +47,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtexpui.user.client.CopyableLabel;
 
 class CommitBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitBox> {}

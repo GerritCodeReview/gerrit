@@ -29,9 +29,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
+import com.google.gwtexpui.user.client.CopyableLabel;
 
 public class AccountGroupInfoScreen extends AccountGroupScreen {
   private CopyableLabel groupUUIDLabel;

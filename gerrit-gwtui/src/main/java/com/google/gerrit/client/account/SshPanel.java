@@ -39,8 +39,8 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.user.client.CopyableLabel;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.Collections;

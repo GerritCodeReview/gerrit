@@ -18,7 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:x='urn:import:com.google.gerrit.client.ui'
-    xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
+    xmlns:xp='urn:import:com.google.gwtexpui.user.client'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:image field="toggle" src="moreLess.png"/>
   <ui:style gss='false' type='com.google.gerrit.client.change.CommitBox.Style'>
@@ -75,7 +75,7 @@ limitations under the License.
     .clippy {
       position: relative;
     }
-    .clippy div {
+    .clippy button {
       position: absolute;
       top: 0px;
       right: -16px;
@@ -167,7 +167,7 @@ limitations under the License.
             <ui:attribute name='title'/>
           </g:Image>
         </th>
-        <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
+        <td><xp:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
         <td>
             <g:FlowPanel ui:field='webLinkPanel' styleName='{style.webLinkPanel}'/>
         </td>
@@ -191,7 +191,7 @@ limitations under the License.
       </tr>
       <tr>
         <th><ui:msg>Change-Id</ui:msg></th>
-        <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='idText'/></td>
+        <td><xp:CopyableLabel styleName='{style.clippy}' ui:field='idText'/></td>
       </tr>
     </table>
   </g:HTMLPanel>

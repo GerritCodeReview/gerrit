@@ -34,6 +34,24 @@
       "revId": "cc487e782e7031771ce73c02b9c0de29e2c1a139",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1f4a53_1510548b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-20T23:37:08Z",
+      "side": 1,
+      "message": "Fixed by not copying an empty set.",
+      "parentUuid": "cd1f4a53_b5d08042",
+      "revId": "cc487e782e7031771ce73c02b9c0de29e2c1a139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

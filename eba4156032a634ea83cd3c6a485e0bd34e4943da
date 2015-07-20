@@ -70,6 +70,30 @@
       "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1f4a53_f5c6f88d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-20T22:53:28Z",
+      "side": 1,
+      "message": "AFAICT from what you just wrote, you and Shawn are in violent agreement that this sucks. Removing the slow feature is probably a good idea but beyond the scope of this change.",
+      "parentUuid": "b84256dc_bd379f0b",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 53
+      },
+      "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

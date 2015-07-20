@@ -23,10 +23,10 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
-public class UserPopupPanel extends PluginSafePopupPanel {
+public class UserPopupPanel extends PopupPanel {
   interface Binder extends UiBinder<Widget, UserPopupPanel> {}
   private static final Binder binder = GWT.create(Binder.class);
 

@@ -22,7 +22,6 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 class PopupHelper {
   static PopupHelper popup(ActionContext ctx, Element panel) {
@@ -34,7 +33,7 @@ class PopupHelper {
 
   private final ActionButton activatingButton;
   private final FlowPanel panel;
-  private PluginSafePopupPanel popup;
+  private PopupPanel popup;
 
   PopupHelper(ActionButton button, Element child) {
     activatingButton = button;
@@ -44,7 +43,7 @@ class PopupHelper {
   }
 
   void show() {
-    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
+    final PopupPanel p = new PopupPanel(true);
     p.setStyleName(Resources.I.style().popup());
     p.addAutoHidePartner(activatingButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {

@@ -21,7 +21,6 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 class RenameFileAction {
   private final Change.Id changeId;
@@ -51,7 +50,7 @@ class RenameFileAction {
     }
     renameBox.clearPath();
 
-    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
+    final PopupPanel p = new PopupPanel(true);
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(renameButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {

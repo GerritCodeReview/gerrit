@@ -28,7 +28,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 class ReplyAction {
   private final PatchSet.Id psId;
@@ -102,7 +101,7 @@ class ReplyAction {
       replyBox.replyTo(msg);
     }
 
-    final PluginSafePopupPanel p = new PluginSafePopupPanel(true, false);
+    final PopupPanel p = new PopupPanel(true, false);
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(replyButton.getElement());
     p.addAutoHidePartner(quickApproveButton.getElement());

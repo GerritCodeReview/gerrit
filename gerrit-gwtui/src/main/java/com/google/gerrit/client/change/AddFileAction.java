@@ -21,7 +21,6 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 class AddFileAction {
   private final Change.Id changeId;
@@ -54,7 +53,7 @@ class AddFileAction {
     }
     addBox.clearPath();
 
-    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
+    final PopupPanel p = new PopupPanel(true);
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(addButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {

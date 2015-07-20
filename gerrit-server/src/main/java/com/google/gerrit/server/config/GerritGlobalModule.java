@@ -69,6 +69,7 @@ import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
@@ -186,6 +187,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(AddReviewerSender.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
+    factory(ChangeJson.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);

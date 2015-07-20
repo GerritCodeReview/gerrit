@@ -23,30 +23,34 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.EnumSet;
+
 public class GetChange implements RestReadView<ChangeResource> {
-  private final ChangeJson json;
+  private final ChangeJson.Factory json;
+  private final EnumSet<ListChangesOption> options =
+      EnumSet.noneOf(ListChangesOption.class);
 
   @Option(name = "-o", usage = "Output options")
   void addOption(ListChangesOption o) {
-    json.addOption(o);
+    options.add(o);
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
-    json.addOptions(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
+    options.addAll(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
   @Inject
-  GetChange(ChangeJson json) {
+  GetChange(ChangeJson.Factory json) {
     this.json = json;
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
-    return Response.withMustRevalidate(json.format(rsrc));
+    return Response.withMustRevalidate(json.create(options).format(rsrc));
   }
 
   Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
-    return Response.withMustRevalidate(json.format(rsrc));
+    return Response.withMustRevalidate(json.create(options).format(rsrc));
   }
 }

@@ -44,12 +44,12 @@ import java.io.IOException;
 @Singleton
 public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     UiAction<ChangeResource> {
-  private final ChangeJson json;
+  private final ChangeJson.Factory json;
   private final ChangeUtil changeUtil;
   private final PersonIdent myIdent;
 
   @Inject
-  Revert(ChangeJson json,
+  Revert(ChangeJson.Factory json,
       ChangeUtil changeUtil,
       @GerritPersonIdent PersonIdent myIdent) {
     this.json = json;
@@ -69,18 +69,19 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       throw new ResourceConflictException("change is " + status(change));
     }
 
+    Change.Id revertedChangeId;
     try {
-      Change.Id revertedChangeId =
-          changeUtil.revert(control, change.currentPatchSetId(),
-              Strings.emptyToNull(input.message),
-              new PersonIdent(myIdent, TimeUtil.nowTs()), new NoSshInfo());
-
-      return json.format(revertedChangeId);
+      revertedChangeId = changeUtil.revert(control,
+            change.currentPatchSetId(),
+            Strings.emptyToNull(input.message),
+            new PersonIdent(myIdent, TimeUtil.nowTs()),
+            new NoSshInfo());
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }
+    return json.create(ChangeJson.NO_OPTIONS).format(revertedChangeId);
   }
 
   @Override

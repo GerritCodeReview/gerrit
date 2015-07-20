@@ -81,7 +81,7 @@ class ChangeApiImpl implements ChangeApi {
   private final GetTopic getTopic;
   private final PutTopic putTopic;
   private final PostReviewers postReviewers;
-  private final Provider<ChangeJson> changeJson;
+  private final ChangeJson.Factory changeJson;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
   private final ListChangeComments listComments;
@@ -102,7 +102,7 @@ class ChangeApiImpl implements ChangeApi {
       GetTopic getTopic,
       PutTopic putTopic,
       PostReviewers postReviewers,
-      Provider<ChangeJson> changeJson,
+      ChangeJson.Factory changeJson,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
       ListChangeComments listComments,
@@ -276,7 +276,7 @@ class ChangeApiImpl implements ChangeApi {
       if (u.isIdentifiedUser()) {
         ((IdentifiedUser) u).clearStarredChanges();
       }
-      return changeJson.get().addOptions(s).format(change);
+      return changeJson.create(s).format(change);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve change", e);
     }

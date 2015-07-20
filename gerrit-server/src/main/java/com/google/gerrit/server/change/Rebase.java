@@ -47,28 +47,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 @Singleton
 public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     UiAction<RevisionResource> {
-
   private static final Logger log = LoggerFactory.getLogger(Rebase.class);
+  private static final EnumSet<ListChangesOption> OPTIONS = EnumSet.of(
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.CURRENT_COMMIT);
 
   private final GitRepositoryManager repoManager;
   private final Provider<RebaseChange> rebaseChange;
-  private final ChangeJson json;
+  private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
   public Rebase(GitRepositoryManager repoManager,
       Provider<RebaseChange> rebaseChange,
-      ChangeJson json,
+      ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider) {
     this.repoManager = repoManager;
     this.rebaseChange = rebaseChange;
-    this.json = json
-        .addOption(ListChangesOption.CURRENT_REVISION)
-        .addOption(ListChangesOption.CURRENT_COMMIT);
+    this.json = json;
     this.dbProvider = dbProvider;
   }
 
@@ -97,7 +98,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       throw new ResourceNotFoundException(change.getId().toString());
     }
 
-    return json.format(change.getId());
+    return json.create(OPTIONS).format(change.getId());
   }
 
   private String findBaseRev(RevWalk rw, RevisionResource rsrc,

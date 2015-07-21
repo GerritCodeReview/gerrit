@@ -15,11 +15,13 @@
 package com.google.gerrit.server.git;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 
 /** A set of changes grouped together to be submitted atomically.*/
@@ -29,6 +31,8 @@ public abstract class ChangeSet {
     ImmutableSet.Builder<Project.NameKey> pb = ImmutableSet.builder();
     ImmutableSet.Builder<Branch.NameKey> bb = ImmutableSet.builder();
     ImmutableSet.Builder<Change.Id> ib = ImmutableSet.builder();
+    ImmutableSet.Builder<PatchSet.Id> psb = ImmutableSet.builder();
+    ImmutableSet.Builder<String> tb = ImmutableSet.builder();
     ImmutableSetMultimap.Builder<Project.NameKey, Branch.NameKey> pbb =
         ImmutableSetMultimap.builder();
     ImmutableSetMultimap.Builder<Project.NameKey, Change.Id> pcb =
@@ -39,16 +43,21 @@ public abstract class ChangeSet {
     for (Change c : changes) {
       Branch.NameKey branch = c.getDest();
       Project.NameKey project = branch.getParentKey();
+      String topic = c.getTopic();
       pb.add(project);
       bb.add(branch);
       ib.add(c.getId());
+      psb.add(c.currentPatchSetId());
+      if (!Strings.isNullOrEmpty(topic)) {
+        tb.add(topic);
+      }
       pbb.put(project, branch);
       pcb.put(project, c.getId());
       cbb.put(branch, c.getId());
     }
 
-    return new AutoValue_ChangeSet(pb.build(), bb.build(),
-        ib.build(), pbb.build(), pcb.build(), cbb.build());
+    return new AutoValue_ChangeSet(pb.build(), bb.build(), ib.build(),
+        psb.build(), tb.build(), pbb.build(), pcb.build(), cbb.build());
   }
 
   public static ChangeSet create(Change change) {
@@ -58,6 +67,8 @@ public abstract class ChangeSet {
   public abstract ImmutableSet<Project.NameKey> projects();
   public abstract ImmutableSet<Branch.NameKey> branches();
   public abstract ImmutableSet<Change.Id> ids();
+  public abstract ImmutableSet<PatchSet.Id> patchIds();
+  public abstract ImmutableSet<String> topics();
   public abstract ImmutableSetMultimap<Project.NameKey, Branch.NameKey>
       branchesByProject();
   public abstract ImmutableSetMultimap<Project.NameKey, Change.Id>
@@ -68,5 +79,9 @@ public abstract class ChangeSet {
   @Override
   public int hashCode() {
     return ids().hashCode();
+  }
+
+  public int size() {
+    return ids().size();
   }
 }

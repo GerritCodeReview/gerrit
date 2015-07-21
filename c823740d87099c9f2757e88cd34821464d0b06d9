@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0df5e23c_ff1b7fa7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3954,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-21T10:14:43Z",
+      "side": 1,
+      "message": "That\u0027s is confusing, that the handler re-set this attribute to null, when map is rendered.",
+      "range": {
+        "startLine": 3952,
+        "startChar": 15,
+        "endLine": 3954,
+        "endChar": 7
+      },
+      "revId": "c823740d87099c9f2757e88cd34821464d0b06d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

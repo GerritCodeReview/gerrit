@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "0df5e23c_9f7113d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-21T12:20:23Z",
+      "side": 1,
+      "message": "Thank you for taking reviewers concerns seriously.",
+      "parentUuid": "cd1f4a53_95e46418",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "b82c8f72ba97ed58eb418237af0d5fc52be1230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b88a569d_ddbd0b05",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

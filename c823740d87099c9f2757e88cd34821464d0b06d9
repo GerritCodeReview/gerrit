@@ -22,6 +22,30 @@
       "revId": "c823740d87099c9f2757e88cd34821464d0b06d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb2e32_fe6a61de",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3954,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T10:34:01Z",
+      "side": 1,
+      "message": "Yes it\u0027s a little confusing. We could also always set the commit ID. But since we always try to avoid sending redundant data, I guess this was intended. There are many example were the field that is used as map key is not set (e.g. \u0027path\u0027 in CommentInfo to name one example).",
+      "parentUuid": "0df5e23c_ff1b7fa7",
+      "range": {
+        "startLine": 3952,
+        "startChar": 15,
+        "endLine": 3954,
+        "endChar": 7
+      },
+      "revId": "c823740d87099c9f2757e88cd34821464d0b06d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,32 @@
+include_defs('//bucklets/maven_jar.bucklet')
+
+VERSION = '5.0.3'
+
+maven_jar(
+  name = 'ow2-asm',
+  id = 'org.ow2.asm:asm:' + VERSION,
+  sha1 = 'dcc2193db20e19e1feca8b1240dbbc4e190824fa',
+  license = 'ow2',
+)
+
+maven_jar(
+  name = 'ow2-asm-analysis',
+  id = 'org.ow2.asm:asm-analysis:' + VERSION,
+  sha1 = 'c7126aded0e8e13fed5f913559a0dd7b770a10f3',
+  license = 'ow2',
+)
+
+maven_jar(
+  name = 'ow2-asm-tree',
+  id = 'org.ow2.asm:asm-tree:' + VERSION,
+  sha1 = '287749b48ba7162fb67c93a026d690b29f410bed',
+  license = 'ow2',
+)
+
+maven_jar(
+  name = 'ow2-asm-util',
+  id = 'org.ow2.asm:asm-util:' + VERSION,
+  sha1 = '1512e5571325854b05fb1efce1db75fcced54389',
+  license = 'ow2',
+)
+

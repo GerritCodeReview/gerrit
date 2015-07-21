@@ -143,7 +143,7 @@ public abstract class PushCertificateChecker {
           + " is not valid");
       return;
     }
-    CheckResult result = publicKeyChecker.check(signer);
+    CheckResult result = publicKeyChecker.check(signer, store);
     if (!result.isOk()) {
       StringBuilder err = new StringBuilder("Invalid public key ")
           .append(keyToString(signer))

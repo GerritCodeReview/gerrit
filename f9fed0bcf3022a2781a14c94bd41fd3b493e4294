@@ -16,6 +16,24 @@
       "revId": "f9fed0bcf3022a2781a14c94bd41fd3b493e4294",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf66a4b_fd1b87a7",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/user/client/UserAgent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-21T15:05:55Z",
+      "side": 1,
+      "message": "Gah! Fixed.",
+      "parentUuid": "edfb2e32_9ecd9daa",
+      "revId": "f9fed0bcf3022a2781a14c94bd41fd3b493e4294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

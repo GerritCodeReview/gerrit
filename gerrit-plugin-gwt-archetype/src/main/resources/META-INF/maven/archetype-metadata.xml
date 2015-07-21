@@ -59,7 +59,12 @@ limitations under the License.
       <include>lib/gerrit/BUCK</include>
       <include>lib/gwt/BUCK</include>
       <excludes>
+        <exclude>**/client/</exclude>
+        <exclude>**/public/</exclude>
+        <exclude>**/*.css</exclude>
+        <exclude>**/*.png</exclude>
         <exclude>**/*.java</exclude>
+        <exclude>**/*.gwt.xml</exclude>
       </excludes>
     </fileSet>
 

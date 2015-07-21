@@ -15,11 +15,7 @@
 package com.google.gwtexpui.user.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * User agent feature tests we don't create permutations for.
@@ -31,36 +27,101 @@ import com.google.gwt.user.client.ui.Widget;
  * trivial compared to the time developers lose building their application.
  */
 public class UserAgent {
-  /** Does the browser have ShockwaveFlash plugin enabled? */
-  public static final boolean hasFlash = hasFlash();
-  private static final EventBus bus = new SimpleEventBus();
+  private static boolean jsClip = guessJavaScriptClipboard();
 
-  public static HandlerRegistration addDialogVisibleHandler(
-      DialogVisibleHandler handler) {
-    return bus.addHandler(DialogVisibleEvent.getType(), handler);
+  public static boolean hasJavaScriptClipboard() {
+    return jsClip;
   }
 
-  static void fireDialogVisible(Widget w, boolean visible) {
-    bus.fireEvent(new DialogVisibleEvent(w, visible));
+  public static void disableJavaScriptClipboard() {
+    jsClip = false;
   }
 
-  private static native boolean hasFlash()
-  /*-{
-    if (navigator.plugins && navigator.plugins.length) {
-      if (navigator.plugins['Shockwave Flash'])     return true;
-      if (navigator.plugins['Shockwave Flash 2.0']) return true;
+  private static native boolean nativeHasCopy()
+  /*-{ return $doc['queryCommandSupported'] && $doc.queryCommandSupported('copy') }-*/;
 
-    } else if (navigator.mimeTypes && navigator.mimeTypes.length) {
-      var mimeType = navigator.mimeTypes['application/x-shockwave-flash'];
-      if (mimeType && mimeType.enabledPlugin) return true;
-
-    } else {
-      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7'); return true; } catch (e) {}
-      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6'); return true; } catch (e) {}
-      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   return true; } catch (e) {}
+  private static boolean guessJavaScriptClipboard() {
+    String ua = Window.Navigator.getUserAgent();
+    int chrome = major(ua, "Chrome/");
+    if (chrome > 0) {
+      return 42 <= chrome;
     }
+
+    int ff = major(ua, "Firefox/");
+    if (ff > 0) {
+      return 41 <= ff;
+    }
+
+    int opera = major(ua, "OPR/");
+    if (opera > 0) {
+      return 29 <= opera;
+    }
+
+    int msie = major(ua, "MSIE ");
+    if (msie > 0) {
+      return 9 <= msie;
+    }
+
+    if (nativeHasCopy()) {
+      // Firefox 39.0 lies and says it supports copy, then fails.
+      // So we try this after the browser specific test above.
+      return true;
+    }
+
+    // Safari is not planning to support document.execCommand('copy').
+    // Assume the browser does not have the feature.
     return false;
-  }-*/;
+  }
+
+  private static int major(String ua, String product) {
+    int entry = ua.indexOf(product);
+    if (entry >= 0) {
+      String s = ua.substring(entry + product.length());
+      String p = s.split("[ /;,.)]", 2)[0];
+      try {
+        return Integer.parseInt(p);
+      } catch (NumberFormatException nan) {
+      }
+    }
+    return -1;
+  }
+
+  public static class Flash {
+    private static boolean checked;
+    private static boolean installed;
+
+    /**
+     * Does the browser have ShockwaveFlash plugin installed?
+     * <p>
+     * This method may still return true if the user has disabled Flash or set
+     * the plugin to "click to run".
+     */
+    public static boolean isInstalled() {
+      if (!checked) {
+        installed = hasFlash();
+        checked = true;
+      }
+      return installed;
+    }
+
+    private static native boolean hasFlash()
+    /*-{
+      if (navigator.plugins && navigator.plugins.length) {
+        if (navigator.plugins['Shockwave Flash'])     return true;
+        if (navigator.plugins['Shockwave Flash 2.0']) return true;
+
+      } else if (navigator.mimeTypes && navigator.mimeTypes.length) {
+        var mimeType = navigator.mimeTypes['application/x-shockwave-flash'];
+        if (mimeType && mimeType.enabledPlugin) return true;
+
+      } else {
+        try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7'); return true; } catch (e) {}
+        try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6'); return true; } catch (e) {}
+        try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   return true; } catch (e) {}
+      }
+      return false;
+    }-*/;
+  }
 
   /**
    * Test for and disallow running this application in an &lt;iframe&gt;.

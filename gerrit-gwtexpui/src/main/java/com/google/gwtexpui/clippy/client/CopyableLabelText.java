@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.user.client;
+package com.google.gwtexpui.clippy.client;
 
-import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.Constants;
 
-public interface DialogVisibleHandler extends EventHandler {
-  public void onDialogVisible(DialogVisibleEvent event);
+interface CopyableLabelText extends Constants {
+  static final CopyableLabelText I = GWT.create(CopyableLabelText.class);
+
+  String tooltip();
+  String copied();
+  String failed();
 }

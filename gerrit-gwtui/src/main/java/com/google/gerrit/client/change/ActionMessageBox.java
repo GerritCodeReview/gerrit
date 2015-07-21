@@ -30,7 +30,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
-import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 abstract class ActionMessageBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, ActionMessageBox> {}
@@ -41,7 +40,7 @@ abstract class ActionMessageBox extends Composite {
   }
 
   private final Button activatingButton;
-  private PluginSafePopupPanel popup;
+  private PopupPanel popup;
 
   @UiField Style style;
   @UiField NpTextArea message;
@@ -62,7 +61,7 @@ abstract class ActionMessageBox extends Composite {
       return;
     }
 
-    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
+    final PopupPanel p = new PopupPanel(true);
     p.setStyleName(style.popup());
     p.addAutoHidePartner(activatingButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {

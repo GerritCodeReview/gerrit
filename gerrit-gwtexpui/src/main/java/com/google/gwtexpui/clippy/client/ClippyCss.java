@@ -18,5 +18,6 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface ClippyCss extends CssResource {
   String label();
-  String control();
+  String copier();
+  String swf();
 }

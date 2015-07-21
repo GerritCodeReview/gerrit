@@ -16,10 +16,24 @@
 .label {
   vertical-align: top;
 }
-.control {
+.swf, .copier {
   margin-left: 5px;
-  display: inline-block !important;
   height: 14px;
   width: 14px;
+}
+.swf {
+  display: inline-block !important;
   overflow: hidden;
+}
+.copier {
+  display: inline-block;
+  font-size: 12px;
+  vertical-align: top;
+  padding: 0;
+  border: 0;
+  background-color: inherit;
+  cursor: pointer;
+}
+.copier:focus {
+  outline: none;
 }

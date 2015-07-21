@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "0df5e23c_7f01af40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-21T08:59:36Z",
+      "side": 1,
+      "message": "This is the plugin API extension and as thus must be documented here: [1].\n\n* [1] https://github.com/gerrit-review/gerrit/blob/master/Documentation/dev-plugins.txt#L962,L1020",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb2e32_7e01b140",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-21T08:59:36Z",
+      "side": 1,
+      "message": "I would expect that the contract is that change resource contribution to MD5 hash is done on line 97, here:\n\n  rsrc.getChangeResource().prepareETag(h, ctl.getCurrentUser());\n\nso that core and plugin action handlers can rely on this contract. It wouldn\u0027t hurt to mention this contract in the commit message and/or in dev-plugin description.",
+      "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "784c5e14_3b9dd76a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 7
@@ -90,6 +130,29 @@
         "startChar": 19,
         "endLine": 108,
         "endChar": 53
+      },
+      "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0df5e23c_ffedbfff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-21T08:59:36Z",
+      "side": 1,
+      "message": "Why the change contribution to the MD5 hash is buried in submit handler and guarded by canSubmit() capability? The contract is clearly to do basic contribution to the ETag like view id and change resource contribution in GetRevisionActions.buildETag(). So that core and plugin action handlers can rely on it.",
+      "range": {
+        "startLine": 332,
+        "startChar": 6,
+        "endLine": 332,
+        "endChar": 68
       },
       "revId": "eba4156032a634ea83cd3c6a485e0bd34e4943da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

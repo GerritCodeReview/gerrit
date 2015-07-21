@@ -22,6 +22,30 @@
       "revId": "2c474a45974c97a46590f65ffe0e7a344c66e0ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1f4a53_35611004",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-21T05:06:52Z",
+      "side": 1,
+      "message": "Then the text is not really wrong, but still missleading.\nDo you think we would need to communicate the cascading of topics there?",
+      "parentUuid": "cd1f4a53_b5152074",
+      "range": {
+        "startLine": 83,
+        "startChar": 39,
+        "endLine": 83,
+        "endChar": 56
+      },
+      "revId": "2c474a45974c97a46590f65ffe0e7a344c66e0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

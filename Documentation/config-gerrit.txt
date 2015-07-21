@@ -871,6 +871,17 @@ abbreviated commit SHA-1 (`c9c0edb`).
 +
 Default is "Submit patch set ${patchSet} into ${branch}".
 
+[[change.submitTooltipAncestors]]change.submitTooltipAncestors::
++
+Tooltip for the submit button if there are ancestors which would
+also be submitted by submitting the change. Additionally to the variables
+as in link:#change.submitTooltip[change.submitTooltip], there is the
+variable `${submitSize}` indicating the number of changes which are
+submitted.
++
+Default is "Submit all ${topicSize} changes of the same topic (${submitSize}
+changes including ancestors and other changes related by topic)".
+
 [[change.submitWholeTopic]]change.submitWholeTopic::
 +
 Determines if the submit button submits the whole topic instead of

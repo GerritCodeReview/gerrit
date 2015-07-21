@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0df5e23c_5f5cab53",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ExtensionSettingsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T11:37:59Z",
+      "side": 1,
+      "message": "This must be\n  $wnd.Gerrit.settingsScreens",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 40
+      },
+      "revId": "9cccc2380012eb286616d4eee249433c00bea190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

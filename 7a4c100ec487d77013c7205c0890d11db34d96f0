@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd1f4a53_352230d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-21T00:53:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd1f4a53_d5eadce5",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7a4c100ec487d77013c7205c0890d11db34d96f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd1f4a53_f5edd8ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-07-20T23:24:26Z",
       "side": 1,
       "message": "This is still not a very useful error message, as the change ID is not very descriptive. Supposing I even notice that this error message for change 69739 but I\u0027m trying to submit 69740, why do I care about this other change? At this point the whole screen is grayed out from the error message so I can\u0027t check the change ID on the \"submitted together\" screen.\n\nThe merge queue had helpful, descriptive, multi-sentence error messages when something went wrong. Here are some good examples:\nhttps://gerrit-review.googlesource.com/#/c/69691/1\n\nI think we should try to emulate those rather than being as succinct as possible, which is what this code feels like it\u0027s doing right now.",
+      "revId": "7a4c100ec487d77013c7205c0890d11db34d96f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf66a4b_3dd44f31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-21T00:53:49Z",
+      "side": 1,
+      "message": "We should not emulate those IMHO. Look at the followup change, which will improve the tooltip for reporting.\n\nIMHO as soon as an error pops up and the rest of the screen is grayed, we\u0027ve gone too far with \"UI designed by engineers\". We should rather make sure to have all error reporting in the UI to begin with.",
+      "parentUuid": "cd1f4a53_f5edd8ff",
       "revId": "7a4c100ec487d77013c7205c0890d11db34d96f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

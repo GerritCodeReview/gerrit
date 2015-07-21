@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd1f4a53_957104d3",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-21T15:18:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb2e32_5edf1551",
+      "range": {
+        "startLine": 284,
+        "startChar": 21,
+        "endLine": 284,
+        "endChar": 31
+      },
+      "revId": "3965b2ceb194a89193477b8f4be4cabc2ee72a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb2e32_1ed98d69",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-21T08:15:38Z",
       "side": 1,
       "message": "Should this be 10, if\n  (UserAgent.hasJavaScriptClipboard() || !UserAgent.Flash.isInstalled())\n?",
+      "range": {
+        "startLine": 140,
+        "startChar": 35,
+        "endLine": 140,
+        "endChar": 37
+      },
+      "revId": "3965b2ceb194a89193477b8f4be4cabc2ee72a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1f4a53_b57400c3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-07-21T15:18:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb2e32_1ed98d69",
       "range": {
         "startLine": 140,
         "startChar": 35,

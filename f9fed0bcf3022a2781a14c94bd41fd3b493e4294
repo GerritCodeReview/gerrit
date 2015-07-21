@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edfb2e32_9ecd9daa",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/user/client/UserAgent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T07:21:36Z",
+      "side": 1,
+      "message": "\u0027checked\u0027 is never set to true",
+      "revId": "f9fed0bcf3022a2781a14c94bd41fd3b493e4294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

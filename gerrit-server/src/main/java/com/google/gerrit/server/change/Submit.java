@@ -110,7 +110,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final String submitTopicLabel;
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
-  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   Submit(Provider<ReviewDb> dbProvider,
@@ -122,8 +121,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       MergeSuperSet mergeSuperSet,
       AccountsCollection accounts,
       ChangesCollection changes,
-      @GerritServerConfig Config cfg,
-      Provider<InternalChangeQuery> queryProvider) {
+      @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.changeDataFactory = changeDataFactory;
@@ -146,7 +144,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.submitTopicTooltip = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTopicTooltip"),
         DEFAULT_TOPIC_TOOLTIP));
-    this.queryProvider = queryProvider;
   }
 
   @Override
@@ -176,20 +173,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    List<Change> changes;
-    if (submitWholeTopic && !Strings.isNullOrEmpty(change.getTopic())) {
-      changes = new ArrayList<>();
-      for (ChangeData cd : getChangesByTopic(change.getTopic())) {
-        changes.add(cd.change());
-      }
-    } else {
-      changes = Arrays.asList(change);
-    }
-    ChangeSet submittedChanges = ChangeSet.create(changes);
-
     try {
       ReviewDb db = dbProvider.get();
-      mergeOpProvider.get().merge(db, submittedChanges, caller, true);
+      mergeOpProvider.get().merge(db, ChangeSet.create(change), caller, true);
       change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
@@ -470,14 +456,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   public static boolean wholeTopicEnabled(Config config) {
     return config.getBoolean("change", null, "submitWholeTopic" , false);
-  }
-
-  private List<ChangeData> getChangesByTopic(String topic) {
-    try {
-      return queryProvider.get().byTopicOpen(topic);
-    } catch (OrmException e) {
-      throw new OrmRuntimeException(e);
-    }
   }
 
   public static class CurrentRevision implements

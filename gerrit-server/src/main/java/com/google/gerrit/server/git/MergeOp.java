@@ -304,8 +304,13 @@ public class MergeOp {
 
   private void checkSubmitRules(ChangeSet cs)
       throws ResourceConflictException, OrmException {
-    for (Change.Id id : cs.ids()) {
-      ChangeData cd = changeDataFactory.create(db, id);
+    logError("checking submit rules and revisions");
+    for (PatchSet.Id id : cs.patchIds()) {
+      ChangeData cd = changeDataFactory.create(db, id.getParentKey());
+      if (!cd.change().currentPatchSetId().equals(id)) {
+        throw new OrmException("Change " + cd.change().getChangeId()
+            + " was not included with its newest patchset.");
+      }
       if (cd.change().getStatus() != Change.Status.NEW){
         throw new OrmException("Change " + cd.change().getChangeId()
             + " is in state " + cd.change().getStatus());

@@ -46,15 +46,6 @@ import java.util.Map;
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 @CommandMetaData(name = "create-project", description = "Create a new project and associated Git repository")
 final class CreateProjectCommand extends SshCommand {
-  @Option(name = "--name", aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created (deprecated option)")
-  void setProjectNameFromOption(String name) {
-    if (projectName != null) {
-      throw new IllegalArgumentException("NAME already supplied");
-    } else {
-      projectName = name;
-    }
-  }
-
   @Option(name = "--suggest-parents", aliases = {"-S"}, usage = "suggest parent candidates, "
       + "if this option is used all other options and arguments are ignored")
   private boolean suggestParent;
@@ -129,16 +120,8 @@ final class CreateProjectCommand extends SshCommand {
       usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'")
   private List<String> pluginConfigValues;
 
-  private String projectName;
-
   @Argument(index = 0, metaVar = "NAME", usage = "name of project to be created")
-  void setProjectNameFromArgument(String name) {
-    if (projectName != null) {
-      throw new IllegalArgumentException("--name already supplied");
-    } else {
-      projectName = name;
-    }
-  }
+  private String projectName;
 
   @Inject
   private GerritApi gApi;

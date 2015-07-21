@@ -10,7 +10,6 @@ gerrit_plugin(
     'Gerrit-ApiType: plugin',
     'Gerrit-ApiVersion: ${gerritApiVersion}',
     'Gerrit-Module: ${package}.Module',
-    'Gerrit-SshModule: ${package}.SshModule',
     'Gerrit-HttpModule: ${package}.HttpModule',
   ],
 )

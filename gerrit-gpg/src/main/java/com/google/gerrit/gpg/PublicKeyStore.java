@@ -99,6 +99,29 @@ public class PublicKeyStore implements AutoCloseable {
     return null;
   }
 
+  /**
+   * Choose the public key that produced a certification.
+   * <p>
+   * @param keyRings candidate keys.
+   * @param sig signature object.
+   * @param userId user ID being certified.
+   * @param key key being certified.
+   * @return the key chosen from {@code keyRings} that was able to verify the
+   *     certification, or null if none was found.
+   * @throws PGPException if an error occurred verifying the certification.
+   */
+  public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
+      PGPSignature sig, String userId, PGPPublicKey key) throws PGPException {
+    for (PGPPublicKeyRing kr : keyRings) {
+      PGPPublicKey k = kr.getPublicKey();
+      sig.init(new BcPGPContentVerifierBuilderProvider(), k);
+      if (sig.verifyCertification(userId, key)) {
+        return k;
+      }
+    }
+    return null;
+  }
+
   private final Repository repo;
   private ObjectReader reader;
   private RevCommit tip;

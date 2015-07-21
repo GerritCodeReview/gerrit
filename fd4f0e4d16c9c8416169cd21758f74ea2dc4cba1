@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0df5e23c_bf4bb77c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T13:08:24Z",
+      "side": 1,
+      "message": "This should be a link to a section where \u0027vote-id\u0027 is explained.",
+      "range": {
+        "startLine": 2244,
+        "startChar": 119,
+        "endLine": 2244,
+        "endChar": 126
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb2e32_de4e858e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T13:08:24Z",
+      "side": 1,
+      "message": "Why not just label name?",
+      "range": {
+        "startLine": 2249,
+        "startChar": 0,
+        "endLine": 2249,
+        "endChar": 56
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0df5e23c_9f48f380",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T13:08:24Z",
+      "side": 1,
+      "message": "This should be explained in an own section under the \"ID\" section in line 3641.",
+      "range": {
+        "startLine": 2249,
+        "startChar": 0,
+        "endLine": 2250,
+        "endChar": 68
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb2e32_be4bb97c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T13:08:24Z",
+      "side": 1,
+      "message": "[optional] indent these lines",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 18
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0df5e23c_7fa52fb9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-21T13:08:24Z",
+      "side": 1,
+      "message": "[optional] indent this line",
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

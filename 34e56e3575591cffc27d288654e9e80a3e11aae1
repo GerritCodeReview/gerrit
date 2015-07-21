@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf66a4b_5ddf1b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-21T00:51:28Z",
+      "side": 0,
+      "message": "The mergeSuperSet in MergeOp will take care of topics.",
+      "range": {
+        "startLine": 186,
+        "startChar": 38,
+        "endLine": 186,
+        "endChar": 54
+      },
+      "revId": "34e56e3575591cffc27d288654e9e80a3e11aae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

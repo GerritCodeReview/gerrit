@@ -191,6 +191,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       List<String> addedKeys = new ArrayList<>();
       for (PGPPublicKeyRing keyRing : keyRings) {
         PGPPublicKey key = keyRing.getPublicKey();
+        // Don't check web of trust; admins can fill in certifications later.
         CheckResult result = checker.check(key);
         if (!result.isOk()) {
           throw new BadRequestException(String.format(

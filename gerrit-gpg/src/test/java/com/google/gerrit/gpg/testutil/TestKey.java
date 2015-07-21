@@ -563,7 +563,7 @@ public class TestKey {
   private final PGPPublicKeyRing pubRing;
   private final PGPSecretKeyRing secRing;
 
-  private TestKey(String pubArmored, String secArmored) {
+  public TestKey(String pubArmored, String secArmored) {
     this.pubArmored = pubArmored;
     this.secArmored = secArmored;
     BcKeyFingerprintCalculator fc = new BcKeyFingerprintCalculator();

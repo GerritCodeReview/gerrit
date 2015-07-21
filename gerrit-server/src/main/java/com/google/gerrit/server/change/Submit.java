@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
@@ -64,8 +65,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -76,17 +75,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private static final Logger log = LoggerFactory.getLogger(Submit.class);
 
   private static final String DEFAULT_TOOLTIP =
-      "Submit patch set ${patchSet} into ${branch}";
+      "Submit patch set ${patchSet} and ancestors (${submitSize}) into ${branch}";
   private static final String DEFAULT_TOPIC_TOOLTIP =
-      "Submit all ${topicSize} changes of the same topic";
-  private static final String BLOCKED_TOPIC_TOOLTIP =
-      "Other changes in this topic are not ready";
-  private static final String BLOCKED_HIDDEN_TOPIC_TOOLTIP =
-      "Other hidden changes in this topic are not ready";
-  private static final String CLICK_FAILURE_OTHER_TOOLTIP =
-      "Clicking the button would fail for other changes in the topic";
+      "Submit patch set ${patchSet} and all changes in the same topic " +
+      "and its ancestors (${submitSize})";
+  private static final String BLOCKED_SUBMIT_TOOLTIP =
+      "This change depends on other changes which are not ready";
+  private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
+      "This change depends on other hidden changes which are not ready";
   private static final String CLICK_FAILURE_TOOLTIP =
-      "Clicking the button would fail.";
+      "Clicking the button would fail";
+  private static final String CLICK_FAILURE_OTHER_TOOLTIP =
+      "Clicking the button would fail for other dependent changes";
 
   public static class Output {
     transient Change change;
@@ -100,7 +100,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final GitRepositoryManager repoManager;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<MergeOp> mergeOpProvider;
+  private final MergeSuperSet mergeSuperSet;
   private final AccountsCollection accounts;
   private final ChangesCollection changes;
   private final String label;
@@ -108,14 +110,15 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final String submitTopicLabel;
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
-  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   Submit(Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
+      ChangeControl.GenericFactory changeControlFactory,
       Provider<MergeOp> mergeOpProvider,
+      MergeSuperSet mergeSuperSet,
       AccountsCollection accounts,
       ChangesCollection changes,
       @GerritServerConfig Config cfg,
@@ -124,7 +127,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.repoManager = repoManager;
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
+    this.changeControlFactory = changeControlFactory;
     this.mergeOpProvider = mergeOpProvider;
+    this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
     this.changes = changes;
     this.label = MoreObjects.firstNonNull(
@@ -170,20 +175,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    List<Change> changes;
-    if (submitWholeTopic && !Strings.isNullOrEmpty(change.getTopic())) {
-      changes = new ArrayList<>();
-      for (ChangeData cd : getChangesByTopic(change.getTopic())) {
-        changes.add(cd.change());
-      }
-    } else {
-      changes = Arrays.asList(change);
-    }
-    ChangeSet submittedChanges = ChangeSet.create(changes);
-
     try {
       ReviewDb db = dbProvider.get();
-      mergeOpProvider.get().merge(db, submittedChanges, caller, true);
+      mergeOpProvider.get().merge(db, ChangeSet.create(change), caller, true);
       change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
@@ -207,22 +201,24 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   /**
-   * @param changeList list of changes to be submitted at once
+   * @param cs set of changes to be submitted at once
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChanges(
-      List<ChangeData> changeList,
-      IdentifiedUser identifiedUser) {
+  private String problemsForSubmittingChangeset(
+      ChangeSet cs, IdentifiedUser identifiedUser) {
     try {
-      for (ChangeData c : changeList) {
-        ChangeControl changeControl = c.changeControl().forUser(
-            identifiedUser);
+      for (PatchSet.Id psId : cs.patchIds()) {
+        ReviewDb db = dbProvider.get();
+        ChangeControl changeControl = changeControlFactory
+            .controlFor(psId.getParentKey(), identifiedUser);
+        ChangeData c = changeDataFactory.create(db, changeControl);
+
         if (!changeControl.isVisible(dbProvider.get())) {
-          return BLOCKED_HIDDEN_TOPIC_TOOLTIP;
+          return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
         if (!changeControl.canSubmit()) {
-          return BLOCKED_TOPIC_TOOLTIP;
+          return BLOCKED_SUBMIT_TOOLTIP;
         }
         // Recheck mergeability rather than using value stored in the index,
         // which may be stale.
@@ -240,8 +236,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         checkSubmitRule(c, c.currentPatchSet(), false);
       }
     } catch (ResourceConflictException e) {
-      return BLOCKED_TOPIC_TOOLTIP;
-    } catch (OrmException e) {
+      return BLOCKED_SUBMIT_TOOLTIP;
+    } catch (NoSuchChangeException | OrmException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
@@ -282,16 +278,20 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       throw new OrmRuntimeException("Could not determine mergeability", e);
     }
 
-    List<ChangeData> changesByTopic = null;
-    if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
-      changesByTopic = getChangesByTopic(topic);
+    ChangeSet cs = null;
+    try {
+      cs = mergeSuperSet.completeChangeSet(db,
+          ChangeSet.create(cd.change()));
+    } catch (OrmException | IOException e) {
+      throw new OrmRuntimeException("Could not determine complete set of " +
+          "changes to be submitted", e);
     }
     if (submitWholeTopic
         && !Strings.isNullOrEmpty(topic)
-        && changesByTopic.size() > 1) {
+        && cs.branches().size() > 1) {
       Map<String, String> params = ImmutableMap.of(
-          "topicSize", String.valueOf(changesByTopic.size()));
-      String topicProblems = problemsForSubmittingChanges(changesByTopic,
+          "topicSize", String.valueOf(cs.size()));
+      String topicProblems = problemsForSubmittingChangeset(cs,
           resource.getUser());
       if (topicProblems != null) {
         return new UiAction.Description()
@@ -458,14 +458,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   public static boolean wholeTopicEnabled(Config config) {
     return config.getBoolean("change", null, "submitWholeTopic" , false);
-  }
-
-  private List<ChangeData> getChangesByTopic(String topic) {
-    try {
-      return queryProvider.get().byTopicOpen(topic);
-    } catch (OrmException e) {
-      throw new OrmRuntimeException(e);
-    }
   }
 
   public static class CurrentRevision implements

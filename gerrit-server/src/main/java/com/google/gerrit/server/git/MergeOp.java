@@ -377,7 +377,7 @@ public class MergeOp {
     throw new IllegalStateException();
   }
 
-  private void checkPermissions(ChangeSet cs)
+  private void checkSubmitRules(ChangeSet cs)
       throws ResourceConflictException, OrmException {
     for (Change.Id id : cs.ids()) {
       ChangeData cd = changeDataFactory.create(db, id);
@@ -401,7 +401,7 @@ public class MergeOp {
       logDebug("Calculated to merge {}", cs);
       if (checkPermissions) {
         logDebug("Checking permissions");
-        checkPermissions(cs);
+        checkSubmitRules(cs);
       }
       try {
         integrateIntoHistory(cs, caller);

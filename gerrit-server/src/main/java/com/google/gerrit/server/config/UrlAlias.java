@@ -35,6 +35,11 @@ public class UrlAlias {
     }
   }
 
+  public UrlAlias(String urlPathFrom, String urlPathTo) {
+    this.urlPathFrom = urlPathFrom;
+    this.urlPathTo = urlPathTo;
+  }
+
   public String getUrlPathFrom() {
     return urlPathFrom;
   }
@@ -43,7 +48,16 @@ public class UrlAlias {
     return urlPathTo;
   }
 
+  @Override
+  public String toString() {
+    return escape(urlPathFrom) + DELIM + escape(urlPathTo);
+  }
+
   private static String unescape(String s) {
     return s.replaceAll(Pattern.quote(ESC) + Pattern.quote(DELIM), DELIM);
+  }
+
+  private static String escape(String s) {
+    return s.replaceAll(Pattern.quote(DELIM), ESC + DELIM);
   }
 }

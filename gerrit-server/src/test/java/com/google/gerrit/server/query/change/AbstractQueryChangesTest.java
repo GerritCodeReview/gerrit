@@ -83,6 +83,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -117,6 +118,7 @@ public abstract class AbstractQueryChangesTest {
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
+  @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected NotesMigration notesMigration;
   @Inject protected ProjectControl.GenericFactory projectControlFactory;
   @Inject protected SchemaCreator schemaCreator;
@@ -1134,6 +1136,40 @@ public abstract class AbstractQueryChangesTest {
         change3, change2);
     assertThat(actual.get(0).reviewed).isTrue();
     assertThat(actual.get(1).reviewed).isTrue();
+  }
+
+  @Test
+  public void byCommitsOnBranchNotMerged() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    int n = 10;
+    List<String> shas = new ArrayList<>(n);
+    List<Integer> expectedIds = new ArrayList<>(n);
+    Branch.NameKey dest = null;
+    for (int i = 0; i < n; i++) {
+      ChangeInserter ins = newChange(repo, null, null, null, null);
+      ins.insert();
+      if (dest == null) {
+        dest = ins.getChange().getDest();
+      }
+      shas.add(ins.getPatchSet().getRevision().get());
+      expectedIds.add(ins.getChange().getId().get());
+    }
+
+    for (int i = 1; i <= 11; i++) {
+      Iterable<ChangeData> cds =
+          internalChangeQuery.byCommitsOnBranchNotMerged(dest, shas, i);
+      Iterable<Integer> ids = FluentIterable.from(cds).transform(
+          new Function<ChangeData, Integer>() {
+            @Override
+            public Integer apply(ChangeData in) {
+              return in.getId().get();
+            }
+          });
+      String name = "batch size " + i;
+      assertThat(ids).named(name).hasSize(n);
+      assertThat(ids).named(name)
+          .containsExactlyElementsIn(expectedIds);
+    }
   }
 
   protected ChangeInserter newChange(

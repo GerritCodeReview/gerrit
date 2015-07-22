@@ -15,6 +15,7 @@
 package com.google.gerrit.plugin.client;
 
 import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.plugin.client.extension.Panel;
 import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.core.client.GWT;
@@ -55,6 +56,10 @@ public final class Plugin extends JavaScriptObject {
   /** Refresh Gerrit's menu bar. */
   public final native void refreshMenuBar()
   /*-{ return this.refreshMenuBar() }-*/;
+
+  /** @return the current user */
+  public final native AccountInfo getCurrentUser()
+  /*-{ return this.getCurrentUser() }-*/;
 
   /** Check if user is signed in. */
   public final native boolean isSignedIn()

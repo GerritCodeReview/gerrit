@@ -21,7 +21,7 @@ gerrit create-project - Create a new hosted project
   [--empty-commit]
   [--max-object-size-limit <N>]
   [--plugin-config <PARAM> ...]
-  { <NAME> | --name <NAME> }
+  { <NAME> }
 --
 
 == DESCRIPTION
@@ -48,11 +48,6 @@ This command is intended to be used in scripts.
 <NAME>::
 	Required; name of the new project to create.  If name ends
 	with `.git` the suffix will be automatically removed.
-
---name::
--n::
-	Deprecated alias for the <NAME> argument. This option may
-	be removed in a future release.
 
 --branch::
 -b::

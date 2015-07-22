@@ -848,7 +848,7 @@ public class Gerrit implements EntryPoint {
   private static AccountPreferencesInfo getDefaultUserPreferences() {
     AccountGeneralPreferences prefs = new AccountGeneralPreferences();
     prefs.resetToDefaults();
-    return AccountPreferencesInfo.create(prefs, null);
+    return AccountPreferencesInfo.create(prefs, null, null);
   }
 
   public static void refreshUserPreferences() {

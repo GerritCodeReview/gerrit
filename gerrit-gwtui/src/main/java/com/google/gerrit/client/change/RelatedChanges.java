@@ -228,9 +228,11 @@ public class RelatedChanges extends TabPanel {
           new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
     } else {
       // TODO(sbeller): show only on latest revision
-      ChangeApi.change(info.legacyId().get()).view("submitted_together")
-          .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
-              info.project(), revision));
+      if (info.status().isOpen()) {
+        ChangeApi.change(info.legacyId().get()).view("submitted_together")
+            .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
+                info.project(), revision));
+      }
     }
   }
 

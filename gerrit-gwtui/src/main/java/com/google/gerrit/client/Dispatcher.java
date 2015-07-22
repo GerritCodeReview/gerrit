@@ -99,6 +99,8 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.util.Map;
+
 public class Dispatcher {
   public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id) {
     return toPatch("", diffBase, id);

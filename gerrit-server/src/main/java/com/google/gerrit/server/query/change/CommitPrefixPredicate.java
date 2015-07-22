@@ -19,23 +19,16 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.ObjectId;
-
 class CommitPrefixPredicate extends IndexPredicate<ChangeData> {
-  private final AbbreviatedObjectId abbrevId;
-
-  CommitPrefixPredicate(AbbreviatedObjectId id) {
-    super(ChangeField.COMMIT, id.name());
-    this.abbrevId = id;
+  CommitPrefixPredicate(String prefix) {
+    super(ChangeField.COMMIT, prefix);
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     for (PatchSet p : object.patchSets()) {
       if (p.getRevision() != null && p.getRevision().get() != null) {
-        final ObjectId id = ObjectId.fromString(p.getRevision().get());
-        if (abbrevId.prefixCompare(id) == 0) {
+        if (p.getRevision().get().startsWith(getValue())) {
           return true;
         }
       }

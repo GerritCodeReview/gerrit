@@ -19,24 +19,18 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.Objects;
 
 class ExactCommitPredicate extends IndexPredicate<ChangeData> {
-  private final ObjectId id;
-
-  ExactCommitPredicate(ObjectId id) {
-    super(ChangeField.COMMIT, id.name());
-    this.id = id;
+  ExactCommitPredicate(String id) {
+    super(ChangeField.COMMIT, id);
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    String idStr = id.name();
     for (PatchSet p : object.patchSets()) {
       if (p.getRevision() != null && p.getRevision().get() != null) {
-        if (Objects.equals(p.getRevision().get(), idStr)) {
+        if (Objects.equals(p.getRevision().get(), getValue())) {
           return true;
         }
       }

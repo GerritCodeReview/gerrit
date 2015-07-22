@@ -66,7 +66,7 @@ public class InternalChangeQuery {
     return new ChangeStatusPredicate(status);
   }
 
-  private static Predicate<ChangeData> commit(ObjectId id) {
+  private static Predicate<ChangeData> commit(String id) {
     return new ExactCommitPredicate(id);
   }
 
@@ -129,7 +129,7 @@ public class InternalChangeQuery {
       List<String> hashes, int batchSize) throws OrmException {
     List<Predicate<ChangeData>> commits = new ArrayList<>(hashes.size());
     for (String s : hashes) {
-      commits.add(commit(ObjectId.fromString(s)));
+      commits.add(commit(s));
     }
     int numBatches = (hashes.size() / batchSize) + 1;
     List<Predicate<ChangeData>> queries = new ArrayList<>(numBatches);
@@ -164,7 +164,7 @@ public class InternalChangeQuery {
   }
 
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
-    return query(commit(id));
+    return query(commit(id.name()));
   }
 
   public List<ChangeData> byProjectGroups(Project.NameKey project,

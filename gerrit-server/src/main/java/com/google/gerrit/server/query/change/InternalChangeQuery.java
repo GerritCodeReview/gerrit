@@ -15,10 +15,14 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.query.Predicate.and;
-import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.Predicate.not;
+import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -116,17 +120,38 @@ public class InternalChangeQuery {
         open()));
   }
 
-  public List<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
+  public Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
       List<String> hashes) throws OrmException {
-    List<Predicate<ChangeData>> commits = new ArrayList<>();
+    return byCommitsOnBranchNotMerged(branch, hashes, 100);
+  }
+
+  @VisibleForTesting
+  Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
+      List<String> hashes, int batchSize) throws OrmException {
+    List<Predicate<ChangeData>> commits = new ArrayList<>(hashes.size());
     for (String s : hashes) {
       commits.add(commit(AbbreviatedObjectId.fromString(s)));
     }
-    return query(and(
-        ref(branch),
-        project(branch.getParentKey()),
-        not(status(Change.Status.MERGED)),
-        or(commits)));
+    int numBatches = (hashes.size() / batchSize) + 1;
+    List<Predicate<ChangeData>> queries = new ArrayList<>(numBatches);
+    for (List<Predicate<ChangeData>> batch : Iterables.partition(commits, batchSize)) {
+      queries.add(and(
+            ref(branch),
+            project(branch.getParentKey()),
+            not(status(Change.Status.MERGED)),
+            or(batch)));
+    }
+    try {
+      return FluentIterable.from(qp.queryChanges(queries))
+        .transformAndConcat(new Function<QueryResult, List<ChangeData>>() {
+          @Override
+          public List<ChangeData> apply(QueryResult in) {
+            return in.changes();
+          }
+        });
+    } catch (QueryParseException e) {
+      throw new OrmException(e);
+    }
   }
 
   public List<ChangeData> byProjectOpen(Project.NameKey project)

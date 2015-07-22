@@ -138,7 +138,7 @@ public class MergeSuperSet {
 
           if (!hashes.isEmpty()) {
             // Merged changes are ok to exclude
-            List<ChangeData> destChanges = queryProvider.get()
+            Iterable<ChangeData> destChanges = queryProvider.get()
                 .byCommitsOnBranchNotMerged(cd.change().getDest(), hashes);
 
             for (ChangeData chd : destChanges) {

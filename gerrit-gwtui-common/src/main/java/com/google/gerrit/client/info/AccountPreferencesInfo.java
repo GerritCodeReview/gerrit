@@ -30,9 +30,6 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   public static AccountPreferencesInfo create(AccountGeneralPreferences in,
       List<TopMenuItem> myMenus) {
     AccountPreferencesInfo p = createObject().cast();
-    if (in == null) {
-      in = AccountGeneralPreferences.createDefault();
-    }
     p.changesPerPage(in.getMaximumPageSize());
     p.showSiteHeader(in.isShowSiteHeader());
     p.useFlashClipboard(in.isUseFlashClipboard());
@@ -47,8 +44,14 @@ public class AccountPreferencesInfo extends JavaScriptObject {
     p.muteCommonPathPrefixes(in.isMuteCommonPathPrefixes());
     p.reviewCategoryStrategy(in.getReviewCategoryStrategy());
     p.diffView(in.getDiffView());
-    p.setMyMenus(myMenus);
+    if (myMenus != null) {
+      p.setMyMenus(myMenus);
+    }
     return p;
+  }
+
+  public static AccountPreferencesInfo createDefault() {
+    return create(AccountGeneralPreferences.createDefault(), null);
   }
 
   public final short changesPerPage() {

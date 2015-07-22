@@ -391,6 +391,7 @@ public class Gerrit implements EntryPoint {
     myAccount = AccountInfo.create(0, null, null, null);
     myAccountDiffPref = null;
     myPrefs = AccountPreferencesInfo.createDefault();
+    urlAliasMatcher.clearUserAliases();
     xGerritAuth = null;
     refreshMenuBar();
 
@@ -880,6 +881,7 @@ public class Gerrit implements EntryPoint {
       siteFooter.setVisible(myPrefs.showSiteHeader());
     }
     FormatUtil.setPreferences(myPrefs);
+    urlAliasMatcher.updateUserAliases(myPrefs.urlAliases());
   }
 
   private static void getDocIndex(final AsyncCallback<DocInfo> cb) {

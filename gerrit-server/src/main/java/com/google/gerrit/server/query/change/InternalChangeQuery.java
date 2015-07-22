@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -71,12 +72,15 @@ public class InternalChangeQuery {
     return new CommitPredicate(schema, id);
   }
 
+  private final IndexConfig indexConfig;
   private final QueryProcessor qp;
   private final IndexCollection indexes;
 
   @Inject
-  InternalChangeQuery(QueryProcessor queryProcessor,
+  InternalChangeQuery(IndexConfig indexConfig,
+      QueryProcessor queryProcessor,
       IndexCollection indexes) {
+    this.indexConfig = indexConfig;
     qp = queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
   }
@@ -122,7 +126,8 @@ public class InternalChangeQuery {
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
       List<String> hashes) throws OrmException {
-    return byCommitsOnBranchNotMerged(branch, hashes, 100);
+    return byCommitsOnBranchNotMerged(
+        branch, hashes, indexConfig.maxPrefixTerms());
   }
 
   @VisibleForTesting
@@ -135,7 +140,8 @@ public class InternalChangeQuery {
     }
     int numBatches = (hashes.size() / batchSize) + 1;
     List<Predicate<ChangeData>> queries = new ArrayList<>(numBatches);
-    for (List<Predicate<ChangeData>> batch : Iterables.partition(commits, batchSize)) {
+    for (List<Predicate<ChangeData>> batch
+        : Iterables.partition(commits, batchSize)) {
       queries.add(and(
             ref(branch),
             project(branch.getParentKey()),

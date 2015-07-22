@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,23 +19,24 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-class CommitPredicate extends IndexPredicate<ChangeData> {
-  private final AbbreviatedObjectId abbrevId;
+import java.util.Objects;
 
-  CommitPredicate(AbbreviatedObjectId id) {
+class ExactCommitPredicate extends IndexPredicate<ChangeData> {
+  private final ObjectId id;
+
+  ExactCommitPredicate(ObjectId id) {
     super(ChangeField.COMMIT, id.name());
-    this.abbrevId = id;
+    this.id = id;
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
+    String idStr = id.name();
     for (PatchSet p : object.patchSets()) {
       if (p.getRevision() != null && p.getRevision().get() != null) {
-        final ObjectId id = ObjectId.fromString(p.getRevision().get());
-        if (abbrevId.prefixCompare(id) == 0) {
+        if (Objects.equals(p.getRevision().get(), idStr)) {
           return true;
         }
       }

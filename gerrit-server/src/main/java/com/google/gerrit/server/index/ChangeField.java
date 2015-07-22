@@ -303,22 +303,37 @@ public class ChangeField {
         }
       };
 
-  /** Commit id of any PatchSet on the change */
+  /** Commit ID of any patch set on the change, using prefix match. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMIT =
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_COMMIT, FieldType.PREFIX, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          Set<String> revisions = Sets.newHashSet();
-          for (PatchSet ps : input.patchSets()) {
-            if (ps.getRevision() != null) {
-              revisions.add(ps.getRevision().get());
-            }
-          }
-          return revisions;
+          return getRevisions(input);
         }
       };
+
+  /** Commit ID of any patch set on the change, using exact match. */
+  public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "exactcommit", FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return getRevisions(input);
+        }
+      };
+
+  private static Set<String> getRevisions(ChangeData cd) throws OrmException {
+    Set<String> revisions = Sets.newHashSet();
+    for (PatchSet ps : cd.patchSets()) {
+      if (ps.getRevision() != null) {
+        revisions.add(ps.getRevision().get());
+      }
+    }
+    return revisions;
+  }
 
   /** Tracking id extracted from a footer. */
   public static final FieldDef<ChangeData, Iterable<String>> TR =

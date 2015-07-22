@@ -35,7 +35,6 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.ArrayList;
@@ -67,8 +66,8 @@ public class InternalChangeQuery {
     return new ChangeStatusPredicate(status);
   }
 
-  private static Predicate<ChangeData> commit(AbbreviatedObjectId id) {
-    return new CommitPredicate(id);
+  private static Predicate<ChangeData> commit(ObjectId id) {
+    return new ExactCommitPredicate(id);
   }
 
   private final QueryProcessor qp;
@@ -130,7 +129,7 @@ public class InternalChangeQuery {
       List<String> hashes, int batchSize) throws OrmException {
     List<Predicate<ChangeData>> commits = new ArrayList<>(hashes.size());
     for (String s : hashes) {
-      commits.add(commit(AbbreviatedObjectId.fromString(s)));
+      commits.add(commit(ObjectId.fromString(s)));
     }
     int numBatches = (hashes.size() / batchSize) + 1;
     List<Predicate<ChangeData>> queries = new ArrayList<>(numBatches);
@@ -164,12 +163,8 @@ public class InternalChangeQuery {
     return query(and(new ExactTopicPredicate(schema(indexes), topic), open()));
   }
 
-  public List<ChangeData> byCommitPrefix(String prefix) throws OrmException {
-    return query(commit(AbbreviatedObjectId.fromString(prefix)));
-  }
-
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
-    return query(commit(AbbreviatedObjectId.fromObjectId(id)));
+    return query(commit(id));
   }
 
   public List<ChangeData> byProjectGroups(Project.NameKey project,

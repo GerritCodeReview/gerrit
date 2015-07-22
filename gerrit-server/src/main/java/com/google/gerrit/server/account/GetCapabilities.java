@@ -59,10 +59,6 @@ import java.util.Map;
 import java.util.Set;
 
 class GetCapabilities implements RestReadView<AccountResource> {
-  @Deprecated
-  @Option(name = "--format", usage = "(deprecated) output format")
-  private OutputFormat format;
-
   @Option(name = "-q", metaVar = "CAP", usage = "Capability to inspect")
   void addQuery(String name) {
     if (query == null) {
@@ -142,22 +138,9 @@ class GetCapabilities implements RestReadView<AccountResource> {
       }
     }
 
-    if (format == OutputFormat.TEXT) {
-      StringBuilder sb = new StringBuilder();
-      for (Map.Entry<String, Object> e : have.entrySet()) {
-        sb.append(e.getKey());
-        if (!(e.getValue() instanceof Boolean)) {
-          sb.append(": ");
-          sb.append(e.getValue().toString());
-        }
-        sb.append('\n');
-      }
-      return BinaryResult.create(sb.toString());
-    } else {
-      return OutputFormat.JSON.newGson().toJsonTree(
-        have,
-        new TypeToken<Map<String, Object>>() {}.getType());
-    }
+    return OutputFormat.JSON.newGson().toJsonTree(
+      have,
+      new TypeToken<Map<String, Object>>() {}.getType());
   }
 
   private boolean want(String name) {

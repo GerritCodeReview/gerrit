@@ -23,6 +23,7 @@ public class ServerInfo extends JavaScriptObject {
   public final native DownloadInfo download() /*-{ return this.download; }-*/;
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
   public final native GitwebInfo gitweb() /*-{ return this.gitweb; }-*/;
+  public final native PluginConfigInfo plugin() /*-{ return this.plugin; }-*/;
   public final native SshdInfo sshd() /*-{ return this.sshd; }-*/;
   public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;
   public final native UserConfigInfo user() /*-{ return this.user; }-*/;
@@ -56,6 +57,13 @@ public class ServerInfo extends JavaScriptObject {
     public final native String url() /*-{ return this.url; }-*/;
 
     protected ContactStoreInfo() {
+    }
+  }
+
+  public static class PluginConfigInfo extends JavaScriptObject {
+    public final native boolean hasAvatars() /*-{ return this.has_avatars || false; }-*/;
+
+    protected PluginConfigInfo() {
     }
   }
 

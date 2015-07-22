@@ -101,6 +101,8 @@ import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.util.Map;
+
 public class Dispatcher {
   public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id) {
     return toPatch("", diffBase, id);
@@ -274,14 +276,24 @@ public class Dispatcher {
   }
 
   private static String replaceUrlAlias(String token) {
-    if (Gerrit.info().urlAliasMatches() == null) {
-      return token;
+
+    if (Gerrit.info().urlAliasMatches() != null) {
+      for (String urlAliasMatch : Gerrit.info().urlAliasMatches()) {
+        MatchResult match = RegExp.compile(urlAliasMatch).exec(token);
+        if (match != null) {
+          token = Gerrit.info().urlAliasToken(urlAliasMatch);
+          for (int i = 1; i < match.getGroupCount(); i++) {
+            token = token.replaceAll("\\$" + i, match.getGroup(i));
+          }
+        }
+      }
     }
 
-    for (String urlAliasMatch : Gerrit.info().urlAliasMatches()) {
-      MatchResult match = RegExp.compile(urlAliasMatch).exec(token);
+    for (Map.Entry<String, String> e :
+        Gerrit.getUserPreferences().urlAliases().entrySet()) {
+      MatchResult match = RegExp.compile(e.getKey()).exec(token);
       if (match != null) {
-        token = Gerrit.info().urlAliasToken(urlAliasMatch);
+        token = e.getValue();
         for (int i = 1; i < match.getGroupCount(); i++) {
           token = token.replaceAll("\\$" + i, match.getGroup(i));
         }

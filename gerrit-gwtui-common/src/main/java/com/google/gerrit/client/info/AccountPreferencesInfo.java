@@ -14,6 +14,9 @@
 
 package com.google.gerrit.client.info;
 
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
@@ -24,7 +27,9 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AccountPreferencesInfo extends JavaScriptObject {
   public static AccountPreferencesInfo create() {
@@ -196,6 +201,26 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   }
   final native void initMy() /*-{ this.my = []; }-*/;
   final native void addMy(TopMenuItem m) /*-{ this.my.push(m); }-*/;
+
+  public final Map<String, String> urlAliases() {
+    Map<String, String> urlAliases = new HashMap<>();
+    for (String k : Natives.keys(_urlAliases())) {
+      urlAliases.put(k, urlAliasToken(k));
+    }
+    return urlAliases;
+  }
+
+  private final native String urlAliasToken(String m) /*-{ return this.url_aliases[m]; }-*/;
+  private final native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
+
+  public final void setUrlAliases(Map<String, String> urlAliases) {
+    initUrlAliases();
+    for (Map.Entry<String, String> e : urlAliases.entrySet()) {
+      putUrlAlias(e.getKey(), e.getValue());
+    }
+  }
+  private final native void putUrlAlias(String m, String t) /*-{ this.url_aliases[m] = t; }-*/;
+  private final native void initUrlAliases() /*-{ this.url_aliases = {}; }-*/;
 
   protected AccountPreferencesInfo() {
   }

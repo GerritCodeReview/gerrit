@@ -101,6 +101,8 @@ import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.util.Map;
+
 public class Dispatcher {
   public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id) {
     return toPatch("", diffBase, id);
@@ -274,17 +276,25 @@ public class Dispatcher {
   }
 
   private static String replaceUrlAlias(String token) {
-    if (Gerrit.info().urlAliasMatches() == null) {
-      return token;
-    }
-
-    for (String urlAliasMatch : Gerrit.info().urlAliasMatches()) {
-      RegExp pat = RegExp.compile(urlAliasMatch);
+    for (Map.Entry<String, String> e :
+        Gerrit.getUserPreferences().urlAliases().entrySet()) {
+      RegExp pat = RegExp.compile(e.getKey());
       MatchResult match = pat.exec(token);
       if (match != null) {
-        return pat.replace(token, Gerrit.info().urlAliasToken(urlAliasMatch));
+        return pat.replace(token, e.getValue());
       }
     }
+
+    if (Gerrit.info().urlAliasMatches() != null) {
+      for (String urlAliasMatch : Gerrit.info().urlAliasMatches()) {
+        RegExp pat = RegExp.compile(urlAliasMatch);
+        MatchResult match = pat.exec(token);
+        if (match != null) {
+          return pat.replace(token, Gerrit.info().urlAliasToken(urlAliasMatch));
+        }
+      }
+    }
+
     return token;
   }
 

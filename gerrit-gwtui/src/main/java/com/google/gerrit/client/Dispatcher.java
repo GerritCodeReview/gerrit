@@ -248,8 +248,6 @@ public class Dispatcher {
     } else if (matchPrefix("/admin/", token)) {
       admin(token);
 
-    } else if (/* DEPRECATED URL */matchPrefix("/c2/", token)) {
-      change(token);
     } else if (/* LEGACY URL */matchPrefix("all,", token)) {
       redirectFromLegacyToken(token, legacyAll(token));
     } else if (/* LEGACY URL */matchPrefix("mine,", token)

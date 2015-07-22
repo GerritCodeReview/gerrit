@@ -45,6 +45,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
 
   private final AccountControl accountControl;
   private final AccountLoader accountLoader;
+  private final AccountCache accountCache;
   private final ReviewDb db;
   private final boolean suggest;
   private final int suggestFrom;
@@ -71,10 +72,12 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
   @Inject
   SuggestAccounts(AccountControl.Factory accountControlFactory,
       AccountLoader.Factory accountLoaderFactory,
+      AccountCache accountCache,
       ReviewDb db,
       @GerritServerConfig Config cfg) {
     accountControl = accountControlFactory.get();
     accountLoader = accountLoaderFactory.create(true);
+    this.accountCache = accountCache;
     this.db = db;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
 
@@ -111,12 +114,12 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
     Map<Account.Id, String> queryEmail = new HashMap<>();
 
     for (Account p : db.accounts().suggestByFullName(a, b, limit)) {
-      addSuggestion(matches, p.getId());
+      addSuggestion(matches, p);
     }
     if (matches.size() < limit) {
       for (Account p : db.accounts()
           .suggestByPreferredEmail(a, b, limit - matches.size())) {
-        addSuggestion(matches, p.getId());
+        addSuggestion(matches, p);
       }
     }
     if (matches.size() < limit) {
@@ -149,11 +152,20 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
     return m;
   }
 
-  private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account.Id id) {
+  private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account a) {
+    if (!a.isActive()) {
+      return false;
+    }
+    Account.Id id = a.getId();
     if (!map.containsKey(id) && accountControl.canSee(id)) {
       map.put(id, accountLoader.get(id));
       return true;
     }
     return false;
+  }
+
+  private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account.Id id) {
+    Account a = accountCache.get(id).getAccount();
+    return addSuggestion(map, a);
   }
 }

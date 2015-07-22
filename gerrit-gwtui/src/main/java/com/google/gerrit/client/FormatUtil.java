@@ -15,8 +15,8 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;
 
 import java.util.Date;
@@ -31,19 +31,10 @@ public class FormatUtil {
   private static DateTimeFormat mDate;
   private static DateTimeFormat dtfmt;
 
-  public static void setPreferences(AccountGeneralPreferences pref) {
-    if (pref == null) {
-      if (Gerrit.isSignedIn()) {
-        pref = Gerrit.getUserAccount().getGeneralPreferences();
-      } else {
-        pref = new AccountGeneralPreferences();
-        pref.resetToDefaults();
-      }
-    }
-
-    String fmt_sTime = pref.getTimeFormat().getFormat();
-    String fmt_sDate = pref.getDateFormat().getShortFormat();
-    String fmt_mDate = pref.getDateFormat().getLongFormat();
+  public static void setPreferences(AccountPreferencesInfo prefs) {
+    String fmt_sTime = prefs.timeFormat().getFormat();
+    String fmt_sDate = prefs.dateFormat().getShortFormat();
+    String fmt_mDate = prefs.dateFormat().getLongFormat();
 
     sTime = DateTimeFormat.getFormat(fmt_sTime);
     sDate = DateTimeFormat.getFormat(fmt_sDate);
@@ -115,7 +106,7 @@ public class FormatUtil {
 
   private static void ensureInited() {
     if (dtfmt == null) {
-      setPreferences(null);
+      setPreferences(Gerrit.getUserPreferences());
     }
   }
 

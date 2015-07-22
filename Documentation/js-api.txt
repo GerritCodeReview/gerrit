@@ -65,6 +65,15 @@ self.get(url, callback)
 Returns the currently signed in user's AccountInfo data; empty account
 data if no user is currently signed in.
 
+[[Gerrit_getUserPreferences]]
+=== Gerrit.getUserPreferences()
+Returns the preferences of the currently signed in user; the default
+preferences if no user is currently signed in.
+
+[[Gerrit_refreshUserPreferences]]
+=== Gerrit.refreshUserPreferences()
+Refreshes the preferences of the current user.
+
 [[self_getPluginName]]
 === self.getPluginName()
 Returns the name this plugin was installed as by the server

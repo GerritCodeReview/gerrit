@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2db546ac_6806c35b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2249,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-22T13:45:10Z",
+      "side": 1,
+      "message": "This was exactly the question I wanted to ask.\n\nThere could be only one vote per label from a given user.",
+      "parentUuid": "edfb2e32_de4e858e",
+      "range": {
+        "startLine": 2249,
+        "startChar": 0,
+        "endLine": 2249,
+        "endChar": 56
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0df5e23c_9f48f380",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 11
@@ -63,6 +87,29 @@
         "startLine": 2249,
         "startChar": 0,
         "endLine": 2250,
+        "endChar": 68
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d59fe72_1adf1d52",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-22T13:45:10Z",
+      "side": 1,
+      "message": "Why do we need to assert that in THIS test? Adding new votes is an existing functionality and is known to work as it should.\n\nIMHO, the deleteVote test should only check what happens after deletion of a vote. Otherwise, we will have too much of test code repetition and mixing of concerns.",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 265,
         "endChar": 68
       },
       "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
@@ -105,6 +152,29 @@
       "writtenOn": "2015-07-21T13:08:24Z",
       "side": 1,
       "message": "[optional] indent this line",
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db546ac_080b8762",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-22T13:45:10Z",
+      "side": 1,
+      "message": "remove this?",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 24,
+        "endChar": 43
+      },
       "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

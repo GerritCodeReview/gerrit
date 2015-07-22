@@ -17,7 +17,9 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.account.GetPreferences.KEY_ID;
 import static com.google.gerrit.server.account.GetPreferences.KEY_TARGET;
 import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
+import static com.google.gerrit.server.account.GetPreferences.KEY_URL_ALIAS;
 import static com.google.gerrit.server.account.GetPreferences.MY;
+import static com.google.gerrit.server.account.GetPreferences.SITE;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -36,6 +38,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.SetPreferences.Input;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.UrlAlias;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,8 +49,11 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Singleton
 public class SetPreferences implements RestModifyView<AccountResource, Input> {
@@ -67,6 +73,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
     public List<TopMenu.MenuItem> my;
+    public Map<String, String> urlAliases;
   }
 
   private final Provider<CurrentUser> self;
@@ -164,11 +171,11 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       db.get().accounts().update(Collections.singleton(a));
       db.get().commit();
       storeMyMenus(versionedPrefs, i.my);
+      storeUrlAliases(versionedPrefs, i.urlAliases);
       versionedPrefs.commit(md);
       cache.evict(accountId);
       return new GetPreferences.PreferenceInfo(
-          p, versionedPrefs,
-          md.getRepository());
+          p, versionedPrefs, md.getRepository());
     } finally {
       md.close();
       db.get().rollback();
@@ -200,6 +207,19 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     cfg.unsetSection(section, null);
     for (String subsection: cfg.getSubsections(section)) {
       cfg.unsetSection(section, subsection);
+    }
+  }
+
+  public static void storeUrlAliases(VersionedAccountPreferences prefs,
+      Map<String, String> urlAliases) {
+    if (urlAliases != null) {
+      Config cfg = prefs.getConfig();
+      cfg.unset(SITE, null, KEY_URL_ALIAS);
+      List<String> urlAliasPairs = new ArrayList<>(urlAliases.size());
+      for (Entry<String, String> e : urlAliases.entrySet()) {
+        urlAliasPairs.add(new UrlAlias(e.getKey(), e.getValue()).toString());
+      }
+      cfg.setStringList(SITE, null, KEY_URL_ALIAS, urlAliasPairs);
     }
   }
 }

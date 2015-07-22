@@ -30,7 +30,6 @@ public class ApiGlue {
     ActionContext.init();
     HtmlTemplate.init();
     Plugin.init();
-    addHistoryHook();
   }
 
   private static native void init0() /*-{
@@ -201,14 +200,6 @@ public class ApiGlue {
           (this._api(u), b);
       },
     };
-  }-*/;
-
-  /** Install deprecated {@code gerrit_addHistoryHook()} function. */
-  private static native void addHistoryHook() /*-{
-    $wnd.gerrit_addHistoryHook = function(h) {
-      var p = @com.google.gwt.user.client.Window.Location::getPath()();
-      $wnd.Gerrit.on('history', function(t) { h(p + "#" + t) })
-     };
   }-*/;
 
   private static void install(JavaScriptObject cb, Plugin p) throws Exception {

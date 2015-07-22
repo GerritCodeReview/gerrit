@@ -330,7 +330,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   }
 
   private void doSave() {
-    final AccountGeneralPreferences p = new AccountGeneralPreferences();
+    AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
@@ -361,15 +361,13 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
 
     AccountApi.self().view("preferences")
-        .put(AccountPreferencesInfo.create(p, items),
+        .put(AccountPreferencesInfo.create(p, items, null),
             new GerritCallback<AccountPreferencesInfo>() {
           @Override
           public void onSuccess(AccountPreferencesInfo prefs) {
-            Gerrit.getUserAccount().setGeneralPreferences(p);
-            Gerrit.applyUserPreferences();
+            Gerrit.setUserPreferences(prefs);
             enable(true);
             display(prefs);
-            Gerrit.refreshMenuBar();
           }
 
           @Override

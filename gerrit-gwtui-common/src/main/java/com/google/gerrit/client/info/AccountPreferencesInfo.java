@@ -46,7 +46,9 @@ public class AccountPreferencesInfo extends JavaScriptObject {
     p.muteCommonPathPrefixes(in.isMuteCommonPathPrefixes());
     p.reviewCategoryStrategy(in.getReviewCategoryStrategy());
     p.diffView(in.getDiffView());
-    p.setMyMenus(myMenus);
+    if (myMenus != null) {
+      p.setMyMenus(myMenus);
+    }
     return p;
   }
 

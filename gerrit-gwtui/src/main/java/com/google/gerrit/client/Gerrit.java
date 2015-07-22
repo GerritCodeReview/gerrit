@@ -112,6 +112,7 @@ public class Gerrit implements EntryPoint {
 
   private static String myHost;
   private static ServerInfo myServerInfo;
+  private static AccountPreferencesInfo myPrefs;
   private static boolean hasDocumentation;
   private static String docUrl;
   private static HostPageData.Theme myTheme;
@@ -316,6 +317,11 @@ public class Gerrit implements EntryPoint {
     return xGerritAuth;
   }
 
+  /** @return the preferences of the currently signed in user, the default preferences if not signed in */
+  public static AccountPreferencesInfo getUserPreferences() {
+    return myPrefs;
+  }
+
   /** @return the currently signed in users's diff preferences; null if no diff preferences defined for the account */
   public static AccountDiffPreference getAccountDiffPreference() {
     return myAccountDiffPref;
@@ -388,6 +394,7 @@ public class Gerrit implements EntryPoint {
   static void deleteSessionCookie() {
     myAccount = null;
     myAccountDiffPref = null;
+    myPrefs = getDefaultUserPreferences();
     xGerritAuth = null;
     refreshMenuBar();
 
@@ -462,9 +469,20 @@ public class Gerrit implements EntryPoint {
         }
         if (result.accountDiffPref != null) {
           myAccountDiffPref = result.accountDiffPref;
-          applyUserPreferences();
         }
-        onModuleLoad2(result);
+        if (isSignedIn()) {
+          AccountApi.self().view("preferences")
+              .get(new GerritCallback<AccountPreferencesInfo>() {
+            @Override
+            public void onSuccess(AccountPreferencesInfo prefs) {
+              myPrefs = prefs;
+              onModuleLoad2(result);
+            }
+          });
+        } else {
+          myPrefs = getDefaultUserPreferences();
+          onModuleLoad2(result);
+        }
       }
     }));
   }
@@ -581,7 +599,7 @@ public class Gerrit implements EntryPoint {
 
     applyUserPreferences();
     populateBottomMenu(bottomMenu, hpd);
-    refreshMenuBar(false);
+    refreshMenuBar();
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override
@@ -595,13 +613,9 @@ public class Gerrit implements EntryPoint {
     if (hpd.messages != null) {
       new MessageOfTheDayBar(hpd.messages).show();
     }
-    CallbackGroup cbg = new CallbackGroup();
-    if (isSignedIn()) {
-      AccountApi.self().view("preferences").get(cbg.add(createMyMenuBarCallback()));
-    }
     PluginLoader.load(hpd.plugins,
         hpd.pluginsLoadTimeout,
-        cbg.addFinal(new GerritCallback<VoidResult>() {
+        new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
             String token = History.getToken();
@@ -612,7 +626,7 @@ public class Gerrit implements EntryPoint {
             }
             display(token);
           }
-        }));
+        });
   }
 
   private void saveDefaultTheme() {
@@ -622,10 +636,6 @@ public class Gerrit implements EntryPoint {
   }
 
   public static void refreshMenuBar() {
-    refreshMenuBar(true);
-  }
-
-  private static void refreshMenuBar(boolean populateMyMenu) {
     menuLeft.clear();
     menuRight.clear();
 
@@ -645,9 +655,22 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       LinkMenuBar myBar = new LinkMenuBar();
       menuBars.put(GerritTopMenu.MY.menuName, myBar);
-      if (populateMyMenu) {
-        AccountApi.self().view("preferences").get(createMyMenuBarCallback());
+
+      if (myPrefs.my() != null) {
+        myBar.clear();
+        String url = null;
+        List<TopMenuItem> myMenuItems = Natives.asList(myPrefs.my());
+        if (!myMenuItems.isEmpty()) {
+          if (myMenuItems.get(0).getUrl().startsWith("#")) {
+            url = myMenuItems.get(0).getUrl().substring(1);
+          }
+          for (TopMenuItem item : myMenuItems) {
+            addExtensionLink(myBar, item);
+          }
+        }
+        defaultScreenToken = url;
       }
+
       menuLeft.add(myBar, C.menuMine());
       menuLeft.selectTab(1);
     } else {
@@ -822,6 +845,43 @@ public class Gerrit implements EntryPoint {
     });
   }
 
+  private static AccountPreferencesInfo getDefaultUserPreferences() {
+    AccountGeneralPreferences prefs = new AccountGeneralPreferences();
+    prefs.resetToDefaults();
+    return AccountPreferencesInfo.create(prefs, null);
+  }
+
+  public static void refreshUserPreferences() {
+    if (isSignedIn()) {
+      AccountApi.self().view("preferences")
+          .get(new GerritCallback<AccountPreferencesInfo>() {
+            @Override
+            public void onSuccess(AccountPreferencesInfo prefs) {
+              setUserPreferences(prefs);
+            }
+          });
+    } else {
+      setUserPreferences(getDefaultUserPreferences());
+    }
+  }
+
+  public static void setUserPreferences(AccountPreferencesInfo prefs) {
+    myPrefs = prefs;
+    applyUserPreferences();
+    refreshMenuBar();
+  }
+
+  private static void applyUserPreferences() {
+    CopyableLabel.setFlashEnabled(myPrefs.useFlashClipboard());
+    if (siteHeader != null) {
+      siteHeader.setVisible(myPrefs.showSiteHeader());
+    }
+    if (siteFooter != null) {
+      siteFooter.setVisible(myPrefs.showSiteHeader());
+    }
+    FormatUtil.setPreferences(myPrefs);
+  }
+
   private static void getDocIndex(final AsyncCallback<DocInfo> cb) {
     RequestBuilder req =
         new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL()
@@ -850,41 +910,6 @@ public class Gerrit implements EntryPoint {
       req.send();
     } catch (RequestException e) {
       cb.onFailure(e);
-    }
-  }
-
-  private static AsyncCallback<AccountPreferencesInfo> createMyMenuBarCallback() {
-    return new GerritCallback<AccountPreferencesInfo>() {
-      @Override
-      public void onSuccess(AccountPreferencesInfo prefs) {
-        LinkMenuBar myBar = menuBars.get(GerritTopMenu.MY.menuName);
-        myBar.clear();
-        List<TopMenuItem> myMenuItems = Natives.asList(prefs.my());
-        String url = null;
-        if (!myMenuItems.isEmpty()) {
-          if (myMenuItems.get(0).getUrl().startsWith("#")) {
-            url = myMenuItems.get(0).getUrl().substring(1);
-          }
-          for (TopMenuItem item : myMenuItems) {
-            addExtensionLink(myBar, item);
-          }
-        }
-        defaultScreenToken = url;
-      }
-    };
-  }
-
-  public static void applyUserPreferences() {
-    if (myAccount != null) {
-      final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
-      CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
-      if (siteHeader != null) {
-        siteHeader.setVisible(p.isShowSiteHeader());
-      }
-      if (siteFooter != null) {
-        siteFooter.setVisible(p.isShowSiteHeader());
-      }
-      FormatUtil.setPreferences(myAccount.getGeneralPreferences());
     }
   }
 

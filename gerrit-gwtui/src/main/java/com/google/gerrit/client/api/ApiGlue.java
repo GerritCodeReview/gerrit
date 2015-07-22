@@ -17,6 +17,7 @@ package com.google.gerrit.client.api;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.History;
@@ -73,6 +74,8 @@ public class ApiGlue {
       isSignedIn: @com.google.gerrit.client.api.ApiGlue::isSignedIn(),
       showError: @com.google.gerrit.client.api.ApiGlue::showError(Ljava/lang/String;),
       getCurrentUser: @com.google.gerrit.client.api.ApiGlue::getCurrentUser(),
+      getUserPreferences: @com.google.gerrit.client.api.ApiGlue::getUserPreferences(),
+      refreshUserPreferences: @com.google.gerrit.client.api.ApiGlue::refreshUserPreferences(),
 
       on: function (e,f){(this.events[e] || (this.events[e]=[])).push(f)},
       onAction: function (t,n,c){this._onAction(this.getPluginName(),t,n,c)},
@@ -262,6 +265,14 @@ public class ApiGlue {
 
   private static final AccountInfo getCurrentUser() {
     return Gerrit.getUserAccountInfo();
+  }
+
+  private static final AccountPreferencesInfo getUserPreferences() {
+    return Gerrit.getUserPreferences();
+  }
+
+  private static final void refreshUserPreferences() {
+    Gerrit.refreshUserPreferences();
   }
 
   private static final void refreshMenuBar() {

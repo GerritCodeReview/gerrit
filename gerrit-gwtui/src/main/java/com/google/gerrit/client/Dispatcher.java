@@ -35,7 +35,6 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
-import static com.google.gerrit.common.PageLinks.op;
 import static com.google.gerrit.common.PageLinks.toChangeQuery;
 
 import com.google.gerrit.client.account.MyAgreementsScreen;
@@ -94,7 +93,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
@@ -244,152 +242,10 @@ public class Dispatcher {
 
     } else if (/* DEPRECATED URL */matchPrefix("/c2/", token)) {
       change(token);
-    } else if (/* LEGACY URL */matchPrefix("all,", token)) {
-      redirectFromLegacyToken(token, legacyAll(token));
-    } else if (/* LEGACY URL */matchPrefix("mine,", token)
-        || matchExact("mine", token)) {
-      redirectFromLegacyToken(token, legacyMine(token));
-    } else if (/* LEGACY URL */matchPrefix("project,", token)) {
-      redirectFromLegacyToken(token, legacyProject(token));
-    } else if (/* LEGACY URL */matchPrefix("change,", token)) {
-      redirectFromLegacyToken(token, legacyChange(token));
-    } else if (/* LEGACY URL */matchPrefix("patch,", token)) {
-      redirectFromLegacyToken(token, legacyPatch(token));
-    } else if (/* LEGACY URL */matchPrefix("admin,", token)) {
-      redirectFromLegacyToken(token, legacyAdmin(token));
-    } else if (/* LEGACY URL */matchPrefix("settings,", token)
-        || matchPrefix("register,", token)
-        || matchPrefix("q,", token)) {
-      redirectFromLegacyToken(token, legacySettings(token));
 
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
-  }
-
-  private static void redirectFromLegacyToken(String oldToken, String newToken) {
-    if (newToken != null) {
-      Window.Location.replace(Window.Location.getPath() + "#" + newToken);
-    } else {
-      Gerrit.display(oldToken, new NotFoundScreen());
-    }
-  }
-
-  private static String legacyMine(final String token) {
-    if (matchExact("mine", token)) {
-      return MINE;
-    }
-
-    if (matchExact("mine,starred", token)) {
-      return toChangeQuery("is:starred");
-    }
-
-    if (matchExact("mine,drafts", token)) {
-      return toChangeQuery("owner:self is:draft");
-    }
-
-    if (matchExact("mine,comments", token)) {
-      return toChangeQuery("has:draft");
-    }
-
-    if (matchPrefix("mine,watched,", token)) {
-      return toChangeQuery("is:watched status:open");
-    }
-
-    return null;
-  }
-
-  private static String legacyAll(final String token) {
-    if (matchPrefix("all,abandoned,", token)) {
-      return toChangeQuery("status:abandoned");
-    }
-
-    if (matchPrefix("all,merged,", token)) {
-      return toChangeQuery("status:merged");
-    }
-
-    if (matchPrefix("all,open,", token)) {
-      return toChangeQuery("status:open");
-    }
-
-    return null;
-  }
-
-  private static String legacyProject(final String token) {
-    if (matchPrefix("project,open,", token)) {
-      final String s = skip(token);
-      final int c = s.indexOf(',');
-      Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
-      return toChangeQuery("status:open " + op("project", proj.get()));
-    }
-
-    if (matchPrefix("project,merged,", token)) {
-      final String s = skip(token);
-      final int c = s.indexOf(',');
-      Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
-      return toChangeQuery("status:merged " + op("project", proj.get()));
-    }
-
-    if (matchPrefix("project,abandoned,", token)) {
-      final String s = skip(token);
-      final int c = s.indexOf(',');
-      Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
-      return toChangeQuery("status:abandoned " + op("project", proj.get()));
-    }
-
-    return null;
-  }
-
-  private static String legacyChange(final String token) {
-    final String s = skip(token);
-    final String[] t = s.split(",", 2);
-    if (t.length > 1 && matchPrefix("patchset=", t[1])) {
-      return PageLinks.toChange(PatchSet.Id.parse(t[0] + "," + skip(t[1])));
-    }
-    return PageLinks.toChange(Change.Id.parse(t[0]));
-  }
-
-  private static String legacyPatch(String token) {
-    if (/* LEGACY URL */matchPrefix("patch,sidebyside,", token)) {
-      return toPatch("", null, Patch.Key.parse(skip(token)));
-    }
-
-    if (/* LEGACY URL */matchPrefix("patch,unified,", token)) {
-      return toPatch("unified", null, Patch.Key.parse(skip(token)));
-    }
-
-    return null;
-  }
-
-  private static String legacyAdmin(String token) {
-    if (matchPrefix("admin,group,", token)) {
-      return ADMIN_GROUPS + skip(token);
-    }
-
-    if (matchPrefix("admin,project,", token)) {
-      String rest = skip(token);
-      int c = rest.indexOf(',');
-      String panel;
-      Project.NameKey k;
-      if (0 < c) {
-        panel = rest.substring(c + 1);
-        k = Project.NameKey.parse(rest.substring(0, c));
-      } else {
-        panel = ProjectScreen.INFO;
-        k = Project.NameKey.parse(rest);
-      }
-      return toProjectAdmin(k, panel);
-    }
-
-    return null;
-  }
-
-  private static String legacySettings(String token) {
-    int c = token.indexOf(',');
-    if (0 < c) {
-      return "/" + token.substring(0, c) + "/" + token.substring(c + 1);
-    }
-    return null;
   }
 
   private static void query(String token) {

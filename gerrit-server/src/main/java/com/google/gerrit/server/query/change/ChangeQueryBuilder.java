@@ -61,10 +61,8 @@ import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -434,9 +432,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> commit(String id) {
     if (id.length() == Constants.OBJECT_ID_STRING_LENGTH) {
-      return new ExactCommitPredicate(ObjectId.fromString(id));
+      return new ExactCommitPredicate(id);
     }
-    return new CommitPrefixPredicate(AbbreviatedObjectId.fromString(id));
+    return new CommitPrefixPredicate(id);
   }
 
   @Operator

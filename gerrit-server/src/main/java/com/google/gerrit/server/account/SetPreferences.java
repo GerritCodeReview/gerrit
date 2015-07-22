@@ -15,9 +15,12 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.GetPreferences.KEY_ID;
+import static com.google.gerrit.server.account.GetPreferences.KEY_MATCH;
 import static com.google.gerrit.server.account.GetPreferences.KEY_TARGET;
+import static com.google.gerrit.server.account.GetPreferences.KEY_TOKEN;
 import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
 import static com.google.gerrit.server.account.GetPreferences.MY;
+import static com.google.gerrit.server.account.GetPreferences.URL_ALIAS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -48,6 +51,8 @@ import org.eclipse.jgit.lib.Config;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Singleton
 public class SetPreferences implements RestModifyView<AccountResource, Input> {
@@ -67,6 +72,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
     public List<TopMenu.MenuItem> my;
+    public Map<String, String> urlAliases;
   }
 
   private final Provider<CurrentUser> self;
@@ -164,11 +170,11 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       db.get().accounts().update(Collections.singleton(a));
       db.get().commit();
       storeMyMenus(versionedPrefs, i.my);
+      storeUrlAliases(versionedPrefs, i.urlAliases);
       versionedPrefs.commit(md);
       cache.evict(accountId);
       return new GetPreferences.PreferenceInfo(
-          p, versionedPrefs,
-          md.getRepository());
+          p, versionedPrefs, md.getRepository());
     } finally {
       md.close();
       db.get().rollback();
@@ -200,6 +206,23 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     cfg.unsetSection(section, null);
     for (String subsection: cfg.getSubsections(section)) {
       cfg.unsetSection(section, subsection);
+    }
+  }
+
+  public static void storeUrlAliases(VersionedAccountPreferences prefs,
+      Map<String, String> urlAliases) {
+    if (urlAliases != null) {
+      Config cfg = prefs.getConfig();
+      for (String subsection : cfg.getSubsections(URL_ALIAS)) {
+        cfg.unsetSection(URL_ALIAS, subsection);
+      }
+
+      int i = 1;
+      for (Entry<String, String> e : urlAliases.entrySet()) {
+        cfg.setString(URL_ALIAS, URL_ALIAS + i, KEY_MATCH, e.getKey());
+        cfg.setString(URL_ALIAS, URL_ALIAS + i, KEY_TOKEN, e.getValue());
+        i++;
+      }
     }
   }
 }

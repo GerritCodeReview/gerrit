@@ -74,6 +74,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
@@ -192,6 +193,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(GroupDetailFactory.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
     factory(GroupMembers.Factory.class);
+    factory(EmailMerge.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(MergeUtil.Factory.class);

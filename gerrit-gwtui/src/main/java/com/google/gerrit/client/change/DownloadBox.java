@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
 import com.google.gerrit.client.info.ChangeInfo.FetchInfo;
@@ -268,7 +269,7 @@ class DownloadBox extends VerticalPanel {
     if (Gerrit.isSignedIn() && scheme != null
         && scheme != pref.getDownloadUrl()) {
       pref.setDownloadUrl(scheme);
-      PreferenceInput in = PreferenceInput.create();
+      AccountPreferencesInfo in = AccountPreferencesInfo.create();
       in.downloadScheme(scheme);
       AccountApi.self().view("preferences")
           .put(in, new AsyncCallback<JavaScriptObject>() {
@@ -297,22 +298,5 @@ class DownloadBox extends VerticalPanel {
       return DownloadScheme.REPO_DOWNLOAD;
     }
     return null;
-  }
-
-  private static class PreferenceInput extends JavaScriptObject {
-    static PreferenceInput create() {
-      return createObject().cast();
-    }
-
-    final void downloadScheme(DownloadScheme s) {
-      downloadScheme0(s.name());
-    }
-
-    private final native void downloadScheme0(String n) /*-{
-      this.download_scheme = n;
-    }-*/;
-
-    protected PreferenceInput() {
-    }
   }
 }

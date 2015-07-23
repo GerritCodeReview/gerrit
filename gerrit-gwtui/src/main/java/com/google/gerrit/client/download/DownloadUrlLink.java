@@ -15,16 +15,18 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
+import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.aria.client.Roles;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,14 +117,16 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
       // If the user is signed-in, remember this choice for future panels.
       //
       pref.setDownloadUrl(scheme);
-      com.google.gerrit.client.account.Util.ACCOUNT_SVC.changePreferences(pref,
-          new AsyncCallback<VoidResult>() {
+      AccountPreferencesInfo in = AccountPreferencesInfo.create();
+      in.downloadScheme(scheme);
+      AccountApi.self().view("preferences")
+          .put(in, new AsyncCallback<JavaScriptObject>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void onSuccess(JavaScriptObject result) {
             }
 
             @Override
-            public void onSuccess(VoidResult result) {
+            public void onFailure(Throwable caught) {
             }
           });
     }

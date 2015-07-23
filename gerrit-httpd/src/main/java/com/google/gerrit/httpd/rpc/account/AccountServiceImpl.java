@@ -22,12 +22,10 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.QueryParseException;
@@ -48,7 +46,6 @@ import java.util.Set;
 class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
   private final Provider<IdentifiedUser> currentUser;
-  private final AccountCache accountCache;
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
   private final ChangeQueryBuilder queryBuilder;
@@ -56,13 +53,11 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> identifiedUser,
-      final AccountCache accountCache,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory,
       final ChangeQueryBuilder queryBuilder) {
     super(schema, identifiedUser);
     this.currentUser = identifiedUser;
-    this.accountCache = accountCache;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
     this.queryBuilder = queryBuilder;
@@ -74,24 +69,6 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       @Override
       public Account run(ReviewDb db) throws OrmException {
         return db.accounts().get(currentUser.get().getAccountId());
-      }
-    });
-  }
-
-  @Override
-  public void changePreferences(final AccountGeneralPreferences pref,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      @Override
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account a = db.accounts().get(getAccountId());
-        if (a == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        a.setGeneralPreferences(pref);
-        db.accounts().update(Collections.singleton(a));
-        accountCache.evict(a.getId());
-        return VoidResult.INSTANCE;
       }
     });
   }

@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
 import com.google.gerrit.client.info.AccountPreferencesInfo;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -110,13 +109,10 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
     select();
 
-    AccountGeneralPreferences pref =
-        Gerrit.getUserAccount().getGeneralPreferences();
+    AccountPreferencesInfo prefs = Gerrit.getUserPreferences();
     if (Gerrit.isSignedIn() && scheme != null
-        && scheme != pref.getDownloadUrl()) {
-      // If the user is signed-in, remember this choice for future panels.
-      //
-      pref.setDownloadUrl(scheme);
+        && scheme != prefs.downloadScheme()) {
+      prefs.downloadScheme(scheme);
       AccountPreferencesInfo in = AccountPreferencesInfo.create();
       in.downloadScheme(scheme);
       AccountApi.self().view("preferences")

@@ -26,7 +26,6 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -238,24 +237,21 @@ class DownloadBox extends VerticalPanel {
   }
 
   private static String getUserPreference() {
-    if (Gerrit.isSignedIn()) {
-      DownloadScheme pref =
-          Gerrit.getUserAccount().getGeneralPreferences().getDownloadUrl();
-      if (pref != null) {
-        switch (pref) {
-          case ANON_GIT:
-            return "git";
-          case ANON_HTTP:
-            return "anonymous http";
-          case HTTP:
-            return "http";
-          case SSH:
-            return "ssh";
-          case REPO_DOWNLOAD:
-            return "repo";
-          default:
-            return null;
-        }
+    DownloadScheme pref = Gerrit.getUserPreferences().downloadScheme();
+    if (pref != null) {
+      switch (pref) {
+        case ANON_GIT:
+          return "git";
+        case ANON_HTTP:
+          return "anonymous http";
+        case HTTP:
+          return "http";
+        case SSH:
+          return "ssh";
+        case REPO_DOWNLOAD:
+          return "repo";
+        default:
+          return null;
       }
     }
     return null;
@@ -263,12 +259,10 @@ class DownloadBox extends VerticalPanel {
 
   private void saveScheme() {
     DownloadScheme scheme = getSelectedScheme();
-    AccountGeneralPreferences pref =
-        Gerrit.getUserAccount().getGeneralPreferences();
-
+    AccountPreferencesInfo prefs = Gerrit.getUserPreferences();
     if (Gerrit.isSignedIn() && scheme != null
-        && scheme != pref.getDownloadUrl()) {
-      pref.setDownloadUrl(scheme);
+        && scheme != prefs.downloadScheme()) {
+      prefs.downloadScheme(scheme);
       AccountPreferencesInfo in = AccountPreferencesInfo.create();
       in.downloadScheme(scheme);
       AccountApi.self().view("preferences")

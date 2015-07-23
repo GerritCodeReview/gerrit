@@ -274,9 +274,7 @@ public class Gerrit implements EntryPoint {
 
   public static void setHeaderVisible(boolean visible) {
     topMenu.setVisible(visible);
-    siteHeader.setVisible(visible && (myAccount != null
-        ? myAccount.getGeneralPreferences().isShowSiteHeader()
-        : true));
+    siteHeader.setVisible(visible && getUserPreferences().showSiteHeader());
   }
 
   public static boolean isHeaderVisible() {

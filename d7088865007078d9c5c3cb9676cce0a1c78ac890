@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db546ac_28668b1c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1750,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-23T14:37:28Z",
+      "side": 1,
+      "message": "missing one closing \u0027)\u0027",
+      "range": {
+        "startLine": 1750,
+        "startChar": 56,
+        "endLine": 1750,
+        "endChar": 57
+      },
+      "revId": "d7088865007078d9c5c3cb9676cce0a1c78ac890",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

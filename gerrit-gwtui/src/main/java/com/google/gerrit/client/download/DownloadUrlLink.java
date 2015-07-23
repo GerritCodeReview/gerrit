@@ -78,7 +78,7 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
   private final DownloadPanel downloadPanel;
   private final DownloadSchemeInfo schemeInfo;
-  private final DownloadScheme urlType;
+  private final DownloadScheme scheme;
 
   public DownloadUrlLink(DownloadPanel downloadPanel,
       DownloadSchemeInfo schemeInfo, String text) {
@@ -94,11 +94,11 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
     this.downloadPanel = downloadPanel;
     this.schemeInfo = schemeInfo;
-    this.urlType = urlType;
+    this.scheme = urlType;
   }
 
   public DownloadScheme getUrlType() {
-    return urlType;
+    return scheme;
   }
 
   @Override
@@ -108,12 +108,13 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
     select();
 
-    if (Gerrit.isSignedIn() && urlType != null) {
+    AccountGeneralPreferences pref =
+        Gerrit.getUserAccount().getGeneralPreferences();
+    if (Gerrit.isSignedIn() && scheme != null
+        && scheme != pref.getDownloadUrl()) {
       // If the user is signed-in, remember this choice for future panels.
       //
-      AccountGeneralPreferences pref =
-          Gerrit.getUserAccount().getGeneralPreferences();
-      pref.setDownloadUrl(urlType);
+      pref.setDownloadUrl(scheme);
       com.google.gerrit.client.account.Util.ACCOUNT_SVC.changePreferences(pref,
           new AsyncCallback<VoidResult>() {
             @Override

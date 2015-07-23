@@ -22,7 +22,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -44,7 +43,7 @@ public class GroupListScreen extends Screen {
 
   public GroupListScreen() {
     setRequiresSignIn(true);
-    configurePageSize();
+    pageSize = Gerrit.getUserPreferences().changesPerPage();
   }
 
   public GroupListScreen(String params) {
@@ -62,17 +61,6 @@ public class GroupListScreen extends Screen {
       if ("skip".equals(kv[0]) && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
         start = Integer.parseInt(URL.decodeQueryString(kv[1]));
       }
-    }
-  }
-
-  private void configurePageSize() {
-    if (Gerrit.isSignedIn()) {
-      final AccountGeneralPreferences p =
-          Gerrit.getUserAccount().getGeneralPreferences();
-      final short m = p.getMaximumPageSize();
-      pageSize = 0 < m ? m : AccountGeneralPreferences.DEFAULT_PAGESIZE;
-    } else {
-      pageSize = AccountGeneralPreferences.DEFAULT_PAGESIZE;
     }
   }
 

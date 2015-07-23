@@ -334,39 +334,39 @@ public class MyPreferencesScreen extends SettingsScreen {
   }
 
   private void doSave() {
-    AccountGeneralPreferences p = new AccountGeneralPreferences();
-    p.setShowSiteHeader(showSiteHeader.getValue());
-    p.setUseFlashClipboard(useFlashClipboard.getValue());
-    p.setCopySelfOnEmails(copySelfOnEmails.getValue());
-    p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
-    p.setDateFormat(getListBox(dateFormat,
+    AccountPreferencesInfo p = AccountPreferencesInfo.create();
+    p.showSiteHeader(showSiteHeader.getValue());
+    p.useFlashClipboard(useFlashClipboard.getValue());
+    p.copySelfOnEmail(copySelfOnEmails.getValue());
+    p.changesPerPage(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
+    p.dateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,
         AccountGeneralPreferences.DateFormat.values()));
-    p.setTimeFormat(getListBox(timeFormat,
+    p.timeFormat(getListBox(timeFormat,
         AccountGeneralPreferences.TimeFormat.HHMM_12,
         AccountGeneralPreferences.TimeFormat.values()));
-    p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
-    p.setSizeBarInChangeTable(sizeBarInChangeTable.getValue());
-    p.setLegacycidInChangeTable(legacycidInChangeTable.getValue());
-    p.setMuteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
-    p.setReviewCategoryStrategy(getListBox(reviewCategoryStrategy,
+    p.relativeDateInChangeTable(relativeDateInChangeTable.getValue());
+    p.sizeBarInChangeTable(sizeBarInChangeTable.getValue());
+    p.legacycidInChangeTable(legacycidInChangeTable.getValue());
+    p.muteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
+    p.reviewCategoryStrategy(getListBox(reviewCategoryStrategy,
         ReviewCategoryStrategy.NONE,
         ReviewCategoryStrategy.values()));
-    p.setDiffView(getListBox(diffView,
+    p.diffView(getListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         AccountGeneralPreferences.DiffView.values()));
-
-    enable(false);
-    save.setEnabled(false);
 
     List<TopMenuItem> items = new ArrayList<>();
     for (List<String> v : myMenus.getValues()) {
       items.add(TopMenuItem.create(v.get(0), v.get(1)));
     }
+    p.setMyMenus(items);
+
+    enable(false);
+    save.setEnabled(false);
 
     AccountApi.self().view("preferences")
-        .put(AccountPreferencesInfo.create(p, items),
-            new GerritCallback<AccountPreferencesInfo>() {
+        .put(p, new GerritCallback<AccountPreferencesInfo>() {
           @Override
           public void onSuccess(AccountPreferencesInfo prefs) {
             Gerrit.setUserPreferences(prefs);

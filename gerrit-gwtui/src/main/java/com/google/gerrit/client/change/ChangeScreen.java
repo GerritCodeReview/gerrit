@@ -1000,26 +1000,40 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
-    if (canSubmit) {
-      if (status == Change.Status.NEW) {
-        statusText.setInnerText(Util.C.readyToSubmit());
-      }
+  private void renderMergeable(ChangeInfo info) {
+    if (info.status() == Change.Status.NEW) {
+      statusText.setInnerText(describeChangeStatus(info));
+      setVisible(notMergeable, !changeInfo.mergeable());
     }
+  }
+
+  private static String describeChangeStatus(ChangeInfo info) {
+    for (String name : info.labels()) {
+      LabelInfo label = info.label(name);
+      switch (label.status()) {
+        case NEED:
+          return "Needs " + name;
+        case REJECT:
+        case IMPOSSIBLE:
+          if (label.blocking()) {
+            return "Not " + name;
+          }
+          break;
+        default:
+          break;
+        }
+    }
+    return info.mergeable()
+        ? Util.C.readyToSubmit()
+        : Util.C.mergeConflict();
+  }
+
+  private void loadSubmitType() {
     ChangeApi.revision(changeId.get(), revision)
       .view("submit_type")
       .get(new AsyncCallback<NativeString>() {
         @Override
         public void onSuccess(NativeString result) {
-          if (canSubmit) {
-            if (status == Change.Status.NEW) {
-              statusText.setInnerText(changeInfo.mergeable()
-                  ? Util.C.readyToSubmit()
-                  : Util.C.mergeConflict());
-            }
-          }
-          setVisible(notMergeable, !changeInfo.mergeable());
-
           renderSubmitType(result.asString());
         }
 
@@ -1081,31 +1095,6 @@ public class ChangeScreen extends Screen {
       }
     }
     return revOrId != null ? info.revision(revOrId) : null;
-  }
-
-  private boolean isSubmittable(ChangeInfo info) {
-    boolean canSubmit = info.status().isOpen();
-    if (canSubmit && info.status() == Change.Status.NEW) {
-      for (String name : info.labels()) {
-        LabelInfo label = info.label(name);
-        switch (label.status()) {
-          case NEED:
-            statusText.setInnerText("Needs " + name);
-            canSubmit = false;
-            break;
-          case REJECT:
-          case IMPOSSIBLE:
-            if (label.blocking()) {
-              statusText.setInnerText("Not " + name);
-              canSubmit = false;
-            }
-            break;
-          default:
-            break;
-          }
-      }
-    }
-    return canSubmit;
   }
 
   private void renderChangeInfo(ChangeInfo info) {
@@ -1183,7 +1172,8 @@ public class ChangeScreen extends Screen {
 
     if (current && info.status().isOpen()) {
       quickApprove.set(info, revision, replyAction);
-      loadSubmitType(info.status(), isSubmittable(info));
+      renderMergeable(info);
+      loadSubmitType();
     } else {
       quickApprove.setVisible(false);
     }

@@ -471,8 +471,8 @@ public class FileTable extends FlowPanel {
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
-      this.showChangeSizeBars = !hasUser
-          || Gerrit.getUserAccount().getGeneralPreferences().isSizeBarInChangeTable();
+      this.showChangeSizeBars =
+          Gerrit.getUserPreferences().sizeBarInChangeTable();
       myTable.addStyleName(R.css().table());
     }
 
@@ -648,8 +648,7 @@ public class FileTable extends FlowPanel {
 
       if (Patch.COMMIT_MSG.equals(path)) {
         sb.append(Util.C.commitMessage());
-      } else if (!hasUser || Gerrit.getUserAccount().getGeneralPreferences()
-          .isMuteCommonPathPrefixes()) {
+      } else if (Gerrit.getUserPreferences().muteCommonPathPrefixes()) {
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {
           sb.openSpan().setStyleName(R.css().commonPrefix())

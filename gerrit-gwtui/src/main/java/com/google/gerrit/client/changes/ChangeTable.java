@@ -71,19 +71,17 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private final List<Section> sections;
   private int columns;
-  private boolean showLegacyId;
+  private final boolean showLegacyId;
   private List<String> labelNames;
 
   public ChangeTable() {
     super(Util.C.changeItemHelp());
     columns = BASE_COLUMNS;
     labelNames = Collections.emptyList();
+    showLegacyId = Gerrit.getUserPreferences().legacycidInChangeTable();
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
-      showLegacyId = Gerrit.getUserAccount()
-          .getGeneralPreferences()
-          .isLegacycidInChangeTable();
     }
 
     sections = new ArrayList<>();
@@ -242,18 +240,14 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_PROJECT, new ProjectLink(c.projectNameKey()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.projectNameKey(), c
         .status(), c.branch(), c.topic()));
-    if (Gerrit.isSignedIn()
-        && Gerrit.getUserAccount().getGeneralPreferences()
-            .isRelativeDateInChangeTable()) {
+    if (Gerrit.getUserPreferences().relativeDateInChangeTable()) {
       table.setText(row, C_LAST_UPDATE, relativeFormat(c.updated()));
     } else {
       table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
     }
 
     int col = C_SIZE;
-    if (Gerrit.isSignedIn()
-        && !Gerrit.getUserAccount().getGeneralPreferences()
-            .isSizeBarInChangeTable()) {
+    if (!Gerrit.getUserPreferences().sizeBarInChangeTable()) {
       table.setText(row, col,
           Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
     } else {
@@ -275,10 +269,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
       String user;
       String info;
-      ReviewCategoryStrategy reviewCategoryStrategy = Gerrit.isSignedIn()
-          ? Gerrit.getUserAccount().getGeneralPreferences()
-                .getReviewCategoryStrategy()
-          : ReviewCategoryStrategy.NONE;
+      ReviewCategoryStrategy reviewCategoryStrategy =
+          Gerrit.getUserPreferences().reviewCategoryStrategy();
       if (label.rejected() != null) {
         user = label.rejected().name();
         info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,

@@ -31,31 +31,25 @@ public class AccountPreferencesInfo extends JavaScriptObject {
     return createObject().cast();
   }
 
-  public static AccountPreferencesInfo create(AccountGeneralPreferences in,
-      List<TopMenuItem> myMenus) {
-    AccountPreferencesInfo p = createObject().cast();
-    p.changesPerPage(in.getMaximumPageSize());
-    p.showSiteHeader(in.isShowSiteHeader());
-    p.useFlashClipboard(in.isUseFlashClipboard());
-    p.downloadScheme(in.getDownloadUrl());
-    p.downloadCommand(in.getDownloadCommand());
-    p.copySelfOnEmail(in.isCopySelfOnEmails());
-    p.dateFormat(in.getDateFormat());
-    p.timeFormat(in.getTimeFormat());
-    p.relativeDateInChangeTable(in.isRelativeDateInChangeTable());
-    p.sizeBarInChangeTable(in.isSizeBarInChangeTable());
-    p.legacycidInChangeTable(in.isLegacycidInChangeTable());
-    p.muteCommonPathPrefixes(in.isMuteCommonPathPrefixes());
-    p.reviewCategoryStrategy(in.getReviewCategoryStrategy());
-    p.diffView(in.getDiffView());
-    if (myMenus != null) {
-      p.setMyMenus(myMenus);
-    }
-    return p;
-  }
-
   public static AccountPreferencesInfo createDefault() {
-    return create(AccountGeneralPreferences.createDefault(), null);
+    AccountGeneralPreferences defaultPrefs =
+        AccountGeneralPreferences.createDefault();
+    AccountPreferencesInfo p = createObject().cast();
+    p.changesPerPage(defaultPrefs.getMaximumPageSize());
+    p.showSiteHeader(defaultPrefs.isShowSiteHeader());
+    p.useFlashClipboard(defaultPrefs.isUseFlashClipboard());
+    p.downloadScheme(defaultPrefs.getDownloadUrl());
+    p.downloadCommand(defaultPrefs.getDownloadCommand());
+    p.copySelfOnEmail(defaultPrefs.isCopySelfOnEmails());
+    p.dateFormat(defaultPrefs.getDateFormat());
+    p.timeFormat(defaultPrefs.getTimeFormat());
+    p.relativeDateInChangeTable(defaultPrefs.isRelativeDateInChangeTable());
+    p.sizeBarInChangeTable(defaultPrefs.isSizeBarInChangeTable());
+    p.legacycidInChangeTable(defaultPrefs.isLegacycidInChangeTable());
+    p.muteCommonPathPrefixes(defaultPrefs.isMuteCommonPathPrefixes());
+    p.reviewCategoryStrategy(defaultPrefs.getReviewCategoryStrategy());
+    p.diffView(defaultPrefs.getDiffView());
+    return p;
   }
 
   public final short changesPerPage() {
@@ -194,7 +188,7 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   private final native void diffViewRaw(String d)
   /*-{ this.diff_view = d }-*/;
 
-  final void setMyMenus(List<TopMenuItem> myMenus) {
+  public final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();
     for (TopMenuItem n : myMenus) {
       addMy(n);

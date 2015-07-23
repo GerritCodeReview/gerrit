@@ -265,7 +265,8 @@ class DownloadBox extends VerticalPanel {
     AccountGeneralPreferences pref =
         Gerrit.getUserAccount().getGeneralPreferences();
 
-    if (scheme != null && scheme != pref.getDownloadUrl()) {
+    if (Gerrit.isSignedIn() && scheme != null
+        && scheme != pref.getDownloadUrl()) {
       pref.setDownloadUrl(scheme);
       PreferenceInput in = PreferenceInput.create();
       in.downloadScheme(scheme);

@@ -18,7 +18,6 @@ import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -33,11 +32,6 @@ import java.util.Set;
 public interface AccountService extends RemoteJsonService {
   @SignInRequired
   void myAccount(AsyncCallback<Account> callback);
-
-  @Audit
-  @SignInRequired
-  void changePreferences(AccountGeneralPreferences pref,
-      AsyncCallback<VoidResult> gerritCallback);
 
   @Audit
   @SignInRequired

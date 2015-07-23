@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d59fe72_5a10758c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-23T07:11:25Z",
+      "side": 1,
+      "message": "Now the \"Cannot Merge\" text is no longer shown for draft changes. I guess this behaviour change was not intended.",
+      "revId": "981d965df518800b4eb99ce0b4cf025b62ae9d4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

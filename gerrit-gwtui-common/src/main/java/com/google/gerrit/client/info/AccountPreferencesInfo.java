@@ -27,6 +27,10 @@ import com.google.gwt.core.client.JsArray;
 import java.util.List;
 
 public class AccountPreferencesInfo extends JavaScriptObject {
+  public static AccountPreferencesInfo create() {
+    return createObject().cast();
+  }
+
   public static AccountPreferencesInfo create(AccountGeneralPreferences in,
       List<TopMenuItem> myMenus) {
     AccountPreferencesInfo p = createObject().cast();

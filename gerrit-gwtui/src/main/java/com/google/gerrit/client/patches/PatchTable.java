@@ -262,8 +262,8 @@ class PatchTable extends Composite {
   private static boolean isUnifiedPatchLink(final Patch patch) {
     return (patch.getPatchType().equals(PatchType.BINARY)
         || (Gerrit.isSignedIn()
-            && Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
-            .equals(DiffView.UNIFIED_DIFF)));
+            && Gerrit.getUserPreferences().diffView()
+                .equals(DiffView.UNIFIED_DIFF)));
   }
 
   private static String getFileNameOnly(Patch patch) {

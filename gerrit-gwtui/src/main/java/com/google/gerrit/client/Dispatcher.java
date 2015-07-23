@@ -625,10 +625,7 @@ public class Dispatcher {
   }
 
   private static boolean preferUnified() {
-    return Gerrit.isSignedIn()
-        && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
-            .getGeneralPreferences()
-            .getDiffView());
+    return DiffView.UNIFIED_DIFF.equals(Gerrit.getUserPreferences().diffView());
   }
 
   private static void unified(final String token,

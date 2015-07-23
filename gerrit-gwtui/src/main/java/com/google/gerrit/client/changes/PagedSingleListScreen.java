@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -39,15 +38,7 @@ public abstract class PagedSingleListScreen extends Screen {
   protected PagedSingleListScreen(String anchorToken, int start) {
     anchorPrefix = anchorToken;
     this.start = start;
-
-    if (Gerrit.isSignedIn()) {
-      final AccountGeneralPreferences p =
-          Gerrit.getUserAccount().getGeneralPreferences();
-      final short m = p.getMaximumPageSize();
-      pageSize = 0 < m ? m : AccountGeneralPreferences.DEFAULT_PAGESIZE;
-    } else {
-      pageSize = AccountGeneralPreferences.DEFAULT_PAGESIZE;
-    }
+    pageSize = Gerrit.getUserPreferences().changesPerPage();
   }
 
   @Override

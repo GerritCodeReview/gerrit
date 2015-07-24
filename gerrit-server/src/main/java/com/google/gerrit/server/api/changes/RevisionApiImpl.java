@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
+import com.google.gerrit.server.change.GetPatch;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.ListRevisionComments;
 import com.google.gerrit.server.change.ListRevisionDrafts;
@@ -79,6 +81,7 @@ class RevisionApiImpl implements RevisionApi {
   private final RevisionResource revision;
   private final Provider<Files> files;
   private final Provider<Files.ListFiles> listFiles;
+  private final Provider<GetPatch> getPatch;
   private final Provider<PostReview> review;
   private final Provider<Mergeable> mergeable;
   private final FileApiImpl.Factory fileApi;
@@ -103,6 +106,7 @@ class RevisionApiImpl implements RevisionApi {
       Reviewed.DeleteReviewed deleteReviewed,
       Provider<Files> files,
       Provider<Files.ListFiles> listFiles,
+      Provider<GetPatch> getPatch,
       Provider<PostReview> review,
       Provider<Mergeable> mergeable,
       FileApiImpl.Factory fileApi,
@@ -127,6 +131,7 @@ class RevisionApiImpl implements RevisionApi {
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
     this.listFiles = listFiles;
+    this.getPatch = getPatch;
     this.mergeable = mergeable;
     this.fileApi = fileApi;
     this.listComments = listComments;
@@ -353,6 +358,15 @@ class RevisionApiImpl implements RevisionApi {
           IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve comment", e);
+    }
+  }
+
+  @Override
+  public BinaryResult patch() throws RestApiException {
+    try {
+      return getPatch.get().apply(revision);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot get patch", e);
     }
   }
 

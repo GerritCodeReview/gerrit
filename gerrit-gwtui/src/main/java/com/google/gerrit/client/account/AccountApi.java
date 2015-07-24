@@ -52,6 +52,14 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("username").get(cb);
   }
 
+  /** Set the username */
+  public static void setUsername(String account, String username,
+      AsyncCallback<NativeString> cb) {
+    UsernameInput input = UsernameInput.create();
+    input.username(username);
+    new RestApi("/accounts/").id(account).view("username").put(input, cb);
+  }
+
   /** Retrieve email addresses */
   public static void getEmails(String account,
       AsyncCallback<JsArray<EmailInfo>> cb) {
@@ -125,6 +133,17 @@ public class AccountApi {
     }
 
     protected HttpPasswordInput() {
+    }
+  }
+
+  private static class UsernameInput extends JavaScriptObject {
+    final native void username(String u) /*-{ if(u)this.username=u; }-*/;
+
+    static UsernameInput create() {
+      return createObject().cast();
+    }
+
+    protected UsernameInput() {
     }
   }
 }

@@ -126,6 +126,29 @@ As result a link:#server-info[ServerInfo] entity is returned.
   }
 ----
 
+[[validate-email]]
+=== Validate Email
+--
+'PUT /config/server/email.validate'
+--
+
+Validates an email address.
+
+The email token must be provided in the request body inside
+an link:#email-validation-input[EmailValidationInput] entity.
+
+.Request
+----
+  PUT /config/server/email.validate HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "token": "Enim+QNbAo6TV8Hur8WwoUypI6apG7qBPvF+bw==$MTAwMDAwNDp0ZXN0QHRlc3QuZGU="
+  }
+----
+
+The response is "`204 No Content`".
+
 
 [[list-caches]]
 === List Caches
@@ -1131,6 +1154,18 @@ placeholder for 'bar').
 Empty, if accessed anonymously and the download scheme requires
 authentication.
 |=================================
+
+[[email-validation-input]]
+=== EmailValidationInput
+The `EmailValidationInput` entity contains information for validating
+an email address.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`token`    |
+The token that was sent by mail to a newly registered email address.
+|=======================
 
 [[entries-info]]
 === EntriesInfo

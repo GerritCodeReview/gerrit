@@ -38,5 +38,6 @@ public class Module extends RestApiModule {
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
+    put(CONFIG_KIND, "email.validate").to(ValidateEmail.class);
   }
 }

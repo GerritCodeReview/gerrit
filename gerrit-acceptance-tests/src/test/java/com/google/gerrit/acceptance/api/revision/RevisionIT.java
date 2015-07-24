@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.revision;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.base.Predicate;
@@ -40,6 +41,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -52,6 +54,8 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -538,6 +542,25 @@ public class RevisionIT extends AbstractDaemonTest {
         .get()
         .message)
       .isEqualTo(in.message);
+  }
+
+  @Test
+  public void patch() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeApi changeApi = gApi.changes()
+        .id(r.getChangeId());
+    BinaryResult bin = changeApi
+        .revision(r.getCommit().name())
+        .patch();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String res = new String(os.toByteArray(), StandardCharsets.UTF_8);
+    DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+    ChangeInfo change = changeApi.get();
+    RevisionInfo rev = change.revisions.get(change.currentRevision);
+    String date = dateFormat.format(rev.commit.author.date);
+    assertThat(res).isEqualTo(
+        String.format(PATCH, r.getCommitId().name(), date, r.getChangeId()));
   }
 
   private void merge(PushOneCommit.Result r) throws Exception {

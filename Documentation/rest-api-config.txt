@@ -126,6 +126,32 @@ As result a link:#server-info[ServerInfo] entity is returned.
   }
 ----
 
+[[confirm-email]]
+=== Confirm Email
+--
+'PUT /config/server/email.confirm'
+--
+
+Confirms that the user owns an email address.
+
+The email token must be provided in the request body inside
+an link:#email-confirmation-input[EmailConfirmationInput] entity.
+
+.Request
+----
+  PUT /config/server/email.confirm HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "token": "Enim+QNbAo6TV8Hur8WwoUypI6apG7qBPvF+bw==$MTAwMDAwNDp0ZXN0QHRlc3QuZGU="
+  }
+----
+
+The response is "`204 No Content`".
+
+If the token is invalid or if it's the token of another user the
+request fails and the response is "`422 Unprocessable Entity`".
+
 
 [[list-caches]]
 === List Caches
@@ -1131,6 +1157,18 @@ placeholder for 'bar').
 Empty, if accessed anonymously and the download scheme requires
 authentication.
 |=================================
+
+[[email-confirmation-input]]
+=== EmailConfirmationInput
+The `EmailConfirmationInput` entity contains information for confirming
+an email address.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`token`    |
+The token that was sent by mail to a newly registered email address.
+|=======================
 
 [[entries-info]]
 === EntriesInfo

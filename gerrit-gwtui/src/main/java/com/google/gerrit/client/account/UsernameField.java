@@ -19,8 +19,9 @@ import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,7 +35,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 class UsernameField extends Composite {
   private CopyableLabel userNameLbl;
@@ -114,27 +114,27 @@ class UsernameField extends Composite {
     }
     final String newUserName = newName;
 
-    Util.ACCOUNT_SEC.changeUserName(newUserName,
-        new GerritCallback<VoidResult>() {
-          @Override
-          public void onSuccess(VoidResult result) {
-            Gerrit.getUserAccount().username(newUserName);
-            userNameLbl.setText(newUserName);
-            userNameLbl.setVisible(true);
-            userNameTxt.setVisible(false);
-            setUserName.setVisible(false);
-          }
+    AccountApi.setUsername("self", newUserName,
+        new GerritCallback<NativeString>() {
+      @Override
+      public void onSuccess(NativeString result) {
+        Gerrit.getUserAccount().username(newUserName);
+        userNameLbl.setText(newUserName);
+        userNameLbl.setVisible(true);
+        userNameTxt.setVisible(false);
+        setUserName.setVisible(false);
+      }
 
-          @Override
-          public void onFailure(final Throwable caught) {
-            enableUI(true);
-            if (caught instanceof InvalidUserNameException) {
-              new ErrorDialog(Util.C.invalidUserName()).center();
-            } else {
-              super.onFailure(caught);
-            }
-          }
-        });
+      @Override
+      public void onFailure(Throwable caught) {
+        enableUI(true);
+        if (RestApi.isExpected(422 /* Unprocessable Entity */)) {
+          new ErrorDialog(Util.C.invalidUserName()).center();
+        } else {
+          super.onFailure(caught);
+        }
+      }
+    });
   }
 
   private void enableUI(final boolean on) {

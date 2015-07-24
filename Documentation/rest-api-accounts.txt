@@ -253,6 +253,30 @@ Retrieves the username of an account.
 
 If the account does not have a username the response is "`404 Not Found`".
 
+[[set-username]]
+=== Set Username
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/username'
+--
+
+The new username must be provided in the request body inside
+a link:#username-input[UsernameInput] entity.
+
+Once set, the username cannot be changed or deleted. If attempted this
+fails with "`405 Method Not Allowed`".
+
+.Request
+----
+  PUT /accounts/self/name HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "username": "jdoe"
+  }
+----
+
+As response the new username is returned.
+
 [[get-active]]
 === Get Active
 --
@@ -1689,6 +1713,17 @@ user.
 |`comment`       |optional|The comment of the SSH key.
 |`valid`         ||Whether the SSH key is valid.
 |=============================
+
+[[username-input]]
+=== UsernameInput
+The `UsernameInput` entity contains information for setting the
+username for an account.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`username` |The new username of the account.
+|=======================
 
 
 GERRIT

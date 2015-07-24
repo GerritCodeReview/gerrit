@@ -17,95 +17,37 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gwt.i18n.client.DateTimeFormat;
 
 import java.util.Date;
 
 /** Misc. formatting functions. */
 public class FormatUtil {
-  private static final long ONE_YEAR = 182L * 24 * 60 * 60 * 1000;
-
-  private static DateTimeFormat sTime;
-  private static DateTimeFormat sDate;
-  private static DateTimeFormat sdtFmt;
-  private static DateTimeFormat mDate;
-  private static DateTimeFormat dtfmt;
+  private static DateFormatter dateFormatter;
 
   public static void setPreferences(AccountPreferencesInfo prefs) {
-    String fmt_sTime = prefs.timeFormat().getFormat();
-    String fmt_sDate = prefs.dateFormat().getShortFormat();
-    String fmt_mDate = prefs.dateFormat().getLongFormat();
-
-    sTime = DateTimeFormat.getFormat(fmt_sTime);
-    sDate = DateTimeFormat.getFormat(fmt_sDate);
-    sdtFmt = DateTimeFormat.getFormat(fmt_sDate + " " + fmt_sTime);
-    mDate = DateTimeFormat.getFormat(fmt_mDate);
-    dtfmt = DateTimeFormat.getFormat(fmt_mDate + " " + fmt_sTime);
+    dateFormatter = new DateFormatter(prefs);
   }
 
   /** Format a date using a really short format. */
   public static String shortFormat(Date dt) {
-    if (dt == null) {
-      return "";
-    }
-
     ensureInited();
-    final Date now = new Date();
-    dt = new Date(dt.getTime());
-    if (mDate.format(now).equals(mDate.format(dt))) {
-      // Same day as today, report only the time.
-      //
-      return sTime.format(dt);
-
-    } else if (Math.abs(now.getTime() - dt.getTime()) < ONE_YEAR) {
-      // Within the last year, show a shorter date.
-      //
-      return sDate.format(dt);
-
-    } else {
-      // Report only date and year, its far away from now.
-      //
-      return mDate.format(dt);
-    }
+    return dateFormatter.shortFormat(dt);
   }
 
   /** Format a date using a really short format. */
   public static String shortFormatDayTime(Date dt) {
-    if (dt == null) {
-      return "";
-    }
-
     ensureInited();
-    final Date now = new Date();
-    dt = new Date(dt.getTime());
-    if (mDate.format(now).equals(mDate.format(dt))) {
-      // Same day as today, report only the time.
-      //
-      return sTime.format(dt);
-
-    } else if (Math.abs(now.getTime() - dt.getTime()) < ONE_YEAR) {
-      // Within the last year, show a shorter date.
-      //
-      return sdtFmt.format(dt);
-
-    } else {
-      // Report only date and year, its far away from now.
-      //
-      return mDate.format(dt);
-    }
+    return dateFormatter.shortFormatDayTime(dt);
   }
 
   /** Format a date using the locale's medium length format. */
-  public static String mediumFormat(final Date dt) {
-    if (dt == null) {
-      return "";
-    }
+  public static String mediumFormat(Date dt) {
     ensureInited();
-    return dtfmt.format(new Date(dt.getTime()));
+    return dateFormatter.mediumFormat(dt);
   }
 
   private static void ensureInited() {
-    if (dtfmt == null) {
+    if (dateFormatter == null) {
       setPreferences(Gerrit.getUserPreferences());
     }
   }

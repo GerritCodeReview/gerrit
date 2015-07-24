@@ -51,8 +51,4 @@ public interface AccountSecurity extends RemoteJsonService {
   @SignInRequired
   void enterAgreement(String agreementName,
       AsyncCallback<VoidResult> callback);
-
-  @Audit
-  @SignInRequired
-  void validateEmail(String token, AsyncCallback<VoidResult> callback);
 }

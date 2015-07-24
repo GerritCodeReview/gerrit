@@ -14,10 +14,12 @@
 
 package com.google.gerrit.client.config;
 
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.Preferences;
 import com.google.gerrit.client.extensions.TopMenuList;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -40,5 +42,22 @@ public class ConfigServerApi {
 
   public static void serverInfo(AsyncCallback<ServerInfo> cb) {
     new RestApi("/config/server/info").get(cb);
+  }
+
+  public static void validateEmail(String token, AsyncCallback<VoidResult> cb) {
+    EmailValidationInput input = EmailValidationInput.create();
+    input.setToken(token);
+    new RestApi("/config/server/email.validate").put(input, cb);
+  }
+
+  private static class EmailValidationInput extends JavaScriptObject {
+    final native void setToken(String t) /*-{ this.t = t; }-*/;
+
+    static EmailValidationInput create() {
+      return createObject().cast();
+    }
+
+    protected EmailValidationInput() {
+    }
   }
 }

@@ -435,7 +435,7 @@ public class SideBySide extends Screen {
       keyMap.on("C", commentManager.insertNewDraft(cm));
     }
     cm.addKeyMap(keyMap);
-    if (prefs.renderEntireFile()) {
+    if (renderEntireFile()) {
       cm.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
     }
   }
@@ -580,11 +580,6 @@ public class SideBySide extends Screen {
     chunkManager = new ChunkManager(this, cmA, cmB, diffTable.scrollbar);
     skipManager = new SkipManager(this, commentManager);
 
-    if (prefs.renderEntireFile() && !canEnableRenderEntireFile(prefs)) {
-      // CodeMirror is too slow to layout an entire huge file.
-      prefs.renderEntireFile(false);
-    }
-
     operation(new Runnable() {
       @Override
       public void run() {
@@ -650,14 +645,19 @@ public class SideBySide extends Screen {
       .set("keyMap", "vim_ro")
       .set("theme", prefs.theme().name().toLowerCase())
       .set("value", meta != null ? contents : "")
-      .set("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10));
+      .set("viewportMargin", renderEntireFile() ? POSITIVE_INFINITY : 10));
   }
 
   DiffInfo.IntraLineStatus getIntraLineStatus() {
     return diff.intraline_status();
   }
 
-  boolean canEnableRenderEntireFile(DiffPreferences prefs) {
+  boolean renderEntireFile() {
+    return prefs.renderEntireFile() && canRenderEntireFile(prefs);
+  }
+
+  boolean canRenderEntireFile(DiffPreferences prefs) {
+    // CodeMirror is too slow to layout an entire huge file.
     return fileSize.compareTo(FileSize.HUGE) < 0
         || (prefs.context() != WHOLE_FILE_CONTEXT && prefs.context() < 100);
   }
@@ -738,6 +738,7 @@ public class SideBySide extends Screen {
       public void run() {
         skipManager.removeAll();
         skipManager.render(context, diff);
+        updateRenderEntireFile();
       }
     });
   }
@@ -960,13 +961,14 @@ public class SideBySide extends Screen {
   void updateRenderEntireFile() {
     cmA.removeKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
     cmB.removeKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
-    if (prefs.renderEntireFile()) {
+
+    boolean entireFile = renderEntireFile();
+    if (entireFile) {
       cmA.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
       cmB.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
     }
-
-    cmA.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
-    cmB.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
+    cmA.setOption("viewportMargin", entireFile ? POSITIVE_INFINITY : 10);
+    cmB.setOption("viewportMargin", entireFile ? POSITIVE_INFINITY : 10);
   }
 
   void resizeCodeMirror() {

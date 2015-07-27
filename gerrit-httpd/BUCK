@@ -34,7 +34,7 @@ java_library(
     '//lib/jgit:jgit',
     '//lib/jgit:jgit-servlet',
     '//lib/log:api',
-    '//lib/lucene:core',
+    '//lib/lucene:core-and-backward-codecs',
   ],
   provided_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],

@@ -13,7 +13,7 @@ java_library(
     '//lib/jgit:jgit',
     '//lib/log:api',
     '//lib/lucene:analyzers-common',
-    '//lib/lucene:core',
+    '//lib/lucene:core-and-backward-codecs',
     '//lib/solr:solrj',
   ],
   visibility = ['PUBLIC'],

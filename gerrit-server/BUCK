@@ -63,7 +63,7 @@ java_library(
     '//lib/log:jsonevent-layout',
     '//lib/log:log4j',
     '//lib/lucene:analyzers-common',
-    '//lib/lucene:core',
+    '//lib/lucene:core-and-backward-codecs',
     '//lib/lucene:queryparser',
     '//lib/ow2:ow2-asm',
     '//lib/ow2:ow2-asm-tree',

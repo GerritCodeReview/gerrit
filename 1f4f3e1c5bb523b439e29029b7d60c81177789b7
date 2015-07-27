@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cdcf4a9d_75802802",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-07-27T17:28:16Z",
+      "side": 1,
+      "message": "Done. See comment in other file.",
+      "parentUuid": "cdcf4a9d_357510be",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 18
+      },
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edd40e30_d6426465",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "cdcf4a9d_d5901c59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-07-27T17:28:16Z",
+      "side": 1,
+      "message": "This is really strange. It could be that I have tested against a bit older revision, but I have rebased before pushing this commit. Diffy has verified it.",
+      "parentUuid": "edd40e30_d6426465",
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdcf4a9d_55688ce5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2015-07-27T08:41:39Z",
       "side": 1,
       "message": "Should this output stream be closed?",
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdcf4a9d_b585a015",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-07-27T17:28:16Z",
+      "side": 1,
+      "message": "Nope.\n\nByteArrayOutputStream API doc: \"Closing a ByteArrayOutputStream has no effect.\"",
+      "parentUuid": "cdcf4a9d_55688ce5",
       "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

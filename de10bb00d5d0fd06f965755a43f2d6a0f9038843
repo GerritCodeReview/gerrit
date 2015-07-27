@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6de65e2a_b2600001",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AccountPreferencesInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-27T03:14:53Z",
+      "side": 1,
+      "message": "nit: changes",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 16
+      },
+      "revId": "de10bb00d5d0fd06f965755a43f2d6a0f9038843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

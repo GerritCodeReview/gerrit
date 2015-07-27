@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -174,6 +175,16 @@ public class Util {
       String permissionName, AccountGroup.UUID group, String ref) {
     PermissionRule r = grant(project, permissionName, newRule(project, group), ref);
     r.setBlock();
+    return r;
+  }
+
+  public static PermissionRule blockLabel(ProjectConfig project,
+      String labelName, AccountGroup.UUID group, String ref) {
+    PermissionRule r =
+        grant(project, Permission.LABEL + labelName, newRule(project, group),
+            ref);
+    r.setBlock();
+    r.setRange(-1, 1);
     return r;
   }
 

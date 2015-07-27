@@ -50,6 +50,7 @@ final class Plugin extends JavaScriptObject {
     var G = $wnd.Gerrit;
     @com.google.gerrit.client.api.Plugin::TYPE.prototype = {
       getPluginName: function(){return this.name},
+      getServerInfo: @com.google.gerrit.client.api.ApiGlue::getServerInfo(),
       getCurrentUser: @com.google.gerrit.client.api.ApiGlue::getCurrentUser(),
       getUserPreferences: @com.google.gerrit.client.api.ApiGlue::getUserPreferences(),
       refreshUserPreferences: @com.google.gerrit.client.api.ApiGlue::refreshUserPreferences(),

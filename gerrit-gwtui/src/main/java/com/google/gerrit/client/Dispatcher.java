@@ -81,6 +81,7 @@ import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
+import com.google.gerrit.client.info.ServerInfo.SiteInfo;
 import com.google.gerrit.client.patches.UnifiedPatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;

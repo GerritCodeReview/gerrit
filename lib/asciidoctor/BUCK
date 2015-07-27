@@ -36,7 +36,7 @@ java_library(
     '//lib:args4j',
     '//lib:guava',
     '//lib/lucene:analyzers-common',
-    '//lib/lucene:core',
+    '//lib/lucene:core-and-backward-codecs',
   ],
   visibility = ['//tools/eclipse:classpath'],
 )

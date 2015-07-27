@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d349e66_626bb6e4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-27T22:29:31Z",
+      "side": 1,
+      "message": "This needs to be improved",
+      "range": {
+        "startLine": 295,
+        "startChar": 46,
+        "endLine": 295,
+        "endChar": 64
+      },
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8df712e1_a360ba00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-27T22:29:31Z",
+      "side": 1,
+      "message": "This needs to be improved",
+      "range": {
+        "startLine": 110,
+        "startChar": 45,
+        "endLine": 110,
+        "endChar": 64
+      },
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

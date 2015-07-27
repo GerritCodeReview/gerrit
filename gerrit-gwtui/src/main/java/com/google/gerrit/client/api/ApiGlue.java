@@ -18,6 +18,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.ServerInfo;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.History;
@@ -72,6 +73,7 @@ public class ApiGlue {
       refreshMenuBar: @com.google.gerrit.client.api.ApiGlue::refreshMenuBar(),
       isSignedIn: @com.google.gerrit.client.api.ApiGlue::isSignedIn(),
       showError: @com.google.gerrit.client.api.ApiGlue::showError(Ljava/lang/String;),
+      getServerInfo: @com.google.gerrit.client.api.ApiGlue::getServerInfo(),
       getCurrentUser: @com.google.gerrit.client.api.ApiGlue::getCurrentUser(),
       getUserPreferences: @com.google.gerrit.client.api.ApiGlue::getUserPreferences(),
       refreshUserPreferences: @com.google.gerrit.client.api.ApiGlue::refreshUserPreferences(),
@@ -252,6 +254,10 @@ public class ApiGlue {
 
   private static final void refresh() {
     Gerrit.display(History.getToken());
+  }
+
+  private static final ServerInfo getServerInfo() {
+    return Gerrit.info();
   }
 
   private static final AccountInfo getCurrentUser() {

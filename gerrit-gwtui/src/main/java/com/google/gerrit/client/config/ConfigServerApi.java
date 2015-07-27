@@ -15,6 +15,7 @@
 package com.google.gerrit.client.config;
 
 import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.ServerInfo;
 import com.google.gerrit.client.info.TopMenuList;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;

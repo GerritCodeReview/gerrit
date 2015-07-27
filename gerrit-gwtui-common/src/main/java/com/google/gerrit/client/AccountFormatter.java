@@ -12,36 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.plugin.client;
+package com.google.gerrit.client;
 
-import com.google.gerrit.client.AccountFormatter;
-import com.google.gerrit.client.DateFormatter;
 import com.google.gerrit.client.info.AccountInfo;
 
-import java.util.Date;
+public class AccountFormatter {
+  private final String anonymousCowardName;
 
-public class FormatUtil {
-  private final static AccountFormatter accountFormatter =
-      new AccountFormatter(Plugin.get().getServerInfo().user()
-          .anonymousCowardName());
-
-  /** Format a date using a really short format. */
-  public static String shortFormat(Date dt) {
-    return createDateFormatter().shortFormat(dt);
-  }
-
-  /** Format a date using a really short format. */
-  public static String shortFormatDayTime(Date dt) {
-    return createDateFormatter().shortFormatDayTime(dt);
-  }
-
-  /** Format a date using the locale's medium length format. */
-  public static String mediumFormat(Date dt) {
-    return createDateFormatter().mediumFormat(dt);
-  }
-
-  private static DateFormatter createDateFormatter() {
-    return new DateFormatter(Plugin.get().getUserPreferences());
+  public AccountFormatter(String anonymousCowardName) {
+    this.anonymousCowardName = anonymousCowardName;
   }
 
   /**
@@ -55,8 +34,19 @@ public class FormatUtil {
    * <li>{@code Anonymous Coward (12)}: missing name and email address</li>
    * </ul>
    */
-  public static String nameEmail(AccountInfo info) {
-    return accountFormatter.nameEmail(info);
+  public String nameEmail(AccountInfo info) {
+    String name = info.name();
+    if (name == null || name.trim().isEmpty()) {
+      name = anonymousCowardName;
+    }
+
+    StringBuilder b = new StringBuilder().append(name);
+    if (info.email() != null) {
+      b.append(" <").append(info.email()).append(">");
+    } else if (info._accountId() > 0) {
+      b.append(" (").append(info._accountId()).append(")");
+    }
+    return b.toString();
   }
 
   /**
@@ -65,7 +55,15 @@ public class FormatUtil {
    * If the account has a full name, it returns only the full name. Otherwise it
    * returns a longer form that includes the email address.
    */
-  public static String name(AccountInfo info) {
-    return accountFormatter.name(info);
+  public String name(AccountInfo ai) {
+    if (ai.name() != null && !ai.name().trim().isEmpty()) {
+      return ai.name();
+    }
+    String email = ai.email();
+    if (email != null) {
+      int at = email.indexOf('@');
+      return 0 < at ? email.substring(0, at) : email;
+    }
+    return nameEmail(ai);
   }
 }

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.changes.Util;
+import static com.google.gerrit.client.CommonConstants.C;
+import static com.google.gerrit.client.CommonMessages.M;
 
 import java.util.Date;
 
@@ -24,17 +25,11 @@ import java.util.Date;
  */
 public class RelativeDateFormatter {
   static final long SECOND_IN_MILLIS = 1000;
-
   static final long MINUTE_IN_MILLIS = 60 * SECOND_IN_MILLIS;
-
   static final long HOUR_IN_MILLIS = 60 * MINUTE_IN_MILLIS;
-
   static final long DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
-
   static final long WEEK_IN_MILLIS = 7 * DAY_IN_MILLIS;
-
   static final long MONTH_IN_MILLIS = 30 * DAY_IN_MILLIS;
-
   static final long YEAR_IN_MILLIS = 365 * DAY_IN_MILLIS;
 
   /**
@@ -48,16 +43,16 @@ public class RelativeDateFormatter {
 
     // shouldn't happen in a perfect world
     if (ageMillis < 0) {
-      return Util.C.inTheFuture();
+      return C.inTheFuture();
     }
 
     // seconds
     if (ageMillis < upperLimit(MINUTE_IN_MILLIS)) {
       long seconds = round(ageMillis, SECOND_IN_MILLIS);
       if (seconds == 1) {
-        return Util.C.oneSecondAgo();
+        return C.oneSecondAgo();
       } else {
-        return Util.M.secondsAgo(seconds);
+        return M.secondsAgo(seconds);
       }
     }
 
@@ -65,9 +60,9 @@ public class RelativeDateFormatter {
     if (ageMillis < upperLimit(HOUR_IN_MILLIS)) {
       long minutes = round(ageMillis, MINUTE_IN_MILLIS);
       if (minutes == 1) {
-        return Util.C.oneMinuteAgo();
+        return C.oneMinuteAgo();
       } else {
-        return Util.M.minutesAgo(minutes);
+        return M.minutesAgo(minutes);
       }
     }
 
@@ -75,9 +70,9 @@ public class RelativeDateFormatter {
     if (ageMillis < upperLimit(DAY_IN_MILLIS)) {
       long hours = round(ageMillis, HOUR_IN_MILLIS);
       if (hours == 1) {
-        return Util.C.oneHourAgo();
+        return C.oneHourAgo();
       } else {
-        return Util.M.hoursAgo(hours);
+        return M.hoursAgo(hours);
       }
     }
 
@@ -85,9 +80,9 @@ public class RelativeDateFormatter {
     if (ageMillis < 14 * DAY_IN_MILLIS) {
       long days = round(ageMillis, DAY_IN_MILLIS);
       if (days == 1) {
-        return Util.C.oneDayAgo();
+        return C.oneDayAgo();
       } else {
-        return Util.M.daysAgo(days);
+        return M.daysAgo(days);
       }
     }
 
@@ -95,9 +90,9 @@ public class RelativeDateFormatter {
     if (ageMillis < 10 * WEEK_IN_MILLIS) {
       long weeks = round(ageMillis, WEEK_IN_MILLIS);
       if (weeks == 1) {
-        return Util.C.oneWeekAgo();
+        return C.oneWeekAgo();
       } else {
-        return Util.M.weeksAgo(weeks);
+        return M.weeksAgo(weeks);
       }
     }
 
@@ -105,32 +100,31 @@ public class RelativeDateFormatter {
     if (ageMillis < YEAR_IN_MILLIS) {
       long months = round(ageMillis, MONTH_IN_MILLIS);
       if (months == 1) {
-        return Util.C.oneMonthAgo();
+        return C.oneMonthAgo();
       } else {
-        return Util.M.monthsAgo(months);
+        return M.monthsAgo(months);
       }
     }
 
     // up to 5 years use "year, months" rounded to months
     if (ageMillis < 5 * YEAR_IN_MILLIS) {
       long years = ageMillis / YEAR_IN_MILLIS;
-      String yearLabel = (years > 1) ? Util.C.years() : Util.C.year();
+      String yearLabel = (years > 1) ? C.years() : C.year();
       long months = round(ageMillis % YEAR_IN_MILLIS, MONTH_IN_MILLIS);
-      String monthLabel =
-          (months > 1) ? Util.C.months() : (months == 1 ? Util.C.month() : "");
+      String monthLabel = (months > 1) ? C.months() : (months == 1 ? C.month() : "");
       if (months == 0) {
-        return Util.M.years0MonthsAgo(years, yearLabel);
+        return M.years0MonthsAgo(years, yearLabel);
       } else {
-        return Util.M.yearsMonthsAgo(years, yearLabel, months, monthLabel);
+        return M.yearsMonthsAgo(years, yearLabel, months, monthLabel);
       }
     }
 
     // years
     long years = round(ageMillis, YEAR_IN_MILLIS);
     if (years == 1) {
-      return Util.C.oneYearAgo();
+      return C.oneYearAgo();
     } else {
-      return Util.M.yearsAgo(years);
+      return M.yearsAgo(years);
     }
   }
 

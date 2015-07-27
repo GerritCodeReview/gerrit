@@ -61,7 +61,6 @@ java_test(
     '//lib/gwt:dev',
     '//lib/gwt:user',
     '//lib/gwt:gwt-test-utils',
-    '//lib/jgit:jgit',
   ],
   source_under_test = [':ui_module'],
   vm_args = ['-Xmx512m'],

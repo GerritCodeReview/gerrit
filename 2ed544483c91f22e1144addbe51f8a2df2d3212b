@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdcf4a9d_d5a93c97",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-27T10:22:29Z",
+      "side": 1,
+      "message": "[optional] update this to the latest:\n\n $ java -version\n java version \"1.8.0_45\"\n Java(TM) SE Runtime Environment (build 1.8.0_45-b14)\n Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 64
+      },
+      "revId": "2ed544483c91f22e1144addbe51f8a2df2d3212b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

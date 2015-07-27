@@ -22,6 +22,29 @@
       "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d349e66_02066a59",
+        "filename": "tools/merge_jars.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-27T19:45:08Z",
+      "side": 1,
+      "message": "(also just curious) Unlike \u0027jar cf\u0027, this doesn\u0027t update the manifest in META-INF/. Do other tools care?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

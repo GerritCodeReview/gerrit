@@ -63,3 +63,16 @@ java_library(
   name = 'diffy_image_files',
   resources = DIFFY,
 )
+
+java_test(
+  name = 'client_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':client',
+    '//lib:junit',
+    '//lib/jgit:jgit',
+  ],
+  source_under_test = [':client'],
+  vm_args = ['-Xmx512m'],
+  visibility = ['//tools/eclipse:classpath'],
+)

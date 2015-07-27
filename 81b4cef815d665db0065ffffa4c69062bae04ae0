@@ -22,6 +22,30 @@
       "revId": "81b4cef815d665db0065ffffa4c69062bae04ae0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de99af9_91205ca0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-27T16:01:15Z",
+      "side": 1,
+      "message": "In ElasticsearchChangeIndex, we needed a method toChangeData to fix the reviewedby case. In LuceneChangeIndex, toChangeData decodes changes, patch sets and approvals. I left them as commented out lines because the tests were passing and it wasn\u0027t an easy fix, but I wasn\u0027t sure if we did need them. I can remove this if you think they are unnecessary.",
+      "parentUuid": "4de99af9_71997888",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "81b4cef815d665db0065ffffa4c69062bae04ae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

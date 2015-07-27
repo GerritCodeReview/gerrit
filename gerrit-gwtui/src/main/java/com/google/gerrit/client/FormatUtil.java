@@ -69,18 +69,7 @@ public class FormatUtil {
    * </ul>
    */
   public static String nameEmail(AccountInfo info) {
-    String name = info.name();
-    if (name == null || name.trim().isEmpty()) {
-      name = Gerrit.info().user().anonymousCowardName();
-    }
-
-    StringBuilder b = new StringBuilder().append(name);
-    if (info.email() != null) {
-      b.append(" <").append(info.email()).append(">");
-    } else if (info._accountId() > 0) {
-      b.append(" (").append(info._accountId()).append(")");
-    }
-    return b.toString();
+    return createAccountFormatter().nameEmail(info);
   }
 
   /**
@@ -99,16 +88,8 @@ public class FormatUtil {
    * If the account has a full name, it returns only the full name. Otherwise it
    * returns a longer form that includes the email address.
    */
-  public static String name(AccountInfo ai) {
-    if (ai.name() != null && !ai.name().trim().isEmpty()) {
-      return ai.name();
-    }
-    String email = ai.email();
-    if (email != null) {
-      int at = email.indexOf('@');
-      return 0 < at ? email.substring(0, at) : email;
-    }
-    return nameEmail(ai);
+  public static String name(AccountInfo info) {
+    return createAccountFormatter().name(info);
   }
 
   public static AccountInfo asInfo(Account acct) {
@@ -131,5 +112,9 @@ public class FormatUtil {
         acct.getFullName(),
         acct.getPreferredEmail(),
         acct.getUsername());
+  }
+
+  private static AccountFormatter createAccountFormatter() {
+    return new AccountFormatter(Gerrit.info().user().anonymousCowardName());
   }
 }

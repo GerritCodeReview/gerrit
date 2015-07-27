@@ -15,8 +15,8 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.config.DownloadInfo.DownloadCommandInfo;
-import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
+import com.google.gerrit.client.info.DownloadInfo.DownloadCommandInfo;
+import com.google.gerrit.client.info.DownloadInfo.DownloadSchemeInfo;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;

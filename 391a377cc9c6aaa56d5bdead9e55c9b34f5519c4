@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d349e66_a2bc5e07",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T18:46:13Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "391a377cc9c6aaa56d5bdead9e55c9b34f5519c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8df712e1_a3bc3a07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T18:46:13Z",
+      "side": 1,
+      "message": "Nit: no \u0027.\u0027",
+      "range": {
+        "startLine": 85,
+        "startChar": 28,
+        "endLine": 85,
+        "endChar": 30
+      },
+      "revId": "391a377cc9c6aaa56d5bdead9e55c9b34f5519c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d349e66_c2c16278",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T18:46:13Z",
+      "side": 1,
+      "message": "How about \"and other changes related by topic\"",
+      "range": {
+        "startLine": 84,
+        "startChar": 50,
+        "endLine": 85,
+        "endChar": 28
+      },
+      "revId": "391a377cc9c6aaa56d5bdead9e55c9b34f5519c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

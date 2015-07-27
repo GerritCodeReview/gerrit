@@ -22,6 +22,30 @@
       "revId": "996d1845dafc3be3475585113462be1786f19351",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6de65e2a_3219b087",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-27T16:52:53Z",
+      "side": 1,
+      "message": "Yes currently, the behavior is not optimal as you get these non-specific error messages regularly even when not racing.\n\nMaybe I should get https://gerrit-review.googlesource.com/#/c/69745 in before this change as that change should eliminate all non-racy issues for error reporting.",
+      "parentUuid": "4de99af9_f1a448bf",
+      "range": {
+        "startLine": 15,
+        "startChar": 30,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "996d1845dafc3be3475585113462be1786f19351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

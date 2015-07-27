@@ -4145,9 +4145,9 @@ link:#fix-change[fix change] endpoint.
 [options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
-|`deletePatchSetIfCommitMissing`|If true, delete patch sets from the
+|`delete_patch_set_if_commit_missing`|If true, delete patch sets from the
 database if they refer to missing commit options.
-|`expectMergedAs`               |If set, check that the change is
+|`expect_merged_as`               |If set, check that the change is
 merged into the destination branch as this exact SHA-1. If not, insert
 a new patch set referring to this commit.
 |==========================

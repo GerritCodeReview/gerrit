@@ -135,6 +135,24 @@
       "revId": "7a4c100ec487d77013c7205c0890d11db34d96f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8df712e1_8326dee9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-27T20:01:52Z",
+      "side": 1,
+      "message": "implemented this easier error message now",
+      "parentUuid": "8df712e1_43c46684",
+      "revId": "7a4c100ec487d77013c7205c0890d11db34d96f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

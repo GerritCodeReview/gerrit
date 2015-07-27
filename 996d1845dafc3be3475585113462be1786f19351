@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4de99af9_f1a448bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-27T06:17:01Z",
+      "side": 1,
+      "message": "I just had an error on submitting that was was not a race condition.\n\nI had two open changes, Change-1 and Change-2.  Both changes had Code-Review+2 score, but no Verified score.  I set Verified+1 on Change-2 (which was the topmost) and pressed \"Submit\".\n\nThen I got the error \"needs Verified\".",
+      "range": {
+        "startLine": 15,
+        "startChar": 30,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "996d1845dafc3be3475585113462be1786f19351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4de99af9_913cdcee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/EmailMerge.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-27T05:58:00Z",
+      "side": 1,
+      "message": "Should this be `EmailMerge`?",
+      "range": {
+        "startLine": 40,
+        "startChar": 60,
+        "endLine": 40,
+        "endChar": 79
+      },
+      "revId": "6c91d4966d776d5af5263f7b0c468bc5601b84e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

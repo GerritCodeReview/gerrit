@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8df712e1_63f522bf",
+        "filename": "lib/lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-07-27T19:42:06Z",
+      "side": 1,
+      "message": "(just curious) Now that other targets depend on core-and-backward-codecs, is this dep needed any more?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 23
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,11 +14,12 @@
 
 package com.google.gerrit.client;
 
-import static com.google.gerrit.client.RelativeDateFormatter.DAY_IN_MILLIS;
-import static com.google.gerrit.client.RelativeDateFormatter.HOUR_IN_MILLIS;
-import static com.google.gerrit.client.RelativeDateFormatter.MINUTE_IN_MILLIS;
-import static com.google.gerrit.client.RelativeDateFormatter.SECOND_IN_MILLIS;
-import static com.google.gerrit.client.RelativeDateFormatter.YEAR_IN_MILLIS;
+import static com.google.gerrit.client.info.RelativeDateFormatter.DAY_IN_MILLIS;
+import static com.google.gerrit.client.info.RelativeDateFormatter.HOUR_IN_MILLIS;
+import static com.google.gerrit.client.info.RelativeDateFormatter.MINUTE_IN_MILLIS;
+import static com.google.gerrit.client.info.RelativeDateFormatter.SECOND_IN_MILLIS;
+import static com.google.gerrit.client.info.RelativeDateFormatter.YEAR_IN_MILLIS;
+
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.util.RelativeDateFormatter;

@@ -16,6 +16,7 @@ package com.google.gerrit.plugin.client;
 
 import com.google.gerrit.client.AccountFormatter;
 import com.google.gerrit.client.DateFormatter;
+import com.google.gerrit.client.RelativeDateFormatter;
 import com.google.gerrit.client.info.AccountInfo;
 
 import java.util.Date;
@@ -42,6 +43,11 @@ public class FormatUtil {
 
   private static DateFormatter createDateFormatter() {
     return new DateFormatter(Plugin.get().getUserPreferences());
+  }
+
+  /** Format a date using git log's relative date format. */
+  public static String relativeFormat(Date dt) {
+    return RelativeDateFormatter.format(dt);
   }
 
   /**

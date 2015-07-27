@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdcf4a9d_357510be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-27T08:41:39Z",
+      "side": 1,
+      "message": "Must be \u0027Administrator\u0027 to make the test green.",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 18
+      },
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edd40e30_d6426465",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-27T08:41:39Z",
+      "side": 1,
+      "message": "This test fails for me:\n\nFAIL     42.4s 20 Passed   0 Skipped   1 Failed   com.google.gerrit.acceptance.api.revision.RevisionIT\nFAILURE patch: expected:\u003c...00:00:00 2001\nFrom: [admin] \u003cadmin@example.com\u003e...\u003e but was:\u003c...00:00:00 2001\nFrom: [Administrator] \u003cadmin@example.com\u003e...\u003e\norg.junit.ComparisonFailure: expected:\u003c...00:00:00 2001\nFrom: [admin] \u003cadmin@example.com\u003e...\u003e but was:\u003c...00:00:00 2001\nFrom: [Administrator] \u003cadmin@example.com\u003e...\u003e\n\tat com.google.common.truth.Platform.comparisonFailure(Platform.java:133)\n\tat com.google.common.truth.Truth$1.failComparing(Truth.java:77)\n\tat com.google.common.truth.StringSubject.isEqualTo(StringSubject.java:69)\n\tat com.google.gerrit.acceptance.api.revision.RevisionIT.patch(RevisionIT.java:559)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n        ...",
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdcf4a9d_55688ce5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-27T08:41:39Z",
+      "side": 1,
+      "message": "Should this output stream be closed?",
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

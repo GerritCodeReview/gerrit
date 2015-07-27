@@ -117,6 +117,24 @@
       "revId": "7a4c100ec487d77013c7205c0890d11db34d96f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8df712e1_43c46684",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T18:52:57Z",
+      "side": 1,
+      "message": "There are two issues here.\n\nOne, IIUC you\u0027re saying we should prevent the user from clicking on this button if some other change prevents submission. That way the chance of the user seeing an error message is much lower.\n\nBut there are still cases where a user might encounter an error message:\n\n* The racy case, where the button was enabled when the page loaded, but someone else un-approved a related change (or this change) in the background.\n* Someone is using a command-line tool to submit changes.\n\nIn both of these cases, we need to have an error message that is not nonsensical.\n\nI don\u0027t think we really need to replicate all the narrative detail from the old system. What about something simple, like:\n\n\"The change could not be submitted because it depends on change X, which could not be submitted because:\n\nChange X needs Code-Review\"",
+      "parentUuid": "cd1f4a53_555c8c53",
+      "revId": "7a4c100ec487d77013c7205c0890d11db34d96f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

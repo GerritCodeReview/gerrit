@@ -60,6 +60,11 @@ self.get(url, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[[self_getServerInfo]]
+=== self.getServerInfo()
+Returns the server's link:rest-api-config.html#server-info[ServerInfo]
+data.
+
 [[self_getCurrentUser]]
 === self.getCurrentUser()
 Returns the currently signed in user's AccountInfo data; empty account

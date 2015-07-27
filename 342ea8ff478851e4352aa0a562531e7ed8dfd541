@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "8df712e1_0372eed5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T23:13:06Z",
+      "side": 1,
+      "message": "I don\u0027t think null is going to work here, unless you explicitly check for null below.",
+      "range": {
+        "startLine": 198,
+        "startChar": 39,
+        "endLine": 198,
+        "endChar": 43
+      },
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d349e66_a2377e09",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T23:13:06Z",
+      "side": 1,
+      "message": "Why not test the whole message?\n\nI think allowing substring matching makes it too easy to do something like:\n\n submitWithConflict(id, \"Needs Code-Review\");\n\nwhen we\u0027re also interested in whether it contains the additional context of which change we\u0027re talking about.\n\nYes it will make a few tests more verbose, but I can live with that :)",
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_626bb6e4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 1

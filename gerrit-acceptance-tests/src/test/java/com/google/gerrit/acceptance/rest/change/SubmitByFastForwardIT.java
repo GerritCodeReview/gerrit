@@ -66,7 +66,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     createChange();
     PushOneCommit.Result change2 = createChange();
 
-    submitWithConflict(change2.getChangeId());
+    submitWithConflict(change2.getChangeId(), "because it depends on change");
 
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(oldHead.getId());
@@ -91,7 +91,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isNull();
 
-    submitWithConflict(change2.getChangeId());
+    submitWithConflict(change2.getChangeId(),
+        "requires all submissions to be a fast-forward");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
   }

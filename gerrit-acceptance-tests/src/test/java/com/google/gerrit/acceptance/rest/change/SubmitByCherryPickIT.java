@@ -105,7 +105,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
-    submitWithConflict(change2.getChangeId());
+    submitWithConflict(change2.getChangeId(), "due to a path conflict");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
     assertNoSubmitter(change2.getChangeId(), 1);
@@ -145,7 +145,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 =
         createChange("Change 3", "b.txt", "different content");
-    submitWithConflict(change3.getChangeId());
+    submitWithConflict(change3.getChangeId(), "due to a path conflict");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change3.getChangeId(), 1, change3.getCommitId());
     assertNoSubmitter(change3.getChangeId(), 1);
@@ -216,7 +216,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     // Submit fails; change3 contains the delta "b1" -> "b2", which cannot be
     // applied against tip.
-    submitWithConflict(change3.getChangeId());
+    submitWithConflict(change3.getChangeId(), "due to a path conflict");
 
     ChangeInfo info3 = get(change3.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info3.status).isEqualTo(ChangeStatus.NEW);

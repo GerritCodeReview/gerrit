@@ -180,7 +180,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change3.getChangeId());
 
     if (isSubmitWholeTopicEnabled()) {
-      submitWithConflict(change1b.getChangeId());
+      submitWithConflict(change1b.getChangeId(), "due to a path conflict");
     } else {
       submit(change1b.getChangeId());
     }
@@ -292,7 +292,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "a.txt", "1", "a-topic-here");
     approve(change3b.getChangeId());
 
-    submitWithConflict(change3a.getChangeId());
+    submitWithConflict(change3a.getChangeId(), "Merge Conflict");
 
     RevCommit tipbranch = getRemoteLog(project, "branch").get(0);
     assertThat(tipbranch.getShortMessage()).isEqualTo(

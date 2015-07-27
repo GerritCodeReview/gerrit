@@ -76,7 +76,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
-    submitWithConflict(change2.getChangeId());
+    submitWithConflict(change2.getChangeId(), "due to a path conflict");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
   }
 }

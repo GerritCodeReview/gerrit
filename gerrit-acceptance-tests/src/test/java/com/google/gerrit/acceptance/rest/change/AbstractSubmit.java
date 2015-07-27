@@ -195,14 +195,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void submit(String changeId) throws Exception {
-    submit(changeId, HttpStatus.SC_OK);
+    submit(changeId, HttpStatus.SC_OK, null);
   }
 
-  protected void submitWithConflict(String changeId) throws Exception {
-    submit(changeId, HttpStatus.SC_CONFLICT);
+  protected void submitWithConflict(String changeId,
+      String partialExpectedError) throws Exception {
+    submit(changeId, HttpStatus.SC_CONFLICT, partialExpectedError);
   }
 
-  private void submit(String changeId, int expectedStatus) throws Exception {
+  private void submit(String changeId, int expectedStatus, String msg)
+      throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
     RestResponse r =
@@ -215,6 +217,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
 
       checkMergeResult(change);
+    } else {
+      assertThat(r.getEntityContent()).contains(msg);
     }
     r.consume();
   }

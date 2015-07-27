@@ -201,19 +201,5 @@ public interface ChangeConstants extends Constants {
   String diffAllSideBySide();
   String diffAllUnified();
 
-  String inTheFuture();
-  String month();
-  String months();
-  String year();
-  String years();
-
-  String oneSecondAgo();
-  String oneMinuteAgo();
-  String oneHourAgo();
-  String oneDayAgo();
-  String oneWeekAgo();
-  String oneMonthAgo();
-  String oneYearAgo();
-
   String votable();
 }

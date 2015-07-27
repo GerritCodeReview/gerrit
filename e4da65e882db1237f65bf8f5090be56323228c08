@@ -69,6 +69,30 @@
       "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8df712e1_e327d2e8",
+        "filename": "tools/merge_jars.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T19:51:11Z",
+      "side": 1,
+      "message": "It is true that we don\u0027t handle MANIFEST.MF separately, so we just pick the first one in the loop above.\n\nNeither buck nor eclipse seem to care, so I\u0027m not too worried. Honestly before I would bother writing a new MANIFEST.MF with a synthetic Specification-Title et al., I would just strip MANIFEST.MF from the input jars.",
+      "parentUuid": "6d349e66_02066a59",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

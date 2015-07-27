@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edd40e30_16a0dca1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-07-27T17:29:57Z",
+      "side": 1,
+      "message": "In one of five or ten test runs, #created (or #updated, which should be the same in this case) is one sec off. The create timestamp returned in the diff is one sec earlier.\n\nAny ideas?",
+      "revId": "4abbf113b11418f8119a188708f07bb33421ae70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

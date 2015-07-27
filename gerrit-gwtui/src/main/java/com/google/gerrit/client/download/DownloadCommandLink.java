@@ -15,7 +15,7 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.config.DownloadInfo.DownloadCommandInfo;
+import com.google.gerrit.client.info.DownloadInfo.DownloadCommandInfo;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

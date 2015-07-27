@@ -144,7 +144,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
     }
     b.append("From ").append(commit.getName())
      .append(' ')
-     .append("Mon Sep 17 00:00:00 2001\n")
+     .append("Mon Sep 17 00:00:00 2001\n") // Fixed timestamp to match output of C Git's format-patch
      .append("From: ").append(author.getName())
      .append(" <").append(author.getEmailAddress()).append(">\n")
      .append("Date: ").append(formatDate(author)).append('\n')

@@ -18,7 +18,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.config.GitwebInfo;
+import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;

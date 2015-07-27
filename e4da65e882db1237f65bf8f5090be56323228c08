@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d349e66_c20f226b",
+        "filename": "lib/lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-27T19:47:31Z",
+      "side": 1,
+      "message": "In practice no, because it has no dependents except through the merged target. In theory yes, though, because the classes in this jar do actually depend on the classes in that jar. If we later refactored rules again, we would expect this one to actually list its correct dependencies.",
+      "parentUuid": "8df712e1_63f522bf",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 23
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_02066a59",
         "filename": "tools/merge_jars.py",
         "patchSetId": 1

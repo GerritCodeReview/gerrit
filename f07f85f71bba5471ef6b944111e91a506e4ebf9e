@@ -34,6 +34,24 @@
       "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_c33c16f0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T13:37:43Z",
+      "side": 1,
+      "message": "Thanks. Now I see it, old applyUserPreferences() is doing that. I also saw, that in the follow-up change you removed account from host page data servlet, but in this change the GeneralPreference part of it isn\u0027t used any more, right? Can it be partially removed from host page data already in this change, so that no preferences are transported over the wire to the client, when they aren\u0027t used any more? But probably this is a hack one would be removed in this series anyway, but what I mean is to do in HostPageServlet.doGet() something like:\n\n  if (user.isIdentifiedUser()) {\n      Account a \u003d ((IdentifiedUser) user).getAccount();\n      w.write(HPD_ID + \".account\u003d\");\n      AccountGeneralPreferences rememberMe \u003d a.getGeneralPreferences();\n      a.setGeneralPreferences(null);\n      json(a, w);\n      a.setGeneralPreferences(rememberMe);\n      [...]",
+      "parentUuid": "8dbf1232_83421e64",
+      "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

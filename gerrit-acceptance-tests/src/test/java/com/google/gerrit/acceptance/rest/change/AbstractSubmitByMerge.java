@@ -76,7 +76,11 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
-    submitWithConflict(change2.getChangeId());
+    submitWithConflict(change2.getChangeId(),
+        "Cannot merge " + change2.getCommit().name() + "\n" +
+        "Change could not be merged due to a path conflict.\n\n" +
+        "Please rebase the change locally " +
+        "and upload the rebased commit for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
   }
 }

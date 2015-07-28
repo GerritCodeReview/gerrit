@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
@@ -195,26 +196,33 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void submit(String changeId) throws Exception {
-    submit(changeId, HttpStatus.SC_OK);
+    submit(changeId, HttpStatus.SC_OK, null);
   }
 
-  protected void submitWithConflict(String changeId) throws Exception {
-    submit(changeId, HttpStatus.SC_CONFLICT);
+  protected void submitWithConflict(String changeId,
+      String partialExpectedError) throws Exception {
+    submit(changeId, HttpStatus.SC_CONFLICT, partialExpectedError);
   }
 
-  private void submit(String changeId, int expectedStatus) throws Exception {
+  private void submit(String changeId, int expectedStatus, String msg)
+      throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
     RestResponse r =
         adminSession.post("/changes/" + changeId + "/submit", subm);
     assertThat(r.getStatusCode()).isEqualTo(expectedStatus);
     if (expectedStatus == HttpStatus.SC_OK) {
+      checkState(msg == null, "msg must be null for successful submits");
       ChangeInfo change =
           newGson().fromJson(r.getReader(),
               new TypeToken<ChangeInfo>() {}.getType());
       assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
 
       checkMergeResult(change);
+    } else {
+      checkState(msg != null && !msg.isEmpty(), "msg must be a valid string " +
+          "containing an error message for unsuccessful submits");
+      assertThat(r.getEntityContent()).isEqualTo(msg);
     }
     r.consume();
   }

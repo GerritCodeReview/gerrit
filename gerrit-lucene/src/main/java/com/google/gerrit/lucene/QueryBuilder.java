@@ -14,17 +14,18 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.gerrit.server.query.change.LegacyChangeIdPredicate.idField;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IntegerRangePredicate;
 import com.google.gerrit.server.index.RegexPredicate;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
@@ -49,14 +50,13 @@ import java.util.Date;
 import java.util.List;
 
 public class QueryBuilder {
-  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
 
-  public static Term idTerm(ChangeData cd) {
-    return intTerm(ID_FIELD, cd.getId().get());
+  public static Term idTerm(Schema<ChangeData> schema, ChangeData cd) {
+    return intTerm(idField(schema).getName(), cd.getId().get());
   }
 
-  public static Term idTerm(Change.Id id) {
-    return intTerm(ID_FIELD, id.get());
+  public static Term idTerm(Schema<ChangeData> schema, Change.Id id) {
+    return intTerm(idField(schema).getName(), id.get());
   }
 
   private final org.apache.lucene.util.QueryBuilder queryBuilder;

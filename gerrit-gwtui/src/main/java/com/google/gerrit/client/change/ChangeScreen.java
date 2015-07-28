@@ -889,7 +889,7 @@ public class ChangeScreen extends Screen {
 
   static Timestamp myLastReply(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.messages() != null) {
-      int self = Gerrit.getUserAccountInfo()._accountId();
+      int self = Gerrit.getUserAccount()._accountId();
       for (int i = info.messages().length() - 1; i >= 0; i--) {
         MessageInfo m = info.messages().get(i);
         if (m.author() != null && m.author()._accountId() == self) {

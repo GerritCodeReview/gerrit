@@ -182,10 +182,6 @@ public class HostPageServlet extends HttpServlet {
     final StringWriter w = new StringWriter();
     final CurrentUser user = currentUser.get();
     if (user.isIdentifiedUser()) {
-      w.write(HPD_ID + ".account=");
-      json(((IdentifiedUser) user).getAccount(), w);
-      w.write(";");
-
       w.write(HPD_ID + ".xGerritAuth=");
       json(session.get().getXGerritAuth(), w);
       w.write(";");

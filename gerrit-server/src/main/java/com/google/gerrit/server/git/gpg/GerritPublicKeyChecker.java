@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.gpg;
 
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
 
 import com.google.common.collect.FluentIterable;
@@ -99,6 +100,9 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     Set<String> result = new HashSet<>();
     result.addAll(user.getEmailAddresses());
     for (AccountExternalId extId : user.state().getExternalIds()) {
+      if (extId.isScheme(SCHEME_GPGKEY)) {
+        continue; // Omit GPG keys.
+      }
       result.add(extId.getExternalId());
     }
     return result;

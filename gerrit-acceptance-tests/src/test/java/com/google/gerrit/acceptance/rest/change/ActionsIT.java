@@ -52,15 +52,14 @@ public class ActionsIT extends AbstractDaemonTest {
     commonActionsAssertions(actions);
     // We want to treat a single change in a topic not as a whole topic,
     // so regardless of how submitWholeTopic is configured:
-    noSubmitWholeTopicAssertions(actions);
+    noSubmitWholeTopicAssertions(actions, 1);
   }
 
   @Test
-  public void revisionActionsTwoChangeChangesInTopic() throws Exception {
+  public void revisionActionsTwoChangesInTopic() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     approve(changeId);
-    // create another change with the same topic
-    createChangeWithTopic().getChangeId();
+    String changeId2 = createChangeWithTopic().getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
@@ -68,14 +67,19 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Other changes in this topic are not ready");
+      assertThat(info.title).isEqualTo("This change depends on other " +
+          "changes which are not ready");
     } else {
-      noSubmitWholeTopicAssertions(actions);
+      noSubmitWholeTopicAssertions(actions, 1);
+
+      assertThat(getActions(changeId2).get("submit")).isNull();
+      approve(changeId2);
+      noSubmitWholeTopicAssertions(getActions(changeId2), 2);
     }
   }
 
   @Test
-  public void revisionActionsTwoChangeChangesInTopic_conflicting() throws Exception {
+  public void revisionActionsTwoChangesInTopic_conflicting() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     approve(changeId);
 
@@ -99,38 +103,66 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
       assertThat(info.title).isEqualTo(
-          "Clicking the button would fail for other changes in the topic");
+          "Clicking the button would fail for other changes");
     } else {
-      noSubmitWholeTopicAssertions(actions);
+      noSubmitWholeTopicAssertions(actions, 1);
     }
   }
 
   @Test
-  public void revisionActionsTwoChangeChangesInTopicReady() throws Exception {
-    String changeId = createChangeWithTopic().getChangeId();
+  public void revisionActionsTwoChangesInTopicWithAncestorReady()
+      throws Exception {
+    String changeId = createChange().getChangeId();
     approve(changeId);
+    approve(changeId);
+    String changeId1 = createChangeWithTopic().getChangeId();
+    approve(changeId1);
     // create another change with the same topic
     String changeId2 = createChangeWithTopic().getChangeId();
     approve(changeId2);
-    Map<String, ActionInfo> actions = getActions(changeId);
+    Map<String, ActionInfo> actions = getActions(changeId1);
     commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
       ActionInfo info = actions.get("submit");
       assertThat(info.enabled).isTrue();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Submit all 2 changes of the same topic");
+      assertThat(info.title).isEqualTo("Submit all 2 changes of the same " +
+          "topic (3 changes including ancestors " +
+          "and other changes related by topic)");
     } else {
-      noSubmitWholeTopicAssertions(actions);
+      noSubmitWholeTopicAssertions(actions, 2);
     }
   }
 
-  private void noSubmitWholeTopicAssertions(Map<String, ActionInfo> actions) {
+  @Test
+  public void revisionActionsReadyWithAncestors() throws Exception {
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+    approve(changeId);
+    String changeId1 = createChange().getChangeId();
+    approve(changeId1);
+    String changeId2 = createChangeWithTopic().getChangeId();
+    approve(changeId2);
+    Map<String, ActionInfo> actions = getActions(changeId2);
+    commonActionsAssertions(actions);
+    // The topic contains only one change, so standard text applies
+    noSubmitWholeTopicAssertions(actions, 3);
+  }
+
+  private void noSubmitWholeTopicAssertions(Map<String, ActionInfo> actions,
+      int nrChanges) {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isTrue();
     assertThat(info.label).isEqualTo("Submit");
     assertThat(info.method).isEqualTo("POST");
-    assertThat(info.title).isEqualTo("Submit patch set 1 into master");
+    if (nrChanges == 1) {
+      assertThat(info.title).isEqualTo("Submit patch set 1 into master");
+    } else {
+      assertThat(info.title).isEqualTo(String.format(
+          "Submit patch set 1 and ancestors (%d changes " +
+          "altogether) into master", nrChanges));
+    }
   }
 
   private void commonActionsAssertions(Map<String, ActionInfo> actions) {

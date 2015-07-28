@@ -16,6 +16,24 @@
       "revId": "4abbf113b11418f8119a188708f07bb33421ae70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_02d9ca69",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T07:43:54Z",
+      "side": 1,
+      "message": "I think this is okay to happen. #created is the timestamp when the change in Gerrit is created, but the patch contains the timestamp when the commit was created. There can be a small difference between them. I think instead of #created you should assert against the commit timestamp in GitPersonInfo [1] (get RevisionInfo for the current revision from the change, then get CommitInfo from the revision and check the date in the committer GitPersonInfo).\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#git-person-info",
+      "parentUuid": "edd40e30_16a0dca1",
+      "revId": "4abbf113b11418f8119a188708f07bb33421ae70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

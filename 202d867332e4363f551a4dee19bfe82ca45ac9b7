@@ -193,6 +193,24 @@
       "revId": "202d867332e4363f551a4dee19bfe82ca45ac9b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4027c_87b7c622",
+        "filename": "lib/httpcomponents/BUCK",
+        "patchSetId": 43
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-28T04:52:20Z",
+      "side": 1,
+      "message": "Jest does not pin these to specific versions [1], so I took whatever was the latest.\n\nThere is no shared version scheme between these components [2].\n\n[1] http://search.maven.org/#artifactdetails%7Cio.searchbox%7Cjest%7C0.1.6%7Cjar\n\n[2] http://search.maven.org/#search%7Cga%7C1%7Corg.apache.httpcomponents",
+      "parentUuid": "6d349e66_c2d88268",
+      "revId": "202d867332e4363f551a4dee19bfe82ca45ac9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

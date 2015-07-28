@@ -460,6 +460,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return config.getBoolean("change", null, "submitWholeTopic" , false);
   }
 
+  public boolean submittable(ChangeData cd, IdentifiedUser user) {
+    return problemsForSubmittingChanges(Arrays.asList(cd), user).isEmpty();
+  }
+
   private List<ChangeData> getChangesByTopic(String topic) {
     try {
       return queryProvider.get().byTopicOpen(topic);

@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "6d7c9e57_c2b7e221",
+        "filename": "lib/lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T06:14:54Z",
+      "side": 1,
+      "message": "This rule has generic name, but what it\u0027s merging is hard coded to the content of META-INF/services directories. Would it make sense to either change the name from generic to hard coded, e.g. merge_metainf_services()\u0027 or pass the actual list of directories to merge to the merge_jars.py script?",
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_e2bce608",
+        "filename": "lib/lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T06:14:54Z",
+      "side": 1,
+      "message": "Any specific reason to add this prefix here and below? by changing the visibility it\u0027salready private to this file.",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8df712e1_63f522bf",
         "filename": "lib/lucene/BUCK",
         "patchSetId": 1
@@ -42,6 +82,52 @@
         "startChar": 0,
         "endLine": 45,
         "endChar": 23
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_e3bcb208",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T06:14:54Z",
+      "side": 1,
+      "message": "$(exe //tools:merge_jars)",
+      "range": {
+        "startLine": 160,
+        "startChar": 13,
+        "endLine": 160,
+        "endChar": 43
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_02c2aa7b",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T06:14:54Z",
+      "side": 1,
+      "message": "Write this here as list and join on the caller side?\n\n  [\u0027$(exe //tools:merge_jars)\u0027, \u0027$OUT\u0027] + [\u0027$(location %s)\u0027 % j for j in jars]",
+      "range": {
+        "startLine": 161,
+        "startChar": 12,
+        "endLine": 161,
+        "endChar": 61
       },
       "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -109,6 +195,30 @@
       "message": "Enclose this whole block in a try..except and print an error message for any exceptions, otherwise exceptions will result in an ugly stack trace.",
       "range": {
         "startLine": 31,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_22c7ae8b",
+        "filename": "tools/merge_jars.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T06:14:54Z",
+      "side": 1,
+      "message": "Generally speaking you can\u0027t just discard MANIFEST.MF (think about Gerrit plugin, that relly on it) and merging them is also error prone. See discussion in context of this issue: [1]. The end of the story was, that java_binary() supplies non-documented option merge_manifests and we are using it during plugin build in gerrit_plugin() custom rule to keep provided manifest files sane.\n\n  java_binary(\n    name \u003d name,\n    merge_manifests \u003d False,\n\nSo may be put a warning here, and describe curent behaviour.\n\n* [1] https://github.com/facebook/buck/issues/86",
+      "parentUuid": "8df712e1_e327d2e8",
+      "range": {
+        "startLine": 47,
         "startChar": 0,
         "endLine": 47,
         "endChar": 25

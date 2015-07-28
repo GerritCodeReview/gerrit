@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "8dbf1232_63e8c2ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T07:43:54Z",
+      "side": 1,
+      "message": "Initially Diffy was only running the build. I know that there was some work on making Diffy run the tests too, but I\u0027m not sure if this was ever finished. So Diffy may still not run the tests at all.",
+      "parentUuid": "cdcf4a9d_d5901c59",
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdcf4a9d_55688ce5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 2
@@ -113,6 +131,24 @@
       "side": 1,
       "message": "Nope.\n\nByteArrayOutputStream API doc: \"Closing a ByteArrayOutputStream has no effect.\"",
       "parentUuid": "cdcf4a9d_55688ce5",
+      "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_22eecefb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T07:43:54Z",
+      "side": 1,
+      "message": "OK :-)",
+      "parentUuid": "cdcf4a9d_b585a015",
       "revId": "1f4f3e1c5bb523b439e29029b7d60c81177789b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

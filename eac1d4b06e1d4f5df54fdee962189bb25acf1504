@@ -22,6 +22,30 @@
       "revId": "eac1d4b06e1d4f5df54fdee962189bb25acf1504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_03c46e83",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/RelativeDateFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T06:58:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d7c9e57_42c4b284",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 81
+      },
+      "revId": "eac1d4b06e1d4f5df54fdee962189bb25acf1504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8dbf1232_e3603202",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/AccountFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:44:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dbf1232_835b3e5c",
+      "revId": "48de45d288baae14a868e08304c111822f368405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d7c9e57_e2606602",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/FormatUtil.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-07-28T12:05:37Z",
       "side": 1,
       "message": "Probably one day the whole class can be available to plugins and moved to gerrit-gwtui-common?",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "48de45d288baae14a868e08304c111822f368405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_c3653610",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/FormatUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:44:36Z",
+      "side": 1,
+      "message": "No, at least not for now. There are some subtle differences between FormatUtil in Gerrit core and FormatUtil in gerrit-plugin-gwtui.\n\no FormatUtil depends on the user preferences:\n \n  In Gerrit core we know when the user preferences are changed and \n  then we update them in FormatUtil by invoking the \n  setPreferences(...) method. In a plugin we always need to get the \n  user preferences by Plugin.get().getUserPreferences().\n\no FormatUtil needs the anonymous coward name:\n\n  In Gerrit core we get it by \n  Gerrit.info().user().anonymousCowardName(), but in a plugin we need \n  to invoke Plugin.get().getServerInfo().user().anonymousCowardName()\n\nWe could only unify FormatUtil if the preferences and the server info are provided to a FormatUtil instance, but then we cannot have static methods anymore.",
+      "parentUuid": "6d7c9e57_e2606602",
       "range": {
         "startLine": 24,
         "startChar": 13,

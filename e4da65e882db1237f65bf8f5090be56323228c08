@@ -93,6 +93,29 @@
       "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8df712e1_234cca93",
+        "filename": "tools/merge_jars.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-28T02:05:55Z",
+      "side": 1,
+      "message": "Enclose this whole block in a try..except and print an error message for any exceptions, otherwise exceptions will result in an ugly stack trace.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -261,7 +261,7 @@ public class ApiGlue {
   }
 
   private static final AccountInfo getCurrentUser() {
-    return Gerrit.getUserAccountInfo();
+    return Gerrit.getUserAccount();
   }
 
   private static final AccountPreferencesInfo getUserPreferences() {

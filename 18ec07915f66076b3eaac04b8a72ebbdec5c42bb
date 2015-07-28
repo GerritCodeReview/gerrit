@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edca4edd_e6379e08",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:38Z",
+      "side": 1,
+      "message": "You might be able to get away with a single field called _id_SORT, and insert a field with that value in both the old and new cases. That would save a little bit of special casing in the sort processing code below.\n\nEven though it\u0027s a little more work though, I would lean towards using two separate sort fields.",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4027c_e72162d5",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:38Z",
+      "side": 1,
+      "message": "This should just be the old LEGACY_ID. useDocValuesForSorting is only false if version \u003c\u003d 14.",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4027c_c726deea",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:38Z",
+      "side": 1,
+      "message": "You need to handle both LEGACY_ID cases here.",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edca4edd_0668fae4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:38Z",
+      "side": 1,
+      "message": "This needs to pass a different field depending on which one is in the schema. The general pattern you would use is something like ExactTopicPredicate#topicField.",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edca4edd_266b76e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:38Z",
+      "side": 1,
+      "message": "Optional: Even though it might not technically be a good Java constant name, I would be ok if you renamed this _ID. (Note that the variable names don\u0027t matter, only the string field names.)",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edca4edd_66756ebd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LegacyChangeIdPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:38Z",
+      "side": 1,
+      "message": "This needs to pass in a different ChangeField depending on what is present in the schema.",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

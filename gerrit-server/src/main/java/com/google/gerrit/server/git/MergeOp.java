@@ -225,7 +225,7 @@ public class MergeOp {
     });
   }
 
-  private List<SubmitRecord> checkSubmitRule(ChangeData cd)
+  public static List<SubmitRecord> checkSubmitRule(ChangeData cd)
       throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     List<SubmitRecord> results = new SubmitRuleEvaluator(cd)

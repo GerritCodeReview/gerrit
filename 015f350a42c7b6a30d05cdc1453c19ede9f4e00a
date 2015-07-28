@@ -22,6 +22,30 @@
       "revId": "015f350a42c7b6a30d05cdc1453c19ede9f4e00a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_226b2ee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:06:10Z",
+      "side": 1,
+      "message": "\u003e How feasible is this in a setup with several thousands   \n \u003e of users? Let\u0027s imagine we have a setup with 10K users \n \u003e and want to replace the change screen with an \n \u003e alternative implementation for all QA users. If we have \n \u003e 500 QA users this would be a lot of work.\n\nAs discussed offline. For now URL aliases are only supported on global level and on user level. This is the same as for preferences, they have gloabl defaults and can be set on user level. Having URL aliases on group level is not supported for now, the same is true for preferences which also cannot be set on group level.\n\nAlso I don\u0027t think that users should manually set URL aliases, but this should always be done through some tooling, e.g. by a plugin that adds a new user preference.\n\n \u003e Thinking more about the intention of this change it \n \u003e seems like we would need a \"user-type\" property on \n \u003e users. Then, the screen replacement would be defined on \n \u003e the user type level instead of doing that for each \n \u003e particular user.\n\nWe may still do this in the future, but it\u0027s outside of the scope of this change.",
+      "parentUuid": "8dbf1232_43fca6a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "015f350a42c7b6a30d05cdc1453c19ede9f4e00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

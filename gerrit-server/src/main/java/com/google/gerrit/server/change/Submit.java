@@ -340,7 +340,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .orNull();
   }
 
-  private List<SubmitRecord> checkSubmitRule(ChangeData cd,
+  private static List<SubmitRecord> checkSubmitRule(ChangeData cd,
       PatchSet patchSet, boolean force)
           throws ResourceConflictException, OrmException {
     List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
@@ -458,6 +458,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   public static boolean wholeTopicEnabled(Config config) {
     return config.getBoolean("change", null, "submitWholeTopic" , false);
+  }
+
+  public boolean submittable(ChangeData cd, IdentifiedUser user) {
+    return problemsForSubmittingChanges(Arrays.asList(cd), user).isEmpty();
   }
 
   private List<ChangeData> getChangesByTopic(String topic) {

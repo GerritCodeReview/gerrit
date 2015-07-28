@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dbf1232_43fca6a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-28T11:41:04Z",
+      "side": 1,
+      "message": "How feasible is this in a setup with several thousands of users? Let\u0027s imagine we have a setup with 10K users and want to replace the change screen with an alternative implementation for all QA users. If we have 500 QA users this would be a lot of work.\n\nThinking more about the intention of this change it seems like we would need a \"user-type\" property on users. Then, the screen replacement would be defined on the user type level instead of doing that for each particular user.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "015f350a42c7b6a30d05cdc1453c19ede9f4e00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

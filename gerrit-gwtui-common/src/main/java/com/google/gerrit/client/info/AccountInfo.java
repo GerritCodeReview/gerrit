@@ -14,14 +14,38 @@
 
 package com.google.gerrit.client.info;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
+
+import java.sql.Timestamp;
 
 public class AccountInfo extends JavaScriptObject {
+  public final Account.Id getId() {
+    return new Account.Id(_accountId());
+  }
+
   public final native int _accountId() /*-{ return this._account_id || 0; }-*/;
   public final native String name() /*-{ return this.name; }-*/;
   public final native String email() /*-{ return this.email; }-*/;
   public final native String username() /*-{ return this.username; }-*/;
+
+  public final Timestamp registeredOn() {
+    return JavaSqlTimestamp_JsonSerializer.parseTimestamp(registeredOnRaw());
+  }
+
+  private final native String registeredOnRaw() /*-{ return this.registered_on; }-*/;
+
+  public final Timestamp contactFiledOn() {
+    if (contactFiledOnRaw() != null) {
+      return JavaSqlTimestamp_JsonSerializer.parseTimestamp(contactFiledOnRaw());
+    } else {
+      return null;
+    }
+  }
+
+  private final native String contactFiledOnRaw() /*-{ return this.contact_filed_on; }-*/;
 
   /**
    * @return true if the server supplied avatar information about this account.
@@ -45,6 +69,10 @@ public class AccountInfo extends JavaScriptObject {
 
   private final native JsArray<AvatarInfo> avatars()
   /*-{ return this.avatars }-*/;
+
+  public final native void name(String n) /*-{ this.name = n }-*/;
+  public final native void email(String e) /*-{ this.email = e }-*/;
+  public final native void username(String n) /*-{ this.username = n }-*/;
 
   public static native AccountInfo create(int id, String name,
       String email, String username) /*-{

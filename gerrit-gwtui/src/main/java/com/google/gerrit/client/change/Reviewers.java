@@ -125,7 +125,7 @@ public class Reviewers extends Composite {
 
   @UiHandler("addMe")
   void onAddMe(@SuppressWarnings("unused") ClickEvent e) {
-    String accountId = String.valueOf(Gerrit.getUserAccountInfo()._accountId());
+    String accountId = String.valueOf(Gerrit.getUserAccount()._accountId());
     addReviewer(accountId, false);
   }
 
@@ -227,7 +227,7 @@ public class Reviewers extends Composite {
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
     if (Gerrit.isSignedIn()) {
-      int currentUser = Gerrit.getUserAccountInfo()._accountId();
+      int currentUser = Gerrit.getUserAccount()._accountId();
       boolean showAddMeButton = info.owner()._accountId() != currentUser
           && !cc.containsKey(currentUser)
           && !r.containsKey(currentUser);

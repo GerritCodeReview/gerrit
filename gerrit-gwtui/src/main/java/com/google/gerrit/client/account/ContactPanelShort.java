@@ -15,7 +15,9 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.OnEditEnabler;
@@ -195,11 +197,11 @@ class ContactPanelShort extends Composite {
 
     Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
       @Override
-      public void onSuccess(final Account result) {
+      public void onSuccess(Account result) {
         if (!isAttached()) {
           return;
         }
-        display(result);
+        display(FormatUtil.asInfo(result));
         haveAccount = true;
         postLoad();
       }
@@ -237,9 +239,9 @@ class ContactPanelShort extends Composite {
     info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
-  protected void display(final Account userAccount) {
-    currentEmail = userAccount.getPreferredEmail();
-    nameTxt.setText(userAccount.getFullName());
+  protected void display(AccountInfo account) {
+    currentEmail = account.email();
+    nameTxt.setText(account.name());
     save.setEnabled(false);
     new OnEditEnabler(save, nameTxt);
   }
@@ -277,8 +279,8 @@ class ContactPanelShort extends Composite {
             if (Gerrit.info().auth().isDev()) {
               currentEmail = addr;
               if (emailPick.getItemCount() == 0) {
-                final Account me = Gerrit.getUserAccount();
-                me.setPreferredEmail(addr);
+                AccountInfo me = Gerrit.getUserAccount();
+                me.email(addr);
                 onSaveSuccess(me);
               } else {
                 save.setEnabled(true);
@@ -361,9 +363,9 @@ class ContactPanelShort extends Composite {
     Util.ACCOUNT_SEC.updateContact(newName, newEmail, info,
         new GerritCallback<Account>() {
           @Override
-          public void onSuccess(final Account result) {
+          public void onSuccess(Account result) {
             registerNewEmail.setEnabled(true);
-            onSaveSuccess(result);
+            onSaveSuccess(FormatUtil.asInfo(result));
             if (onSave != null) {
               onSave.onSuccess(result);
             }
@@ -378,10 +380,10 @@ class ContactPanelShort extends Composite {
         });
   }
 
-  void onSaveSuccess(final Account result) {
-    final Account me = Gerrit.getUserAccount();
-    me.setFullName(result.getFullName());
-    me.setPreferredEmail(result.getPreferredEmail());
+  void onSaveSuccess(AccountInfo result) {
+    AccountInfo me = Gerrit.getUserAccount();
+    me.name(result.name());
+    me.email(result.email());
     Gerrit.refreshMenuBar();
     display(me);
   }

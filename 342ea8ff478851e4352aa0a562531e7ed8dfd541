@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "edca4edd_2699b689",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-28T17:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edca4edd_4672f2d6",
+      "range": {
+        "startLine": 198,
+        "startChar": 39,
+        "endLine": 198,
+        "endChar": 43
+      },
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_a2377e09",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 1
@@ -120,6 +144,24 @@
       "side": 1,
       "message": "But in the example you give, there are two important parts that you want to check for:\n\n* \"depends on Change \u003cN-1\u003e which is not ready yet\"\n* \"Needs Code-Review\"\n\nThe way you have it now you can only check for one of those.\n\nYou should have the change numbers available to you in the calling code, so you can construct the expected message. We do a lot of this in ConsistencyCheckerIT if you want to look at some examples.",
       "parentUuid": "edca4edd_4613128e",
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4027c_677572bd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-28T17:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edca4edd_a63da6ee",
       "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

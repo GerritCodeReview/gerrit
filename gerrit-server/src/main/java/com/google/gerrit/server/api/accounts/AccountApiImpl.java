@@ -17,19 +17,29 @@ package com.google.gerrit.server.api.accounts;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.RawStringInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AddGpgKey;
 import com.google.gerrit.server.account.CreateEmail;
+import com.google.gerrit.server.account.GpgKeys;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.bouncycastle.openpgp.PGPException;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {
@@ -42,6 +52,9 @@ public class AccountApiImpl implements AccountApi {
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
+  private final AddGpgKey addGpgKey;
+  private final GpgKeys gpgKeys;
+  private final GpgKeyApiImpl.Factory gpgKeyApiFactory;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -49,6 +62,9 @@ public class AccountApiImpl implements AccountApi {
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
+      AddGpgKey addGpgKey,
+      GpgKeys gpgKeys,
+      GpgKeyApiImpl.Factory gpgKeyApiFactory,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -56,6 +72,9 @@ public class AccountApiImpl implements AccountApi {
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.createEmailFactory = createEmailFactory;
+    this.addGpgKey = addGpgKey;
+    this.gpgKeys = gpgKeys;
+    this.gpgKeyApiFactory = gpgKeyApiFactory;
   }
 
   @Override
@@ -106,6 +125,36 @@ public class AccountApiImpl implements AccountApi {
       createEmailFactory.create(input.email).apply(rsrc, input);
     } catch (EmailException | OrmException e) {
       throw new RestApiException("Cannot add email", e);
+    }
+  }
+
+  @Override
+  public Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException {
+    try {
+      return gpgKeys.list().apply(account);
+    } catch (OrmException | PGPException | IOException e) {
+      throw new RestApiException("Cannot list GPG keys", e);
+    }
+  }
+
+  @Override
+  public GpgKeyApi addGpgKey(String armoredKey) throws RestApiException {
+    AddGpgKey.Input in = new AddGpgKey.Input();
+    in.raw = new RawStringInput(armoredKey, GpgKeys.MIME_TYPE);
+    try {
+      return gpgKey(addGpgKey.apply(account, in).fingerprint);
+    } catch (PGPException | OrmException | IOException e) {
+      throw new RestApiException("Cannot add GPG key", e);
+    }
+  }
+
+  @Override
+  public GpgKeyApi gpgKey(String id) throws RestApiException {
+    try {
+      IdString idStr = IdString.fromDecoded(id);
+      return gpgKeyApiFactory.create(gpgKeys.parse(account, idStr));
+    } catch (PGPException | OrmException | IOException e) {
+      throw new RestApiException("Cannot get PGP key", e);
     }
   }
 }

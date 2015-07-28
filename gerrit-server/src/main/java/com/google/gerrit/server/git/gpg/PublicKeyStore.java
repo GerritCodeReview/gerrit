@@ -273,22 +273,31 @@ public class PublicKeyStore implements AutoCloseable {
         Collections.<PGPPublicKeyRing> emptyList());
   }
 
-  static String keyToString(PGPPublicKey key) {
+  public static String keyToString(PGPPublicKey key) {
     @SuppressWarnings("unchecked")
     Iterator<String> it = key.getUserIDs();
-    ByteBuffer buf = ByteBuffer.wrap(key.getFingerprint());
     return String.format(
-        "%s %s(%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X)",
+        "%s %s(%s)",
         keyIdToString(key.getKeyID()),
         it.hasNext() ? it.next() + " " : "",
+        fingerprintToString(key.getFingerprint()));
+  }
+
+  public static String keyIdToString(long keyId) {
+    // Match key ID format from gpg --list-keys.
+    return String.format("%08X", (int) keyId);
+  }
+
+  public static String fingerprintToString(byte[] fingerprint) {
+    if (fingerprint.length != 20) {
+      throw new IllegalArgumentException();
+    }
+    ByteBuffer buf = ByteBuffer.wrap(fingerprint);
+    return String.format(
+        "%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X",
         buf.getShort(), buf.getShort(), buf.getShort(), buf.getShort(),
         buf.getShort(), buf.getShort(), buf.getShort(), buf.getShort(),
         buf.getShort(), buf.getShort());
-  }
-
-  static String keyIdToString(long keyId) {
-    // Match key ID format from gpg --list-keys.
-    return String.format("%08X", (int) keyId);
   }
 
   static ObjectId keyObjectId(long keyId) {

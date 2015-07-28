@@ -36,6 +36,9 @@ public final class AccountExternalId {
   /** Scheme for the username used to authenticate an account, e.g. over SSH. */
   public static final String SCHEME_USERNAME = "username:";
 
+  /** Scheme used for GPG public keys. */
+  public static final String SCHEME_GPGKEY = "gpgkey:";
+
   /** Scheme for external auth used during authentication, e.g. OAuth Token */
   public static final String SCHEME_EXTERNAL = "external:";
 

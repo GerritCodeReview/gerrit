@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d7c9e57_82fcfaaa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3780,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-28T11:32:28Z",
+      "side": 1,
+      "message": "The commit message contains an example where subsection name is not specified...",
+      "range": {
+        "startLine": 3780,
+        "startChar": 0,
+        "endLine": 3780,
+        "endChar": 53
+      },
+      "revId": "6fdea473def85da656d52e440455549beb5db636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_63ff22a0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3796,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-28T11:32:28Z",
+      "side": 1,
+      "message": "The documentation should also specify how is the matching/replacing algorithm working. Is the matching done in the order of the urlAlias (sub)sections in the gerrit.config? Should it stop on the first match or will it continue? in other words: does it matter if multiple match expressions match a URL?",
+      "range": {
+        "startLine": 3790,
+        "startChar": 0,
+        "endLine": 3796,
+        "endChar": 4
+      },
+      "revId": "6fdea473def85da656d52e440455549beb5db636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_a2273ee9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-07-28T11:32:28Z",
+      "side": 1,
+      "message": "This looks like the matching will continue after the first match is found. This may seem powerful but may also be a source of hard to trace (configuration) mistakes. I would propose to stop on the first matching (sub)section and return the resulting token immediately.",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 5
+      },
+      "revId": "6fdea473def85da656d52e440455549beb5db636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

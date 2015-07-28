@@ -117,6 +117,36 @@ returned that describes the created account.
   }
 ----
 
+[[get-detail]]
+=== Get Account Details
+--
+'GET /accounts/link:#account-id[\{account-id\}]/detail'
+--
+
+Retrieves the details of an account as an link:account-detail-info[
+AccountDetailInfo] entity.
+
+.Request
+----
+  GET /accounts/self/detail HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "registered_on": "2015-07-23 07:01:09.296000000",
+    "_account_id": 1000096,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "username": "john"
+  }
+----
+
 [[get-account-name]]
 === Get Account Name
 --
@@ -1241,6 +1271,25 @@ The sequence number of the SSH key.
 
 [[json-entities]]
 == JSON Entities
+
+[[account-detail-info]]
+=== AccountDetailInfo
+The `AccountDetailInfo` entity contains detailled information about an
+account.
+
+`AccountDetailInfo` has the same fields as link:#account-info[
+AccountInfo]. In addition `AccountDetailInfo` has the following fields:
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`registered_on`     ||
+The link:rest-api.html#timestamp[timestamp] of when the account was
+registered.
+|`contact_filed_on`  |optional|
+The link:rest-api.html#timestamp[timestamp] of when contact information
+for this account was file. Not set if no contact information was filed.
+|=================================
 
 [[account-info]]
 === AccountInfo

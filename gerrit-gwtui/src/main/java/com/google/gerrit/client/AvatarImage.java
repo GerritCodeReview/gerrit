@@ -98,7 +98,7 @@ public class AvatarImage extends Image implements LoadHandler {
      // TODO Kill /accounts/*/avatar URL.
     String u = account.email();
     if (Gerrit.isSignedIn()
-        && u.equals(Gerrit.getUserAccount().getPreferredEmail())) {
+        && u.equals(Gerrit.getUserAccount().email())) {
       u = "self";
     }
     RestApi api = new RestApi("/accounts/").id(u).view("avatar");

@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "edca4edd_66e8ceed",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-28T07:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edca4edd_46ce72a5",
+      "range": {
+        "startLine": 253,
+        "startChar": 44,
+        "endLine": 254,
+        "endChar": 18
+      },
+      "revId": "202d867332e4363f551a4dee19bfe82ca45ac9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_42ceb2a5",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 43

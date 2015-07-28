@@ -52,6 +52,24 @@
       "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_a3a47abe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T14:18:51Z",
+      "side": 1,
+      "message": "Yes, this could be done, but since there is already a change that removes this, I think we can save this effort.",
+      "parentUuid": "8dbf1232_c33c16f0",
+      "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

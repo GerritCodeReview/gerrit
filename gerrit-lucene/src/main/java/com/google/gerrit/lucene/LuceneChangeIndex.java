@@ -54,6 +54,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -129,9 +130,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
-  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
-  private static final String ID_SORT_FIELD =
-      sortFieldName(ChangeField.LEGACY_ID);
+  private static final String ID_FIELD = ChangeField.LEGACY_ID2.getName();
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
@@ -211,6 +210,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final QueryBuilder queryBuilder;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
+  private final String idSortField;
 
   /**
    * Whether to use DocValues for range/sorted numeric fields.
@@ -240,6 +240,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.useDocValuesForSorting = schema.getVersion() >= 15;
+    this.idSortField = sortFieldName(LegacyChangeIdPredicate.idField(schema));
 
     CustomMappingAnalyzer analyzer =
         new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
@@ -274,6 +275,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (useDocValuesForSorting) {
       return new SearcherFactory();
     }
+    @SuppressWarnings("deprecation")
     final Map<String, UninvertingReader.Type> mapping = ImmutableMap.of(
         ChangeField.LEGACY_ID.getName(), UninvertingReader.Type.INTEGER,
         ChangeField.UPDATED.getName(), UninvertingReader.Type.LONG);
@@ -314,7 +316,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    Term id = QueryBuilder.idTerm(cd);
+    Term id = QueryBuilder.idTerm(schema, cd);
     Document doc = toDocument(cd);
     try {
       if (cd.change().getStatus().isOpen()) {
@@ -333,7 +335,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void delete(Change.Id id) throws IOException {
-    Term idTerm = QueryBuilder.idTerm(id);
+    Term idTerm = QueryBuilder.idTerm(schema, id);
     try {
       Futures.allAsList(
           openIndex.delete(idTerm),
@@ -373,7 +375,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (useDocValuesForSorting) {
       return new Sort(
           new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
-          new SortField(ID_SORT_FIELD, SortField.Type.LONG, true));
+          new SortField(idSortField, SortField.Type.LONG, true));
     } else {
       return new Sort(
           new SortField(
@@ -550,16 +552,18 @@ public class LuceneChangeIndex implements ChangeIndex {
     return result;
   }
 
+  @SuppressWarnings("deprecation")
   private void add(Document doc, Values<ChangeData> values) {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
 
     if (useDocValuesForSorting) {
-      if (values.getField() == ChangeField.LEGACY_ID) {
+      FieldDef<ChangeData, ?> f = values.getField();
+      if (f == ChangeField.LEGACY_ID || f == ChangeField.LEGACY_ID2) {
         int v = (Integer) getOnlyElement(values.getValues());
-        doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
-      } else if (values.getField() == ChangeField.UPDATED) {
+        doc.add(new NumericDocValuesField(sortFieldName(f), v));
+      } else if (f == ChangeField.UPDATED) {
         long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
         doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
       }

@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -37,10 +38,11 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
     return user.toString();
   }
 
-  private static List<Predicate<ChangeData>> predicates(Set<Change.Id> ids) {
+  private static List<Predicate<ChangeData>> predicates(
+      Schema<ChangeData> schema, Set<Change.Id> ids) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(ids.size());
     for (Change.Id id : ids) {
-      r.add(new LegacyChangeIdPredicate(id));
+      r.add(new LegacyChangeIdPredicate(schema, id));
     }
     return r;
   }
@@ -53,7 +55,7 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
   }
 
   private IsStarredByPredicate(Arguments args, IdentifiedUser user) {
-    super(predicates(user.getStarredChanges()));
+    super(predicates(args.getSchema(), user.getStarredChanges()));
     this.args = args;
     this.user = user;
   }

@@ -47,7 +47,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.GerritTopMenu;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
@@ -111,11 +110,11 @@ public class Gerrit implements EntryPoint {
 
   private static String myHost;
   private static ServerInfo myServerInfo;
+  private static AccountInfo myAccount;
   private static AccountPreferencesInfo myPrefs;
   private static boolean hasDocumentation;
   private static String docUrl;
   private static HostPageData.Theme myTheme;
-  private static Account myAccount;
   private static String defaultScreenToken;
   private static AccountDiffPreference myAccountDiffPref;
   private static String xGerritAuth;
@@ -299,14 +298,9 @@ public class Gerrit implements EntryPoint {
     return myTheme;
   }
 
-  /** @return the currently signed in user's account data; null if no account */
-  public static Account getUserAccount() {
-    return myAccount;
-  }
-
   /** @return the currently signed in user's account data; empty account data if no account */
-  public static AccountInfo getUserAccountInfo() {
-    return FormatUtil.asInfo(myAccount);
+  public static AccountInfo getUserAccount() {
+    return myAccount;
   }
 
   /** @return access token to prove user identity during REST API calls. */
@@ -330,7 +324,7 @@ public class Gerrit implements EntryPoint {
 
   /** @return true if the user is currently authenticated */
   public static boolean isSignedIn() {
-    return getUserAccount() != null;
+    return xGerritAuth != null;
   }
 
   /** Sign the user into the application. */
@@ -389,7 +383,7 @@ public class Gerrit implements EntryPoint {
   }
 
   static void deleteSessionCookie() {
-    myAccount = null;
+    myAccount = AccountInfo.create(0, null, null, null);
     myAccountDiffPref = null;
     myPrefs = AccountPreferencesInfo.createDefault();
     xGerritAuth = null;
@@ -460,23 +454,29 @@ public class Gerrit implements EntryPoint {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
         myTheme = result.theme;
         isNoteDbEnabled = result.isNoteDbEnabled;
-        if (result.account != null) {
-          myAccount = result.account;
-          xGerritAuth = result.xGerritAuth;
-        }
         if (result.accountDiffPref != null) {
           myAccountDiffPref = result.accountDiffPref;
         }
-        if (isSignedIn()) {
+        if (result.xGerritAuth != null) {
+          xGerritAuth = result.xGerritAuth;
+          CallbackGroup cbg = new CallbackGroup();
+          AccountApi.self().view("detail")
+              .get(cbg.add(new GerritCallback<AccountInfo>() {
+                @Override
+                public void onSuccess(AccountInfo result) {
+                  myAccount = result;
+                }
+          }));
           AccountApi.self().view("preferences")
-              .get(new GerritCallback<AccountPreferencesInfo>() {
+              .get(cbg.addFinal(new GerritCallback<AccountPreferencesInfo>() {
             @Override
             public void onSuccess(AccountPreferencesInfo prefs) {
               myPrefs = prefs;
               onModuleLoad2(result);
             }
-          });
+          }));
         } else {
+          myAccount = AccountInfo.create(0, null, null, null);
           myPrefs = AccountPreferencesInfo.createDefault();
           onModuleLoad2(result);
         }
@@ -905,7 +905,7 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void whoAmI(boolean canLogOut) {
-    AccountInfo account = getUserAccountInfo();
+    AccountInfo account = getUserAccount();
     final UserPopupPanel userPopup =
         new UserPopupPanel(account, canLogOut, true);
     final FlowPanel userSummaryPanel = new FlowPanel();

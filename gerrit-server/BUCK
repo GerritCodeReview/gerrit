@@ -88,6 +88,7 @@ java_sources(
 TESTUTIL = glob([
   'src/test/java/com/google/gerrit/testutil/**/*.java',
   'src/test/java/com/google/gerrit/server/project/Util.java',
+  'src/test/java/com/google/gerrit/server/git/gpg/TestKey.java',
   ])
 java_library(
   name = 'testutil',
@@ -103,6 +104,8 @@ java_library(
     '//lib:h2',
     '//lib:truth',
     '//lib/auto:auto-value',
+    '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcprov',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',

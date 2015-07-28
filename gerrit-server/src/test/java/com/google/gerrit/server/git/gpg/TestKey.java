@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git.gpg;
 
+import com.google.common.collect.ImmutableList;
+
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPrivateKey;
@@ -29,7 +31,11 @@ import org.eclipse.jgit.lib.Constants;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-class TestKey {
+public class TestKey {
+  public static ImmutableList<TestKey> allValidKeys() {
+    return ImmutableList.of(key1(), key2(), key5());
+  }
+
   /**
    * A valid key with no expiration.
    *
@@ -40,7 +46,7 @@ class TestKey {
    * sub   2048R/F0AF69C0 2015-07-08
    * </pre>
    */
-  static TestKey key1() throws PGPException, IOException {
+  public static TestKey key1() {
     return new TestKey("-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
         + "\n"
@@ -140,7 +146,7 @@ class TestKey {
    * sub   2048R/46D4F204 2015-07-08 [expires: 2065-06-25]
    * </pre>
    */
-  static final TestKey key2() throws PGPException, IOException {
+  public static final TestKey key2() {
     return new TestKey(
         "-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
@@ -241,7 +247,7 @@ class TestKey {
    * uid                  Testuser Three &lt;test3@example.com&gt;
    * </pre>
    */
-  static final TestKey key3() throws PGPException, IOException {
+  public static final TestKey key3() {
     return new TestKey(
         "-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
@@ -342,7 +348,7 @@ class TestKey {
    * uid                  Testuser Four &lt;test4@example.com&gt;
    * </pre>
    */
-  static final TestKey key4() throws PGPException, IOException {
+  public static final TestKey key4() {
     return new TestKey(
         "-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
@@ -450,7 +456,7 @@ class TestKey {
    * sub   2048R/C781A9E3 2015-07-30
    * </pre>
    */
-  static TestKey key5() throws PGPException, IOException {
+  public static TestKey key5() {
     return new TestKey("-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
         + "\n"
@@ -555,44 +561,47 @@ class TestKey {
   private final PGPPublicKeyRing pubRing;
   private final PGPSecretKeyRing secRing;
 
-  private TestKey(String pubArmored, String secArmored)
-      throws PGPException, IOException {
+  private TestKey(String pubArmored, String secArmored) {
     this.pubArmored = pubArmored;
     this.secArmored = secArmored;
     BcKeyFingerprintCalculator fc = new BcKeyFingerprintCalculator();
-    this.pubRing = new PGPPublicKeyRing(newStream(pubArmored), fc);
-    this.secRing = new PGPSecretKeyRing(newStream(secArmored), fc);
+    try {
+      this.pubRing = new PGPPublicKeyRing(newStream(pubArmored), fc);
+      this.secRing = new PGPSecretKeyRing(newStream(secArmored), fc);
+    } catch (PGPException | IOException e) {
+      throw new AssertionError(e);
+    }
   }
 
-  String getPublicKeyArmored() {
+  public String getPublicKeyArmored() {
     return pubArmored;
   }
 
-  String getSecretKeyArmored() {
+  public String getSecretKeyArmored() {
     return secArmored;
   }
 
-  PGPPublicKeyRing getPublicKeyRing() {
+  public PGPPublicKeyRing getPublicKeyRing() {
     return pubRing;
   }
 
-  PGPPublicKey getPublicKey() {
+  public PGPPublicKey getPublicKey() {
     return pubRing.getPublicKey();
   }
 
-  PGPSecretKey getSecretKey() {
+  public PGPSecretKey getSecretKey() {
     return secRing.getSecretKey();
   }
 
-  long getKeyId() {
+  public long getKeyId() {
     return getPublicKey().getKeyID();
   }
 
-  String getFirstUserId() {
+  public String getFirstUserId() {
     return (String) getPublicKey().getUserIDs().next();
   }
 
-  PGPPrivateKey getPrivateKey() throws PGPException {
+  public PGPPrivateKey getPrivateKey() throws PGPException {
     return getSecretKey().extractPrivateKey(
         new BcPBESecretKeyDecryptorBuilder(new BcPGPDigestCalculatorProvider())
           // All test keys have no passphrase.
@@ -604,5 +613,4 @@ class TestKey {
     return new ArmoredInputStream(
         new ByteArrayInputStream(Constants.encode(armored)));
   }
-
 }

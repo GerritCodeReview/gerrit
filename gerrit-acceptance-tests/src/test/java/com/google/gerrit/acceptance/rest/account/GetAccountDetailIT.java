@@ -20,16 +20,11 @@ import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAcco
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GetDetail.AccountDetailInfo;
-import com.google.inject.Inject;
 
 import org.junit.Test;
 
 public class GetAccountDetailIT extends AbstractDaemonTest {
-  @Inject
-  private AccountCache accountCache;
-
   @Test
   public void getDetail() throws Exception {
     RestResponse r = adminSession.get("/accounts/" + admin.username + "/detail/");

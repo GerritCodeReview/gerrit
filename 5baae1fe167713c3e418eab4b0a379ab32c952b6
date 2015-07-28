@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d7c9e57_e22146d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T11:51:51Z",
+      "side": 1,
+      "message": "This is great!",
+      "revId": "5baae1fe167713c3e418eab4b0a379ab32c952b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_02270ae8",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T11:51:51Z",
+      "side": 1,
+      "message": "Can\u0027t this value be memorized to prevent parsing it again and again?",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "5baae1fe167713c3e418eab4b0a379ab32c952b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_e32152d5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T11:51:51Z",
+      "side": 1,
+      "message": "Before this change we had host page data request + GET preferences request. With this change we have still host page data request + GET preferences + GET detail. It\u0027s beyond the scope of this change, but I think it could be optimized further by optionally combining detail + preferences in one request, with options, like it\u0027s the case for GET /changes/\u003cid\u003e/detail.",
+      "range": {
+        "startLine": 460,
+        "startChar": 9,
+        "endLine": 478,
+        "endChar": 9
+      },
+      "revId": "5baae1fe167713c3e418eab4b0a379ab32c952b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

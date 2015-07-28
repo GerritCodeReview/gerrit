@@ -22,6 +22,30 @@
       "revId": "356bfc759d9f4eb94c2c58d9fde02e0779012b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edca4edd_e6d31e49",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-28T06:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d349e66_a2ae9e9b",
+      "range": {
+        "startLine": 4150,
+        "startChar": 19,
+        "endLine": 4150,
+        "endChar": 35
+      },
+      "revId": "356bfc759d9f4eb94c2c58d9fde02e0779012b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

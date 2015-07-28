@@ -22,6 +22,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.inject.TypeLiteral;
 
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
+
 public class AccountResource implements RestResource {
   public static final TypeLiteral<RestView<AccountResource>> ACCOUNT_KIND =
       new TypeLiteral<RestView<AccountResource>>() {};
@@ -34,6 +36,9 @@ public class AccountResource implements RestResource {
 
   public static final TypeLiteral<RestView<SshKey>> SSH_KEY_KIND =
       new TypeLiteral<RestView<SshKey>>() {};
+
+  public static final TypeLiteral<RestView<GpgKey>> GPG_KEY_KIND =
+      new TypeLiteral<RestView<GpgKey>>() {};
 
   public static final TypeLiteral<RestView<StarredChange>> STARRED_CHANGE_KIND =
       new TypeLiteral<RestView<StarredChange>>() {};
@@ -93,6 +98,19 @@ public class AccountResource implements RestResource {
 
     public AccountSshKey getSshKey() {
       return sshKey;
+    }
+  }
+
+  public static class GpgKey extends AccountResource {
+    private final PGPPublicKeyRing keyRing;
+
+    public GpgKey(IdentifiedUser user, PGPPublicKeyRing keyRing) {
+      super(user);
+      this.keyRing = keyRing;
+    }
+
+    public PGPPublicKeyRing getKeyRing() {
+      return keyRing;
     }
   }
 

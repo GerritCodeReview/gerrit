@@ -69,7 +69,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
 
   @Override
   public void onGitReferenceUpdated(final Event event) {
-    Futures.transform(
+    Futures.transformAsync(
         executor.submit(new GetChanges(event)),
         new AsyncFunction<List<Change>, List<Void>>() {
           @Override

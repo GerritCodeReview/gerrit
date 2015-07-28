@@ -312,7 +312,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     return schema;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void replace(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
@@ -332,7 +331,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void delete(Change.Id id) throws IOException {
     Term idTerm = QueryBuilder.idTerm(id);

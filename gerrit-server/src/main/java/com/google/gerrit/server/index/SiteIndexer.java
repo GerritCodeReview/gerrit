@@ -213,7 +213,7 @@ public class SiteIndexer {
     }
 
     try {
-      mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
+      mpm.waitFor(Futures.transformAsync(Futures.successfulAsList(futures),
           new AsyncFunction<List<?>, Void>() {
             @Override
             public ListenableFuture<Void> apply(List<?> input) {

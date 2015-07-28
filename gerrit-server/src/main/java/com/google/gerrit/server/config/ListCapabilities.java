@@ -80,7 +80,7 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   }
 
   private static boolean isPluginNameSane(String pluginName) {
-    return CharMatcher.JAVA_LETTER_OR_DIGIT
+    return CharMatcher.javaLetterOrDigit()
         .or(CharMatcher.is('-'))
         .matchesAllOf(pluginName);
   }

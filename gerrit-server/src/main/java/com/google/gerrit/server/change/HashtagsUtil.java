@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.CharMatcher.WHITESPACE;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
@@ -45,7 +43,8 @@ import java.util.regex.Pattern;
 
 @Singleton
 public class HashtagsUtil {
-  private static final CharMatcher LEADER = WHITESPACE.or(CharMatcher.is('#'));
+  private static final CharMatcher LEADER =
+      CharMatcher.whitespace().or(CharMatcher.is('#'));
   private static final String PATTERN = "(?:\\s|\\A)#[\\p{L}[0-9]-_]+";
 
   private final ChangeUpdate.Factory updateFactory;
@@ -69,7 +68,7 @@ public class HashtagsUtil {
 
   public static String cleanupHashtag(String hashtag) {
     hashtag = LEADER.trimLeadingFrom(hashtag);
-    hashtag = WHITESPACE.trimTrailingFrom(hashtag);
+    hashtag = CharMatcher.whitespace().trimTrailingFrom(hashtag);
     return hashtag;
   }
 

@@ -635,7 +635,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static LabelValue parseLabelValue(String src) {
     List<String> parts = ImmutableList.copyOf(
-        Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().limit(2)
+        Splitter.on(CharMatcher.whitespace()).omitEmptyStrings().limit(2)
         .split(src));
     if (parts.isEmpty()) {
       throw new IllegalArgumentException("empty value");

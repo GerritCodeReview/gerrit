@@ -318,7 +318,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   }
 
   private static boolean isValidParameterName(String name) {
-    return CharMatcher.JAVA_LETTER_OR_DIGIT
+    return CharMatcher.javaLetterOrDigit()
         .or(CharMatcher.is('-'))
         .matchesAllOf(name) && !name.startsWith("-");
   }

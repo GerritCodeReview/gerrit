@@ -276,7 +276,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       }
     }
 
-    Splitter s = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
+    Splitter s = Splitter.on(CharMatcher.whitespace()).omitEmptyStrings();
     assertThat(filtered).containsExactlyElementsIn(
         Ordering.natural().sortedCopy(s.split(out))).inOrder();
   }

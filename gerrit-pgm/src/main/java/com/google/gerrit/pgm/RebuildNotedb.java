@@ -141,7 +141,7 @@ public class RebuildNotedb extends SiteProgram {
                 MoreExecutors.directExecutor());
           }
 
-          mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
+          mpm.waitFor(Futures.transformAsync(Futures.successfulAsList(futures),
               new AsyncFunction<List<?>, Void>() {
                   @Override
                 public ListenableFuture<Void> apply(List<?> input)

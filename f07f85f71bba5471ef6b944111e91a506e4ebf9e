@@ -16,6 +16,24 @@
       "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_83421e64",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:50:48Z",
+      "side": 1,
+      "message": "It\u0027s not really moved to an earlier point. With the old code the preferences are taken from the host page data (from the account that is contained in host page data). They were applied already in line 465. So at the same place were are now fetching the preferences via REST.\n\nOnly since the preferences that we got from the account didn\u0027t contain the my menus, we had to fetch them extra later in line 649. Since we now fetch the preferences here via REST they include the my menus and we do not need to do that request later again.",
+      "parentUuid": "6d7c9e57_627536bd",
+      "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

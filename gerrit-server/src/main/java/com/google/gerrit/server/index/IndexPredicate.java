@@ -14,11 +14,26 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.gerrit.server.index.ChangeField.LEGACY_ID;
+import static com.google.gerrit.server.index.ChangeField.LEGACY_ID2;
+
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData;
 
 /** Index-aware predicate that includes a field type annotation. */
 public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
   private final FieldDef<I, ?> def;
+
+  @SuppressWarnings("deprecation")
+  public static FieldDef<ChangeData, ?> idField(Schema<ChangeData> schema) {
+    if (schema == null) {
+      return ChangeField.LEGACY_ID2;
+    } else if (schema.hasField(LEGACY_ID2)) {
+      return schema.getFields().get(LEGACY_ID2.getName());
+    } else {
+      return schema.getFields().get(LEGACY_ID.getName());
+    }
+  }
 
   public IndexPredicate(FieldDef<I, ?> def, String value) {
     super(def.getName(), value);

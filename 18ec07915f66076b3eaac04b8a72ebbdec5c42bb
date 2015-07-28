@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "edca4edd_e685de14",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-28T18:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dd4027c_e72162d5",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dd4027c_c726deea",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "0dd4027c_87a98698",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-28T18:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dd4027c_c726deea",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edca4edd_0668fae4",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2015-07-28T16:58:38Z",
       "side": 1,
       "message": "This needs to pass a different field depending on which one is in the schema. The general pattern you would use is something like ExactTopicPredicate#topicField.",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4027c_e7ae829c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-28T18:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edca4edd_0668fae4",
       "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -98,6 +152,24 @@
       "writtenOn": "2015-07-28T16:58:38Z",
       "side": 1,
       "message": "This needs to pass in a different ChangeField depending on what is present in the schema.",
+      "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4027c_c7b37e04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LegacyChangeIdPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-28T18:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edca4edd_66756ebd",
       "revId": "18ec07915f66076b3eaac04b8a72ebbdec5c42bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

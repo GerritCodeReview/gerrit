@@ -135,6 +135,29 @@
     },
     {
       "key": {
+        "uuid": "6d7c9e57_e2d30649",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T07:50:43Z",
+      "side": 1,
+      "message": "This is not equivalent replacement. Given source maven_jar artifacts: s_1, ..., s_n this would produce merged artifact m that is based on underlying raw binaries and not enriched original jars that were created with original maven_jar custom rule invocation. Particularly, all deps and exported_deps parameters to s_1, ..., s_n would be lost. To remedy this, you would need to somehow reverse engineer the source maven_jars, extract this information and pass it to the new merge artifact. Given that Buck doesn\u0027t have $([exported_]deps) macros that\u0027s not easy to do. Of course `buck audit dependencies foo` and `buck targets --json bar` inspection could help here (see recently submitted api.py utility), but I don\u0027t think that this is really needed atm. This restriction about lost dependencies and not equivalent replacement must be mentioned in the commit message and in this source file. Another option would be to allow to accept similar options deps and exported_deps in merge_maven_jars() rule as in maven_jar(). (Probably better to do it later, only when and if it\u0027s needed).",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 179,
+        "endChar": 3
+      },
+      "revId": "e4da65e882db1237f65bf8f5090be56323228c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_02066a59",
         "filename": "tools/merge_jars.py",
         "patchSetId": 1

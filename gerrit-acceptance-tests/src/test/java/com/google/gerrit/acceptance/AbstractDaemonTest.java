@@ -42,6 +42,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -111,6 +112,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected AcceptanceTestRequestScope atrScope;
+
+  @Inject
+  protected AccountCache accountCache;
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -237,6 +241,11 @@ public abstract class AbstractDaemonTest {
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
     admin = accounts.admin();
     user = accounts.user();
+
+    // Evict cached user state in case tests modify it.
+    accountCache.evict(admin.getId());
+    accountCache.evict(user.getId());
+
     adminSession = new RestSession(server, admin);
     userSession = new RestSession(server, user);
     initSsh(admin);

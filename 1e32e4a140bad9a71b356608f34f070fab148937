@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dbf1232_63160280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T11:58:48Z",
+      "side": 1,
+      "message": "I wonder i it can all be done in context of GET preferences endpoint, extended with options, like for GET /changes/\u003cid\u003e/detail?",
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_62161680",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T11:58:48Z",
+      "side": 1,
+      "message": "filed",
+      "range": {
+        "startLine": 1291,
+        "startChar": 21,
+        "endLine": 1291,
+        "endChar": 25
+      },
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_03190eb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T11:58:48Z",
+      "side": 1,
+      "message": "Singleton?",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_82131a8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T11:58:48Z",
+      "side": 1,
+      "message": "Need to be public?",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 8
+      },
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

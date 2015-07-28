@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8dbf1232_0368eee4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:43:17Z",
+      "side": 1,
+      "message": "No, the registration date and the date when the contact information was filed are no preferences, so this info shouldn\u0027t be returned by the GET preferences endpoint.\n\nBut I agree that this new endpoint may have options and may return the preferences as well if this saves us requests to the server.",
+      "parentUuid": "8dbf1232_63160280",
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d7c9e57_62161680",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-07-28T11:58:48Z",
       "side": 1,
       "message": "filed",
+      "range": {
+        "startLine": 1291,
+        "startChar": 21,
+        "endLine": 1291,
+        "endChar": 25
+      },
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_637562bd",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d7c9e57_62161680",
       "range": {
         "startLine": 1291,
         "startChar": 21,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "8dbf1232_4372e6d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dbf1232_03190eb0",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d7c9e57_82131a8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2015-07-28T11:58:48Z",
       "side": 1,
       "message": "Need to be public?",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 8
+      },
+      "revId": "1e32e4a140bad9a71b356608f34f070fab148937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d7c9e57_82723ad4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-07-28T12:43:17Z",
+      "side": 1,
+      "message": "I prefer to have all these *Info classes public so that plugins may use them.",
+      "parentUuid": "6d7c9e57_82131a8d",
       "range": {
         "startLine": 55,
         "startChar": 2,

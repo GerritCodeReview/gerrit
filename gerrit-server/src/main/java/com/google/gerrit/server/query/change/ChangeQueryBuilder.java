@@ -341,7 +341,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> change(String query) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
-      return new LegacyChangeIdPredicate(Change.Id.parse(query));
+      return new LegacyChangeIdPredicate(args.getSchema(), Change.Id.parse(query));
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return new ChangeIdPredicate(parseChangeId(query));
     }

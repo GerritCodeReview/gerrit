@@ -72,7 +72,7 @@ import java.util.Set;
 class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
-  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final String ID_FIELD = ChangeField.LEGACY_ID2.getName();
 
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
@@ -205,7 +205,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
         new SortClause(
           ChangeField.UPDATED.getName(), SolrQuery.ORDER.desc),
         new SortClause(
-          ChangeField.LEGACY_ID.getName(), SolrQuery.ORDER.desc));
+          ChangeField.LEGACY_ID2.getName(), SolrQuery.ORDER.desc));
   }
 
   private void commit(SolrServer server) throws IOException {

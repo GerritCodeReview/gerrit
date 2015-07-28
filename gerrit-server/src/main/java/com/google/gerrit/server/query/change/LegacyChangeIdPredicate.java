@@ -15,15 +15,15 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.Schema;
 
 /** Predicate over change number (aka legacy ID or Change.Id). */
 class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> {
   private final Change.Id id;
 
-  LegacyChangeIdPredicate(Change.Id id) {
-    super(ChangeField.LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
+  LegacyChangeIdPredicate(Schema<ChangeData> schema, Change.Id id) {
+    super(idField(schema), ChangeQueryBuilder.FIELD_CHANGE, id.toString());
     this.id = id;
   }
 

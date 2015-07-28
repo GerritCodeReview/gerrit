@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "8dbf1232_a3b2ba32",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 43
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-28T05:19:41Z",
+      "side": 1,
+      "message": "There is no overlap. The classes in this one are under org/apache/commons/lang3/",
+      "parentUuid": "6d349e66_a2d3fe49",
+      "revId": "202d867332e4363f551a4dee19bfe82ca45ac9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_c2d88268",
         "filename": "lib/httpcomponents/BUCK",
         "patchSetId": 43

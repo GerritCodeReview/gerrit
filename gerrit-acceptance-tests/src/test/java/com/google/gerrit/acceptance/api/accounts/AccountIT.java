@@ -14,20 +14,68 @@
 
 package com.google.gerrit.acceptance.api.accounts;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.git.gpg.PublicKeyStore.fingerprintToString;
+import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.git.gpg.PublicKeyStore;
+import com.google.gerrit.server.git.gpg.TestKey;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
+import org.bouncycastle.bcpg.ArmoredOutputStream;
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.transport.PushCertificateIdent;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class AccountIT extends AbstractDaemonTest {
+  @Inject
+  private Provider<PublicKeyStore> publicKeyStoreProvider;
+
+  private List<AccountExternalId> savedExternalIds;
+
+  @Before
+  public void saveExternalIds() throws Exception {
+    savedExternalIds = new ArrayList<>();
+    savedExternalIds.addAll(getExternalIds(admin));
+    savedExternalIds.addAll(getExternalIds(user));
+  }
+
+  @After
+  public void restoreExternalIds() throws Exception {
+    db.accountExternalIds().delete(getExternalIds(admin));
+    db.accountExternalIds().delete(getExternalIds(user));
+    db.accountExternalIds().insert(savedExternalIds);
+  }
+
+  private List<AccountExternalId> getExternalIds(TestAccount account)
+      throws Exception {
+    return db.accountExternalIds().byAccount(account.getId()).toList();
+  }
+
   @Test
   public void get() throws Exception {
     AccountInfo info = gApi
@@ -102,5 +150,141 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("invalid email address");
     gApi.accounts().self().addEmail(input);
+  }
+
+  @Test
+  public void addGpgKey() throws Exception {
+    TestKey key = TestKey.key1();
+    String id = keyIdToString(key.getKeyId());
+    addExternalIdEmail(admin, "test1@example.com");
+
+    GpgKeyInfo info = gApi.accounts().self()
+        .putGpgKeys(ImmutableList.of(key.getPublicKeyArmored()))
+        .get(id);
+    info.id = id;
+    assertKeyEquals(key, info);
+    assertKeyEquals(key, gApi.accounts().self().gpgKey(id).get());
+
+    PGPPublicKey stored = getOnlyKeyFromStore(key);
+    assertThat(stored.getFingerprint())
+        .isEqualTo(key.getPublicKey().getFingerprint());
+
+    setApiUser(user);
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage(id);
+    gApi.accounts().self().gpgKey(id).get();
+  }
+
+  @Test
+  public void reAddExistingGpgKey() throws Exception {
+    addExternalIdEmail(admin, "test5@example.com");
+    TestKey key = TestKey.key5();
+    String id = keyIdToString(key.getKeyId());
+    PGPPublicKey pk = key.getPublicKey();
+
+    GpgKeyInfo info = gApi.accounts().self()
+        .putGpgKeys(ImmutableList.of(armor(pk)))
+        .get(id);
+    assertThat(info.userIds).hasSize(2);
+    assertIteratorSize(2, getOnlyKeyFromStore(key).getUserIDs());
+
+    pk = PGPPublicKey.removeCertification(pk, "foo:myId");
+    info = gApi.accounts().self()
+        .putGpgKeys(ImmutableList.of(armor(pk)))
+        .get(id);
+    assertThat(info.userIds).hasSize(1);
+    assertIteratorSize(1, getOnlyKeyFromStore(key).getUserIDs());
+  }
+
+  @Test
+  public void addOtherUsersGpgKey() throws Exception {
+    // Both users have a matching external ID for this key.
+    addExternalIdEmail(admin, "test5@example.com");
+    AccountExternalId extId = new AccountExternalId(
+        user.getId(), new AccountExternalId.Key("foo:myId"));
+
+    db.accountExternalIds().insert(Collections.singleton(extId));
+
+    TestKey key = TestKey.key5();
+    String id = keyIdToString(key.getKeyId());
+    gApi.accounts().self()
+        .putGpgKeys(ImmutableList.of(key.getPublicKeyArmored()))
+        .get(id);
+    setApiUser(user);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("GPG key already associated with another account");
+    gApi.accounts().self()
+        .putGpgKeys(ImmutableList.of(key.getPublicKeyArmored()))
+        .get(id);
+  }
+
+  @Test
+  public void listGpgKeys() throws Exception {
+    List<TestKey> keys = TestKey.allValidKeys();
+    List<String> toAdd = new ArrayList<>(keys.size());
+    for (TestKey key : keys) {
+      addExternalIdEmail(admin,
+          PushCertificateIdent.parse(key.getFirstUserId()).getEmailAddress());
+      toAdd.add(key.getPublicKeyArmored());
+    }
+    gApi.accounts().self().putGpgKeys(toAdd);
+
+    Map<String, GpgKeyInfo> actual = gApi.accounts().self().listGpgKeys();
+    assertThat(actual).hasSize(keys.size());
+    for (TestKey k : keys) {
+      String id = keyIdToString(k.getKeyId());
+      GpgKeyInfo info = actual.get(id);
+      assertThat(info).named(id).isNotNull();
+      assertThat(info.id).named(id).isNull();
+      info.id = id;
+      assertKeyEquals(k, info);
+    }
+  }
+
+  private PGPPublicKey getOnlyKeyFromStore(TestKey key) throws Exception {
+    try (PublicKeyStore store = publicKeyStoreProvider.get()) {
+      Iterable<PGPPublicKeyRing> keys = store.get(key.getKeyId());
+      assertThat(keys).hasSize(1);
+      return keys.iterator().next().getPublicKey();
+    }
+  }
+
+  private static String armor(PGPPublicKey key) throws Exception {
+    ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
+    try (ArmoredOutputStream aout = new ArmoredOutputStream(out)) {
+      key.encode(aout);
+    }
+    return new String(out.toByteArray(), UTF_8);
+  }
+
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private static void assertIteratorSize(int size, Iterator it) {
+    assertThat(ImmutableList.copyOf(it)).hasSize(size);
+  }
+
+  private static void assertKeyEquals(TestKey expected, GpgKeyInfo actual) {
+    String id = keyIdToString(expected.getKeyId());
+    assertThat(actual.id).named(id).isEqualTo(id);
+    assertThat(actual.fingerprint).named(id).isEqualTo(
+        fingerprintToString(expected.getPublicKey().getFingerprint()));
+    @SuppressWarnings("unchecked")
+    List<String> userIds =
+        ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
+    assertThat(actual.userIds).named(id).containsExactlyElementsIn(userIds);
+    assertThat(actual.key).named(id)
+        .startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
+  }
+
+  private void addExternalIdEmail(TestAccount account, String email)
+      throws Exception {
+    checkNotNull(email);
+    AccountExternalId extId = new AccountExternalId(
+        account.getId(), new AccountExternalId.Key(name("test"), email));
+    extId.setEmailAddress(email);
+    db.accountExternalIds().insert(Collections.singleton(extId));
+    // Clear saved AccountState and AccountExternalIds.
+    accountCache.evict(account.getId());
+    setApiUser(account);
   }
 }

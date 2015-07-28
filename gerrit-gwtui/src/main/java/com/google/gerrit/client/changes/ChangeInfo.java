@@ -93,7 +93,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String branch() /*-{ return this.branch; }-*/;
   public final native String topic() /*-{ return this.topic; }-*/;
   public final native String changeId() /*-{ return this.change_id; }-*/;
-  public final native boolean mergeable() /*-{ return this.mergeable || false; }-*/;
+  public final native boolean mergeable() /*-{ return this.mergeable ? true : false; }-*/;
   public final native int insertions() /*-{ return this.insertions; }-*/;
   public final native int deletions() /*-{ return this.deletions; }-*/;
   private final native String statusRaw() /*-{ return this.status; }-*/;
@@ -107,7 +107,6 @@ public class ChangeInfo extends JavaScriptObject {
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String currentRevision() /*-{ return this.current_revision; }-*/;
   public final native void setCurrentRevision(String r) /*-{ this.current_revision = r; }-*/;
-  private final native void setSubmittable(boolean x) /*-{ this.submittable = x; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
@@ -135,7 +134,6 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final boolean submittable() {
     init();
-    getMissingLabelIndex();
     return _submittable();
   }
 
@@ -168,7 +166,6 @@ public class ChangeInfo extends JavaScriptObject {
           if (ret != -1) {
             // more than one label is missing, so it's unclear which to quick
             // approve, return -1
-            setSubmittable(false);
             return -1;
           } else {
             ret = i;
@@ -181,11 +178,9 @@ public class ChangeInfo extends JavaScriptObject {
 
         case REJECT: // Submit cannot happen, do not quick approve.
         case IMPOSSIBLE:
-          setSubmittable(false);
           return -1;
       }
     }
-    setSubmittable(ret == -1);
     return ret;
   }
 

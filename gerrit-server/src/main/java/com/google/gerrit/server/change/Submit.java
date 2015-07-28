@@ -483,6 +483,19 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return config.getBoolean("change", null, "submitWholeTopic" , false);
   }
 
+  public boolean submittable(ChangeData cd, IdentifiedUser user) {
+    ChangeSet cs;
+    try {
+      cs = mergeSuperSet.completeChangeSet(
+          dbProvider.get(), ChangeSet.create(cd.change()));
+      return Strings.isNullOrEmpty(
+          problemsForSubmittingChangeset(cs, user));
+    } catch (IOException | OrmException e) {
+      log.error("Error determining submittability for change" + cd.getId(), e);
+      return false;
+    }
+  }
+
   private List<ChangeData> getChangesByTopic(String topic) {
     try {
       return queryProvider.get().byTopicOpen(topic);

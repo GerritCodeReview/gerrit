@@ -110,6 +110,30 @@
       "revId": "5baae1fe167713c3e418eab4b0a379ab32c952b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbf1232_634c4295",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-28T14:06:36Z",
+      "side": 1,
+      "message": "May be add a TODO, that this can be done later?",
+      "parentUuid": "6d7c9e57_c2428265",
+      "range": {
+        "startLine": 460,
+        "startChar": 9,
+        "endLine": 478,
+        "endChar": 9
+      },
+      "revId": "5baae1fe167713c3e418eab4b0a379ab32c952b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

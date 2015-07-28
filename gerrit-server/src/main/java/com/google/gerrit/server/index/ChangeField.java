@@ -62,9 +62,20 @@ import java.util.Set;
  * characters.
  */
 public class ChangeField {
+  @Deprecated
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       new FieldDef.Single<ChangeData, Integer>("_id",
+          FieldType.INTEGER, true) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args) {
+          return input.getId().get();
+        }
+      };
+
+  /** Legacy change ID without underscore prefix. */
+  public static final FieldDef<ChangeData, Integer> LEGACY_ID2 =
+      new FieldDef.Single<ChangeData, Integer>("legacy_id",
           FieldType.INTEGER, true) {
         @Override
         public Integer get(ChangeData input, FillArgs args) {

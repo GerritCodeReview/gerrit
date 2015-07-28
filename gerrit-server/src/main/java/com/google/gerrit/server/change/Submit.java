@@ -14,18 +14,12 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
-
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ParameterizedString;
-import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -49,7 +43,6 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -65,7 +58,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -245,7 +237,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (!mergeable) {
           return CLICK_FAILURE_OTHER_TOOLTIP;
         }
-        checkSubmitRule(c, c.currentPatchSet(), false);
+        MergeOp.checkSubmitRule(c);
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
@@ -268,7 +260,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
 
     try {
-      checkSubmitRule(cd, cd.currentPatchSet(), false);
+      MergeOp.checkSubmitRule(cd);
     } catch (ResourceConflictException e) {
       visible = false;
     } catch (OrmException e) {
@@ -361,95 +353,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         })
         .last()
         .orNull();
-  }
-
-  private List<SubmitRecord> checkSubmitRule(ChangeData cd,
-      PatchSet patchSet, boolean force)
-          throws ResourceConflictException, OrmException {
-    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
-        .setPatchSet(patchSet)
-        .evaluate();
-    Optional<SubmitRecord> ok = findOkRecord(results);
-    if (ok.isPresent()) {
-      // Rules supplied a valid solution.
-      return ImmutableList.of(ok.get());
-    } else if (force) {
-      return results;
-    } else if (results.isEmpty()) {
-      throw new IllegalStateException(String.format(
-          "SubmitRuleEvaluator.evaluate returned empty list for %s in %s",
-          patchSet.getId(),
-          cd.change().getProject().get()));
-    }
-
-    for (SubmitRecord record : results) {
-      switch (record.status) {
-        case CLOSED:
-          throw new ResourceConflictException("change is closed");
-
-        case RULE_ERROR:
-          throw new ResourceConflictException(String.format(
-              "rule error: %s",
-              record.errorMessage));
-
-        case NOT_READY:
-          StringBuilder msg = new StringBuilder();
-          for (SubmitRecord.Label lbl : record.labels) {
-            switch (lbl.status) {
-              case OK:
-              case MAY:
-                continue;
-
-              case REJECT:
-                if (msg.length() > 0) {
-                  msg.append("; ");
-                }
-                msg.append("blocked by ").append(lbl.label);
-                continue;
-
-              case NEED:
-                if (msg.length() > 0) {
-                  msg.append("; ");
-                }
-                msg.append("needs ").append(lbl.label);
-                continue;
-
-              case IMPOSSIBLE:
-                if (msg.length() > 0) {
-                  msg.append("; ");
-                }
-                msg.append("needs ").append(lbl.label)
-                   .append(" (check project access)");
-                continue;
-
-              default:
-                throw new IllegalStateException(String.format(
-                    "Unsupported SubmitRecord.Label %s for %s in %s",
-                    lbl.toString(),
-                    patchSet.getId(),
-                    cd.change().getProject().get()));
-            }
-          }
-          throw new ResourceConflictException(msg.toString());
-
-        default:
-          throw new IllegalStateException(String.format(
-              "Unsupported SubmitRecord %s for %s in %s",
-              record,
-              patchSet.getId().getId(),
-              cd.change().getProject().get()));
-      }
-    }
-    throw new IllegalStateException();
-  }
-
-  private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
-    return Iterables.tryFind(in, new Predicate<SubmitRecord>() {
-      @Override
-      public boolean apply(SubmitRecord input) {
-        return input.status == OK;
-      }
-    });
   }
 
   static String status(Change change) {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd4027c_67161280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-28T17:31:40Z",
+      "side": 1,
+      "message": ":",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "e9450d405873c378fcab9c4fa04e2d805dda0bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4027c_47130e8e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-28T17:31:40Z",
+      "side": 1,
+      "message": "No utter need to use final in such local variable cases.",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 9
+      },
+      "revId": "e9450d405873c378fcab9c4fa04e2d805dda0bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edca4edd_46495283",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-28T17:31:40Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 9
+      },
+      "revId": "e9450d405873c378fcab9c4fa04e2d805dda0bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edca4edd_a6a486be",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-07-28T17:31:40Z",
+      "side": 1,
+      "message": "Indentation problem.",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 4
+      },
+      "revId": "e9450d405873c378fcab9c4fa04e2d805dda0bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

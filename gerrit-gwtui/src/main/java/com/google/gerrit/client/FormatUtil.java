@@ -78,16 +78,6 @@ public class FormatUtil {
    * If the account has a full name, it returns only the full name. Otherwise it
    * returns a longer form that includes the email address.
    */
-  public static String name(Account acct) {
-    return name(asInfo(acct));
-  }
-
-  /**
-   * Formats an account name.
-   * <p>
-   * If the account has a full name, it returns only the full name. Otherwise it
-   * returns a longer form that includes the email address.
-   */
   public static String name(AccountInfo info) {
     return createAccountFormatter().name(info);
   }

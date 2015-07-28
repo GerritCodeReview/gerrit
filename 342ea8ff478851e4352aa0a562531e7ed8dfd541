@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "edca4edd_4672f2d6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:00Z",
+      "side": 1,
+      "message": "If it is required that msg !\u003d null iff expectedStatus !\u003d SC_OK, then add a checkArgument in each branch of the if starting on l. 213 below.",
+      "parentUuid": "edca4edd_a6564632",
+      "range": {
+        "startLine": 198,
+        "startChar": 39,
+        "endLine": 198,
+        "endChar": 43
+      },
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_a2377e09",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Because having the substring matching follows the style I have seen so far in tests. The problem is with Change Ids which may change as the order of tests is considered non-deterministic. So \"Change 2 depends on Change 1 which is not ready yet because: Change 1: Needs Code-Review\" is as valid as \"Change 8 depends on Change 7 which is not ready yet because: Change 7: Needs Code-Review\"\n\nAnd then it is most easy to test for \"which is not ready yet because\" or as you\u0027d dislike \"Needs Code-Review\". This change is to help that error messages don\u0027t turn into \"Merge conflict\" and nothing more, so even a \"Needs Code-Review\" would find such a change in error message.",
       "parentUuid": "6d349e66_a2377e09",
+      "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edca4edd_a63da6ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-28T16:58:00Z",
+      "side": 1,
+      "message": "But in the example you give, there are two important parts that you want to check for:\n\n* \"depends on Change \u003cN-1\u003e which is not ready yet\"\n* \"Needs Code-Review\"\n\nThe way you have it now you can only check for one of those.\n\nYou should have the change numbers available to you in the calling code, so you can construct the expected message. We do a lot of this in ConsistencyCheckerIT if you want to look at some examples.",
+      "parentUuid": "edca4edd_4613128e",
       "revId": "342ea8ff478851e4352aa0a562531e7ed8dfd541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

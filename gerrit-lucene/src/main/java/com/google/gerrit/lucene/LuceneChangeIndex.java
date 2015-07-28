@@ -129,9 +129,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
-  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final String ID_FIELD = ChangeField.LEGACY_ID2.getName();
   private static final String ID_SORT_FIELD =
-      sortFieldName(ChangeField.LEGACY_ID);
+      sortFieldName(ChangeField.LEGACY_ID2);
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
@@ -275,7 +275,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       return new SearcherFactory();
     }
     final Map<String, UninvertingReader.Type> mapping = ImmutableMap.of(
-        ChangeField.LEGACY_ID.getName(), UninvertingReader.Type.INTEGER,
+        ChangeField.LEGACY_ID2.getName(), UninvertingReader.Type.INTEGER,
         ChangeField.UPDATED.getName(), UninvertingReader.Type.LONG);
     return new SearcherFactory() {
       @Override
@@ -381,7 +381,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new SortField(
             ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
           new SortField(
-            ChangeField.LEGACY_ID.getName(), SortField.Type.INT, true));
+            ChangeField.LEGACY_ID2.getName(), SortField.Type.INT, true));
     }
   }
 
@@ -558,7 +558,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     Store store = store(values.getField());
 
     if (useDocValuesForSorting) {
-      if (values.getField() == ChangeField.LEGACY_ID) {
+      if (values.getField() == ChangeField.LEGACY_ID2) {
         int v = (Integer) getOnlyElement(values.getValues());
         doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
       } else if (values.getField() == ChangeField.UPDATED) {

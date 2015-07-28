@@ -23,7 +23,7 @@ class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> {
   private final Change.Id id;
 
   LegacyChangeIdPredicate(Change.Id id) {
-    super(ChangeField.LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
+    super(ChangeField.LEGACY_ID2, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
     this.id = id;
   }
 

@@ -49,7 +49,7 @@ import java.util.Date;
 import java.util.List;
 
 public class QueryBuilder {
-  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final String ID_FIELD = ChangeField.LEGACY_ID2.getName();
 
   public static Term idTerm(ChangeData cd) {
     return intTerm(ID_FIELD, cd.getId().get());

@@ -16,6 +16,24 @@
       "revId": "f38ac2e53a39bcc102ebb660e189dc27e1f056a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_4de879ed",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T02:40:59Z",
+      "side": 1,
+      "message": "Done.  Instead of before \"new\" I changed it to be consistent with how it\u0027s done on line 181-182.",
+      "parentUuid": "0d3082cc_e7d86268",
+      "revId": "f38ac2e53a39bcc102ebb660e189dc27e1f056a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

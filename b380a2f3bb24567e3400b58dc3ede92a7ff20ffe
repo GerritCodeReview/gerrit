@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d3082cc_477a0e99",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-29T15:08:51Z",
+      "side": 1,
+      "message": "useDocValuesForSorting is only true if schema version \u003e\u003d 15. This code shouldn\u0027t be reached for v14.",
+      "parentUuid": "cd382ab3_edc12578",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_a7b74a22",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-29T00:17:04Z",
       "side": 1,
       "message": "Given that you never use sortFieldName(LEGACY_ID) for sorting, this doesn\u0027t have any effect in the LEGACY_ID case.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_677712ae",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-29T15:08:51Z",
+      "side": 1,
+      "message": "Can you clarify what should happen in the LEGACY_ID case? As I understand it, sortFieldName(LEGACY_ID) would be used for versions 15-22.",
+      "parentUuid": "0d3082cc_a7b74a22",
       "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

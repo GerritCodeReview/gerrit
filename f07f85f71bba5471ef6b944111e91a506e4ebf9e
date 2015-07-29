@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0af5c83c_ffc5bf83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T06:03:20Z",
+      "side": 1,
+      "message": "To simplify verification of this change it would be nice to expose this new API in cookbook-plugin on some place.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d7c9e57_627536bd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 5

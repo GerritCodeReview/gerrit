@@ -39,6 +39,24 @@
       "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_9ffa33ac",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T13:56:30Z",
+      "side": 1,
+      "message": "Sven\u0027s fix is pending for review that took another approach: [1].\n\n* [1] https://gerrit-review.googlesource.com/67186",
+      "parentUuid": "aa059cff_1c2875b5",
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

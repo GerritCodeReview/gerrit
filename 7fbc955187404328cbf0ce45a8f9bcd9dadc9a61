@@ -16,6 +16,24 @@
       "revId": "7fbc955187404328cbf0ce45a8f9bcd9dadc9a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa059cff_bccf41a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T05:58:47Z",
+      "side": 1,
+      "message": "I see, that this was added in follow-up change, can be ignored.",
+      "parentUuid": "aa059cff_fcc5c983",
+      "revId": "7fbc955187404328cbf0ce45a8f9bcd9dadc9a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

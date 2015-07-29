@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa059cff_9ce5a516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T06:30:40Z",
+      "side": 1,
+      "message": "To prevent that reviewers asking you why the split is needed, between core and plugin, and why not just move the entire formatter to gwtui-common, could you explain the reason for the split in the commit message? I think you explained it in follow-up change in this series, but I think this belongs to this commit message.",
+      "revId": "d270ecc88121be1524d5acf3121cc564fe0f2332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd382ab3_edc12578",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "This is a different field in v14.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_a7b74a22",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "Given that you never use sortFieldName(LEGACY_ID) for sorting, this doesn\u0027t have any effect in the LEGACY_ID case.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_87b24633",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "f",
+      "range": {
+        "startLine": 567,
+        "startChar": 17,
+        "endLine": 567,
+        "endChar": 34
+      },
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_0dc7518b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "I would move this to LegacyChangeIdPredicate.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_2dc40d84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_c7bc3e09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/FuzzyTopicPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_4dd15945",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_e7c14278",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T00:17:04Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

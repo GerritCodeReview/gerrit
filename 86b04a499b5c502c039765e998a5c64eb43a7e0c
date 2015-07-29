@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af5c83c_3fd5672f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3777,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T06:20:22Z",
+      "side": 1,
+      "message": "Looks like either \"a\" article or plural form in expressions is wrong here.",
+      "range": {
+        "startLine": 3777,
+        "startChar": 19,
+        "endLine": 3777,
+        "endChar": 20
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa059cff_1cdab55d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3782,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T06:20:22Z",
+      "side": 1,
+      "message": "This is a contradiction to me: We should I try hard to find descriptive names, when they a re discarded anyway?",
+      "range": {
+        "startLine": 3780,
+        "startChar": 55,
+        "endLine": 3782,
+        "endChar": 23
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_5fe02b09",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T06:20:22Z",
+      "side": 1,
+      "message": "I\u0027m worried that this parsing takes place on every screen invocation. Can this search be optimized, by saving compiled form of regex?",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 5
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_1fdaa35d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T06:20:22Z",
+      "side": 1,
+      "message": "It considered as a bad practice to mess around with null valies when a collection is concerned. So may be return here always the map and reset it to null in endpoint?",
+      "range": {
+        "startLine": 281,
+        "startChar": 48,
+        "endLine": 281,
+        "endChar": 52
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

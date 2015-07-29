@@ -17,7 +17,9 @@ package com.google.gerrit.server.git.gpg;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyObjectId;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyToString;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.RefNames;
 
@@ -27,6 +29,12 @@ import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,6 +106,59 @@ public class PublicKeyStoreTest {
               + key2.getPublicKeyArmored())
         .create();
     assertKeys(key1.getKeyId(), key1, key2);
+  }
+
+  @Test
+  public void save() throws Exception {
+    TestKey key1 = TestKey.key1();
+    TestKey key2 = TestKey.key2();
+    store.add(key1.getPublicKeyRing());
+    store.add(key2.getPublicKeyRing());
+
+    CommitBuilder cb = new CommitBuilder();
+    PersonIdent ident = new PersonIdent("A U Thor", "author@example.com");
+    cb.setAuthor(ident);
+    cb.setCommitter(ident);
+    assertEquals(RefUpdate.Result.NEW, store.save(cb));
+
+    assertKeys(key1.getKeyId(), key1);
+    assertKeys(key2.getKeyId(), key2);
+  }
+
+  @Test
+  public void saveAppendsToExistingList() throws Exception {
+    TestKey key1 = TestKey.key1();
+    TestKey key2 = TestKey.key2();
+    tr.branch(RefNames.REFS_GPG_KEYS)
+        .commit()
+        // Mismatched for this key ID, but we can still read it out.
+        .add(keyObjectId(key1.getKeyId()).name(), key2.getPublicKeyArmored())
+        .create();
+
+    store.add(key1.getPublicKeyRing());
+
+    CommitBuilder cb = new CommitBuilder();
+    PersonIdent ident = new PersonIdent("A U Thor", "author@example.com");
+    cb.setAuthor(ident);
+    cb.setCommitter(ident);
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(cb));
+
+    assertKeys(key1.getKeyId(), key1, key2);
+
+    try (ObjectReader reader = tr.getRepository().newObjectReader();
+        RevWalk rw = new RevWalk(reader)) {
+      NoteMap notes = NoteMap.read(
+          reader, tr.getRevWalk().parseCommit(
+            tr.getRepository().getRef(RefNames.REFS_GPG_KEYS).getObjectId()));
+      String contents = new String(
+          reader.open(notes.get(keyObjectId(key1.getKeyId()))).getBytes(),
+          UTF_8);
+      String header = "-----BEGIN PGP PUBLIC KEY BLOCK-----";
+      int i1 = contents.indexOf(header);
+      assertTrue(i1 >= 0);
+      int i2 = contents.indexOf(header, i1 + header.length());
+      assertTrue(i2 >= 0);
+    }
   }
 
   private void assertKeys(long keyId, TestKey... expected)

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0d3082cc_67c47233",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T20:44:17Z",
+      "side": 1,
+      "message": "I meant v15-22. See my reply to your other comment below.",
+      "parentUuid": "0d3082cc_477a0e99",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_a7b74a22",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Can you clarify what should happen in the LEGACY_ID case? As I understand it, sortFieldName(LEGACY_ID) would be used for versions 15-22.",
       "parentUuid": "0d3082cc_a7b74a22",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_6ddb750f",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T20:44:17Z",
+      "side": 1,
+      "message": "In the 15-22 case, this adds a field to the document named _id_SORT. But up on l. 397 above, you set the sort field for all versions (15-23) to legacy_id_SORT (aka ID_SORT_FIELD). For 15-22, no documents have legacy_id_SORT, they only have _id_SORT, sorting on that field will have no effect.",
+      "parentUuid": "0d3082cc_677712ae",
       "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

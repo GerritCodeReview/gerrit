@@ -93,7 +93,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String branch() /*-{ return this.branch; }-*/;
   public final native String topic() /*-{ return this.topic; }-*/;
   public final native String changeId() /*-{ return this.change_id; }-*/;
-  public final native boolean mergeable() /*-{ return this.mergeable || false; }-*/;
+  public final native boolean mergeable() /*-{ return this.mergeable ? true : false; }-*/;
   public final native int insertions() /*-{ return this.insertions; }-*/;
   public final native int deletions() /*-{ return this.deletions; }-*/;
   private final native String statusRaw() /*-{ return this.status; }-*/;

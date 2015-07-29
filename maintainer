@@ -1,6 +1,8 @@
 [dashboard]
   title = Maintainer Dashboard
   description = Recent activities in Gerrit and all Gerrit Plugins.
+[section "Needs LC Vote"]
+  query = project:gerrit status:open file:lib -label:Library-Compliance
 [section "Gerrit Reviews"]
   query = project:gerrit is:open is:mergeable limit:15
 [section "Plugin Reviews"]

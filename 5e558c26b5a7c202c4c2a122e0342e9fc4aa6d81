@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d3082cc_878b262b",
+        "filename": "maintainer",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-29T14:24:53Z",
+      "side": 1,
+      "message": "Optional nit: I would call this \"Needs Library-Compliance\" because that\u0027s what shows on the change screen.",
+      "range": {
+        "startLine": 4,
+        "startChar": 16,
+        "endLine": 4,
+        "endChar": 23
+      },
+      "revId": "5e558c26b5a7c202c4c2a122e0342e9fc4aa6d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

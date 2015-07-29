@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa059cff_fcc5c983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-29T05:57:50Z",
+      "side": 1,
+      "message": "[Optional] In previous change in this series it was mentined in dev-plugins.txt about ChangeInfo entity. Would it make sense to do the same in this change as well and tell folks, that the AccountPreferencesInfo is now exposed and can be used and link to the description of this entity.",
+      "revId": "7fbc955187404328cbf0ce45a8f9bcd9dadc9a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

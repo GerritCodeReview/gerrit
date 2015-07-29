@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d3082cc_c7aefe9c",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T13:55:09Z",
+      "side": 1,
+      "message": "Isn\u0027t there a more specific exception we can raise here?",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa059cff_1c2875b5",
         "filename": "tools/git.defs",
         "patchSetId": 1

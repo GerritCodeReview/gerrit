@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d3082cc_e7d86268",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T02:35:48Z",
+      "side": 1,
+      "message": "nit: this would look nicer if wrapped before the \"new\"",
+      "revId": "f38ac2e53a39bcc102ebb660e189dc27e1f056a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

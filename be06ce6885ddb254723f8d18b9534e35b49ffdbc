@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0af5c83c_df19dbaf",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-29T16:33:36Z",
+      "side": 1,
+      "message": "\u003e This is arbitrary assumption to try to guess the existing\n\u003e name by split on \u0027-\u0027 separator.\n\nIt\u0027s not arbitrary. It reflects what\u0027s used in the wild.\nThat\u0027s what all heuristics are.\n\n\u003e When I rename javamelody-nodep artifact to be\n\u003e javamelody_nodep, that would break this code.\n\nSure, one might implement more sophisticated splitting.\nBut currently, YAGNI weighs heavier for me.",
+      "parentUuid": "0af5c83c_5f2eebc6",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_c7aefe9c",
         "filename": "tools/git.defs",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-29T13:55:09Z",
       "side": 1,
       "message": "Isn\u0027t there a more specific exception we can raise here?",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_ff1c9fa1",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-29T16:33:36Z",
+      "side": 1,
+      "message": "I am not sure if there is any.\n\n  https://docs.python.org/2/library/exceptions.html\n\ndoes not give good alternatives. For me, the next best choice\nwould be \"NotImplementedError\", but that somewhat sounds like\n\"this is all under construction and not yet done\".\n\nNot sure. Would NotImplementedError be a better fit?\nOr did you have something else in mind?",
+      "parentUuid": "0d3082cc_c7aefe9c",
       "range": {
         "startLine": 33,
         "startChar": 14,
@@ -77,6 +125,24 @@
       "side": 1,
       "message": "Sven\u0027s fix is pending for review that took another approach: [1].\n\n* [1] https://gerrit-review.googlesource.com/67186",
       "parentUuid": "aa059cff_1c2875b5",
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_9f13538e",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-29T16:33:36Z",
+      "side": 1,
+      "message": "Thanks for the pointer. I chimed in there.",
+      "parentUuid": "0af5c83c_9ffa33ac",
       "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

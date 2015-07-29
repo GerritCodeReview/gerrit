@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa059cff_9c13658e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-29T16:31:29Z",
+      "side": 1,
+      "message": "This trailing slash should go away in this example.\n(Otherwise the empty string is considered as plugin_dir\npassed to git_describe)",
+      "range": {
+        "startLine": 97,
+        "startChar": 62,
+        "endLine": 97,
+        "endChar": 63
+      },
+      "revId": "6cc28d0607151c05a79ff7881a3e3cdee3c4c21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_bf16177e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1924,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-29T16:31:29Z",
+      "side": 1,
+      "message": "Since this phrasing is actually making the\nImplementation-URL mandatory, should we enforce/check this\nrequirement somehow?\nCurrently, at least 17 plugins from googlesource do not\nprovide an Implementation-URL\n\n----------------------------------------\n\nI see how Implementation-URL gets used in code for \u0027git-describe\u0027, but given that is was \"some URL\" before,\nand now has to follow a pattern, for me it would be good to\nclarify what semantics the URL would have to meet. Would it\nbe an URL:\n\n* to the company developing the plugin (E.g.: its-rtc has an Implementation-URL of http://www.gerritforge.com ),\n* to some page describing the plugin (E.g.: events-log has an Implementatio-URL of https://gerrit-review.googlesource.com/#/admin/projects/plugins/events-log ), or\n* to some URL that allows cloning (E.g.: rabbitmq plugin has an Implementation-URL of  https://github.com/rinrinne/gerrit-rabbitmq-plugin )?",
+      "range": {
+        "startLine": 1924,
+        "startChar": 28,
+        "endLine": 1924,
+        "endChar": 46
+      },
+      "revId": "6cc28d0607151c05a79ff7881a3e3cdee3c4c21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa059cff_bc16217e",
+        "filename": "tools/default.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-29T16:31:29Z",
+      "side": 1,
+      "message": "Up to now, Implementation-URL was rather free form.\n\nAnd up to now, the only mention in the Docs (line 97 of\ndev-plugins) even has a URL with a trailing \u0027/\u0027 (which\nwould make this logic fail).\n\nI have verified that javamelody can be complied again\nafter this change.\n\nBut building\n\n* its-bugzilla,\n* its-jira,\n* its-rtc,\n* rabbitmq\n\nbreaks with this change, as they (for now) have an\nincompatible Implementation-URL.\n\nIt would be good to update them before merging, to avoid\nbreaking builds.",
+      "range": {
+        "startLine": 135,
+        "startChar": 67,
+        "endLine": 135,
+        "endChar": 85
+      },
+      "revId": "6cc28d0607151c05a79ff7881a3e3cdee3c4c21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

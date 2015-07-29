@@ -130,8 +130,13 @@ def gerrit_plugin(
     manifest_entries = [],
     type = 'plugin',
     visibility = ['PUBLIC']):
+  import traceback
+  import os
   from multiprocessing import cpu_count
-  mf_cmd = 'v=%s;' % git_describe(name)
+  tb = traceback.extract_stack()
+  calling_BUCK_file=tb[-2][0]
+  calling_BUCK_dir = os.path.abspath(os.path.dirname(calling_BUCK_file))
+  mf_cmd = 'v=%s;' % git_describe(calling_BUCK_dir)
   if manifest_file:
     mf_src = [manifest_file]
     mf_cmd += 'sed "s:@VERSION@:$v:g" $SRCS >$OUT'

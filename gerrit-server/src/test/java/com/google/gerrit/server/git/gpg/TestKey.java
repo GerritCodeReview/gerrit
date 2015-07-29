@@ -444,16 +444,16 @@ class TestKey {
 
   private final String pubArmored;
   private final String secArmored;
-  private final PGPPublicKey pub;
-  private final PGPSecretKey sec;
+  private final PGPPublicKeyRing pubRing;
+  private final PGPSecretKeyRing secRing;
 
   private TestKey(String pubArmored, String secArmored)
       throws PGPException, IOException {
     this.pubArmored = pubArmored;
     this.secArmored = secArmored;
     BcKeyFingerprintCalculator fc = new BcKeyFingerprintCalculator();
-    this.pub = new PGPPublicKeyRing(newStream(pubArmored), fc).getPublicKey();
-    this.sec = new PGPSecretKeyRing(newStream(secArmored), fc).getSecretKey();
+    this.pubRing = new PGPPublicKeyRing(newStream(pubArmored), fc);
+    this.secRing = new PGPSecretKeyRing(newStream(secArmored), fc);
   }
 
   String getPublicKeyArmored() {
@@ -464,24 +464,28 @@ class TestKey {
     return secArmored;
   }
 
+  PGPPublicKeyRing getPublicKeyRing() {
+    return pubRing;
+  }
+
   PGPPublicKey getPublicKey() {
-    return pub;
+    return pubRing.getPublicKey();
   }
 
   PGPSecretKey getSecretKey() {
-    return sec;
+    return secRing.getSecretKey();
   }
 
   long getKeyId() {
-    return pub.getKeyID();
+    return getPublicKey().getKeyID();
   }
 
   String getFirstUserId() {
-    return (String) pub.getUserIDs().next();
+    return (String) getPublicKey().getUserIDs().next();
   }
 
   PGPPrivateKey getPrivateKey() throws PGPException {
-    return sec.extractPrivateKey(
+    return getSecretKey().extractPrivateKey(
         new BcPBESecretKeyDecryptorBuilder(new BcPGPDigestCalculatorProvider())
           // All test keys have no passphrase.
           .build(new char[0]));

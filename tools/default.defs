@@ -20,6 +20,8 @@ include_defs('//tools/java_doc.defs')
 include_defs('//tools/java_sources.defs')
 include_defs('//tools/git.defs')
 import copy
+import traceback
+import os
 
 # Set defaults on java rules:
 #  - Add AutoValue annotation processing support.
@@ -131,7 +133,10 @@ def gerrit_plugin(
     type = 'plugin',
     visibility = ['PUBLIC']):
   from multiprocessing import cpu_count
-  mf_cmd = 'v=%s;' % git_describe(name)
+  tb = traceback.extract_stack()
+  calling_BUCK_file = tb[-2][0]
+  calling_BUCK_dir = os.path.abspath(os.path.dirname(calling_BUCK_file))
+  mf_cmd = 'v=%s;' % git_describe(calling_BUCK_dir)
   if manifest_file:
     mf_src = [manifest_file]
     mf_cmd += 'sed "s:@VERSION@:$v:g" $SRCS >$OUT'

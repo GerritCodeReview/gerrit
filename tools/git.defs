@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-def git_describe(plugin = None):
+def git_describe(directory = None):
   import subprocess
   cmd = ['git', 'describe', '--always', '--match', 'v[0-9].*', '--dirty']
-  if not plugin or plugin == '${pluginName}':
+  if not directory:
     p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
   else:
-    p = subprocess.Popen(cmd, stdout = subprocess.PIPE, cwd = 'plugins/%s' % plugin)
+    p = subprocess.Popen(cmd, stdout = subprocess.PIPE, cwd = directory)
   v = p.communicate()[0].strip()
   r = p.returncode
   if r != 0:

@@ -14,11 +14,13 @@
 
 def git_describe(plugin = None):
   import subprocess
+  import os
   cmd = ['git', 'describe', '--always', '--match', 'v[0-9].*', '--dirty']
   if not plugin or plugin == '${pluginName}':
     p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
   else:
-    p = subprocess.Popen(cmd, stdout = subprocess.PIPE, cwd = 'plugins/%s' % plugin)
+    dir = os.path.join('plugins', plugin)
+    p = subprocess.Popen(cmd, stdout = subprocess.PIPE, cwd = dir)
   v = p.communicate()[0].strip()
   r = p.returncode
   if r != 0:

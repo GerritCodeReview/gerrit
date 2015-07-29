@@ -20,6 +20,18 @@ def git_describe(plugin = None):
     p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
   else:
     dir = os.path.join('plugins', plugin)
+    # For projects having more than one gerrit_plugin (e.g.: The javamelody
+    # plugin defines both the 'javamelody' and the 'javamelody-nodep'
+    # plugin), the above choice for dir need not yield a suitable directory
+    # (e.g.: 'plugins/javamelody-nodep' would not exist). Hence, as fallback
+    # heuristic, we try chopping off '-$SOMETHING' from the right until we
+    # get a good directory name.
+    while not os.path.isdir(dir):
+      dir, _, chopped_off = dir.rpartition('-')
+      if os.sep in chopped_off:
+        # Chopping off path separator is a sign that we've gone too far.
+        raise RuntimeError("Could not find directory to describe plugin %s"
+          % (plugin))
     p = subprocess.Popen(cmd, stdout = subprocess.PIPE, cwd = dir)
   v = p.communicate()[0].strip()
   r = p.returncode

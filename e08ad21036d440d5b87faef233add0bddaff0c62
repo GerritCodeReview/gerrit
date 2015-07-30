@@ -70,6 +70,30 @@
       "revId": "e08ad21036d440d5b87faef233add0bddaff0c62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa059cff_3c045120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-30T13:38:53Z",
+      "side": 1,
+      "message": "I created this change from the project screen, but I don\u0027t think that\u0027s relevant other than that I did it with my regular account that has the CLA. \n\nThe relevant part is that I created the new patch sets with the inline editor, using my other account that does not have CLA.",
+      "parentUuid": "0af5c83c_df7d5b90",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "e08ad21036d440d5b87faef233add0bddaff0c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

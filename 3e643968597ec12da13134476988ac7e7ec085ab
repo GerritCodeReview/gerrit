@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "aa059cff_bc3061ef",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-07-30T18:04:41Z",
+      "side": 1,
+      "message": "I tried explaining in the commit message.\nMergeOp relies on a correct set of changes from\nMergeSuperSet.completeChangeSetWithoutTopic which relies on a correct answer of InternalChangeQuery.byCommitsOnBranchNotMerged which is not giving the correct results, so we don\u0027t provide the error message we want to.\n\nI am undecided how to best tackle the underlying problem and make InternalChangeQuery.byCommitsOnBranchNotMerged aware of the revisions.",
+      "parentUuid": "0af5c83c_9f2d9395",
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0af5c83c_7fc88f4d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 9
